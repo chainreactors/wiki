@@ -1,4 +1,5 @@
 site_name: ChainReactor Docs
+site_url: https://chainreactors.github.io/wiki/
 theme:
   name: material
 markdown_extensions:
