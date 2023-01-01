@@ -12,7 +12,7 @@ chainreactor 将专注于红队自动化领域.
 
 chainreactor 自研的工具链
 
-- [GOGO](gogo/index.md) 端口扫描自动化引擎
+- [GOGO](gogo/index.md) 基于端口的自动化引擎
 - [Spray](spray/index.md) 下一代目录爆破工具
 - Zombie 服务口令爆破工具
 - Ina 一个空间引擎交叉爬虫
