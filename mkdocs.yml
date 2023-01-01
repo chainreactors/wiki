@@ -1,7 +1,25 @@
-site_name: ChainReactor Docs
+site_name: ChainReactor Wiki
+site_description: chainreactors tools description
+site_author: M09ic
 site_url: https://chainreactors.github.io/wiki/
 theme:
+  features:
+    - navigation.tracking
+    - navigation.tabs 
+    - navigation.tabs.sticky 
+    - navigation.sections 
+    - navigation.expand
+    - navigation.indexes
+    - toc.integrate 
+    - navigation.top 
+    - header.autohide
+    - search.share
+    - search.suggest 
+    - search.highlight 
+
   name: material
+plugins:
+  - search
 markdown_extensions:
   - markdown.extensions.admonition
   - markdown.extensions.attr_list
