@@ -2,6 +2,13 @@ site_name: ChainReactor Wiki
 site_description: chainreactors tools description
 site_author: M09ic
 site_url: https://chainreactors.github.io/wiki/
+repo_url: https://github.com/chainreactors/wiki
+copyright: Copyright &copy; 2022 ChainReactors
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/chainreactors
 theme:
   features:
     - navigation.tracking
@@ -11,6 +18,7 @@ theme:
     - navigation.expand
     - navigation.indexes
     - toc.integrate 
+    - toc.follow
     - navigation.top 
     - header.autohide
     - search.share
@@ -57,7 +65,8 @@ markdown_extensions:
 nav:
   - 导航: index.md
   - gogo: 
-    - 入门: gogo/index.md
+    - index: gogo/index.md
+    - 入门: gogo/start.md
     - 设计: gogo/design.md
     - 细节: gogo/detail.md 
     - 拓展: gogo/extension.md
