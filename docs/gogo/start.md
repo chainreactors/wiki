@@ -1,6 +1,7 @@
 ## Features
 !!! example "Features."
 
+    * 让红队的A段(或大于A段)扫描成为可能
     * 支持主动/被动指纹识别
     * 关键信息提取, 如title, cert 以及自定义提取信息的正则
     * 支持nuclei poc
@@ -283,9 +284,8 @@ inter:
 
 在格式化则, 只有`-o` 生效.
 
-目前gogo支持非常多的输出格式.
+目前gogo支持非常多的输出格式. 例如result的各种字段:
 
-支持result的各种字段:
 * url , `protocol://ip:port` 
 * target , `ip:port`
 * ip,  IP
