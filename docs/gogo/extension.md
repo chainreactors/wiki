@@ -291,7 +291,7 @@ regexps中配置了, vuln字段, 这个字典如果命中, 则同时给目标添
 
 也就是经常在gogo中看到了指纹中的guess字段.
 
-![image-20221216190051343](D:\Programing\blog\chainreactor-docs\docs\gogo\extension.assets\image-20221216190051343.png)
+![image-20221216190051343](/gogo/img/image-20221216190051343.png)
 
 这个字段代表, 该指纹是从默认端口配置中猜测的, 而实际上, 需要主动发包扫描的大多数服务也不会更换默认端口. 在经过半年的体验以及一些微小的调整后, 我们认为目前的tcp指纹已经能覆盖99%的渗透测试场景. 如果有必要添加新的tcp指纹, 欢迎提交issue.
 
@@ -410,7 +410,7 @@ https://github.com/projectdiscovery/nuclei-templates/blob/d6636f9169920d3ccefc69
 
 
 
-![image-20220806183221407](img\poc.png)
+![image-20220806183221407](img/poc.png)
 
 
 
@@ -626,7 +626,7 @@ requests:
 
 如果需要配合burp调试, 请使用proxifier代理, 代理gogo的流量到burp
 
-![image-20220806194210422](\img\run.png)
+![image-20220806194210422](img/run.png)
 
 
 
