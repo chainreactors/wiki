@@ -2,7 +2,7 @@ site_name: ChainReactor Wiki
 site_description: chainreactors tools description
 site_author: M09ic
 site_url: https://chainreactors.github.io/wiki/
-repo_url: https://github.com/chainreactors/wiki
+repo_url: https://github.com/chainreactors/
 copyright: Copyright &copy; 2022 ChainReactors
 
 extra:
