@@ -480,10 +480,3 @@ go build .
 因此也可以通过指定 `-d 5 `(tcp默认为2s, tls默认为两倍tcp超时时间,即4s)来提高超时时间, 减少漏报.
 
 未来也许会实现auto-tune, 自动调整并发速率
-
-## THANKS
-
-* https://github.com/projectdiscovery/nuclei-templates
-* https://github.com/projectdiscovery/nuclei
-* https://github.com/JKme/cube
-
