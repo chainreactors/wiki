@@ -316,12 +316,13 @@ inter:
 除了这些字段, 还存在一些特殊的输出格式. 如下:
 
 * json, 输出为json, 文件的默认输出格式
-* full, 命令行的默认输出格式
 * jsonlines,  别名jl, 一行一个json的特殊格式.
-* csv, 输出为csv
+* full, 命令行的默认输出格式
 * color, 带颜色的full输出
-* zombie, 导出为zombie的输出格式
+* csv, 输出为csv
+* zombie, 导出为zombie的输入格式
 * cs, 导出为cobaltstrike中target的格式.
+* extract, 格式化extract结果
 
 ### 过滤器
 
@@ -382,6 +383,9 @@ extract也存在一些常用的预设, 可以通过`--extracts url,ip`调用内�
 * cookie
 * response
 
+!!! note "注意"
+	默认的`gogo -F 1.dat`输出的extract结果仅为缩略报告. 如需查看完整的extract结果, 需要`gogo -F 1.dat -o extract`
+
 ## Advance Feature
 
 ### 端口Spray模式
@@ -407,9 +411,8 @@ extract也存在一些常用的预设, 可以通过`--extracts url,ip`调用内�
 * 404 通过随机目录获取
 * guess 只作用于tcp指纹, 根据服务默认端口号猜测
 
-
-
-在开启了`--debug`的情况下, 将会输出该条指纹是命中了哪条配置. 
+!!! note "注意"
+	在开启了`--debug`的情况下, 将会输出该条指纹是命中了哪条配置. 
 
 ### 主动漏洞探测
 
@@ -472,7 +475,9 @@ nuclei poc将会根据指纹识别的情况自动调用, 而非一口气全打�
 * ~~`--arp` 兼容性原因已删除~~, 类似`--ping` 
 * `--no` 在启用启发式扫描时, 如果停止所有递归下降, 只会进行当前阶段的启发式扫描, 例如`-m ss`将不会下降为`-m s`
 
-绝大多数常用的启发式扫描场景已经被封装到workflow中, 更简易在workflow中调用对应的扫描逻辑. 
+启发式扫描需要合适的参数组合才能发挥最大的作用.
+
+绝大多数常用的启发式扫描场景已经被封装到workflow中, 更建议在workflow中调用对应的扫描逻辑. 
 
 如需了解每个细节和原理, 请见 [启发式扫描原理](/wiki/gogo/detail/#_7)
 
