@@ -363,6 +363,27 @@ filter还支持一些特殊值.
 
 !!! note "注意."
 	使用`-F 1.dat --filter`的时候也可以使用`-f`/`--af`对filter的结果再次输出. 
+
+### 提取器
+
+### 提取器
+
+gogo可以从返回内容中提取的特定的数据.
+
+可以通过`--extract regexp`, 自定义正则表达式去提取数据. `--extract` 可以添加多个.
+
+extract也存在一些常用的预设, 可以通过`--extracts url,ip`调用内置的预设. 
+
+* url
+* ip
+* mail
+* idcard
+* phone
+* header
+* body
+* cookie
+* response
+
 ## Advance Feature
 
 ### 端口Spray模式

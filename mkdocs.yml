@@ -72,6 +72,8 @@ nav:
     - 拓展: gogo/extension.md
     - 实战: gogo/do.md
   - spray:
-    - 入门: spray/index.md
+    - index: spray/index.md
+    - 入门: spray/start.md
+    - 细节: spray/detail.md
 
 

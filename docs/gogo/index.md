@@ -1,6 +1,6 @@
-## repo[¶](http://127.0.0.1:8000/wiki/gogo/start/#repo)
+## gogo
 
-基于端口的自动化引擎
+基于端口的全能自动化引擎
 
 repo: https://github.com/chainreactors/gogo
 
