@@ -454,9 +454,27 @@ nuclei poc将会根据指纹识别的情况自动调用, 而非一口气全打�
 
 `gogo -i 172.16.1.1/24 -p smb,wmi,oxid,nbt,icmp,80,443,top2`
 
+### debug
+
+打开`--debug`可以看到每个请求的历史记录与错误原因, 端口状态, 插件发送的数据, 指纹的命中情况, 调用的poc等等详细数据.  用来研判gogo是否正常工作.
+
+!!! note "plugin-debug"
+	因为使用了ants库, 如果plugin中导致的报错会被捕获并跳过. 所以如果plugin中的代码发生了错误, 需要`--plugin-debug`参数去展示报错堆栈, 否则只能看到报错原因, 难以debug.
+
+
+
 ### 启发式扫描
 
-见 [启发式扫描](/wiki/gogo/detail/#_7)
+* `-m s` , 根据端口探针, 喷洒存活的C段.  递归下降到default scan
+* `-m ss`,  根据ip探针, 喷洒存活的B段, 递归下降到`-m s`
+* `-m sc` , 先进行`-m ss`探测存活B段, 然后递归下降到`-m s`, 并在default scan前退出, 用来探测A段中存活的C段.  是`-m ss`的一个特例, 用作简化操作.
+* `--ping`, 在递归下降到default scan, 插入icmp协议的ip存活探测, 递归下降到default scan
+* ~~`--arp` 兼容性原因已删除~~, 类似`--ping` 
+* `--no` 在启用启发式扫描时, 如果停止所有递归下降, 只会进行当前阶段的启发式扫描, 例如`-m ss`将不会下降为`-m s`
+
+绝大多数常用的启发式扫描场景已经被封装到workflow中, 更简易在workflow中调用对应的扫描逻辑. 
+
+如需了解每个细节和原理, 请见 [启发式扫描原理](/wiki/gogo/detail/#_7)
 
 ## Make
 
