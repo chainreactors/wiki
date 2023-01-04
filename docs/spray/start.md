@@ -424,7 +424,7 @@ spray并不鼓励使用递归, 因为spray的定位是批量从反代/cdn中发�
 
 默认的递归规则为`current.IsDir()`, 即所有的目录(结尾为/的结果)都会被递归.
 
-也可以通过--recursive手动选择递归规则. 例如`--recursive current.IsDir() && current.Status == 403`表示, 递归所有状态码为403的有效目录.
+也可以通过`--recursive`手动选择递归规则, 规则与`filter/match`相同的expr表达式 . 例如`--recursive current.IsDir() && current.Status == 403`表示, 递归所有状态码为403的有效目录.
 
 
 
@@ -434,6 +434,9 @@ spray支持类似 [jsfinder](https://github.com/Threezh1/JSFinder)的简易爬�
 
 `--crawl` 可以开启爬虫. 限定爬虫的深度为3, 且只能作用于当前作用域, 需要更加自由配置的爬虫配置请使用那几个headless爬虫. 
 
+!!! note "注意"
+	crawl的结果没有像jsfinder中一样拼接上baseurl, 因为从js中提取出来的结果通常不是最终的结果, 直接去访问大概率是404. 为了防止造成混淆, spray的crawl结果将保持原样输出. 但在爬虫递归时, 还是会尝试拼接上baseurl进行探测. 爬虫递归时会进行自动去重判断. 
+
  `--active` 可以开启类似[gogo的主动指纹识别](/wiki/gogo/extension/#_2). 
 
 `-a`/ `advance` 将同时开启这两个功能, 后续的一些类似的需要主动发包的功能也会加到这个参数之中.
@@ -442,7 +445,7 @@ spray支持类似 [jsfinder](https://github.com/Threezh1/JSFinder)的简易爬�
 
 ## TODO
 
-1. [x] fuzzyequal
+1. [x] 模糊判断
 2. [x] 断点续传
 3. [x] 简易爬虫
 4. [ ] 支持http2
