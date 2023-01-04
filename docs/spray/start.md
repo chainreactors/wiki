@@ -24,9 +24,8 @@ Usage:
   spray [OPTIONS]
 
 Input Options:
-      --resume-fro=
-  -u, --url=                        String, input baseurl (separated by commas), e.g.: http://google.com,
-                                    http://baidu.com
+      --resume=
+  -u, --url=                        String, input baseurl (separated by commas), e.g.: http://google.com, http://baidu.com
   -l, --list=                       File, input filename
       --raw=                        File, input raw request filename
       --offset=                     Int, wordlist offset
@@ -51,31 +50,30 @@ Output Options:
       --filter=                     String, custom filter function, e.g.: --filter current.Body contains 'hello'
       --extract=                    String, extract response, e.g.: --extract js --extract ip --extract version:(.*?)
   -f=                               String, output filename
+  -F, --format=                     String, output format, e.g.: --format 1.json
       --fuzzy-file=                 String, fuzzy output filename
       --dump-file=                  String, dump all request, and write to filename
       --dump                        Bool, dump all request
       --auto-file                   Bool, auto generator output and fuzzy filename
       --fuzzy                       String, open fuzzy output
-      --probe=                      String, output format
+  -o, --probe=                      String, output format
 
 Request Options:
       --header=                     String, custom headers, e.g.: --headers 'Auth: example_auth'
       --user-agent=                 String, custom user-agent, e.g.: --user-agent Custom
       --random-agent                Bool, use random with default user-agent
       --cookie=                     String, custom cookie
-      --max-length=                 Int, max response body length (kb), default 100k, e.g. -max-length 1000 (default:
-                                    100)
+      --max-length=                 Int, max response body length (kb), default 100k, e.g. -max-length 1000 (default: 100)
 
 Modify Options:
   -a, --advance                     Bool, enable crawl and active
       --force                       Bool, skip error break
       --check-only                  Bool, check only
-      --recursive=                  String,custom recursive rule, e.g.: --recursive current.IsDir() (default:
-                                    current.IsDir())
+      --recursive=                  String,custom recursive rule, e.g.: --recursive current.IsDir() (default: current.IsDir())
       --depth=                      Int, recursive depth (default: 0)
       --active                      Bool, enable active finger detect
       --crawl                       Bool, enable crawl
-      --crawl-depth=               Int, crawl depth (default: 3)
+      --crawl-depth=                Int, crawl depth (default: 3)
       --check-period=               Int, check period when request (default: 200)
       --error-period=               Int, check period when error (default: 10)
       --error-threshold=            Int, break when the error exceeds the threshold  (default: 20)
@@ -90,8 +88,8 @@ Miscellaneous Options:
   -p, --pool=                       Int, Pool size (default: 5)
   -t, --thread=                     Int, number of threads per pool (default: 20)
       --debug                       Bool, output debug info
-      --no-color                    Bool, no color
   -q, --quiet                       Bool, Quiet
+      --no-color                    Bool, no color
       --no-bar                      Bool, No progress bar
   -m, --mod=[path|host]             String, path/host spray (default: path)
   -c, --client=[fast|standard|auto] String, Client type (default: auto)
