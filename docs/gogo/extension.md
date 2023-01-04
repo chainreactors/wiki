@@ -718,5 +718,9 @@ func wmiScan(result *pkg.Result) {
 
 
 
+## 打造自己的gogo
 
+之前提到了gogo在选用指纹, poc的时候都一些自己的取舍, 这些取舍是为了红队场景下做出的, 但如果在非红队场景下,  使用者可以自行打造一个独属于自己的gogo. 例如gogo中没有添加的各种oa poc; 更多的主动发包的指纹等等. 
+
+只需要fork一份`gogo-templates`仓库, 然后从各种第三方指纹仓库和nuclei poc库中移植自己想要的指纹与poc, 或者添加自己拥有的0day poc/指纹, 几天时间就能拥有一个更为强大的, 自己的gogo.
 
