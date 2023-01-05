@@ -1,6 +1,6 @@
 ## repo
 
-全新理解的下一代目录爆破工具
+全新理解的下一代目录爆破工具, 一个完善的目录爆破的解决方案
 
 repo: https://github.com/chainreactors/spray
 

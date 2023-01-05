@@ -259,6 +259,53 @@ host模式, 字典将会替换header中的host字段
 ## Output
 
 spray默认输出到终端的格式是human-like文本. 并默认开启的 **title获取** 与 **被动指纹识别** 功能. 
+??? info "命令行输出案例"
+    ```
+    spray --no-bar -u http:/example.com  -w "/{?l}" -a --extract url
+    [*] Parsed 26 words by /{?l} , 2023-01-04 11:16.30
+    [*] Loaded 1 urls from cmd , 2023-01-04 11:16.30
+    [*] Loaded 0 dictionaries and 0 decorators , 2023-01-04 11:16.30
+    [+] [baseline.index] http:/example.com/ - 200 - 6326 - 70ms [解决方案，一查就有] [nginx]   , 2023-01-04 11:16.30
+    [+] [baseline.random] http:/example.com/PgtrqWohCJJLckw - 404 - 169 - 30ms [404 Not Found] [nginx]   , 2023-01-04 11:16.30
+    [+] http:/example.com/static/js/chunk-libs.89fc8520.js - 200 - 0 - 116ms [nginx]
+    [+] http:/example.com/static/js/chunk-elementUI.80b6d1d0.js - 200 - 0 - 153ms [nginx]
+    [+] http:/example.com/static/js/app.72fc17fc.js - 200 - 68582 - 170ms [nginx] [ url:17 items ][ crawl:109 items ]
+      url:
+            http://www.w3.org/2000/svg
+            https://github.com/PanJiaChen/vue-admin-template/
+            https://panjiachen.github.io/vue-element-admin-site/#/
+      crawl:
+            https://github.com/PanJiaChen/vue-admin-template/
+            https://panjiachen.github.io/vue-element-admin-site/#/
+            https://beian.miit.gov.cn
+            /uploadFile/uploadFile
+            /userInfo/userInfo
+            /userAccount/userAccount
+            /userDocument/userDocument
+            /userMake/userMake
+            /userVip/userVip
+            /userInvite/userInvite
+            /userCollection/userCollection
+            /demand-form/demand-form
+            /login
+            /dashboard
+            /login?redirect=
+            /home
+            /userMake
+            /pay
+            /pay/success
+            /paySuccess
+            /pay/success
+            /PaySuccess
+            /wxLogin
+            /404
+            /prod-api/api
+    [+] http:/example.com/prod-api/api - 404 - 124 - 35ms [{\"timestamp\":] [focus:springboot]  [nginx] [ crawl:/api ]
+      crawl:
+            /api
+    [*] [stat] http:/example.com took 0 s, request total: 125, finish: 26/26, found: 4, check: 0, failed: 0 , 2023-01-04 11:16.30
+    [*] [stat] http:/example.com 404: 120, 200: 3, , 2023-01-04 11:16.30
+    ```
 
 默认将会输出进度条, 但是进度条在windows的各种terminal下会有些输出bug. 可以通过`--no-bar`单独关闭进度条.
 
@@ -294,7 +341,102 @@ spray默认输出到终端的格式是human-like文本. 并默认开启的 **tit
 
 默认输出到文件的格式为json, 可以使用`-o full` 强制修改为和命令行一样的格式
 
+??? info "json输出格式案例"
+    ```json
+    {
+        "number": 0,
+        "url": "http://example/static/js/app.72fc17fc.js",
+        "path": "//static/js/app.72fc17fc.js",
+        "host": "",
+        "body_length": 68582,
+        "header_length": 255,
+        "status": 200,
+        "spend": 405,
+        "title": "",
+        "frameworks": [
+            {
+                "name": "nginx",
+                "tags": [
+                    "other"
+                ]
+            }
+        ],
+        "extracts": [
+            {
+                "name": "url",
+                "extract_result": [
+                    "http://www.w3.org/2000/svg",
+                    "https://github.com/PanJiaChen/vue-admin-template/",
+                    "http://www.w3.org/2000/svg",
+                    "https://beian.miit.gov.cn",
+                ]
+            },
+            {
+                "name": "crawl",
+                "extract_result": [
+                    "https://github.com/PanJiaChen/vue-admin-template/",
+                    "https://panjiachen.github.io/vue-element-admin-site/#/",
+                    "https://beian.miit.gov.cn",
+                    "/uploadFile/uploadFile",
+                    "/userInfo/userInfo",
+                    "/userAccount/userAccount",
+                    "/userDocument/userDocument",
+                    "/userMake/userMake",
+                    "/userVip/userVip",
+                    "/userInvite/userInvite",
+                    "/userCollection/userCollection",
+                    "/demand-form/demand-form",
+                    "/login",
+                ]
+            }
+        ],
+        "error": "",
+        "reason": "",
+        "valid": true,
+        "fuzzy": false,
+        "source": 5,
+        "depth": 1,
+        "hashes": {
+            "body-md5": "d7190390f194cd8a09cbdf132ee0bb6e",
+            "header-md5": "19bf7ec8a759066bdf8bbc1a90804244",
+            "raw-md5": "8c00b45ac0c33c51074270a47620318d",
+            "body-simhash": "af63bd4c8601b7ae",
+            "header-simhash": "9833941ee6ab8d6d",
+            "raw-simhash": "af63bd4c8601b7ae",
+            "body-mmh3": "2409784245"
+        }
+    }
+    ```
+
+
 除了`-f` 指定的文件名外, 还会根据任务类型生成`***.stat`的进度文件, 用来保存任务的状态与进度信息. 可以通过这个文件判断目标大致的状况.
+??? info "stat输出案例"
+    ```json
+    {
+        "url": "http://101.132.126.181/",
+        "counts": {
+            "200": 3,
+            "404": 104
+        },
+        "failed": 0,
+        "req_total": 109,
+        "check": 0,
+        "found": 4,
+        "filtered": 0,
+        "fuzzy": 0,
+        "wafed": 0,
+        "end": 26,
+        "offset": 0,
+        "total": 26,
+        "start_time": 1672802906,
+        "end_time": 1672802907,
+        "word_count": 26,
+        "word": "/{?l}",
+        "dictionaries": null,
+        "rule_files": null,
+        "rule_filter": ""
+    }
+    ```
 
 spray区分了不同类型的输出, 只有通过所有判断逻辑的结果才会输出到`-f`指定的文件中, 如果还需要保留被fuzzy过滤的数据, 可以指定`--fuzzy-file file`
 
@@ -451,3 +593,7 @@ spray支持类似 [jsfinder](https://github.com/Threezh1/JSFinder)的简易爬�
 4. [ ] 支持http2
 5. [ ] auto-tune, 自动调整并发数量
 6. [x] 可自定义的递归配置
+6. [ ] 参考[fuzzuli](https://github.com/musana/fuzzuli), 实现备份文件字典生成器
+6. [ ] 支持socks/http代理, 不建议使用, 优先级较低. 代理的keep-alive会带来严重的性能下降
+6. [ ] 云函数化, chainreactors工具链的通用分布式解决方案.
+

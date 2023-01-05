@@ -4,7 +4,7 @@
 
 gogo 使用的是go自带的socket库 + net/http库实现的tcp全连接扫描.
 
-!!! note "为什么不使用SYN扫描?"
+!!! question "为什么不使用SYN扫描?"
 
     SYN快是一个误区, 可能因为masscan很快,masscan默认使用了SYN扫描, 所以下意识认为SYN能提高扫描速度. 实际上SYN扫描并不会提高扫描速度.
     
@@ -27,15 +27,16 @@ gogo 使用的是go自带的socket库 + net/http库实现的tcp全连接扫描.
     
     要想SYN扫描速度达到masscan自称的速度, 需要提前知道系统的CPU/内存以及最重要的带宽, 然后做出对应的配置才能打到理论速度, 实际上在渗透的时候很难提前知道这些数值, 并且就算知道了, 配置起来也会很麻烦.
 
-!!! note "gogo是怎么做的？"
+!!! question "gogo是怎么做的？"
 	gogo首先会采用socket尝试建立连接, 也就是类似SYN扫描的场景.
 	
+
 	成功建立握手后, gogo会发送一个最基本的GET的http包, 注意, 这里使用的是刚才建立的tcp信道,而不是使用http库重新发包. 这样可以减少一次三次握手。
 	
 	如果返回的30x状态码, 则会使用net/http库发送一个完整的http请求, 如果返回400状态码或者非http协议, 则会升级到https发送一个请求. 进一步的获取需要的信息, 以及排除掉干扰. 
 	也就是说, 关闭着的端口只需要1个syn包判断端口状态, 而如果是普通的http服务或tcp协议的服务, 仅仅需要3次tcp握手+一个最简get请求即可完成基本信息的获取. 只有是https才需要5次tcp交互以及9次tls交互.
 
-!!! note "为什么不使用tls hello？"
+!!! question "为什么不使用tls hello？"
 
     首先需要知道，如果http/https收到不符合标准的数据包，例如对https服务发送明文GET请求，会响应400或者tcp链接收到rst包。
     
