@@ -156,11 +156,11 @@ Help Options:
 
 ### 端口配置
 
-gogo支持非常灵活的端口配置
+gogo支持非常灵活的[端口配置](https://github.com/chainreactors/gogo-templates/blob/master/port.yaml)
 
-参看端口预设,参数 -P port
+参看端口预设,参数 `-P port`
 
-使用端口预设灵活配置端口: `-p top2,http,1-1000,65534`
+使用端口预设自由地配置端口: `-p top2,http,1-1000,65534`
 
 一些常用的端口配置:
 * `-p -`  等于`-p 1-65535`
