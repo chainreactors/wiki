@@ -235,6 +235,7 @@ rule阶段的函数
 * `--deadline` 所有任务的最大时间限制, 超时了会保存当前进度的stat文件后退出
 * `-p`/`--pool` 同时执行的任务数量
 * `-t`/ `--thread` 每个任务的并发数
+* `--check-only` 仅根据url列表进行请求, 可以获取http基础信息, title, 指纹等. 类似httpx, 将会自动关闭keep-alive, 并进行一些性能优化. 
 
 ### 爆破方式
 
@@ -247,6 +248,14 @@ path模式, 字典将会拼接到输入的url之后
 **host**
 
 host模式, 字典将会替换header中的host字段
+
+### client
+
+当前spray采用了net/http与fasthttp作为备选的client, 后续还将兼容支持http2/http3的client. 
+
+因为fasthttp指定host时会进行一次dns解析, 导致出现报错, 因此, 在path爆破时将使用fasthttp. 在host爆破时将使用net/http. 
+
+fasthttp的性能远高于net/http, 因此不建议手动修改配置.  如果有相关的特殊需求, 可以通过`-c`/`--client` `auto`/`standard`/`fast`进行修改. 默认为auto.
 
 ### 请求自定义
 
