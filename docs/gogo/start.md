@@ -248,9 +248,31 @@ inter:
 
 ## Output
 
+命令行默认输出的输出格式为一行一个端口, 以及端口的重要信息(但不是全部信息)
+
+默认是不带着色器的, 如果需要着色以获得更好的效果, 请添加`-o color`, 因为webshell与c2不一定支持着色器, 可能会导致乱码. 
+
+??? info "命令行输出样例"
+    ```
+    gogo -i 81.68.175.32/28 -p top2
+    [*] Current goroutines: 1000, Version Level: 0,Exploit Target: none, PortSpray Scan: false ,2022-07-07 07:07.07
+    [*] Starting task 81.68.175.32/28 ,total ports: 100 , mod: default ,2022-07-07 07:07.07
+    [*] ports: 80,81,82,83,84,85,86,87,88,89,90,443,1080,2000,2001,3000,3001,4443,4430,5000,5001,5601,6000,6001,6002,6003,7000,7001,7002,7003,9000,9001,9002,9003,8080,8081,8082,8083,8084,8085,8086,8087,8088,8089,8090,8000,8001,8002,8003,8004,8005,8006,8007,8008,8009,8010,8011,8012,8013,8014,8015,8016,8017,8018,8019,8020,6443,8443,9443,8787,7080,8070,7070,7443,9080,9081,9082,9083,5555,6666,7777,9999,6868,8888,8889,9090,9091,8091,8099,8763,8848,8161,8060,8899,800,801,888,10000,10001,10080 ,2022-07-07 07:07.07
+    [*] Scan task time is about 8 seconds ,2022-07-07 07:07.07
+    [+] http://81.68.175.33:80      nginx/1.16.0            nginx                   bd37 [200] HTTP/1.1 200
+    [+] http://81.68.175.32:80      nginx/1.18.0 (Ubuntu)           nginx                   8849 [200] Welcome to nginx!
+    [+] http://81.68.175.34:80      nginx           宝塔||nginx                     f0fa [200] 没有找到站点
+    [+] http://81.68.175.34:8888    nginx           nginx                   d41d [403] HTTP/1.1 403
+    [+] http://81.68.175.34:3001    nginx           webpack||nginx                  4a9b [200] shop_mall
+    [+] http://81.68.175.37:80      Microsoft-IIS/10.0              iis10                   c80f [200] HTTP/1.1 200             c0f6 [200] 安全入口校验失败
+    [*] Alive sum: 5, Target sum : 1594 ,2022-07-07 07:07.07
+    [*] Totally run: 4.0441884s ,2022-07-07 07:07.07
+    
+    ```
+
 在没有配置输出文件的情况下,所有内容会输出到标准输出, 如果指定了-f filename 或者使用-af自动选择文件名(--af格式为`ip_mask_port_mod_type.dat1`). 则会关闭扫描结果的命令行输出, 只保留进度的命令行输出.
 
-如果特别想两个地方都保留输出,我也预留了可选项, 使用`--tee` 参数能在指定了-f的时候继续保留命令行输出. 
+如果想同时保留两个地方的输出, 也预留了可选项, 使用`--tee` 参数能在指定了-f的时候继续保留命令行输出. 
 
 输出到文件的格式通过大写的`-O`指定, 常见的输出格式有:json(default), jsonlines, csv, 可通过`-o` 与`-O` 分别控制两个输出方式的格式. 
 
@@ -284,6 +306,107 @@ inter:
 
 -F file 会自动解析文件,并整理归类端口与ip. 输出一个比默认的命令行输出可读性更好的结果. 可以实际体验一下, 是一个比默认命令行输出更友好的格式. 
 
+??? info "格式化输出样例"
+    ```
+    gogo  -F .\.81.68.175.32_28_all_default_json.dat1
+    Scan Target: 81.68.175.32/28, Ports: all, Mod: default
+    Exploit: none, Version level: 0
+
+    [+] 81.68.175.32
+            http://81.68.175.32:80  nginx/1.18.0 (Ubuntu)           nginx                   8849 [200] Welcome to nginx!
+            tcp://81.68.175.32:22                   *ssh                     [tcp]
+            tcp://81.68.175.32:389                                           [tcp]
+    [+] 81.68.175.33
+            tcp://81.68.175.33:3306                 *mysql                   [tcp]
+            tcp://81.68.175.33:22                   *ssh                     [tcp]
+            http://81.68.175.33:80  nginx/1.16.0            nginx                   bd37 [200] HTTP/1.1 200
+    [+] 81.68.175.34
+            tcp://81.68.175.34:3306                 mysql 5.6.50-log                         [tcp]
+            tcp://81.68.175.34:21                   ftp                      [tcp]
+            tcp://81.68.175.34:22                   *ssh                     [tcp]
+            http://81.68.175.34:80  nginx           宝塔||nginx                     f0fa [200] 没有找到站点
+            http://81.68.175.34:8888        nginx           nginx                   d41d [403] HTTP/1.1 403
+            http://81.68.175.34:3001        nginx           webpack||nginx                  4a9b [200] shop_mall
+    [+] 81.68.175.35
+            http://81.68.175.35:47001       Microsoft-HTTPAPI/2.0           microsoft-httpapi                       e702 [404] Not Found
+    [+] 81.68.175.36
+            http://81.68.175.36:80  nginx   PHP     nginx                   babe [200] 风闻客栈24小时发卡中心 - 风闻客栈24小时发卡中心
+            tcp://81.68.175.36:22                   *ssh                     [tcp]
+    ...
+    ...
+    ```
+
+如果需要着色, 同样需要添加`-o color`.
+
+??? info "待格式化的json文件样例"
+    ```json
+    {
+        "config": {
+            "ip": "127.0.0.1/24",
+            "ips": null,
+            "ports": "top1",
+            "json_file": "",
+            "list_file": "",
+            "threads": 4000,
+            "mod": "default",
+            "alive_spray": null,
+            "port_spray": false,
+            "exploit": "auto",
+            "json_type": "scan",
+            "version_level": 1
+        },
+        "data": [
+        ...
+        ]
+    }
+    ```
+    这个json文件中是会带有任务的摘要信息. 每个端口的详细数据位于data字段中的数组. 
+
+??? info "data中的result样例"
+    这是data中每个元素的格式
+    ```json
+    {
+        "ip": "127.0.0.1",
+        "port": "80",
+        "frameworks": {
+            "nginx": {
+                "name": "nginx",
+                "froms": {
+                    "0": true,
+                    "3": true
+                },
+                "tags": [
+                    "other"
+                ]
+            },
+            "rabbitmq-manager": {
+                "name": "rabbitmq-manager",
+                "froms": {
+                    "0": true,
+                    "2": true
+                },
+                "tags": [
+                    "cloud"
+                ]
+            }
+        },
+        "vulns": [
+            {
+                "name": "rabbitmq-login",
+                "payload": {
+                    "auth": "Z3Vlc3Q6Z3Vlc3Q="
+                },
+                "severity": 3
+            }
+        ],
+        "protocol": "http",
+        "status": "200",
+        "language": "",
+        "title": "RabbitMQ Management",
+        "midware": "nginx/1.20.1"
+    }
+    ```
+    
 !!! note "注意."
 	格式化输出时也支持`--af`, `-o`, `-f`等参数, 控制输出的格式以及控制输出的文件, 进行后续的分析.  
 
