@@ -25,15 +25,15 @@ Usage:
 
 Input Options:
       --resume=
-  -u, --url=                        String, input baseurl (separated by commas), e.g.: http://google.com, http://baidu.com
+  -u, --url=                        String, Multi, input baseurl, e.g.: http://google.com
   -l, --list=                       File, input filename
       --raw=                        File, input raw request filename
       --offset=                     Int, wordlist offset
       --limit=                      Int, wordlist limit, start with offset. e.g.: --offset 1000 --limit 100
-  -d, --dict=                       Files, dict files, e.g.: -d 1.txt -d 2.txt
+  -d, --dict=                       Files, Multi,dict files, e.g.: -d 1.txt -d 2.txt
   -w, --word=                       String, word generate dsl, e.g.: -w test{?ld#4}
       --rule-filter=                String, filter rule, e.g.: --rule-filter '>8'
-  -r, --rules=                      Files, rule files, e.g.: -r rule1.txt -r rule2.txt
+  -r, --rules=                      Files, Multi, rule files, e.g.: -r rule1.txt -r rule2.txt
 
 Function Options:
   -e, --extension=                  String, add extensions (separated by commas), e.g.: -e jsp,jspx
@@ -41,14 +41,14 @@ Function Options:
       --remove-extension=           String, remove extensions (separated by commas), e.g.: --remove-extension jsp,jspx
   -U, --uppercase
   -L, --lowercase                   Bool, lower wordlist, e.g.: --lowercase
-      --prefix=                     Strings, add prefix, e.g.: --prefix aaa --prefix bbb
-      --suffix=                     Strings, add suffix, e.g.: --suffix aaa --suffix bbb
-      --replace=                    Strings, replace string, e.g.: --replace aaa:bbb --replace ccc:ddd
+      --prefix=                     Strings, Multi, add prefix, e.g.: --prefix aaa --prefix bbb
+      --suffix=                     Strings, Multi, add suffix, e.g.: --suffix aaa --suffix bbb
+      --replace=                    Strings, Multi, replace string, e.g.: --replace aaa:bbb --replace ccc:ddd
 
 Output Options:
       --match=                      String, custom match function, e.g.: --match current.Status != 200
       --filter=                     String, custom filter function, e.g.: --filter current.Body contains 'hello'
-      --extract=                    String, extract response, e.g.: --extract js --extract ip --extract version:(.*?)
+      --extract=                    String, Multi, extract response, e.g.: --extract js --extract ip --extract version:(.*?)
   -f=                               String, output filename
   -F, --format=                     String, output format, e.g.: --format 1.json
       --fuzzy-file=                 String, fuzzy output filename
@@ -59,10 +59,10 @@ Output Options:
   -o, --probe=                      String, output format
 
 Request Options:
-      --header=                     String, custom headers, e.g.: --headers 'Auth: example_auth'
+      --header=                     String, Multi, custom headers, e.g.: --headers 'Auth: example_auth'
       --user-agent=                 String, custom user-agent, e.g.: --user-agent Custom
       --random-agent                Bool, use random with default user-agent
-      --cookie=                     String, custom cookie
+      --cookie=                     String, Multi, custom cookie
       --max-length=                 Int, max response body length (kb), default 100k, e.g. -max-length 1000 (default: 100)
 
 Modify Options:
@@ -98,6 +98,8 @@ Help Options:
   -h, --help                        Show this help message
 ```
 
+!!! note "注意."
+	带`Multi`标记的flag表示允许添加多个, 例如`-u https://google.com -u https://baidu.com -d word.txt` 
 
 
 ## QuickStart
