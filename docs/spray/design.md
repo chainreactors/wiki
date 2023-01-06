@@ -96,7 +96,7 @@ spray与其他目录爆破最大的不同还在于spray将字典构造引入到�
 
 spray的输出结果更像是httpx与ffuf那样, 不仅仅只有目录. 有不少目录爆破工具在输出结果时, 抛弃了所有中间输出, 导致对其二次处理还需要httpx这样的工具配合,再次获取信息. 会额外发送不少请求包. 
 
-spray的[文件输出结果](/wiki/spray/start/#_7)中, 包含了完整的请求摘要信息. 后续还会提供完整的响应包的原始数据. 
+spray的[文件输出结果](/wiki/spray/start/#_7)中, 包含了完整的请求摘要信息. 
 
 在目录爆破时, spray还将对title, 指纹进行识别, 并提供了`--extract`自定义正则从网页中提取数据. 也包含了一个简易的爬虫. 
 
@@ -110,15 +110,25 @@ spray的[文件输出结果](/wiki/spray/start/#_7)中, 包含了完整的请求
 
 并且同样引入了主动指纹识别, 根据配置生成可能存在关键信息的目录进行爆破. 这里的逻辑与gogo中的主动指纹识别有细微的不同. spray会将需要主动探测的目录生成一个字典, 并进行全量的规则匹配. 而非gogo那样的精准匹配.  因此实际上spray在配置了相同的指纹的情况下, 会比gogo有些许提升(可能只能提升1%不到, 某些情况下能带来惊喜)
 
+spray没有gogo那么多顾虑, 后续也可能会考虑将wappalyzer接入, 提供更丰富的信息.
+
 ### 爬虫
 
 爬虫的逻辑类似[jsfinder](https://github.com/Threezh1/JSFinder), 从网页中提取可能的url, 并进行递归的爬虫处理. 
 
 这个爬虫的表现远低于headless爬虫, 如果有更高级的需要, 还是简易使用[katana](https://github.com/projectdiscovery/katana) , [rad,](https://github.com/chaitin/rad) 或[crawlgo](https://github.com/Qianlitp/crawlergo) 这样的headless爬虫工具.
 
+当这个爬虫与智能过滤结合到一起, 就自然而然的实现了对这些有效目录的验证. 
+
+### 其他方式
+
+除了爬虫和主动指纹识别之外, spray目前还提供了扫描备份文件, 通用文件的选项. 当然手法不止这些, 如果有spray还不支持的类似的功能, 欢迎提供issue.
+
 ### 数据二次处理
 
 因为spray的输出格式接近httpx与ffuf, 同样支持对他的数据的进行二次处理, 可以像httpx与ffuf一样使用spray.
+
+后续还会提供完整的响应包的原始数据. 用作进一步的的数据分析. 甚至实现类似nuclei中offline scan一样的功能. 
 
 ## 批量与分布式
 
