@@ -592,14 +592,18 @@ spray并不鼓励使用递归, 因为spray的定位是批量从反代/cdn中发�
 
 spray支持类似 [jsfinder](https://github.com/Threezh1/JSFinder)的简易爬虫. 这个爬虫的功能肯定比不上[katana](https://github.com/projectdiscovery/katana) , [rad,](https://github.com/chaitin/rad) 或[crawlgo](https://github.com/Qianlitp/crawlergo) 这样的headless爬虫, 但仅当作一个简易的临时代替品, 用来做一些初步的判断还是比较好用的. 
 
-`--crawl` 可以开启爬虫. 限定爬虫的深度为3, 且只能作用于当前作用域, 需要更加自由配置的爬虫配置请使用那几个headless爬虫. 
+* `--crawl` 可以开启爬虫. 限定爬虫的深度为3, 且只能作用于当前作用域, 需要更加自由配置的爬虫配置请使用那几个headless爬虫. 
 
 !!! note "注意"
 	crawl的结果没有像jsfinder中一样拼接上baseurl, 因为从js中提取出来的结果通常不是最终的结果, 直接去访问大概率是404. 为了防止造成混淆, spray的crawl结果将保持原样输出. 但在爬虫递归时, 还是会尝试拼接上baseurl进行探测. 爬虫递归时会进行自动去重判断. 
 
- `--active` 可以开启类似[gogo的主动指纹识别](/wiki/gogo/extension/#_2). 
+* `--active` 可以开启类似[gogo的主动指纹识别](/wiki/gogo/extension/#_2). 
 
-`-a`/ `advance` 将同时开启这两个功能, 后续的一些类似的需要主动发包的功能也会加到这个参数之中.
+* `--bak` 会构造一个备份文件字典, 包含[fuzzuli](https://github.com/musana/fuzzuli)中的regular规则, 以及一些场景的备份文件字典
+* `--file-bak` 作用于已经被判断有效的文件, 会根据有效值针对性的生成字典, 例如vim的备份等
+* `--common` 一些web的常见[通用文件字典](https://github.com/chainreactors/gogo-templates/blob/master/keywords.yaml), 详情见链接中的`common_file`字段
+
+`-a`/ `advance` 将同时上述开启所有功能, 并且功能之间还会交叉组合出一些惊喜. 
 
 
 
