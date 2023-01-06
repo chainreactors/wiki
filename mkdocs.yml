@@ -74,6 +74,7 @@ nav:
   - spray:
     - index: spray/index.md
     - 入门: spray/start.md
+    - 设计: spray/design.md
     - 细节: spray/detail.md
 
 
