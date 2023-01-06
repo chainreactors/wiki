@@ -5,13 +5,14 @@
     * 基于掩码的字典生成
     * 基于规则的字典生成
     * 动态智能过滤
-    * 全量gogo的主动/被动指纹识别
+    * 全量gogo的指纹识别
     * 自定义信息提取, 如ip,js, title, hash以及自定义的正则表达式
     * 自定义无效页面过滤策略
     * 自定义输出格式
     * *nix的命令行设计, 轻松与其他工具联动
     * 多角度的自动被ban,被waf判断
     * 断点续传
+    * 通用文件, 备份文件, 单个文件备份, 爬虫, 主动指纹识别的完美结合
 
 ## Usage
 
@@ -611,6 +612,6 @@ spray支持类似 [jsfinder](https://github.com/Threezh1/JSFinder)的简易爬�
 5. [ ] auto-tune, 自动调整并发数量
 6. [x] 可自定义的递归配置
 6. [ ] 参考[fuzzuli](https://github.com/musana/fuzzuli), 实现备份文件字典生成器
-6. [ ] 支持socks/http代理, 不建议使用, 优先级较低. 代理的keep-alive会带来严重的性能下降
+6. [ ] 支持socks/http代理, 不建议使用, 优先级较低. 代理下的keep-alive会有严重的性能下降
 6. [ ] 云函数化, chainreactors工具链的通用分布式解决方案.
 

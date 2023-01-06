@@ -1,6 +1,6 @@
 ## gogo
 
-基于端口的全能自动化引擎
+为红队设计的基于端口的全能自动化引擎
 
 repo: https://github.com/chainreactors/gogo
 
