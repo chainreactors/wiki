@@ -9,6 +9,9 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/chainreactors
+  analytics:
+    provider: google
+    property: G-DCRVR86FG2
 theme:
   features:
     - navigation.tracking
