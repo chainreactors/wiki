@@ -15,7 +15,7 @@ repo: https://github.com/chainreactors/gogo
 ## 目录
 
 1. [**参数与功能介绍**](/wiki/gogo/start)
-2. [**设计理念与解决方案**](/wiki/gogo/design) 强烈建议先阅读这章
+2. [**设计理念与解决方案**](/wiki/gogo/design) 建议优先阅读此章
 3. [**设计细节**](/wiki/gogo/detail)
 4. [**拓展与二次开发**](/wiki/gogo/extension)
 5. [**实战与应用场景**](/wiki/gogo/do)
