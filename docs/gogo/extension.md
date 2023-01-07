@@ -361,7 +361,7 @@ port.yaml中的rdp:
 
 
 
-## 拓展nuclei poc 
+## 拓展POC
 gogo的poc采用了nuclei的poc, 但删除了部分nuclei的语法. 例如dsl. 并且有部分较新的nuclei语法暂不支持. 
 
 gogo 目前支持tcp(暂不支持tls tcp)与http协议的绝大部分nuclei poc
