@@ -161,7 +161,7 @@ spray没有gogo那么多顾虑, 后续也可能会考虑将wappalyzer接入, 提
 
 爬虫的逻辑类似[jsfinder](https://github.com/Threezh1/JSFinder), 从网页中提取可能的url, 并进行递归的爬虫处理. 
 
-这个爬虫的表现远低于headless爬虫, 如果有更高级的需要, 还是简易使用[katana](https://github.com/projectdiscovery/katana) , [rad,](https://github.com/chaitin/rad) 或[crawlgo](https://github.com/Qianlitp/crawlergo) 这样的headless爬虫工具.
+这个爬虫的表现远低于headless爬虫, 如果有更高级的需要, 还是建议使用[katana](https://github.com/projectdiscovery/katana) , [rad,](https://github.com/chaitin/rad) 或[crawlgo](https://github.com/Qianlitp/crawlergo) 这样的headless爬虫工具.
 
 当这个爬虫与智能过滤结合到一起, 就自然而然的实现了对这些有效目录的验证. 
 
@@ -190,3 +190,38 @@ spray没有gogo那么多顾虑, 后续也可能会考虑将wappalyzer接入, 提
 ## 批量与分布式
 
  *todo*
+
+## 其他目录收集方式
+
+spray想要解决的是需要主动发包的场景. 实际上其他方式.
+
+**被动的url收集**
+
+既不与目标进行交互. 常见的有数据源:
+
+* webarchive
+* 各家搜索引擎
+* 各家威胁情报平台
+
+后续可能会提供一个类似subfinder那样的工具实现. 但似乎社区已经提供了类似的工具.
+
+**通过headless爬虫进行的url收集**
+
+* [katana](https://github.com/projectdiscovery/katana)  projectdiscovery提供的工具, 比较符合chainreactor的设计, 后续将会集成到kindred中
+* [rad](https://github.com/chaitin/rad) 长亭提供的闭源的headless爬虫
+* [crawlgo](https://github.com/Qianlitp/crawlergo) 360提供的开源headless爬虫
+
+**基于api的url收集**
+
+这个领域属于api安全, 也有非常多的细节, spray暂时不打算涉及.常见的有:
+
+* swagger
+* wsdl
+* graphql
+* showdoc/yapi/apidoc等自动生成的文档工具
+* ....
+
+我个人会使用[apifox](https://www.apifox.cn/)进行手动测试
+
+
+
