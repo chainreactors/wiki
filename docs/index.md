@@ -17,7 +17,7 @@ chainreactor 自研的工具链
 - [GOGO](gogo/index.md) 基于端口的自动化引擎
 - [Spray](spray/index.md) 下一代目录爆破工具
 - Zombie 服务口令爆破工具
-- Ina 一个空间引擎交叉爬虫
+- Ina 空间引擎交叉递归爬虫
 - Ani 企业信息爬虫
 - ReMaitai全能的流量中间件/流量代理工具
 - meta-matrix 云函数化框架
@@ -41,7 +41,7 @@ chainreactor 自研的工具链
 
 **step2**
 
-公开meta-matrix 云函数化框架, 并将工具链上的各个工具云函数化
+公开meta-matrix 云函数化框架, 并将工具链(包含projectdiscovery的部分工具)上的各个工具云函数化
 
 **step2**
 

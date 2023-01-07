@@ -586,8 +586,6 @@ spray并不鼓励使用递归, 因为spray的定位是批量从反代/cdn中发�
 
 也可以通过`--recursive`手动选择递归规则, 规则与`filter/match`相同的expr表达式 . 例如`--recursive current.IsDir() && current.Status == 403`表示, 递归所有状态码为403的有效目录.
 
-
-
 ### 附加功能
 
 * `--crawl` 可以开启爬虫. 限定爬虫的深度为3, 且只能作用于当前作用域, 需要更加自由配置的爬虫配置请使用那几个headless爬虫. 
