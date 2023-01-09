@@ -145,6 +145,14 @@ spray的[文件输出结果](/wiki/spray/start/#_7)中, 包含了完整的请求
 
 在目录爆破时, spray还将对title, 指纹进行识别, 并提供了`--extract`自定义正则从网页中提取数据. 也包含了一个简易的爬虫. 
 
+### 爬虫
+
+爬虫的逻辑类似[jsfinder](https://github.com/Threezh1/JSFinder), 从网页中提取可能的url, 并进行递归的爬虫处理. 
+
+这个爬虫的表现远低于headless爬虫, 如果有更高级的需要, 还是建议使用[katana](https://github.com/projectdiscovery/katana) , [rad,](https://github.com/chaitin/rad) 或[crawlgo](https://github.com/Qianlitp/crawlergo) 这样的headless爬虫工具.
+
+当这个爬虫与智能过滤结合到一起, 就自然而然的实现了对这些有效目录的验证. 
+
 ### 指纹
 
 目前, 除了httpx提供了wappalyzer的规则库, 其他工具都没有实现类似的功能. 
@@ -157,13 +165,12 @@ spray的[文件输出结果](/wiki/spray/start/#_7)中, 包含了完整的请求
 
 spray没有gogo那么多顾虑, 后续也可能会考虑将wappalyzer接入, 提供更丰富的信息.
 
-### 爬虫
+也因此, 在配置了同样指纹的情况下, spray的效果会远好于gogo, 有好几个方面综合达成了这一点.
 
-爬虫的逻辑类似[jsfinder](https://github.com/Threezh1/JSFinder), 从网页中提取可能的url, 并进行递归的爬虫处理. 
-
-这个爬虫的表现远低于headless爬虫, 如果有更高级的需要, 还是建议使用[katana](https://github.com/projectdiscovery/katana) , [rad,](https://github.com/chaitin/rad) 或[crawlgo](https://github.com/Qianlitp/crawlergo) 这样的headless爬虫工具.
-
-当这个爬虫与智能过滤结合到一起, 就自然而然的实现了对这些有效目录的验证. 
+* spray中内置了爬虫, 爬虫配合上被动指纹识别, 能识别到很多之前识别不到的指纹, 例如通过js跳转的页面, 在gogo中只能通过识别跳转的url中的特征, 而spray通过爬虫可以获取到跳转后的页面,
+* 也因为爬虫可以获取到所有的ico路径, spray添加了基于content-type的智能判断, 可以将ico hash发挥到极致. 很多非`/favicon.ico`的ico也能正常识别
+* spray不会像gogo一样将host解析为ip, 因此配合上host爆破, 或者面对cdn常见, 指纹识别也能正常发挥作用. 
+* spray手动处理redirect. 在gogo中并没有将指纹识别作用到redirect的每一次跳转, 而spray因为手动处理了所有redirect请求, 因此一些非常特殊的网站也能正常识别. 这一点曾经在好几次项目中发现了非常隐蔽且关键的指纹. 并且能获取每次redirect的基本信息.
 
 ### 其他方式
 
