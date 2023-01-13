@@ -29,15 +29,16 @@ Usage:
 
 Input Options:
       --resume=
-  -u, --url=                        String, Multi, input baseurl, e.g.: http://google.com
+  -u, --url=                        Strings, input baseurl, e.g.: http://google.com
   -l, --list=                       File, input filename
       --raw=                        File, input raw request filename
       --offset=                     Int, wordlist offset
       --limit=                      Int, wordlist limit, start with offset. e.g.: --offset 1000 --limit 100
   -d, --dict=                       Files, Multi,dict files, e.g.: -d 1.txt -d 2.txt
   -w, --word=                       String, word generate dsl, e.g.: -w test{?ld#4}
-      --rule-filter=                String, filter rule, e.g.: --rule-filter '>8'
-  -r, --rules=                      Files, Multi, rule files, e.g.: -r rule1.txt -r rule2.txt
+  -r, --rules=                      Files, rule files, e.g.: -r rule1.txt -r rule2.txt
+      --append-rule=                Files, when found valid path , use append rule generator new word with current path
+      --filter-rule=                String, filter rule, e.g.: --rule-filter '>8 <4'
 
 Function Options:
   -e, --extension=                  String, add extensions (separated by commas), e.g.: -e jsp,jspx
@@ -45,15 +46,15 @@ Function Options:
       --remove-extension=           String, remove extensions (separated by commas), e.g.: --remove-extension jsp,jspx
   -U, --uppercase
   -L, --lowercase                   Bool, lower wordlist, e.g.: --lowercase
-      --prefix=                     Strings, Multi, add prefix, e.g.: --prefix aaa --prefix bbb
-      --suffix=                     Strings, Multi, add suffix, e.g.: --suffix aaa --suffix bbb
-      --replace=                    Strings, Multi, replace string, e.g.: --replace aaa:bbb --replace ccc:ddd
+      --prefix=                     Strings, add prefix, e.g.: --prefix aaa --prefix bbb
+      --suffix=                     Strings, add suffix, e.g.: --suffix aaa --suffix bbb
+      --replace=                    Strings, replace string, e.g.: --replace aaa:bbb --replace ccc:ddd
 
 Output Options:
       --match=                      String, custom match function, e.g.: --match current.Status != 200
       --filter=                     String, custom filter function, e.g.: --filter current.Body contains 'hello'
-      --extract=                    String, Multi, extract response, e.g.: --extract js --extract ip --extract version:(.*?)
-  -f=                               String, output filename
+      --extract=                    Strings, extract response, e.g.: --extract js --extract ip --extract version:(.*?)
+  -f, --file=                       String, output filename
   -F, --format=                     String, output format, e.g.: --format 1.json
       --fuzzy-file=                 String, fuzzy output filename
       --dump-file=                  String, dump all request, and write to filename
@@ -62,22 +63,32 @@ Output Options:
       --fuzzy                       String, open fuzzy output
   -o, --probe=                      String, output format
 
-Request Options:
-      --header=                     String, Multi, custom headers, e.g.: --headers 'Auth: example_auth'
-      --user-agent=                 String, custom user-agent, e.g.: --user-agent Custom
-      --random-agent                Bool, use random with default user-agent
-      --cookie=                     String, Multi, custom cookie
-      --max-length=                 Int, max response body length (kb), default 100k, e.g. -max-length 1000 (default: 100)
-
-Modify Options:
+Plugin Options:
   -a, --advance                     Bool, enable crawl and active
-      --force                       Bool, skip error break
-      --check-only                  Bool, check only
-      --recursive=                  String,custom recursive rule, e.g.: --recursive current.IsDir() (default: current.IsDir())
-      --depth=                      Int, recursive depth (default: 0)
       --active                      Bool, enable active finger detect
+      --bak                         Bool, enable bak found
+      --file-bak                    Bool, enable valid result bak found, equal --append-rule rule/filebak.txt
+      --common                      Bool, enable common file found
       --crawl                       Bool, enable crawl
       --crawl-depth=                Int, crawl depth (default: 3)
+      --crawl-scope=                Int, crawl scope (todo)
+
+Request Options:
+      --header=                     Strings, custom headers, e.g.: --headers 'Auth: example_auth'
+      --user-agent=                 String, custom user-agent, e.g.: --user-agent Custom
+      --random-agent                Bool, use random with default user-agent
+      --cookie=                     Strings, custom cookie
+      --read-all                    Bool, read all response body
+      --max-length=                 Int, max response body length (kb), default 100k, e.g. -max-length 1000 (default:
+                                    100)
+
+Modify Options:
+      --rate-limit=                 Int, request rate limit (rate/s), e.g.: --rate-limit 100 (default: 0)
+      --force                       Bool, skip error break
+      --check-only                  Bool, check only
+      --recursive=                  String,custom recursive rule, e.g.: --recursive current.IsDir() (default:
+                                    current.IsDir())
+      --depth=                      Int, recursive depth (default: 0)
       --check-period=               Int, check period when request (default: 200)
       --error-period=               Int, check period when error (default: 10)
       --error-threshold=            Int, break when the error exceeds the threshold  (default: 20)
@@ -101,9 +112,6 @@ Miscellaneous Options:
 Help Options:
   -h, --help                        Show this help message
 ```
-
-!!! note "注意."
-	带`Multi`标记的flag表示允许添加多个, 例如`-u https://google.com -u https://baidu.com -d word.txt` 
 
 
 ## QuickStart
