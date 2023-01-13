@@ -1,3 +1,6 @@
+---
+title: spray 入门
+---
 ## Feature
 
 !!! example "Features."
@@ -234,9 +237,17 @@ rule阶段的函数
 * `--offset` , 字典偏移
 * `--limit`, 限制的字典数量
 * `--deadline` 所有任务的最大时间限制, 超时了会保存当前进度的stat文件后退出
-* `-p`/`--pool` 同时执行的任务数量
-* `-t`/ `--thread` 每个任务的并发数
 * `--check-only` 仅根据url列表进行请求, 可以获取http基础信息, title, 指纹等. 类似httpx, 将会自动关闭keep-alive, 并进行一些性能优化. 
+* `--force` 忽略掉被ban或被waf的判断, 强制跑完所有字典
+
+### 速率限制
+
+合理的速率配置能让spray的性能大大提升. 
+
+* 通过 `-p`/`--pool` 配置并行的任务数, 每个url都会分配到一个独立的pool.
+* 通过`-t`/ `--thread` 每个pool的并发数, 需要注意的是, thread与每秒实际发包速率无关
+* 通过`--rate-limit` 配置每个pool的每秒发包上限速度. 
+* 通过`--timeout` 配置每个请求的超时时间, 如果目标的waf会通过drop packet的方式响应, 适当调低timeout可以加快爆破速度.
 
 ### 爆破方式
 
@@ -257,6 +268,9 @@ host模式, 字典将会替换header中的host字段
 因为fasthttp指定host时会进行一次dns解析, 导致出现报错, 因此, 在path爆破时将使用fasthttp. 在host爆破时将使用net/http. 
 
 fasthttp的性能远高于net/http, 因此不建议手动修改配置.  如果有相关的特殊需求, 可以通过`-c`/`--client` `auto`/`standard`/`fast`进行修改. 默认为auto.
+
+!!! info "使用fasthttp需要注意"
+	如果目标使用了`chunked`, 那么fasthttp很可能无法正确获取解码后的body, 需要使用`-c standard`切换成go自带的`net/http` . 我原本以为能找到一个header去在client关闭chunk, 似乎并没有对应的方法.
 
 ### 请求自定义
 
