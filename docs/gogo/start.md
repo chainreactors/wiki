@@ -106,6 +106,8 @@ Help Options:
 
 `gogo -i 192.168.1.1/24 -p win,db,top2 `
 
+<br>
+
 当目标范围的子网掩码小于24时, 建议启用 [smart mod](/wiki/gogo/detail/#b)
 
 例如子网掩码为16时(输出结果较多, 建议开启--af输出到文件, 命令行只输出日志)
@@ -116,9 +118,13 @@ Help Options:
 
 这个命令有些复杂, 但不用担心, 可以使用workflow代替.如 `gogo -w 172`, 
 
-当目标范围的子网掩码小于24, 建议启用supersmart模式扫描, 例如:
+<br>
+
+当目标范围的子网掩码小于16, 建议启用supersmart模式扫描, 例如:
 
 `gogo -i 10.0.0.0/8 -m ss -p top2,win,db --af`
+
+<br>
 
 常用的配置已经被集成到workflow中, 例如使用supersmart mod 扫描10段内网, `gogo -w 10`即可. 如果需要自定义网段, 则是`gogo -w 10 -i 11.0.0.0/8`, 通过-i参数覆盖-w 10 中的ip字段. 
 
