@@ -40,6 +40,10 @@ spray基于目录爆破实现, 但目录爆破并不是spray的目标.
 
 spray最终的目标是对单个站点深入的信息分析与提取, 去辅助红队人员进一步的渗透攻击. 
 
+### 与kindred的联动
+
+todo
+
 ## 智能化
 
 这里指的智能化, 实际上是添加复杂的规则,  代替人类进行绝大多数重复无效的劳动. 主要是将我们对目录爆破这个领域的经验转为代码. 
@@ -230,7 +234,7 @@ spray的[文件输出结果](/wiki/spray/start/#_7)中, 包含了完整的请求
 
 这个爬虫的表现远低于headless爬虫, 如果有更高级的需要, 还是建议使用[katana](https://github.com/projectdiscovery/katana) , [rad,](https://github.com/chaitin/rad) 或[crawlgo](https://github.com/Qianlitp/crawlergo) 这样的headless爬虫工具.
 
-但相比于原版的jsfinder中的逻辑对不少情况都没有做适配, spray进行了大量优化和调整， 以jsfinder README.md中的`https://www.mi.com`为例, 有数百倍的差距(还是在额外限制了scope的情况下).  并能实现对很多jsfinder无法正确识别的链接进行识别.
+但相比于原版的jsfinder中的逻辑, spray进行了大量优化和调整， 以jsfinder README.md中的`https://www.mi.com`为例, 有数百倍的差距(还是在额外限制了scope的情况下).  并能实现对很多jsfinder无法正确识别的链接进行识别.
 
 当这个爬虫与智能过滤结合到一起, 就自然而然的实现了对这些有效目录的验证. 
 
