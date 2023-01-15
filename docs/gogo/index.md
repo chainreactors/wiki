@@ -1,5 +1,5 @@
 ---
-title: gogo index
+title: gogo · index
 ---
 
 ## gogo

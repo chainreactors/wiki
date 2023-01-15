@@ -1,5 +1,5 @@
 ---
-title: gogo 实战
+title: gogo · 实战
 ---
 
 ## 前言

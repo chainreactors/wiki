@@ -1,5 +1,5 @@
 ---
-title: gogo 细节
+title: gogo · 细节
 ---
 
 ## 基础扫描
