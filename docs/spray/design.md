@@ -131,11 +131,11 @@ spray的智能判断是我们认为的最佳解决方案, 但不一定是实际�
 !!! info "使用fasthttp坑点"
 	它复用了几乎所有的bytes buf, 因此releaseResponse之后, 可能buf会被复用, 导致buf的数据被覆盖. 这个bug我花费了好几天时间才定位到.  最新版本已经不存在这个bug了
 
-### http
+### HTTP
 
 在大多数场景下, http协议对性能的影响最关键的就是`keep-alive`, 这个功能需要http1.1之后才支持. 好在绝大多数服务现在都已经支持了. 这也是spray性能提升最大因素. 
 
-keep-alive在http1中是需要手动打开, 在http1.1中是自动打开,  在http2中则变成了多路复用, 性能有数量级上的提升. 
+keep-alive在http1.0中是需要手动打开, 在http1.1中是自动打开,  在http2中则变成了多路复用, 性能有数量级上的提升. 
 
 对于代码来说, keep-alive的影响就非常大了. 在python中, 需要手动控制keep-alive的并发池去复用.  但好在go中不论是`fasthttp`还是`net/http`都内置自带了链接的复用. 如果手段去维护这个链接池不仅带代码水平有一定要求, 实际效果也会远差于官方提供的. 这也是dirsearch, dirmap性能有数量级的代差的原因. 
 
@@ -345,7 +345,7 @@ spray想要解决的是需要主动发包的场景. 实际上其他方式.
 * 各家搜索引擎
 * 各家威胁情报平台
 
-后续可能会提供一个类似subfinder那样的工具实现. 但似乎社区已经提供了类似的工具.
+后续可能会提供一个类似subfinder那样的工具实现. 似乎开源社区也已经提供了类似的工具.
 
 **通过headless爬虫进行的url收集**
 
@@ -384,5 +384,12 @@ spray面临的场景是和gogo一样复杂的. 这个领域不需要我去强调
 
 
 
+### todo
 
+这些其他方式有些与spray的设计冲突, 有些只是暂时没有好的解决办法. 有些是因为我的时间有限, 还位于todo之中.. 
+
+* 各种403bypass与java权限绕过将会以rule的形式实现.
+* HaE的一些规则与nuclei中的[exposures](https://github.com/projectdiscovery/nuclei-templates/tree/main/exposures)将会一起以插件的形式加入spray
+* ffuf中的一些fuzz技术将会经过重新设计后加入spray, 定位也与ffuf原本的设计有些许不同
+* yakit中的fuzztag也值得参考, 与mask和rule结合能创造出不少新玩法. 或许能解决更多问题
 
