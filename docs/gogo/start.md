@@ -1,5 +1,5 @@
 ---
-title: gogo 入门
+title: gogo · 入门
 ---
 
 ## Features

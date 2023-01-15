@@ -1,5 +1,5 @@
 ---
-title: gogo 拓展
+title: gogo · 拓展
 ---
 
 gogo 保留了大量可拓展接口, 例如指纹, poc/exp, 工作流, 端口.
