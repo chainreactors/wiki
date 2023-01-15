@@ -237,7 +237,7 @@ inter:
 	0	172.16.0.0/12  	top1      	ss	false	false	default   	default   	0    	none      	auto   ```
 ```
 
-虽然已经采用workflow简化了参数的构造, 但不代表简化理解工作流工作的逻辑. 可以参考这张思维导图理解常见工作流的逻辑.
+虽然已经采用workflow简化了使用者使用的难度, 但不代表能简化理解工作流原理的难度. 这张思维导图列出了一些常见的工作流工作逻辑.
 
 ![workflow_pipeline](img/pipeline.png)
 
