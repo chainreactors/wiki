@@ -116,7 +116,6 @@ wmi端口还能获得网卡信息, 寻找内网中的多网卡机器.  使用的
 
 - [https://github.com/0x727/FingerprintHub](https://github.com/0x727/FingerprintHub)
 - [https://github.com/TideSec/TideFinger](https://github.com/TideSec/TideFinger)
-- [https://github.com/shadow1ng/fscan/blob/main/WebScan/info/rules.go](https://github.com/shadow1ng/fscan/blob/main/WebScan/info/rules.go)
 - 自行收集的上百个指纹
 - ... 
 
