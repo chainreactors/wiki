@@ -154,7 +154,7 @@ title: gogo 实战
 
 如果是自定义网段, 可以使用 `gogo -w sc -i 111.1.1.1/8`
 
-这个workflow会在gogo的二进制目录下生成, 包含bcidr与ccidr两个文件, 分别为存活的B段与C段.
+所有的workflow都自动开启了`--af`, 会自动在二进制文件目录下生成bcidr与ccidr两个文件, 分别为存活的B段与C段.
 
 #### 第四步, 对端口进行扫描
 
