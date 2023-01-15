@@ -344,6 +344,7 @@ spray想要解决的是需要主动发包的场景. 实际上其他方式.
 * webarchive
 * 各家搜索引擎
 * 各家威胁情报平台
+* ...
 
 后续可能会提供一个类似subfinder那样的工具实现. 似乎开源社区也已经提供了类似的工具.
 
@@ -352,6 +353,8 @@ spray想要解决的是需要主动发包的场景. 实际上其他方式.
 * [katana](https://github.com/projectdiscovery/katana)  projectdiscovery提供的工具, 比较符合chainreactor的设计, 后续将会集成到kindred中
 * [rad](https://github.com/chaitin/rad) 长亭提供的闭源的headless爬虫
 * [crawlgo](https://github.com/Qianlitp/crawlergo) 360提供的开源headless爬虫
+
+headless爬虫其实不少, 为安全领域设计的爬虫又不多
 
 **基于api的url收集**
 
@@ -392,4 +395,6 @@ spray面临的场景是和gogo一样复杂的. 这个领域不需要我去强调
 * HaE的一些规则与nuclei中的[exposures](https://github.com/projectdiscovery/nuclei-templates/tree/main/exposures)将会一起以插件的形式加入spray
 * ffuf中的一些fuzz技术将会经过重新设计后加入spray, 定位也与ffuf原本的设计有些许不同
 * yakit中的fuzztag也值得参考, 与mask和rule结合能创造出不少新玩法. 或许能解决更多问题
+
+*(这里就不使用tasklist了, 每实现一部分就会在todo中删除, 转化为文档)*
 
