@@ -12,8 +12,6 @@ release: https://github.com/chainreactors/spray/releases/latest
 
 ## 目录
 
-## 目录
-
 1. [**参数与功能介绍**](/wiki/spray/start)
 
 2. [**设计理念与解决方案**](/wiki/spray/design)
