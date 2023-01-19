@@ -4,7 +4,7 @@ title: spray · 入门
 ## Feature
 
 !!! example "Features."
-    * 超zx强的性能, 在本地测试极限性能的场景下, 能超过ffuf与feroxbruster的性能50%以上. 
+    * 超强的性能, 在本地测试极限性能的场景下, 能超过ffuf与feroxbruster的性能50%以上. 
     * 基于掩码的字典生成
     * 基于规则的字典生成
     * 动态智能过滤
