@@ -88,8 +88,7 @@ Configuration Options:
       --filter-or                                  FilterOr
       --payload=                                   String, specify nuclei payload
       --attack-type=[pitchfork|clusterbomb|sniper] nuclei attack types, sniper|clusterbomb|pitchfork
-      --extract=                                   String, custom Extract regexp
-      --extracts=                                  String, choice preset Extract regexp, e.g. --Extracts ip,url
+      --extract=                                   Strings, custom Extract regexp
   -d, --timeout=                                   Int, socket and http timeout (default: 2)
   -D, --ssl-timeout=                               Int, ssl and https timeout (default: 2)
       --suffix=                                    String, url path
@@ -505,17 +504,9 @@ gogo可以从返回内容中提取的特定的数据.
 
 可以通过`--extract regexp`, 自定义正则表达式去提取数据. `--extract` 可以添加多个.
 
-extract也存在一些常用的预设, 可以通过`--extracts url,ip`调用内置的预设. 
+extract也存在一些常用的预设, 可以通过`--extract url`调用内置的预设
 
-* url
-* ip
-* mail
-* idcard
-* phone
-* header
-* body
-* cookie
-* response
+可通过`-P extract`查看所有预设.
 
 !!! note "注意"
 	默认的`gogo -F 1.dat`输出的extract结果仅为缩略报告. 如需查看完整的extract结果, 需要`gogo -F 1.dat -o extract`
