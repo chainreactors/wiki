@@ -14,7 +14,7 @@ repo: https://github.com/chainreactors/gogo
 
 快速入门: https://chainreactors.github.io/wiki/gogo/start/
 
-理论上支持包括windows 2003在内的全操作系统, release中的版本使用了最新版的go以及github action自动编译. 出现过在较低系统版本上无法运行的问题. 如果出现了兼容下问题, 可以参考[文档中的编译一节](/wiki/gogo/start/#make)自行编译
+理论上支持包括windows 2003在内的全操作系统, **release中的版本使用了go 1.17+ubuntu-latest以及github action自动编译. 出现过在较低系统版本上无法运行的问题.** 如果出现了兼容下问题, 可以参考[文档中的编译一节](/wiki/gogo/start/#make)自行编译
 
 ## 目录
 
