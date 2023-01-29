@@ -202,13 +202,13 @@ Help Options:
 
 简单使用
 
-`spray -u http://example.com -d word.txt -r rule.txt -r rule2.txt`
+`spray -u http://example.com -d word.txt -r rule.txt`
 
-通用过滤规则, 过滤规则目前与hashcat一致
+这行命令表示, 将`word.txt`中每一行都作为基础值与规则库`rule.txt`进行rule模板语言处理过后的笛卡尔积.  最终的字典总数量为 `word行数 * rule行数`.
 
 `spray -u http://example.com -d word.txt --rule-filter ">15"`
 
-这行命令的意思是, 指定字典, 并过滤掉长度大于15的字典.
+这行命令表示, 指定字典, 并过滤掉长度大于15的字典.
 
 ### 使用函数装饰字典
 内置了一些函数可以对字典进行装饰. 目前支持的如下:
