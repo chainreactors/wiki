@@ -180,13 +180,25 @@ Help Options:
 
 规则语法请参考 [hashcat_rule_base](https://hashcat.net/wiki/doku.php?id=rule_based_attack)
 
-目前除了带M(Memorize)的规则已经全部实现. 并且去掉了hashcat的一些限制, 比如最多支持5个规则, 字符串长度不能大于10等.
+目前除了M(Memorize)的规则已经全部实现. 并且去掉了hashcat的一些限制, 比如最多支持5个规则, 字符串长度不能大于10等. 
 
-如果spray的rule-base生成器与hashcat的结果不一致, 请提交issue.
+目前实现的规则如下表， 来自hashcat文档
 
-这里有一些hashcat自带的规则示例, 但是因为hashcat用户生成密码字典, 因此对于目录爆破的规则还需要重新积累. 
+![image-20230129164920846](img/image-20230129164920846.png)
 
-接下来将会整理一些特别常用的规则库, 例如403bypass, java权限绕过等.
+目前支持的过滤规则如下表:
+
+![image-20230129165206761](img\image-20230129165206761.png)
+
+**rule理论上应该要与hashcat的rule-base结果完全一致, 但如果与hashcat的结果不一致, 请提交issue.**
+
+[这里有一些hashcat自带的规则示例](https://github.com/hashcat/hashcat/tree/master/rules), 但hashcat一般用来生成密码字典, 因此对于目录爆破的规则还需要重新积累.  
+
+现在能想到的能用来目录爆破领域的规则有
+
+* 403bypass (todo)
+* java权限绕过 (todo)
+* 文件/目录备份 [已实现, 点击查看](https://github.com/chainreactors/gogo-templates/blob/master/rule/filebak.txt)
 
 简单使用
 
@@ -198,7 +210,6 @@ Help Options:
 
 这行命令的意思是, 指定字典, 并过滤掉长度大于15的字典.
 
-因为hashcat是设计用来针对密码的, 后续将会针对http fuzz的场景添加一些spray特有的过滤规则.
 ### 使用函数装饰字典
 内置了一些函数可以对字典进行装饰. 目前支持的如下:
 
