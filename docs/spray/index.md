@@ -1,8 +1,8 @@
 ---
-title: spray · index
+title: spray (早期测试) · index
 ---
 
-## repo
+## repo (早期测试)
 
 全新理解的下一代目录爆破工具, 一个完善的目录爆破的解决方案
 

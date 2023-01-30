@@ -133,7 +133,7 @@ spray采用的方式是, 获取两个baseline(index页面与随机页面)的方�
 
 当然语言本身也会带来一定程度的影响, go的并发调度性能比python强上一个数量级. 
 
-选择fasthttp原因是, fasthttp通过各种手段优化其代码性能. 在低负载场景, 可能感受不到, 因为这时候主要的瓶颈是目标的接受能力, 但当开始多目标批量爆破时, 这个影响会越来越大. 最终在本地的理论极限测试下, fasthttp回避net/http有2-3倍的性能提升. 这种几乎翻倍的性能最终让我接受了一些fasthttp的坑点, 采用了fasthttp作为默认的client.
+选择fasthttp原因是, fasthttp通过各种手段优化其代码性能. 在低负载场景, 可能感受不到, 因为这时候主要的瓶颈是目标的接受能力, 但当开始多目标批量爆破时, 这个影响会越来越大. 最终在本地的理论极限测试下, fasthttp会比net/http有2-3倍的性能提升. 这种几乎翻倍的性能最终让我接受了一些fasthttp的坑点, 使用了fasthttp作为默认的client.
 
 !!! warning "使用fasthttp坑点"
 	它复用了几乎所有的bytes buf, 因此releaseResponse之后, 可能buf会被复用, 导致buf的数据被覆盖. 这个bug我花费了好几天时间才定位到.  最新版本已经不存在这个bug了
