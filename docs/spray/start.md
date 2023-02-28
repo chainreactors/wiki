@@ -188,7 +188,7 @@ Help Options:
 
 目前支持的过滤规则如下表:
 
-![image-20230129165206761](img\image-20230129165206761.png)
+![image-20230129165206761](img/image-20230129165206761.png)
 
 **rule理论上应该要与hashcat的rule-base结果完全一致, 但如果与hashcat的结果不一致, 请提交issue.**
 
@@ -196,9 +196,8 @@ Help Options:
 
 现在能想到的能用来目录爆破领域的规则有
 
-* 403bypass (todo)
-* java权限绕过 (todo)
-* 文件/目录备份 [已实现, 点击查看](https://github.com/chainreactors/gogo-templates/blob/master/rule/filebak.txt)
+* 权限绕过 [点击查看](https://github.com/chainreactors/gogo-templates/blob/master/rule/authbypass.rule)
+* 文件/目录备份 [点击查看](https://github.com/chainreactors/gogo-templates/blob/master/rule/filebak.txt)
 
 简单使用
 
