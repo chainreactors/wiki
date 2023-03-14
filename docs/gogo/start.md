@@ -111,13 +111,15 @@ Help Options:
 
 例如子网掩码为16, (如果输出结果较多, 建议开启--af输出到文件, 命令行只输出日志)
 
-`gogo -i 172.16.1.1/16 -m s -p top2,win,db --af`
+`gogo -i 192.168.1.1/16 -m s -p top2,win,db --af`
 
 `--af`的意思为自动生成文件, `-m s`的意思为使用[smart mod](/wiki/gogo/detail/#b)进行扫描, `-p`的意思为指定端口, 可使用端口预设(`-P port` 查看所有的[端口预设](/wiki/gogo/start/#_1)).
 
-这个命令有些复杂, 但不用担心, 可以使用workflow代替.如 `gogo -w 172`, 
+这个命令有些复杂, 但不用担心, 可以使用workflow代替.如 `gogo -w 192`, 
 
 <br>
+
+**supersmart mod** 
 
 当目标范围的子网掩码小于16, 建议启用[supersmart模式](/wiki/gogo/detail/#a)扫描, 例如:
 
@@ -135,6 +137,8 @@ Help Options:
 	workflow中的预设参数优先级低于命令行输入, 因此可以通过命令行覆盖workflow中的参数. 
 
 使用`-P workflow`查看所有的[workflow预设](/wiki/gogo/start/#workflow), 更便捷的使用gogo.
+
+**分析扫描结果**
 
 如果指定了`--af`或者`-w`(所有-w均默认配置了`--af`), 默认的输出结果为deflate算法压缩后的json文件, 需要使用`-F`格式化扫描结果. 
 
