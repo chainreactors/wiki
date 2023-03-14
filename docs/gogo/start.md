@@ -29,13 +29,11 @@ Usage:
   gogo [OPTIONS]
 
 Miscellaneous Options:
-  -k, --key=                                       String, file encrypt key
       --version                                    Bool, show version
   -P=[port|workflow|nuclei|extract]                String, show preset config
       --debug                                      Bool, show debug info
       --plugin-debug                               Bool, show plugin debug stack
       --proxy=                                     String, socks5 proxy url, e.g. socks5://127.0.0.1:11111
-      --dump                                       dump all packet
 
 Input Options:
   -i, --ip=                                        IP/CIDR, support comma-split ip/cidr, e.g.
@@ -99,33 +97,39 @@ Help Options:
 
 ## QuickStart
 
-最简使用, 指定网段进行默认扫描, 并在命令行输出
+**最简使用**
+
+指定网段进行默认扫描, 并在命令行输出
 
 `gogo -i 192.168.1.1/24 -p win,db,top2 `
 
 <br>
 
+**smart mod**
+
 当目标范围的子网掩码小于24时, 建议启用 [smart mod](/wiki/gogo/detail/#b)
 
-例如子网掩码为16时(输出结果较多, 建议开启--af输出到文件, 命令行只输出日志)
+例如子网掩码为16, (如果输出结果较多, 建议开启--af输出到文件, 命令行只输出日志)
 
-`gogo -i 172.16.1.1/12 -m ss -p top2,win,db --af`
+`gogo -i 172.16.1.1/16 -m s -p top2,win,db --af`
 
-`--af`的意思为自动生成文件, `-m ss`的意思为使用[supersmart mod](/wiki/gogo/detail/#a)进行扫描, `-p`的意思为指定端口, 可使用端口预设(`-P port` 查看所有的[端口预设](/wiki/gogo/start/#_1)).
+`--af`的意思为自动生成文件, `-m s`的意思为使用[smart mod](/wiki/gogo/detail/#b)进行扫描, `-p`的意思为指定端口, 可使用端口预设(`-P port` 查看所有的[端口预设](/wiki/gogo/start/#_1)).
 
 这个命令有些复杂, 但不用担心, 可以使用workflow代替.如 `gogo -w 172`, 
 
 <br>
 
-当目标范围的子网掩码小于16, 建议启用supersmart模式扫描, 例如:
+当目标范围的子网掩码小于16, 建议启用[supersmart模式](/wiki/gogo/detail/#a)扫描, 例如:
 
 `gogo -i 10.0.0.0/8 -m ss -p top2,win,db --af`
 
+或使用workflow简化为 `gogo -w 10`
+
 <br>
 
-常用的配置已经被集成到workflow中, 例如使用supersmart mod 扫描10段内网, `gogo -w 10`即可. 如果需要自定义网段, 则是`gogo -w 10 -i 11.0.0.0/8`, 通过-i参数覆盖-w 10 中的ip字段. 
+常用的配置已经被集成到workflow中, 如果需要自定义网段, 则是`gogo -w 10 -i 11.0.0.0/8`, 通过-i参数覆盖-w 10 中的ip字段. 
 
-因为语义可能造成混淆, 也可以使用语义化的通用workflow `gogo -w ss -i 11.1.1.1/8`.
+因为`-w 10`的语义可能造成混淆, 也可以使用语义化的通用workflow: `gogo -w ss -i 11.1.1.1/8`.
 
 !!! note "注意"
 	workflow中的预设参数优先级低于命令行输入, 因此可以通过命令行覆盖workflow中的参数. 
@@ -136,18 +140,22 @@ Help Options:
 
 `gogo -F result.dat`
 
+也可以导出为json进行后续分析
+
+`gogo -F result.dat -o json -f result.json`
+
 ## Input
 
-最常用的输入就是命令行, 通过-ip 与-p参数配置任务.
+最常用的输入就是命令行, 通过--ip 与-p参数配置任务.
 
 但在实际情况中, 会有来自其他工具导入的目标, 有来自自身扫描结果的二次输入, 有需要过滤出特定数据的再次输入.  甚至有挂在云函数上的gogo版本.
 
 因此, 目前支持非常多类型的输入. 包括
 
-* -i 命令行输入
-* -l 从文件中读取ip列表,配合其他命令行参数, 同样会自动识别加密解密
-* -w workflow, 支持名字(逗号分割), base编码的json格式的workflow
-* -j 从gogo上一次扫描结果中读取任务,配置其他参数后再次扫描
+* `-i/--ip` 命令行输入
+* `-l/--list` 从文件中读取ip列表,配合其他命令行参数, 同样会自动识别加密解密
+* `-w/--workflow` workflow, 支持名字(逗号分割), base编码的json格式的workflow
+* `-j` 从gogo上一次扫描结果中读取任务,配置其他参数后再次扫描
 	* 之前结果的文件, 自动识别加密并解密, 也可以输入自行导出的json文件, 只需要保留ip,port, framework三个字段即可.
 	* 启发式扫描结果的网段文件
 	* ip:port[:framework] 按行分割的txt文本, framework可留空
@@ -233,7 +241,7 @@ inter:
 172c: 
 	0	172.16.0.0/12  	top1      	sc	false	false	default   	default   	0    	none      	auto      	          	          
 172b: 
-	0	172.16.0.0/12  	top1      	ss	false	false	default   	default   	0    	none      	auto   ```
+	0	172.16.0.0/12  	top1      	ss	false	false	default   	default   	0    	none      	auto   
 ```
 
 虽然已经采用workflow简化了使用者使用的难度, 但不代表能简化理解工作流原理的难度. 这张思维导图列出了一些常见的工作流工作逻辑.
@@ -275,18 +283,18 @@ inter:
     [*] Totally run: 4.0441884s ,2022-07-07 07:07.07
     ```
 
-在没有配置输出文件的情况下,所有内容会输出到标准输出, 如果指定了-f filename 或者使用-af自动选择文件名(--af格式为`ip_mask_port_mod_type.dat1`). 则会关闭扫描结果的命令行输出, 只保留进度的命令行输出.
+在没有配置输出文件的情况下,所有内容会输出到标准输出, 如果指定了-f filename 或者使用-af自动选择文件名(--af格式为`ip_mask_port_mod_type.dat1`). 如果打开了文件输出会自动关闭命令行输出, 防止过多的命令行输出阻塞webshell或者C2.
 
 如果想同时保留两个地方的输出, 也预留了可选项, 使用`--tee` 参数能在指定了-f的时候继续保留命令行输出. 
 
 输出到文件的格式通过大写的`-O`指定, 常见的输出格式有:json(default), jsonlines, csv, 可通过`-o` 与`-O` 分别控制两个输出方式的格式. 
 
-如果需要配合其他工具, 那就需要将日志输出关闭,或者不输入到标准输入, 也提供了可选项 `-q`参数关闭所有日志输出.
+如果需要配合其他工具, 那就需要将日志输出关闭, 或者不输入到标准输入, 可使用`-q` 关闭所有日志输出.
 
-并且输出到文件会默认开启加密, 如果想要明文结果. 需要指定`-C`参数关闭加密.
+输出到文件会默认开启deflate压缩, 如果想要明文的文件输出. 可以指定`-C`参数关闭加密.
 
-!!! info "缺点"
-	这种舒服方式实际上是有不少缺点的, 例如一个ip有多个端口存在信息, 无法很好的关联起来, 又例如端口因为扫描时间的原因是乱序输出的. 目标少的时候还可以接受, 如果是扫A段B段这样的场景, 会导致几乎无法人工分析, 使用者只能把扫到的漏洞复现一遍. 因此更推荐使用输出到文件, 并格式化结果.
+!!! info "命令行输出的缺点"
+	命令行输出有不少缺点, 当一个ip开放了多个端口, 请求响应的顺序无法控制, 会结果导致东一个西一个, 无法很好地关联起来; 乱序的输出是很难人工介入判断扫描是否存在漏报或者误报的, 因此更推荐使用输出到文件, 使用-F格式化排序并根据IP聚类数据.
 
 
 !!! note "注意"
@@ -294,7 +302,9 @@ inter:
 
 ### 输出到文件
 
-通过`-f filename` 或 `--af` 指定输出的文件名, 则由命令行输出自动转为文件输出, 会关闭命令行的结果输出, 只保留进度输出(进度输出会同步到`.sock.lock`文件中). 适用于webshell场景等无交互式shell的场景.
+在非交互场景下, 例如webshell中, 也提供了分析扫描进度的功能, 扫描进度会以日志的形式保存到`.sock.lock`文件中. 通过读取文件即可判断当前的扫描进度.
+
+值得一提的是, 就算扫描任务没有结束, 也可以使用-F格式化已经扫描完成的部分. gogo并非实时写入, 每个C段或者缓冲区每超过4k便会同步到文件一次.
 
 如果启用了启发式扫描, 则可能会输出多个文件. 则建议使用`--af`(auto-filename), 分别是
 
@@ -308,9 +318,9 @@ inter:
 
 ### 格式化输出
 
-如果通过`-f`/`--af`指定输出到文件, 那么还需要对结果进行格式化. 提供了`-F`参数对扫描结果进行格式化, 用以进行后续的分析与处理. 
+输出文件需要 `-F`参数进行格式化, 用以进行后续的分析与处理. 
 
-不论是base64, deflate算法压缩后的,还是明文的json,都可以自动解析.
+不论是base64, deflate算法压缩后的,还是明文的json. gogo会自动判断格式并解析.
 
 使用: `-F/--format file`
 
@@ -346,7 +356,7 @@ inter:
     ...
     ```
 
-如果需要着色, 同样需要添加`-o color`.
+如果需要着色, 同样需要添加`-o color`. 
 
 ??? info "待格式化的json文件样例"
     ```json
@@ -426,7 +436,7 @@ inter:
 
 在扫描时可以通过`-o` (输出到命令行的格式, 默认为full)与 `-O` (输出的文件的格式, 默认为json). 分别控制两个输出的格式.
 
-在格式化则, 只有`-o` 生效.
+使用`-F`时, 只需要使用`-o`.
 
 目前gogo支持非常多的输出格式. 例如result的各种字段:
 
