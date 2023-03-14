@@ -1,0 +1,1382 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="chainreactors wiki">
+      
+      
+        <meta name="author" content="M09ic">
+      
+      
+        <link rel="canonical" href="https://chainreactors.github.io/wiki/spray/start/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../design/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.3">
+    
+    
+      
+        <title>spray · 入门 - ChainReactor Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.c4a75a56.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-DCRVR86FG2"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-DCRVR86FG2",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-DCRVR86FG2",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#feature" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ChainReactor Wiki" class="md-header__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ChainReactor Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              spray · 入门
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../.." class="md-tabs__link">
+      导航
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../gogo/" class="md-tabs__link">
+        gogo
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link md-tabs__link--active">
+        spray
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ChainReactor Wiki" class="md-nav__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    ChainReactor Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        导航
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../gogo/">gogo</a>
+          
+            <label for="__nav_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          gogo
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gogo/start/" class="md-nav__link">
+        入门
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gogo/design/" class="md-nav__link">
+        设计
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gogo/detail/" class="md-nav__link">
+        细节
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gogo/extension/" class="md-nav__link">
+        拓展
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gogo/do/" class="md-nav__link">
+        实战
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../">spray</a>
+          
+            <label for="__nav_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          spray
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          入门
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        入门
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#feature" class="md-nav__link">
+    Feature
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart" class="md-nav__link">
+    QuickStart
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    字典生成
+  </a>
+  
+    <nav class="md-nav" aria-label="字典生成">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    基于掩码的字典生成
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    基于规则的字典生成
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    使用函数装饰字典
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#input" class="md-nav__link">
+    Input
+  </a>
+  
+    <nav class="md-nav" aria-label="Input">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    速率限制
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    爆破方式
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#client" class="md-nav__link">
+    client
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    请求自定义
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output" class="md-nav__link">
+    Output
+  </a>
+  
+    <nav class="md-nav" aria-label="Output">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#probe" class="md-nav__link">
+    Probe
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fuzzy" class="md-nav__link">
+    fuzzy输出
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    输出到文件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    提取器
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advance-feature" class="md-nav__link">
+    Advance Feature
+  </a>
+  
+    <nav class="md-nav" aria-label="Advance Feature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    自定义智能过滤
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    自定义过滤
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    手动配置过滤器
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    断点续传
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    递归
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    附加功能
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#todo" class="md-nav__link">
+    TODO
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design/" class="md-nav__link">
+        设计
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../detail/" class="md-nav__link">
+        细节
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../do/" class="md-nav__link">
+        实战
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>入门</h1>
+
+<h2 id="feature">Feature<a class="headerlink" href="#feature" title="Permanent link">&para;</a></h2>
+<div class="admonition example">
+<p class="admonition-title">Features.</p>
+<ul>
+<li>超强的性能, 在本地测试极限性能的场景下, 能超过ffuf与feroxbruster的性能50%以上. </li>
+<li>基于掩码的字典生成</li>
+<li>基于规则的字典生成</li>
+<li>动态智能过滤</li>
+<li>全量gogo的指纹识别</li>
+<li>自定义信息提取, 如ip,js, title, hash以及自定义的正则表达式</li>
+<li>自定义无效页面过滤策略</li>
+<li>自定义输出格式</li>
+<li>*nix的命令行设计, 轻松与其他工具联动</li>
+<li>多角度的自动被ban,被waf判断</li>
+<li>断点续传</li>
+<li>通用文件, 备份文件, 单个文件备份, 爬虫, 主动指纹识别的完美结合</li>
+</ul>
+</div>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<p><code>spray -h</code></p>
+<p>将暂时完整的参数说明</p>
+<div class="highlight"><pre><span></span><code>Usage:
+  spray [OPTIONS]
+
+Input Options:
+      --resume=
+  -u, --url=                        Strings, input baseurl, e.g.: http://google.com
+  -l, --list=                       File, input filename
+      --raw=                        File, input raw request filename
+      --offset=                     Int, wordlist offset
+      --limit=                      Int, wordlist limit, start with offset. e.g.: --offset 1000 --limit 100
+  -d, --dict=                       Files, Multi,dict files, e.g.: -d 1.txt -d 2.txt
+  -w, --word=                       String, word generate dsl, e.g.: -w test{?ld#4}
+  -r, --rules=                      Files, rule files, e.g.: -r rule1.txt -r rule2.txt
+      --append-rule=                Files, when found valid path , use append rule generator new word with current path
+      --filter-rule=                String, filter rule, e.g.: --rule-filter &#39;&gt;8 &lt;4&#39;
+
+Function Options:
+  -e, --extension=                  String, add extensions (separated by commas), e.g.: -e jsp,jspx
+      --exclude-extension=          String, exclude extensions (separated by commas), e.g.: --exclude-extension jsp,jspx
+      --remove-extension=           String, remove extensions (separated by commas), e.g.: --remove-extension jsp,jspx
+  -U, --uppercase
+  -L, --lowercase                   Bool, lower wordlist, e.g.: --lowercase
+      --prefix=                     Strings, add prefix, e.g.: --prefix aaa --prefix bbb
+      --suffix=                     Strings, add suffix, e.g.: --suffix aaa --suffix bbb
+      --replace=                    Strings, replace string, e.g.: --replace aaa:bbb --replace ccc:ddd
+
+Output Options:
+      --match=                      String, custom match function, e.g.: --match current.Status != 200
+      --filter=                     String, custom filter function, e.g.: --filter current.Body contains &#39;hello&#39;
+      --extract=                    Strings, extract response, e.g.: --extract js --extract ip --extract version:(.*?)
+  -f, --file=                       String, output filename
+  -F, --format=                     String, output format, e.g.: --format 1.json
+      --fuzzy-file=                 String, fuzzy output filename
+      --dump-file=                  String, dump all request, and write to filename
+      --dump                        Bool, dump all request
+      --auto-file                   Bool, auto generator output and fuzzy filename
+      --fuzzy                       String, open fuzzy output
+  -o, --probe=                      String, output format
+
+Plugin Options:
+  -a, --advance                     Bool, enable crawl and active
+      --active                      Bool, enable active finger detect
+      --bak                         Bool, enable bak found
+      --file-bak                    Bool, enable valid result bak found, equal --append-rule rule/filebak.txt
+      --common                      Bool, enable common file found
+      --crawl                       Bool, enable crawl
+      --crawl-depth=                Int, crawl depth (default: 3)
+      --crawl-scope=                Int, crawl scope (todo)
+
+Request Options:
+      --header=                     Strings, custom headers, e.g.: --headers &#39;Auth: example_auth&#39;
+      --user-agent=                 String, custom user-agent, e.g.: --user-agent Custom
+      --random-agent                Bool, use random with default user-agent
+      --cookie=                     Strings, custom cookie
+      --read-all                    Bool, read all response body
+      --max-length=                 Int, max response body length (kb), default 100k, e.g. -max-length 1000 (default:
+                                    100)
+
+Modify Options:
+      --rate-limit=                 Int, request rate limit (rate/s), e.g.: --rate-limit 100 (default: 0)
+      --force                       Bool, skip error break
+      --check-only                  Bool, check only
+      --recursive=                  String,custom recursive rule, e.g.: --recursive current.IsDir() (default:
+                                    current.IsDir())
+      --depth=                      Int, recursive depth (default: 0)
+      --check-period=               Int, check period when request (default: 200)
+      --error-period=               Int, check period when error (default: 10)
+      --error-threshold=            Int, break when the error exceeds the threshold  (default: 20)
+      --black-status=               Strings (comma split),custom black status,  (default: 404,400,410)
+      --white-status=               Strings (comma split), custom white status (default: 200)
+      --fuzzy-status=               Strings (comma split), custom fuzzy status (default: 403,500,501,502,503)
+      --distance=
+
+Miscellaneous Options:
+      --deadline=                   Int, deadline (seconds) (default: 999999)
+      --timeout=                    Int, timeout with request (seconds) (default: 2)
+  -p, --pool=                       Int, Pool size (default: 5)
+  -t, --thread=                     Int, number of threads per pool (default: 20)
+      --debug                       Bool, output debug info
+  -q, --quiet                       Bool, Quiet
+      --no-color                    Bool, no color
+      --no-bar                      Bool, No progress bar
+  -m, --mod=[path|host]             String, path/host spray (default: path)
+  -c, --client=[fast|standard|auto] String, Client type (default: auto)
+
+Help Options:
+  -h, --help                        Show this help message
+</code></pre></div>
+<h2 id="quickstart">QuickStart<a class="headerlink" href="#quickstart" title="Permanent link">&para;</a></h2>
+<p>基本使用, 从字典中读取目录进行爆破</p>
+<p><code>spray -u http://example.com -d wordlist1.txt -d wordlist2.txt</code></p>
+<p>通过掩码生成字典进行爆破</p>
+<p><code>spray -u http://example.com -w "/aaa/bbb{?l#4}/ccc"</code></p>
+<p>通过规则生成字典爆破. 规则文件格式参考hashcat的字典生成规则</p>
+<p><code>spray -u http://example.com -r rule.txt -d 1.txt</code></p>
+<p>批量爆破</p>
+<p><code>spray -l url.txt -r rule.txt -d 1.txt</code></p>
+<p>断点续传</p>
+<p><code>spray --resume stat.json</code></p>
+<h2 id="_1">字典生成<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="_2">基于掩码的字典生成<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>为了实现这个功能, 编写了一门名为mask的模板语言. 代码位于: <a href="https://github.com/chainreactors/words/tree/master/mask">mask</a>.</p>
+<p>一些使用案例</p>
+<p><code>spray -u http://example.com -w "/{?l#3}/{?ud#3}"</code></p>
+<p>含义为, <code>/全部三位小写字母/全部三位大写字母+数字</code>组成的字典.</p>
+<p>所有的mask生成器都需要通过<code>{}</code>包裹, 并且括号内的第一个字符必须为<code>?</code>, <code>$</code>, <code>@</code>其中之一. <code>#</code>后的数字表示重复次数, 可留空, 例如<code>{?lu}</code> , 表示"全部小写字母+全部大写字母"组成的字典.</p>
+<ul>
+<li><code>?</code> 表示普通的笛卡尔积. 例如<code>{?l#3}</code>表示生成三位小写字母的所有可能组合</li>
+<li><code>$</code> 表示贪婪模式, 例如<code>{$l#3}</code>表示3位小写字母的所有可能组合+2位小写字母的所有可能组合+1位小写字母的所有可能组合</li>
+<li><code>@</code> 表示关键字模式, 例如<code>{@year}</code>, 表示年份, 1970-2030年. </li>
+</ul>
+<p>掩码的定义参考了hashcat, 但是并不完全相同. 目前可用的关键字如下表:
+<div class="highlight"><pre><span></span><code>&quot;l&quot;: Lowercase,  // 26个小写字母
+&quot;u&quot;: Uppercase,  // 26个大写字母
+&quot;w&quot;: Letter,     // 52大写+小写字母
+&quot;d&quot;: Digit, // 数字0-9
+&quot;h&quot;: LowercaseHex, // 小写hex字符, 0-9 + a-f
+&quot;H&quot;: UppercaseHex, // 大写hex字符, 0-9 + A-F
+&quot;x&quot;: Hex,          // 大写+小写hex字符, 0-9 + a-f + A-F
+&quot;p&quot;: Punctuation,  // 特殊字符 !\&quot;#$%&amp;&#39;()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~
+&quot;P&quot;: Printable,    // 可见的ascii字符
+&quot;s&quot;: Whitespace,   // 空字符 \t\n\r\x0b\x0c
+</code></pre></div></p>
+<p>还支持通过数字表示命令行输入的字典序号, 例如</p>
+<p><code>spray -u http://example.com -w "/{?0u#2}/{?01}" -d word0.txt -d word1.txt</code></p>
+<p>其中<code>{?0u#2}</code>表示word0.txt的所有内容+所有大写字母笛卡尔积两次, <code>{?01}</code> 表示word0.txt + word1.txt的所有内容.</p>
+<p>关键字目前还在不断完善中, 欢迎提供需求.</p>
+<h3 id="_3">基于规则的字典生成<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>实现rule-base的字典生成器同样编写了一门模板语言, 代码在 <a href="https://github.com/chainreactors/words/tree/master/rule">rule</a></p>
+<p>规则语法请参考 <a href="https://hashcat.net/wiki/doku.php?id=rule_based_attack">hashcat_rule_base</a></p>
+<p>目前除了M(Memorize)的规则已经全部实现. 并且去掉了hashcat的一些限制, 比如最多支持5个规则, 字符串长度不能大于10等. </p>
+<p>目前实现的规则如下表， 来自hashcat文档</p>
+<p><img alt="image-20230129164920846" src="../img/image-20230129164920846.png" /></p>
+<p>目前支持的过滤规则如下表:</p>
+<p><img alt="image-20230129165206761" src="../img/image-20230129165206761.png" /></p>
+<p><strong>rule理论上应该要与hashcat的rule-base结果完全一致, 但如果与hashcat的结果不一致, 请提交issue.</strong></p>
+<p><a href="https://github.com/hashcat/hashcat/tree/master/rules">这里有一些hashcat自带的规则示例</a>, 但hashcat一般用来生成密码字典, 因此对于目录爆破的规则还需要重新积累.  </p>
+<p>现在能想到的能用来目录爆破领域的规则有</p>
+<ul>
+<li>权限绕过 <a href="https://github.com/chainreactors/gogo-templates/blob/master/rule/authbypass.rule">点击查看</a></li>
+<li>文件/目录备份 <a href="https://github.com/chainreactors/gogo-templates/blob/master/rule/filebak.txt">点击查看</a></li>
+</ul>
+<p>简单使用</p>
+<p><code>spray -u http://example.com -d word.txt -r rule.txt</code></p>
+<p>这行命令表示, 将<code>word.txt</code>中每一行都作为基础值与规则库<code>rule.txt</code>进行rule模板语言处理过后的笛卡尔积.  最终的字典总数量为 <code>word行数 * rule行数</code>.</p>
+<p><code>spray -u http://example.com -d word.txt --rule-filter "&gt;15"</code></p>
+<p>这行命令表示, 指定字典, 并过滤掉长度大于15的字典.</p>
+<h3 id="_4">使用函数装饰字典<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>内置了一些函数可以对字典进行装饰. 目前支持的如下:</p>
+<p>mask生成阶段的函数</p>
+<ol>
+<li><code>--suffix</code> 在字典后面添加后缀, 可添加多个, 与原有的字典组成笛卡尔积</li>
+<li><code>--prefix</code> 在字典前面添加前缀, 可添加多个, 与原有的字典组成笛卡尔积</li>
+<li><code>-e</code>/<code>--extension</code> 添加拓展名, 逗号分割</li>
+</ol>
+<p>rule阶段的函数</p>
+<ol>
+<li><code>-L</code>/<code>--lowercase</code> 将字典中的所有字母转换为小写</li>
+<li><code>-U</code>/<code>--uppercase</code> 将字典中的所有字母转换为大写</li>
+<li><code>--replace</code> 替换字典中的字符, 例如<code>--replace aaa=bbb</code> 将字典中的a替换为b, 可以添加多个<code>--replace</code></li>
+<li><code>--remove-extension</code> 删除字典中的文件扩展名, 逗号分割</li>
+<li><code>--exclude-extension</code> 排除字典中的文件扩展名, 逗号分割</li>
+</ol>
+<p><strong>字典生成器的优先级</strong></p>
+<p>将<code>-w</code>与<code>-d</code>解析成mask表达式</p>
+<p>&rarr; mask阶段的函数装饰器</p>
+<p>&rarr; mask字典生成器 </p>
+<p>&rarr; rule字典生成器 </p>
+<p>&rarr; rule过滤器 </p>
+<p>&rarr; rule阶段的函数装饰器</p>
+<p>&rarr; 送入到channel中</p>
+<h2 id="input">Input<a class="headerlink" href="#input" title="Permanent link">&para;</a></h2>
+<p>支持三种不同类型的输入:</p>
+<ul>
+<li><code>-u</code>/<code>--url</code> , 从命令行中添加url作为任务. </li>
+<li><code>-l</code>/<code>--list</code> , 从文件中选择多个url作为任务. 将会自动开启并发模式, 支持多个任务同时进行, 并每个任务都有自己的keep-alive的连接池</li>
+<li><code>--resume</code> , 选择stat文件断点续传</li>
+</ul>
+<p>并且还有一些参数可以控制任务.</p>
+<ul>
+<li><code>--offset</code> , 字典偏移</li>
+<li><code>--limit</code>, 限制的字典数量</li>
+<li><code>--deadline</code> 所有任务的最大时间限制, 超时了会保存当前进度的stat文件后退出</li>
+<li><code>--check-only</code> 仅根据url列表进行请求, 可以获取http基础信息, title, 指纹等. 类似httpx, 将会自动关闭keep-alive, 并进行一些性能优化. </li>
+<li><code>--force</code> 忽略掉被ban或被waf的判断, 强制跑完所有字典</li>
+</ul>
+<h3 id="_5">速率限制<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>合理的速率配置能让spray的性能大大提升. </p>
+<ul>
+<li>通过 <code>-p</code>/<code>--pool</code> 配置并行的任务数, 每个url都会分配到一个独立的pool.</li>
+<li>通过<code>-t</code>/ <code>--thread</code> 每个pool的并发数, 需要注意的是, thread与每秒实际发包速率无关</li>
+<li>通过<code>--rate-limit</code> 配置每个pool的每秒发包上限速度. </li>
+<li>通过<code>--timeout</code> 配置每个请求的超时时间, 如果目标的waf会通过drop packet的方式响应, 适当调低timeout可以加快爆破速度.</li>
+</ul>
+<h3 id="_6">爆破方式<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>通过<code>-m</code> 指定爆破方式, 默认为path, 当前支持<code>path</code>, <code>host</code>两种模式</p>
+<p><strong>path</strong></p>
+<p>path模式, 字典将会拼接到输入的url之后</p>
+<p><strong>host</strong></p>
+<p>host模式, 字典将会替换header中的host字段</p>
+<h3 id="client">client<a class="headerlink" href="#client" title="Permanent link">&para;</a></h3>
+<p>当前spray采用了net/http与fasthttp作为备选的client, 后续还将兼容支持http2/http3的client. </p>
+<p>因为fasthttp指定host时会进行一次dns解析, 导致出现报错, 因此, 在path爆破时将使用fasthttp. 在host爆破时将使用net/http. </p>
+<p>fasthttp的性能远高于net/http, 因此不建议手动修改配置.  如果有相关的特殊需求, 可以通过<code>-c</code>/<code>--client</code> <code>auto</code>/<code>standard</code>/<code>fast</code>进行修改. 默认为auto.</p>
+<div class="admonition info">
+<p class="admonition-title">使用fasthttp需要注意</p>
+<p>如果目标使用了<code>chunked</code>, 那么fasthttp很可能无法正确获取解码后的body, 需要使用<code>-c standard</code>切换成go自带的<code>net/http</code> . 我原本以为能找到一个header去在client关闭chunk, 似乎并没有对应的方法.</p>
+</div>
+<h3 id="_7">请求自定义<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p><code>--header "HEADER: aaa"</code> 可添加自定义的header头, 可添加多个<code>--header</code>来添加多个header</p>
+<p><code>--cookie "Session: sess"</code>   可添加自定义的cookie, 可添加多个<code>--cookie</code>来添加多个cookie</p>
+<p><code>--user-agent "Spray0.1.0"</code> 可添加指定的UA</p>
+<p><code>--raw file</code> 类似sqlmap的<code>-r</code>参数 , 选择纯文本的请求模板, 后续的请求都会使用这个模板构造, todo</p>
+<h2 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h2>
+<p>spray默认输出到终端的格式是human-like文本. 并默认开启的 <strong>title获取</strong> 与 <strong>被动指纹识别</strong> 功能. </p>
+<details class="info">
+<summary>命令行输出案例</summary>
+<div class="highlight"><pre><span></span><code>spray --no-bar -u http:/example.com  -w &quot;/{?l}&quot; -a --extract url
+[*] Parsed 26 words by /{?l} , 2023-01-04 11:16.30
+[*] Loaded 1 urls from cmd , 2023-01-04 11:16.30
+[*] Loaded 0 dictionaries and 0 decorators , 2023-01-04 11:16.30
+[+] [baseline.index] http:/example.com/ - 200 - 6326 - 70ms [解决方案，一查就有] [nginx]   , 2023-01-04 11:16.30
+[+] [baseline.random] http:/example.com/PgtrqWohCJJLckw - 404 - 169 - 30ms [404 Not Found] [nginx]   , 2023-01-04 11:16.30
+[+] http:/example.com/static/js/chunk-libs.89fc8520.js - 200 - 0 - 116ms [nginx]
+[+] http:/example.com/static/js/chunk-elementUI.80b6d1d0.js - 200 - 0 - 153ms [nginx]
+[+] http:/example.com/static/js/app.72fc17fc.js - 200 - 68582 - 170ms [nginx] [ url:17 items ][ crawl:109 items ]
+  url:
+        http://www.w3.org/2000/svg
+        https://github.com/PanJiaChen/vue-admin-template/
+        https://panjiachen.github.io/vue-element-admin-site/#/
+  crawl:
+        https://github.com/PanJiaChen/vue-admin-template/
+        https://panjiachen.github.io/vue-element-admin-site/#/
+        https://beian.miit.gov.cn
+        /uploadFile/uploadFile
+        /userInfo/userInfo
+        /userAccount/userAccount
+        /userDocument/userDocument
+        /userMake/userMake
+        /userVip/userVip
+        /userInvite/userInvite
+        /userCollection/userCollection
+        /demand-form/demand-form
+        /login
+        /dashboard
+        /login?redirect=
+        /home
+        /userMake
+        /pay
+        /pay/success
+        /paySuccess
+        /pay/success
+        /PaySuccess
+        /wxLogin
+        /404
+        /prod-api/api
+[+] http:/example.com/prod-api/api - 404 - 124 - 35ms [{\&quot;timestamp\&quot;:] [focus:springboot]  [nginx] [ crawl:/api ]
+  crawl:
+        /api
+[*] [stat] http:/example.com took 0 s, request total: 125, finish: 26/26, found: 4, check: 0, failed: 0 , 2023-01-04 11:16.30
+[*] [stat] http:/example.com 404: 120, 200: 3, , 2023-01-04 11:16.30
+</code></pre></div>
+</details>
+<p>默认将会输出进度条, 但是进度条在windows的各种terminal下会有些输出bug. 可以通过<code>--no-bar</code>单独关闭进度条.</p>
+<p>默认的命令行输出是带颜色的, 可以通过<code>--no-color</code> 关闭着色.</p>
+<p>如果需要将spray的结果传递给其他工具, 需要关闭各种日志输出, 着色, 进度条等无用输出. 可以添加<code>-q</code>/<code>--quiet</code>关闭非必要输出.</p>
+<p>如果需要查看所有细节, 可以添加<code>--debug</code>. 不论结果是否有效, 输出每个响应的细节</p>
+<h3 id="probe">Probe<a class="headerlink" href="#probe" title="Permanent link">&para;</a></h3>
+<p>默认的baseline中还有许多数据默认状态下不会输出, 可以通过<code>--probe</code>参数去自定义想要输出的内容.</p>
+<p>当前支持的probe有</p>
+<ul>
+<li>url</li>
+<li>host</li>
+<li>title</li>
+<li>redirect</li>
+<li>md5, body的MD5</li>
+<li>simhash, body的simhash</li>
+<li>mmh3, body的mmh3</li>
+<li>stat/status, 状态码</li>
+<li>spend, 耗费的时间, 单位毫秒</li>
+<li>extract 提取的结果</li>
+<li>frame 指纹, 默认开启<a href="https://chainreactors.github.io/wiki/gogo/design/#_12">被动指纹识别</a>,</li>
+</ul>
+<h3 id="fuzzy">fuzzy输出<a class="headerlink" href="#fuzzy" title="Permanent link">&para;</a></h3>
+<p>默认情况下, 被智能过滤中的模糊过滤掉的输出不会输出到命令行或者文件.  但模糊过滤的结果存在漏报/误报的可能, 因此很多时候还需要进行二次处理. </p>
+<p>可以使用<code>--fuzzy</code> 打开命令行的模糊过滤结果输出.</p>
+<p>或者<code>--fuzzy-file filename</code> 将模糊过滤的结果保存到单独的文件. </p>
+<h3 id="_8">输出到文件<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>使用<code>-f</code> 指定输出文件名</p>
+<p>默认输出到文件的格式为json, 可以使用<code>-o full</code> 强制修改为和命令行一样的格式</p>
+<details class="info">
+<summary>json输出格式案例</summary>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://example/static/js/app.72fc17fc.js&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;//static/js/app.72fc17fc.js&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;host&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;body_length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">68582</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;header_length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;spend&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">405</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;frameworks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nginx&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="s2">&quot;other&quot;</span>
+<span class="w">            </span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;extracts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;url&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;extract_result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="s2">&quot;http://www.w3.org/2000/svg&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;https://github.com/PanJiaChen/vue-admin-template/&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;http://www.w3.org/2000/svg&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;https://beian.miit.gov.cn&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="p">]</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;crawl&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;extract_result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="s2">&quot;https://github.com/PanJiaChen/vue-admin-template/&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;https://panjiachen.github.io/vue-element-admin-site/#/&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;https://beian.miit.gov.cn&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/uploadFile/uploadFile&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/userInfo/userInfo&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/userAccount/userAccount&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/userDocument/userDocument&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/userMake/userMake&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/userVip/userVip&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/userInvite/userInvite&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/userCollection/userCollection&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/demand-form/demand-form&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;valid&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;fuzzy&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;depth&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hashes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;body-md5&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;d7190390f194cd8a09cbdf132ee0bb6e&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;header-md5&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;19bf7ec8a759066bdf8bbc1a90804244&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;raw-md5&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8c00b45ac0c33c51074270a47620318d&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;body-simhash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;af63bd4c8601b7ae&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;header-simhash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9833941ee6ab8d6d&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;raw-simhash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;af63bd4c8601b7ae&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;body-mmh3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2409784245&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+<p>除了<code>-f</code> 指定的文件名外, 还会根据任务类型生成<code>***.stat</code>的进度文件, 用来保存任务的状态与进度信息. 可以通过这个文件判断目标大致的状况.</p>
+<details class="info">
+<summary>stat输出案例</summary>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://101.132.126.181/&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;counts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;200&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;404&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">104</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;failed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;req_total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">109</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;check&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;found&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;filtered&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;fuzzy&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;wafed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;end&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;offset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;start_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1672802906</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;end_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1672802907</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;word_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;word&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/{?l}&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dictionaries&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;rule_files&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;rule_filter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+<p>spray区分了不同类型的输出, 只有通过所有判断逻辑的结果才会输出到<code>-f</code>指定的文件中.</p>
+<p>可以通过添加<code>--auto-file</code> 自动根据任务生成<code>-f</code>与<code>--fuzzy-file</code>文件名</p>
+<p>如想保存所有数据进行二次分析, 可以添加<code>--dump</code>参数, 将保存所有数据到<code>dump.json</code>中. 可以<code>--dump-file file</code> 自定义保存的文件名. </p>
+<h3 id="_9">提取器<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>spray有一个类似gogo的extract的功能. 用来从网页中提取特定数据. </p>
+<p>可以通过<code>--extract regexp</code>, 自定义正则表达式去提取数据. <code>--extract</code> 可以添加多个.</p>
+<p>extract也存在一些常用的预设, <code>--extract ip</code></p>
+<ul>
+<li>url</li>
+<li>ip</li>
+<li>mail</li>
+<li>idcard</li>
+<li>phone</li>
+<li>header</li>
+<li>body</li>
+<li>cookie</li>
+<li>response</li>
+</ul>
+<h2 id="advance-feature">Advance Feature<a class="headerlink" href="#advance-feature" title="Permanent link">&para;</a></h2>
+<h3 id="_10">自定义智能过滤<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p>智能过滤的逻辑很难用几行文字描述, 可以见<a href="/wiki/spray/detail/#_1">智能过滤逻辑</a></p>
+<p>可以通过控制状态码列表自定义一部分的智能过滤逻辑.</p>
+<ul>
+<li><code>--black-status</code> 这个列表内的状态码将被直接过滤, 默认400, 404, 410</li>
+<li><code>--white-status</code> 这个列表内的状态码将进入到标准的智能过滤逻辑, 默认200</li>
+<li><code>--fuzzy-status</code>这个列表内的状态码才有资格进入到模糊过滤的逻辑, 默认403, 500, 501, 502, 503</li>
+<li><code>--waf-status</code> 这个列表的状态码与<code>black-status</code>类似, 但会标记为被waf, 默认493, 418</li>
+</ul>
+<h3 id="_11">自定义过滤<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<p>智能过滤可能不能满足所有的场景, 某些情况可能非常离谱, 比如404页面返回200, 并且每次body相似度都不高. 这种情况下, 就可以使用自定义过滤功能.</p>
+<p>spray中使用了 <a href="https://github.com/antonmedv/expr">expr</a> 作为表达式语言, 应该是市面上公开的性能最强的脚本语言了.</p>
+<p>expr的语法介绍: <a href="https://github.com/antonmedv/expr/blob/master/docs/Language-Definition.md">https://github.com/antonmedv/expr/blob/master/docs/Language-Definition.md</a></p>
+<p>expr语法和xray/github action中差不多, spray中绝大多数情况也用不到高级功能. 只需要了解最简单的等于/包含之类判断即可.</p>
+<p>我们可以使用--match 定义我们需要的过滤规则, --match自定义的过滤函数将会替换掉默认的智能过滤. 也就是说, 开启了--match, 智能过滤就自动关闭了, 如果不想关闭智能过滤, 也提供了其他解决办法.</p>
+<p>下面是一个简单的例子, 假设某个网站所有的404页面都指向公益页面, 我们想去掉所有的带"公益"字样的页面:</p>
+<p><code>spray -u http://example.com -d word1.txt --match 'current.Body not contains "公益"'</code></p>
+<p>这里的current关键字表示当前的请求的baseline. <code>current.Body</code>即为baseline结构体中的Body字段, baseline结构体可以见上文.</p>
+<p>spray获取的baseline也会被注册到将本语言中. index表示index_baseline, random表示random_baseline, 403bl表示如果第一个获取的状态码为403的请求. 如果之前没有403, 则所有字段为空.</p>
+<p>按照expr的规则, 可以直接通过<code>.</code>访问各种属性, 如果是嵌套的属性, 再加一个<code>.</code> 即可. 下面是Baseline的定义.</p>
+<p>如果匹配的结果依旧不满意, 可以加上<code>--filter</code> 对match的结果进行二次过滤, <code>--filter</code>的规则与 <code>--match</code> 一致. </p>
+<p>如果没有自定义<code>--match</code> , <code>--filter</code>将会对智能过滤的结果进行二次过滤.</p>
+<h3 id="_12">手动配置过滤器<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<p>假设一个功能为api的站点， 他通过全局的错误处理将返回值统一改成200/405.</p>
+<p>在spray中, 200是白名单状态码, 会跳过precompare, 直接到智能过滤的第二步, 开始内容的匹配. 如果内存中存在例如时间戳之类的随机数, 还会到第三步模糊过滤.</p>
+<p>而405状态码则输出没有任何配置的状态码, 返回结果大概率会能到模糊过滤中, 如果405与200差异较小. 这种情况下就需要手动修改过滤规则了. </p>
+<p>spray中修改过滤规则有很多中方式, 以这个例子进行简单介绍不同方式之间的差异.</p>
+<p><strong>方法1: 添加参数<code>--black-status 405</code></strong></p>
+<p>这种方式较为暴力, 会在precompare阶段直接过滤掉, 跳过后续的阶段.</p>
+<p>建议明确知道405状态码为无效页面的情况下使用. 果405页面的依旧有可能存在有价值的信息, 则不推荐使用这种方式.</p>
+<p><strong>方法2: 添加参数<code>--fuzzy-status 405</code></strong></p>
+<p>405配置到fuzzy-status状态码列表中, 每次遇到405请求, 都会与405baseline进行对比. </p>
+<p>这种方法是比较推荐的, 它只会微调智能过滤的逻辑, 随机目录的405状态码将会加入到基线中, 如果其他请求也遇到了几乎相同的405页面, 则可以认为是无效数据过滤掉.</p>
+<p>可以保留智能过滤的全部功能, 并且不会有额外的性能损耗. </p>
+<p><strong>方法3: 使用表达式匹配<code>--match current.Status != 405</code></strong></p>
+<p>这个表达式表示, 所有状态码不等于405的页面都会输出. 有些类似方法1中的black-status, 但是方法1并不会对其他智能过滤的规则做出修改.</p>
+<p>--match将会重载默认的智能过滤的全部逻辑. 也就是说, 智能过滤的123阶段都会跳过, 取而代之的是这个表达式.</p>
+<p>表达式的性能并不好, 并且配置起来也较为麻烦, 不推荐使用.</p>
+<p><strong>方法4: 使用表达式过滤<code>--filter current.Status == 405</code></strong></p>
+<p>filter一般来说是比match的更高优先级的选择. </p>
+<p>--filter与--match的区别在于, --filter作用于compare(包括智能过滤与match表达式过滤)的下一阶段. 通过compare结果将会由--filter进行二次过滤.</p>
+<p>意味着, 如果仅设置了--filter, 那么智能过滤依旧生效, 并且可以过滤掉状态码为405的请求.</p>
+<h3 id="_13">断点续传<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<p>spray支持断点续传, 可以通过<code>--resume</code>参数指定断点文件. 通过断点文件中记录的数据恢复进度.</p>
+<p>为了更好的支持断点续传, spray监听了ctrl+c信号, 如果通过ctrl+c取消任务, 所有任务(包括已完成与没完成)的数据都会保存到stat结尾的文件中.</p>
+<p>所以建议非必要情况不要使用kill -9 结束spray进程.</p>
+<p>另外, 如果使用<code>--resume</code>依旧没有完成任务, 只要是正常的退出信号, 都会重写当前的stat文件, 以更新进度到当前扫描, 随时可以再次读取stat文件继续扫描任务.</p>
+<p>断点续传支持比命令行更自由的字典配置. 每个任务都可以拥有独立的-w/-r/-d配置. 因此某些特殊情况下要进行批量操作, 可以通过脚本去构造对应的stat文件, 实现更加自由的任务配置.</p>
+<h3 id="_14">递归<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<p>spray并不鼓励使用递归, 因为spray的定位是批量从反代/cdn中发现隐形资产. 不管是因为批量, 还是因为反代/cdn, 绝大多数的情况都用不到递归.</p>
+<p>但为了兼容某些极为罕见的情况, spray依旧保留了递归的功能. </p>
+<p>默认递归为关闭状态, 可以使用<code>--depth 2</code>选择递归深度开启递归模式. </p>
+<p>默认的递归规则为<code>current.IsDir()</code>, 即所有的目录(结尾为/的结果)都会被递归.</p>
+<p>也可以通过<code>--recursive</code>手动选择递归规则, 规则与<code>filter/match</code>相同的expr表达式 . 例如<code>--recursive current.IsDir() &amp;&amp; current.Status == 403</code>表示, 递归所有状态码为403的有效目录.</p>
+<h3 id="_15">附加功能<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>--crawl</code> 可以开启爬虫. 限定爬虫的深度为3, 且只能作用于当前作用域, 需要更加自由配置的爬虫配置请使用那几个headless爬虫. </li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">注意</p>
+<p>crawl的结果没有像jsfinder中一样拼接上baseurl, 因为从js中提取出来的结果通常不是最终的结果, 直接去访问大概率是404. 为了防止造成混淆, spray的crawl结果将保持原样输出. 但在爬虫递归时, 还是会尝试拼接上baseurl进行探测. 爬虫递归时会进行自动去重判断. </p>
+</div>
+<ul>
+<li>
+<p><code>--active</code> 可以开启类似<a href="/wiki/gogo/extension/#_2">gogo的主动指纹识别</a>. </p>
+</li>
+<li>
+<p><code>--bak</code> 会构造一个备份文件字典, 包含<a href="https://github.com/musana/fuzzuli">fuzzuli</a>中的regular规则, 以及一些场景的备份文件字典</p>
+</li>
+<li><code>--file-bak</code> 作用于已经被判断有效的文件, 会根据有效值针对性的生成字典, 例如vim的备份等</li>
+<li><code>--common</code> 一些web的常见<a href="https://github.com/chainreactors/gogo-templates/blob/master/keywords.yaml">通用文件字典</a>, 详情见链接中的<code>common_file</code>字段</li>
+</ul>
+<p><code>-a</code>/ <code>advance</code> 将同时上述开启所有功能, 并且功能之间还会交叉组合出一些惊喜. </p>
+<p>如果还有类似的一些通用的fuzz手法, 欢迎提供issue. </p>
+<h2 id="todo">TODO<a class="headerlink" href="#todo" title="Permanent link">&para;</a></h2>
+<ol class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> 模糊判断</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> 断点续传</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> 简易爬虫</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 支持http2</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> auto-tune, 自动调整并发数量</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> 可自定义的递归配置</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> 参考<a href="https://github.com/musana/fuzzuli">fuzzuli</a>, 实现备份文件字典生成器</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 支持socks/http代理, 不建议使用, 优先级较低. 代理下的keep-alive会有严重的性能下降</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 云函数化, chainreactors工具链的通用分布式解决方案.</li>
+</ol>
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2022 ChainReactors
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/chainreactors" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "toc.integrate", "toc.follow", "navigation.top", "header.autohide", "search.share", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.efa0ade1.min.js"></script>
+      
+    
+  </body>
+</html>
