@@ -28,7 +28,7 @@ title: spray (内部测试) · 实战
 
 通过spray的字典生成器, 生成一些常用的随机字典, 进行爆破.
 
-`spray -u http://example.com -w "{$l#4}" -a`
+`spray -u http://example.com -w '{$l#4}' -a`
 
 1-4位随机小写目录是比较常见的配置, 在很多项目中都找到了惊喜.
 

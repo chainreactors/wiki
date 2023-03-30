@@ -5,17 +5,17 @@ title: spray · 入门
 
 !!! example "Features."
     * 超强的性能, 在本地测试极限性能的场景下, 能超过ffuf与feroxbruster的性能50%以上. 
-    * 基于掩码的字典生成
-    * 基于规则的字典生成
-    * 动态智能过滤
-    * 全量gogo的指纹识别
-    * 自定义信息提取, 如ip,js, title, hash以及自定义的正则表达式
-    * 自定义无效页面过滤策略
-    * 自定义输出格式
-    * *nix的命令行设计, 轻松与其他工具联动
-    * 多角度的自动被ban,被waf判断
-    * 断点续传
-    * 通用文件, 备份文件, 单个文件备份, 爬虫, 主动指纹识别的完美结合
+        * 基于掩码的字典生成
+        * 基于规则的字典生成
+        * 动态智能过滤
+        * 全量gogo的指纹识别
+        * 自定义信息提取, 如ip,js, title, hash以及自定义的正则表达式
+        * 自定义无效页面过滤策略
+        * 自定义输出格式
+        * *nix的命令行设计, 轻松与其他工具联动
+        * 多角度的自动被ban,被waf判断
+        * 断点续传
+        * 通用文件, 备份文件, 单个文件备份, 爬虫, 主动指纹识别的完美结合
 
 ## Usage
 
@@ -35,7 +35,7 @@ Input Options:
       --offset=                     Int, wordlist offset
       --limit=                      Int, wordlist limit, start with offset. e.g.: --offset 1000 --limit 100
   -d, --dict=                       Files, Multi,dict files, e.g.: -d 1.txt -d 2.txt
-  -w, --word=                       String, word generate dsl, e.g.: -w test{?ld#4}
+  -w, --word=                       String, word generate dsl, e.g.: -w 'test{?ld#4}'
   -r, --rules=                      Files, rule files, e.g.: -r rule1.txt -r rule2.txt
       --append-rule=                Files, when found valid path , use append rule generator new word with current path
       --filter-rule=                String, filter rule, e.g.: --rule-filter '>8 <4'
@@ -143,7 +143,7 @@ Help Options:
 
 一些使用案例
 
-`spray -u http://example.com -w "/{?l#3}/{?ud#3}"`
+`spray -u http://example.com -w '/{?l#3}/{?ud#3}`
 
 含义为, `/全部三位小写字母/全部三位大写字母+数字`组成的字典.
 
@@ -169,7 +169,7 @@ Help Options:
 
 还支持通过数字表示命令行输入的字典序号, 例如
 
-`spray -u http://example.com -w "/{?0u#2}/{?01}" -d word0.txt -d word1.txt`
+`spray -u http://example.com -w '/{?0u#2}/{?01}' -d word0.txt -d word1.txt`
 
 其中`{?0u#2}`表示word0.txt的所有内容+所有大写字母笛卡尔积两次, `{?01}` 表示word0.txt + word1.txt的所有内容.
 
@@ -307,7 +307,7 @@ fasthttp的性能远高于net/http, 因此不建议手动修改配置.  如果�
 spray默认输出到终端的格式是human-like文本. 并默认开启的 **title获取** 与 **被动指纹识别** 功能. 
 ??? info "命令行输出案例"
     ```
-    spray --no-bar -u http:/example.com  -w "/{?l}" -a --extract url
+    spray --no-bar -u http:/example.com  -w '/{?l}' -a --extract url
     [*] Parsed 26 words by /{?l} , 2023-01-04 11:16.30
     [*] Loaded 1 urls from cmd , 2023-01-04 11:16.30
     [*] Loaded 0 dictionaries and 0 decorators , 2023-01-04 11:16.30
