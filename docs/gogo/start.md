@@ -111,11 +111,11 @@ Help Options:
 
 例如子网掩码为16, (如果输出结果较多, 建议开启--af输出到文件, 命令行只输出日志)
 
-`gogo -i 192.168.1.1/16 -m s -p top2,win,db --af`
+`gogo -i 192.168.1.1/16 --mod s -p top2,win,db --af`
 
-`--af`的意思为自动生成文件, `-m s`的意思为使用[smart mod](/wiki/gogo/detail/#b)进行扫描, `-p`的意思为指定端口, 可使用端口预设(`-P port` 查看所有的[端口预设](/wiki/gogo/start/#_1)).
+`--af`的意思为自动生成文件, `--mod s`的意思为使用[smart mod](/wiki/gogo/detail/#b)进行扫描, `-p`的意思为指定端口, 可使用端口预设(`-P port` 查看所有的[端口预设](/wiki/gogo/start/#_1)).
 
-这个命令有些复杂, 但不用担心, 可以使用workflow代替.如 `gogo -w 192`, 
+这个命令有些复杂, 但不用担心, 可以使用workflow代替.如 `gogo --workflow 192`, 
 
 <br>
 
@@ -123,15 +123,15 @@ Help Options:
 
 当目标范围的子网掩码小于16, 建议启用[supersmart模式](/wiki/gogo/detail/#a)扫描, 例如:
 
-`gogo -i 10.0.0.0/8 -m ss -p top2,win,db --af`
+`gogo -i 10.0.0.0/8 --mod ss -p top2,win,db --af`
 
-或使用workflow简化为 `gogo -w 10`
+或使用workflow简化为 `gogo --workflow 10`
 
 <br>
 
-常用的配置已经被集成到workflow中, 如果需要自定义网段, 则是`gogo -w 10 -i 11.0.0.0/8`, 通过-i参数覆盖-w 10 中的ip字段. 
+常用的配置已经被集成到workflow中, 如果需要自定义网段, 则是`gogo --workflow 10 -i 11.0.0.0/8`, 通过-i参数覆盖--workflow 10 中的ip字段. 
 
-因为`-w 10`的语义可能造成混淆, 也可以使用语义化的通用workflow: `gogo -w ss -i 11.1.1.1/8`.
+因为`--workflow 10`的语义可能造成混淆, 也可以使用语义化的通用workflow: `gogo --workflow ss -i 11.1.1.1/8`.
 
 !!! note "注意"
 	workflow中的预设参数优先级低于命令行输入, 因此可以通过命令行覆盖workflow中的参数. 
@@ -140,7 +140,7 @@ Help Options:
 
 **分析扫描结果**
 
-如果指定了`--af`或者`-w`(所有-w均默认配置了`--af`), 默认的输出结果为deflate算法压缩后的json文件, 需要使用`-F`格式化扫描结果. 
+如果指定了`--af`或者`--workflow`(所有--workflow均默认配置了`--af`), 默认的输出结果为deflate算法压缩后的json文件, 需要使用`-F`格式化扫描结果. 
 
 `gogo -F result.dat`
 
@@ -190,7 +190,7 @@ gogo支持非常灵活的[端口配置](https://github.com/chainreactors/gogo-te
 
 在gogo2.0版本后, 引入了全新的命令行操作方式workflow, 大大简化了十几个参数对初学者造成的困扰.
 
-可以自定义常用工作流, 或者使用预设的工作流. 参数为-w.
+可以自定义常用工作流, 或者使用预设的工作流. 参数为-w/--workflow.
 
 可以输入`gogo -P workflow` 查看预设的workflow, 这里是目前内置的所有工作流
 
@@ -254,15 +254,15 @@ inter:
 
 需要知道的是, 里面的每个参数都可以使用对应的命令行参数进行覆盖, 命令行的优先级高于workflow中的配置, 具体的参数见help. 
 
-例如:`gogo -w 10 -p 1-65535 -ev`
+例如:`gogo --workflow 10 -p 1-65535 -ev`
 
 这样原来名字为10的workflow的端口被修改为1-65535, 并开启了主动指纹识别与主动漏洞扫描.
 
 如果是需要对某个网段长期监控, 还可以自定义workflow.
 
-预设的配置文件位于, v2/templates/workflows.yml, 可以仿照配置文件添加新的预设, 并使用`-w filename` 指定对应的预设.
+预设的配置文件位于, v2/templates/workflows.yml, 可以仿照配置文件添加新的预设, 并使用`--workflow filename` 指定对应的预设.
 
-如果在渗透的远程环境下, 可以使用yaml2json.py 见自定义预设转为base64编码字符串, 使用`-w 'b64de|[BASE64 string]'`执行.
+如果在渗透的远程环境下, 可以使用yaml2json.py 见自定义预设转为base64编码字符串, 使用`--workflow 'b64de|[BASE64 string]'`执行.
 
 ## Output
 
@@ -611,12 +611,12 @@ nuclei poc将会根据指纹识别的情况自动调用, 而非一口气全打�
 
 ### 启发式扫描
 
-* `-m s` , 根据端口探针, 喷洒存活的C段.  递归下降到default scan
-* `-m ss`,  根据ip探针, 喷洒存活的B段, 递归下降到`-m s`
-* `-m sc` , 先进行`-m ss`探测存活B段, 然后递归下降到`-m s`, 并在default scan前退出, 用来探测A段中存活的C段.  是`-m ss`的一个特例, 用作简化操作.
+* `--mod s` , 根据端口探针, 喷洒存活的C段.  递归下降到default scan
+* `--mod ss`,  根据ip探针, 喷洒存活的B段, 递归下降到`--mod s`
+* `--mod sc` , 先进行`--mod ss`探测存活B段, 然后递归下降到`--mod s`, 并在default scan前退出, 用来探测A段中存活的C段.  是`--mod ss`的一个特例, 用作简化操作.
 * `--ping`, 在递归下降到default scan, 插入icmp协议的ip存活探测, 递归下降到default scan
 * ~~`--arp` 兼容性原因已删除~~, 类似`--ping` 
-* `--no` 在启用启发式扫描时, 如果停止所有递归下降, 只会进行当前阶段的启发式扫描, 例如`-m ss`将不会下降为`-m s`
+* `--no` 在启用启发式扫描时, 如果停止所有递归下降, 只会进行当前阶段的启发式扫描, 例如`--mod ss`将不会下降为`--mod s`
 
 启发式扫描需要合适的参数组合才能发挥最大的作用.
 
