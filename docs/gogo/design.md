@@ -278,8 +278,10 @@ gogo经过接近两年的实战打磨, 自认为已经在用户体验上做到�
 
 如果要添加预设, 可以在github的gogo-template中的port.yaml提交pr。
 
-
 ### 指纹识别
+
+!!! important "重要"
+	gogo对于指纹识别的态度是尽可能全, 容许少量的误报. 因此部分指纹质量不高, 如果发生了大量误报欢迎提供issue.
 
 gogo的指纹与漏洞都将完全以dsl的方式实现, 即通过yaml配置。
 
@@ -307,6 +309,9 @@ gogo的指纹与漏洞都将完全以dsl的方式实现, 即通过yaml配置。
 
 ### 漏洞探测
 
+!!! important "重要"
+	gogo对于漏洞探测的态度与指纹识别不同, gogo追求尽可能少的特征和与发包, 也不关注外网的一些常见漏洞(当然如果有人能整理出一个足够强大的nuclei外网poc库, 可以添加一个外网专用版的分支). 
+
 gogo重写了nuclei关于http与network两个模块的dsl引擎, 在兼容nucleiyaml大部分规则的同时, 去掉了大量不必要的功能, 并添加了一些新的功能更.详情请见[拓展nucleipoc](/wiki/gogo/extension/#poc)
 
 比起一些项目直接调用nuclei包, gogo的这种方式去掉了所有的依赖, 并最大程度的实现了nuclei的引擎, 缺点是dsl引擎的版本将会略微落后于nuclei本体。考虑到gogo的使用场景, 这种落后并不影响功能, 因此是可以接受的代价。
@@ -333,7 +338,7 @@ nuclei的poc仓库是基于社区的, 这么做的好处是社区活跃poc更新
 
 gogo想通过集成nuclei的生态, 让维护poc库省力一些, 现在基本处于有人反馈常见什么poc, 就添加对应的poc。
 
-gogo目前完成了nuclei2.5版本的http与network两大模块, 足够能够应对99%的场景。后续gogo将会定期同步nucleitemplates的新功能, 持续改进gogo关于漏扫的体验。
+gogo目前完成了nuclei2.5版本的http与network两大模块, 足够能够应对99%的场景。后续gogo将会定期同步nuclei templates的新功能, 持续改进gogo关于漏扫的体验。
 
 !!! question "为什么没有服务的口令爆破"
 	刚才提到了, 对web端默认口令的爆破gogo可以实现, 但有很多人问我, 为什么不把ssh, mysql之类的爆破也做进去?
@@ -347,7 +352,6 @@ gogo目前完成了nuclei2.5版本的http与network两大模块, 足够能够应
     在我们的规划中, zombie能做的不仅仅是口令的爆破, 还可以实现一些自动化的利用, 比如mysql爆破之后, 判断下是否是root, 有多少数据, 自定义的命令批量执行等等功能。批量的rce更不是梦, 只不过因为工作量问题, 这部分只能一小块一小块的实现, 目前的zombie已经支持了十几种协议, 能覆盖到90%以上的hw使用场景。让护网不再是一个一个登录上去截图, 而是gogo与zombie的快乐联动, 内网刷分, 一行命令!
     
     可以发现gogo与zombie的场景也不完全一致, zombie完全可以放在外网, 通过代理接入, 减轻zombie引入大量库的免杀压力。
-
 
 在未来, 我打算编写一个gui界面的结果解析器与联动工具, 也可以是与c2 webshell的联动, 进一步简化操作, 让gogo与zombie的联动无缝衔接.
 
