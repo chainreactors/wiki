@@ -69,7 +69,7 @@ gogo 保留了大量可拓展接口, 例如指纹, poc/exp, 工作流, 端口.
 一个完整的示例, 
 
 ```yaml
-- name: "192"         // 名字, 可通过-w调用的标识符
+- name: "192"         // 名字, 可通过--workflow调用的标识符
   description: "对192.168.1.1/16使用完整的启发式扫描" // 描述
   ip: 192.168.0.0/16  // 指定的ip
   iplist:             //指定的ip列表, 与ip二选一
@@ -78,19 +78,19 @@ gogo 保留了大量可拓展接口, 例如指纹, poc/exp, 工作流, 端口.
   mod: s              // 模式, 与命令行用法相同, 默认值 'default'
   ping: true          // ping启发探测,等同于命令行的--ping 默认值 'false'
   no-scan: false      // 设置为true则只进行启发式扫描, 不会进行端口扫描. 默认值 'false', 等同于命令行--no
-  ip-probe: default    // ip探针, 只可使用于-m ss的场景下, 默认值 'default', 等同于命令行的--ipp default
+  ip-probe: default    // ip探针, 只可使用于--mod ss的场景下, 默认值 'default', 等同于命令行的--ipp default
   port-probe: default  // 端口探针, 只可使用于启发式扫描场景下, 默认值 'default', 等同于命令行的--sp default
   exploit: none       // 是否启用漏扫, 默认值 'none', 等同于命令行的-e 或 -E  
   verbose: 0          // 是否启用主动指纹识别, 默认值 '0', 等同于-v
   file: auto          // 输出文件位置, 默认值 'auto', 等同于-f
   path: .             // 输出文件路径, 默认值 '.', 等同于--path
-  tags:               // 将多个name划分为组, 可通过-w tagname即可调用多个workflow
+  tags:               // 将多个name划分为组, 可通过--workflow tagname即可调用多个workflow
     - inter
 ```
 
 如果没有填相应的值,则采用默认值. 
 
-如果使用-w参数, 但只想改变某几个参数, 可直接使用-w workflowname的同时, 使用命令行参数进行覆盖, 命令行参数的优先级大于workflow.
+如果使用--workflow参数, 但只想改变某几个参数, 可直接使用--workflow workflowname的同时, 使用命令行参数进行覆盖, 命令行参数的优先级大于workflow.
 
 ## 拓展指纹
 

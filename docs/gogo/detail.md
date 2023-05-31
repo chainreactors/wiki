@@ -281,25 +281,25 @@ B段的启发式扫描优化同样适用与这里, 还添加了一些针对性�
 
 为了解决这个问题, 我给大部分使用场景添加了workflow解决方案, 现在大部分情况只需要一个参数就能解决了.
 
-1. 从B段中发现存活的C段(C段喷洒), `gogo -ip 192.168.1.1/16 -m s -no` or `gogo -w 192c`
-2. 从A段中发现存活的B段(B段喷洒), `gogo -ip 10.1.1.1/8 -m ss -no` or `gogo -w 10b`
-3. 从A段中发现存活的C段(A段的启发式C段喷洒), `gogo -ip 10.1.1.1/8 -m sc` or `gogo -w 10c`
-4. 自定义B段的C段喷洒, `gogo -l b.txt -m s -no` or `gogo -w c -l b.txt`
-5. 自定义A段的B段喷洒, `gogo -l a.txt -m ss -no` or `gogo -w b -l a.txt`
-6. 使用icmp协议发现A段中所有存活的IP,   `gogo -ip 10.1.1.1/8 -m ss  -p icmp` or `gogo -w 10ip`(单端口的-m ss扫描做了特殊的优化, 具体见:A段启发式扫描优化4 )
-7. 使用icmp协议发现A段中所有的数据库, `gogo -ip 10.1.1.1/8 -m ss  -p db` or `gogo -w 10 -p db` 禁止ping内网需要使用 `gogo -w 10noping -p db`
-8. 使用80端口探测A段中所有的数据库, `gogo -ip 10.1.1.1/8 -m ss  -sp 80 -p db` `gogo -w 10 -sp 80 -p db`
-9. 自动化探测172,192,10等常见内网网段,   `gogo -w interc`
-10. 启发式扫描B段常见端口资产, `gogo -ip 192.168.1.1/16 -m s -p win,top2,db` or `gogo -w 192`
-11. 启发式扫描C段常见端口资产, `gogo -ip 10.1.1.1/8 -m ss -p win,top2,db` or `gogo -w 10`
+1. 从B段中发现存活的C段(C段喷洒), `gogo -ip 192.168.1.1/16 --mod s -no` or `gogo --workflow 192c`
+2. 从A段中发现存活的B段(B段喷洒), `gogo -ip 10.1.1.1/8 --mod ss -no` or `gogo --workflow 10b`
+3. 从A段中发现存活的C段(A段的启发式C段喷洒), `gogo -ip 10.1.1.1/8 --mod sc` or `gogo --workflow 10c`
+4. 自定义B段的C段喷洒, `gogo -l b.txt --mod s -no` or `gogo --workflow c -l b.txt`
+5. 自定义A段的B段喷洒, `gogo -l a.txt --mod ss -no` or `gogo --workflow b -l a.txt`
+6. 使用icmp协议发现A段中所有存活的IP,   `gogo -ip 10.1.1.1/8 --mod ss  -p icmp` or `gogo --workflow 10ip`(单端口的--mod ss扫描做了特殊的优化, 具体见:A段启发式扫描优化4 )
+7. 使用icmp协议发现A段中所有的数据库, `gogo -ip 10.1.1.1/8 --mod ss  -p db` or `gogo --workflow 10 -p db` 禁止ping内网需要使用 `gogo --workflow 10noping -p db`
+8. 使用80端口探测A段中所有的数据库, `gogo -ip 10.1.1.1/8 --mod ss  -sp 80 -p db` `gogo --workflow 10 -sp 80 -p db`
+9. 自动化探测172,192,10等常见内网网段,   `gogo --workflow interc`
+10. 启发式扫描B段常见端口资产, `gogo -ip 192.168.1.1/16 --mod s -p win,top2,db` or `gogo --workflow 192`
+11. 启发式扫描C段常见端口资产, `gogo -ip 10.1.1.1/8 --mod ss -p win,top2,db` or `gogo --workflow 10`
 
 
 
 一些特殊情况的使用常见
 
-1. 假设80端口存在ACL的C段喷洒, `gogo -ip 10.1.1.1/8 -m s -sp 22,445,icmp -no` or `gogo -w 10c -sp 22,445,icmp`
-2. 假设网关ip为1,253,254的B段喷洒 ,`gogo -ip 10.1.1.1/8 -m ss -ipp 1,253-254 -no ` or `gogo -w 10b -ipp 1,253-254`
-3. 假设禁ping情况下, 网关ip为1,253,254的B段喷洒, `gogo -ip 10.1.1.1/8 -m ss -sp 80,22 -ipp 1,253-254 -no ` or `gogo -w 10b -sp 80,22 -ipp 1,253-254`
+1. 假设80端口存在ACL的C段喷洒, `gogo -ip 10.1.1.1/8 --mod s -sp 22,445,icmp -no` or `gogo --workflow 10c -sp 22,445,icmp`
+2. 假设网关ip为1,253,254的B段喷洒 ,`gogo -ip 10.1.1.1/8 --mod ss -ipp 1,253-254 -no ` or `gogo --workflow 10b -ipp 1,253-254`
+3. 假设禁ping情况下, 网关ip为1,253,254的B段喷洒, `gogo -ip 10.1.1.1/8 --mod ss -sp 80,22 -ipp 1,253-254 -no ` or `gogo --workflow 10b -sp 80,22 -ipp 1,253-254`
 
 
 
