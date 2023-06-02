@@ -25,17 +25,19 @@ title: spray · 入门
 
 ```
 Usage:
-  spray [OPTIONS]
+	./spray
 
 Input Options:
       --resume=
   -u, --url=                        Strings, input baseurl, e.g.: http://google.com
   -l, --list=                       File, input filename
+  -p, --port=                       String, input port range, e.g.: 80,8080-8090,db
+  -c, --cidr=                       String, input cidr, e.g.: 1.1.1.1/24
       --raw=                        File, input raw request filename
+  -d, --dict=                       Files, Multi,dict files, e.g.: -d 1.txt -d 2.txt
       --offset=                     Int, wordlist offset
       --limit=                      Int, wordlist limit, start with offset. e.g.: --offset 1000 --limit 100
-  -d, --dict=                       Files, Multi,dict files, e.g.: -d 1.txt -d 2.txt
-  -w, --word=                       String, word generate dsl, e.g.: -w 'test{?ld#4}'
+  -w, --word=                       String, word generate dsl, e.g.: -w test{?ld#4}
   -r, --rules=                      Files, rule files, e.g.: -r rule1.txt -r rule2.txt
       --append-rule=                Files, when found valid path , use append rule generator new word with current path
       --filter-rule=                String, filter rule, e.g.: --rule-filter '>8 <4'
@@ -44,16 +46,15 @@ Function Options:
   -e, --extension=                  String, add extensions (separated by commas), e.g.: -e jsp,jspx
       --exclude-extension=          String, exclude extensions (separated by commas), e.g.: --exclude-extension jsp,jspx
       --remove-extension=           String, remove extensions (separated by commas), e.g.: --remove-extension jsp,jspx
-  -U, --uppercase
+  -U, --uppercase                   Bool, upper wordlist, e.g.: --uppercase
   -L, --lowercase                   Bool, lower wordlist, e.g.: --lowercase
       --prefix=                     Strings, add prefix, e.g.: --prefix aaa --prefix bbb
       --suffix=                     Strings, add suffix, e.g.: --suffix aaa --suffix bbb
       --replace=                    Strings, replace string, e.g.: --replace aaa:bbb --replace ccc:ddd
 
 Output Options:
-      --match=                      String, custom match function, e.g.: --match current.Status != 200
-      --filter=                     String, custom filter function, e.g.: --filter current.Body contains 'hello'
-      --extract=                    Strings, extract response, e.g.: --extract js --extract ip --extract version:(.*?)
+      --match=                      String, custom match function, e.g.: --match 'current.Status != 200'
+      --filter=                     String, custom filter function, e.g.: --filter 'current.Body contains "hello"'
   -f, --file=                       String, output filename
   -F, --format=                     String, output format, e.g.: --format 1.json
       --fuzzy-file=                 String, fuzzy output filename
@@ -65,6 +66,8 @@ Output Options:
 
 Plugin Options:
   -a, --advance                     Bool, enable crawl and active
+      --extract=                    Strings, extract response, e.g.: --extract js --extract ip --extract version:(.*?)
+      --recon                       Bool, enable recon
       --active                      Bool, enable active finger detect
       --bak                         Bool, enable bak found
       --file-bak                    Bool, enable valid result bak found, equal --append-rule rule/filebak.txt
@@ -86,28 +89,34 @@ Modify Options:
       --rate-limit=                 Int, request rate limit (rate/s), e.g.: --rate-limit 100 (default: 0)
       --force                       Bool, skip error break
       --check-only                  Bool, check only
+      --no-scope                    Bool, no scope
+      --scope=                      String, custom scope, e.g.: --scope *.example.com
       --recursive=                  String,custom recursive rule, e.g.: --recursive current.IsDir() (default:
                                     current.IsDir())
       --depth=                      Int, recursive depth (default: 0)
       --check-period=               Int, check period when request (default: 200)
       --error-period=               Int, check period when error (default: 10)
       --error-threshold=            Int, break when the error exceeds the threshold  (default: 20)
-      --black-status=               Strings (comma split),custom black status,  (default: 404,400,410)
+      --black-status=               Strings (comma split),custom black status,  (default: 400,410)
       --white-status=               Strings (comma split), custom white status (default: 200)
-      --fuzzy-status=               Strings (comma split), custom fuzzy status (default: 403,500,501,502,503)
+      --fuzzy-status=               Strings (comma split), custom fuzzy status (default: 404,403,500,501,502,503)
+      --unique-status=              Strings (comma split), custom unique status (default: 403)
+      --unique                      Bool, unique response
+      --retry=                      Int, retry count (default: 1)
       --distance=
 
 Miscellaneous Options:
       --deadline=                   Int, deadline (seconds) (default: 999999)
-      --timeout=                    Int, timeout with request (seconds) (default: 2)
-  -p, --pool=                       Int, Pool size (default: 5)
+      --timeout=                    Int, timeout with request (seconds) (default: 5)
+  -P, --pool=                       Int, Pool size (default: 5)
   -t, --thread=                     Int, number of threads per pool (default: 20)
       --debug                       Bool, output debug info
+  -v, --version                     Bool, show version
   -q, --quiet                       Bool, Quiet
       --no-color                    Bool, no color
       --no-bar                      Bool, No progress bar
   -m, --mod=[path|host]             String, path/host spray (default: path)
-  -c, --client=[fast|standard|auto] String, Client type (default: auto)
+  -C, --client=[fast|standard|auto] String, Client type (default: auto)
 
 Help Options:
   -h, --help                        Show this help message
@@ -248,6 +257,8 @@ rule阶段的函数
 
 * `-u`/`--url ` , 从命令行中添加url作为任务. 
 * `-l`/`--list` , 从文件中选择多个url作为任务. 将会自动开启并发模式, 支持多个任务同时进行, 并每个任务都有自己的keep-alive的连接池
+* `-c/--cidr` 输入指定网段, 例如 `spray -c 1.1.1.1/24`
+* `-p/--port`  指定多个端口, 规则与gogo一致, 例如`spray -u http://example -p top2`
 * `--resume` , 选择stat文件断点续传
 
 
@@ -300,7 +311,11 @@ fasthttp的性能远高于net/http, 因此不建议手动修改配置.  如果�
 
 `--user-agent "Spray0.1.0"` 可添加指定的UA
 
+`--random-agent` 打开自动随机UA替换
+
 `--raw file ` 类似sqlmap的`-r`参数 , 选择纯文本的请求模板, 后续的请求都会使用这个模板构造, todo
+
+
 
 ## Output
 
@@ -524,12 +539,13 @@ extract也存在一些常用的预设, `--extract ip`
 
 可以通过控制状态码列表自定义一部分的智能过滤逻辑.
 
-* `--black-status` 这个列表内的状态码将被直接过滤, 默认400, 404, 410
+* `--black-status` 这个列表内的状态码将被直接过滤, 默认400, 410
 * `--white-status` 这个列表内的状态码将进入到标准的智能过滤逻辑, 默认200
-*  `--fuzzy-status`这个列表内的状态码才有资格进入到模糊过滤的逻辑, 默认403, 500, 501, 502, 503
-*  `--waf-status` 这个列表的状态码与`black-status`类似, 但会标记为被waf, 默认493, 418
+* `--fuzzy-status`这个列表内的状态码才有资格进入到模糊过滤的逻辑, 默认403, 404, 500, 501, 502, 503
+* `--waf-status` 这个列表的状态码与`black-status`类似, 但会标记为被waf, 默认493, 418
 
-
+!!! info "fuzzy all"
+	`--fuzzy-status`参数存在特例`--fuzzy-status all` 启用所有状态码的fuzzy过滤, 用来应对一些特殊场景
 
 ### 自定义过滤
 
@@ -539,7 +555,7 @@ extract也存在一些常用的预设, `--extract ip`
 
 spray中使用了 [expr](https://github.com/antonmedv/expr) 作为表达式语言, 应该是市面上公开的性能最强的脚本语言了.
 
-expr的语法介绍: https://github.com/antonmedv/expr/blob/master/docs/Language-Definition.md
+expr的语法介绍: https://expr.medv.io/docs/Language-Definition
 
 expr语法和xray/github action中差不多, spray中绝大多数情况也用不到高级功能. 只需要了解最简单的等于/包含之类判断即可.
 
@@ -587,7 +603,7 @@ spray中修改过滤规则有很多中方式, 以这个例子进行简单介绍�
 
 可以保留智能过滤的全部功能, 并且不会有额外的性能损耗. 
 
-**方法3: 使用表达式匹配`--match current.Status != 405`**
+**方法3: 使用表达式匹配`--match 'current.Status != 405'`**
 
 这个表达式表示, 所有状态码不等于405的页面都会输出. 有些类似方法1中的black-status, 但是方法1并不会对其他智能过滤的规则做出修改.
 
@@ -595,13 +611,31 @@ spray中修改过滤规则有很多中方式, 以这个例子进行简单介绍�
 
 表达式的性能并不好, 并且配置起来也较为麻烦, 不推荐使用.
 
-**方法4: 使用表达式过滤`--filter current.Status == 405`**
+**方法4: 使用表达式过滤`--filter 'current.Status == 405'`**
 
 filter一般来说是比match的更高优先级的选择. 
 
 --filter与--match的区别在于, --filter作用于compare(包括智能过滤与match表达式过滤)的下一阶段. 通过compare结果将会由--filter进行二次过滤.
 
 意味着, 如果仅设置了--filter, 那么智能过滤依旧生效, 并且可以过滤掉状态码为405的请求.
+
+### unique过滤器
+
+配置这些复杂的过滤方式或多或少存在一些障碍. 有些网站的特例甚至多到一时半会没办法编写出合适的过滤策略. 
+
+为此添加了一种新的过滤器.  由host+状态码+重定向url+content-type+title+length舍去个位与十位组成的CRChash, 实现了一个简易的尽可能覆盖大多数场景的通用过滤器.
+
+```
+func UniqueHash(bl *Baseline) uint16 {
+	return CRC16Hash([]byte(bl.Host + strconv.Itoa(bl.Status) + bl.RedirectURL + bl.ContentType + bl.Title + strconv.Itoa(bl.BodyLength/100*100)))
+}
+```
+
+`spray -u http://example -d 1.txt --unique`
+
+当然便捷的过滤器也会带来一些副作用, 因此所有被unique过滤的结果都会进入到fuzzy输出流中. 
+
+也可以通过`--unique-status 200` 指定特定状态码才启用unique过滤器
 
 ### 断点续传
 
@@ -628,7 +662,11 @@ spray并不鼓励使用递归, 因为spray的定位是批量从反代/cdn中发�
 
 ### 附加功能
 
-* `--crawl` 可以开启爬虫. 限定爬虫的深度为3, 且只能作用于当前作用域, 需要更加自由配置的爬虫配置请使用那几个headless爬虫. 
+* `--crawl` 可以开启爬虫. 限定爬虫的深度为3, 且只能作用于当前作用域, 需要更加自由配置的爬虫配置请使用那几个headless爬虫. 默认情况下爬虫只爬取自身作用域
+  * `--scope *.example.com` 将允许爬虫爬到指定作用域
+  * `--no-scope` 取消所有作用域限制
+  * `--read-all` 默认情况下如果爬虫爬到的某些文件过大, 将只读取前16k数据, 导致爬虫失效. 可以添加该参数解除响应大小的限制
+
 
 !!! note "注意"
 	crawl的结果没有像jsfinder中一样拼接上baseurl, 因为从js中提取出来的结果通常不是最终的结果, 直接去访问大概率是404. 为了防止造成混淆, spray的crawl结果将保持原样输出. 但在爬虫递归时, 还是会尝试拼接上baseurl进行探测. 爬虫递归时会进行自动去重判断. 

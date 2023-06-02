@@ -18,7 +18,7 @@ title: spray · 细节
 
 ```
 WhiteStatus = []int{200}
-BlackStatus = []int{400, 404 410}
+BlackStatus = []int{400, 410}
 FuzzyStatus = []int{403, 404, 500, 501, 502, 503}
 WAFStatus   = []int{493, 418}
 ```
@@ -72,33 +72,41 @@ baseline既是spray的输出的结构体, 也是实现各种过滤策略与高�
 ??? note "baseline结构体"
     ```
     type Baseline struct {
-        Number       int        `json:"number"`
-        Url          *url.URL   `json:"-"`
+    	Number       int        `json:"number"`
+        IsValid      bool       `json:"valid"`
+        IsFuzzy      bool       `json:"fuzzy"`
         UrlString    string     `json:"url"`
         Path         string     `json:"path"`
         Host         string     `json:"host"`
-        Body         []byte     `json:"-"`
         BodyLength   int        `json:"body_length"`
-        Header       []byte     `json:"-"`
-        Raw          []byte     `json:"-"`
+        ExceedLength bool       `json:"-"`
         HeaderLength int        `json:"header_length"`
         RedirectURL  string     `json:"redirect_url,omitempty"`
         FrontURL     string     `json:"front_url,omitempty"`
         Status       int        `json:"status"`
         Spended      int64      `json:"spend"` // 耗时, 毫秒
+        ContentType  string     `json:"content_type"`
         Title        string     `json:"title"`
         Frameworks   Frameworks `json:"frameworks"`
         Extracteds   Extracteds `json:"extracts"`
         ErrString    string     `json:"error"`
         Reason       string     `json:"reason"`
-        IsValid      bool       `json:"valid"`
-        IsFuzzy      bool       `json:"fuzzy"`
-        URLs         []string   `json:"urls"`
         Source       int        `json:"source"`
-        RecuDepth    int        `json:"-"`
         ReqDepth     int        `json:"depth"`
-        Recu         bool       `json:"-"`
-        *parsers.Hashes
+        Distance     uint8      `json:"distance"`
+        Unique       uint16   `json:"-"`
+        Url          *url.URL `json:"-"`
+        Dir          bool     `json:"-"`
+        Chunked      bool     `json:"-"`
+        Body         []byte   `json:"-"`
+        Header       []byte   `json:"-"`
+        Raw          []byte   `json:"-"`
+        Recu         bool     `json:"-"`
+        RecuDepth    int      `json:"-"`
+        URLs         []string `json:"-"`
+        Collected    bool     `json:"-"`
+        Retry        int      `json:"-"`
+		*Hashes        `json:"hashes"`
     }
     ```
 
