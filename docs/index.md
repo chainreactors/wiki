@@ -15,11 +15,12 @@ chainreactor并非在各个领域重新造轮子, chainreactor将会解决很多
 chainreactor 自研的工具链
 
 - [GOGO](gogo/index.md) 基于端口的自动化引擎
-- [Spray](spray/index.md) 下一代目录爆破工具
-- Zombie 服务口令爆破工具
+- [spray](spray/index.md) 下一代目录爆破工具
+- [urlfounder](https://github.com/chainreactors/urlfounder/) 快速的被动url收集工具
+- zombie 服务口令爆破工具
 - Ina 空间引擎交叉递归爬虫
 - Ani 企业信息爬虫
-- ReMaitai全能的流量中间件/流量代理工具
+- rem 全能的流量中间件/流量代理工具
 - meta-matrix 云函数化框架
 - Kindred 面向红队的协作式攻击面发现框架
 
