@@ -45,9 +45,9 @@ chainreactor 自研的工具链
 
 公开meta-matrix 云函数化框架, 并将工具链(包含projectdiscovery的部分工具)上的各个工具云函数化
 
-**step2**
+**step3**
 
-公开remaitai, 作为打通内外网的流量中间件, 并初步实现kindred以及kindred的各个组件. 
+公开rem, 作为打通内外网的流量中间件, 并初步实现kindred以及kindred的各个组件. 
 
 ## Other
 
