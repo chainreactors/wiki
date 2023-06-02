@@ -33,7 +33,7 @@ Input Options:
   -l, --list=                       File, input filename
   -p, --port=                       String, input port range, e.g.: 80,8080-8090,db
   -c, --cidr=                       String, input cidr, e.g.: 1.1.1.1/24
-      --raw=                        File, input raw request filename
+      --raw=                        File, input raw request filename, todo
   -d, --dict=                       Files, Multi,dict files, e.g.: -d 1.txt -d 2.txt
       --offset=                     Int, wordlist offset
       --limit=                      Int, wordlist limit, start with offset. e.g.: --offset 1000 --limit 100
@@ -74,7 +74,6 @@ Plugin Options:
       --common                      Bool, enable common file found
       --crawl                       Bool, enable crawl
       --crawl-depth=                Int, crawl depth (default: 3)
-      --crawl-scope=                Int, crawl scope (todo)
 
 Request Options:
       --header=                     Strings, custom headers, e.g.: --headers 'Auth: example_auth'
@@ -268,7 +267,7 @@ rule阶段的函数
 * `--offset` , 字典偏移
 * `--limit`, 限制的字典数量
 * `--deadline` 所有任务的最大时间限制, 超时了会保存当前进度的stat文件后退出
-* `--check-only` 仅根据url列表进行请求, 可以获取http基础信息, title, 指纹等. 类似httpx, 将会自动关闭keep-alive, 并进行一些性能优化. 
+* `--check-only` 类似httpx的模式, 去掉了基准值仅根据url列表进行请求, 可以获取http基础信息, title, 指纹等. 类似httpx, 将会自动关闭keep-alive, 并进行了一些性能优化. 
 * `--force` 忽略掉被ban或被waf的判断, 强制跑完所有字典
 
 ### 速率限制
@@ -320,6 +319,7 @@ fasthttp的性能远高于net/http, 因此不建议手动修改配置.  如果�
 ## Output
 
 spray默认输出到终端的格式是human-like文本. 并默认开启的 **title获取** 与 **被动指纹识别** 功能. 
+
 ??? info "命令行输出案例"
     ```
     spray --no-bar -u http:/example.com  -w '/{?l}' -a --extract url
@@ -376,6 +376,23 @@ spray默认输出到终端的格式是human-like文本. 并默认开启的 **tit
 
 如果需要查看所有细节, 可以添加`--debug`. 不论结果是否有效, 输出每个响应的细节
 
+### 输出流
+
+除了默认配置下最直观的命令行输出, spray支持一个自由的输出流配置. 
+
+* `-f/--file` 默认输出流, 指定有效结果的输出文件
+* `--fuzzy-file` fuzzy输出流, 指定被fuzzy过滤的结果输出文件
+* `--dump-file` 全部请求的输出流, 指定每个发出的包与响应结果的输出文件
+
+默认情况下, 被智能过滤中的模糊过滤掉的输出不会输出到命令行或者文件.  但模糊过滤的结果存在漏报/误报的可能, 因此很多时候还需要进行二次处理. 
+
+一些便捷化的参数:
+
+* `--fuzzy` 打开命令行的模糊过滤结果输出.
+
+* `--auto-file` 自动根据任务指定文件名
+* `--dump `自动指定dump文件的文件名
+
 ### Probe
 
 默认的baseline中还有许多数据默认状态下不会输出, 可以通过`--probe`参数去自定义想要输出的内容.
@@ -394,13 +411,7 @@ spray默认输出到终端的格式是human-like文本. 并默认开启的 **tit
 * extract 提取的结果
 * frame 指纹, 默认开启[被动指纹识别](https://chainreactors.github.io/wiki/gogo/design/#_12),
 
-### fuzzy输出
-
-默认情况下, 被智能过滤中的模糊过滤掉的输出不会输出到命令行或者文件.  但模糊过滤的结果存在漏报/误报的可能, 因此很多时候还需要进行二次处理. 
-
-可以使用`--fuzzy` 打开命令行的模糊过滤结果输出.
-
-或者`--fuzzy-file filename` 将模糊过滤的结果保存到单独的文件. 
+通过`spray -o url,host,title,md5,frame` 即可自由组合probe控制输出内容
 
 ### 输出到文件
 
@@ -505,13 +516,9 @@ spray默认输出到终端的格式是human-like文本. 并默认开启的 **tit
     }
     ```
 
-spray区分了不同类型的输出, 只有通过所有判断逻辑的结果才会输出到`-f`指定的文件中.
+spray区分了不同类型的输出, 只有通过所有过滤器的结果才会输出到`-f`指定的文件中.
 
-可以通过添加`--auto-file` 自动根据任务生成`-f`与`--fuzzy-file`文件名
-
-如想保存所有数据进行二次分析, 可以添加`--dump`参数, 将保存所有数据到`dump.json`中. 可以`--dump-file file` 自定义保存的文件名. 
-
-### 提取器
+### extract/提取器
 
 spray有一个类似gogo的extract的功能. 用来从网页中提取特定数据. 
 
@@ -543,6 +550,8 @@ extract也存在一些常用的预设, `--extract ip`
 * `--white-status` 这个列表内的状态码将进入到标准的智能过滤逻辑, 默认200
 * `--fuzzy-status`这个列表内的状态码才有资格进入到模糊过滤的逻辑, 默认403, 404, 500, 501, 502, 503
 * `--waf-status` 这个列表的状态码与`black-status`类似, 但会标记为被waf, 默认493, 418
+
+
 
 !!! info "fuzzy all"
 	`--fuzzy-status`参数存在特例`--fuzzy-status all` 启用所有状态码的fuzzy过滤, 用来应对一些特殊场景
