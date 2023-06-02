@@ -6,7 +6,7 @@ chainreactor 将专注于红队自动化领域.
 
 ## ToolChain
 
-chainreactor并非在各个领域重新造轮子, chainreactor将会解决很多其他人没考虑过的问题, 将会以工件化的视角定义下一代的工具. 
+chainreactor并非在各个领域重新造轮子, chainreactor将会在各个细分领域深入探索, 以工件化的视角定义下一代的工具. 
 
 *没有添加超链接的为暂未公开的项目*
 
