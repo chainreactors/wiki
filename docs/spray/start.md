@@ -551,7 +551,7 @@ extract也存在一些常用的预设, `--extract ip`
 * `--fuzzy-status`这个列表内的状态码才有资格进入到模糊过滤的逻辑, 默认403, 404, 500, 501, 502, 503
 * `--waf-status` 这个列表的状态码与`black-status`类似, 但会标记为被waf, 默认493, 418
 
-
+直接使用例如`--black-status 1020`将会覆盖原有的值, 可以使用`--black-status +1020`在原有的基础上新增, 或`--black-status !1024` 在原有的基础上去除.
 
 !!! info "fuzzy all"
 	`--fuzzy-status`参数存在特例`--fuzzy-status all` 启用所有状态码的fuzzy过滤, 用来应对一些特殊场景
