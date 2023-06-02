@@ -204,8 +204,8 @@ Help Options:
 
 现在能想到的能用来目录爆破领域的规则有
 
-* 权限绕过 [点击查看](https://github.com/chainreactors/gogo-templates/blob/master/rule/authbypass.rule)
-* 文件/目录备份 [点击查看](https://github.com/chainreactors/gogo-templates/blob/master/rule/filebak.txt)
+* 权限绕过 [点击查看规则](https://github.com/chainreactors/gogo-templates/blob/master/rule/authbypass.rule)  
+* 文件/目录备份 [点击查看规则](https://github.com/chainreactors/gogo-templates/blob/master/rule/filebak.txt) 
 
 简单使用
 
@@ -216,6 +216,19 @@ Help Options:
 `spray -u http://example.com -d word.txt --rule-filter ">15"`
 
 这行命令表示, 指定字典, 并过滤掉长度大于15的字典.
+
+**轻量级递归**
+
+很多时候扫到了有效目录, 但如何进一步深入呢? 最简单的办法就是全量字典递归, 但实际上这样做效率低, 准确率也低. 
+
+正确的做法是根据场景选择合适的字典生成方式. 例如如果爆破到了新的目录, 则自动爆破备份文件, 爆破到了新的api则自动测试权限绕过. 
+
+在spray中的用法就是:
+
+* 根据有效url自动生成权限绕过字典. `spray -u http://example.com -d word.txt --append-rule authbypass`
+* 根据有效url自动生成备份文件字典. `spray -u http://example.com -d word.txt --append-rule filebak`
+
+例如发现`index.php`存在, 就会根据rule与`baseurl` 生成如`~index.php`,`.index.php`, `index.php.bak`等字典加入到队列中. 
 
 ### 使用函数装饰字典
 内置了一些函数可以对字典进行装饰. 目前支持的如下:
