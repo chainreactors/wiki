@@ -2,7 +2,7 @@
 title: spray (内部测试) · index
 ---
 
-## intro (内部测试)
+## intro 
 
 全新理解的下一代目录爆破工具, 一个完善的目录爆破的解决方案
 
@@ -21,6 +21,8 @@ release: https://github.com/chainreactors/spray/releases/latest
 2. [**设计理念与解决方案**](/wiki/spray/design)
 
 3. [**设计细节**](/wiki/spray/detail)
+
+4. [**最佳实践**](/wiki/spray/do)
 
    
 
