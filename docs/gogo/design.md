@@ -315,6 +315,8 @@ gogo的指纹与漏洞都将完全以dsl的方式实现, 即通过yaml配置。
 
 gogo重写了nuclei关于http与network两个模块的dsl引擎, 在兼容nucleiyaml大部分规则的同时, 去掉了大量不必要的功能, 并添加了一些新的功能更.详情请见[拓展nucleipoc](/wiki/gogo/extension/#poc)
 
+**目前gogo支持的所有漏洞: https://chainreactors.github.io/wiki/gogo/detail/#_6**
+
 比起一些项目直接调用nuclei包, gogo的这种方式去掉了所有的依赖, 并最大程度的实现了nuclei的引擎, 缺点是dsl引擎的版本将会略微落后于nuclei本体。考虑到gogo的使用场景, 这种落后并不影响功能, 因此是可以接受的代价。
 
 绝大多数poc都可以从nuclei中移植poc, 只需要做一些简单修改与测试便可以快速加入到gogo中。不过为了保证poc质量以及内网使用场景, 加入到gogo中的漏洞需要一定的筛选。
