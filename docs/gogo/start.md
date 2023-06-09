@@ -560,6 +560,8 @@ extract也存在一些常用的预设, 可以通过`--extract url`调用内置�
 
 gogo并非漏扫工具,因此不会支持sql注入, xss之类的通用漏洞探测功能。
 
+**目前gogo支持的所有漏洞: https://chainreactors.github.io/wiki/gogo/detail/#_6**
+
 为了支持内网更好的自动化, 集成了nuclei的poc, 可以用来编写poc批量执行某些特定的扫描任务, 以及一些默认口令登录的poc
 
 nuclei的中poc往往攻击性比较强, poc移植到gogo之前会进行一些修改和复现, 因此不打算一口气移植全部的nuclei poc
