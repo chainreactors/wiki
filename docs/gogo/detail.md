@@ -193,17 +193,17 @@ TCP的主动指纹也是另一个维度.刚才提到了TCP的经验公式, 那�
 
 
 ??? important "通过finger与插件配置的漏洞"
-| 通过finger配置的vuln类型漏洞 | 通过finger配置的信息泄露漏洞 | 通过finger配置的tcp协议漏洞 | 通过插件配置的漏洞 |
-| ---------------------------- | ---------------------------- | --------------------------- | ------------------ |
-| k8s_api_unauth               | 普元EOS_console_leak         | redis_unauthorized          | smbghost           |
-| elasticsearch_unauth         | weblogic_console_leak        | zookeeper_unauthorized      | ms17-010           |
-| hadoop_unauth                | sourcemap-leak               | memcahce_unauthorized       | oxid-leak          |
-| docker_unauth                | swagger leak                 | dubbo_unauthorized          | netbois-leak       |
-| etcd_unauth                  | druid leak                   | socks5_unauthorized         | wmi-leak           |
-| flink_unauth                 | iis Directory traversal      | socks4_unauthorized         | snmp-public        |
-|                              | apache Directory traversal   |                             | smb-leak           |
-|                              | bigip_console_leak           |                             |                    |
-|                              | solr_admin_leak              |                             |                    |
+    | 通过finger配置的vuln类型漏洞 | 通过finger配置的信息泄露漏洞 | 通过finger配置的tcp协议漏洞 | 通过插件配置的漏洞 |
+    | ---------------------------- | ---------------------------- | --------------------------- | ------------------ |
+    | k8s_api_unauth               | 普元EOS_console_leak         | redis_unauthorized          | smbghost           |
+    | elasticsearch_unauth         | weblogic_console_leak        | zookeeper_unauthorized      | ms17-010           |
+    | hadoop_unauth                | sourcemap-leak               | memcahce_unauthorized       | oxid-leak          |
+    | docker_unauth                | swagger leak                 | dubbo_unauthorized          | netbois-leak       |
+    | etcd_unauth                  | druid leak                   | socks5_unauthorized         | wmi-leak           |
+    | flink_unauth                 | iis Directory traversal      | socks4_unauthorized         | snmp-public        |
+    |                              | apache Directory traversal   |                             | smb-leak           |
+    |                              | bigip_console_leak           |                             |                    |
+    |                              | solr_admin_leak              |                             |                    |
 
 
 
