@@ -2,5 +2,5 @@
 
 ## Local Markdown
 
-`git clone -b master https://github.com/chainreactors/wiki`
+`git clone --depth 1 -b master https://github.com/chainreactors/wiki`
 
