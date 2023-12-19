@@ -17,7 +17,7 @@ chainreactor 自研的工具链
 - [GOGO](gogo/index.md) 基于端口的自动化引擎
 - [spray](spray/index.md) 下一代目录爆破工具
 - [urlfounder](https://github.com/chainreactors/urlfounder/) 快速的被动url收集工具
-- zombie 服务口令爆破工具
+- [zombie](https://github.com/chainreactors/zombie/) 服务口令爆破工具
 - Ina 空间引擎交叉递归爬虫
 - Ani 企业信息爬虫
 - rem 全能的流量中间件/流量代理工具
