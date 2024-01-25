@@ -5,17 +5,18 @@ title: spray · 入门
 ## Feature
 
 !!! example "Features."
-_ 超强的性能, 在本地测试极限性能的场景下, 能超过 ffuf 与 feroxbruster 的性能 50%以上.
-_ 基于掩码的字典生成
-_ 基于规则的字典生成
-_ 动态智能过滤
-_ 全量 gogo 的指纹识别
-_ 自定义信息提取, 如 ip,js, title, hash 以及自定义的正则表达式
-_ 自定义无效页面过滤策略
-_ 自定义输出格式 \* _nix 的命令行设计, 轻松与其他工具联动
-_ 多角度的自动被 ban,被 waf 判断
-_ 断点续传
-_ 通用文件, 备份文件, 单个文件备份, 爬虫, 主动指纹识别的完美结合
+
+    - 超强的性能, 在本地测试极限性能的场景下, 能超过 ffuf 与 feroxbruster 的性能 50%以上.
+    - 基于掩码的字典生成
+    - 基于规则的字典生成
+    - 动态智能过滤
+    - 全量 gogo 的指纹识别
+    - 自定义信息提取, 如 ip,js, title, hash 以及自定义的正则表达式
+    - 自定义无效页面过滤策略
+    - 自定义输出格式 \* \_nix 的命令行设计, 轻松与其他工具联动
+    - 多角度的自动被 ban,被 waf 判断
+    - 断点续传
+    - 通用文件, 备份文件, 单个文件备份, 爬虫, 主动指纹识别的完美结合
 
 ## Usage
 
@@ -317,7 +318,7 @@ fasthttp 的性能远高于 net/http, 因此不建议手动修改配置. 如果�
 spray 默认输出到终端的格式是 human-like 文本. 并默认开启的 **title 获取** 与 **被动指纹识别** 功能.
 
 ??? info "命令行输出案例"
-`  spray --no-bar -u http:/example.com  -w '/{?l}' -a --extract url
+`spray --no-bar -u http:/example.com  -w '/{?l}' -a --extract url
     [*] Parsed 26 words by /{?l} , 2023-01-04 11:16.30
     [*] Loaded 1 urls from cmd , 2023-01-04 11:16.30
     [*] Loaded 0 dictionaries and 0 decorators , 2023-01-04 11:16.30
@@ -360,8 +361,7 @@ spray 默认输出到终端的格式是 human-like 文本. 并默认开启的 **
       crawl:
             /api
     [*] [stat] http:/example.com took 0 s, request total: 125, finish: 26/26, found: 4, check: 0, failed: 0 , 2023-01-04 11:16.30
-    [*] [stat] http:/example.com 404: 120, 200: 3, , 2023-01-04 11:16.30
- `
+    [*] [stat] http:/example.com 404: 120, 200: 3, , 2023-01-04 11:16.30`
 
 默认将会输出进度条, 但是进度条在 windows 的各种 terminal 下会有些输出 bug. 可以通过`--no-bar`单独关闭进度条.
 
