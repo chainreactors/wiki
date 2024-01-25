@@ -60,3 +60,13 @@
 **rule 理论上应该要与 hashcat 的 rule-base 结果完全一致, 但如果与 hashcat 的结果不一致, 请提交 issue.**
 
 [这里有一些 hashcat 自带的规则示例](https://github.com/hashcat/hashcat/tree/master/rules), 但 hashcat 一般用来生成密码字典, 因此对于目录爆破的规则还需要重新积累.
+
+示例:
+
+`spray -u http://example.com -d word.txt -r rule.txt`
+
+这行命令表示, 将`word.txt`中每一行都作为基础值与规则库`rule.txt`进行 rule 模板语言处理过后的笛卡尔积. 最终的字典总数量为 `word行数 * rule行数`.
+
+`spray -u http://example.com -d word.txt --rule-filter ">15"`
+
+这行命令表示, 指定字典, 并过滤掉长度大于 15 的字典.

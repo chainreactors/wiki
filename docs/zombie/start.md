@@ -140,6 +140,14 @@ google2022
 
 `--weakpass`的规则位于 https://github.com/chainreactors/templates/blob/master/zombie/rule/weakpass.rule , 欢迎提供新规则
 
+## Advance Usage
+
+### 密码生成器
+
+密码生成器是 zombie 最核心的特点, 通过密码生成器, 可以根据场景定制爆破需求, 极大增大爆破成功率.
+
+其具体使用参见
+
 ## Example
 
 ### SSH
@@ -277,3 +285,5 @@ Kibana 爆破, 与 tomcat 类似, 设置了默认的账号密码字典, 简化�
 爆破 RDP 密码
 
 `zombie -s rdp -I ip.txt -u admin -P pwd.txt`
+
+## Advance
