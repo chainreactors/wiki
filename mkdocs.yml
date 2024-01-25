@@ -80,5 +80,6 @@ nav:
     - 设计: spray/design.md
     - 细节: spray/detail.md
     - 实战: spray/do.md
-
-
+  - zombie:
+    - index: zombie/index.md
+    - 入门: zombie/start.md
