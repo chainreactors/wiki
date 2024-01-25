@@ -6,7 +6,16 @@ repo: https://github.com/chainreactors/zombie
 
 快速入门: https://chainreactors.github.io/wiki/zombie/start/
 
-zombie主要为了解决需要全场景(外网、内网、云)的服务的口令爆破功能, 同时作为gogo能力的补充. zombie提供了类似hashcat的字典生成器, 能针对不同场景不同目标定制扫描策略, 并提供了比hydra更加丰富的协议支持以及一定的后利用能力.
+zombie主要为了解决需要全场景(外网、内网、云)的服务的口令爆破功能, 作为gogo能力的补充. zombie提供了类似hashcat的字典生成器, 能针对不同场景不同目标定制扫描策略, 并提供了比hydra更加丰富的协议支持以及一定的后利用能力.
+
+!!! example "Feature."
+
+	* 超强的性能, 数倍于hydra
+	* 便携且无依赖, 能在绝大多数场景落地
+	* 丰富的协议支持
+	* 与gogo的完美联动, 一键对gogo扫描结果进行爆破
+	* 字典生成器, 根据不同场景自动生成不同字典
+	* 多种便捷的输入与输出方式
 
 
 
