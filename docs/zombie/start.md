@@ -370,7 +370,7 @@ words 项目提供了两种密码生成器, 一种是基于掩码的生成器, �
 
 `zombie -i ssh://123.123.123.123 -u root --userrule user.rule -p root --pwdrule weakpass.rule`
 
-!!! warnning "注意"
+!!! danger "注意"
 	密码生成器生成后的字典大小可能超过预期
 
 ### Example
