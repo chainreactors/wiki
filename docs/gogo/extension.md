@@ -383,18 +383,20 @@ nuclei更新较快, 一般情况下gogo会落后nuclei最新版几个月, 所以
 
 **nuclei中没有, 只能在gogo中使用的功能**
 
-1. finger字段, 能绑定finger, 提供除了tag之外的绑定finger办法
+1. finger字段, 能绑定finger, 提供除了tag之外的绑定finger办法，允许写入多个finger
 
    ```
    id: poc-id
-   finger: fingername
+   finger: 
+     - fingername1
+     - fingername2
    ```
 
 2. chain字段, 如果match成功后会执行的poc
 
    ```
    id: poc-id
-   chain: 实现
+   chain: 其他poc id
    ```
 
 3. 通过命令行参数替换yaml中的payload, 后续将会支持从文件中读列表 
