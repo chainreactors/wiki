@@ -14,7 +14,7 @@ _没有添加超链接的为暂未公开的项目_
 
 chainreactor 自研的工具链
 
-- [GOGO](gogo/index.md) 基于端口的自动化引擎
+- [gogo](gogo/index.md) 基于端口的自动化引擎
 - [spray](spray/index.md) 下一代目录爆破工具
 - [urlfounder](https://github.com/chainreactors/urlfounder/) 快速的被动 url 收集工具
 - [zombie](https://github.com/chainreactors/zombie/) 服务口令爆破工具
@@ -29,7 +29,7 @@ chainreactor 自研的工具链
 一些为了工具开发的通用库
 
 - [words](https://github.com/chainreactors/words) , 使用 go 重写了 hashcat 中的 mask/rule 字典生成器, 并添加了一些新功能
-- [gogo-templates](https://github.com/chainreactors/gogo-templates) , gogo 的指纹库, poc 库等; 也为 spray,kindred 等工具提供指纹识别功能
+- [templates](https://github.com/chainreactors/templates) , gogo 的指纹库, poc 库等; 也为 spray,kindred 等工具提供指纹识别功能
 - [neutron](https://github.com/chainreactors/neutron) 使用纯 go 实现并去掉所有第三方依赖的轻量级 nuclei 引擎, 可以无副作用的集成到任意工具中而不会带来额外的依赖.
 - [parsers](https://github.com/chainreactors/parsers), 封装了 chainreactor 工具链上的各个工具输入输出的解析相关的代码.
 - kindred-engine, 一个面向云函数的工作流调度引擎
