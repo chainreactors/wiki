@@ -83,8 +83,8 @@ nav:
   - zombie:
     - index: zombie/index.md
     - 入门: zombie/start.md
-    - 设计：zombie/design.md
-    - 拓展：zombie/extension.md
+    - 设计: zombie/design.md
+    - 拓展: zombie/extension.md
   - libs:
     - neutron: libs/neutron/index.md
     - words: libs/words/index.md
