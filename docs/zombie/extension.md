@@ -241,8 +241,7 @@ info:
     	...
 
 !!! note "暂时不支持extractor"
-​	zombie中暂时不支持extractor, 将会尽快支持相应的功能
-
+	extractor暂时不生效(如果保留了也不会报错), 将会尽快支持相应的功能
 
 
 **step3 测试**
