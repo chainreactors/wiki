@@ -86,5 +86,6 @@ nav:
     - 设计: zombie/design.md
     - 拓展: zombie/extension.md
   - libs:
+    - indexL: libs/index.md
     - neutron: libs/neutron/index.md
     - words: libs/words/index.md
