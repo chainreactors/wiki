@@ -366,20 +366,19 @@ nuclei更新较快, 一般情况下gogo会落后nuclei最新版几个月, 所以
 
 部分功能会以简化的形式重新加入到gogo中
 
-1. dsl 包括match中dsl 以及request的例如`{{base64(base64string)}}`这样的动态生成的功能. 通过encode tag简单代替
-2. oast与OOB,这类需要外带的功能, 可以通过探测接口是否存在做一个大致的匹配.
-3. workflow, 通过chain简单代替
-4. info中的大多数信息, 只保留最基本的信息, 并且不会输出, 建议只保留name, tag, severity三个字段
-5. pipeline
-6. Race conditions
-7. 除了regex之外的extractor. 因为引入多个解析库容易会变得臃肿
+1. oast与OOB,这类需要外带的功能, 可以通过探测接口是否存在做一个大致的匹配.
+2. workflow, 通过chain简单代替
+3. info中的大多数信息, 只保留最基本的信息, 并且不会输出, 建议只保留name, tag, severity三个字段
+4. pipeline
+5. Race conditions
+6. 除了regex之外的extractor. 因为引入多个解析库容易会变得臃肿
 
 **暂时不支持的功能, 但在计划表中的功能**
 
-1. cookie reuse
-2. http redirect
-3. variables
-4. Helper Functions 会简化之后再加入
+- [x] cookie reuse
+- [x] http redirect
+- [x] variables  （已支持自定义payloads, 功能类似variables）
+- [x] Helper Functions (已支持完整的dsl引擎)
 
 **nuclei中没有, 只能在gogo中使用的功能**
 
@@ -421,7 +420,7 @@ https://github.com/projectdiscovery/nuclei-templates/blob/d6636f9169920d3ccefc69
 
 1. 删除一些header信息, 并且根据gogo的指纹重新添加tags
 2. 减少不必要的发包, apollo实际上只需要第一个signin的包即可确定是否成功
-3. dsl在gogo中已删除, 因为dsl不是必要功能, 大部分场景都能通过正则实现, dsl只是减少复杂场景的使用难度. 因此, 我们可以把这段dsl修改为匹配固定值
+3. ~~dsl在gogo中已删除, 因为dsl不是必要功能, 大部分场景都能通过正则实现, dsl只是减少复杂场景的使用难度. 因此, 我们可以把这段dsl修改为匹配固定值~~ （已于v2.12.0版本中支持dsl）
 
 **example 1 apollo login**
 
@@ -482,86 +481,7 @@ requests:
 
 **example 2 tomcat default login**
 
-这是nuclei的tomcat默认漏洞登录poc
-
-```
-id: tomcat-default-login
-
-info:
-  name: ApahceTomcat Manager Default Login
-  author: pdteam
-  severity: high
-  description: Apache Tomcat Manager default login credentials were discovered. This template checks for multiple variations.
-  reference:
-    - https://www.rapid7.com/db/vulnerabilities/apache-tomcat-default-ovwebusr-password/
-  tags: tomcat,apache,default-login
-
-requests:
-  - raw:
-      - |
-        GET /manager/html HTTP/1.1
-        Host: {{Hostname}}
-        Authorization: Basic {{base64(username + ':' + password)}}
-    payloads:
-      username:
-        - tomcat
-        - admin
-        - ovwebusr
-        - j2deployer
-        - cxsdk
-        - ADMIN
-        - xampp
-        - tomcat
-        - QCC
-        - admin
-        - root
-        - role1
-        - role
-        - tomcat
-        - admin
-        - role1
-        - both
-        - admin
-
-      password:
-        - tomcat
-        - admin
-        - OvW*busr1
-        - j2deployer
-        - kdsxc
-        - ADMIN
-        - xampp
-        - s3cret
-        - QLogic66
-        - tomcat
-        - root
-        - role1
-        - changethis
-        - changethis
-        - j5Brn9
-        - tomcat
-        - tomcat
-        - 123456
-
-    attack: pitchfork  # Available options: sniper, pitchfork and clusterbomb
-
-    matchers-condition: and
-    matchers:
-      - type: word
-        part: body
-        words:
-          - "Apache Tomcat"
-          - "Server Information"
-          - "Hostname"
-        condition: and
-
-      - type: status
-        status:
-          - 200
-```
-
-这是gogo中移植修改完的:
-因为不支持动态的dsl, 所以需要将base64预先计算好, extractor 可以视情况保留, gogo支持extractor功能, 但是对于输出目前处理的并不是很优雅, 后续还会对此功能更新优化.
+gogo中移植修改完的tomcat-manager-login:
 
 ```
 id: tomcat-manager-login
@@ -570,14 +490,16 @@ info:
   name: tomcat-manager-default-password
   severity: high
   tags: tomcat-manager
-requests:
+  zombie: tomcat
+http:
   - raw:
       - |
         GET /manager/html HTTP/1.1
         Host: {{Hostname}}
-        Authorization: Basic {{auth}}
+        Authorization: Basic {{base64(username + ':' + password)}}
         User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0
-    attack: sniper
+        Accept-Language: en-US,en;q=0.9
+    attack: pitchfork
     stop-at-first-match: true
     matchers:
       - status:
@@ -595,23 +517,16 @@ requests:
           - 'JSESSIONID\..*=([a-z0-9.]+)'
     matchers-condition: and
     payloads:
-      auth:
-        - dG9tY2F0OnRvbWNhdA==
-        - dG9tY2F0OnMzY3JldA==
-        - YWRtaW46YWRtaW4=
-        - b3Z3ZWJ1c3I6T3ZXKmJ1c3Ix
-        - ajJkZXBsb3llcjpqMmRlcGxveWVy
-        - Y3hzZGs6a2RzeGM=
-        - QURNSU46QURNSU4=
-        - eGFtcHA6eGFtcHA=
-        - UUNDOlFMb2dpYzY2
-        - YWRtaW46dG9tY2F0
-        - cm9vdDpyb290
-        - cm9sZTE6cm9sZTE=
-        - cm9sZTpjaGFuZ2V0aGlz
-        - dG9tY2F0OmNoYW5nZXRoaXM=
-        - YWRtaW46ajVCcm45
-        - cm9sZTE6dG9tY2F0
+      username:
+        - admin
+        - root
+        - tomcat
+        - admin
+      password:
+        - admin
+        - root
+        - tomcat
+        - 123456
 ```
 
 ### 测试

@@ -14,7 +14,7 @@ release: https://github.com/chainreactors/spray/releases/latest
 
 spray主要为了解决自动有效目录识别, 极限性能, 多目标以及分布式目录爆破中可能会遇到的问题. 并为解决这些问题保留了及其丰富的拓展能力. 提供了一站式的目录爆破/信息收集解决方案. 
 
-**spray = [feroxbuster(高性能目录爆破)] + [ehole(指纹识别)] + [httpx(http基本信息解析)] + [dirmap(字典生成)] + 自带的大量目录爆破相关功能**  
+**spray = [feroxbuster(高性能目录爆破)] + [指纹识别] + [httpx(http基本信息解析)] + [dirmap(字典生成)] + 自带的大量目录爆破相关功能**  
 
 !!! important "设计理念"
 

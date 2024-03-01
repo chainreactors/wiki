@@ -29,5 +29,5 @@ zombie主要为了解决需要全场景(外网、内网、云)的服务的口令
 
 1. [**参数与功能介绍**](/wiki/zombie/start)
 2. [**设计理念与解决方案**](/wiki/zombie/design)
-3. [拓展](/wiki/zombie/extension)
+3. [**拓展**](/wiki/zombie/extension)
 4. [**最佳实践**](/wiki/spray/do)
