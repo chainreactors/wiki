@@ -29,7 +29,7 @@ nuclei更新较快, 一般情况下gogo会落后nuclei最新版几个月, 所以
 5. Race conditions
 6. 除了regex之外的extractor. 因为引入多个解析库容易会变得臃肿
 
-**暂时不支持的功能, 但在计划表中的功能**
+**TODO**
 
 - [x] cookie reuse
 - [x] http redirect
