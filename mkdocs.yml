@@ -87,5 +87,7 @@ nav:
     - 拓展: zombie/extension.md
   - libs:
     - index: libs/index.md
-    - neutron: libs/neutron/index.md
+    - neutron: 
+      - index: libs/neutron/index.md
+      - 更新日志: libs/neutron/update.md
     - words: libs/words/index.md
