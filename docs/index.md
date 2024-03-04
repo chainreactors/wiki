@@ -28,9 +28,13 @@ chainreactor 自研的工具链
 
 一些为了工具开发的通用库
 
-- [words](https://github.com/chainreactors/words) , 使用 go 重写了 hashcat 中的 mask/rule 字典生成器, 并添加了一些新功能
+- [words](https://chainreactors.github.io/wiki/libs/words/) , 使用 go 重写了 hashcat 中的 mask/rule 字典生成器, 并添加了一些新功能
 - [templates](https://github.com/chainreactors/templates) , gogo 的指纹库, poc 库等; 也为 spray,kindred 等工具提供指纹识别功能
-- [neutron](https://github.com/chainreactors/neutron) 使用纯 go 实现并去掉所有第三方依赖的轻量级 nuclei 引擎, 可以无副作用的集成到任意工具中而不会带来额外的依赖.
+
+- [neutron](https://chainreactors.github.io/wiki/libs/neutron/) 使用纯 go 实现并去掉所有第三方依赖的轻量级 nuclei 引擎, 可以无副作用的集成到任意工具中而不会带来额外的依赖.
+
+- [fingers](https://chainreactors.github.io/wiki/libs/fingers/)  templates, wappalyzer, fingerprinthub等指纹库的go实现,  支持添加各类第三方指纹库
+
 - [parsers](https://github.com/chainreactors/parsers), 封装了 chainreactor 工具链上的各个工具输入输出的解析相关的代码.
 - kindred-engine, 一个面向云函数的工作流调度引擎
 - kindred-cli, kindred 的团队协作客户端
