@@ -2,6 +2,8 @@
 title: words · index
 ---
 
+https://github.com/chainreactors/words
+
 ## intro
 
 该库作为[spray](https://github.com/chainreactors/spray)和[zombie](https://github.com/chainreactors/zombie)的基础能力的一部分, 是 hashcat 的 rule/mask 生成器的 go 重构(并不完全一致)。

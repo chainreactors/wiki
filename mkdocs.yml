@@ -91,3 +91,4 @@ nav:
       - index: libs/neutron/index.md
       - 更新日志: libs/neutron/update.md
     - words: libs/words/index.md
+    - fingers: libs/fingers/index.md
