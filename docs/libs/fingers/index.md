@@ -12,7 +12,7 @@ fingers 是用来各种指纹规则库的go实现, 不同规则库的语法不�
 
 指纹库位于: https://github.com/chainreactors/templates/tree/master/fingers
 
-fingers/fingers为其规则库的go语言实现.
+[fingers](https://github.com/chainreactors/fingers/tree/master/fingers)为其规则库的go语言实现.
 
 指纹分为tcp指纹、http指纹
 
@@ -81,19 +81,19 @@ tcp指纹与http指纹为同一格式, 但通过不同的文件进行管理
 
 ### wappalyzer
 
-核心代码fork自 https://github.com/projectdiscovery/wappalyzergo , 将其输出结果统一为frameworks.
+[wappalyzer](https://github.com/chainreactors/fingers/tree/master/wappalyzer) 为wappalyzer指纹库的实现, 核心代码fork自 https://github.com/projectdiscovery/wappalyzergo , 将其输出结果统一为frameworks.
 
 后续将会提供每周更新的github action, 规则库只做同步. 
 
 ### fingerprinthub
 
-规则库位于: https://github.com/0x727/FingerprintHub, 本仓库为其规则库的go实现.
+规则库位于: https://github.com/0x727/FingerprintHub
 
-与wappalyzer类似, 本仓库的规则库只做同步.
+[fingerprinthub](https://github.com/chainreactors/fingers/tree/master/fingerprinthub)为其规则库的go实现. 本仓库的规则库只做同步.
 
 ### TODO
 
-足够强大的指纹库欢迎提供issue或pr.
+足够强大的其他指纹库欢迎提供issue或pr.
 
 
 
