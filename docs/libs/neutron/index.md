@@ -2,9 +2,9 @@
 title: neutron · index
 ---
 
-https://github.com/chainreactors/neutron
-
 ## overview
+
+repo: https://github.com/chainreactors/neutron
 
 neutron是为了在需要工具落地的场景中使用而魔改的轻量版nuclei 引擎, 实现了nuclei引擎中的绝大部分功能, 并且几乎不需要引入额外的第三方库. 能兼容低版本操作系统(windows xp/ windows server 2003). 极小体积, 几乎不会让二进制体积增长.
 
