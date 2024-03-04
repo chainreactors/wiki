@@ -6,7 +6,7 @@
 
 - [neutron](https://chainreactors.github.io/wiki/libs/neutron/) 使用纯 go 实现并去掉所有第三方依赖的轻量级 nuclei 引擎, 可以无副作用的集成到任意工具中而不会带来额外的依赖.
 
-- [fingers](https://github.com/chainreactors/fingers)  templates, wappalyzer, fingerprinthub等指纹库的go实现,  支持添加各类第三方指纹库
+- [fingers](https://chainreactors.github.io/wiki/libs/fingers/)  templates, wappalyzer, fingerprinthub等指纹库的go实现,  支持添加各类第三方指纹库
 
 - [parsers](https://github.com/chainreactors/parsers), 封装了 chainreactor 工具链上的各个工具输入输出的解析相关的代码.
 
