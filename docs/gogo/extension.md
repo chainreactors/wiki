@@ -95,33 +95,17 @@ gogo 保留了大量可拓展接口, 例如指纹、poc/exp、工作流, 端口�
 
 ## 拓展指纹
 
-指纹分为tcp指纹、http指纹
+语法引擎详细文档: [fingers语法](https://chainreactors.github.io/wiki/libs/fingers/#_2)
 
-tcp指纹与http指纹为同一格式, 但通过不同的文件进行管理
+完整说明:
 
-!!! example "Features."
-    1. 多种方式规则配置
-    2. 多种方式的版本号匹配
-    3. 404/favicon/waf指纹识别
-    4. 主动指纹识别
-    5. 根据默认端口优化指纹识别速度
-    6. 正则预编译
-    7. 重点指纹标记
-    8. 指纹来源
-    9. 指纹tag
-    10. 指纹与poc的联动
-
-### 完整的配置
-配置文件: `v2/templates/http/*` 与 `v2/templates/tcpfingers.yaml`
-
-一个完整的配置:
-```yaml
+```
 - name: frame   # 指纹名字, 匹配到的时候输出的值
   default_port: # 指纹的默认端口, 加速匹配. tcp指纹如果匹配到第一个就会结束指纹匹配, http则会继续匹配, 所以默认端口对http没有特殊优化
     - '1111'
   protocol: http  # tcp/http, 默认为http
   rule:
-   - version: v1.1.1, 可不填, 默认为空, 表示无具体版本
+   - version: v1.1.1 # 可不填, 默认为空, 表示无具体版本
      regexps: # 匹配的方式
         vuln: # 匹配到vuln的正则, 如果匹配到, 会输出framework为name的同时, 还会添加vuln为vuln的漏洞信息
           - version:(.*) # vuln只支持正则,  同时支持版本号匹配, 使用括号的正则分组. 只支持第一组
@@ -136,7 +120,7 @@ tcp指纹与http指纹为同一格式, 但通过不同的文件进行管理
           - [md5]
         mmh3: # 匹配body的mmh3hash
           - [mmh3]
-          
+
         # 只有上面规则中的至少一条命中才会执行version
         version: 
           - version:(.*)  # 某些情况下难以同时编写指纹的正则与关于版本的正则, 可以特地为version写一条正则
@@ -148,17 +132,10 @@ tcp指纹与http指纹为同一格式, 但通过不同的文件进行管理
           - '516963061'
      level: 1      # 0代表不需要主动发包, 1代表需要额外主动发起请求. 如果当前level为0则不会发送数据, 但是依旧会进行被动的指纹匹配.
      send_data: "info\n" # 匹配指纹需要主动发送的数据
-     vuln: redis_unauthorized # 如果regexps中的vuln命中, 则会输出漏洞名称. 某些漏洞也可以通过匹配关键字识别, 因此一些简单的poc使用指纹的方式实现, 复杂的poc请使用-e下的nuclei yaml配置
-
+     vuln: frame_unauthorized # 如果regexps中的vuln命中, 则会输出漏洞名称. 某些漏洞也可以通过匹配关键字识别, 因此一些简单的poc使用指纹的方式实现, 复杂的poc请使用-e下的nuclei yaml配置
 ```
 
-为了压缩体积, 没有特别指定的参数可以留空会使用默认值。
 
-在两个配置文件中包含大量案例可供参考。
-
-但实际上大部分字段都不需要配置, 仅作为特殊情况下的能力储备。
-
-每个指纹都可以有多个rule, 每个rule中都有一个regexps, 每个regexps有多条不同种类的字符串/正则/hash。
 
 ### HTTP指纹
 
