@@ -24,10 +24,8 @@ nuclei更新较快, 一般情况下gogo会落后nuclei最新版几个月, 所以
 
 1. oast与OOB,这类需要外带的功能, 可以通过探测接口是否存在做一个大致的匹配.
 2. workflow, 通过chain简单代替
-3. info中的大多数信息, 只保留最基本的信息, 并且不会输出, 建议只保留name, tag, severity三个字段
 4. pipeline
 5. Race conditions
-6. 除了regex之外的extractor. 因为引入多个解析库容易会变得臃肿
 
 **TODO**
 
