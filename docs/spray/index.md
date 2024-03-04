@@ -2,7 +2,7 @@
 title: spray · index
 ---
 
-## intro 
+## overview 
 
 全新理解的下一代目录爆破工具, 一个全方位的目录爆破的解决方案
 
