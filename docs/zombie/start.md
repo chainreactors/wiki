@@ -409,7 +409,7 @@ words 项目提供了两种密码生成器, 一种是基于掩码的生成器, �
 
 带路由的 auth 认证
 
-`zombie -s http -I ip.txt -u admin -P pwd.txt --param path=admin.php`
+`zombie -s http -I ip.txt -u admin -P pwd.txt --param path:admin.php`
 
 Tomcat 爆破, 设置了默认的账号与密码字典, 是 401 场景的特殊优化, 简化操作
 
@@ -433,7 +433,7 @@ Kibana 爆破, 与 tomcat 类似, 设置了默认的账号密码字典, 简化�
 
 指定 instance
 
-`zombie -s mssql -I ip.txt -u sa -P pwd.txt --param instance=SQLEXPRESS`
+`zombie -s mssql -I ip.txt -u sa -P pwd.txt --param instance:SQLEXPRESS`
 
 #### Oracle (WARNNING 未经过充分测试)
 
@@ -443,11 +443,11 @@ Kibana 爆破, 与 tomcat 类似, 设置了默认的账号密码字典, 简化�
 
 指定 sid
 
-`zombie -s oracle -I ip.txt -u system -P pwd.txt --param sid=orcl`
+`zombie -s oracle -I ip.txt -u system -P pwd.txt --param sid:orcl`
 
 指定 service name
 
-`zombie -s oracle -I ip.txt -u system -P pwd.txt --param service_name=orcl`
+`zombie -s oracle -I ip.txt -u system -P pwd.txt --param service_name:orcl`
 
 #### MongoDB
 
@@ -463,7 +463,7 @@ Kibana 爆破, 与 tomcat 类似, 设置了默认的账号密码字典, 简化�
 
 指定 dbname
 
-`zombie -s postgre -I ip.txt -u postgres -P pwd.txt --param dbname=postgres`
+`zombie -s postgre -I ip.txt -u postgres -P pwd.txt --param dbname:postgres`
 
 #### Redis
 
