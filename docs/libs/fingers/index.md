@@ -109,7 +109,7 @@ func TestNewEngine(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	resp, err := http.Get("http://81.70.40.138")
+	resp, err := http.Get("http://81.70.40.1")
 	if err != nil {
 		return
 	}
