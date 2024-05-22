@@ -210,7 +210,7 @@ words 生成器的详细使用参见[words 文档](https://chainreactors.github.
 
 正确的做法是根据场景选择合适的字典生成方式. 例如如果爆破到了新的目录, 则自动爆破备份文件, 爆破到了新的 api 则自动测试权限绕过.
 
-在 spray 中的用法就是:
+在 spray 中的用法:
 
 - 根据有效 url 自动生成权限绕过字典. `spray -u http://example.com -d word.txt --append-rule authbypass`
 - 根据有效 url 自动生成备份文件字典. `spray -u http://example.com -d word.txt --append-rule filebak`
