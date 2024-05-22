@@ -8,11 +8,11 @@ repo: https://github.com/chainreactors/words
 
 该库作为[spray](https://github.com/chainreactors/spray)和[zombie](https://github.com/chainreactors/zombie)的基础能力的一部分, 是 hashcat 的 rule/mask 生成器的 go 重构(并不完全一致)。
 
-### 基于掩码的字典生成
+### 基于掩码的字典生成 (2024.05.21 update)
 
 为了实现这个功能, 编写了一门名为 mask 的模板语言. 代码位于: [mask](https://github.com/chainreactors/words/tree/master/mask).
 
-一些使用案例
+**使用案例**
 
 `spray -u http://example.com -w '/{?l#3}/{?ud#3}`
 
