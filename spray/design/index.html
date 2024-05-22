@@ -1,0 +1,1749 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="chainreactors wiki">
+      
+      
+        <meta name="author" content="M09ic">
+      
+      
+        <link rel="canonical" href="https://chainreactors.github.io/wiki/spray/design/">
+      
+      
+        <link rel="prev" href="../start/">
+      
+      
+        <link rel="next" href="../detail/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.24">
+    
+    
+      
+        <title>spray · 设计 - ChainReactor Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6543a935.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-DCRVR86FG2"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-DCRVR86FG2",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-DCRVR86FG2",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ChainReactor Wiki" class="md-header__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ChainReactor Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              spray · 设计
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  导航
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../gogo/" class="md-tabs__link">
+          
+  
+    
+  
+  gogo
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  spray
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../zombie/" class="md-tabs__link">
+          
+  
+    
+  
+  zombie
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../libs/" class="md-tabs__link">
+          
+  
+    
+  
+  libs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ChainReactor Wiki" class="md-nav__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    ChainReactor Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    导航
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../gogo/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    gogo
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            gogo
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gogo/start/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gogo/design/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    设计
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gogo/detail/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    细节
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gogo/extension/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    拓展
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gogo/do/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实战
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    spray
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            spray
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../start/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    设计
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    设计
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      前言
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      设计
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="设计">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      开源世界
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spray" class="md-nav__link">
+    <span class="md-ellipsis">
+      spray的总体设计
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kindred" class="md-nav__link">
+    <span class="md-ellipsis">
+      与kindred的联动
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      智能化
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      性能
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="性能">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#client" class="md-nav__link">
+    <span class="md-ellipsis">
+      client
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      并发数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      错误处理
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      字典构造
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="字典构造">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      字典生成器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      递归
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      轻量级的递归
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      信息提取
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="信息提取">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      爬虫
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      指纹
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      其他附加信息收集手法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      协议升级
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#waf" class="md-nav__link">
+    <span class="md-ellipsis">
+      WAF判断
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      数据二次处理
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      批量与分布式
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="批量与分布式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      断点续传
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      死线
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      其他目录收集方式
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="其他目录收集方式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#todo" class="md-nav__link">
+    <span class="md-ellipsis">
+      todo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../detail/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    细节
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../do/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实战
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../zombie/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    zombie
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            zombie
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zombie/start/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zombie/design/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    设计
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zombie/extension/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    拓展
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../libs/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    libs
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            libs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../libs/neutron/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    neutron
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            neutron
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../libs/neutron/update/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    更新日志
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../libs/words/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    words
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../libs/fingers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    fingers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>设计</h1>
+
+<h2 id="_1">前言<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>(本文中提到的目录fuzz, 目录爆破, url爆破为同一个意思)</p>
+<p>spray的设计不需要像gogo那样需要考虑非常多的取舍问题. spray的目标只有一个, 解决在目录fuzz领域的一切问题. </p>
+<p>以chainreactors一贯的风格, spray的参数设计一样的会非常复杂, 但实际上很多参数并非为人类准备, 而是为了成为更大框架的一部分. 大多数人使用spray只需要关注一些最基本的操作即可. </p>
+<p><strong>目录爆破并非只是批量发包判断状态码, 这个领域还包括了对隐藏目录的发现, 字典的自动化构造, 智能判断有效目录, 爬虫与指纹识别, 与WAF的对抗等等</strong></p>
+<h2 id="_2">设计<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>spray的出发点想要自动化的分辨有效目录与无效目录, 减少对数据进行手动二次分析处理.</p>
+<h3 id="_3">开源世界<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>市面上有很多目录爆破工具或者类似的httpfuzz工具. </p>
+<ul>
+<li><a href="https://github.com/maurosoria/dirsearch">dirsearch</a> python开发的有性能瓶颈, 有一定的智能判断逻辑, 但还不够智能</li>
+<li><a href="https://github.com/ffuf/ffuf">ffuf</a>  目前http fuzz领域的佼佼者, 但缺少对目录爆破的优化, 数据绝大部分情况需要二次处理才可以使用. 与spray定位有区别. </li>
+<li><a href="https://github.com/epi052/feroxbuster">feroxbuster</a> 目录爆破领域的佼佼者, 与spray有着类似的定位. 无法批量爆破, 同样不够智能, 在字典处理上不够自由. </li>
+<li><a href="https://github.com/OJ/gobuster">gobuster</a> 更接近go版本的dirsearch. 性能上比dirsearch更好, 能做的事情与dirsearch差不多</li>
+<li><a href="https://github.com/assetnote/kiterunner">kiterunner</a> 原本我很看好的项目, 一个结合了目录爆破与apifuzz的工具, 但后续没更新, 有不少bug. </li>
+<li><a href="https://github.com/projectdiscovery/httpx">httpx</a> 它的设计上是为了从http协议中提取信息, 也有人用它来进行目录爆破, 效果上来说并不好, 但它对数据的一些处理方式值得学习</li>
+</ul>
+<p>spray有从上面的这几个工具中学到一些东西, 也深入的分析了这些工具的优缺点, 并进行重新设计. 但请注意spray并非是对上面这些工具的重新造轮子, spray解决了不少这些工具没有考虑过的问题. 会在后续一一介绍. </p>
+<p>还有一些更古早, 已经停止维护的项目不再介绍.  也有一些在某个细微领域有突破的工具, 将会在后续介绍.</p>
+<h3 id="spray">spray的总体设计<a class="headerlink" href="#spray" title="Permanent link">&para;</a></h3>
+<ul>
+<li>智能化, 目录爆破中99.9%的尝试都是无效的, 不能让人把精力放在这些无效的数据处理上. 需要找到一个通用的解决方案智能去除无效设计</li>
+<li>适应性, 每个目标都有着自己的规则,  根据目标去获取信息, 构造字典是智能化的基石. 尽可能的做到根据每个目标构造不同的字典. </li>
+<li>自动化与分布式, spray面对的场景包括了大规模高并发的目录探测, 这样的场景并不太适合人工使用spray, 为此spray设计了一些方式来适配这样的场景. </li>
+<li>辅助性, spary并不能做到发现漏洞, 但它将尽可能的帮助人类去分析相关的信息. </li>
+</ul>
+<p>spray基于目录爆破实现, 但目录爆破并不是spray的目标.</p>
+<p>spray最终的目标是对单个站点深入的信息分析与提取, 去辅助红队人员进一步的渗透攻击. </p>
+<h3 id="kindred">与kindred的联动<a class="headerlink" href="#kindred" title="Permanent link">&para;</a></h3>
+<p>todo</p>
+<h2 id="_4">智能化<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<div class="admonition abstract">
+<p class="admonition-title">背景</p>
+<p>绝大多数目录爆破工具过度简化了现实世界中可能遇到的场景, 导致只能在理想状况下实现过滤无效页面. 当面对复杂的真实场景, 他们的这种方式既会导致误报, 又会导致漏报. 而spray要做的是尽可能减少误报与漏报. </p>
+</div>
+<p>这里指的智能化, 实际上是添加复杂的规则,  代替人类进行绝大多数重复无效的劳动. 主要是将我们对目录爆破这个领域的经验转为代码. </p>
+<p>spray的智能判断是我们认为的最佳解决方案, 但不一定是实际上的最佳解决方案. 有可能因为智能判断反而导致了一些漏判误判. 也为此提供了多种补救与缓解方案.  我们也在不断改进我们的逻辑并不断将新的经验沉淀到spray的代码中. </p>
+<p>在feroxbuster与dirsearch中, 对有效目录的判断主要通过状态码与body length. 这样的简单判断在很多场景下是不起作用的. 需要通过手动配置麻烦的<code>filter</code>, 通过人工介入的二次判断. 这种解决方案在单个目标上能通过几次交互修改找到一个特定的配置解决过滤的问题, 操作起来较为麻烦.</p>
+<p>如果我们想一次性对多个目标进行扫描, dirsearch与feroxbuster的手动filter逻辑将会失效, 不同网站之间完全不能使用同一个filter策略. 并且feroxbuster采用多进程的方式进行多目标并发,  几乎破坏了它原本非常优雅直观的输出界面. 总而言之, 开源的工具在filter上都不够智能. </p>
+<p>而ffuf与httpx更是只用来获取原始数据, 几乎100%的需要人工介入的方式进行二次数据处理. 它们虽然也提供了各种的filter之类的功能, 但在实际使用场景上的定位更接近发包器. </p>
+<p>spray采用的方式是, 获取两个baseline(index页面与随机页面)的方式, 动态的根据每个网站自身建立基准值的模型. 然后在后续处理中, 都会根据这两个基准值进行判断. 基本上解决了90%的场景. </p>
+<p>当然现实世界中不会如此简单, 只需要两个baseline不可能解决所有的问题, 为了解决后面的10%的问题以及为了性能上的优化, spray并设计了一个三段式的过滤逻辑, 每个阶段中都有大量的判断逻辑进行尽可能的智能判断. 具体的逻辑可以<a href="/wiki/spray/detail/#_1">文档中的细节</a>看到. </p>
+<p>当然三个三段式的逻辑加上baseline解决了99%的问题, 但为了最后的1%, 设计的spray真正最复杂功能. </p>
+<p>这些功能包括</p>
+<ol>
+<li>通过模糊hash, 对网页相似度进行对比</li>
+<li>通过模糊状态码进行更进一步的动态baseline. 即模糊状态码列表中的结果会与相同状态的baseline进行对比</li>
+<li>手动维护的智能过滤状态码列表, 一定程度调整三段式逻辑</li>
+<li><code>--match</code>与<code>--filter</code>的表达式语言进行手动的规则配置</li>
+</ol>
+<p>通过这几个对三段式智能过滤的补充,  我们才确定spray有了应对100%场景的能力 (欢迎找一些奇葩网站给我出难题^ ^).</p>
+<p>当使用到3和4这两个高级功能时, 实际上spray就遇到了和feroxbuster与dirsearch类似的困境, 需要一定程度的人工手动配置了.  当然也不是没有解决办法,  只不过解决方案在spray之外, 需要引入更加庞大的分析引擎去实现. 这也是spray作为工件的意义所在. </p>
+<p>而通过baseline, 三段式过滤, 以及补充功能的1与2. 在非人工干预的情况下, spray能覆盖到99.9%的场景. spray已经做到了对同类工具的跨越式突破. </p>
+<p><strong>无效的200页面</strong></p>
+<p>这个相对比较好理解, 例如实际上的404页面返回200状态码. 例如泛解析的目录, 所有页面都返回了200状态码. </p>
+<p>是在实战中比较多见的情况, 可能针对单一情况其他工具能进行手动配置的过滤,  但是如果一个站有好几种不同的200状态码, 过滤起来还是比较麻烦的. </p>
+<p>在单一200页面的情况下, 假如200页面是动态的, spray也能完美的进行过滤. 但是对于多个泛解析目录同时存在, 且返回的页面都不同. spray也只能通过手动配置去解决. 相对比其他工具的手足无措已经有了很大进步. </p>
+<p><strong>有效的404页面</strong></p>
+<p>这个情况知道的人可能少一些. 其实也和工具有关, 使用市面上的所有目录爆破工具去fuzz. 遇到404状态码, 都会选择过滤, 使用者根本无法判断有没有可能存在有效的404页面.  在真实世界中, 这样的情况在现代化的网站中并不少见. </p>
+<p>举个例子, 某个网站给<code>/api</code>配置了泛解析, 但除非访问到<code>/api/getUser</code>是返回200, 其他页面均为<code>404</code>. </p>
+<p>这种情况, 这个<code>/api</code>的路由实际上是有效的, 可以构造字典进行fuzz, 或者寻找api文档进行深度测试. </p>
+<p>大部分工具只有<code>/api</code>这个路由被配置为403或者200的时候才有可能发现. 但在真实世界中,  api通常会被重写其所有的输出, 以保证统一格式为json之类的结构化数据. 状态码不再是http状态码, 而是json中的一个字段. </p>
+<p>还有一种情况, 在反代的场景中. 随机目录的404页面是由反代服务器返回的. 但当命中的反代的配置, 流量打到某个业务上时, 如果业务的这个目录恰巧返回的时404, 那么这个404页面也是有效的, 而且通常是高价值的. </p>
+<p>刚才也提到了, 之所以这种情况少见不是因为它真的少见, 而是所有工具都会忽略这种情况. </p>
+<p>在spray中, 404页面将被认为是需要模糊对比的页面. 如果发现的404页面与random baseline中的页面完全不同, 这个时候就会将其作为有效结果输出. </p>
+<p><strong>403/500/503页面的细节</strong></p>
+<p>这三个状态码是很常见的用来处理一些未授权/错误页面的状态码. 它们不同于404页面的只可能由中间件与业务提供, 这三个状态码可能是中间件|业务|框架|CDN|WAF. 造成的原因也多种多样, 可能是触发了WAF告警, 可能是中间件的统一配置, 可能是业务的错误处理页面, 可能是Cookie权限不够, 可能是框架的一些配置. </p>
+<p>很多时候会发现<code>*.do</code>或者<code>/cgi-bin/</code>或者<code>*/etc/password/*</code>这样的路由都会发现通配符的这个页面.  通配符不再是单一的目录之后的场景, 而是可能在任意位置出现. </p>
+<p>面对这种情况, 其他工具能做的也只有手动配置. 如果同时出现了上述多种情况, 手动配置就无能为力了, 只能首尾不顾, 或者选择使用ffuf配上一个脚本手动处理数据.</p>
+<p>而spray实际上能做的也不多, 如果这些特例恰巧对应的不同的状态码, spray是能通过基于状态码的动态baseline去智能过滤的. 但如果这个站的所有特例都是403状态码. spray也只能手动编写一个复杂的表达式去处理. 好在spray也不是无能为力. </p>
+<div class="admonition warning">
+<p class="admonition-title">隐患</p>
+<p>对spray来说, 智能过滤是最具代表性的智能化. 实际上, spray在很多其他细节上也有类似的智能设计.  但这是存在隐患的, 过度的智能导致某些东西被隐含了, 除非是这个领域的专家, 否则可能用了几年都理解不了其中的细节.</p>
+</div>
+<h2 id="_5">性能<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<div class="admonition abstract">
+<p class="admonition-title">背景</p>
+<p>这个领域的性能不能通过一味的提高并发解决. 甚至可以说, 只提高并发数, 反而会导致性能降低. 现代的这类工具通过keep-alive解决了一部分问题, 但做法未免有些粗糙, 并没有最大程度的释放性能. 而且性能也是由多方面决定, 需要在不同的场景下选择不同的方案, 最终达成极限但又安全的性能释放. </p>
+</div>
+<p>目录爆破领域的唯一性能指标是有效并发数量. 也就是一定时间内能交互多少包. </p>
+<p>但这个指标实际上受到client, http协议, 目标状态影响. 要将其优化到极限, 需要从多方面入手.</p>
+<h3 id="client">client<a class="headerlink" href="#client" title="Permanent link">&para;</a></h3>
+<p>这里的client指的是发包的工具, 在python中, 通常是urllib或request两个库. 在go中, 大多数工具选择了<code>net/http</code>. </p>
+<p>而spray则是同时使用了<code>net/http</code>与<code>fasthttp</code>, 原本计划使用全部的fasthttp, 但这个库在host爆破时存在一些问题, 所以代码上封装了一层, 去自动的选择client.</p>
+<p>当然语言本身也会带来一定程度的影响, go的并发调度性能比python强上一个数量级. </p>
+<p>选择fasthttp原因是, fasthttp通过各种手段优化其代码性能. 在低负载场景, 可能感受不到, 因为这时候主要的瓶颈是目标的接受能力, 但当开始多目标批量爆破时, 这个影响会越来越大. 最终在本地的理论极限测试下, fasthttp会比net/http有2-3倍的性能提升. 这种几乎翻倍的性能最终让我接受了一些fasthttp的坑点, 使用了fasthttp作为默认的client.</p>
+<div class="admonition warning">
+<p class="admonition-title">使用fasthttp坑点</p>
+<p>它复用了几乎所有的bytes buf, 因此releaseResponse之后, 可能buf会被复用, 导致buf的数据被覆盖. 这个bug我花费了好几天时间才定位到.  最新版本已经不存在这个bug了</p>
+</div>
+<h3 id="http">HTTP<a class="headerlink" href="#http" title="Permanent link">&para;</a></h3>
+<p>在大多数场景下, http协议对性能的影响最关键的是<code>keep-alive</code>, 这个功能需要http1.1之后才支持. 好在绝大多数服务现在都已经支持了. 这也是spray性能提升最大因素. </p>
+<p>keep-alive在http1.0中是需要手动打开, 在http1.1中是自动打开,  在http2中则变成了多路复用, 性能有数量级上的提升. </p>
+<p>对于代码来说, keep-alive的影响就非常大了. 在python中, 需要手动控制keep-alive的并发池去复用.  但好在go中不论是<code>fasthttp</code>还是<code>net/http</code>都内置自带了链接的复用. 如果手段去维护这个链接池不仅带代码水平有一定要求, 实际效果也会远差于官方提供的. 这也是dirsearch, dirmap性能有数量级的代差的原因. </p>
+<p>并且spray通过1.5倍thread的并发池的冗余, 解决了部分链接失效的导致keep-alive中断的问题. </p>
+<p>在未来, spray还将支持http2, http3的client, 去实现最大的性能的并发. </p>
+<h3 id="_6">并发数<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>spray每个目标都将维护一个自身的链接池, 可以通过<code>-t</code>参数控制每个目标的并发数, 因为keep-alive的影响, 实际上只需要很少的thread, 既可实现非常高的QPS. </p>
+<p>spray默认的thread是20, 在爆破nginx时, 能打到1500/s的速度. 这个速度大多数场景下已经够用了. 如果需要跳转thread 也请注意, 不要开得太高, 这并没有意义. 超过100个thread的配置, 绝大多数情况都不会生产实际作用, 这个时候的性能瓶颈时自己/目标的带宽或者服务本身的性能上限.</p>
+<p>spray在爆破反向代理中间件(nginx, f5, Lighttpd)时, 能实现最大理论性能</p>
+<p>如果目标是tomcat之类的中间件, 请求可能会直接打到业务上, 而业务的性能是远远远低于那些反代中间件的. 这个时候就有可能导致CC攻击造成DOS. </p>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p><strong>请根据实际的情况选择并发.</strong></p>
+<p><strong>请根据实际的情况选择并发.</strong></p>
+<p><strong>请根据实际的情况选择并发.</strong></p>
+</div>
+<h3 id="_7">错误处理<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>上述这些措施下的带来的性能提升比开一个非常高的线程数的效果要好的多, 能在相同thread实现数百倍的提升, 客户端与服务器的负载也会低得多. 但错误总是让人意想不到. </p>
+<p>目标很可能部署了WAF, 或者CDN厂商的各种限制 导致任务执行到一半就被拉黑, 或者被banIP. 这种情况下后续的扫描都是没有意义, 继续执行全部的扫描任务反而会导致无法判断哪些效任务扫描. 这个时候, 就需要及时的退出并保证保存有效数据. </p>
+<p>这一点非常关键, 是后续分布式扫描实现的基础. <strong>对于反代的目录爆破来说, 选择分布式不是为了更快的完成任务, 而是绕过目标的种种限制.</strong> </p>
+<p>在spray中, 进行了多种方式的判断. 将会通过一定间隔的check包, 去判断random与index是否已经发生偏离. 如果是被banIP, 这种情况简单的多, 通过设置错误阈值就可以解决. </p>
+<p>但真实场景中, 错误可能是偶发性的, 比如某个字典命中了WAF, 导致单个包出现了WAF, 但后续包并没有再次触发. 所以如果每个正常的结果都会将错误累计清空, 只有连续发生的大量基准值偏差或者请求错误, 才会退出程序. 并通过记录每个错误数据, 来找到错误最初发生的位置. </p>
+<p>后续的任务只需要换个节点, 接着上次的任务扫描即可. </p>
+<p>错误处理还包括了一些其他的特殊情况, 例如</p>
+<ul>
+<li>body超过spray默认的限制(默认为100k), 导致部分功能无法正常生效, 通过添加参数<code>--read-all</code>解决</li>
+<li>目标使用了chunked, 导致fasthttp无法解码. 通过添加<code>-c standard</code>切换client解决.</li>
+</ul>
+<h2 id="_8">字典构造<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<div class="admonition abstract">
+<p class="admonition-title">背景</p>
+<p>绝大部分工具将字典生成与爆破的行为分开了, 造成了一定程度的割裂. 很多人会发现有工具没合适的字典, 或者想拿一个字典批量爆破一批目标却找不到合适的工具. 我也正是因为遇到了这样的困境才选择去实现一个新的工具. 因此spray从设计上就考虑到了这种割裂, 并尝试解决这种割裂. </p>
+</div>
+<p>spray与其他目录爆破最大的不同还在于spray将字典构造引入到了目录爆破的过程中. </p>
+<p>在传统的解决方案之下, 工具和字典是分离的(或许有些工具提供了一些简单的替换, 例如替换host, 替换ext之类的功能, 但在实际流程上还是脱节的), 需要提前准备一个覆盖足够广的字典, 然后读取字典进行高并发的扫描. </p>
+<h3 id="_9">字典生成器<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>但在spray中, 提供了类似hashcat中的<a href="/wiki/spray/start/#_2">基于掩码生成器</a>和<a href="/wiki/spray/start/#_3">基于规则生成器</a>, 以及一些<a href="/wiki/spray/start/#_4">函数装饰器</a>对字典进行修饰, 可以在没准备字典的情况下, 对某些场景进行爆破. </p>
+<p>举个例子, 不少大型机构, 会使用一台nginx对内网的多个服务进行反代, 而这样的反代绝大多数情况都是通过一个较短的path. 例如<code>plms</code>这样的缩写.  使用spray的掩码生成器, 生成一个四位的随机目录字典, 或者可以带上目标的一些关键字进行更复杂的掩码字典生成结合规则字典生成. </p>
+<h3 id="_10">递归<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p>在现代化的网站中, 递归实际上效果并不好, spray并不鼓励使用递归. </p>
+<p>在传统的目录爆破工具中, 通常包含一个递归配置, 将爆破到的所有目录都在进行一次全量的字典爆破. </p>
+<p>但spray中提供了另一种选择,  可以通过类似<code>--recu current.IsDir() &amp;&amp; current.Status == 200</code>配置自定义的递归规则, 进行相对高效的递归. </p>
+<p>虽然spray提供了相对高效的递归方式, 但还是不建议使用递归. </p>
+<h3 id="_11">轻量级的递归<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<p>在spray中, 更优雅的解决方案是基于规则的进一步字典生成.  </p>
+<p>提供了<code>--append-rule</code>, 可以根据有效目录进行额外的字典生成. 这个是在爆破到某些目录之后, 进行进一步的字典组合.</p>
+<p>例如, 想要扫描有效文件的备份, 当扫到了<code>index.php</code>的时候, 自动根据指定的规则, 生成如<code>index.php~</code>这样的字典, 进行爆破. </p>
+<h2 id="_12">信息提取<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<div class="admonition abstract">
+<p class="admonition-title">背景</p>
+<p>应该说100%的同类工具都只考虑http本身带来的信息, 例如状态码, body长度. 从没有考虑http内包含的更多信息, 例如指纹, title, 敏感信息. 在目录爆破时, 是会获取这些数据的, 但会被直接抛弃. 而spray不仅会收集这些被其他工具抛弃的数据, 还会尽可能从中榨取所有有价值的数据. </p>
+</div>
+<p>spray的输出结果更像是httpx与ffuf那样, 不仅仅只有目录. 有不少目录爆破工具在输出结果时, 抛弃了所有中间输出, 导致对其二次处理还需要httpx这样的工具配合,再次获取信息. 会额外发送不少请求包. </p>
+<p>spray的<a href="/wiki/spray/start/#_7">文件输出结果</a>中, 包含了完整的请求摘要信息. </p>
+<p>在目录爆破时, spray还将对title, 指纹进行识别, 并提供了<code>--extract</code>自定义正则从网页中提取数据. 也包含了一个简易的爬虫. </p>
+<p>在没有启动附加功能时, spray会获取的信息有:</p>
+<ul>
+<li>http基本信息, 状态码, content-type, body-length, redirect,请求耗时等</li>
+<li>html的title</li>
+<li>被动的指纹识别</li>
+<li>body与header的hash</li>
+<li>spray提供的一些额外属性, 例如被过滤原因, 目录来源, 是否有效, 是否为模糊有效</li>
+</ul>
+<h3 id="_13">爬虫<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<p>爬虫的逻辑类似<a href="https://github.com/Threezh1/JSFinder">jsfinder</a>, 从网页中提取可能的url, 并进行递归的爬虫处理. </p>
+<p>这个爬虫的表现远低于headless爬虫, 如果有更高级的需要, 还是建议使用<a href="https://github.com/projectdiscovery/katana">katana</a> , <a href="https://github.com/chaitin/rad">rad,</a> 或<a href="https://github.com/Qianlitp/crawlergo">crawlgo</a> 这样的headless爬虫工具.</p>
+<p>但相比于原版的jsfinder中的逻辑, spray进行了大量优化和调整， 以jsfinder README.md中的<code>https://www.mi.com</code>为例, 有数百倍的差距(还是在额外限制了scope的情况下).  并能实现对很多jsfinder无法正确识别的链接进行识别.</p>
+<p>当这个爬虫与智能过滤结合到一起, 就自然而然的实现了对这些有效目录的验证. </p>
+<p>经过一段时间的实践, 我发现爬虫配合上spray的信息收集能力, 能创造出很多惊喜. 为此. spray进行了一些微小的调整. </p>
+<ul>
+<li>通过爬虫进行的扫描将跳过precompare的智能过滤. 因为爬虫获取的目录本就是相对高价值的目录, 就算是404页面也不一定是无效结果. 现在爬虫将拥有更高的优先级</li>
+<li>spray当前只关注目录/文件, 因此爬虫爬到的参数与frag将会被自动删除. </li>
+<li>爬虫配合<code>--extract</code>进行信息提取能拿到很多有趣的数据</li>
+<li>爬虫配合递归加上备份文件与通用文件的扫描, 也能发现很多有趣的新结果</li>
+<li>爬虫让favicon hash荣获新生. 非默认的(<code>/favicon.ico</code>)的ico也能准确识别出指纹了.</li>
+</ul>
+<p>就算是简易的爬虫. 实现起来也较为复杂, spray目前内置的爬虫也不是最优的配置. 几乎每个版本都要对爬虫功能进行大量微调. 这个spray中的爬虫还有很大的潜力.   </p>
+<p>爬虫未来提升的方向:</p>
+<ul>
+<li>当前爬虫被强制指定为当前host, 但我发现很多网站会在第三方cdn上托管自己的js, 而这些js中有可能包含敏感数据. 因此后续将会对scope做智能优化, 以及提供对应的参数. </li>
+<li>根据爬虫的结果去构造字典</li>
+</ul>
+<h3 id="_14">指纹<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<p>目前, 除了httpx提供了wappalyzer的规则库, 其他工具都没有实现类似的功能. </p>
+<p>而wappalyzer关注的主要是网站的组件, 例如使用了什么语言, 引入了什么组件. 它的关注点与渗透测试场景实际上并不一致. 在红队/渗透测试场景中, 更需要的是类似whatweb那样的指纹识别, 供应商识别.</p>
+<p>而spray与gogo共享了指纹库, 实现了对数千条红队可能会关注的指纹的识别.  </p>
+<p>并且同样引入了主动指纹识别, 根据配置生成可能存在关键信息的目录进行爆破. 这里的逻辑与gogo中的主动指纹识别有细微的不同. spray会将需要主动探测的目录生成一个字典, 并进行全量的规则匹配. 而非gogo那样的精准匹配.  因此实际上spray在配置了相同的指纹的情况下, 会比gogo有些许提升(可能只能提升1%不到, 某些情况下能带来惊喜)</p>
+<p>spray没有gogo那么多顾虑, 后续也可能会考虑将wappalyzer接入, 提供更丰富的信息.</p>
+<p>也因此, 在配置了同样指纹的情况下, spray的效果会远好于gogo, 有好几个方面综合达成了这一点.</p>
+<ul>
+<li>
+<p>spray中内置了爬虫, 爬虫配合上被动指纹识别, 能识别到很多之前识别不到的指纹, 例如通过js跳转的页面, 在gogo中只能通过识别跳转的url中的特征, 而spray通过爬虫可以获取到跳转后的页面,</p>
+</li>
+<li>
+<p>也因为爬虫可以获取到所有的ico路径, spray添加了基于content-type的智能判断, 可以将ico hash发挥到极致. 很多非<code>/favicon.ico</code>的ico也能正常识别</p>
+</li>
+<li>
+<p>spray不会像gogo一样将host解析为ip, 因此配合上host爆破, 或者面对cdn常见, 指纹识别也能正常发挥作用. </p>
+</li>
+<li>
+<p>spray手动处理redirect. 在gogo中并没有将指纹识别作用到redirect的每一次跳转, 而spray因为手动处理了所有redirect请求, 因此一些非常特殊的网站也能正常识别. 这一点曾经在好几次项目中发现了非常隐蔽且关键的指纹. 并且能获取每次redirect的基本信息.</p>
+</li>
+</ul>
+<p>正因为爬虫与被动指纹识别的结合, spray实际上还有用更加强大的指纹识别能力. 就算网站修改了首页的样式, 在JS文件中的特征依旧不能改变. </p>
+<p>gogo原本的指纹库是为了内网场景做了不少取舍, 而现在这些舍弃的东西都可以加回来. 后续将会给spray提供更加强大的指纹库. </p>
+<p>不得不说, 当初为gogo设计的最小化匹配的指纹库并不完全适应spray, 存在一定的误报, 还需要后续优化指纹库.</p>
+<h3 id="_15">其他附加信息收集手法<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<p>除了已经提到过的爬虫和主动指纹识别之外, spray目前还提供了多种方式进行收集. 当然手法不止spray提供的这些, 如果有spray还不支持的类似的功能, 欢迎提供issue.</p>
+<p>这些功能都需要添加额外的参数或者<code>-a</code>打开. 因此称之为<code>additional</code>信息收集手法. </p>
+<ul>
+<li>
+<p><code>--bak</code> , 备份文件的爆破, 逻辑类似fuzzuli中的基于host的字典生成+通用的常见备份文件目录. 考虑到url请求可能会将备份文件下载到内存中, 造成溢出. 默认的body上限为100k. 超过100k的文件将不会继续读取, 而是放弃这个握手, 重新建立连接(keep-alive如果不读完body, 将无法复用链接)</p>
+</li>
+<li>
+<p><code>--bak-file</code> , 对于单个文件的备份字典生成, 与之前提高的轻量级递归有些类似. 如果发现有效文件(非目录), 将会根据这个文件生成一个字典, 进行爆破. </p>
+</li>
+<li>
+<p><code>--common</code>, 通用文件爆破, 语言 | 框架 | IDE | 开源等等都会有留下一些通用文件. 有些时候没有发现指纹, 但可以通过这些通用文件发现一些信息</p>
+</li>
+<li>
+<p><code>--recon</code>, 自动提取敏感信息, 在有效目录中提取敏感信息，可在yaml中配置规则， 目前的规则参考HaE与nuclei中的exposure</p>
+</li>
+</ul>
+<p>通过spray本身的功能即可创造出很多有趣的预设. 后续可能会维护一个预设仓库, 用来面对各种场景实现多种多样的玩法. </p>
+<h3 id="_16">协议升级<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
+<p>如果对一个https网站使用http去访问, 则大概率会获得400的状态码, 告诉你协议错误. 但很多网站配置了自动的协议升级, 通过location重定向到https的对应网站. 而在批量爆破时, 很难人工一个一个去判断是http还是https. </p>
+<p>为此spray中添加http upgrade to https的优化. 并且在协议升级时, 会重新获取baseline, 并在命令行有提示. </p>
+<p>在未来, spray还会针对http2/http3自动尝试协议升级. </p>
+<h3 id="waf">WAF判断<a class="headerlink" href="#waf" title="Permanent link">&para;</a></h3>
+<p>部分waf的逻辑会在爆破到一定数量时进行封ip,或者跳转到waf页面处理. </p>
+<p>如果是封ip比较好处理, 连续的报错积累到一定程度退出程序即可.</p>
+<p>处理跳转类型的waf相对复杂一下. 我们通过每隔一定请求, 发送check包, 并与最初的基准值进行对比, 如果连续多个check包的与基准值发生偏离, 那就判断已经被waf了. </p>
+<p>实际上, 指纹库中支持了对waf指纹的识别, 但因为部分waf存在全局指纹, 导致可能出现一些误判, 这一点将会在指纹库优化后, 重新上线基于指纹的waf判断. 现在只能在输出结果中看到WAF指纹, 不会对被WAF退出有实际影响. </p>
+<p>这是单个任务与waf对抗的手段, 仅限于发现waf, 并不能绕过WAF. 绕过的手段会在批量与分布式中介绍. </p>
+<h3 id="_17">数据二次处理<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
+<p>因为spray的输出格式接近httpx与ffuf, 同样支持对他的数据的进行二次处理, 可以像httpx与ffuf一样使用spray.</p>
+<p>为此提供了<code>--dump</code>参数不论结果是否有效, 保存spray请求的每一个响应.</p>
+<p>后续还会提供完整的响应包的原始(header, body)数据. 用作进一步的的数据分析. 甚至实现类似nuclei中offline scan一样的功能. </p>
+<h2 id="_18">批量与分布式<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h2>
+<p>(功能已实现, 文档待完成)</p>
+<h3 id="_19">断点续传<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
+<p>(功能已实现, 文档待完成)</p>
+<h3 id="_20">死线<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h3>
+<p>(功能已实现, 文档待完成)</p>
+<h2 id="_21">其他目录收集方式<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h2>
+<p>spray想要解决的是需要主动发包的场景. 实际上其他方式.</p>
+<p><strong>被动的url收集</strong></p>
+<p>即不与目标进行交互实现的纯被动url收集. 常见的有数据源:</p>
+<ul>
+<li>webarchive</li>
+<li>各家搜索引擎</li>
+<li>各家威胁情报平台</li>
+<li>...</li>
+</ul>
+<p>后续可能会提供一个类似subfinder那样的工具实现. 似乎开源社区也已经提供了类似的工具.</p>
+<p><strong>通过headless爬虫进行的url收集</strong></p>
+<ul>
+<li><a href="https://github.com/projectdiscovery/katana">katana</a>  projectdiscovery提供的工具, 比较符合chainreactor的设计, 后续将会集成到kindred中</li>
+<li><a href="https://github.com/chaitin/rad">rad</a> 长亭提供的闭源的headless爬虫</li>
+<li><a href="https://github.com/Qianlitp/crawlergo">crawlgo</a> 360提供的开源headless爬虫</li>
+</ul>
+<p>headless爬虫其实不少, 为安全领域设计的爬虫又不多</p>
+<p><strong>基于api的url收集</strong></p>
+<p>这个领域属于api安全, 也有非常多的细节, spray暂时不打算涉及.常见的有:</p>
+<ul>
+<li>swagger</li>
+<li>wsdl</li>
+<li>graphql</li>
+<li>showdoc/yapi/apidoc等自动生成的文档工具</li>
+<li>....</li>
+</ul>
+<p>我个人会使用<a href="https://www.apifox.cn/">apifox</a>进行手动测试</p>
+<p><strong>其他手法</strong></p>
+<p>除了上面这几项, 这个领域继续深挖还有很多内容. </p>
+<ul>
+<li>请求走私与缓存投毒在这个领域的利用</li>
+<li>一些CDN,中间件的特殊header对结果的影响.</li>
+<li>各种403bypass手段</li>
+<li>java的权限绕过手法怎么自动化</li>
+<li>CDN/反向代理真的只有host与path两种方式去爆破么?</li>
+<li>类似<a href="https://github.com/gh0stkey/HaE">HaE</a>的信息收集能在目录爆破中起到什么作用?</li>
+</ul>
+<p>某些领域spray也无能为力, 但其中一部分, 将在spray后续更新中实现. </p>
+<p>spray面临的场景是和gogo一样复杂的. 这个领域不需要我去强调其重要性, 在最近几年的红蓝对抗中就能深刻感受到. 很多时候真的只是工具不行, 心有余而力不足. 面对很多网站只能一遍遍的去针对性的编写一个python脚本, 就像写exp一样.  spray是为了解决这样的问题设计, 并打磨了小半年. </p>
+<p>有谁会去在一个项目中爆破几千个nginx呢? </p>
+<h3 id="todo">todo<a class="headerlink" href="#todo" title="Permanent link">&para;</a></h3>
+<p>这些其他方式有些与spray的设计冲突, 有些只是暂时没有好的解决办法. 有些是因为我的时间有限, 还位于todo之中.. </p>
+<ul>
+<li>各种403bypass与java权限绕过将会以rule的形式实现.</li>
+<li>HaE的一些规则与nuclei中的<a href="https://github.com/projectdiscovery/nuclei-templates/tree/main/exposures">exposures</a>将会一起以插件的形式加入spray</li>
+<li>ffuf中的一些fuzz技术将会经过重新设计后加入spray, 定位也与ffuf原本的设计有些许不同</li>
+<li>yakit中的fuzztag也值得参考, 与mask和rule结合能创造出不少新玩法. 或许能解决更多问题</li>
+</ul>
+<p><em>(这里就不使用tasklist了, 每实现一部分就会在todo中删除, 转化为文档)</em></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 ChainReactors
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/chainreactors" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "toc.integrate", "toc.follow", "navigation.top", "header.autohide", "search.share", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.081f42fc.min.js"></script>
+      
+    
+  </body>
+</html>
