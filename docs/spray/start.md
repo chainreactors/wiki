@@ -292,7 +292,8 @@ spray 默认输出到终端的格式是 human-like 文本. 并默认开启的 **
 
 ??? info "命令行输出案例"
     `spray --no-bar -u http:/example.com  -w '/{?l}' -a --extract url`
-    [*] Parsed 26 words by /{?l} , 2023-01-04 11:16.30
+	```
+	[*] Parsed 26 words by /{?l} , 2023-01-04 11:16.30
     [*] Loaded 1 urls from cmd , 2023-01-04 11:16.30
     [*] Loaded 0 dictionaries and 0 decorators , 2023-01-04 11:16.30
     [+] [baseline.index] http:/example.com/ - 200 - 6326 - 70ms [解决方案，一查就有] [nginx]   , 2023-01-04 11:16.30
@@ -334,7 +335,9 @@ spray 默认输出到终端的格式是 human-like 文本. 并默认开启的 **
       crawl:
             /api
     [*] [stat] http:/example.com took 0 s, request total: 125, finish: 26/26, found: 4, check: 0, failed: 0 , 2023-01-04 11:16.30
-    [*] [stat] http:/example.com 404: 120, 200: 3, , 2023-01-04 11:16.30`
+    [*] [stat] http:/example.com 404: 120, 200: 3, , 2023-01-04 11:16.30
+	```
+
 
 默认将会输出进度条, 但是进度条在 windows 的各种 terminal 下会有些输出 bug. 可以通过`--no-bar`单独关闭进度条.
 
