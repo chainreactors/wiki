@@ -156,38 +156,11 @@ Help Options:
 
 含义为, `/全部三位小写字母/全部三位大写字母+数字`组成的字典.
 
-所有的 mask 生成器都需要通过`{}`包裹, 并且括号内的第一个字符必须为`?`, `$`, `@`其中之一. `#`后的数字表示重复次数, 可留空, 例如`{?lu}` , 表示"全部小写字母+全部大写字母"组成的字典.
-
-- `?` 表示普通的笛卡尔积. 例如`{?l#3}`表示生成三位小写字母的所有可能组合
-- `$` 表示贪婪模式, 例如`{$l#3}`表示 3 位小写字母的所有可能组合+2 位小写字母的所有可能组合+1 位小写字母的所有可能组合
-- `@` 表示关键字模式, 例如`{@year}`, 表示年份, 1970-2030 年.
-
-掩码的定义参考了 hashcat, 但是并不完全相同. 目前可用的关键字如下表:
-
-```
-"l": Lowercase,  // 26个小写字母
-"u": Uppercase,  // 26个大写字母
-"w": Letter,     // 52大写+小写字母
-"d": Digit, // 数字0-9
-"h": LowercaseHex, // 小写hex字符, 0-9 + a-f
-"H": UppercaseHex, // 大写hex字符, 0-9 + A-F
-"x": Hex,          // 大写+小写hex字符, 0-9 + a-f + A-F
-"p": Punctuation,  // 特殊字符 !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~
-"P": Printable,    // 可见的ascii字符
-"s": Whitespace,   // 空字符 \t\n\r\x0b\x0c
-```
-
-还支持通过数字表示命令行输入的字典序号, 例如
-
-`spray -u http://example.com -w '/{?0u#2}/{?01}' -d word0.txt -d word1.txt`
-
-其中`{?0u#2}`表示 word0.txt 的所有内容+所有大写字母笛卡尔积两次, `{?01}` 表示 word0.txt + word1.txt 的所有内容.
-
-关键字目前还在不断完善中, 欢迎提供需求.
+mask的语法请见: https://chainreactors.github.io/wiki/libs/words/#20240521-updatec
 
 ### 基于规则的字典生成
 
-words 生成器的详细使用参见[words 文档](https://chainreactors.github.io/wiki/words)
+words 生成器的详细使用参见[words 文档](chainreactors.github.io/wiki/libs/words/#_3)
 
 当前内置的 spray 规则如下:
 
@@ -299,7 +272,7 @@ host 模式, 字典将会替换 header 中的 host 字段
 fasthttp 的性能远高于 net/http, 因此不建议手动修改配置. 如果有相关的特殊需求, 可以通过`-c`/`--client` `auto`/`standard`/`fast`进行修改. 默认为 auto.
 
 !!! info "使用 fasthttp 需要注意"
-如果目标使用了`chunked`, 那么 fasthttp 很可能无法正确获取解码后的 body, 需要使用`-c standard`切换成 go 自带的`net/http` . 我原本以为能找到一个 header 去在 client 关闭 chunk, 似乎并没有对应的方法.
+    如果目标使用了`chunked`, 那么 fasthttp 很可能无法正确获取解码后的 body, 需要使用`-c standard`切换成 go 自带的`net/http` . 我原本以为能找到一个 header 去在 client 关闭 chunk, 似乎并没有对应的方法.
 
 ### 请求自定义
 
@@ -318,7 +291,7 @@ fasthttp 的性能远高于 net/http, 因此不建议手动修改配置. 如果�
 spray 默认输出到终端的格式是 human-like 文本. 并默认开启的 **title 获取** 与 **被动指纹识别** 功能.
 
 ??? info "命令行输出案例"
-`spray --no-bar -u http:/example.com  -w '/{?l}' -a --extract url
+    `spray --no-bar -u http:/example.com  -w '/{?l}' -a --extract url
     [*] Parsed 26 words by /{?l} , 2023-01-04 11:16.30
     [*] Loaded 1 urls from cmd , 2023-01-04 11:16.30
     [*] Loaded 0 dictionaries and 0 decorators , 2023-01-04 11:16.30
@@ -415,7 +388,7 @@ spray 默认输出到终端的格式是 human-like 文本. 并默认开启的 **
 默认输出到文件的格式为 json, 可以使用`-o full` 强制修改为和命令行一样的格式
 
 ??? info "json 输出格式案例"
-`json
+    `json
     {
         "number": 0,
         "url": "http://example/static/js/app.72fc17fc.js",
@@ -483,7 +456,7 @@ spray 默认输出到终端的格式是 human-like 文本. 并默认开启的 **
 
 除了`-f` 指定的文件名外, 还会根据任务类型生成`***.stat`的进度文件, 用来保存任务的状态与进度信息. 可以通过这个文件判断目标大致的状况.
 ??? info "stat 输出案例"
-`json
+    `json
     {
         "url": "http://101.132.126.181/",
         "counts": {
@@ -546,7 +519,7 @@ extract 也存在一些常用的预设, `--extract ip`
 直接使用例如`--black-status 1020`将会覆盖原有的值, 可以使用`--black-status +1020`在原有的基础上新增, 或`--black-status !1024` 在原有的基础上去除.
 
 !!! info "fuzzy all"
-`--fuzzy-status`参数存在特例`--fuzzy-status all` 启用所有状态码的 fuzzy 过滤, 用来应对一些特殊场景
+    `--fuzzy-status`参数存在特例`--fuzzy-status all` 启用所有状态码的 fuzzy 过滤, 用来应对一些特殊场景
 
 ### 自定义过滤
 
@@ -670,7 +643,7 @@ spray 并不鼓励使用递归, 因为 spray 的定位是批量从反代/cdn 中
   - `--read-all` 默认情况下如果爬虫爬到的某些文件过大, 将只读取前 16k 数据, 导致爬虫失效. 可以添加该参数解除响应大小的限制
 
 !!! note "注意"
-crawl 的结果没有像 jsfinder 中一样拼接上 baseurl, 因为从 js 中提取出来的结果通常不是最终的结果, 直接去访问大概率是 404. 为了防止造成混淆, spray 的 crawl 结果将保持原样输出. 但在爬虫递归时, 还是会尝试拼接上 baseurl 进行探测. 爬虫递归时会进行自动去重判断.
+    crawl 的结果没有像 jsfinder 中一样拼接上 baseurl, 因为从 js 中提取出来的结果通常不是最终的结果, 直接去访问大概率是 404. 为了防止造成混淆, spray 的 crawl 结果将保持原样输出. 但在爬虫递归时, 还是会尝试拼接上 baseurl 进行探测. 爬虫递归时会进行自动去重判断.
 
 - `--active` 可以开启类似[gogo 的主动指纹识别](/wiki/gogo/extension/#_2).
 
