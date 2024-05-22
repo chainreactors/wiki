@@ -150,7 +150,7 @@ Help Options:
 
 为了实现这个功能, 编写了一门名为 mask 的模板语言. 代码位于: [mask](https://github.com/chainreactors/words/tree/master/mask).
 
-一些使用案例
+简单使用: 
 
 `spray -u http://example.com -w '/{?l#3}/{?ud#3}`
 
