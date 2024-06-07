@@ -26,31 +26,40 @@ Input Options:
   -I, --IP=             File, input ip list filename
   -u, --user=           Strings, input usernames
   -U, --USER=           File, input username list filename
-      --userword=       String, input username generator dsl
+  -a, --auth=           Strings, input auth, username::password
+  -A, --AUTH=           File, input auth list filename
       --userrule=       String, input username generator rule filename
   -p, --pwd=            String, input passwords
   -P, --PWD=            File, input password list filename
-      --pwdword=        String, input password generator dsl
       --pwdrule=        String, input password generator rule filename
-      --go=             File, input gogo result filename
+  -d, --dict=           Strings, input dictionaries
+  -j, --json=           File, input json result filename
+  -g, --gogo=           File, input gogo result filename
   -s, --service=        String, input service name
-  -S, --filter-service= String, filter service name
-      --param=          param
+  -S, --filter-service= String, filter service when input json/gogo file
+      --param=          params
 
 Output Options:
   -f, --file=           File, output result filename
   -O, --file-format=    String, output result file format (default: json)
   -o, --format=         String, output result format (default: string)
+
 Word Options:
       --top=            Int, top n words (default: 0)
-      --force-continue  Bool, force continue, not only stop when first success
-                        ever host
+      --force-continue  Bool, force continue, not only stop when first success ever host
+      --weakpass        Bool, common weak password rule
+      --no-unauth       Bool, skip check unauth
+      --no-honeypot     Bool, skip check honeypot
 
 Misc Options:
+      --raw             Bool, parser raw username/password
   -t=                   Int, threads (default: 100)
-  -d, --timeout=        Int, timeout (default: 5)
-  -m=                   String, mod (default: clusterbomb)
+      --timeout=        Int, timeout (default: 5)
+  -m=                   String, clusterbomb/sniper (default: clusterbomb)
       --debug           Bool, enable debug
+  -l, --list            Bool, list all service
+      --bar             Bool, enable bar
+      --version         Bool, show version
 
 Help Options:
   -h, --help            Show this help message
@@ -59,6 +68,10 @@ Help Options:
 ## QuickStart
 
 参考了 hydra 的命令行设计, 小写为命令行输出, 大写为文件输入, 留空为使用默认值.
+
+查看所有支持的服务
+
+`zombie -l`
 
 使用默认字典爆破 ssh 的 root 用户口令
 
