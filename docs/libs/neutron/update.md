@@ -12,3 +12,10 @@ title: neutron · 更新日志
 * 修复多个bug，可能导致崩溃，错误输出等
 * 移除chainreactors/utils依赖， 现在neutron的依赖更加少了，欢迎移植到其他工具中使用
 * 在info字段下新增zombie属性, 可以使用neutron template在zombie中动态注册插件实现爆破功能
+
+### 2024.6.26
+
+进一步兼容nuclei的dsl
+
+* 支持variables功能
+* 支持randstr变量与duration变量
