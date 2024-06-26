@@ -22,17 +22,19 @@ nuclei更新较快, 一般情况下gogo会落后nuclei最新版几个月, 所以
 
 部分功能会以简化的形式重新加入到gogo中
 
-1. oast与OOB,这类需要外带的功能, 可以通过探测接口是否存在做一个大致的匹配.
+1. oast与OOB.
 2. workflow, 通过chain简单代替
-4. pipeline
-5. Race conditions
+3. pipeline
+4. Race conditions
 
 **TODO**
 
 - [x] cookie reuse
 - [x] http redirect
-- [x] variables  （已支持自定义payloads, 功能类似variables）
+- [x] variables  
 - [x] Helper Functions (已支持完整的dsl引擎)
+- [ ] Requests Annotation
+- [ ] Unsafe HTTP
 
 ## 案例
 
