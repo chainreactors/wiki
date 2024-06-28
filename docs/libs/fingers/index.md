@@ -20,11 +20,11 @@ tcp指纹与http指纹为同一格式, 但通过不同的文件进行管理
 
 !!! example "Features."
     *  支持多种方式规则配置
-    *  支持多种方式的版本号匹配
-    *  404/favicon/waf/cdn/供应链指纹识别
-    *  主动指纹识别
-    *  超强性能, 采用了缓存,正则预编译,默认端口,优先级等等算法提高引擎性能
-    *  重点指纹,指纹来源与tag标记
+        *  支持多种方式的版本号匹配
+        *  404/favicon/waf/cdn/供应链指纹识别
+        *  主动指纹识别
+        *  超强性能, 采用了缓存,正则预编译,默认端口,优先级等等算法提高引擎性能
+        *  重点指纹,指纹来源与tag标记
 
 ### 完整的配置
 配置文件: `v2/templates/http/*` 与 `v2/templates/tcpfingers.yaml`
@@ -105,15 +105,16 @@ https://github.com/chainreactors/fingers/tree/master/goby 为其规则库的go�
 
 ## fingers sdk
 
-调用内置的三个引擎进行指纹匹配, 示例: 
+调用内置所有进行指纹引擎识别, 示例:
 
 ```golang
+
 func TestNewEngine(t *testing.T) {
 	engine, err := NewEngine()
 	if err != nil {
 		panic(err)
 	}
-	resp, err := http.Get("http://81.70.40.1")
+	resp, err := http.Get("https://baidu.com")
 	if err != nil {
 		return
 	}
@@ -121,6 +122,25 @@ func TestNewEngine(t *testing.T) {
 	if err != nil {
 		return
 	}
+	fmt.Println(frames)
+}
+```
+
+调用SDK识别Favicon指纹, 示例:
+
+```golang
+func TestFavicon(t *testing.T) {
+	engine, err := NewEngine()
+	if err != nil {
+		panic(err)
+	}
+	resp, err := http.Get("http://81.70.40.202:8080/favicon.ico")
+	if err != nil {
+		return
+	}
+	content := common.ReadRaw(resp)
+	_, body, _ := common.SplitContent(content)
+	frames := engine.HashContentMatch(body)
 	fmt.Println(frames)
 }
 ```
