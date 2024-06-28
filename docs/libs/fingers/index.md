@@ -4,7 +4,7 @@ repo: https://github.com/chainreactors/fingers
 
 fingers 是用来各种指纹规则库的go实现, 不同规则库的语法不同, 为了支持在工具多规则库. 于是新增了fingers仓库管理各种不同的规则引擎, 允许不同的输入结构, 但统一输出结构. 并合并输出结果, 最大化指纹识别能力
 
-目前fingers仓库只提供给[spray](https://github.com/chainreactors/spray)使用, 后续将移植到更多工具中, 也欢迎其他工具使用本仓库. 
+目前fingers仓库只提供给[spray](https://github.com/chainreactors/spray) 与 [gogo](https://github.com/chainreactors/gogo)使用, 后续将移植到更多工具中, 也欢迎其他工具使用本仓库. 
 
 ## 指纹库
 
@@ -12,23 +12,19 @@ fingers 是用来各种指纹规则库的go实现, 不同规则库的语法不�
 
 指纹库位于: https://github.com/chainreactors/templates/tree/master/fingers
 
-[fingers](https://github.com/chainreactors/fingers/tree/master/fingers)为其规则库的go语言实现.
+https://github.com/chainreactors/fingers/tree/master/fingers 为其规则库的go语言实现.
 
 指纹分为tcp指纹、http指纹
 
 tcp指纹与http指纹为同一格式, 但通过不同的文件进行管理
 
 !!! example "Features."
-    1. 多种方式规则配置
-    2. 多种方式的版本号匹配
-    3. 404/favicon/waf指纹识别
-    4. 主动指纹识别
-    5. 根据默认端口优化指纹识别速度
-    6. 正则预编译
-    7. 重点指纹标记
-    8. 指纹来源
-    9. 指纹tag
-    10. 指纹与poc的联动
+    *  支持多种方式规则配置
+    *  支持多种方式的版本号匹配
+    *  404/favicon/waf/cdn/供应链指纹识别
+    *  主动指纹识别
+    *  超强性能, 采用了缓存,正则预编译,默认端口,优先级等等算法提高引擎性能
+    *  重点指纹,指纹来源与tag标记
 
 ### 完整的配置
 配置文件: `v2/templates/http/*` 与 `v2/templates/tcpfingers.yaml`
@@ -81,23 +77,31 @@ tcp指纹与http指纹为同一格式, 但通过不同的文件进行管理
 
 ### wappalyzer
 
-[wappalyzer](https://github.com/chainreactors/fingers/tree/master/wappalyzer) 为wappalyzer指纹库的实现, 核心代码fork自 https://github.com/projectdiscovery/wappalyzergo , 将其输出结果统一为frameworks.
+https://github.com/chainreactors/fingers/tree/master/wappalyzer 为wappalyzer指纹库的实现, 核心代码fork自 https://github.com/projectdiscovery/wappalyzergo , 将其输出结果统一为frameworks.
 
 后续将会提供每周更新的github action, 规则库只做同步. 
 
 ### fingerprinthub
 
-规则库位于: https://github.com/0x727/FingerprintHub
+规则库本体位于: https://github.com/0x727/FingerprintHub
 
-[fingerprinthub](https://github.com/chainreactors/fingers/tree/master/fingerprinthub)为其规则库的go实现. 本仓库的规则库只做同步.
+https://github.com/chainreactors/fingers/tree/master/fingerprinthub 为其规则库的go实现. 本仓库的此规则库只做同步.
 
-### TODO
+后续将会提供每周更新的github action, 规则库只做同步. 
 
-足够强大的其他指纹库欢迎提供issue或pr.
+### ehole
+
+规则库本体位于: https://github.com/EdgeSecurityTeam/EHole
+
+https://github.com/chainreactors/fingers/tree/master/ehole 为其规则库的go实现. 本仓库的此规则库只做同步.
 
 
 
+### goby
 
+规则库本体来自社区的开源逆向[goby](https://gobies.org/) Thanks @XiaoliChan @9bie .
+
+https://github.com/chainreactors/fingers/tree/master/goby 为其规则库的go实现. 本仓库的此规则库只做同步.
 
 ## fingers sdk
 
