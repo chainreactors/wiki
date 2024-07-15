@@ -4,9 +4,81 @@ repo: https://github.com/chainreactors/fingers
 
 fingers 是用来各种指纹规则库的go实现, 不同规则库的语法不同, 为了支持在工具多规则库. 于是新增了fingers仓库管理各种不同的规则引擎, 允许不同的输入结构, 但统一输出结构. 并合并输出结果, 最大化指纹识别能力
 
-目前fingers仓库只提供给[spray](https://github.com/chainreactors/spray) 与 [gogo](https://github.com/chainreactors/gogo)使用, 后续将移植到更多工具中, 也欢迎其他工具使用本仓库. 
+目前fingers仓库已经成为[spray](https://github.com/chainreactors/spray) 与 [gogo](https://github.com/chainreactors/gogo)的指纹引擎.  后续将移植到更多工具中, 也欢迎其他工具使用本仓库. 
 
-## 指纹库
+## 指纹库聚合
+
+### 指纹库
+
+fingers engine 通过实现多个指纹库的解析, 实现一次扫描多个指纹库匹配。最大程度提升指纹能力
+
+#### fingers
+
+fingers原生支持的指纹库, 也是目前支持最多特性的指纹库
+
+!!! example "Features."
+    *  支持多种方式规则配置
+    *  支持多种方式的版本号匹配
+    *  404/favicon/waf/cdn/供应链指纹识别
+    *  主动指纹识别
+    *  超强性能, 采用了缓存,正则预编译,默认端口,优先级等等算法提高引擎性能
+    *  重点指纹,指纹来源与tag标记
+
+具体语法请见 #DSL
+
+#### wappalyzer
+
+https://github.com/chainreactors/fingers/tree/master/wappalyzer 为wappalyzer指纹库的实现, 核心代码fork自 https://github.com/projectdiscovery/wappalyzergo , 将其输出结果统一为frameworks.
+
+后续将会提供每周更新的github action, 规则库只做同步. 
+
+#### fingerprinthub
+
+规则库本体位于: https://github.com/0x727/FingerprintHub
+
+https://github.com/chainreactors/fingers/tree/master/fingerprinthub 为其规则库的go实现. 本仓库的此规则库只做同步.
+
+后续将会提供每周更新的github action, 规则库只做同步. 
+
+#### ehole
+
+规则库本体位于: https://github.com/EdgeSecurityTeam/EHole
+
+https://github.com/chainreactors/fingers/tree/master/ehole 为其规则库的go实现. 本仓库的此规则库只做同步.
+
+#### goby
+
+规则库本体来自开源社区的逆向[goby](https://gobies.org/) Thanks @XiaoliChan @9bie .
+
+https://github.com/chainreactors/fingers/tree/master/goby 为其规则库的go实现. 本仓库的此规则库只做同步.
+
+### Alias
+
+多指纹库可能会出现同一个指纹在不同指纹库中存在不同命名的情况. 为了解决这个问题, 实现`alias`转换, 能让不同指纹库中的别名以统一的方式展示, 并且固定product与vendor, 能让没有实现CPE相关功能的指纹库也能支持CPE。
+
+`alias.yaml`在 https://github.com/chainreactors/fingers/blob/master/alias/aliases.yaml   中配置.
+
+具体配置以用友NC为例.
+
+```
+- name: 用友 NC      # 对外展示的名字
+  vendor: yonyou    # 厂商, 对应到CPE的vendor
+  product: NC		# 产品名, 对应到CPE的product
+  block:            # 用来过滤一些低质量指纹, 该指纹在block中的配置将会被自动忽略
+  	- fingerprinthub 
+  alias:            # 别名
+    fingers:        # 指纹库名
+      - 用友NC       # 对应指纹库中的名字
+    ehole:			
+      - 用友NC
+      - YONYOU NC
+    goby:
+      - UFIDA NC
+    fingerprinthub:
+      - yonyou-ufida-nc
+```
+
+## DSL
 
 ### 内置指纹库语法
 
@@ -17,14 +89,6 @@ https://github.com/chainreactors/fingers/tree/master/fingers 为其规则库的g
 指纹分为tcp指纹、http指纹
 
 tcp指纹与http指纹为同一格式, 但通过不同的文件进行管理
-
-!!! example "Features."
-    *  支持多种方式规则配置
-        *  支持多种方式的版本号匹配
-        *  404/favicon/waf/cdn/供应链指纹识别
-        *  主动指纹识别
-        *  超强性能, 采用了缓存,正则预编译,默认端口,优先级等等算法提高引擎性能
-        *  重点指纹,指纹来源与tag标记
 
 ### 完整的配置
 配置文件: `v2/templates/http/*` 与 `v2/templates/tcpfingers.yaml`
@@ -75,73 +139,75 @@ tcp指纹与http指纹为同一格式, 但通过不同的文件进行管理
 
 每个指纹都可以有多个rule, 每个rule中都有一个regexps, 每个regexps有多条不同种类的字符串/正则/hash
 
-### wappalyzer
+## SDK
 
-https://github.com/chainreactors/fingers/tree/master/wappalyzer 为wappalyzer指纹库的实现, 核心代码fork自 https://github.com/projectdiscovery/wappalyzergo , 将其输出结果统一为frameworks.
+### 指纹匹配
 
-后续将会提供每周更新的github action, 规则库只做同步. 
-
-### fingerprinthub
-
-规则库本体位于: https://github.com/0x727/FingerprintHub
-
-https://github.com/chainreactors/fingers/tree/master/fingerprinthub 为其规则库的go实现. 本仓库的此规则库只做同步.
-
-后续将会提供每周更新的github action, 规则库只做同步. 
-
-### ehole
-
-规则库本体位于: https://github.com/EdgeSecurityTeam/EHole
-
-https://github.com/chainreactors/fingers/tree/master/ehole 为其规则库的go实现. 本仓库的此规则库只做同步.
-
-
-
-### goby
-
-规则库本体来自社区的开源逆向[goby](https://gobies.org/) Thanks @XiaoliChan @9bie .
-
-https://github.com/chainreactors/fingers/tree/master/goby 为其规则库的go实现. 本仓库的此规则库只做同步.
-
-## fingers sdk
-
-调用内置所有进行指纹引擎识别, 示例:
+调用所有的指纹引擎对指定目标的返回结果进行匹配
 
 ```golang
-
-func TestNewEngine(t *testing.T) {
-	engine, err := NewEngine()
-	if err != nil {
-		panic(err)
-	}
-	resp, err := http.Get("https://baidu.com")
-	if err != nil {
-		return
-	}
-	frames, err := engine.DetectResponse(resp)
-	if err != nil {
-		return
-	}
-	fmt.Println(frames)
+func TestEngine(t *testing.T) {
+    engine, err := NewEngine()
+    if err != nil {
+       panic(err)
+    }
+    resp, err := http.Get("http://127.0.0.1:8080/favicon.ico")
+    if err != nil {
+       return
+    }
+    start := time.Now()
+    frames, err := engine.DetectResponse(resp)
+    if err != nil {
+       return
+    }
+    println(time.Since(start).String())
+    fmt.Println(frames.String())
+    for _, f := range frames {
+       fmt.Println("cpe: ", f.CPE(), "||||", f.String())
+    }
 }
 ```
 
-调用SDK识别Favicon指纹, 示例:
+如果已经进行过读取, 也可以使用`DetectContent(content []bytes)`代替`DetectResponse`
+
+### Favicon匹配
+
+调用Favicon引擎对图标进行匹配
 
 ```golang
 func TestFavicon(t *testing.T) {
-	engine, err := NewEngine()
-	if err != nil {
-		panic(err)
-	}
-	resp, err := http.Get("http://81.70.40.202:8080/favicon.ico")
-	if err != nil {
-		return
-	}
-	content := common.ReadRaw(resp)
-	_, body, _ := common.SplitContent(content)
-	frames := engine.HashContentMatch(body)
-	fmt.Println(frames)
+    engine, err := NewEngine()
+    if err != nil {
+       panic(err)
+    }
+    resp, err := http.Get("http://127.0.0.1:8080/favicon.ico")
+    if err != nil {
+       return
+    }
+    content := httputils.ReadRaw(resp)
+    _, body, _ := httputils.SplitHttpRaw(content)
+    frames := engine.HashContentMatch(body)
+    fmt.Println(frames)
+}
+```
+### 单指纹库调用
+
+```golang
+func TestFingersEngine(t *testing.T) {
+    engine, err := fingers.NewFingersEngine()
+    if err != nil {
+       t.Error(err)
+    }
+    resp, err := http.Get("http://127.0.0.1")
+    if err != nil {
+       return
+    }
+
+    content := httputils.ReadRaw(resp)
+    frames, _ := engine.HTTPMatch(content, "")
+    for _, frame := range frames {
+       t.Log(frame)
+    }
 }
 ```
 
