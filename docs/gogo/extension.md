@@ -95,7 +95,7 @@ gogo 保留了大量可拓展接口, 例如指纹、poc/exp、工作流, 端口�
 
 ## 拓展指纹
 
-语法引擎详细文档: [fingers语法](https://chainreactors.github.io/wiki/libs/fingers/#_2)
+语法引擎详细文档: [fingers语法](https://chainreactors.github.io/wiki/libs/fingers/start_fingers)
 
 完整说明:
 
@@ -135,13 +135,11 @@ gogo 保留了大量可拓展接口, 例如指纹、poc/exp、工作流, 端口�
      vuln: frame_unauthorized # 如果regexps中的vuln命中, 则会输出漏洞名称. 某些漏洞也可以通过匹配关键字识别, 因此一些简单的poc使用指纹的方式实现, 复杂的poc请使用-e下的nuclei yaml配置
 ```
 
+### 最简指纹
 
+绝大多数下, 只需要添加最基本的python, 能实现指纹识别. 
 
-### HTTP指纹
-
-**案例1**
-
-在大多数情况下只需要匹配body中的内容。一个指纹插件最简配置可以简化为如下所示:
+**匹配body**
 
 ```
 - name: tomcat
@@ -151,116 +149,15 @@ gogo 保留了大量可拓展接口, 例如指纹、poc/exp、工作流, 端口�
           - Apache Tomcat
 ```
 
-这里的body为简单的strings.Contains函数, 判断http的body中是否存在某个字符串。
-
-gogo中所有的指纹匹配都会忽略大小写。
-
-**案例2**
-
-而如果要提取版本号, 配置也不会复杂多少。
+**匹配favicon**
 
 ```
-- name: tomcat
+- name: Fortinet Fortigate SSL VPN
   rule:
-    - regexps:
-        regexp:
-          - <h3>Apache Tomcat/(.*)</h3>
-          - <title>Apache Tomcat/(.*)</title>
+    - favicon:
+        mmh3:
+          - '945408572'
 ```
-
-**案例3**
-
-但是有些情况下, 版本号前后并没有可以用来匹配的关键字. 可以采用version字段去指定版本号。
-
-例如：
-
-```
-- name: tomcat
-  rule:
-    - version: v8
-      regexps:
-        body:
-          - <h3>Apache Tomcat/8</h3>
-```
-
-这样一来只需要匹配到特定的body, 在结果中也会出现版本号。
-
-`[+] https://1.1.1.1:443                 tomcat:v8 [200] Apache Tomcat/8.5.56 `
-
-**案例4**
-
-而一些更为特殊的情况, 版本号与指纹不在同一处出现, 且版本号较多, 这样为一个指纹写十几条规则是很麻烦的事情, gogo也提供了便捷的方法.
-
-看下面例子:
-
-```
-- name: tomcat
-  rule:
-    - regexps:
-        regexp:
-          - <h3>Apache Tomcat/8</h3>
-       	version:
-       	  - Tomcat/(.*)</h3>
-```
-
-可以通过regexps中的version规则去匹配精确的版本号。version正则将会在其他匹配生效后起作用, 如果其他规则命中了指纹且没发现版本号时, 就会使用version正则去提取。
-
-这些提取版本号的方式可以按需使用, 大多数情况下前面两种即可解决99%的问题, 第三种以备不时之需。
-
-**案例5**
-
-假设情况再特殊一点, 例如, 需要通过主动发包命中某个路由, 且匹配到某些结果。一个很经典的例子就是nacos, 直接访问是像tomcat 404页面, 且header中无明显特征, 需要带上/nacos路径去访问才能获取对应的指纹。
-
-看gogo中nacos指纹的配置
-
-```
-- name: nacos
-  focus: true
-  rule:
-    - regexps:
-        body:
-          - console-ui/public/img/favicon.ico
-      send_data: /nacos
-```
-
-其中, send_data为主动发包发送的URL, 在tcp指纹中则为socket发送的数据。
-
-当`http://127.0.0.1/nacos`中存在`console-ui/public/img/favicon.ico`字符串, 则判断为命中指纹。
-
-这个send_data可以在每个rule中配置一个, 假设某个框架不同版本需要主动发包的URL不同, 也可以通过一个插件解决。
-
-这里还看到了focus字段, 这个字段是用来标记一些重点指纹, 默认添加了一下存在常见漏洞的指纹, 也可以根据自己的0day库自行配置。在输出时也会带有focus字样, 可以通过`--filter focus` 过滤出所有重要指纹。
-
-**案例6**
-
-而还有情况下, 某些漏洞或信息会直接的以被动的形式被发现, 不需要额外发包。所以还添加了一个漏洞指纹的功能。
-
-例如gogo中真实配置的tomcat指纹为例：
-
-```
-- name: tomcat
-  rule:
-    - regexps:
-        vuln:
-          - Directory Listing For
-        regexp:
-          - <h3>Apache Tomcat/(.*)</h3>
-          - <title>Apache Tomcat/(.*)</title>
-        header:
-          - Apache-Coyote
-      favicon:
-        md5:
-          - 4644f2d45601037b8423d45e13194c93
-      info: tomcat Directory traversal
-```
-
-regexps中配置了vuln字段, 这个字典如果命中, 则同时给目标添加上vuln输出, 也就是使用gogo经常看到的输出的末尾会添加`[ info: tomcat Directory traversa]` 
-
-这里也有两种选择info/vuln, info为信息泄露、vuln为漏洞。当填写的是vuln, 则输出会改成`[ high: tomcat Directory traversa]` 
-
-这里还有个favicon的配置, favicon支持mmh3或md5, 可以配置多条。
-
-需要注意的是`favicon`与`send_data`字段都只用在命令行开启了`-v`(主动指纹识别)模式下才会生效。每个指纹只要命中了一条规则就会退出, 不会做重复无效匹配。
 
 ### TCP指纹
 
