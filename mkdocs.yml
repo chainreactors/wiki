@@ -21,7 +21,7 @@ theme:
     - navigation.expand
     - navigation.indexes
     - toc.integrate 
-    - toc.follow
+    - toc.follo
     - navigation.top 
     - header.autohide
     - search.share
@@ -89,6 +89,9 @@ nav:
     - index: libs/index.md
     - neutron: 
       - index: libs/neutron/index.md
-      - 更新日志: libs/neutron/update.md
+      - update: libs/neutron/update.md
     - words: libs/words/index.md
-    - fingers: libs/fingers/index.md
+    - fingers: 
+      - index: libs/fingers/index.md
+      - fingers: libs/finergs/fingers.md
+      - sdk: libs/fingers/sdk.md 
