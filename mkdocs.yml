@@ -31,6 +31,18 @@ theme:
   name: material
 plugins:
   - search
+  - blog:
+      blog_toc: true
+  - rss:
+      match_path: "blog/posts/.*"
+      date_from_meta:
+        as_creation: date.created
+        as_update: date.updated
+      feeds_filenames:
+        json_created: feed.json
+        json_updated: feed-updated.json
+        rss_created: rss.xml
+        rss_updated: rss-updated.xml
 markdown_extensions:
   - markdown.extensions.admonition
   - markdown.extensions.attr_list
@@ -91,8 +103,10 @@ nav:
       - index: libs/neutron/index.md
       - update: libs/neutron/update.md
     - words: 
-      - index: libs/words/index.md
+      - index: libs/words/index.md  
     - fingers: 
       - index: libs/fingers/index.md
       - rule: libs/fingers/rule.md
       - sdk: libs/fingers/sdk.md 
+  - Blog:
+    - blog/index.md
