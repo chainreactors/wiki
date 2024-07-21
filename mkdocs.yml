@@ -90,8 +90,9 @@ nav:
     - neutron: 
       - index: libs/neutron/index.md
       - update: libs/neutron/update.md
-    - words: libs/words/index.md
+    - words: 
+      - index: libs/words/index.md
     - fingers: 
       - index: libs/fingers/index.md
-      - fingers: libs/finergs/fingers.md
+      - rule: libs/fingers/rule.md
       - sdk: libs/fingers/sdk.md 
