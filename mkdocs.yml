@@ -33,16 +33,6 @@ plugins:
   - search
   - blog:
       blog_toc: true
-  - rss:
-      match_path: "blog/posts/.*"
-      date_from_meta:
-        as_creation: date.created
-        as_update: date.updated
-      feeds_filenames:
-        json_created: feed.json
-        json_updated: feed-updated.json
-        rss_created: rss.xml
-        rss_updated: rss-updated.xml
 markdown_extensions:
   - markdown.extensions.admonition
   - markdown.extensions.attr_list
