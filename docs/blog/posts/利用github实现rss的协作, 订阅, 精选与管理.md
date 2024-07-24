@@ -1,6 +1,7 @@
 ---
 date:
   created: 2022-11-20
+slug: picker-introduce
 ---
 
 ## 前言
