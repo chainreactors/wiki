@@ -1,6 +1,7 @@
 ---
 date:
   created: 2023-12-31
+slug: spray-introduce
 ---
 
 Next Generation HTTP Dir/File Fuzz Tool: https://github.com/chainreactors/spray
