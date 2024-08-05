@@ -29,22 +29,26 @@ Usage:
 	./spray
 
 Input Options:
-      --resume=
+      --resume=                     File, resume filename
+  -c, --config=                     File, config filename
   -u, --url=                        Strings, input baseurl, e.g.: http://google.com
   -l, --list=                       File, input filename
   -p, --port=                       String, input port range, e.g.: 80,8080-8090,db
-  -c, --cidr=                       String, input cidr, e.g.: 1.1.1.1/24
-      --raw=                        File, input raw request filename, todo
+  -i, --cidr=                       String, input cidr, e.g.: 1.1.1.1/24
+      --raw=                        File, input raw request filename
   -d, --dict=                       Files, Multi,dict files, e.g.: -d 1.txt -d 2.txt
-      --offset=                     Int, wordlist offset
-      --limit=                      Int, wordlist limit, start with offset. e.g.: --offset 1000 --limit 100
+  -D, --default                     Bool, use default dictionary
   -w, --word=                       String, word generate dsl, e.g.: -w test{?ld#4}
   -r, --rules=                      Files, rule files, e.g.: -r rule1.txt -r rule2.txt
       --append-rule=                Files, when found valid path , use append rule generator new word with current path
       --filter-rule=                String, filter rule, e.g.: --rule-filter '>8 <4'
+      --append-file=                Files, when found valid path , use append file new word with current path
+      --offset=                     Int, wordlist offset
+      --limit=                      Int, wordlist limit, start with offset. e.g.: --offset 1000 --limit 100
 
 Function Options:
   -e, --extension=                  String, add extensions (separated by commas), e.g.: -e jsp,jspx
+      --force-extension             Bool, force add extensions
       --exclude-extension=          String, exclude extensions (separated by commas), e.g.: --exclude-extension jsp,jspx
       --remove-extension=           String, remove extensions (separated by commas), e.g.: --remove-extension jsp,jspx
   -U, --uppercase                   Bool, upper wordlist, e.g.: --uppercase
@@ -52,71 +56,86 @@ Function Options:
       --prefix=                     Strings, add prefix, e.g.: --prefix aaa --prefix bbb
       --suffix=                     Strings, add suffix, e.g.: --suffix aaa --suffix bbb
       --replace=                    Strings, replace string, e.g.: --replace aaa:bbb --replace ccc:ddd
+      --skip=                       String, skip word when generate. rule, e.g.: --skip aaa
 
 Output Options:
-      --match=                      String, custom match function, e.g.: --match 'current.Status != 200'
+      --match=                      String, custom match function, e.g.: --match 'current.Status != 200''
       --filter=                     String, custom filter function, e.g.: --filter 'current.Body contains "hello"'
+      --fuzzy                       String, open fuzzy output
   -f, --file=                       String, output filename
-  -F, --format=                     String, output format, e.g.: --format 1.json
       --fuzzy-file=                 String, fuzzy output filename
       --dump-file=                  String, dump all request, and write to filename
       --dump                        Bool, dump all request
       --auto-file                   Bool, auto generator output and fuzzy filename
-      --fuzzy                       String, open fuzzy output
+  -F, --format=                     String, output format, e.g.: --format 1.json
+  -j, --json                        Bool, output json
   -o, --probe=                      String, output format
+  -q, --quiet                       Bool, Quiet
+      --no-color                    Bool, no color
+      --no-bar                      Bool, No progress bar
+      --no-stat                     Bool, No stat file output
 
 Plugin Options:
-  -a, --advance                     Bool, enable crawl and active
+  -a, --advance                     Bool, enable all plugin
       --extract=                    Strings, extract response, e.g.: --extract js --extract ip --extract version:(.*?)
+      --extract-config=             String, extract config filename
+      --active                      Bool, enable active finger path
       --recon                       Bool, enable recon
-      --active                      Bool, enable active finger detect
       --bak                         Bool, enable bak found
       --file-bak                    Bool, enable valid result bak found, equal --append-rule rule/filebak.txt
       --common                      Bool, enable common file found
       --crawl                       Bool, enable crawl
       --crawl-depth=                Int, crawl depth (default: 3)
 
+Finger Options:
+      --finger                      Bool, enable active finger detect
+      --update                      Bool, update finger database
+      --finger-path=                String, 3rd finger config path (default: fingers)
+      --finger-engine=              String, custom finger engine, e.g. --finger-engine ehole,goby (default: all)
+
 Request Options:
+  -x, --method=                     String, request method, e.g.: --method POST (default: GET)
       --header=                     Strings, custom headers, e.g.: --headers 'Auth: example_auth'
       --user-agent=                 String, custom user-agent, e.g.: --user-agent Custom
       --random-agent                Bool, use random with default user-agent
       --cookie=                     Strings, custom cookie
       --read-all                    Bool, read all response body
-      --max-length=                 Int, max response body length (kb), default 100k, e.g. -max-length 1000 (default:
-                                    100)
+      --max-length=                 Int, max response body length (kb), -1 read-all, 0 not read body, default 100k,
+                                    e.g. --max-length 1000 (default: 100)
 
 Modify Options:
       --rate-limit=                 Int, request rate limit (rate/s), e.g.: --rate-limit 100 (default: 0)
       --force                       Bool, skip error break
-      --check-only                  Bool, check only
       --no-scope                    Bool, no scope
       --scope=                      String, custom scope, e.g.: --scope *.example.com
       --recursive=                  String,custom recursive rule, e.g.: --recursive current.IsDir() (default:
                                     current.IsDir())
       --depth=                      Int, recursive depth (default: 0)
+      --index=                      String, custom index path (default: /)
+      --random=                     String, custom random path
       --check-period=               Int, check period when request (default: 200)
       --error-period=               Int, check period when error (default: 10)
-      --error-threshold=            Int, break when the error exceeds the threshold  (default: 20)
-      --black-status=               Strings (comma split),custom black status,  (default: 400,410)
+      --error-threshold=            Int, break when the error exceeds the threshold (default: 20)
+      --black-status=               Strings (comma split),custom black status (default: 400,410)
       --white-status=               Strings (comma split), custom white status (default: 200)
-      --fuzzy-status=               Strings (comma split), custom fuzzy status (default: 404,403,500,501,502,503)
-      --unique-status=              Strings (comma split), custom unique status (default: 403)
+      --fuzzy-status=               Strings (comma split), custom fuzzy status (default: 500,501,502,503)
+      --unique-status=              Strings (comma split), custom unique status (default: 403,200,404)
       --unique                      Bool, unique response
-      --retry=                      Int, retry count (default: 1)
-      --distance=
+      --retry=                      Int, retry count (default: 0)
+      --sim-distance=
 
 Miscellaneous Options:
+  -m, --mod=[path|host]             String, path/host spray (default: path)
+  -C, --client=[fast|standard|auto] String, Client type (default: auto)
       --deadline=                   Int, deadline (seconds) (default: 999999)
-      --timeout=                    Int, timeout with request (seconds) (default: 5)
+  -T, --timeout=                    Int, timeout with request (seconds) (default: 5)
   -P, --pool=                       Int, Pool size (default: 5)
   -t, --thread=                     Int, number of threads per pool (default: 20)
       --debug                       Bool, output debug info
-  -v, --version                     Bool, show version
-  -q, --quiet                       Bool, Quiet
-      --no-color                    Bool, no color
-      --no-bar                      Bool, No progress bar
-  -m, --mod=[path|host]             String, path/host spray (default: path)
-  -C, --client=[fast|standard|auto] String, Client type (default: auto)
+      --version                     Bool, show version
+  -v                                Bool, log verbose level ,default 0, level1: -v level2 -vv
+      --proxy=                      String, proxy address, e.g.: --proxy socks5://127.0.0.1:1080
+      --init                        Bool, init config file
 
 Help Options:
   -h, --help                        Show this help message
@@ -124,25 +143,81 @@ Help Options:
 
 ## QuickStart
 
+当前有两种运行模式, 爆破模式和基本模式.  这两种模式会自动切换, 不需要用户手动指定。 
+
+*所有需要基线进行智能过滤的功能都会打开爆破模式, 不需要上下文的功能会使用基本信息收集模式* 
+
+### 基本信息探测
+
+指定url进行探测
+
+```
+spray -u http://example.com -u http://test.com
+```
+
+通过文件批量指定url
+
+```
+spray -l 1.txt
+```
+
+最大能力的信息收集, 打开全部指纹引擎, 打开全部配置的extractor
+
+```
+spray -l 1.txt --finger --recon
+```
+
+端口扫描与网段扫描
+
+可以实现类似gogo的配置, 但是是只能用来识别http协议
+
+```
+spray -i 1.1.1.1/24 -p top2
+```
+
+域名+端口的探测
+
+```
+spray -u example.com -p top2
+```
+
+### 爆破模式
+
+!!! info "注意"
+	基本信息探测中的用法都可以在爆破模式中集成, 但请注意爆破模式会消耗更多的时间
+
+
 基本使用, 从字典中读取目录进行爆破
 
-`spray -u http://example.com -d wordlist1.txt -d wordlist2.txt`
+```
+spray -u http://example.com -d wordlist1.txt -d wordlist2.txt
+```
 
 通过掩码生成字典进行爆破
 
-`spray -u http://example.com -w "/aaa/bbb{?l#4}/ccc"`
+```
+spray -u http://example.com -w "/aaa/bbb{?l#4}/ccc"
+```
 
 通过规则生成字典爆破. 规则文件格式参考 hashcat 的字典生成规则
 
-`spray -u http://example.com -r rule.txt -d 1.txt`
+```
+spray -u http://example.com -r rule.txt -d 1.txt
+```
 
 批量爆破
 
-`spray -l url.txt -r rule.txt -d 1.txt`
+```
+spray -l url.txt -r rule.txt -d 1.txt
+```
 
 断点续传
 
-`spray --resume stat.json`
+```
+spray --resume stat.json
+```
+
+
 
 ## 字典生成
 
