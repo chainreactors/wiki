@@ -646,29 +646,33 @@ extract 也存在一些常用的预设, `--extract ip`
 !!! info "fuzzy all"
     `--fuzzy-status`参数存在特例`--fuzzy-status all` 启用所有状态码的 fuzzy 过滤, 用来应对一些特殊场景
 
-### 自定义过滤
+### 自定义表达式过滤
 
 智能过滤能最大程度保留 spray 内置的过滤策略. 但某些情况下, spray 内置的策略也不能满足需求, 就可以使用自定义过滤器代替 spray 内置的策略.
 
 某些情况可能非常离谱, 比如 not found 页面返回 200, 并且每次 body 相似度都不高. 这种情况下, 就可以使用自定义过滤功能.
 
-spray 中使用了 [expr](https://github.com/antonmedv/expr) 作为表达式语言, 应该是市面上公开的性能最强的脚本语言了.
+**spray 中使用了 [expr](https://github.com/antonmedv/expr) 作为表达式语言**, 应该是市面上公开的性能最强的脚本语言了.
 
 expr 的语法介绍: https://expr.medv.io/docs/Language-Definition
 
 expr 语法和 xray/github action 中差不多, spray 中绝大多数情况也用不到高级功能. 只需要了解最简单的等于/包含之类判断即可.
 
+#### custom match
+
 我们可以使用--match 定义我们需要的过滤规则, --match 自定义的过滤函数将会替换掉默认的智能过滤. 也就是说, 开启了--match, 智能过滤就自动关闭了, 如果不想关闭智能过滤, 也提供了其他解决办法.
 
 下面是一个简单的例子, 假设某个网站所有的 404 页面都指向公益页面, 我们想去掉所有的带"公益"字样的页面:
 
-`spray -u http://example.com -d word1.txt --match 'current.Body not contains "公益"'`
+```
+spray -u http://example.com -d word1.txt --match 'current.Body not contains "公益"'
+```
 
-这里的 current 关键字表示当前的请求的 baseline. `current.Body`即为 baseline 结构体中的 Body 字段, baseline 结构体可以见上文.
+这里的 current 关键字表示当前的请求的 baseline. `current.Body`即为 baseline 结构体中的 Body 字段, baseline 结构体可以见 https://chainreactors.github.io/wiki/spray/detail/#baseline .
 
-spray 获取的 baseline 也会被注册到将本语言中. index 表示 index_baseline, random 表示 random_baseline, 403bl 表示如果第一个获取的状态码为 403 的请求. 如果之前没有 403, 则所有字段为空.
+spray 获取的 baseline 也会被注册到将本语言中. `index` 表示 `index_baseline`, `random` 表示 `random_baseline`, `403bl` 表示如果第一个获取的状态码为 403 的请求. 如果之前没有 403, 则所有字段为空.
 
-按照 expr 的规则, 可以直接通过`.`访问各种属性, 如果是嵌套的属性, 再加一个`.` 即可. 下面是 Baseline 的定义.
+#### custom filter
 
 如果匹配的结果依旧不满意, 可以加上`--filter` 对 match 的结果进行二次过滤, `--filter`的规则与 `--match` 一致.
 
@@ -676,7 +680,22 @@ spray 获取的 baseline 也会被注册到将本语言中. index 表示 index_b
 
 某个网站存在通配符目录下返回 405, 且 405 中存在一定的随机值, 智能过滤的规则被打破, 出现了几千个 405 状态码的有效结果. 这个时候就可以使用`--filter`去二次过滤智能过滤的结果.
 
-`spray -u http://example.com -d word1.txt --filter 'current.Status != 405' `
+````
+spray -u http://example.com -d word1.txt --filter 'current.Status != 405'
+````
+
+!!! danger "--match 会覆盖智能过滤"
+	`--match`与默认的智能过滤处于同一个阶段, 如果手动指定了`--match`则会关闭智能过滤采用用户指定的规则.
+	`--filter` 可以与智能过滤同时生效, `--match`/智能过滤 后的结果将会送入`--filter` 中进行二次过滤
+
+
+```mermaid
+flowchart TD
+    A(precompare, 过滤掉一定无用的数据) --> B(智能过滤/custom match)
+    B --> C(custom filter)
+```
+
+
 
 ### 手动配置过滤器
 
