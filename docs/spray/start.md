@@ -225,13 +225,45 @@ spray --resume stat.json
 
 为了实现这个功能, 编写了一门名为 mask 的模板语言. 代码位于: [mask](https://github.com/chainreactors/words/tree/master/mask).
 
-简单使用: 
+**简单使用:** 
 
 `spray -u http://example.com -w '/{?l#3}/{?ud#3}`
 
 含义为, `/全部三位小写字母/全部三位大写字母+数字`组成的字典.
 
-mask的语法请见: https://chainreactors.github.io/wiki/libs/words/#20240521-updatec
+#### 语法基本介绍
+
+所有的 mask 生成器都需要通过`{}`包裹, 并且括号内的第一个字符必须为`?`, `$`其中之一.
+
+`#`后的数字表示重复次数, 可留空, 例如`{?lu}` , 表示"全部小写字母+全部大写字母"组成的字典.
+
+- `?` 表示普通的笛卡尔积. 例如`{?l#3}`表示生成三位小写字母的所有可能组合
+- `$` 表示贪婪模式, 例如`{$l#3}`表示 3 位小写字母的所有可能组合+2 位小写字母的所有可能组合+1 位小写字母的所有可能组合
+
+掩码的定义参考了 hashcat, 但是并不完全相同. 目前可用的关键字如下表:
+
+```
+"l": Lowercase,  // 26个小写字母
+"u": Uppercase,  // 26个大写字母
+"w": Letter,     // 52大写+小写字母
+"d": Digit, // 数字0-9
+"h": LowercaseHex, // 小写hex字符, 0-9 + a-f
+"H": UppercaseHex, // 大写hex字符, 0-9 + A-F
+"x": Hex,          // 大写+小写hex字符, 0-9 + a-f + A-F
+"p": Punctuation,  // 特殊字符 !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~
+"P": Printable,    // 可见的ascii字符
+"s": Whitespace,   // 空字符 \t\n\r\x0b\x0c
+```
+
+支持通过数字表示命令行输入的字典序号, 例如
+
+```
+spray -u http://example.com -w '/{?0u#2}/{?01}' -d word0.txt -d word1.txt
+```
+
+其中`{?0u#2}`表示 word0.txt 的所有内容+所有大写字母笛卡尔积两次, `{?01}` 表示 word0.txt + word1.txt 的所有内容.
+
+**关于mask更多高级功能请见: https://chainreactors.github.io/wiki/libs/words/#20240521-updatec**
 
 ### 基于规则的字典生成
 
@@ -239,24 +271,32 @@ words 生成器的详细使用参见[words 文档](chainreactors.github.io/wiki/
 
 当前内置的 spray 规则如下:
 
-- 权限绕过 [点击查看规则](https://github.com/chainreactors/gogo-templates/blob/master/rule/authbypass.rule)
-- 文件/目录备份 [点击查看规则](https://github.com/chainreactors/gogo-templates/blob/master/rule/filebak.txt)
+- **自动生成权限绕过** [点击查看规则](https://github.com/chainreactors/gogo-templates/blob/master/rule/authbypass.rule)
+- **自动生成文件/目录备份** [点击查看规则](https://github.com/chainreactors/gogo-templates/blob/master/rule/filebak.txt)
 
-简单使用
+**简单使用**
 
-`spray -u http://example.com -d word.txt -r rule.txt`
+```
+spray -u http://example.com -d word.txt -r rule.txt
+```
 
 这行命令表示, 将`word.txt`中每一行都作为基础值与规则库`rule.txt`进行 rule 模板语言处理过后的笛卡尔积. 最终的字典总数量为 `word行数 * rule行数`.
 
-`spray -u http://example.com -d word.txt --rule-filter ">15"`
+**rule过滤器**
+
+```
+spray -u http://example.com -d word.txt --rule-filter ">15"
+```
 
 这行命令表示, 指定字典, 并过滤掉长度大于 15 的字典.
 
-**轻量级递归**
+#### 轻量级递归
 
 很多时候扫到了有效目录, 但如何进一步深入呢? 最简单的办法就是全量字典递归, 但实际上这样做效率低, 准确率也低.
 
 正确的做法是根据场景选择合适的字典生成方式. 例如如果爆破到了新的目录, 则自动爆破备份文件, 爆破到了新的 api 则自动测试权限绕过.
+
+`--append-rule` 提供了在发现有效目录时的进一步字典生成器
 
 在 spray 中的用法:
 
@@ -265,39 +305,41 @@ words 生成器的详细使用参见[words 文档](chainreactors.github.io/wiki/
 
 例如发现`index.php`存在, 就会根据 rule 与`baseurl` 生成如`~index.php`,`.index.php`, `index.php.bak`等字典加入到队列中.
 
-### 使用函数装饰字典
+### 预配置的便捷用法
 
-内置了一些函数可以对字典进行装饰. 目前支持的如下:
+在使用基于掩码或基于规则的字段生成器时, 需要大量的手动配置和测试. 这很麻烦, 所以spray提供了一些预设快速实现一些常用配置. 
 
-mask 生成阶段的函数
+所有的预设实际上都是通过预先配置的[words](https://github.com/chainreactors/words) 实现.
+
+通过words的掩码配置实现的: 
 
 1. `--suffix` 在字典后面添加后缀, 可添加多个, 与原有的字典组成笛卡尔积
 2. `--prefix` 在字典前面添加前缀, 可添加多个, 与原有的字典组成笛卡尔积
 3. `-e`/`--extension` 添加拓展名, 逗号分割
 
-rule 阶段的函数
+通过words的function实现的: 
 
 1. `-L`/`--lowercase` 将字典中的所有字母转换为小写
 2. `-U`/`--uppercase` 将字典中的所有字母转换为大写
 3. `--replace` 替换字典中的字符, 例如`--replace aaa=bbb` 将字典中的 a 替换为 b, 可以添加多个`--replace`
 4. `--remove-extension` 删除字典中的文件扩展名, 逗号分割
 5. `--exclude-extension` 排除字典中的文件扩展名, 逗号分割
+6. `--skip` 跳过存在指定关键字的字典
+7. `force-extension` 强制添加后缀名, 不论是否已经存在
 
 **字典生成器的优先级**
 
-将`-w`与`-d`解析成 mask 表达式
+```mermaid
+flowchart TD
+    A(将 `-w` 与 `-d` 解析成 words 表达式) --> B(基于掩码的函数装饰器)
+    B --> C(基于掩码的字典生成器)
+    C --> D(基于规则的字典生成器)
+    D --> E(基于规则的过滤器)
+    E --> F(words装饰器)
+    F --> G(送入到 channel 中)
+```
 
---> mask 阶段的函数装饰器
 
---> mask 字典生成器
-
---> rule 字典生成器
-
---> rule 过滤器
-
---> rule 阶段的函数装饰器
-
---> 送入到 channel 中
 
 ## Input
 
@@ -307,6 +349,7 @@ rule 阶段的函数
 - `-l`/`--list` , 从文件中选择多个 url 作为任务. 将会自动开启并发模式, 支持多个任务同时进行, 并每个任务都有自己的 keep-alive 的连接池
 - `-c/--cidr` 输入指定网段, 例如 `spray -c 1.1.1.1/24`
 - `-p/--port` 指定多个端口, 规则与 gogo 一致, 例如`spray -u http://example -p top2`
+- `--default` 启用默认字典, 字典来自 [dirsearch](https://github.com/maurosoria/dirsearch/blob/master/db/dicc.txt)
 - `--resume` , 选择 stat 文件断点续传
 
 并且还有一些参数可以控制任务.
@@ -435,9 +478,10 @@ spray 默认输出到终端的格式是 human-like 文本. 并默认开启的 **
 一些便捷化的参数:
 
 - `--fuzzy` 打开命令行的模糊过滤结果输出.
-
 - `--auto-file` 自动根据任务指定文件名
 - `--dump `自动指定 dump 文件的文件名
+- `--no-stat` 将不会自动创建`.stat` 文件
+- `-j`/`--json` 标准输出中的输出格式启用json格式
 
 ### Probe
 
@@ -445,17 +489,20 @@ spray 默认输出到终端的格式是 human-like 文本. 并默认开启的 **
 
 当前支持的 probe 有
 
-- url
-- host
-- title
-- redirect
-- md5, body 的 MD5
-- simhash, body 的 simhash
-- mmh3, body 的 mmh3
-- stat/status, 状态码
-- spend, 耗费的时间, 单位毫秒
-- extract 提取的结果
-- frame 指纹, 默认开启[被动指纹识别](https://chainreactors.github.io/wiki/gogo/design/#_12),
+- `url`
+- `host`
+- `title`
+- `redirect`
+- `md5`, body 的 MD5
+- `simhash`, body 的 simhash
+- `mmh3`, body 的 mmh3
+- `stat`/`status`, 状态码
+- `spend`, 耗费的时间, 单位毫秒
+- `extract` 提取的结果
+- `frame` 指纹, 默认开启[被动指纹识别](https://chainreactors.github.io/wiki/gogo/design/#_12),
+- `cpe` , `cpe:2.3:a:microsoft:windows_10:1909:*:*:*:*:*:*:*****`
+- `wfn` , `wfn:[part="a", vendor="microsoft", product="windows_10", version="1909"]`
+- `uri`, `cpe:/a:microsoft:windows_10:1909`
 
 通过`spray -o url,host,title,md5,frame` 即可自由组合 probe 控制输出内容
 
@@ -713,14 +760,27 @@ spray 并不鼓励使用递归, 因为 spray 的定位是批量从反代/cdn 中
 
 也可以通过`--recursive`手动选择递归规则, 规则与`filter/match`相同的 expr 表达式 . 例如`--recursive current.IsDir() && current.Status == 403`表示, 递归所有状态码为 403 的有效目录.
 
-### 附加功能
+### 插件
+
+#### 通用插件
+
+`--finger` 打开全部的指纹引擎
+
+`--recon` 打开敏感信息提取
+
+### Brute插件
 
 - `--crawl` 可以开启爬虫. 限定爬虫的深度为 3, 且只能作用于当前作用域, 需要更加自由配置的爬虫配置请使用那几个 headless 爬虫. 默认情况下爬虫只爬取自身作用域
   - `--scope *.example.com` 将允许爬虫爬到指定作用域
   - `--no-scope` 取消所有作用域限制
   - `--read-all` 默认情况下如果爬虫爬到的某些文件过大, 将只读取前 16k 数据, 导致爬虫失效. 可以添加该参数解除响应大小的限制
 
-!!! note "注意"
+!!! tip "在基本信息探测时使用爬虫"
+	--crawl 是无法在基本信息探测时使用, 因为需要基准值去过滤爬虫的结果. 但是可以只对当前页面做信息收集. 
+	`--extract url,js` 即可打开爬虫对应的提取器, 收集url但不进行递归爬取
+
+
+!!! danger"注意"
     crawl 的结果没有像 jsfinder 中一样拼接上 baseurl, 因为从 js 中提取出来的结果通常不是最终的结果, 直接去访问大概率是 404. 为了防止造成混淆, spray 的 crawl 结果将保持原样输出. 但在爬虫递归时, 还是会尝试拼接上 baseurl 进行探测. 爬虫递归时会进行自动去重判断.
 
 - `--active` 可以开启类似[gogo 的主动指纹识别](/wiki/gogo/extension/#_2).
@@ -738,9 +798,9 @@ spray 并不鼓励使用递归, 因为 spray 的定位是批量从反代/cdn 中
 1. [x] 模糊判断
 2. [x] 断点续传
 3. [x] 简易爬虫
-4. [ ] 支持 http2
+4. [x] 支持 http2
 5. [ ] auto-tune, 自动调整并发数量
 6. [x] 可自定义的递归配置
 7. [x] 参考[fuzzuli](https://github.com/musana/fuzzuli), 实现备份文件字典生成器
-8. [ ] 支持 socks/http 代理, 不建议使用, 优先级较低. 代理下的 keep-alive 会有严重的性能下降
+8. [x] 支持 socks/http 代理, 不建议使用, 优先级较低. 代理下的 keep-alive 会有严重的性能下降
 9. [ ] 云函数化, chainreactors 工具链的通用分布式解决方案.
