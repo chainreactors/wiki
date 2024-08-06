@@ -72,41 +72,42 @@ baseline既是spray的输出的结构体, 也是实现各种过滤策略与高�
 ??? note "baseline结构体"
     ```
     type Baseline struct {
-    	Number       int        `json:"number"`
-        IsValid      bool       `json:"valid"`
-        IsFuzzy      bool       `json:"fuzzy"`
-        UrlString    string     `json:"url"`
-        Path         string     `json:"path"`
-        Host         string     `json:"host"`
-        BodyLength   int        `json:"body_length"`
-        ExceedLength bool       `json:"-"`
-        HeaderLength int        `json:"header_length"`
-        RedirectURL  string     `json:"redirect_url,omitempty"`
-        FrontURL     string     `json:"front_url,omitempty"`
-        Status       int        `json:"status"`
-        Spended      int64      `json:"spend"` // 耗时, 毫秒
-        ContentType  string     `json:"content_type"`
-        Title        string     `json:"title"`
-        Frameworks   Frameworks `json:"frameworks"`
-        Extracteds   Extracteds `json:"extracts"`
-        ErrString    string     `json:"error"`
-        Reason       string     `json:"reason"`
-        Source       int        `json:"source"`
-        ReqDepth     int        `json:"depth"`
-        Distance     uint8      `json:"distance"`
-        Unique       uint16   `json:"-"`
-        Url          *url.URL `json:"-"`
-        Dir          bool     `json:"-"`
-        Chunked      bool     `json:"-"`
-        Body         []byte   `json:"-"`
-        Header       []byte   `json:"-"`
-        Raw          []byte   `json:"-"`
-        Recu         bool     `json:"-"`
-        RecuDepth    int      `json:"-"`
-        URLs         []string `json:"-"`
-        Collected    bool     `json:"-"`
-        Retry        int      `json:"-"`
-		*Hashes        `json:"hashes"`
+    	Number       int               `json:"number"`
+        IsValid      bool              `json:"valid"`
+        IsFuzzy      bool              `json:"fuzzy"`
+        UrlString    string            `json:"url"`
+        Path         string            `json:"path"`
+        Host         string            `json:"host"`
+        BodyLength   int               `json:"body_length"`
+        ExceedLength bool              `json:"-"`
+        HeaderLength int               `json:"header_length"`
+        RedirectURL  string            `json:"redirect_url,omitempty"`
+        FrontURL     string            `json:"front_url,omitempty"`
+        Status       int               `json:"status"`
+        Spended      int64             `json:"spend"` // 耗时, 毫秒
+        ContentType  string            `json:"content_type"`
+        Title        string            `json:"title"`
+        Frameworks   common.Frameworks `json:"frameworks"`
+        Extracteds   Extracteds        `json:"extracts"`
+        ErrString    string            `json:"error"`
+        Reason       string            `json:"reason"`
+        Source       SpraySource       `json:"source"`
+        ReqDepth     int               `json:"depth"`
+        Distance     uint8             `json:"distance"`
+        Unique       uint16            `json:"unique"`
+        *Hashes      `json:"hashes"`
+        Url       *url.URL       `json:"-"`
+        Dir       bool           `json:"-"`
+        Chunked   bool           `json:"-"`
+        Body      BS             `json:"-"`
+        Header    BS             `json:"-"`
+        Raw       BS             `json:"-"`
+        Response  *http.Response `json:"-"`
+        Recu      bool           `json:"-"`
+        RecuDepth int            `json:"-"`
+        URLs      []string       `json:"-"`
+        Collected bool           `json:"-"`
+        Retry     int            `json:"-"`
     }
     ```
 
