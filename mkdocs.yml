@@ -15,18 +15,18 @@ extra:
 theme:
   features:
     - navigation.tracking
-    - navigation.tabs 
-    - navigation.tabs.sticky 
-    - navigation.sections 
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
     - navigation.expand
     - navigation.indexes
-    - toc.integrate 
+    - toc.integrate
     - toc.follo
-    - navigation.top 
+    - navigation.top
     - header.autohide
     - search.share
-    - search.suggest 
-    - search.highlight 
+    - search.suggest
+    - search.highlight
 
   name: material
 plugins:
@@ -44,6 +44,11 @@ markdown_extensions:
   - pymdownx.arithmatex
   - pymdownx.betterem:
       smart_enable: all
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.caret
   - pymdownx.critic
   - pymdownx.details
@@ -69,34 +74,34 @@ markdown_extensions:
 
 nav:
   - 导航: index.md
-  - gogo: 
-    - index: gogo/index.md
-    - 入门: gogo/start.md
-    - 设计: gogo/design.md
-    - 细节: gogo/detail.md 
-    - 拓展: gogo/extension.md
-    - 实战: gogo/do.md
+  - gogo:
+      - index: gogo/index.md
+      - 入门: gogo/start.md
+      - 设计: gogo/design.md
+      - 细节: gogo/detail.md
+      - 拓展: gogo/extension.md
+      - 实战: gogo/do.md
   - spray:
-    - index: spray/index.md
-    - 入门: spray/start.md
-    - 设计: spray/design.md
-    - 细节: spray/detail.md
-    - 实战: spray/do.md
+      - index: spray/index.md
+      - 入门: spray/start.md
+      - 设计: spray/design.md
+      - 细节: spray/detail.md
+      - 实战: spray/do.md
   - zombie:
-    - index: zombie/index.md
-    - 入门: zombie/start.md
-    - 设计: zombie/design.md
-    - 拓展: zombie/extension.md
+      - index: zombie/index.md
+      - 入门: zombie/start.md
+      - 设计: zombie/design.md
+      - 拓展: zombie/extension.md
   - libs:
-    - index: libs/index.md
-    - neutron: 
-      - index: libs/neutron/index.md
-      - update: libs/neutron/update.md
-    - words: 
-      - index: libs/words/index.md  
-    - fingers: 
-      - index: libs/fingers/index.md
-      - rule: libs/fingers/rule.md
-      - sdk: libs/fingers/sdk.md 
+      - index: libs/index.md
+      - neutron:
+          - index: libs/neutron/index.md
+          - update: libs/neutron/update.md
+      - words:
+          - index: libs/words/index.md
+      - fingers:
+          - index: libs/fingers/index.md
+          - rule: libs/fingers/rule.md
+          - sdk: libs/fingers/sdk.md
   - Blog:
-    - blog/index.md
+      - blog/index.md
