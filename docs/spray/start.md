@@ -799,7 +799,7 @@ spray 并不鼓励使用递归, 因为 spray 的定位是批量从反代/cdn 中
 	`--extract url,js` 即可打开爬虫对应的提取器, 收集url但不进行递归爬取
 
 
-!!! danger"注意"
+!!! danger "注意"
     crawl 的结果没有像 jsfinder 中一样拼接上 baseurl, 因为从 js 中提取出来的结果通常不是最终的结果, 直接去访问大概率是 404. 为了防止造成混淆, spray 的 crawl 结果将保持原样输出. 但在爬虫递归时, 还是会尝试拼接上 baseurl 进行探测. 爬虫递归时会进行自动去重判断.
 
 - `--active` 可以开启类似[gogo 的主动指纹识别](/wiki/gogo/extension/#_2).
