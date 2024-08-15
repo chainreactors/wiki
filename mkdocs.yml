@@ -74,6 +74,10 @@ markdown_extensions:
 
 nav:
   - 导航: index.md
+  - IoM:
+      - index: IoM/index.md
+      - 设计: IoM/design.md
+      - 用户手册: IoM/manual.md
   - gogo:
       - index: gogo/index.md
       - 入门: gogo/start.md
@@ -103,5 +107,12 @@ nav:
           - index: libs/fingers/index.md
           - rule: libs/fingers/rule.md
           - sdk: libs/fingers/sdk.md
+  - preview:
+      - mapping:
+          index: mapping/index.md
+          design: mapping/design.md
+      - rem:
+          index: rem/index.md
+          design: rem/design.md
   - Blog:
       - blog/index.md
