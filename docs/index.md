@@ -1,5 +1,7 @@
 # ChainReactor's Wiki
 
+## ChainReactor
+
 **chainreactor** 将专注于 **offensive security** 领域.
 
 以统一的设计风格去重构各个细分领域"**allinone**"工具, 去实现以人为核心的红队工具链与工程化实践,  我们将其命名为**redboot**. reboot 最终计划实现面向**面向红队**的**一体化平台,** 提供一整套完整的**红队工程基础设施**. 
@@ -12,7 +14,7 @@
 
 ### Thread1 IoM
 
-[IoM Roadmap](/wiki/IoM/roadmap.md)
+[IoM](IoM)
 
 IoM(`Internal of Malice`) 的定位是下一代C2框架, 同样以高度模块化与可拓展性为核心设计理念. 基于这个理念去实现插件化的OPSEC, 插件化的社区生态, 插件化的一切.
 
