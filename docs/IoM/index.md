@@ -16,27 +16,30 @@ C2是比其他领域更具挑战性, 不管在设计上还是实现上都更为�
 
 所以我们计划在实现第一阶段功能后, 就发布IoM -community v0.0.1 作为预览版本. 
 
-### repos
+### 架构/architecture
 
 IoM将由一系列仓库组成
 
+**WIP**表示将会实现; **Private**表示已实现但未公开
 **主体框架**
 
 * server+client: https://github.com/chainreactors/malice-network
 * implant: https://github.com/chainreactors/malefic
 * 通讯协议(protobuf): https://github.com/chainreactors/proto
-* 流量与代理: https://github.com/chainreactors/rem
+* 流量与代理: https://github.com/chainreactors/malefic-rem (Private)
 * 插件仓库 : mals (WIP)
 * loader generator: malign 用于免杀与EDR对抗 (WIP)
 
 **kits**
 
-是一些专注于opsec与edr对抗的插件包, 能被implant热加载
+是一些专注于opsec与edr对抗的插件包或各类小组件, 作为IoM的附加能力
 
-* malefic-win-kit , windows端工具包, 包含headlessPE, sleepmask, 进程注入, 进程镂空等等关于opsec的模块, 
+* malefic-win-kit , windows端工具包, 包含headlessPE, sleepmask, 进程注入, 进程镂空等等关于opsec的模块, 可以被implant热加载 (Private)
 * malefic-linux-kit (WIP)
 * malefic-*os-kit (WIP)
 * malefic-android-kit (WIP)
+* malefic-srdi (Private),  pe to shellcode 
+* mice (Private), 持久性后门
 
 
 
