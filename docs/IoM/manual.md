@@ -349,7 +349,7 @@ listeners:
 
 在 `Malice-Network` 中，`Session` 是与目标系统进行交互的核心概念。每一个 `Session` 代表着与目标主机的一个活动连接，通过该连接，您可以执行各种操作和命令。
 
-#### **s****ession**
+#### session
 
 `Session` 表将展示服务器中存储的 `Session` 信息，输入以下指令可以查看 `Session` 表：
 
@@ -893,7 +893,7 @@ explorer
 
 #### Execute
 
-##### `e``xec`
+##### exec
 
 执行普通命令。
 
