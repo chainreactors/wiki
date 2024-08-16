@@ -57,7 +57,8 @@ rustup target list
 安装后您就可以自行发挥了， 具体可参照 `Makefile` 进行
 
 
-！！ 由于 `rust` 的特殊性， 首次编译速度将会十分缓慢， 请耐心等待， 在没有特殊情况下不要轻易 `make clean` 或 `cargo clean` ：）
+!!! important "rust编译时间"
+	由于 `rust` 的特殊性， 首次编译速度将会十分缓慢， 请耐心等待， 在没有特殊情况下不要轻易 `make clean` 或 `cargo clean` ：）
 
 ### Implant Config
 
