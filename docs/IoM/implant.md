@@ -6,33 +6,47 @@
 
 `Implant` 同样拥有一个 `config.yaml` 以对生成的 `implant` 进行配置：
 
-`Server` 字段包含了以下连接配置:
+* `Server` 字段包含了以下连接配置:
 
-`urls`: `implant` 所需要建立连接的目标 `ip` 或 `url` 列表
+* `urls`: `implant` 所需要建立连接的目标 `ip:port` 或 `url:port` 列表
 
-`port`: `implant` 所需要建立连接的目标端口
+* `protocol` : `implant` 所使用的传输协议
 
-`interval` :  每次建立连接的时间间隔(单位为 `milliseconds`)
+* `tls` : `implant` 是否需要使用 `tls`
 
-`jitter`: 每次建立连接时的时间间隔抖动(单位为 `milliseconds`)
+* `interval` :  每次建立连接的时间间隔(单位为 `milliseconds`)
+
+* `jitter`: 每次建立连接时的时间间隔抖动(单位为 `milliseconds`)
+
+* `ca` : 所使用的证书路径
 
 `Implant` 字段包含以下可选生成物配置：
 
-`target_os`: 目标系统（`windows`, `linux`, `macos`)
+* `modules`: 生成物所需要包含的功能模块， 如默认提供的 `base` 基础模块及 `full` 全功能模块， 或自行组装所需功能模块, 详见章节 `Extension` 部分
 
-`target_arch`:目标架构（`x86`, `x86_64`)
+* `metadata`: 生成物元特征：
+    * `remap_path`: 编译绝对路径信息
+    * `icon`
+    * `file_version` 
+    * `product_version`
+    * `company_name`
+    * `product_name`
+    * `original_filename`
+    * `file_description`
+    * `internal_name`
 
-`modules`: 生成物所需要包含的功能模块， 如默认提供的 `base` 基础模块及 `full` 全功能模块， 或自行组装所需功能模块, 详见章节 `Extension` 部分
-
-`metadata`: 生成物元特征：
-
-`apis_level`: 修改生成物调用 `API` 等级， 如直接调用系统 API `sys_apis`, 动态获取 `dynamic_apis` 或尽可能使用自实现系统调用 `syscalls`
-
-`alloctor`: 默认内部分配器及对应释放和权限设置函数，`VirtualAlloc`, `VirtualAllocEx`, `HeapAlloc`, `NtAllocateVirtualMemory`
-
-`alloctor_ex`: 默认外部分配器及对应释放和权限设置函数， `VirtualAllocEx`, `NtAllocateVirtualMemory`
-
-`mem_rw_ex`: 默认外部内存读写函数， `ReadProcessMemory`, `NtReadVirtualMemory`
+* apis:
+    * `level` : 使用上层api还是nt api, `"sys_apis"` , `"nt_apis`
+    * `priority`:
+        * `normal` : 直接调用
+        * `dynamic` : 动态调用
+            * `type`: 如自定义获取函数地址方法 `user_defined_dynamic`, 系统方法`sys_dynamic` (`LoadLibraryA/GetProcAddress`)
+        * `syscall`: 通过 `syscall`调用
+            * `type`: 生成方式, 函数式 `func_syscall`, inline 调用 `inline_syscall`
+* allactor:
+    * `inprocess`: 进程内分配函数, `VirtualAlloc`, `VirtualAllocEx`, `HeapAlloc`, `NtAllocateVirtualMemory`, `VirtualAllocExNuma`, `NtMapViewOfSection`
+    * `crossprocess`: 进程间分配函数, `VirtualAllocEx`, `NtAllocateVirtualMemory`,
+    `VirtualAllocExNuma`, `NtMapViewOfSection`
 
 `sleep_mask`: 睡眠混淆是否开启
 
@@ -52,10 +66,10 @@
 $ curl -sSf https://static.rust-lang.org/rustup.sh | sh
 ```
 
-除此之外， 编译 `Implant` 需要用到 `rust` 的 `nightly` 版本， 您可以通过使用下面的命令来安装和切换到 `nightly` 版本
+除此之外， 编译 `Implant` 需要用到 `rust` 的 `nightly` 版本， 您可以通过使用下面的命令来安装和切换到 `nightly` 版本 (我们需要特点版本的编译工具)
 
 ```shell
-rustup install nightly
+rustup toolchain install nightly-2023-12-12
 rustup default nightly
 ```
 
@@ -181,7 +195,7 @@ Implant 支持多种方式动态加载及调用各类插件及功能, 支持架�
 | sys_execute_unmanaged_powershell | ✓          | ✓             | ✓           | ✗           | ✗        | ✗            | ✗          | ✗        |
 | sys_execute_pe                   | ✓          | ✓             | ✓           | ✗           | ✗        | ✗            | ✗          | ✗        |
 | sys_execute_bof                  | ✓          | ✓             | ✓           | ✗           | ✗        | ✗            | ✗          | ✗        |
-| hot_module_load                  | ✓          | ✓             | ✓           | ✓           | ✓        | ✓            | ✗          | ✗        |
+| hot_module_load                  | ✓          | ✓             | ✓           | ✗            | ✗         | ✗             | ✗          | ✗        |
 
 ### Dynamic Module
 
