@@ -1,34 +1,13 @@
-## Implant
+# Implant
 
 考虑到红队人员的使用习惯， 本 `Implant` 所支持的命令将大量沿用 `CS` 工具的命令及使用习惯
 
-### Compile
+## Compile
 
 为便于社区尝鲜使用， 我们选用 `docker` 配合 `gnu` 套件进行编译， `msvc`支持随后便到
 
-#### docker build
-在 `implant`的编译上， 我们为您提供了 `Docker` 环境来进行编译， 请使用
 
-```bash
-docker-compose up -d --build
-```
-随后使用
-```bash
-docker exec -it implant-builder /bin/bash
-```
-在其中使用 `make` 命令进行对应环境的编译
-```bash
-make community_win64
-make community_win32
-make community_linux32
-make community_linux64
-make community_darwin_arm64
-make community_darwin64
-```
-
-生成的文件将在对应 `target\arch\release\` 中
-
-#### normal build
+### build
 
 除了 `docker`, 我们也推荐您使用自行组装的工具链进行编译
 (比如社区版本我们未提供gnu套件的清理工具, 这会导致 `implant` 生成时体积膨胀的问题， 如您使用windows在`msvc`套件中进行编译， 这种情况将会得到缓解， `msvc` 库正在路上~~)
@@ -59,7 +38,29 @@ rustup target list
 !!! important "rust编译时间"
 	由于 `rust` 的特殊性， 首次编译速度将会十分缓慢， 请耐心等待， 在没有特殊情况下不要轻易 `make clean` 或 `cargo clean` ：）
 
-### Implant Config
+### docker build
+因为rust环境安装与编译的复杂性, 我们提供了 `Docker` 环境来进行编译, 通过提前配置好的环境一键交叉编译implant.
+
+```bash
+docker-compose up -d --build
+```
+随后使用
+```bash
+docker exec -it implant-builder /bin/bash
+```
+在其中使用 `make` 命令进行对应环境的编译
+```bash
+make community_win64
+make community_win32
+make community_linux32
+make community_linux64
+make community_darwin_arm64
+make community_darwin64
+```
+
+生成的文件将在对应 `target\arch\release\` 中
+
+## Config
 
 `Implant` 同样拥有一个 `config.yaml` 以对生成的 `implant` 进行配置：
 
@@ -115,7 +116,7 @@ rustup target list
 
 `thread_task_spoofer`: 是否需要自定义线程调用堆栈
 
-### APIs
+## APIs
 
 在 `EDR` 的对抗分析中， 我们支持在组装 `Implant` 时由用户自行选择使用各级别的 `API`， 如直接调用系统 `API`, 动态获取并调用， 通过 `sysall` 调用，这可以有效减少程序 `Import` 表所引入的的特征
 
