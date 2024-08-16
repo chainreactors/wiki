@@ -88,21 +88,6 @@ rustup target list
 
 `thread_task_spoofer`: 是否需要自定义线程调用堆栈
 
-### 编译环境
-
-`Implant` 支持在多个系统中进行编译操作， 但我们建议在 `Linux` 主机编译，由于 `implant` 使用 `Cargo` 来进行管理， 因此您需要安装 `Cargo` 来进行编译， 获取 `Cargo` 最简单的方式是使用 `rustc` 脚本
-
-```shell
-$ curl -sSf https://static.rust-lang.org/rustup.sh | sh
-```
-
-除此之外， 编译 `Implant` 需要用到 `rust` 的 `nightly` 版本， 您可以通过使用下面的命令来安装和切换到 `nightly` 版本 (我们需要特点版本的编译工具)
-
-```shell
-rustup toolchain install nightly-2023-12-12
-rustup default nightly
-```
-
 ### APIs
 
 在 `EDR` 的对抗分析中， 我们支持在组装 `Implant` 时由用户自行选择使用各级别的 `API`， 如直接调用系统 `API`, 动态获取并调用， 通过 `sysall` 调用，这可以有效减少程序 `Import` 表所引入的的特征
