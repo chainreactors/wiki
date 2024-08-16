@@ -729,7 +729,7 @@ execute_dll <path>
 
 ---
 
-### inline_dll (WIP)
+### inline_dll (WIP)🛠️
 
 #### Command
 
@@ -773,7 +773,7 @@ execute_pe <path>
 
 ---
 
-### inline_pe (WIP)
+### inline_pe (WIP)🛠️
 
 #### Command
 
@@ -901,7 +901,7 @@ tcp start <listener_id>
 
 ---
 
-### website (WIP)
+### website (WIP)🛠️
 
 #### Command
 
@@ -920,7 +920,7 @@ website <listener_id>
 
 ---
 
-### website start (WIP)
+### website start (WIP)🛠️
 
 #### Command
 
@@ -941,7 +941,7 @@ website start <listener_id>
 
 ---
 
-### website stop (WIP)
+### website stop (WIP)🛠️
 
 #### Command
 
