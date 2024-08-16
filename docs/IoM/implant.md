@@ -4,6 +4,7 @@
 
 ### Compile
 
+#### docker build
 在 `implant`的编译上， 我们为您提供了 `Docker` 环境来进行编译， 请使用
 
 ```bash
@@ -27,6 +28,34 @@ make community_darwin64
 ```
 
 生成的文件将在对应 `target\arch\release\` 中
+
+#### normal build
+
+除了 `docker`, 我们也推荐您使用自行组装的工具链进行编译
+(比如社区版本我们未提供gnu套件的清理工具, 这会导致 `implant` 生成时体积膨胀的问题， 如您使用windows在`msvc`套件中进行编译， 这种情况将会得到缓解)
+
+`rust` 工具链安装， 由于我们使用了 `nightly` 版本进行开发， 而 `nightly` 往往是不稳定的， 因此需要特殊版本 `rust` 套件进行编译， 具体安装如下:
+
+```bash
+rustup install nightly
+rustup toolchain install nightly-2023-12-12
+rustup default nightly-2023-12-12-x86_64-pc-windows-msvc
+```
+
+如需多个架构，添加支持命令如下:
+
+```bash
+rustup target add i686-pc-windows-msvc
+```
+
+可以使用如下命令进行列出所有支持的 `target`
+
+```bash
+rustup target list
+```
+
+安装后您就可以自行发挥了， 具体可参照 `Makefile` 进行
+
 
 ！！ 由于 `rust` 的特殊性， 首次编译速度将会十分缓慢， 请耐心等待， 在没有特殊情况下不要轻易 `make clean` 或 `cargo clean` ：）
 
