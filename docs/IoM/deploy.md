@@ -415,4 +415,5 @@ go build ./server/cmd/server
 go generate ./client
 go mod tidy
 go build ./server/cmd/listener
-```
+```### Implant
+[Implant](implant.md)
