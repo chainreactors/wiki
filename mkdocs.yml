@@ -78,6 +78,7 @@ nav:
       - index: IoM/index.md
       - 设计: IoM/design.md
       - 用户手册: IoM/manual.md
+      - 路线图: IoM/roadmap.md
   - gogo:
       - index: gogo/index.md
       - 入门: gogo/start.md
@@ -107,7 +108,7 @@ nav:
           - index: libs/fingers/index.md
           - rule: libs/fingers/rule.md
           - sdk: libs/fingers/sdk.md
-  - preview:
+  - Preview:
       - mapping:
           index: mapping/index.md
           design: mapping/design.md
