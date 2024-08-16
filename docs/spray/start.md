@@ -357,7 +357,6 @@ flowchart TD
 - `--offset` , 字典偏移
 - `--limit`, 限制的字典数量
 - `--deadline` 所有任务的最大时间限制, 超时了会保存当前进度的 stat 文件后退出
-- `--check-only` 类似 httpx 的模式, 去掉了基准值仅根据 url 列表进行请求, 可以获取 http 基础信息, title, 指纹等. 类似 httpx, 将会自动关闭 keep-alive, 并进行了一些性能优化.
 - `--force` 忽略掉被 ban 或被 waf 的判断, 强制跑完所有字典
 
 ### 速率限制
