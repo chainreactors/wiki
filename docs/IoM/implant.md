@@ -2,7 +2,9 @@
 
 考虑到红队人员的使用习惯， 本 `Implant` 所支持的命令将大量沿用 `CS` 工具的命令及使用习惯
 
-## Compile
+欢迎各位对想要的功能和使用中遇到的问题提 `issues` 🙋
+
+### Compile
 
 为便于社区尝鲜使用， 我们选用 `docker` 配合 `gnu` 套件进行编译， `msvc`支持随后便到
 
@@ -93,20 +95,20 @@ make community_darwin64
     * `file_description`
     * `internal_name`
 
-* apis:
+* apis: **Private** 🔒
     * `level` : 使用上层api还是nt api, `"sys_apis"` , `"nt_apis`
     * `priority`:
-        * `normal` : 直接调用
+        * `normal` : 直接调用 
         * `dynamic` : 动态调用
             * `type`: 如自定义获取函数地址方法 `user_defined_dynamic`, 系统方法`sys_dynamic` (`LoadLibraryA/GetProcAddress`)
         * `syscall`: 通过 `syscall`调用
             * `type`: 生成方式, 函数式 `func_syscall`, inline 调用 `inline_syscall`
-* allactor:
+* allactor: **Private** 🔒
     * `inprocess`: 进程内分配函数, `VirtualAlloc`, `VirtualAllocEx`, `HeapAlloc`, `NtAllocateVirtualMemory`, `VirtualAllocExNuma`, `NtMapViewOfSection`
     * `crossprocess`: 进程间分配函数, `VirtualAllocEx`, `NtAllocateVirtualMemory`,
     `VirtualAllocExNuma`, `NtMapViewOfSection`
 
-`sleep_mask`: 睡眠混淆是否开启
+`sleep_mask`: 睡眠混淆是否开启 **Professional** 👤
 
 `sacriface_process`: 是否需要牺牲进程功能
 
@@ -114,21 +116,23 @@ make community_darwin64
 
 `hook_exit`: 是否需要对退出函数进行 `hook` 以防止误操作导致的退出
 
-`thread_task_spoofer`: 是否需要自定义线程调用堆栈
+`thread_task_spoofer`: 是否需要自定义线程调用堆栈 **Professional** 👤
 
 ## APIs
 
 在 `EDR` 的对抗分析中， 我们支持在组装 `Implant` 时由用户自行选择使用各级别的 `API`， 如直接调用系统 `API`, 动态获取并调用， 通过 `sysall` 调用，这可以有效减少程序 `Import` 表所引入的的特征
 
-在 `syscall` 调用中， 我们支持使用各类门技术来调用系统调用而非直接调用用户层 `API`， 以防止 `EDR` 对常用红队使用的 `API` 进行监控， 如何配置可见 `Implant Config File` 对应 `apis_level` 部分
+在 `syscall` 调用中， 我们支持使用各类门技术来调用系统调用而非直接调用用户层 `API`， 以防止 `EDR` 对常用红队使用的 `API` 进行监控， 如何配置可见 `Implant Config File` 对应 `apis` 部分
 
 ### Process
-
-#### Process inject
 
 #### Process hollow
 
 在用户有调用 `PE/Shellcode` 各类格式的需求时， `Implant` 支持 `Process Hollow` 技术， 以伪装用户的调用需求
+
+#### **WIP** 🛠️ Process Ghost
+
+#### **WIP** 🛠️ Transacted Hollowing
 
 #### Sacrifice Process
 
@@ -152,6 +156,8 @@ Fork&Run 虽然已经不是 opsec 的选择， 但是某些情况下还是避不
 # 命令示例
 execute_shellcode --sacrifice --output --param "notepad.exe" ./loader.bin
 ```
+
+当然， 由于原本意义上的 `Fork&Run` 耗能非常巨大且笨重， 如果确实需要也可以考虑后期添加
 
 #### Alternate Parent Processes
 
@@ -184,11 +190,7 @@ execute --ppid 8888 --output --param "net xxxx xxx"
 
 只需如此调用， 启动时将会自动变为 `fakenet xxxx xxx`， 而在真实调用时变为 `net xxxx xxx`
 
-### Memory
-
-### Syscall
-
-### Blocking DLLs
+#### Blocking DLLs
 
 使用 `blockdlls start` 命令来使得以后启动的所有牺牲进程均需要验证将要加载的 `DLL` 的签名， 非微软签名的 `DLL` 将会被禁止加载于我们的 `牺牲进程中`, 使用 `blockdlls stop` 命令来结束这一行为
 
@@ -656,3 +658,76 @@ BeaconCleanupProcess
 ```
 
 !!! 请在编写 `BOF` 文件或使用现有 `BOF` 对应工具包前详细检查是否适配了对应 `API`， 以防止您丢失连接！！！
+
+
+### Memory
+
+#### **WIP** 🛠 ️ 全局堆加密
+#### **WIP** 🛠 ️ 随机分配 `chunk` 加料
+
+### Syscall
+
+虽然是老生常态的技术， 但作为基建设计的框架怎么会少的了它呢 :)
+
+### HOOK
+
+#### **WIP** 🛠️ inline HOOK 
+
+#### **Private** 🔒 Hardware HOOK
+
+### **WIP** 🛠️ Rop Chain
+
+### HIDDEN
+
+#### AMSI & ETW
+
+##### **Private** 🔒 PATCH
+
+##### **Private** 🔒 HARDWARE HOOK
+
+#### **Professional** 👤 SLEEP MASK
+
+#### **Professional** 👤 THREAD TASK SPOOFING
+
+#### **Professional** 👤 LITE VM
+
+### **WIP** 🛠️ Obfuscator LLVM
+
+#### **WIP** 🛠️ Anti Class Dump
+
+#### **WIP** 🛠️ Anti Hooking
+
+#### **WIP** 🛠️ Anti Debug
+
+#### **WIP** 🛠️ Bogus Control Flow
+
+#### **WIP** 🛠️ Control Flow Flattening
+
+#### **WIP** 🛠️ Basic Block Splitting
+
+#### **WIP** 🛠️ Instruction Substitution
+
+#### **WIP** 🛠️ Function CallSite Obf
+
+#### **WIP** 🛠️ String Encryption
+
+#### **WIP** 🛠️ Constant Encryption
+
+#### **WIP** 🛠️ Indirect Branching
+
+#### **WIP** 🛠️ Function Wrapper
+
+
+最后， 感谢大量优秀的开源项目及开发者们
+
+```
+https://github.com/yamakadi/clroxide/
+https://github.com/MSxDOS/ntapi
+https://github.com/trickster0/EDR_Detector/blob/master/EDR_Detector.rs 
+https://github.com/Fropops/Offensive-Rust
+https://github.com/wildbook/hwbp-rs
+https://github.com/bats3c/DarkLoadLibrary/blob/master/DarkLoadLibrary/ 
+https://github.com/b4rtik/metasploit-execute-assembly
+https://github.com/lap1nou/CLR_Heap_encryption
+https://github.com/med0x2e/ExecuteAssembly/
+```
