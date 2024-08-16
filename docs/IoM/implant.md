@@ -4,7 +4,34 @@
 
 ### Compile
 
-#### build
+为便于社区尝鲜使用， 我们选用 `docker` 配合 `gnu` 套件进行编译， `msvc`支持随后便到
+
+#### docker build
+在 `implant`的编译上， 我们为您提供了 `Docker` 环境来进行编译， 请使用
+
+```bash
+docker-compose up -d --build
+```
+随后使用
+```bash
+docker exec -it implant-builder /bin/bash
+```
+在其中使用 `make` 命令进行对应环境的编译
+```bash
+make community_win64
+make community_win32
+make community_linux32
+make community_linux64
+make community_darwin_arm64
+make community_darwin64
+```
+
+生成的文件将在对应 `target\arch\release\` 中
+
+#### normal build
+
+除了 `docker`, 我们也推荐您使用自行组装的工具链进行编译
+(比如社区版本我们未提供gnu套件的清理工具, 这会导致 `implant` 生成时体积膨胀的问题， 如您使用windows在`msvc`套件中进行编译， 这种情况将会得到缓解， `msvc` 库正在路上~~)
 
 `rust` 工具链安装， 由于我们使用了 `nightly` 版本进行开发， 而 `nightly` 往往是不稳定的， 因此需要特殊版本 `rust` 套件进行编译， 具体安装如下:
 
