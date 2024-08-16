@@ -392,4 +392,27 @@ ii. 双击 `malice-network-client.exe`。
 ![](assets/EEgKb86iwop9xaxBUt8cHZG9n8f.png)
 
 ## 编译
+自行编译
 
+### 编译client
+
+```
+go generate ./client
+go mod tidy
+go build ./client/
+```
+
+### 编译server
+
+```
+go generate ./client
+go mod tidy
+go build ./server/cmd/server
+```
+
+### 编译listener
+```
+go generate ./client
+go mod tidy
+go build ./server/cmd/listener
+```
