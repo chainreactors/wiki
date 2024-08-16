@@ -286,13 +286,11 @@ upload <source> <destination>
 
 #### Command
 
-login --config <server_config>
+login
 
-**About:** 登录服务器
+![image-20240816200452857](assets\image-20240816200452857.png)
 
-**Flags:**
-
-- `--config`, `-c`: 用于登录的服务器配置文件。
+**About:** 上下选择对应的用户文件，按下回车登录到服务器
 
 ---
 
@@ -330,7 +328,7 @@ load_module <path>
 
 sessions
 
-**About:** 列出会话
+**About:** 列出会话，选择对应session按下回车进行连接。
 
 ![](assets/YUGBbuPRyoikQDxjNdrcZnaFnFd.jpg)
 
@@ -620,11 +618,11 @@ extension remove <name>
 
 ---
 
-### execute
+### exec
 
 #### Command
 
-execute
+exec
 
 **About:** 执行命令
 
@@ -663,7 +661,7 @@ execute_assembly <path>
 
 **Flags**
 
-- `--output`: 需要输出。
+- `-o`,`--output`: 需要输出。
 - `-n`, `--name`: 分配战利品名称（可选）。
 - `-p`, `--ppid`: 父进程 ID（可选）。
 
@@ -731,7 +729,7 @@ execute_dll <path>
 
 ---
 
-### inline_dll
+### inline_dll (WIP)
 
 #### Command
 
@@ -775,7 +773,7 @@ execute_pe <path>
 
 ---
 
-### inline_pe
+### inline_pe (WIP)
 
 #### Command
 
@@ -790,11 +788,11 @@ inline_pe <path>
 
 ---
 
-### execute_bof
+### bof
 
 #### Command
 
-execute_ bof <path>
+bof <path>
 
 **About:** 加载并执行 Bof（仅限Windows）
 
@@ -903,7 +901,7 @@ tcp start <listener_id>
 
 ---
 
-### website
+### website (WIP)
 
 #### Command
 
@@ -922,7 +920,7 @@ website <listener_id>
 
 ---
 
-### website start
+### website start (WIP)
 
 #### Command
 
@@ -943,7 +941,7 @@ website start <listener_id>
 
 ---
 
-### website stop
+### website stop (WIP)
 
 #### Command
 
@@ -956,5 +954,5 @@ website stop <listener_id>
 - `name`: website 名称。
 - `listener_id`: listener id。
 
------
+---
 
