@@ -39,31 +39,31 @@ repo: https://github.com/chainreactors/picker
 
 点到picker的仓库中, 就可以发现里面有非常多的issue
 
-![图片](利用github实现rss的协作, 订阅, 精选与管理.assets/640.png)
+![](assets/640.png)
 
 这些就是每天github action运行爬取的结果.
 
 每天的所有文章会新建一个daily标签的issue, 内容是tasklist列表.
 
-![图片](利用github实现rss的协作, 订阅, 精选与管理.assets/640-1721543906845-7.png)
+![](assets/640-1721543906845-7.png)
 
 如果已读, 就点一下框框打个勾, 这是github的tasklist功能, 能自动修改md.
 
 在issue页面还能看到今日未读的数量
 
-![图片](利用github实现rss的协作, 订阅, 精选与管理.assets/640-1721543906845-8.png)
+![](assets/640-1721543906845-8.png)
 
 ### 精选与协作
 
 如果文章值得协作小团体内的其他人阅读, 则可以把鼠标放到链接上过一会儿, 就能看到这个按钮`open convert to issue in current tab`.
 
-![图片](利用github实现rss的协作, 订阅, 精选与管理.assets/640-1721543906845-9.png)
+![](assets/640-1721543906845-9.png)
 
 单击,按钮就会创建一个issue,  然后github action 机器人就会被触发相关事件, 修改标题, 内容, 打赏tag, 推送等操作.
 
 
 
-![图片](利用github实现rss的协作, 订阅, 精选与管理.assets/640-1721543906845-10.png)
+![](assets/640-1721543906845-10.png)
 
 
 
