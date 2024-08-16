@@ -2,6 +2,34 @@
 
 考虑到红队人员的使用习惯， 本 `Implant` 所支持的命令将大量沿用 `CS` 工具的命令及使用习惯
 
+### Compile
+
+在 `implant`的编译上， 我们为您提供了 `Docker` 环境来进行编译， 请使用
+
+```bash
+docker-compose up -d --build
+```
+
+随后使用
+
+```bash
+docker exec -it implant-builder /bin/bash
+```
+在其中使用 `make` 命令进行对应环境的编译
+
+```bash
+make community_win64
+make community_win32
+make community_linux32
+make community_linux64
+make community_darwin_arm64
+make community_darwin64
+```
+
+生成的文件将在对应 `target\arch\release\` 中
+
+！！ 由于 `rust` 的特殊性， 首次编译速度将会十分缓慢， 请耐心等待， 在没有特殊情况下不要轻易 `make clean` 或 `cargo clean` ：）
+
 ### Implant Config
 
 `Implant` 同样拥有一个 `config.yaml` 以对生成的 `implant` 进行配置：
