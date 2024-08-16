@@ -188,76 +188,6 @@ cd "C:\path\to\malice-network-server"
 
 ![](assets/VNBYbUKdsokMfexhogfcKSLUnAh.png)
 
-### 初始化客户端用户
-
-**Malice-Network** 客户端需要使用用户配置文件才能与服务端进行交互。用户配置文件中包含由服务端生成的证书信息。每次客户端尝试连接服务端时，服务端都会校验该证书信息，以确保用户的合法性。这一过程保证了只有经过认证的用户才能访问和使用 **Malice-Network** 服务，从而提升了系统的安全性和可靠性。
-
-在确保 **Malice-Network** 服务器已经运行后，在终端输入以下指令：
-
-```powershell
-powershell
-cd "C:\path\to\malice-network-server"
-.\malice-network-server.exe user add username
-```
-
-执行命令成功后，服务端会输出以下信息并在所处文件夹下生成对应用户配置文件：
-
-![](assets/PmmUbFsfOoD4qnxKD2Uc6uP5n5f.png)
-
-![](assets/YO45bNucEoDOtsxjNzTcC6rJnHd.png)
-
-用户配置文件中包含了以下信息：
-
-`operator`: 客户端名称。
-
-`lhost`：客户端所连接的服务器地址。
-
-`lport`：客户端所连接的服务器端口号。
-
-`type`：配置类型分为 client 和 listener，用户配置为 client。
-
-`ca` **certificate**：服务端生成的 CA 证书，用于验证服务端的合法性。
-
-`privatekey`：客户端的私钥，用于加密和解密数据。
-
-`certificate`: 客户端的证书，用于向服务端证明客户端的合法性。
-
-### 启动客户端
-
-将生成的用户配置文件复制到 `Malice-Network` 客户端的所在位置。使用新的用户配置文件时，可以使用以下指令启动客户端：
-
-```powershell
-powershell
-cd "C:\path\to\malice-network-client"
-.\malice-network-client.exe .\username_host.yaml
-```
-
-执行命令后，客户端会自动使用新的客户配置文件与服务器连接，并将用户配置文件移动至客户端的用户配置文件夹 (Windows 下为 `C:\Users\user\.config\malice\configs`,MacOS X 为 `/home/username/.config/malice/configs`，Linux 为 `/Users/username/.config/malice/configs`）
-
-客户端登录成功后会输出以下信息：
-
-![](assets/NI55beE9Bo6ad5xtT3lcMuvunAd.png)
-
-下次登录后，客户端会自动显示在用户配置文件夹下所有的用户配置，根据需求，选择对应的用户进行选择。Linux 端使用命令启动 **Malice-Network** 客户端，Windows 和 MacOS X 可以双击 **Malice-Network** 客户端可执行文件启动客户端。
-
-a. 对于 Linux：
-
-```bash
-bash
-cd \path\to\malice-network-client
-.\malice-network-client
-```
-
-b. 对于 MacOS X：
-
-c. 对于 Windows：
-
-i. 导航到 Malice-Network 文件夹。
-
-ii. 双击 `malice-network-client.exe`。
-
-![](assets/EEgKb86iwop9xaxBUt8cHZG9n8f.png)
-
 ### 启动 Listener
 
 Server 的 `config.yaml` 中已经包含了 listener 配置。 是对 server 与 listener 在同一台机器上部署时的简化。
@@ -335,5 +265,131 @@ listeners:
         key: maliceofinternal
 ```
 
-需要注意的是, 非本机部署的 listener, 需要提供 `auth.yaml` 配置，auth 配置需要在添加用户后生成.
+需要注意的是, 非本机部署的 listener, 需要提供 `auth.yaml` 配置，auth 配置需要按照以下方法生成。
+
+在确保 **Malice-Network** 服务器已经运行后，在终端输入以下指令：
+
+```powershell
+powershell
+cd "C:\path\to\malice-network-server"
+.\malice-network-server.exe listener add listenerName
+```
+
+执行命令成功后，服务端会输出以下信息并在所处文件夹下生成对应auth配置文件：
+
+![image-20240816205524283](assets\image-20240816205524283.png)
+
+![image-20240816205616073](assets\image-20240816205616073.png)
+
+auth配置文件中包含了以下信息：
+
+`operator`: listener名称。
+
+`lhost`：listener所连接的服务器地址。
+
+`lport`：listener所连接的服务器端口号。
+
+`type`：配置类型分为 client 和 listener，auth配置为 listener。
+
+`cacertificate`：服务端生成的 CA 证书，用于验证服务端的合法性。
+
+`privatekey`：listener的私钥，用于加密和解密数据。
+
+`certificate`: listener的证书，用于向服务端证明listener的合法性。
+
+### 启动Listener
+
+将生成的auth配置文件复制到 `Malice-Network` listener的所在位置，该目录下需要包含以下文件：malice-network-listener启动文件、listener.yaml、xxxx.yaml（auth配置文件）。
+
+![image-20240816213518902](assets\image-20240816213518902.png)修改listener.yaml文件中的listeners下的配置，name需要为auth配置文件的前缀名， auth为auth配置文件的文件名，以上图为例，listener.yaml的配置应为：
+
+![image-20240816213745122](assets\image-20240816213745122.png)
+
+listener配置完成后，确保 **Malice-Network** 服务器已经运行后，在终端输入以下指令：
+
+```powershell
+powershell
+cd "C:\path\to\malice-network-listener"
+.\malice-network-listener
+```
+
+listener成功启动后，listener终端会输出以下信息：
+
+![image-20240816214150489](assets\image-20240816214150489.png)
+
+**Malice-Network** 服务器也会输出listener登录信息：
+
+![image-20240816214248821](assets\image-20240816214248821.png)
+
+### 初始化客户端用户
+
+**Malice-Network** 客户端需要使用用户配置文件才能与服务端进行交互。用户配置文件中包含由服务端生成的证书信息。每次客户端尝试连接服务端时，服务端都会校验该证书信息，以确保用户的合法性。这一过程保证了只有经过认证的用户才能访问和使用 **Malice-Network** 服务，从而提升了系统的安全性和可靠性。
+
+在确保 **Malice-Network** 服务器已经运行后，在终端输入以下指令：
+
+```powershell
+powershell
+cd "C:\path\to\malice-network-server"
+.\malice-network-server.exe user add username
+```
+
+执行命令成功后，服务端会输出以下信息并在所处文件夹下生成对应用户配置文件：
+
+![](assets/PmmUbFsfOoD4qnxKD2Uc6uP5n5f.png)
+
+![](assets/YO45bNucEoDOtsxjNzTcC6rJnHd.png)
+
+用户配置文件中包含了以下信息：
+
+`operator`: 客户端名称。
+
+`lhost`：客户端所连接的服务器地址。
+
+`lport`：客户端所连接的服务器端口号。
+
+`type`：配置类型分为 client 和 listener，用户配置为 client。
+
+`cacertificate`：服务端生成的 CA 证书，用于验证服务端的合法性。
+
+`privatekey`：客户端的私钥，用于加密和解密数据。
+
+`certificate`: 客户端的证书，用于向服务端证明客户端的合法性。
+
+### 启动客户端
+
+将生成的用户配置文件复制到 `Malice-Network` 客户端的所在位置。使用新的用户配置文件时，可以使用以下指令启动客户端：
+
+```powershell
+powershell
+cd "C:\path\to\malice-network-client"
+.\malice-network-client.exe .\username_host.yaml
+```
+
+执行命令后，客户端会自动使用新的客户配置文件与服务器连接，并将用户配置文件移动至客户端的用户配置文件夹 (Windows 下为 `C:\Users\user\.config\malice\configs`,MacOS X 为 `/home/username/.config/malice/configs`，Linux 为 `/Users/username/.config/malice/configs`）
+
+客户端登录成功后会输出以下信息：
+
+![](assets/NI55beE9Bo6ad5xtT3lcMuvunAd.png)
+
+下次登录后，客户端会自动显示在用户配置文件夹下所有的用户配置，根据需求，选择对应的用户进行选择。Linux 端使用命令启动 **Malice-Network** 客户端，Windows 和 MacOS X 可以双击 **Malice-Network** 客户端可执行文件启动客户端。
+
+a. 对于 Linux：
+
+```bash
+bash
+cd \path\to\malice-network-client
+.\malice-network-client
+```
+
+b. 对于 MacOS X：
+
+c. 对于 Windows：
+
+i. 导航到 Malice-Network 文件夹。
+
+ii. 双击 `malice-network-client.exe`。
+
+![](assets/EEgKb86iwop9xaxBUt8cHZG9n8f.png)
+
+## 编译
 
