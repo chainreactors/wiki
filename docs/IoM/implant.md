@@ -95,7 +95,7 @@ make community_darwin64
     * `file_description`
     * `internal_name`
 
-* apis: **Private** 🔒
+* apis: 🔒
     * `level` : 使用上层api还是nt api, `"sys_apis"` , `"nt_apis`
     * `priority`:
         * `normal` : 直接调用 
@@ -103,12 +103,12 @@ make community_darwin64
             * `type`: 如自定义获取函数地址方法 `user_defined_dynamic`, 系统方法`sys_dynamic` (`LoadLibraryA/GetProcAddress`)
         * `syscall`: 通过 `syscall`调用
             * `type`: 生成方式, 函数式 `func_syscall`, inline 调用 `inline_syscall`
-* allactor: **Private** 🔒
+* allactor: 🔒
     * `inprocess`: 进程内分配函数, `VirtualAlloc`, `VirtualAllocEx`, `HeapAlloc`, `NtAllocateVirtualMemory`, `VirtualAllocExNuma`, `NtMapViewOfSection`
     * `crossprocess`: 进程间分配函数, `VirtualAllocEx`, `NtAllocateVirtualMemory`,
     `VirtualAllocExNuma`, `NtMapViewOfSection`
 
-`sleep_mask`: 睡眠混淆是否开启 **Professional** 👤
+`sleep_mask`: 睡眠混淆是否开启 👤
 
 `sacriface_process`: 是否需要牺牲进程功能
 
@@ -116,7 +116,7 @@ make community_darwin64
 
 `hook_exit`: 是否需要对退出函数进行 `hook` 以防止误操作导致的退出
 
-`thread_task_spoofer`: 是否需要自定义线程调用堆栈 **Professional** 👤
+`thread_task_spoofer`: 是否需要自定义线程调用堆栈 👤
 
 ## APIs
 
@@ -130,9 +130,9 @@ make community_darwin64
 
 在用户有调用 `PE/Shellcode` 各类格式的需求时， `Implant` 支持 `Process Hollow` 技术， 以伪装用户的调用需求
 
-#### **WIP** 🛠️ Process Ghost
+####  🛠️ Process Ghost
 
-#### **WIP** 🛠️ Transacted Hollowing
+####  🛠️ Transacted Hollowing
 
 #### Sacrifice Process
 
@@ -662,8 +662,8 @@ BeaconCleanupProcess
 
 ### Memory
 
-#### **WIP** 🛠 ️ 全局堆加密
-#### **WIP** 🛠 ️ 随机分配 `chunk` 加料
+#### 🛠 ️ 全局堆加密
+#### 🛠 ️ 随机分配 `chunk` 加料
 
 ### Syscall
 
@@ -671,51 +671,51 @@ BeaconCleanupProcess
 
 ### HOOK
 
-#### **WIP** 🛠️ inline HOOK 
+#### 🛠️ inline HOOK 
 
-#### **Private** 🔒 Hardware HOOK
+#### 🔒 Hardware HOOK
 
-### **WIP** 🛠️ Rop Chain
+###  🛠️ Rop Chain
 
 ### HIDDEN
 
 #### AMSI & ETW
 
-##### **Private** 🔒 PATCH
+#####  PATCH
 
-##### **Private** 🔒 HARDWARE HOOK
+#####  HARDWARE HOOK
 
-#### **Professional** 👤 SLEEP MASK
+#### 👤 SLEEP MASK
 
-#### **Professional** 👤 THREAD TASK SPOOFING
+#### 👤 THREAD TASK SPOOFING
 
-#### **Professional** 👤 LITE VM
+#### 👤 LITE VM
 
-### **WIP** 🛠️ Obfuscator LLVM
+### 🛠️ Obfuscator LLVM
 
-#### **WIP** 🛠️ Anti Class Dump
+#### 🛠️ Anti Class Dump
 
-#### **WIP** 🛠️ Anti Hooking
+#### 🛠️ Anti Hooking
 
-#### **WIP** 🛠️ Anti Debug
+#### 🛠️ Anti Debug
 
-#### **WIP** 🛠️ Bogus Control Flow
+#### 🛠️ Bogus Control Flow
 
-#### **WIP** 🛠️ Control Flow Flattening
+#### 🛠️ Control Flow Flattening
 
-#### **WIP** 🛠️ Basic Block Splitting
+#### 🛠️ Basic Block Splitting
 
-#### **WIP** 🛠️ Instruction Substitution
+#### 🛠️ Instruction Substitution
 
-#### **WIP** 🛠️ Function CallSite Obf
+#### 🛠️ Function CallSite Obf
 
-#### **WIP** 🛠️ String Encryption
+#### 🛠️ String Encryption
 
-#### **WIP** 🛠️ Constant Encryption
+#### 🛠️ Constant Encryption
 
-#### **WIP** 🛠️ Indirect Branching
+#### 🛠️ Indirect Branching
 
-#### **WIP** 🛠️ Function Wrapper
+#### 🛠️ Function Wrapper
 
 
 最后， 感谢大量优秀的开源项目及开发者们
