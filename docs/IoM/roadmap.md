@@ -81,11 +81,11 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 	- [x] 实现TCP pipeline
 	- [x] 实现pipeline的wrap TLS
 	- [x] 实现pipeline的wrap encryption
-- [ ] 实现与server/client的交互
+- [x] 实现与server/client的交互
 - [ ] 实现website相关功能
 	- [x] 实现web的增删改查
 	- [ ] 实现与server/client的交互
-- [ ] 提供独立的配置listener.yaml 文件
+- [x] 提供独立的配置listener.yaml 文件
 
 
 ### Client
@@ -98,12 +98,12 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 - [ ] command
 	- [ ] 实现armory相关功能
 		- [x] 实现alias
-		- [x] 实现extension
+		- [ ] 实现extension
 		- [x] 实现armory管理器
   - [x] 实现module相关command
   - [x] 实现与server交互的相关命令
-  - [ ] 实现pipeline的相关命令
-  - [ ] 实现website的相关命令
+  - [x] 实现pipeline的相关命令
+  - [x] 实现website的相关命令
   - [ ] 提供默认插件包
 	  - [ ] gogo
 	  - [ ] zombie
@@ -111,6 +111,7 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 	  - [ ] Bofs
 
 ## 整体方向
+
 **webshell 支持**
 
 我们将结合 webshell 中最先进的技术，以共享同一套插件基建的方式去兼容 webshell 中的各种技术。
