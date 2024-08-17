@@ -720,14 +720,13 @@ BeaconCleanupProcess
 
 最后， 感谢大量优秀的开源项目及开发者们
 
-```
-https://github.com/yamakadi/clroxide/
-https://github.com/MSxDOS/ntapi
-https://github.com/trickster0/EDR_Detector/blob/master/EDR_Detector.rs 
-https://github.com/Fropops/Offensive-Rust
-https://github.com/wildbook/hwbp-rs
-https://github.com/bats3c/DarkLoadLibrary/blob/master/DarkLoadLibrary/ 
-https://github.com/b4rtik/metasploit-execute-assembly
-https://github.com/lap1nou/CLR_Heap_encryption
-https://github.com/med0x2e/ExecuteAssembly/
-```
+
+* https://github.com/yamakadi/clroxide/
+* https://github.com/MSxDOS/ntapi
+* https://github.com/trickster0/EDR_Detector/blob/master/EDR_Detector.rs 
+* https://github.com/Fropops/Offensive-Rust
+* https://github.com/wildbook/hwbp-rs
+* https://github.com/bats3c/DarkLoadLibrary/blob/master/DarkLoadLibrary/ 
+* https://github.com/b4rtik/metasploit-execute-assembly
+* https://github.com/lap1nou/CLR_Heap_encryption
+* https://github.com/med0x2e/ExecuteAssembly/
