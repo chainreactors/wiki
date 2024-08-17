@@ -14,7 +14,7 @@ C2是比其他领域更具挑战性, 不管在设计上还是实现上都更为�
 
 目前v0.0.1离设计目标的完全体形态还有非常大的距离. 但受限于开发进度, 我们决定先接受来自社区的意见, 闭门造车造不出最先进的工具.
 
-所以我们计划在实现第一阶段功能后, 就发布IoM -community v0.0.1 作为预览版本. 
+所以我们计划在实现第一阶段功能后, 就发布IoM-community v0.0.1 作为预览版本. 
 
 !!! example "Features."
 
@@ -45,7 +45,8 @@ IoM将由一系列仓库组成
 * 通讯协议(protobuf): https://github.com/chainreactors/proto
 * 流量与代理: https://github.com/chainreactors/malefic-rem (🔒)
 * 插件仓库 : mals (🛠️)
-* loader generator: malign 用于免杀与EDR对抗 (🛠️)
+* stage 0 generator: malign 用于第一阶段加载器生成，免杀与EDR对抗 (🛠️)
+* loader generator: 用于各种格式(lnk,chm,doc等)的loader生成
 
 **kits**
 是一些专注于opsec与edr对抗的插件包或各类小组件, 作为IoM的附加能力
