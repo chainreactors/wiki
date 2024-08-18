@@ -51,7 +51,7 @@ observe <session id>
 login
 ```
 
-![image-20240816200452857](assets\image-20240816200452857.png)
+![image-20240816200452857](../assets\image-20240816200452857.png)
 
 **About:** 上下选择对应的用户文件，按下回车登录到服务器
 
@@ -69,7 +69,7 @@ sessions
 
 **About:** 列出会话，选择对应session按下回车进行连接。
 
-![](assets/YUGBbuPRyoikQDxjNdrcZnaFnFd.jpg)
+![](../assets/YUGBbuPRyoikQDxjNdrcZnaFnFd.jpg)
 
 ---
 
@@ -83,7 +83,7 @@ tasks
 
 **About:** 列出任务
 
-![](assets/EIUjbCi2LoIo9WxP2tzcJe0vnng.png)
+![](../assets/EIUjbCi2LoIo9WxP2tzcJe0vnng.png)
 
 ---
 
@@ -164,7 +164,7 @@ listener
 
 **About:** 列出所有listener
 
-![image-20240816190442913](assets\image-20240816190442913.png)
+![image-20240816190442913](../assets\image-20240816190442913.png)
 
 **Subcommands:**
 
@@ -366,7 +366,7 @@ armory
 
 **About:** 列出可用的武器库包
 
-![image-20240816191305748](assets\image-20240816191305748.png)
+![image-20240816191305748](../assets\image-20240816191305748.png)
 
 **Flags:**
 
