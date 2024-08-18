@@ -50,7 +50,7 @@ nighthawk与cobaltstrike都是闭源的工具, 他们虽然提供了各种接口
 **最重要的是, 国内的环境诞生了一系列强大的webshell管理工具, 他们实际上也是某种意义上的C2, 从工程上来看, 理论上能完全复用C2的后渗透基建.**
 
 可以想象一个能调用cobaltstrike的cna脚本的冰鞋/哥斯拉有多么强大! 
-## IoM 设计
+## IoM 设计理念
 
 当我们真正开始着手去实现时, 遇到的困难比想象多得多.
 
@@ -79,7 +79,7 @@ nighthawk与cobaltstrike都是闭源的工具, 他们虽然提供了各种接口
 
 ### snippets
 
-IoM当前已经实现的一些功能片段
+IoM将在v0.0.1-community发布的一些功能展示. 
 
 **反射加载EXE文件** (headless PE)
 ![](assets/6c57fd88c5df13912382166a41b7b23.png)
@@ -96,12 +96,22 @@ IoM当前已经实现的一些功能片段
 **进程内执行 CRL exe**
 ![](assets/img_v3_02dq_9355f89b-87be-4ccf-bdbf-82ed6158b1cg.jpg)
 
+And More...
+
+可以在这里快速开始尝试IoM: https://chainreactors.github.io/wiki/IoM/quickstart/
 ### 防止滥用
 
 作为一个带有攻击性的工具, 我们知道这么做的风险. 我们在公开设计理念, 程序代码的时候进行了一定的过滤. 将其分为`community`与`professional` (将会比community晚一段时间发布), 以及未来有可能出现的 `business` . 
 
-* community, 包含了client/server的完整代码与implant的主体, 以及没有进行OPSEC优化 kits .
-* professional, (发布时间待定, 就在近期, 可能会有一定的安全性审核与贡献要求), 将包含 免杀框架, 各种OPSEC的kits等. 
+* community
+	* 包含了client/server的完整代码
+	* implant的主体的源代码
+	* 没有进行OPSEC优化 kits的编译时静态库文件. 目前提供了win-kit
+	* 所有有关插件化, 拓展能力的功能都将会出现在community中.
+* professional, (发布时间待定, 就在近期, 可能会有一定的安全性审核与贡献要求)
+	* 免杀框架, 
+	* 进行了大量OPSEC优化的kits
+	* 高级代理/流量功能
 
 ## redboot计划
 
@@ -109,7 +119,7 @@ IoM当前已经实现的一些功能片段
 
 通过工件之间的 **链式反应** 以达到 **临界质量** .
 
-IoM是redboot计划的三个支线之一, 也是第一个发布的支线.  未来一段时间我们将全力维护这个项目.
+IoM只是redboot计划的三个支线之一, 也是第一个发布的支线.  未来一段时间我们将全力维护这个项目.
 
 并在计划今年内发布另外两条支线的红队向的ASM与我们的代理工具. 
 
