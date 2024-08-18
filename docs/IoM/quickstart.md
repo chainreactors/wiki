@@ -8,7 +8,7 @@ quickstart中将会提供最小使用说明与文档导航
 
 IoM的server与client都是通过golang编写的, 打包成二进制文件后不需要任何的依赖环境, 直接运行即可. 
 
-可以从 https://github.com/chainreactors/malice-network/releases/latest 获取最新的server预编译文件.  (如果要自行编译, 请见 https://chainreactors.github.io/wiki/IoM/deploy/#_6 )
+可以从 https://github.com/chainreactors/malice-network/releases/latest 获取最新的server预编译文件.  ([自行编译说明](IoM/deploy/#_6))
 
 但是要执行server二进制文件还需要一个配置文件. 
 
@@ -82,12 +82,11 @@ make community_win64
 
 使用在client中使用 `sessions` 命令, 将会进入到一个交互式表格中, 可以在这个表格中找到刚才上线的session, 然后运行 回车即可进入到 session的交互上下文.
 
-这个时候输入`help` 将能看到这个session上下文完整可用的命令.  也可以在文档中找到[对应的用法]() . 
-```
+这个时候输入`help` 将能看到这个session上下文完整可用的命令.  也可以在文档中找到[对应的用法](IoM/help#implant) . 
 
-```
+![](assets/Pasted%20image%2020240819003338.png)
 
-
+**Enjoy IoM**
 
 
 
