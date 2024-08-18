@@ -77,10 +77,11 @@ nav:
   - IoM:
       - index: IoM/index.md
       - 设计: IoM/design.md
+      - quickstart: IoM/quickstart.md
       - 用户手册: 
-            - 部署: IoM/deploy.md
+            - IoM部署: IoM/deploy.md
             - 使用说明: IoM/help.md
-            - implant: IoM/implant.md
+            - Implant手册: IoM/implant.md
       - 路线图: IoM/roadmap.md
   - gogo:
       - index: gogo/index.md
@@ -118,5 +119,6 @@ nav:
       - rem:
           index: rem/index.md
           design: rem/design.md
+          roadmap: rem/roadmap.md
   - Blog:
       - blog/index.md
