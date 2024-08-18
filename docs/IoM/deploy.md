@@ -360,7 +360,6 @@ cd "C:\path\to\malice-network-server"
 将生成的用户配置文件复制到 `Malice-Network` 客户端的所在位置。使用新的用户配置文件时，可以使用以下指令启动客户端：
 
 ```powershell
-powershell
 cd "C:\path\to\malice-network-client"
 .\malice-network-client.exe .\username_host.yaml
 ```
