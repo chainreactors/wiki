@@ -82,9 +82,9 @@ nav:
             - index: IoM/manual/index.md
             - IoM部署: IoM/manual/deploy.md
             - 使用说明: IoM/manual/help.md
-            - implant手册: 
-                - index: IoM/manual/implant.md
-                - implant-win-kit: IoM/manual/implant_win_kit.md
+            - implant文档: 
+                - malefic使用手册: IoM/manual/implant.md
+                - malefic-win-kit: IoM/manual/implant_win_kit.md
       - 路线图: IoM/roadmap.md
   - gogo:
       - index: gogo/index.md

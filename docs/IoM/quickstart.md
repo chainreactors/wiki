@@ -70,11 +70,14 @@ docker-compose up -d --build
 docker exec -it implant-builder /bin/bash
 ```
 在其中使用 `make` 命令进行对应环境的编译. (这里暂时win64的编译, 其他操作系统和架构编译见: [implant编译](IoM/implant/#docker-build))
+
+docker使用目录映射的方式创建, 所以只需要在本地修改`config.yaml`中的server字段, 完整对应的配置, 然后进行编译即可.  ([完整的config文档](IoM/manual/implant/#config))
+
 ```bash
 make community_win64
 ```
 
-生成的文件将在对应 `target\arch\release\malefic.exe` 中
+生成的文件将在对应 `[target]\release\malefic.exe` 中
 
 将其从docker中复制出来运行即可. 
 
@@ -83,6 +86,8 @@ make community_win64
 ```
 
 将会在client中看到session的上线记录. 
+
+[本机手动编译文档](IoM/manual/implant/#compile)
 
 ### 操作implant
 

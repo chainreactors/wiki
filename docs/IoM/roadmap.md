@@ -148,6 +148,7 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 	- [ ] 提供更多的编译选项, MSVC, MUSL等
 	- [ ] 提供多运行时支持, tokio, futures
 	- [ ] 提供基本的流量加密选项
+	- [ ] 优化编译时间
 - [ ] 完成Professional相关功能
 - [ ] 提供默认插件包
 	- [ ] gogo
