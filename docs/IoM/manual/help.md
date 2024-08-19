@@ -904,7 +904,7 @@ execute_assembly <path>
 execute_shellcode <path>
 ```
 
-**About:** 在 sliver 进程中执行给定的 shellcode
+**About:** 在 malefic进程中执行给定的 shellcode
 
 **Arguments:**
 
@@ -1071,5 +1071,4 @@ powershell
 - `-t`, `--timeout`: 命令超时时间，以秒为单位。
 
 ---
-
 
