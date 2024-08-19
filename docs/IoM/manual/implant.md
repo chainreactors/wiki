@@ -13,7 +13,7 @@
 除了 `docker`, 我们也推荐您使用自行组装的工具链进行编译
 (比如社区版本我们未提供gnu套件的清理工具, 这会导致 `implant` 生成时体积膨胀的问题， 如您使用windows在`msvc`套件中进行编译， 这种情况将会得到缓解， `msvc` 库正在路上~~)
 
-`rust` 工具链安装， 由于我们使用了 `nightly` 版本进行开发， 而 `nightly` 往往是不稳定的， 因此需要特殊版本 `rust` 套件进行编译， 具体安装如下:
+`rust` 工具链安装， 由于我们使用了 `nightly` 的一些特性， 因此需要特殊版本 `rust` 套件进行编译， 具体安装如下:
 
 ```bash
 rustup install nightly
@@ -24,16 +24,20 @@ rustup default nightly-2023-12-12-x86_64-pc-windows-msvc
 如需多个架构，添加支持命令如下:
 
 ```bash
-rustup target add i686-pc-windows-msvc
+rustup target add x86_64-pc-windows-gnu
 ```
 
 可以使用如下命令进行列出所有支持的 `target`
 
 ```bash
-rustup target list
+make community_win64
 ```
-
-安装后您就可以自行发挥了， 具体可参照 `Makefile` 进行
+!!! tips "windows安装make"
+	windows中可以使用`scoop install make`或者`winget install make`安装Make工具
+等价于
+```
+cargo build --release -p malefic --target x86_64-pc-windows-gnu
+```
 
 !!! important "rust编译时间"
 	由于 `rust` 的特殊性， 首次编译速度将会十分缓慢， 请耐心等待， 在没有特殊情况下不要轻易 `make clean` 或 `cargo clean` ：）
@@ -66,17 +70,17 @@ make community_darwin64
 
 * `Server` 字段包含了以下连接配置:
 
-* `urls`: `implant` 所需要建立连接的目标 `ip:port` 或 `url:port` 列表
-
-* `protocol` : `implant` 所使用的传输协议
-
-* `tls` : `implant` 是否需要使用 `tls`
-
-* `interval` :  每次建立连接的时间间隔(单位为 `milliseconds`)
-
-* `jitter`: 每次建立连接时的时间间隔抖动(单位为 `milliseconds`)
-
-* `ca` : 所使用的证书路径
+	* `urls`: `implant` 所需要建立连接的目标 `ip:port` 或 `url:port` 列表
+	
+	* `protocol` : `implant` 所使用的传输协议
+	
+	* `tls` : `implant` 是否需要使用 `tls`
+	
+	* `interval` :  每次建立连接的时间间隔(单位为 `milliseconds`)
+	
+	* `jitter`: 每次建立连接时的时间间隔抖动(单位为 `milliseconds`)
+	
+	* `ca` : 所使用的证书路径
 
 `Implant` 字段包含以下可选生成物配置：
 
