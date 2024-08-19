@@ -17,8 +17,7 @@
 
 ```bash
 rustup install nightly
-rustup toolchain install nightly-2023-12-12
-rustup default nightly-2023-12-12-x86_64-pc-windows-msvc
+rustup default nightly-2024-08-16
 ```
 
 如需多个架构，添加支持命令如下:
@@ -32,6 +31,7 @@ rustup target add x86_64-pc-windows-gnu
 ```bash
 make community_win64
 ```
+
 !!! tips "windows安装make"
 	windows中可以使用`scoop install make`或者`winget install make`安装Make工具
 等价于
