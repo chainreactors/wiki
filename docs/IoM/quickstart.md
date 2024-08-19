@@ -22,6 +22,8 @@ https://github.com/chainreactors/malice-network/blob/master/server/config.yaml
 
 默认将会读取`config.yaml` 也可以通过`-c path/config` 指定任意文件.
 
+**在最简配置下, listener和server同时部署**
+
 这里提供了[完整的配置文件说明]( https://chainreactors.github.io/wiki/IoM/deploy/#server-config)
 
 可以根据自己的需要修改. 

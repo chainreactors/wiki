@@ -188,6 +188,7 @@ cd "C:\path\to\malice-network-server"
 
 ![](../assets/VNBYbUKdsokMfexhogfcKSLUnAh.png)
 
+**在最简配置下, listener和server同时部署**
 ### 启动 Listener
 
 Server 的 `config.yaml` 中已经包含了 listener 配置。 是对 server 与 listener 在同一台机器上部署时的简化。
@@ -277,9 +278,9 @@ cd "C:\path\to\malice-network-server"
 
 执行命令成功后，服务端会输出以下信息并在所处文件夹下生成对应auth配置文件：
 
-![image-20240816205524283](../assets\image-20240816205524283.png)
+![image-20240816205524283](../assets/image-20240816205524283.png)
 
-![image-20240816205616073](../assets\image-20240816205616073.png)
+![image-20240816205616073](../assets/image-20240816205616073.png)
 
 auth配置文件中包含了以下信息：
 
@@ -301,9 +302,9 @@ auth配置文件中包含了以下信息：
 
 将生成的auth配置文件复制到 `Malice-Network` listener的所在位置，该目录下需要包含以下文件：malice-network-listener启动文件、listener.yaml、xxxx.yaml（auth配置文件）。
 
-![image-20240816213518902](../assets\image-20240816213518902.png)修改listener.yaml文件中的listeners下的配置，name需要为auth配置文件的前缀名， auth为auth配置文件的文件名，以上图为例，listener.yaml的配置应为：
+![image-20240816213518902](../assets/image-20240816213518902.png)修改listener.yaml文件中的listeners下的配置，name需要为auth配置文件的前缀名， auth为auth配置文件的文件名，以上图为例，listener.yaml的配置应为：
 
-![image-20240816213745122](../assets\image-20240816213745122.png)
+![image-20240816213745122](../assets/image-20240816213745122.png)
 
 listener配置完成后，确保 **Malice-Network** 服务器已经运行后，在终端输入以下指令：
 
@@ -315,11 +316,11 @@ cd "C:\path\to\malice-network-listener"
 
 listener成功启动后，listener终端会输出以下信息：
 
-![image-20240816214150489](../assets\image-20240816214150489.png)
+![image-20240816214150489](../assets/image-20240816214150489.png)
 
 **Malice-Network** 服务器也会输出listener登录信息：
 
-![image-20240816214248821](../assets\image-20240816214248821.png)
+![image-20240816214248821](../assets/image-20240816214248821.png)
 
 ### 初始化客户端用户
 
