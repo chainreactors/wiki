@@ -70,7 +70,7 @@ IoM  上的流量隧道不只是点对点的， 还将是网状的，甚至是�
 - [x] 进程操作
     - [x] 进程镂空（process hollowing）
     - [x] 进程注入（process inject）
-        - [x] 基本进行注入操作
+        - [x] 基本进程注入操作
         - [x] poolparty
     - [x] 牺牲进程 （sacrifice process ）
     - [x] 父进程欺骗 （spoof parent process）
