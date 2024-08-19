@@ -392,7 +392,13 @@ ii. 双击 `malice-network-client.exe`。
 ![](../assets/EEgKb86iwop9xaxBUt8cHZG9n8f.png)
 
 ## 编译
-自行编译
+自行编译说明
+
+clone项目到本地
+
+```
+git clone --recurse-submodules https://github.com/chainreactors/malice-network
+```
 
 ### 编译client
 
