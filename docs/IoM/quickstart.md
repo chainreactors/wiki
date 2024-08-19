@@ -1,7 +1,7 @@
 IoM是包含了一些仓库, 目前也没有统一的发行包. 对于用户来说可能会有使用上的挑战. 
 
 quickstart中将会提供最小使用说明与文档导航
-## 部署server
+## 部署
 
 ### 预先准备
 
@@ -55,6 +55,10 @@ https://github.com/chainreactors/malice-network/blob/master/server/config.yaml
 对于rust新手来说, 我们提供了提前准备好的编译环境. 免得复杂的环境搭建劝退.
 
 因为rust环境安装与编译的复杂性, 我们提供了 `Docker` 环境来进行编译, 通过提前配置好的环境一键交叉编译implant.
+
+```
+git clone --recurse-submodules https://github.com/chainreactors/malefic
+```
 
 (后续将会简化这个步骤)
 
