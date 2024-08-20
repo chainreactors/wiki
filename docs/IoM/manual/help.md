@@ -164,7 +164,7 @@ listener
 
 **About:** 列出所有listener
 
-![image-20240816190442913](../assets\image-20240816190442913.png)
+![image-20240816190442913](../assets/image-20240816190442913.png)
 
 **Subcommands:**
 
