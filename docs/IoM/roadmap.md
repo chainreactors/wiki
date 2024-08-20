@@ -197,4 +197,8 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 (todo list 暂未细化)
 
 - [ ] 提供GUI
-- [ ] 与一体化平台集成
+- [ ] 与一体化攻击平台集成
+- [ ] ATT&CK
+	- [ ] 基于ATT&CK建立自己的OPSEC矩阵
+	- [ ] 添加ATT&CK攻击路线图自动生成
+	- [ ] 
