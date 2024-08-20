@@ -6,27 +6,30 @@
 
 ### Compile
 
-为便于社区尝鲜使用， 我们选用 `docker` 配合 `gnu` 套件进行编译， `msvc`支持随后便到
+rust在编译上是个很复杂的语言.  malefic更是依赖了一些`nightly`的特性, 导致无法在所有rust版本上编译通过. 需要指定特定日期版本的toolchain, target才能编译通过. 
+
+为此, 我们将准备多个编译方案, 有rust使用经验的用户可以[尝试使用本地环境编译](#build) , 初次使用rust的用户建议使用[docker提供的预配好的环境](#docker-build)进行. 
+
+后续还将提供基于github action的自动化编译方案, 尽可能在编译上减少困难. 
 
 ### build
 
-除了 `docker`, 我们也推荐您使用自行组装的工具链进行编译
-(比如社区版本我们未提供gnu套件的清理工具, 这会导致 `implant` 生成时体积膨胀的问题， 如您使用windows在`msvc`套件中进行编译， 这种情况将会得到缓解， `msvc` 库正在路上~~)
+!!! danger "toolchain架构"
+	因为自动化编译出现了一些问题, 暂时只提供了GNU套件的库文件, MSVC预计在8月内可以提供. 手动编译时请注意, toolchain也需要为GNU
 
 `rust` 工具链安装， 由于我们使用了 `nightly` 的一些特性， 因此需要特殊版本 `rust` 套件进行编译， 具体安装如下:
 
 ```bash
-rustup install nightly
 rustup default nightly-2024-08-16
 ```
 
-如需多个架构，添加支持命令如下:
+添加对应的目标编译架构
 
 ```bash
 rustup target add x86_64-pc-windows-gnu
 ```
 
-可以使用如下命令进行列出所有支持的 `target`
+可以使用如下命令编译指定 `target`的二进制文件
 
 ```bash
 make community_win64
@@ -34,12 +37,12 @@ make community_win64
 
 !!! tips "windows安装make"
 	windows中可以使用`scoop install make`或者`winget install make`安装Make工具
-等价于
+如果不想安装make, 可以手动指定命令:
 ```
 cargo build --release -p malefic --target x86_64-pc-windows-gnu
 ```
 
-!!! important "rust编译时间"
+!!! danger "rust编译时间"
 	由于 `rust` 的特殊性， 首次编译速度将会十分缓慢， 请耐心等待， 在没有特殊情况下不要轻易 `make clean` 或 `cargo clean` ：）
 
 ### docker build
