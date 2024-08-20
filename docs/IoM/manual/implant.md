@@ -55,13 +55,16 @@ docker exec -it implant-builder /bin/bash
 在其中使用 `make` 命令进行对应环境的编译
 ```bash
 make community_win64
-make community_win32
-make community_linux32
-make community_linux64
-make community_darwin_arm64
-make community_darwin64
 ```
 
+支持的全部架构:
+```
+make community_win32
+make community_linux32 (编译暂时有bug, 修复中)
+make community_linux64
+make community_darwin_arm64 (编译暂时有bug, 修复中)
+make community_darwin64 (编译暂时有bug, 修复中)
+```
 生成的文件将在对应 `target\arch\release\` 中
 
 ## Config
