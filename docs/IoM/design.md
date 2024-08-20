@@ -65,7 +65,7 @@ Internal of Malice(恶联网) 力图实现一套 post-exploit 基础设施, 在�
   - 正向连接器, 用来连接 webshell 或者正向连接的 implant (WIP)
 - 植入物(implant), 并能接受任意语言编写的插件
   - 基于 rust 的全平台反向植入物
-  - 基于 webshell 的正向植入物(WIP)
+  - 基于 webshell 的正向植入物 webshell (WIP)
   - loader generator (WIP)
   - ollvm 编译器 (WIP)
   - webshell/bind , 基于 web/其他协议的正向的 implant (WIP)
