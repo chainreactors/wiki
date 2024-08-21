@@ -6,7 +6,7 @@
 
 ### Build
 
-rust在编译上是个很复杂的语言.  malefic更是依赖了一些`nightly`的特性, 导致无法在所有rust版本上编译通过. 需要指定特定日期版本的toolchain, target才能编译通过. 
+rust在编译上是个很复杂的语言.  malefic更是依赖了一些`nightly`的特性, 导致无法在所有rust版本上编译通过.  **需要指定特定日期版本的toolchain, target才能编译通过** . 
 
 为此, 我们将准备多个编译方案, 有rust使用经验的用户可以[尝试使用本地环境编译](#build) , 初次使用rust的用户建议使用[docker提供的预配好的环境](#docker-build)进行. 
 
@@ -33,6 +33,9 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 ```bash
 rustup default nightly-2024-08-16
 ```
+
+!!! danger "rust toolchain需要指定版本"
+	经过测试`nightly-2024-08-16` 能稳定编译, 其他版本未经过测试, 可能会有报错. 
 
 添加对应的目标编译架构
 
@@ -151,7 +154,7 @@ cargo build --release --features "sys_execute_shellcode sys_execute_assembly" -p
 常见的使用场景:
 1.  编译一个不带任何modules的malefic, 保持静态文件最小特征与最小体积. 通过`load_module modules.dll` 动态加载模块
 2. 根据场景快速开发module, 然后动态加载到malefic中. 
-3. 长时间保持静默的场景可以卸载所有的modules, 并进入到sleepmask的堆加密状态.  等需要操作时重写加载modules
+3. 长时间保持静默的场景可以卸载所有的modules, 并进入到sleepmask的堆加密状态.  等需要操作时重新加载modules
 ## Config
 
 `Implant` 同样拥有一个 `config.yaml` 以对生成的 `implant` 进行配置：
