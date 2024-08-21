@@ -147,7 +147,7 @@ cargo build --release --features "sys_execute_shellcode sys_execute_assembly" -p
 
 可以使用`load_module`热加载这个module
 
-常见的使用常见:
+常见的使用场景:
 1.  编译一个不带任何modules的malefic, 保持静态文件最小特征与最小体积. 通过`load_module modules.dll` 动态加载模块
 2. 根据场景快速开发module, 然后动态加载到malefic中. 
 3. 长时间保持静默的场景可以卸载所有的modules, 并进入到sleepmask的堆加密状态.  等需要操作时重写加载modules
