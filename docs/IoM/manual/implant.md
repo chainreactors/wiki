@@ -100,10 +100,57 @@ make community_win64
 
 等待自动下载完依赖并编译即可, 如果docker环境遇到报错, 请提供[issue](https://github.com/chainreactors/malefic/issues)
 
-#### 编译独立模块  (🛠️)
+#### 编译独立模块 
+
+独立模块暂时没提供makefile, 后续会提供各种预设.
+
+编译独立模块
+
+```
+cargo build --release --features "sys_execute_shellcode sys_execute_assembly" -p malefic-modules --target x86_64-pc-windows-gnu
+```
+
+??? info "所有支持的feautres"
+	# https://github.com/chainreactors/malefic/blob/master/malefic-modules/Cargo.toml
+	
+	fs_ls = ["fs"]  
+	fs_cd = ["fs"]  
+	fs_rm = ["fs"]  
+	fs_cp = ["fs"]  
+	fs_mv = ["fs"]  
+	fs_pwd = ["fs"]  
+	fs_mem = ["fs"]  
+	fs_mkdir = ["fs"]  
+	fs_chmod = ["fs"]  
+	fs_cat = ["fs"]  
+	  
+	  
+	sys_info = ["sys"]  
+	sys_ps = ["sys"]  
+	sys_id = ["sys"]  
+	sys_env = ["sys"]  
+	sys_whoami = ["sys"]  
+	sys_exec = ["sys"]  
+	sys_kill = ["sys"]  
+	sys_execute_shellcode = ["sys"]  
+	sys_execute_assembly = ["sys"]  
+	sys_execute_bof = ["sys"]  
+	sys_execute_pe = ["sys"]  
+	sys_execute_powershell = ["sys"]  
+	sys_netstat = ["sys"]  
+	  
+	net_upload = ["net"]  
+	net_download = ["net"]
 
 
+编译结果为`target\[arch]\release\modules.dll`
 
+可以使用`load_module`热加载这个module
+
+常见的使用常见:
+1.  编译一个不带任何modules的malefic, 保持静态文件最小特征与最小体积. 通过`load_module modules.dll` 动态加载模块
+2. 根据场景快速开发module, 然后动态加载到malefic中. 
+3. 长时间保持静默的场景可以卸载所有的modules, 并进入到sleepmask的堆加密状态.  等需要操作时重写加载modules
 ## Config
 
 `Implant` 同样拥有一个 `config.yaml` 以对生成的 `implant` 进行配置：
