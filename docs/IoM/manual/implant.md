@@ -145,7 +145,10 @@ cargo build --release --features "sys_execute_shellcode sys_execute_assembly" -p
 
 编译结果为`target\[arch]\release\modules.dll`
 
-可以使用`load_module`热加载这个module
+可以使用`load_module`热加载这个module 
+
+!!! important "module动态加载目前只支持windows"
+	linux与mac在理论上也可以实现
 
 常见的使用场景:
 1.  编译一个不带任何modules的malefic, 保持静态文件最小特征与最小体积. 通过`load_module modules.dll` 动态加载模块
