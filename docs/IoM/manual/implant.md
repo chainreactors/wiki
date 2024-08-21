@@ -109,7 +109,7 @@ cargo build --release --features "sys_execute_shellcode sys_execute_assembly" -p
 ```
 
 ??? info "所有支持的feautres"
-	# https://github.com/chainreactors/malefic/blob/master/malefic-modules/Cargo.toml
+	请见 https://github.com/chainreactors/malefic/blob/master/malefic-modules/Cargo.toml
 	
 	fs_ls = ["fs"]  
 	fs_cd = ["fs"]  
@@ -143,7 +143,7 @@ cargo build --release --features "sys_execute_shellcode sys_execute_assembly" -p
 
 编译结果为`target\[arch]\release\modules.dll`
 
-可以使用`load_module`热加载这个module 
+可以使用`load_module`热加载这个dll 
 
 !!! important "module动态加载目前只支持windows"
 	linux与mac在理论上也可以实现
