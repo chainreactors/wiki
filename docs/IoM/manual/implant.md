@@ -4,7 +4,7 @@
 
 欢迎各位对想要的功能和使用中遇到的问题提 `issues` 🙋
 
-### Build
+## Build
 
 rust在编译上是个很复杂的语言.  malefic更是依赖了一些`nightly`的特性, 导致无法在所有rust版本上编译通过.  **需要指定特定日期版本的toolchain, target才能编译通过** . 
 
