@@ -4,7 +4,7 @@
 
 欢迎各位对想要的功能和使用中遇到的问题提 `issues` 🙋
 
-### Compile
+### Build
 
 rust在编译上是个很复杂的语言.  malefic更是依赖了一些`nightly`的特性, 导致无法在所有rust版本上编译通过. 需要指定特定日期版本的toolchain, target才能编译通过. 
 
@@ -55,8 +55,6 @@ docker-compose up -d --build
 
 ### 编译melafic
 
-#### build
-
 当前支持的全部架构, 理论上支持各种IoT常用的架构, 还需要后续测试(欢迎提供这方面的反馈):
 
 ```
@@ -100,7 +98,7 @@ make community_win64
 
 等待自动下载完依赖并编译即可, 如果docker环境遇到报错, 请提供[issue](https://github.com/chainreactors/malefic/issues)
 
-#### 编译独立模块 
+### 编译独立模块 
 
 独立模块暂时没提供makefile, 后续会提供各种预设.
 
