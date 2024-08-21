@@ -296,6 +296,39 @@ website stop <listener_id>
 
 ## 插件管理
 
+### list_module
+
+**Command**
+
+```
+list_module
+```
+
+**About:** 列出模块
+
+---
+
+### load_module
+
+**Command**
+
+```
+load_module <path>
+```
+
+**About:** 加载模块
+
+**Arguments:**
+
+- `path`: 模块文件的路径。
+
+**Flags:**
+
+- `--name`, `-n`: 要加载的模块名称。
+
+---
+
+
 ### alias
 
 **Command**
@@ -815,38 +848,6 @@ upload <source> <destination>
 
 - `--priv`: 文件权限，默认是 `0o644`。
 - `--hidden`: 将文件名标记为隐藏。
-
----
-
-### list_module
-
-**Command**
-
-```
-list_module
-```
-
-**About:** 列出模块
-
----
-
-### load_module
-
-**Command**
-
-```
-load_module <path>
-```
-
-**About:** 加载模块
-
-**Arguments:**
-
-- `path`: 模块文件的路径。
-
-**Flags:**
-
-- `--name`, `-n`: 要加载的模块名称。
 
 ---
 
