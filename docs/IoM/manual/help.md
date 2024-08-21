@@ -863,9 +863,9 @@ exec
 **Flags:**
 
 - `-o`, `--output`: 捕获命令输出（默认：true）。
-- `-n`, `--name`: 分配战利品名称（可选）。
-- `-P`, `--ppid`: 父进程 ID（可选，仅限Windows）。
 - `-t`, `--timeout`: 命令超时时间，以秒为单位（默认：`assets.DefaultSettings.DefaultTimeout`）。
+- `-O`, `--stdout`: 获取标准输出内容。
+  - `-E`, `--stderr`: 获取标准错误内容。
 
 **Arguments:**
 
@@ -892,7 +892,7 @@ execute_assembly <path>
 **Flags**
 
 - `-o`,`--output`: 需要输出。
-- `-n`, `--name`: 分配战利品名称（可选）。
+- `-n`, `--process`:进程名称（可选）。
 - `-p`, `--ppid`: 父进程 ID（可选）。
 
 ---
