@@ -85,6 +85,7 @@ nav:
             - implant文档: 
                 - malefic使用手册: IoM/manual/implant.md
                 - malefic-win-kit: IoM/manual/implant_win_kit.md
+            - 二次开发文档: IoM/manual/develop.md
       - 路线图: IoM/roadmap.md
   - gogo:
       - index: gogo/index.md

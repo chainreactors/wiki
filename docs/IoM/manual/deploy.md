@@ -232,7 +232,6 @@ c. 对于 Windows
 ```
 
 ```powershell
-powershell
 cd "C:\path\to\malice-network-server"
 .\listener.exe
 ```
@@ -271,7 +270,6 @@ listeners:
 在确保 **Malice-Network** 服务器已经运行后，在终端输入以下指令：
 
 ```powershell
-powershell
 cd "C:\path\to\malice-network-server"
 .\malice-network-server.exe listener add listenerName
 ```
@@ -309,7 +307,6 @@ auth配置文件中包含了以下信息：
 listener配置完成后，确保 **Malice-Network** 服务器已经运行后，在终端输入以下指令：
 
 ```powershell
-powershell
 cd "C:\path\to\malice-network-listener"
 .\malice-network-listener
 ```
@@ -328,8 +325,7 @@ listener成功启动后，listener终端会输出以下信息：
 
 在确保 **Malice-Network** 服务器已经运行后，在终端输入以下指令：
 
-```powershell
-powershell
+```
 cd "C:\path\to\malice-network-server"
 .\malice-network-server.exe user add username
 ```
