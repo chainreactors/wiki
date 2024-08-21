@@ -14,9 +14,9 @@
 
 Fork&Run 虽然已经不是 opsec 的选择， 但是某些情况下还是避不开使用这个技术。
 
-为便于理解， 您可以将所有需要产生新进程的行为均理解为生成了一个 `牺牲进程`， 即包含下面将阐述的所有概念及功能
+为便于理解， 可以将所有需要产生新进程的行为均理解为生成了一个 `牺牲进程`， 即包含下面将阐述的所有概念及功能
 
-所有上述支持使用 `Sacrifice Process` 即 `牺牲进程` 的功能都会可以通过参数 `--sacrifice` 开启， 所有 `牺牲进程` 都是以 `SUSPEND` 及 `NO_WINDOWS` 的形式启动的， 在做完其余处理后再唤醒主线程， 您可以通过 `--param` 参数向 `牺牲进程` 传递启动参数， 如 `notepad.exe` , 并通过 `--output` 参数来决定是否需要捕获输出（如果您不确定执行结果是否有可获取的结果， 请小心使用 `output` 以避免 `Implant` 错误的等待一个可能永远不会得到的结果
+所有上述支持使用 `Sacrifice Process` 即 `牺牲进程` 的功能都会可以通过参数 `--sacrifice` 开启， 所有 `牺牲进程` 都是以 `SUSPEND` 及 `NO_WINDOWS` 的形式启动的， 在做完其余处理后再唤醒主线程， 可以通过 `--param` 参数向 `牺牲进程` 传递启动参数， 如 `notepad.exe` , 并通过 `--output` 参数来决定是否需要捕获输出（如果不确定执行结果是否有可获取的结果， 请小心使用 `output` 以避免 `Implant` 错误的等待一个可能永远不会得到的结果
 
 支持牺牲进程的功能有:
 
@@ -39,7 +39,7 @@ execute_shellcode --sacrifice --output --param "notepad.exe" ./loader.bin
 
 所有上述支持 `牺牲进程` 的功能均可以自定义 `牺牲进程` 的 `ppid`, 只需在调用命令时添加 `--pid` 参数即可
 
-您可以使用 `ps` 命令获取当前所有进程的快照内容
+可以使用 `ps` 命令获取当前所有进程的快照内容
 
 ```bash
 # 命令示例
@@ -50,7 +50,7 @@ execute_shellcode --sacrifice --pid 8888 --output --param "notepad.exe" ./loader
 
 由于所有的牺牲进程都会以 `SUSPEND` 参数启动， 因此在执行命令时， 我们可以对从启动到真正执行时的参数进行替换， 即调用函数进行启动时为假的命令， 真正启动时变为真的命令
 
-您可以使用 `argue` 命令来保存您的假命令， 如
+可以使用 `argue` 命令来保存的假命令， 如
 
 ```bash
 # 命令示例
@@ -77,9 +77,9 @@ execute --ppid 8888 --output --param "net xxxx xxx"
 
 `DLL/EXE` 是 `Windows` 中的可执行程序格式
 
-在使用中， 您可能有动态加载调用 `PE` 文件的需求， 这些文件可能是某个 `EXP` 或某个功能模块， 因此
+在使用中， 可能有动态加载调用 `PE` 文件的需求， 这些文件可能是某个 `EXP` 或某个功能模块， 因此
 
-`Implant` 支持动态加载和调用 `DLL/EXE ` 文件， 并可选择是否需要获取标准输出， 如需要将会把输出发布给您
+`Implant` 支持动态加载和调用 `DLL/EXE ` 文件， 并可选择是否需要获取标准输出， 如需要将会把输出发布给
 
 所有执行的 `DLL/EXE` 都无需落地在内存中直接执行， 通过调用参数来控制 `DLL/EXE` 在自身内存中调用或创建一个牺牲进程以调用， 具体请参照 `Post Exploitation` 章节中 `Running Commands` 和 `Sacrifice Process` 这一小节的内容
 
@@ -89,7 +89,7 @@ execute --ppid 8888 --output --param "net xxxx xxx"
 
 `Implant` 支持动态加载 `shellcode`, 并可选择在自身进程还是牺牲进程中调用
 
-请注意，由于 `Implant` 无法分辨您的 `shellcode` 是哪个架构的， 请您在使用该功能时，如果不确定架构和其稳定性， 最好使用 `牺牲进程` 来进行调用， 而非在本体中进行， 以免由于误操作失去连接
+请注意，由于 `Implant` 无法分辨的 `shellcode` 是哪个架构的， 请在使用该功能时，如果不确定架构和其稳定性， 最好使用 `牺牲进程` 来进行调用， 而非在本体中进行， 以免由于误操作失去连接
 
 具体可参照 `Post Exploitation` 章节中 `Running Commands` 这一小节的内容
 
@@ -121,11 +121,11 @@ execute --ppid 8888 --output --param "net xxxx xxx"
 
 该类型文件由于未进行链接操作， 因此一般体积较小， 较常见 `DLL/EXE` 这类可执行程序更易于传输，被广泛利用于知名 C2 工具 Cobalt Strike(后称 CS)中， 不少红队开发人员为其模块编写了 BOF 版本， 因此 `Implant` 对该功能进行了适配工作， `Implant` 支持大部分 CS 提供的内部 API, 以减少各使用人员的使用及适配成本
 
-请注意， 由于我们的 `BOF` 功能与 `CS` 类似，执行于本进程中， 因此在使用该功能时请确保您使用的 `BOF` 文件可以正确执行， 否则您将丢失当前连接
+请注意， 由于我们的 `BOF` 功能与 `CS` 类似，执行于本进程中， 因此在使用该功能时请确保使用的 `BOF` 文件可以正确执行， 否则将丢失当前连接
 
 #### BOF 开发
 
-为减少使用人员的开发成本， 本 `Implant` 的 `BOF` 开发标准与 `CS` 工具相同，您可参照 `CS` 的开发模版进行开发，
+为减少使用人员的开发成本， 本 `Implant` 的 `BOF` 开发标准与 `CS` 工具相同，可参照 `CS` 的开发模版进行开发，
 
 其模版如下， 链接为 [https://github.com/Cobalt-Strike/bof_template/blob/main/beacon.h](https://github.com/Cobalt-Strike/bof_template/blob/main/beacon.h)
 
@@ -299,7 +299,7 @@ DECLSPEC_IMPORT size_t BeaconDataStoreMaxEntries();
 DECLSPEC_IMPORT char * BeaconGetCustomUserData();
 ```
 
-为避免您的 `BOF` 程序由于调用了本 `Implant` 未适配的函数导致您丢失连接， 请注意本 `Implant` 现支持使用的函数列表如下:
+为避免的 `BOF` 程序由于调用了本 `Implant` 未适配的函数导致丢失连接， 请注意本 `Implant` 现支持使用的函数列表如下:
 
 ```c
 BeaconDataExtract
@@ -325,7 +325,7 @@ BeaconIsAdmIn
 BeaconCleanupProcess
 ```
 
-!!! 请在编写 `BOF` 文件或使用现有 `BOF` 对应工具包前详细检查是否适配了对应 `API`， 以防止您丢失连接！！！
+!!! 请在编写 `BOF` 文件或使用现有 `BOF` 对应工具包前详细检查是否适配了对应 `API`， 以防止丢失连接！！！
 
 
 ### Memory

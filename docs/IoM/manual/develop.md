@@ -1,7 +1,7 @@
 
 ## 自定义 module 开发
 
-当然， 也可以自行编写您自己别具特色的 `Module` ， 我们提供了灵活的编写接口及解析规范
+当然， 也可以自行编写自己别具特色的 `Module` ， 我们提供了灵活的编写接口的模板, 最大程度减轻开发者的工作量
 
 ### 定义proto
 
@@ -149,7 +149,7 @@ service MaliceRPC {
 好了, 定义部分现在就完成了, 可以编写对应的代码.
 ### 编写module代码
 
-在编写您的 `proto` 相关定义后， 就可以开始编写自己的 `Module` 了.
+在编写 `proto` 相关定义后， 就可以开始编写自己的 `Module` 了.
 
 **module接口定义**
 
@@ -173,7 +173,7 @@ pub trait Module {
 
 `receiver`: 用于接收传入数据, 大部分情况只需要调用一次获取一个message. 对于多个请求包或者持续性的流式输入的场景, 可以调用多次receiver, 持续获得传入数据. 
 
-`sender`: 用于将您所需要传出的数据发送给数据处理模块，
+`sender`: 将所需要传出的数据发送给数据处理模块，
 
 **run返回值定义**
 
@@ -226,7 +226,7 @@ impl Module for Cat {
 ```
 
 
-如果您的任务需要**多次数据接收和结果发送**， 可以多次调用 `check_request!(recviver, Body::Request)?;` 来获取数据， 使用 `sender.send()` 函数多次发送 `TaskResult` 响应
+如果任务需要**多次数据接收和结果发送**， 可以多次调用 `check_request!(recviver, Body::Request)?;` 来获取数据， 使用 `sender.send()` 函数多次发送 `TaskResult` 响应
 
 ### 编写server端代码
 

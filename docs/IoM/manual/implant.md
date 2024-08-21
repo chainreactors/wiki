@@ -155,6 +155,7 @@ cargo build --release --features "sys_execute_shellcode sys_execute_assembly" -p
 1.  编译一个不带任何modules的malefic, 保持静态文件最小特征与最小体积. 通过`load_module modules.dll` 动态加载模块
 2. 根据场景快速开发module, 然后动态加载到malefic中. 
 3. 长时间保持静默的场景可以卸载所有的modules, 并进入到sleepmask的堆加密状态.  等需要操作时重新加载modules
+
 ## Config
 
 `Implant` 同样拥有一个 `config.yaml` 以对生成的 `implant` 进行配置：
@@ -347,25 +348,38 @@ extend = [
 ```
 
 
-当然也可以根据喜好自行组装功能模块， 当然， 由于我们提供了动态加载及卸载模块的功能， 您可以随时添加新模块.
+当然也可以根据喜好自行组装功能模块， 当然， 我们也提供了动态加载及卸载模块的功能， 可以随时添加新模块.
 
 
 !!! danger "编译时组装的模块无法被卸载" 
 	这里有一个好消息与一个坏消息.
 	坏消息是编译时组装的模块无法被卸载, 因此请根据自己的使用场景选择合适的预设.
-	好消息是虽然无法卸载, 但加载新模块时如您选用了同样名称的模块, 新模块将覆盖本体的模块.(在内存中原本的模块依旧会存在)
+	好消息是虽然无法卸载, 但加载新模块时如选用了同样名称的模块, 新模块将覆盖本体的模块.(在内存中原本的模块依旧会存在)
 
+#### module定义
+
+模块的开发者绝大多数场景下不需要关注除了`run`之外的方法. [开发自定义模块请见文档](IoM/manual/develop/#module)
+
+```rust
+#[async_trait]
+pub trait Module {
+    fn name() -> &'static str where Self: Sized;
+    fn new() -> Self where Self: Sized;
+    fn new_instance(&self) -> Box<MaleficModule>;
+	async fn run(&mut self, 
+				id: u32, 
+				receiver: &mut crate::Input, 
+				sender: &mut crate::Output) -> Result 
+```
 
 #### module管理
 
-就像开始所说的那样， `malefic` 支持您生成时组装所需功能模块， 同时也支持启动后动态的加载和卸载所需的功能模块. 我们提供了一组api用来管理模块.  具体的使用请见[使用文档module部分](IoM/manual/help/#_2)
+就像开始所说的那样， `malefic` 支持编译时组装所需功能模块， 同时也支持启动后动态的加载和卸载所需的功能模块. 我们提供了一组api用来管理模块.  具体的使用请见[使用文档module部分](IoM/manual/help/#_2)
 
-- `list_modules` 命令允许您列举当前 `Implant` 所持有的模块
-- `load_modules` 命令则支持您动态加载本地新组装的模块， 只需要 `load_modules --name xxx --path module.dll` 即可动态加载新的模块， 请注意， 如本体已经含有的模块（生成时组装的模块）， 再次加载将会覆盖该模块的功能， 是的， `load_modules` 允许您修改本体功能以满足您的需求
-- `unload_modules` 🛠️ 命令则会卸载您使用 `load_modules` 命令所加载的对应 `name` 的模块， 请注意， 生成时确定的模块是无法卸载的， 但这些模块可以被您加载的新模块所覆盖
-- `refresh_modules` 🛠️ 命令将会卸载所有动态加载的模块， 包括您覆盖掉的本体模块， 一切模块将恢复成您生成时的初始状态
-
-在[模块开发文档](IoM/manual/develop)中可以找到如何快速编写自定义模块的文档. 
+- `list_modules` 命令允许列举当前 `Implant` 所持有的模块
+- `load_modules` 命令则支持动态加载本地新组装的模块， 只需要 `load_modules --name xxx --path module.dll` 即可动态加载新的模块， 请注意， 如本体已经含有的模块（生成时组装的模块）， 再次加载将会覆盖该模块的功能， 是的， `load_modules` 允许覆盖本体功能
+- `unload_modules` 🛠️ 命令则会卸载使用 `load_modules` 命令所加载的对应 `name` 的模块， 请注意， 生成时确定的模块是无法卸载的， 但这些模块可以被加载的新模块所覆盖
+- `refresh_modules` 🛠️ 命令将会卸载所有动态加载的模块， 包括覆盖掉的本体模块， 一切模块将恢复成编译时的初始状态
 
 ## Windows Kit
 
