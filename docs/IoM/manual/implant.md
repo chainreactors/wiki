@@ -11,8 +11,19 @@ rust在编译上是个很复杂的语言.  malefic更是依赖了一些`nightly`
 为此, 我们将准备多个编译方案, 有rust使用经验的用户可以[尝试使用本地环境编译](#build) , 初次使用rust的用户建议使用[docker提供的预配好的环境](#docker-build)进行. 
 
 后续还将提供基于github action的自动化编译方案, 尽可能在编译上减少困难. 
+### 环境准备
 
-### build
+clone malefic 项目
+
+```
+git clone --recurse-submodules https://github.com/chainreactors/malefic
+```
+
+!!! tips "注意clone子项目"
+	需要添加`--recurse-submodules`递归克隆子项目. 如果已经clone也不必担心,`git submodule update --init` 即可
+
+
+#### 本机
 
 !!! danger "toolchain架构"
 	因为自动化编译出现了一些问题, 暂时只提供了GNU套件的库文件, MSVC预计在8月内可以提供. 手动编译时请注意, toolchain也需要为GNU
@@ -29,7 +40,39 @@ rustup default nightly-2024-08-16
 rustup target add x86_64-pc-windows-gnu
 ```
 
-可以使用如下命令编译指定 `target`的二进制文件
+!!! danger "rust编译时间"
+	由于 `rust` 的特殊性， 首次编译速度将会十分缓慢， 请耐心等待， 在没有特殊情况下不要轻易 `make clean` 或 `cargo clean` ：）
+	
+#### docker
+
+因为rust环境安装与编译的复杂性, 我们提供了 `Docker` 环境来进行编译, 通过提前配置好的环境一键交叉编译implant.
+
+```bash
+docker-compose up -d --build
+```
+
+#### github action (🛠️)
+
+### 编译melafic
+
+#### build
+
+当前支持的全部架构, 理论上支持各种IoT常用的架构, 还需要后续测试(欢迎提供这方面的反馈):
+
+```
+make community_win64
+make community_win32
+make community_linux32 (编译暂时有bug, 修复中)
+make community_linux64
+make community_darwin_arm64 (编译暂时有bug, 修复中)
+make community_darwin64 (编译暂时有bug, 修复中)
+```
+
+生成的文件将在对应 `target\[arch]\release\` 中
+
+#### 本机编译
+
+使用 `make` 命令进行对应环境的编译
 
 ```bash
 make community_win64
@@ -37,38 +80,29 @@ make community_win64
 
 !!! tips "windows安装make"
 	windows中可以使用`scoop install make`或者`winget install make`安装Make工具
+
 如果不想安装make, 可以手动指定命令:
 ```
 cargo build --release -p malefic --target x86_64-pc-windows-gnu
 ```
 
-!!! danger "rust编译时间"
-	由于 `rust` 的特殊性， 首次编译速度将会十分缓慢， 请耐心等待， 在没有特殊情况下不要轻易 `make clean` 或 `cargo clean` ：）
+#### docker编译
 
-### docker build
-因为rust环境安装与编译的复杂性, 我们提供了 `Docker` 环境来进行编译, 通过提前配置好的环境一键交叉编译implant.
+docker 环境映射了本机的代码路径
 
-```bash
-docker-compose up -d --build
-```
-随后使用
 ```bash
 docker exec -it implant-builder /bin/bash
 ```
-在其中使用 `make` 命令进行对应环境的编译
-```bash
+
+```
 make community_win64
 ```
 
-支持的全部架构:
-```
-make community_win32
-make community_linux32 (编译暂时有bug, 修复中)
-make community_linux64
-make community_darwin_arm64 (编译暂时有bug, 修复中)
-make community_darwin64 (编译暂时有bug, 修复中)
-```
-生成的文件将在对应 `target\arch\release\` 中
+等待自动下载完依赖并编译即可, 如果docker环境遇到报错, 请提供[issue](https://github.com/chainreactors/malefic/issues)
+
+#### 编译独立模块  (🛠️)
+
+
 
 ## Config
 
