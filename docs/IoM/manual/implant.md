@@ -8,12 +8,12 @@
 
 rust在编译上是个很复杂的语言.  malefic更是依赖了一些`nightly`的特性, 导致无法在所有rust版本上编译通过.  **需要指定特定日期版本的toolchain, target才能编译通过** . 
 
-为此, 我们将准备多个编译方案, 有rust使用经验的用户可以[尝试使用本地环境编译](#build) , 初次使用rust的用户建议使用[docker提供的预配好的环境](#docker-build)进行. 
+为此, 我们将准备多个编译方案, 有rust使用经验的用户可以[尝试使用本地环境编译](#build) , 初次使用rust的用户建议通过[malefic-builder](https://github.com/chainreactors/malefic/pkgs/container/malefic-builder)进行. 
 
 后续还将提供基于github action的自动化编译方案, 尽可能在编译上减少困难. 
 ### 环境准备
 
-clone malefic 项目
+克隆[malefic](https://github.com/chainreactors/malefic)
 
 ```
 git clone --recurse-submodules https://github.com/chainreactors/malefic
@@ -23,19 +23,55 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 	需要添加`--recurse-submodules`递归克隆子项目. 如果已经clone也不必担心,`git submodule update --init` 即可
 
 
-#### 本机
+### docker编译
+
+因为rust安装与编译的复杂性, 我们提供了 `Docker` 环境搭配makefile一键交叉编译malefic。理论上支持各种IoT常用的架构,
+当前支持的全部架构可参考[Targets](https://github.com/chainreactors/malefic/blob/malefic-builder/Makefile#L2).(欢迎提供反馈)
+
+详细步骤如下
+#### 1. 创建编译环境
+```bash
+git clone --depth=1 --recurse-submodules https://github.com/chainreactors/malefic
+cd malefic/
+docker pull ghcr.io/chainreactors/malefic-builder:v0.0.1-gnu
+docker run -v "$PWD/:/root/src" -it --name malefic-builder ghcr.io/chainreactors/malefic-builder:v0.0.1-gnu bash
+```
+#### 2. 编译malefic
+build单个架构
+```bash
+make windows_x64
+make windows_x32
+make linux_x64
+make linux_x32
+make darwin_x64
+make darwin_arm
+```
+build all
+```bash
+make all
+```
+清理编译环境(非必要不使用)
+```
+make clean
+```
+
+release文件将生成到对应 `target\[arch]\release\` 中
+![win64-release](../assets/win64-release.png)
+### Github Action编译 (🛠️)
+
+### 本地编译
 
 !!! danger "toolchain架构"
-	因为自动化编译出现了一些问题, 暂时只提供了GNU套件的库文件, MSVC预计在8月内可以提供. 手动编译时请注意, toolchain也需要为GNU
+因为自动化编译出现了一些问题, 暂时只提供了GNU套件的库文件, MSVC预计在8月内可以提供. 手动编译时请注意, toolchain也需要为GNU
 
-`rust` 工具链安装， 由于我们使用了 `nightly` 的一些特性， 因此需要特殊版本 `rust` 套件进行编译， 具体安装如下:
+由于我们使用了 `nightly` 的一些特性， 因此需要特殊版本 `rust` 套件进行编译， 如下:
 
 ```bash
 rustup default nightly-2024-08-16
 ```
 
 !!! danger "rust toolchain需要指定版本"
-	经过测试`nightly-2024-08-16` 能稳定编译, 其他版本未经过测试, 可能会有报错. 
+经过测试`nightly-2024-08-16` 能稳定编译, 其他版本未经过测试, 可能会有报错.
 
 添加对应的目标编译架构
 
@@ -44,70 +80,30 @@ rustup target add x86_64-pc-windows-gnu
 ```
 
 !!! danger "rust编译时间"
-	由于 `rust` 的特殊性， 首次编译速度将会十分缓慢， 请耐心等待， 在没有特殊情况下不要轻易 `make clean` 或 `cargo clean` ：）
-	
-#### docker
+由于 `rust` 的特殊性， 首次编译速度将会十分缓慢， 请耐心等待， 在没有特殊情况下不要轻易 `make clean` 或 `cargo clean` ：）
 
-因为rust环境安装与编译的复杂性, 我们提供了 `Docker` 环境来进行编译, 通过提前配置好的环境一键交叉编译implant.
+参考[docker编译](#docker编译)同样用法 `make` 命令进行对应环境的编译
 
 ```bash
-docker-compose up -d --build
-```
-
-#### github action (🛠️)
-
-### 编译melafic
-
-当前支持的全部架构, 理论上支持各种IoT常用的架构, 还需要后续测试(欢迎提供这方面的反馈):
-
-```
-make community_win64
-make community_win32
-make community_linux32 (编译暂时有bug, 修复中)
-make community_linux64
-make community_darwin_arm64 (编译暂时有bug, 修复中)
-make community_darwin64 (编译暂时有bug, 修复中)
-```
-
-生成的文件将在对应 `target\[arch]\release\` 中
-
-#### 本机编译
-
-使用 `make` 命令进行对应环境的编译
-
-```bash
-make community_win64
+make windows_x64
 ```
 
 !!! tips "windows安装make"
-	windows中可以使用`scoop install make`或者`winget install make`安装Make工具
+windows可使用`scoop install make`或者`winget install make`安装Make工具
 
-如果不想安装make, 可以手动指定命令:
+如果不想安装make, 也可以手动指定命令:
 ```
 cargo build --release -p malefic --target x86_64-pc-windows-gnu
 ```
 
-#### docker编译
 
-docker 环境映射了本机的代码路径
-
+### 编译独立模块
+makefile指令如下
+```
+make profile_module FEATURES="sys_execute_shellcode sys_execute_assembly"
+```
+也可手动
 ```bash
-docker exec -it implant-builder /bin/bash
-```
-
-```
-make community_win64
-```
-
-等待自动下载完依赖并编译即可, 如果docker环境遇到报错, 请提供[issue](https://github.com/chainreactors/malefic/issues)
-
-### 编译独立模块 
-
-独立模块暂时没提供makefile, 后续会提供各种预设.
-
-编译独立模块
-
-```
 cargo build --release --features "sys_execute_shellcode sys_execute_assembly" -p malefic-modules --target x86_64-pc-windows-gnu
 ```
 
