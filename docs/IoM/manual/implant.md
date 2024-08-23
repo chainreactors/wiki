@@ -44,7 +44,6 @@ make darwin_arm   # aarch64-apple-darwin
 
 因为rust安装与编译的复杂性, 我们提供了 `Docker` 环境搭配makefile一键交叉编译malefic。
 
-详细步骤如下
 ##### 从ghcr获取编译环境
 
 ```bash
@@ -89,7 +88,7 @@ docker run -v "$PWD/:/root/src" -it --name malefic-builder ghcr.io/chainreactors
 #### 本地编译环境
 
 !!! danger "toolchain架构"
-因为自动化编译出现了一些问题, 暂时只提供了GNU套件的库文件, MSVC预计在8月内可以提供. 手动编译时请注意, toolchain也需要为GNU
+	因为自动化编译出现了一些问题, 暂时只提供了GNU套件的库文件, MSVC预计在8月内可以提供. 手动编译时请注意, toolchain也需要为GNU
 
 由于我们使用了 `nightly` 的一些特性， 因此需要特殊版本 `rust` 套件进行编译
 
@@ -103,7 +102,7 @@ rustup default nightly-2024-08-16
 	经过测试`nightly-2024-08-16` 能稳定编译, 其他版本未经过测试, 可能会有报错. 
 
 
-### 编译malefic
+### Compile
 
 不管在docker中, 还是本机中, 通过Malefile即可快速编译需要的架构
 
