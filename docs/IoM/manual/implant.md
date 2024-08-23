@@ -22,23 +22,12 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 !!! tips "注意clone子项目"
 	需要添加`--recurse-submodules`递归克隆子项目. 如果已经clone也不必担心,`git submodule update --init` 即可
 
+malefic理论上支持rust能编译的所有平台, 包括各种冷门架构的IoT设备, Android系统, iOS系统等等
 
-### docker编译
-
-因为rust安装与编译的复杂性, 我们提供了 `Docker` 环境搭配makefile一键交叉编译malefic。理论上支持各种IoT常用的架构,
 当前支持的全部架构可参考[Targets](https://github.com/chainreactors/malefic/blob/malefic-builder/Makefile#L2).(欢迎提供反馈)
 
-详细步骤如下
-#### 1. 创建编译环境
-```bash
-git clone --depth=1 --recurse-submodules https://github.com/chainreactors/malefic
-cd malefic/
-docker pull ghcr.io/chainreactors/malefic-builder:v0.0.1-gnu
-docker run -v "$PWD/:/root/src" -it --name malefic-builder ghcr.io/chainreactors/malefic-builder:v0.0.1-gnu bash
+对应的命令
 ```
-#### 2. 编译malefic
-build单个架构
-```bash
 make windows_x64
 make windows_x32
 make linux_x64
@@ -46,16 +35,47 @@ make linux_x32
 make darwin_x64
 make darwin_arm
 ```
-build all
+
+
+### docker编译
+
+因为rust安装与编译的复杂性, 我们提供了 `Docker` 环境搭配makefile一键交叉编译malefic。
+
+详细步骤如下
+#### 从ghcr获取编译环境
+```bash
+docker pull ghcr.io/chainreactors/malefic-builder:v0.0.1-gnu
+```
+!!! danger "镜像较大且ghcr.io从国内访问较慢"
+	`malefic-builder:v0.0.1-gnu`镜像有3.1g大小. 我们尝试从ghcr.io上pull需要好几个小时. 
+
+#### 从Dockerfile创建
+
+#### 编译malefic
+
+!!! important "请在malefic所在目录运行docker"
+	为了方便修改config以及编译参数, 我们选择了映射程序目录的方式实现
+
+```bash
+cd malefic
+```
+
+运行docker容器
+```
+docker run -v "$PWD/:/root/src" -it --name malefic-builder ghcr.io/chainreactors/malefic-builder:v0.0.1-gnu bash
+```
+
+**build指定架构**
+```bash
+make windows_x64
+```
+
+**build 全部target的二进制文件**
 ```bash
 make all
 ```
-清理编译环境(非必要不使用)
-```
-make clean
-```
 
-release文件将生成到对应 `target\[arch]\release\` 中
+release文件将生成到对应 `target\[arch]\release\` 中, 也会映射到本机malefic项目中的`target\[arch]\release\`中
 ![win64-release](../assets/win64-release.png)
 ### Github Action编译 (🛠️)
 
