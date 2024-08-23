@@ -11,6 +11,7 @@ rust在编译上是个很复杂的语言.  malefic更是依赖了一些`nightly`
 为此, 我们将准备多个编译方案, 有rust使用经验的用户可以[尝试使用本地环境编译](#build) , 初次使用rust的用户建议通过[malefic-builder](https://github.com/chainreactors/malefic/pkgs/container/malefic-builder)进行. 
 
 后续还将提供基于github action的自动化编译方案, 尽可能在编译上减少困难. 
+
 ### 环境准备
 
 克隆[malefic](https://github.com/chainreactors/malefic)
@@ -22,53 +23,99 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 !!! tips "注意clone子项目"
 	需要添加`--recurse-submodules`递归克隆子项目. 如果已经clone也不必担心,`git submodule update --init` 即可
 
+
+
+#### 当前测试过支持的架构
+
 malefic理论上支持rust能编译的所有平台, 包括各种冷门架构的IoT设备, Android系统, iOS系统等等
 
 当前支持的全部架构可参考[Targets](https://github.com/chainreactors/malefic/blob/malefic-builder/Makefile#L2).(欢迎提供反馈)
 
-对应的命令
 ```
-make windows_x64
-make windows_x32
-make linux_x64
-make linux_x32
-make darwin_x64
-make darwin_arm
+make windows_x64  # x86_64-pc-windows-gnu
+make windows_x32  # i686-pc-windows-gnu
+make linux_x64    # x86_64-unknown-linux-gnu
+make linux_x32    # i686-unknown-linux-gnu
+make darwin_x64   # x86_64-apple-darwin
+make darwin_arm   # aarch64-apple-darwin
 ```
 
-
-### docker编译
+#### docker编译环境
 
 因为rust安装与编译的复杂性, 我们提供了 `Docker` 环境搭配makefile一键交叉编译malefic。
 
 详细步骤如下
-#### 从ghcr获取编译环境
+##### 从ghcr获取编译环境
+
 ```bash
 docker pull ghcr.io/chainreactors/malefic-builder:v0.0.1-gnu
 ```
+
 !!! danger "镜像较大且ghcr.io从国内访问较慢"
-	`malefic-builder:v0.0.1-gnu`镜像有3.1g大小. 我们尝试从ghcr.io上pull需要好几个小时. 
+	`malefic-builder:v0.0.1-gnu`镜像有3.1g大小. 我们尝试从ghcr.io上pull需要好几个小时.  如果网络环境不好, 可以自行[从Dockerfile构建编译环境](#dockerfile) . 
 
-#### 从Dockerfile创建
+##### 从Dockerfile构建编译环境
 
-#### 编译malefic
+**在malefic目录下执行docker build**
+
+```
+docker build -f builder/Dockerfile.GNU -t malefic-builder . 
+```
+
+!!! important "国内用户可以在Dockerfile中添加国内APT源"
+	命令行执行:
+	
+	```
+	sed -i '/RUN apt update/i RUN sed -i \"s|http://deb.debian.org/debian|http://mirrors.163.com/debian|g\" /etc/apt/sources.list' builder/Dockerfile.GNU
+	```
+	
+	或手动添加 `builder/Dockerfile.GNU` 的 `RUN apt update` 前添加行
+	```
+	RUN sed -i "s|http://deb.debian.org/debian|http://mirrors.163.com/debian|g" /etc/apt/sources.list
+	```
+
+##### 运行docker容器
 
 !!! important "请在malefic所在目录运行docker"
 	为了方便修改config以及编译参数, 我们选择了映射程序目录的方式实现
-
-```bash
-cd malefic
-```
 
 运行docker容器
 ```
 docker run -v "$PWD/:/root/src" -it --name malefic-builder ghcr.io/chainreactors/malefic-builder:v0.0.1-gnu bash
 ```
 
+#### Github Action编译环境 (🛠️)
+
+#### 本地编译环境
+
+!!! danger "toolchain架构"
+因为自动化编译出现了一些问题, 暂时只提供了GNU套件的库文件, MSVC预计在8月内可以提供. 手动编译时请注意, toolchain也需要为GNU
+
+由于我们使用了 `nightly` 的一些特性， 因此需要特殊版本 `rust` 套件进行编译
+
+*现在已经通过`rust-toolchain.toml`自动配置toolchain, 如果没有进行过修改, 可以忽略这行*
+
+```bash
+rustup default nightly-2024-08-16
+```
+
+!!! danger "rust toolchain需要指定版本"
+	经过测试`nightly-2024-08-16` 能稳定编译, 其他版本未经过测试, 可能会有报错. 
+
+
+### 编译malefic
+
+不管在docker中, 还是本机中, 通过Malefile即可快速编译需要的架构
+
+!!! tips "windows安装make"
+	windows可使用`scoop install make`或者`winget install make`安装Make工具
+
 **build指定架构**
 ```bash
 make windows_x64
 ```
+
+(*[全部支持的架构](#_2)*)
 
 **build 全部target的二进制文件**
 ```bash
@@ -76,22 +123,13 @@ make all
 ```
 
 release文件将生成到对应 `target\[arch]\release\` 中, 也会映射到本机malefic项目中的`target\[arch]\release\`中
+
 ![win64-release](../assets/win64-release.png)
-### Github Action编译 (🛠️)
 
-### 本地编译
 
-!!! danger "toolchain架构"
-因为自动化编译出现了一些问题, 暂时只提供了GNU套件的库文件, MSVC预计在8月内可以提供. 手动编译时请注意, toolchain也需要为GNU
+#### 手动编译malefic
 
-由于我们使用了 `nightly` 的一些特性， 因此需要特殊版本 `rust` 套件进行编译， 如下:
-
-```bash
-rustup default nightly-2024-08-16
-```
-
-!!! danger "rust toolchain需要指定版本"
-经过测试`nightly-2024-08-16` 能稳定编译, 其他版本未经过测试, 可能会有报错.
+makefile 提供了一些预设和编译优化选项. 熟悉rust的使用者也可以手动编译
 
 添加对应的目标编译架构
 
@@ -99,30 +137,28 @@ rustup default nightly-2024-08-16
 rustup target add x86_64-pc-windows-gnu
 ```
 
-!!! danger "rust编译时间"
-由于 `rust` 的特殊性， 首次编译速度将会十分缓慢， 请耐心等待， 在没有特殊情况下不要轻易 `make clean` 或 `cargo clean` ：）
+指定target编译, 可以在[全部支持的架构](#_2)中找到对应的target
 
-参考[docker编译](#docker编译)同样用法 `make` 命令进行对应环境的编译
-
-```bash
-make windows_x64
-```
-
-!!! tips "windows安装make"
-windows可使用`scoop install make`或者`winget install make`安装Make工具
-
-如果不想安装make, 也可以手动指定命令:
 ```
 cargo build --release -p malefic --target x86_64-pc-windows-gnu
 ```
 
 
 ### 编译独立模块
+
+malefic的windows平台目前支持动态加载module, 因此可以编译单个或者一组module, 然后通过`load_module`给已上线的implant添加新的功能. 
+
+[load_module使用文档](IoM/manual/help/#load_module)
+[load_module相关介绍](#dynamic-module)
+
 makefile指令如下
-```
+
+```bash
 make profile_module FEATURES="sys_execute_shellcode sys_execute_assembly"
 ```
-也可手动
+
+也可手动使用cargo编译
+
 ```bash
 cargo build --release --features "sys_execute_shellcode sys_execute_assembly" -p malefic-modules --target x86_64-pc-windows-gnu
 ```
