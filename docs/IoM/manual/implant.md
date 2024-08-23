@@ -8,7 +8,7 @@
 
 rust在编译上是个很复杂的语言.  malefic更是依赖了一些`nightly`的特性, 导致无法在所有rust版本上编译通过.  **需要指定特定日期版本的toolchain, target才能编译通过** . 
 
-为此, 我们将准备多个编译方案, 有rust使用经验的用户可以[尝试使用本地环境编译](#build) , 初次使用rust的用户建议通过[malefic-builder](https://github.com/chainreactors/malefic/pkgs/container/malefic-builder)进行. 
+为此, 我们准备了多个编译方案, 有rust使用经验的用户可以[尝试使用本地环境编译](#_3) , 初次使用rust的用户建议通过[docker malefic-builder](#docker)进行. 
 
 后续还将提供基于github action的自动化编译方案, 尽可能在编译上减少困难. 
 
@@ -22,7 +22,6 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 
 !!! tips "注意clone子项目"
 	需要添加`--recurse-submodules`递归克隆子项目. 如果已经clone也不必担心,`git submodule update --init` 即可
-
 
 
 #### 当前测试过支持的架构
@@ -104,7 +103,9 @@ rustup default nightly-2024-08-16
 
 ### Compile
 
-不管在docker中, 还是本机中, 通过Malefile即可快速编译需要的架构
+#### 通过Makefile编译
+
+不管在docker中, 还是本机中, 通过Malefile即可快速编译需要架构的二进制文件
 
 !!! tips "windows安装make"
 	windows可使用`scoop install make`或者`winget install make`安装Make工具
@@ -209,7 +210,7 @@ cargo build --release --features "sys_execute_shellcode sys_execute_assembly" -p
 
 ## Config
 
-`Implant` 同样拥有一个 `config.yaml` 以对生成的 `implant` 进行配置：
+`Implant` 拥有 `config.yaml` 以对生成的 `implant` 进行配置：
 
 会在编译时通过`malefic-config` 自动解析各种feature与参数配置. 
 
