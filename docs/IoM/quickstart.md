@@ -5,7 +5,6 @@ quickstart中将会提供最小使用说明与文档导航
 
 ### 预先准备
 
-
 IoM的server与client都是通过golang编写的, 打包成二进制文件后不需要任何的依赖环境, 直接运行即可. 
 
 可以从 https://github.com/chainreactors/malice-network/releases/latest 获取最新的server预编译文件.  ([自行编译说明](IoM/deploy/#_6))
@@ -56,30 +55,30 @@ https://github.com/chainreactors/malice-network/blob/master/server/config.yaml
 
 因为rust环境安装与编译的复杂性, 我们提供了 `Docker` 环境来进行编译, 通过提前配置好的环境一键交叉编译implant.
 
-```
-git clone --recurse-submodules https://github.com/chainreactors/malefic
-```
-
-(后续将会简化这个步骤)
-
 ```bash
-docker-compose up -d --build
+docker pull ghcr.io/chainreactors/malefic-builder:v0.0.1-gnu
 ```
+或本地构建docker镜像
+```
+docker build -f builder/Dockerfile.GNU -t malefic-builder . 
+```
+
 随后使用
 ```bash
-docker exec -it implant-builder /bin/bash
+docker run -v "$PWD/:/root/src" -it --name malefic-builder ghcr.io/chainreactors/malefic-builder:v0.0.1-gnu bash
 ```
-在其中使用 `make` 命令进行对应环境的编译. (这里暂时win64的编译, 其他操作系统和架构编译见: [implant编译](IoM/implant/#docker-build))
+
+在其中使用 `make` 命令进行对应环境的编译. (这里演示win64的编译, 其他操作系统和架构编译见: [implant编译](IoM/implant/#build))
 
 docker使用目录映射的方式创建, 所以只需要在本地修改`config.yaml`中的server字段, 完整对应的配置, 然后进行编译即可.  ([完整的config文档](IoM/manual/implant/#config))
 
 ```bash
-make community_win64
+make windows_x64
 ```
 
-生成的文件将在对应 `[target]\release\malefic.exe` 中
+生成的文件将在对应 `target\[target]\release\malefic.exe` 中
 
-将其从docker中复制出来运行即可. 
+因为是通过目录映射创建的docker容器, 可以将其从docker中复制出也可以在本机的对应目录找到编译结果.  
 
 ```
 ./malefic.exe
