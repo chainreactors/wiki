@@ -151,6 +151,12 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 	- [ ] 提供多运行时支持, tokio, futures
 	- [ ] 提供基本的流量加密选项
 	- [ ] 优化编译时间
+- [ ] winkit
+	- [ ] Inline PE
+	- [ ] RunPE cross arch
+	- [ ] StackSpoofer
+	- [ ] SleepMask Community (maybe)
+	- [ ] Amsi Etw Community
 - [ ] 完成Professional相关功能打包并准备release
 - [ ] 实现mal插件功能
 	- [ ] 支持lua作为插件脚本语言(后续可能会支持CS的CNA)
@@ -166,6 +172,29 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 	- [ ] ollvm
 	- [ ] stage 0 generator
 	- [ ] mals 插件仓库
+
+## 发布Professional
+
+预计9-10月发布
+
+Professinal 同样以implant源码的方式(不包含win-kit)交付给使用者, 共用server/listener/client基建.
+
+与Community对比新增的功能:
+
+* OPSEC
+	* 定制特征的SleepMask
+	* 堆栈混淆(StackSpoofer)
+* 提供新的编译工具链
+	* 基于cross的交叉编译工具, 
+	* 通过xargo定制std以及其中特征
+	* ollvm(第一个版本可能来不及实现)
+* professinal版本的win-kit,
+	*  允许定制indirect-syscall, alloc等各种细节
+	* 提供MSVC+GNU版本, 更自由的选择编译工具链
+* 嵌入流量工具 rem
+* stage 0 generator
+
+
 
 ## v0.1.0
 
