@@ -49,7 +49,7 @@ https://github.com/chainreactors/malice-network/blob/master/server/config.yaml
 
 因为时间问题, 我们暂时还没能把implant的编译嵌入到 client/server的交互中. 因此现在还需要手动编译implant.
 
-这个implant是完整的pe, 如果用户由自己的shellcode loader, 可以使用自己的loader自行加载.
+这个implant是完整的pe, 如果有自己的shellcode loader, 可以使用pe2shellcode并自己的loader自行加载.
 
 对于rust新手来说, 我们提供了提前准备好的编译环境. 免得复杂的环境搭建劝退.
 
@@ -68,7 +68,7 @@ docker build -f builder/Dockerfile.GNU -t malefic-builder .
 docker run -v "$PWD/:/root/src" -it --name malefic-builder ghcr.io/chainreactors/malefic-builder:v0.0.1-gnu bash
 ```
 
-在其中使用 `make` 命令进行对应环境的编译. (这里演示win64的编译, 其他操作系统和架构编译见: [implant编译](IoM/implant/#build))
+在其中使用 `make` 命令进行对应环境的编译. (这里演示win64的编译, 其他操作系统和架构编译见: [implant编译](IoM/manual/implant/#build))
 
 docker使用目录映射的方式创建, 所以只需要在本地修改`config.yaml`中的server字段, 完整对应的配置, 然后进行编译即可.  ([完整的config文档](IoM/manual/implant/#config))
 
