@@ -86,9 +86,6 @@ docker run -v "$PWD/:/root/src" -it --name malefic-builder ghcr.io/chainreactors
 
 #### 本地编译环境
 
-!!! danger "toolchain架构"
-	因为自动化编译出现了一些问题, 暂时只提供了GNU套件的库文件, MSVC预计在8月内可以提供. 手动编译时请注意, toolchain也需要为GNU
-
 由于我们使用了 `nightly` 的一些特性， 因此需要特殊版本 `rust` 套件进行编译
 
 *现在已经通过`rust-toolchain.toml`自动配置toolchain, 如果没有进行过修改, 可以忽略这行*
@@ -435,4 +432,4 @@ pub trait Module {
 
 ## Windows Kit
 
-关于 `Windows` 平台特有功能， 可以查阅 [win_kit](./implant_win_kit.md)
+关于 `Windows` 平台特有功能， 可以查阅 [win_kit](implant_win_kit.md)
