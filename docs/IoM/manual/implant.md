@@ -27,7 +27,7 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 
 #### 当前测试过支持的架构
 
-malefic理论上支持rust能编译的所有平台, 包括各种冷门架构的IoT设备, Android系统, iOS系统等等
+malefic理论上支持rust能编译的所有平台, 包括各种冷门架构的IoT设备, Android系统, iOS系统等等 (有相关需求可以联系我们定制化适配)
 
 当前支持的全部架构可参考[Targets](https://github.com/chainreactors/malefic/blob/malefic-builder/Makefile#L2).(欢迎提供反馈)
 
@@ -143,7 +143,7 @@ cargo build --release -p malefic --target x86_64-pc-windows-gnu
 ```
 
 
-### 编译独立模块
+#### 编译独立modules
 
 malefic的windows平台目前支持动态加载module, 因此可以编译单个或者一组module, 然后通过`load_module`给已上线的implant添加新的功能. 
 
