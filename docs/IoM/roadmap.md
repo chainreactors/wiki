@@ -151,7 +151,11 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 	- [ ] 提供多运行时支持, tokio, futures
 	- [ ] 提供基本的流量加密选项
 	- [ ] 优化编译时间
-- [ ] 完成Professional相关功能
+- [ ] 完成Professional相关功能打包并准备release
+- [ ] 实现mal插件功能
+	- [ ] 支持lua作为插件脚本语言(后续可能会支持CS的CNA)
+	- [ ] 创建mals插件索引仓库
+	- [ ] 添加插件使用文档与插件开发文档
 - [ ] 提供默认插件包
 	- [ ] gogo
 	- [ ] zombie
@@ -178,12 +182,14 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 
 - [ ] generator loader 
 - [ ] 自定义的ollvm 编译器
-- [ ] sleep mask
-- [ ] 堆栈混淆
+- [ ] OPSEC
+	- [ ] sleep mask
+	- [ ] 堆栈混淆
+	- [ ] 定制化的OPSEC相关功能
+- [ ] 解耦rpc与melefic的关联, 并提供自定义implant的api与文档
 - [ ] HVNC
 - [ ] 使用rem作为内置流量控制器
 - [ ] 提供与server交互的SDK
-- [ ] 定制化的OPSEC相关功能
 - [ ] 初步支持webshell
 - [ ] 提供完整的文档说明
 	- [ ] 用户手册
@@ -198,11 +204,10 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 
 预计在2025年内发布, 此时的IoM将能作为一体化平台的一部分, 提供Post-Exploit部分能力. 
 
-(todo list 暂未细化)
+(todo list 暂未细化, 施工中)
 
 - [ ] 提供GUI
 - [ ] 与一体化攻击平台集成
 - [ ] ATT&CK
 	- [ ] 基于ATT&CK建立自己的OPSEC矩阵
 	- [ ] 添加ATT&CK攻击路线图自动生成
-	- [ ] 
