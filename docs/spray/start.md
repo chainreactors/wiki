@@ -42,7 +42,7 @@ Input Options:
   -r, --rules=                      Files, rule files, e.g.: -r rule1.txt -r rule2.txt
       --append-rule=                Files, when found valid path , use append rule generator new word with current path
       --filter-rule=                String, filter rule, e.g.: --rule-filter '>8 <4'
-      --append-file=                Files, when found valid path , use append file new word with current path
+      --append=                     Files, when found valid path , use append file new word with current path
       --offset=                     Int, wordlist offset
       --limit=                      Int, wordlist limit, start with offset. e.g.: --offset 1000 --limit 100
 
@@ -63,7 +63,6 @@ Output Options:
       --filter=                     String, custom filter function, e.g.: --filter 'current.Body contains "hello"'
       --fuzzy                       String, open fuzzy output
   -f, --file=                       String, output filename
-      --fuzzy-file=                 String, fuzzy output filename
       --dump-file=                  String, dump all request, and write to filename
       --dump                        Bool, dump all request
       --auto-file                   Bool, auto generator output and fuzzy filename
@@ -82,7 +81,6 @@ Plugin Options:
       --active                      Bool, enable active finger path
       --recon                       Bool, enable recon
       --bak                         Bool, enable bak found
-      --file-bak                    Bool, enable valid result bak found, equal --append-rule rule/filebak.txt
       --common                      Bool, enable common file found
       --crawl                       Bool, enable crawl
       --crawl-depth=                Int, crawl depth (default: 3)
@@ -100,16 +98,14 @@ Request Options:
       --random-agent                Bool, use random with default user-agent
       --cookie=                     Strings, custom cookie
       --read-all                    Bool, read all response body
-      --max-length=                 Int, max response body length (kb), -1 read-all, 0 not read body, default 100k,
-                                    e.g. --max-length 1000 (default: 100)
+      --max-length=                 Int, max response body length (kb), -1 read-all, 0 not read body, default 100k, e.g. --max-length 1000 (default: 100)
 
 Modify Options:
       --rate-limit=                 Int, request rate limit (rate/s), e.g.: --rate-limit 100 (default: 0)
       --force                       Bool, skip error break
       --no-scope                    Bool, no scope
       --scope=                      String, custom scope, e.g.: --scope *.example.com
-      --recursive=                  String,custom recursive rule, e.g.: --recursive current.IsDir() (default:
-                                    current.IsDir())
+      --recursive=                  String,custom recursive rule, e.g.: --recursive current.IsDir() (default: current.IsDir())
       --depth=                      Int, recursive depth (default: 0)
       --index=                      String, custom index path (default: /)
       --random=                     String, custom random path
@@ -118,7 +114,7 @@ Modify Options:
       --error-threshold=            Int, break when the error exceeds the threshold (default: 20)
       --black-status=               Strings (comma split),custom black status (default: 400,410)
       --white-status=               Strings (comma split), custom white status (default: 200)
-      --fuzzy-status=               Strings (comma split), custom fuzzy status (default: 500,501,502,503)
+      --fuzzy-status=               Strings (comma split), custom fuzzy status (default: 500,501,502,503,301,302)
       --unique-status=              Strings (comma split), custom unique status (default: 403,200,404)
       --unique                      Bool, unique response
       --retry=                      Int, retry count (default: 0)
@@ -136,6 +132,7 @@ Miscellaneous Options:
   -v                                Bool, log verbose level ,default 0, level1: -v level2 -vv
       --proxy=                      String, proxy address, e.g.: --proxy socks5://127.0.0.1:1080
       --init                        Bool, init config file
+      --print                       Bool, print preset all preset config
 
 Help Options:
   -h, --help                        Show this help message
@@ -184,7 +181,7 @@ spray -u example.com -p top2
 ### 爆破模式
 
 !!! info "注意"
-	基本信息探测中的用法都可以在爆破模式中集成, 但请注意爆破模式会消耗更多的时间
+	基本信息探测中的用法都可以在爆破模式中使用, 但请注意爆破模式会消耗更多的资源
 
 
 基本使用, 从字典中读取目录进行爆破
@@ -220,6 +217,24 @@ spray --resume stat.json
 
 
 ## 字典生成
+
+### 内置字典
+
+在v1.1.0中, spray新加入了内置字典相关功能. 
+
+内置字典的配置位于 https://github.com/chainreactors/templates/tree/master/spray/dict
+
+*(原先的common已经从`common.yaml`中迁移到dict中)*
+
+可以使用`--print`看到当前所有当前内置的配置. 
+
+!!! warn "注意内置字典名字"
+	使用内置字典时, 不可以带后缀名用来与用户自定义字典区分. 例如dict目录下配置为`js.txt`, 在使用时请使用`-d js`
+
+可以同时使用多个内置字典与外部字典组合例如: 
+
+`spray -u http://example.txt -d js -d k8s -d custom.txt`
+
 
 ### 基于掩码的字典生成
 
@@ -261,7 +276,15 @@ spray --resume stat.json
 spray -u http://example.com -w '/{?0u#2}/{?01}' -d word0.txt -d word1.txt
 ```
 
-其中`{?0u#2}`表示 word0.txt 的所有内容+所有大写字母笛卡尔积两次, `{?01}` 表示 word0.txt + word1.txt 的所有内容.
+这里配置了两个掩码生成器
+
+* 第一个: `{?0u#2}`表示 word0.txt 的所有内容+所有大写字母笛卡尔积两次
+* 第二个: `{?01}` 表示 word0.txt + word1.txt 的所有内容.
+
+可以配置任意多个掩码生成器, 不同掩码生成器之间会进行笛卡尔积, 所以请注意字典大小.
+
+!!! important "`-d`与基于掩码的生成器交互作用"
+	在使用`-d` 指定字典(不管是内置字典还是自定义字典) 都会将这个字典注册到掩码的数字中. 就像上文中出现的`{?01}`, 会按次序解析为word0.txt + word1.txt
 
 **关于mask更多高级功能请见: https://chainreactors.github.io/wiki/libs/words/#20240521-updatec**
 
@@ -290,20 +313,6 @@ spray -u http://example.com -d word.txt --rule-filter ">15"
 
 这行命令表示, 指定字典, 并过滤掉长度大于 15 的字典.
 
-#### 轻量级递归
-
-很多时候扫到了有效目录, 但如何进一步深入呢? 最简单的办法就是全量字典递归, 但实际上这样做效率低, 准确率也低.
-
-正确的做法是根据场景选择合适的字典生成方式. 例如如果爆破到了新的目录, 则自动爆破备份文件, 爆破到了新的 api 则自动测试权限绕过.
-
-`--append-rule` 提供了在发现有效目录时的进一步字典生成器
-
-在 spray 中的用法:
-
-- 根据有效 url 自动生成权限绕过字典. `spray -u http://example.com -d word.txt --append-rule authbypass`
-- 根据有效 url 自动生成备份文件字典. `spray -u http://example.com -d word.txt --append-rule filebak`
-
-例如发现`index.php`存在, 就会根据 rule 与`baseurl` 生成如`~index.php`,`.index.php`, `index.php.bak`等字典加入到队列中.
 
 ### 预配置的便捷用法
 
@@ -358,6 +367,7 @@ flowchart TD
 - `--limit`, 限制的字典数量
 - `--deadline` 所有任务的最大时间限制, 超时了会保存当前进度的 stat 文件后退出
 - `--force` 忽略掉被 ban 或被 waf 的判断, 强制跑完所有字典
+
 
 ### 速率限制
 
@@ -469,7 +479,6 @@ spray 默认输出到终端的格式是 human-like 文本. 并默认开启的 **
 除了默认配置下最直观的命令行输出, spray 支持一个自由的输出流配置.
 
 - `-f/--file` 默认输出流, 指定有效结果的输出文件
-- `--fuzzy-file` fuzzy 输出流, 指定被 fuzzy 过滤的结果输出文件
 - `--dump-file` 全部请求的输出流, 指定每个发出的包与响应结果的输出文件
 
 默认情况下, 被智能过滤中的模糊过滤掉的输出不会输出到命令行或者文件. 但模糊过滤的结果存在漏报/误报的可能, 因此很多时候还需要进行二次处理.
@@ -768,7 +777,7 @@ spray 支持断点续传, 可以通过`--resume`参数指定断点文件. 通过
 
 ### 递归
 
-spray 并不鼓励使用递归, 因为 spray 的定位是批量从反代/cdn 中发现隐形资产. 不管是因为批量, 还是因为反代/cdn, 绝大多数的情况都用不到递归.
+spray 并不鼓励使用递归, 因为 spray 的定位是批量从反代/cdn 中发现隐形资产. 不管是因为批量, 还是因为反代/cdn, 绝大多数的情况都用不到递归. 建议使用轻量级递归代替递归
 
 但为了兼容某些极为罕见的情况, spray 依旧保留了递归的功能.
 
@@ -778,6 +787,48 @@ spray 并不鼓励使用递归, 因为 spray 的定位是批量从反代/cdn 中
 
 也可以通过`--recursive`手动选择递归规则, 规则与`filter/match`相同的 expr 表达式 . 例如`--recursive current.IsDir() && current.Status == 403`表示, 递归所有状态码为 403 的有效目录.
 
+### 轻量级递归
+
+很多时候扫到了有效目录, 但如何进一步深入呢? 最简单的办法就是全量字典递归, 但实际上这样做效率低, 准确率也低.
+
+正确的做法是根据场景选择合适的字典生成方式. 例如如果爆破到了新的目录, 则自动爆破备份文件, 爆破到了新的 api 则自动测试权限绕过.
+
+!!! important "轻量级递归与递归的区别"
+	递归将会创建一个新的pool, 会尝试重新获取基准值, 并使用`-d`/`-w` 生成的字典进行爆破
+	轻量级递归还是在当前上下文, 基准值不会发生改变. 只会使用`--append` 与`--append-rule`的规则进行进一步爆破
+
+#### append
+
+通过`--append` 命令可追加轻量级递归的字典, 如果发现了有效目录, 则会自动使用该字典(而非完整的字典进行递归爆破). 
+
+`spray -u http://example.com --append append.txt --append --custom.txt`
+
+也可以使用内置的目录字典
+
+`spray -u http://example.com --append common --append iis`
+
+
+#### append-rule
+
+`--append-rule` 提供了在发现有效目录时的进一步基于规则的字典生成器. 其中规则的语法与[字典生成器](#_6)的规则用法一致
+
+在 spray 中的用法:
+
+- 自动生成权限绕过字典(主要关于java). ` --append-rule authbypass`
+- 自动生成使用后缀进行权限绕过的字典. `--append-rule extbypass`
+- 根据有效 url 自动生成备份文件字典. ` --append-rule filebak`
+- 更对此类规则欢迎提供需求和建议
+
+例如发现`index.php`存在, 就会根据 rule 与`baseurl` 生成如`~index.php`,`.index.php`, `index.php.bak`等字典加入到队列中.
+
+效果如下:
+![](assets/Pasted%20image%2020240826024605.png)
+
+
+!!! tips "common与bak插件实际上使用了轻量级递归"
+	common与bak均会使用内置的字典与规则进行轻量级递归
+
+
 ### 插件
 
 #### 通用插件
@@ -786,7 +837,7 @@ spray 并不鼓励使用递归, 因为 spray 的定位是批量从反代/cdn 中
 
 `--recon` 打开敏感信息提取
 
-### Brute插件
+#### Brute插件
 
 - `--crawl` 可以开启爬虫. 限定爬虫的深度为 3, 且只能作用于当前作用域, 需要更加自由配置的爬虫配置请使用那几个 headless 爬虫. 默认情况下爬虫只爬取自身作用域
   - `--scope *.example.com` 将允许爬虫爬到指定作用域
@@ -802,11 +853,8 @@ spray 并不鼓励使用递归, 因为 spray 的定位是批量从反代/cdn 中
     crawl 的结果没有像 jsfinder 中一样拼接上 baseurl, 因为从 js 中提取出来的结果通常不是最终的结果, 直接去访问大概率是 404. 为了防止造成混淆, spray 的 crawl 结果将保持原样输出. 但在爬虫递归时, 还是会尝试拼接上 baseurl 进行探测. 爬虫递归时会进行自动去重判断.
 
 - `--active` 可以开启类似[gogo 的主动指纹识别](/wiki/gogo/extension/#_2).
-
-- `--bak` 会构造一个备份文件字典, 包含[fuzzuli](https://github.com/musana/fuzzuli)中的 regular 规则, 以及一些场景的备份文件字典
-- `--file-bak` 作用于已经被判断有效的文件, 会根据有效值针对性的生成字典, 例如 vim 的备份等
-- `--common` 一些 web 的常见[通用文件字典](https://github.com/chainreactors/gogo-templates/blob/master/keywords.yaml), 详情见链接中的`common_file`字段
-
+- `--bak` 会构造一个备份文件字典, 包含[fuzzuli](https://github.com/musana/fuzzuli)中的 regular 规则, 自动构造备份文件字典
+- `--common` 一些 web 的常见[通用文件字典](https://github.com/chainreactors/templates/blob/master/spray/dict/common.txt)与[通用日志文件字典](https://github.com/chainreactors/templates/blob/master/spray/dict/log.txt), 并将这两个字典加到`append`中
 `-a`/ `advance` 将同时上述开启所有功能, 并且功能之间还会交叉组合出一些惊喜.
 
 如果还有类似的一些通用的 fuzz 手法, 欢迎提供 issue.
