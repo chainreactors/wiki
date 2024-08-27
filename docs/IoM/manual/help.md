@@ -51,7 +51,7 @@ observe <session id>
 login
 ```
 
-![image-20240816200452857](../assets/image-20240816200452857.png)
+![login](../assets/login.gif)
 
 **About:** 上下选择对应的用户文件，按下回车登录到服务器
 
@@ -399,7 +399,7 @@ armory
 
 **About:** 列出可用的武器库包
 
-![image-20240816191305748](../assets/image-20240816191305748.png)
+![armory](../assets/armory.gif)
 
 **Flags:**
 
