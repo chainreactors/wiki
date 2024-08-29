@@ -39,28 +39,33 @@ make darwin_x64   # x86_64-apple-darwin
 make darwin_arm   # aarch64-apple-darwin
 ```
 
-#### docker编译环境
+#### Docker编译环境
 
 因为rust安装与编译的复杂性, 我们提供了 `Docker` 环境搭配makefile一键交叉编译malefic。
 
-##### 从ghcr获取编译环境
+##### 获取编译环境
 
 ```bash
+# 从ghcr获取编译镜像
 docker pull ghcr.io/chainreactors/malefic-builder:v0.0.1-gnu
+# 从dockerhub获取
+docker pull chainreactors/malefic-builder:v0.0.1-gnu
 ```
 
-!!! danger "镜像较大且ghcr.io从国内访问较慢"
-	`malefic-builder:v0.0.1-gnu`镜像有3.1g大小. 我们尝试从ghcr.io上pull需要好几个小时.  如果网络环境不好, 可以自行[从Dockerfile构建编译环境](#dockerfile) . 
+!!! important "镜像略大"
+	`malefic-builder:v0.0.1-gnu`镜像大小为3.1G, 如果pull速度较慢推荐配置docker镜像源加速, dockerhub存储时使用了压缩算法把大小压缩到1G, 所以远程拉取时相比ghcr.io会快上不少
+
+你也可以参考[从Dockerfile构建编译环境](#dockerfile)自行构建交叉编译环境
 
 ##### 从Dockerfile构建编译环境
 
-**在malefic目录下执行docker build**
+**在项目根目录(外层malefic)下执行docker build**
 
 ```
 docker build -f builder/Dockerfile.GNU -t malefic-builder . 
 ```
 
-!!! important "国内用户可以在Dockerfile中添加国内APT源"
+!!! important "国内用户可通过编辑Dockerfile自行添加国内APT源"
 	命令行执行:
 	
 	```
@@ -74,29 +79,50 @@ docker build -f builder/Dockerfile.GNU -t malefic-builder .
 
 ##### 运行docker容器
 
-!!! important "请在malefic所在目录运行docker"
+!!! important "请在项目根目录下运行"
 	为了方便修改config以及编译参数, 我们选择了映射程序目录的方式实现
 
 运行docker容器
 ```
+# ghcr
 docker run -v "$PWD/:/root/src" -it --name malefic-builder ghcr.io/chainreactors/malefic-builder:v0.0.1-gnu bash
+# dockerhub
+docker run -v "$PWD/:/root/src" -it --name malefic-builder chainreactors/malefic-builder:v0.0.1-gnu bash
 ```
 
 #### Github Action编译环境 (🛠️)
 
 #### 本地编译环境
 
-由于我们使用了 `nightly` 的一些特性， 因此需要特殊版本 `rust` 套件进行编译
+!!! danger "rust toolchain需要指定版本"
+    我们使用了`nightly-2024-08-16`的一些特性， 因此需要特殊版本 `rust` 套件进行编译（现在已经通过`rust-toolchain.toml`自动配置toolchain， 如果没有进行过修改， 可以忽略这行）
 
-*现在已经通过`rust-toolchain.toml`自动配置toolchain, 如果没有进行过修改, 可以忽略这行*
+我们推荐windows用户使用[msys2](https://www.msys2.org/)管理GNU工具链环境, 可通过官网二进制文件直接安装。
 
-```bash
-rustup default nightly-2024-08-16
+在msys2的terminal下执行如下安装可以保证64、32位GNU工具链的正常编译
+```
+pacman -Syy # 更新包列表
+pacman -S --needed mingw-w64-x86_64-gcc
+pacman -S --needed mingw-w64-i686-gcc
 ```
 
-!!! danger "rust toolchain需要指定版本"
-	经过测试`nightly-2024-08-16` 能稳定编译, 其他版本未经过测试, 可能会有报错. 
+你可自行把msys64添加到环境变量中， 也可通过`notepad $PROFILE`将如下内容添加到powershell配置中，实现在powershell中快速切换`mingw64/32`.
+```powershell
+function mg {
+    param (
+        [ValidateSet("32", "64")]
+        [string]$arch = "64"
+    )
+    
+    $basePath = "D:\msys64\mingw"
+    $env:PATH = "${basePath}${arch}\bin;" + $env:PATH
+    Write-Host "Switched to mingw${arch} (bit) toolchain"
+}
+mg 64
+```
+用法参考下图:
 
+![switch mingw](../assets/switch-mingw-in-powershell.png)
 
 ### Compile
 
@@ -136,8 +162,11 @@ rustup target add x86_64-pc-windows-gnu
 
 指定target编译, 可以在[全部支持的架构](#_2)中找到对应的target
 
-```
+```bash
+# mg 64
 cargo build --release -p malefic --target x86_64-pc-windows-gnu
+# mg 32
+cargo build --release -p malefic --target i686-pc-windows-gnu
 ```
 
 
