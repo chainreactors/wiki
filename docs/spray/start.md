@@ -68,6 +68,7 @@ Output Options:
       --auto-file                   Bool, auto generator output and fuzzy filename
   -F, --format=                     String, output format, e.g.: --format 1.json
   -j, --json                        Bool, output json
+  -O, --file-output                 String, file output format, json/csv
   -o, --probe=                      String, output format
   -q, --quiet                       Bool, Quiet
       --no-color                    Bool, no color
@@ -184,37 +185,50 @@ spray -u example.com -p top2
 	基本信息探测中的用法都可以在爆破模式中使用, 但请注意爆破模式会消耗更多的资源
 
 
-基本使用, 从字典中读取目录进行爆破
+基本使用, **从字典中读取目录进行爆破**
 
 ```
 spray -u http://example.com -d wordlist1.txt -d wordlist2.txt
 ```
 
-通过掩码生成字典进行爆破
+**通过掩码生成字典进行爆破**
 
 ```
 spray -u http://example.com -w "/aaa/bbb{?l#4}/ccc"
 ```
 
-通过规则生成字典爆破. 规则文件格式参考 hashcat 的字典生成规则
+**通过规则生成字典爆破**. 规则文件格式参考 hashcat 的字典生成规则
 
 ```
 spray -u http://example.com -r rule.txt -d 1.txt
 ```
 
-批量爆破
+**批量爆破**
 
 ```
 spray -l url.txt -r rule.txt -d 1.txt
 ```
 
-断点续传
+**断点续传**
 
 ```
 spray --resume stat.json
 ```
 
+**host爆破**
 
+```
+spray -u http://123.123.123.123 -w "{?0}.example.com" -d 1.txt
+```
+
+1.txt:
+
+```
+aaa
+bbb
+ccc
+...
+```
 
 ## 字典生成
 
@@ -227,6 +241,8 @@ spray --resume stat.json
 *(原先的common已经从`common.yaml`中迁移到dict中)*
 
 可以使用`--print`看到当前所有当前内置的配置. 
+
+![](assets/Pasted%20image%2020240829143848.png)
 
 !!! warn "注意内置字典名字"
 	使用内置字典时, 不可以带后缀名用来与用户自定义字典区分. 例如dict目录下配置为`js.txt`, 在使用时请使用`-d js`
@@ -347,7 +363,6 @@ flowchart TD
     E --> F(words装饰器)
     F --> G(送入到 channel 中)
 ```
-
 
 
 ## Input
@@ -518,7 +533,9 @@ spray 默认输出到终端的格式是 human-like 文本. 并默认开启的 **
 
 使用`-f` 指定输出文件名
 
-默认输出到文件的格式为 json, 可以使用`-o full` 强制修改为和命令行一样的格式
+使用`-O json` (默认)或`-O csv` 指定文件输出格式.
+
+默认输出到文件的格式为 json
 
 ??? info "json 输出格式案例"
     ```json
@@ -852,10 +869,13 @@ spray 并不鼓励使用递归, 因为 spray 的定位是批量从反代/cdn 中
 !!! danger "注意"
     crawl 的结果没有像 jsfinder 中一样拼接上 baseurl, 因为从 js 中提取出来的结果通常不是最终的结果, 直接去访问大概率是 404. 为了防止造成混淆, spray 的 crawl 结果将保持原样输出. 但在爬虫递归时, 还是会尝试拼接上 baseurl 进行探测. 爬虫递归时会进行自动去重判断.
 
-- `--active` 可以开启类似[gogo 的主动指纹识别](/wiki/gogo/extension/#_2).
-- `--bak` 会构造一个备份文件字典, 包含[fuzzuli](https://github.com/musana/fuzzuli)中的 regular 规则, 自动构造备份文件字典
-- `--common` 一些 web 的常见[通用文件字典](https://github.com/chainreactors/templates/blob/master/spray/dict/common.txt)与[通用日志文件字典](https://github.com/chainreactors/templates/blob/master/spray/dict/log.txt), 并将这两个字典加到`append`中
+- `--active` 可以开启类似[gogo 的主动指纹识别](/wiki/gogo/extension/#_2), 并且添加`append`主动指纹字典
+- `--bak` 会构造一个备份文件字典, 包含[fuzzuli](https://github.com/musana/fuzzuli)中的 regular 规则, 自动构造备份文件字典,  并且添加`append`备份文件字典
+- `--common` 一些 web 的常见[通用文件字典](https://github.com/chainreactors/templates/blob/master/spray/dict/common.txt)与[通用日志文件字典](https://github.com/chainreactors/templates/blob/master/spray/dict/log.txt), 并将这两个字典加到`append`
 `-a`/ `advance` 将同时上述开启所有功能, 并且功能之间还会交叉组合出一些惊喜.
+
+!!! tips "host爆破时的插件效果"
+	host爆破时, 直接`--active`, `--bak`, `--common` 基于根目录添加的字典将不会生效, 但是在爆破到有效目录后的追加字典依旧生效
 
 如果还有类似的一些通用的 fuzz 手法, 欢迎提供 issue.
 
