@@ -43,6 +43,7 @@ make darwin_arm   # aarch64-apple-darwin
 
 因为rust安装与编译的复杂性, 我们提供了 `Docker` 环境搭配makefile一键交叉编译malefic。
 
+
 ##### 获取编译环境
 
 ```bash
@@ -55,7 +56,8 @@ docker pull chainreactors/malefic-builder:v0.0.1-gnu
 !!! important "镜像略大"
 	`malefic-builder:v0.0.1-gnu`镜像大小为3.1G, 如果pull速度较慢推荐配置docker镜像源加速, dockerhub存储时使用了压缩算法把大小压缩到1G, 所以远程拉取时相比ghcr.io会快上不少
 
-你也可以参考[从Dockerfile构建编译环境](#dockerfile)自行构建交叉编译环境
+你也可以参考[从Dockerfile构建编译环境](#dockerfile)自行构建交叉编译环境.
+
 
 ##### 从Dockerfile构建编译环境
 
