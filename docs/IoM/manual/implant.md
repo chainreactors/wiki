@@ -54,7 +54,7 @@ docker pull chainreactors/malefic-builder:v0.0.1-gnu
 ```
 
 !!! important "镜像略大"
-	`malefic-builder:v0.0.1-gnu`镜像大小为3.1G, 如果pull速度较慢推荐配置docker镜像源加速, dockerhub存储时使用了压缩算法把大小压缩到1G, 所以远程拉取时相比ghcr.io会快上不少
+	`malefic-builder:v0.0.1-gnu`镜像原始大小为3.1G,cr存储时使用了压缩算法把大小压缩到1G, 如果pull速度较慢推荐配置docker镜像源加速会快上不少
 
 你也可以参考[从Dockerfile构建编译环境](#dockerfile)自行构建交叉编译环境.
 
