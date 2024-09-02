@@ -16,225 +16,90 @@ Malice-Network 服务器支持 `Linux`、 `Windows` 和 `MacOS`，但是我们�
 
 `config.yaml` 是 Malice-Network 服务器的配置文件，其中包含了一些服务器以及 `listener` 可选的配置。
 
-`server` 字段包含了以下服务器配置：
-
-```
-    `grpc_host`：gRPC 服务绑定的主机地址。
-
-    `grpc_port`：gRPC 服务绑定的端口号。
-
-    `audit`：日志审计级别设置，`0`为关闭审计，`1`为基本信息审计，`2`为详细审计。
-
-    `packet_length`：数据包长度设置。
-
-    `certificate`：自定义证书相关配置。
-
-    `certificate_key`：自定义证书密钥相关配置项。
-```
-
-`listener` 字段包含了以下 `listener` 配置（可独立部署）
-
-```
-    `name`：listener名称。
-
-    `auth`：listener身份验证配置文件名。
-```
-
-`tcp`：TCP 的连接配置选项:
-
-```
-    `name`: TCP配置连接名称。
-
-    `host`：TCP连接绑定的主机地址。
-
-    `port`：TCP 连接使用的端口号.
-
-    `protocol`：使用的协议类型。
-
-    `enable`：TCP 配置项是否启用。
-```
-
-`tls`：TLS 配置:
-
-```
-    `enable`：TLS配置是否启用。
-
-    `CN`：TLS 证书的通用名称。
-
-    `O`：TLS 证书的组织名称。
-
-    `C`：TLS 证书的国家代码。
-
-    `L`：TLS 证书的城市。
-
-    `OU`：TLS 证书的组织单位。
-
-    `ST`：TLS 证书的州或省份。
-
-    `validity`：TLS 证书的有效期。
-```
-
-`encryption`：加密配置：
-
-```
-    `enable`：加密是否启用。
-
-    `type`：加密类型。
-
-    `key`：加密密钥。
-```
-
-`websites`：网站配置列表：
-
-```
-    `websiteName`：网站名称。
-
-    `port`：网站使用的端口号。
-
-    `rootPath`：网站的根路径。
-
-    `enable`：网站配置项是否启用。
-```
-
-配置样例:
 
 ```bash
-ca: .
-opsec: true
-
-server:
-  grpc_port: 5004
-  grpc_host: 127.0.0.1
-  audit: 1  _# 0 close , 1 basic , 2 detail_
-_  _config:
-    packet_length: 100 _# 1M:_
-_    _certificate:
-    certificate_key:
-
-listeners:
-  name: default
-  auth: default.yaml
-  tcp:
-    - name: tcp_default
-      port: 5001
-      host: 0.0.0.0
-      protocol: tcp
-      enable: true
-      tls:
-        enable: false
-        CN: "test"
-        O: "Sharp Depth"
-        C: "US"
-        L: "Houston"
-        OU: "Persistent Housework, Limited"
-        ST: "State of Texas"
-        validity: "365"
-      encryption:
-        enable: false
-        type: aes-cfb
+server:  
+  enable: true        # server 是否启用
+  grpc_port: 5004     # 监听的端口
+  grpc_host: 0.0.0.0  # 监听的host
+  ip: 127.0.0.1       # 服务外部ip
+  audit: 1            # 日志审计等级 0 close , 1 basic , 2 detail  
+  config:  
+    packet_length: 1048576 # 与implant交互单个包上限, 默认1M
+    certificate:           # grpc证书配置, 留空则自动生成
+    certificate_key:       # grpc证书配置, 留空则自动生成
+  
+listeners:  
+  enable: true            # listener 是否启用
+  name: listener          # listener名字
+  auth: listener.auth     # 认证文件路径
+  tcp:                    # tcp协议的pipeline
+    - name: tcp_default   # pipeline 名字
+      port: 5001          # pipeline 监听的端口
+      host: 0.0.0.0       # pipeline 监听的host
+      protocol: tcp       # 协议
+      enable: true        # pipeline是否开启
+      tls:                # tls配置项,留空则自动生成
+        enable: false  
+        name: default  
+        CN: "test"  
+        O: "Sharp Depth"  
+        C: "US"  
+        L: "Houston"  
+        OU: "Persistent Housework, Limited"  
+        ST: "State of Texas"  
+        validity: "365"  
+        cert: ""  
+        key: ""  
+      encryption:      # 加密配置项, 当前未生效
+        enable: false  
+        type: aes-cfb  
         key: maliceofinternal
-  websites:
-    - websiteName: test
-      port: 10049
-      rootPath: "/"
-      enable: false
 ```
 
 ### 启动 Server
 
-**Malice-Network** 服务器是能与控制 `Implant` 并与 **Malice-Network** 客户端交互的主机。服务器还存储了部分 **Malice-Network** 收集的数据，并管理日志记录。**Malice-Network** 服务器必须和 `config.yaml` 在同一个目录下。要启动 **Malice-Network **服务器，请根据不同操作系统进行以下操作：
+**Malice-Network** 服务器是能与控制 `Implant` 并与 **Malice-Network** 客户端交互的主机。服务器还存储了部分 **Malice-Network** 收集的数据，并管理日志记录。
 
-a. 对于 Linux：
+需要提前获取对应的配置文件: https://github.com/chainreactors/malice-network/blob/master/server/listener.yaml ,并放到`malice-network`所在目录下
 
-```
-     i. 输入以下命令：
-```
-
-```bash
-bash
-cd /path/to/malice-network-server
-./malice-network-server
-## 后台挂起
-./malice-network-server --daemon
-```
-
-b. 对于 MacOS X：
+最简启动
 
 ```
-     i. 输入以下命令：
-```
-
-```bash
-bash
-cd /path/to/malice-network-server
-./malice-network-server
-```
-
-c. 对于 Windows
-
-```
-    i. 输入以下命令：
-```
-
-```powershell
-powershell
-cd "C:\path\to\malice-network-server"
-.\malice-network.exe
+./malice-network
 ```
 
 如果配置文件非默认的 `config.yaml`, 可以通过 `-c path/any.yaml` 指定
 
-启动后服务器会输出以下信息：
+启动后服务器会输出以下信息, 并生成两个配置文件, 分别为`listener.auth` 和`admin_[server_ip].auth`, 这两个配置文件后续还有用处
 
 ![](../assets/VNBYbUKdsokMfexhogfcKSLUnAh.png)
 
-**在最简配置下, listener和server同时部署**
+需要注意的是, server中的ip字段需要在启动时设置为listener与client能访问到的地址, 所以可以手动修改`config.yaml`
+
+```
+...
+ip: 123.123.123.123
+...
+```
+
+也可以使用`-i` 重载这个参数
+
+```
+./malice-network -i 123.123.123.123
+```
+
+!!! tips "同时启动server与listener"
+	在设计上, server和listener是独立的, 但我们也提供了便捷的用法, 仓库中提供的默认`config.yaml`同时配置了server与listener.  所以会同时启动多个服务.
+
+
 ### 启动 Listener
 
-Server 的 `config.yaml` 中已经包含了 listener 配置。 是对 server 与 listener 在同一台机器上部署时的简化。
+从v0.0.2开始, 将只提供一个服务端配置文件, 会根据配置自动解析需要开启的服务. 可以通过enable字段进行简单控制
 
-listener 将始终保持独立， 并通过 grpc 与 server 进行交互， 包括注册、启动、关闭、删除等功能。
+刚才提到Server 的 `config.yaml` 中已经包含了 listener 配置。 是对 server 与 listener 在同一台机器上部署时的简化。但在交互逻辑上, 同时启动的listener与server依旧通过rpc通讯, 与独立部署的listener没有任何区别. 
 
-**Malice-Network** 将提供独立的 listener 二进制文件，通过加载 listener.yaml 在任意机器上部署，并连接到 server， 接受 server 的调度。
-
-`listener.yaml` 的配置格式与 `config.yaml` 中的 listener 部分完全一致.
-
-a. 对于 Linux：
-
-```
-     i. 输入以下命令：
-```
-
-```bash
-bash
-cd /path/to/malice-network-server
-./listener 
-## 后台挂起
-./listener --daemon
-```
-
-b. 对于 MacOS X：
-
-```
-     i. 输入以下命令：
-```
-
-```bash
-bash
-cd /path/to/malice-network-server
-./listener
-```
-
-c. 对于 Windows
-
-```
-    i. 输入以下命令：
-```
-
-```powershell
-cd "C:\path\to\malice-network-server"
-.\listener.exe
-```
+可以在这里获取到[独立的`listener.yaml` 配置文件](https://github.com/chainreactors/malice-network/blob/master/server/listener.yaml), `listener.yaml` 的配置格式与 `config.yaml` 中的 listener 部分完全一致.
 
 如果配置文件非默认的 `listener.yaml`, 可以通过 `-c path/any.yaml` 指定.
 
@@ -242,8 +107,9 @@ cd "C:\path\to\malice-network-server"
 
 ```bash
 listeners:
+  enable: true
   name: default
-  auth: default.yaml
+  auth: listener.auth
   tcp:
     - name: tcp_default
       port: 5001
@@ -265,51 +131,9 @@ listeners:
         key: maliceofinternal
 ```
 
-需要注意的是, 非本机部署的 listener, 需要提供 `auth.yaml` 配置，auth 配置需要按照以下方法生成。
 
-在确保 **Malice-Network** 服务器已经运行后，在终端输入以下指令：
-
-```powershell
-cd "C:\path\to\malice-network-server"
-.\malice-network-server.exe listener add listenerName
-```
-
-执行命令成功后，服务端会输出以下信息并在所处文件夹下生成对应auth配置文件：
-
-![image-20240816205524283](../assets/image-20240816205524283.png)
-
-![image-20240816205616073](../assets/image-20240816205616073.png)
-
-auth配置文件中包含了以下信息：
-
-`operator`: listener名称。
-
-`lhost`：listener所连接的服务器地址。
-
-`lport`：listener所连接的服务器端口号。
-
-`type`：配置类型分为 client 和 listener，auth配置为 listener。
-
-`cacertificate`：服务端生成的 CA 证书，用于验证服务端的合法性。
-
-`privatekey`：listener的私钥，用于加密和解密数据。
-
-`certificate`: listener的证书，用于向服务端证明listener的合法性。
-
-### 启动Listener
-
-将生成的auth配置文件复制到 `Malice-Network` listener的所在位置，该目录下需要包含以下文件：malice-network-listener启动文件、listener.yaml、xxxx.yaml（auth配置文件）。
-
-![image-20240816213518902](../assets/image-20240816213518902.png)修改listener.yaml文件中的listeners下的配置，name需要为auth配置文件的前缀名， auth为auth配置文件的文件名，以上图为例，listener.yaml的配置应为：
-
-![image-20240816213745122](../assets/image-20240816213745122.png)
-
-listener配置完成后，确保 **Malice-Network** 服务器已经运行后，在终端输入以下指令：
-
-```powershell
-cd "C:\path\to\malice-network-listener"
-.\malice-network-listener
-```
+!!! important "请检查listener.auth"
+	如果换了一台服务部署listener, 请检查目录下是否存在`listener.yaml`与`listener.auth`
 
 listener成功启动后，listener终端会输出以下信息：
 
@@ -319,46 +143,13 @@ listener成功启动后，listener终端会输出以下信息：
 
 ![image-20240816214248821](../assets/image-20240816214248821.png)
 
-### 初始化客户端用户
-
-**Malice-Network** 客户端需要使用用户配置文件才能与服务端进行交互。用户配置文件中包含由服务端生成的证书信息。每次客户端尝试连接服务端时，服务端都会校验该证书信息，以确保用户的合法性。这一过程保证了只有经过认证的用户才能访问和使用 **Malice-Network** 服务，从而提升了系统的安全性和可靠性。
-
-在确保 **Malice-Network** 服务器已经运行后，在终端输入以下指令：
-
-```
-cd "C:\path\to\malice-network-server"
-.\malice-network-server.exe user add username
-```
-
-执行命令成功后，服务端会输出以下信息并在所处文件夹下生成对应用户配置文件：
-
-![](../assets/PmmUbFsfOoD4qnxKD2Uc6uP5n5f.png)
-
-![](../assets/YO45bNucEoDOtsxjNzTcC6rJnHd.png)
-
-用户配置文件中包含了以下信息：
-
-`operator`: 客户端名称。
-
-`lhost`：客户端所连接的服务器地址。
-
-`lport`：客户端所连接的服务器端口号。
-
-`type`：配置类型分为 client 和 listener，用户配置为 client。
-
-`cacertificate`：服务端生成的 CA 证书，用于验证服务端的合法性。
-
-`privatekey`：客户端的私钥，用于加密和解密数据。
-
-`certificate`: 客户端的证书，用于向服务端证明客户端的合法性。
 
 ### 启动客户端
 
-将生成的用户配置文件复制到 `Malice-Network` 客户端的所在位置。使用新的用户配置文件时，可以使用以下指令启动客户端：
+将生成的用户配置文件, 默认为 `admin_[server_ip].auth` 复制到 `Malice-Network` 客户端的所在位置。使用新的用户配置文件时，可以使用以下指令启动客户端：
 
 ```powershell
-cd "C:\path\to\malice-network-client"
-.\malice-network-client.exe .\username_host.yaml
+.\iom admin_[server_ip].auth
 ```
 
 执行命令后，客户端会自动使用新的客户配置文件与服务器连接，并将用户配置文件移动至客户端的用户配置文件夹 (Windows 下为 `C:\Users\user\.config\malice\configs`,MacOS X 为 `/home/username/.config/malice/configs`，Linux 为 `/Users/username/.config/malice/configs`）
@@ -367,27 +158,92 @@ cd "C:\path\to\malice-network-client"
 
 ![](../assets/NI55beE9Bo6ad5xtT3lcMuvunAd.png)
 
-下次登录后，客户端会自动显示在用户配置文件夹下所有的用户配置，根据需求，选择对应的用户进行选择。Linux 端使用命令启动 **Malice-Network** 客户端，Windows 和 MacOS X 可以双击 **Malice-Network** 客户端可执行文件启动客户端。
-
-a. 对于 Linux：
-
-```bash
-bash
-cd \path\to\malice-network-client
-.\malice-network-client
+下次登录后，客户端会自动显示在用户配置文件夹下所有的用户配置，根据需求，选择对应的用户进行选择。
 ```
-
-b. 对于 MacOS X：
-
-c. 对于 Windows：
-
-i. 导航到 Malice-Network 文件夹。
-
-ii. 双击 `malice-network-client.exe`。
-
+./iom 
+```
 ![](../assets/EEgKb86iwop9xaxBUt8cHZG9n8f.png)
 
+## ROOTRPC
+
+`malice-network` 实际上还存在一个高权限的管理组件.  需要根证书配置才可实现. 这个证书不会生成`.auth`文件, 直接保存在服务端配置和数据库中. 
+
+只允许已经启动了`malice-network`的机器上, 继续通过`malice-network user` 或 `malice-network listener`  进行用户管理.
+
+### 认证文件
+
+**Malice-Network** 客户端需要使用用户配置文件才能与服务端进行交互。用户配置文件中包含由服务端生成的证书信息。每次客户端尝试连接服务端时，服务端都会校验该证书信息，以确保用户的合法性。这一过程保证了只有经过认证的用户才能访问和使用 **Malice-Network** 服务，从而提升了系统的安全性和可靠性。
+
+所有的远程rpc交互都需要`auth`文件打开mtls认证. 
+
+```
+operator: listener # 操作者名字
+host: 127.0.0.1    # server grpc ip
+port: 5004         # server grpc port
+type: listener     # 操作者类型, 如果不匹配则会认证失败, 默认生成的即可
+ca: |
+   ...
+private_key: |
+   ...
+certificate: |
+   ...
+
+```
+
+
+### 添加client
+
+默认情况下, 会生成一个`admin_[server_ip].auth`的配置. 大部分情况下, 使用这个auth即可. 
+
+目前所有用户都是平级的, 但可以在服务端添加或吊销指定用户的证书实现简单的管理
+
+在确保 **Malice-Network** 服务器已经运行后，在终端输入以下指令：
+
+```
+.\malice-network user add [username]
+```
+
+执行命令成功后，服务端会输出以下信息并在所处文件夹下生成对应用户配置文件：
+
+![](assets/Pasted%20image%2020240903012951.png)
+
+也可以删除用户, 吊销证书, 使其无法登录server
+
+```
+.\malice-network user del [username]
+```
+
+列出所有可用的用户配置
+
+```
+.\malice-network user list
+```
+
+### 添加listener
+
+在确保 **Malice-Network** 服务器已经运行后，在终端输入以下指令：
+
+```powershell
+.\malice-network listener add [listener_name]
+```
+
+执行命令成功后，服务端会输出以下信息并在所处文件夹下生成对应auth配置文件：
+
+也可以删除用户, 使其无法登录server
+
+```
+.\malice-network listener del [listener_name]
+```
+
+列出所有可用的用户配置
+
+```
+.\malice-network listener list
+```
+
+
 ## 编译
+
 自行编译说明
 
 clone项目到本地
@@ -412,12 +268,6 @@ go mod tidy
 go build ./server/cmd/server
 ```
 
-### 编译listener
-```
-go generate ./client
-go mod tidy
-go build ./server/cmd/listener
-```
 
 ### 编译 Implant
 
