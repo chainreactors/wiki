@@ -132,23 +132,29 @@ function base64 {
     process {
         Set-StrictMode -Version Latest
         $ErrorActionPreference = 'Stop'
-        if ($s.Length -le 320 -and (Test-Path $s -PathType Leaf)) {
-            $str = Get-Content $s -AsByteStream
-            $code = [System.Convert]::ToBase64String($str)
-        }
-        else {
-            $code = [System.Convert]::ToBase64String([System.Text.Encoding]::utf8.GetBytes($s))
-        }
 
         if ($decode) {
-            if ($binary) {
-                [System.Convert]::FromBase64String($s)
+            if ($s.Length -le 320 -and (Test-Path $s -PathType Leaf)) {
+                $encodedContent = Get-Content $s -Raw
             }
             else {
-                [System.Text.Encoding]::utf8.GetString( [System.Convert]::FromBase64String($s))
+                $encodedContent = $s
+            }
+            if ($binary) {
+                [System.Convert]::FromBase64String($encodedContent)
+            }
+            else {
+                [System.Text.Encoding]::utf8.GetString([System.Convert]::FromBase64String($encodedContent))
             }
         }
         else {
+            if ($s.Length -le 320 -and (Test-Path $s -PathType Leaf)) {
+                $str = Get-Content $s -AsByteStream
+                $code = [System.Convert]::ToBase64String($str)
+            }
+            else {
+                $code = [System.Convert]::ToBase64String([System.Text.Encoding]::utf8.GetBytes($s))
+            }
             $code
         }
     }
