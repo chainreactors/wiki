@@ -92,7 +92,73 @@ docker run -v "$PWD/:/root/src" -it --name malefic-builder ghcr.io/chainreactors
 docker run -v "$PWD/:/root/src" -it --name malefic-builder chainreactors/malefic-builder:v0.0.1-gnu bash
 ```
 
-#### Github Action编译环境 (🛠️)
+#### Github Action编译环境
+为了更方便的交叉编译，我们采用了[cross-rs/cross](https://github.com/cross-rs/cross/)的做法，并自行构建了对应的镜像用于适配malefic的编译，这些镜像已上传至[ghcr.io/chainreactors](https://github.com/orgs/chainreactors/packages)和
+[chainreactors](https://hub.docker.com/u/chainreactors). 
+
+首先使用gh登录github
+```shell
+# 交互式登录 github
+gh auth login
+# 或者使用token
+windows: $ENV:GH_TOKEN="your_authentication"
+linux: export GH_TOKEN="your_authentication"
+```
+修改完config.yaml配置后, 你可以通过gh来运行编译工作流，参考命令如下
+```bash
+gh workflow run generate.yml -f malefic_config=$(base64 </path/to/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu,i686-pc-windows-gnu," -R <username/malefic>
+
+```
+查看编译进度
+```bash
+gh run list -R <username/malefic>
+```
+根据填写的remark和run_id，你可以很方便的找到对应的artifact下载(artifact默认保留时间为3天,可自行更改[retention-days](https://github.com/chainreactors/malefic/blob/master/.github/workflows/generate.yml#L90))
+```bash
+gh run download -R <username/malefic>
+```
+![gh-run-list-and-download](../assets/gh-run-list-download.png)
+
+注意windows可能没有`base64`, 你可以通过`notepad $PROFILE`自定义一条函数
+```powershell
+function base64 {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [string] $s,
+        [switch] $decode,
+        [switch] $binary
+    )
+    process {
+        Set-StrictMode -Version Latest
+        $ErrorActionPreference = 'Stop'
+        if ($s.Length -le 320 -and (Test-Path $s -PathType Leaf)) {
+            $str = Get-Content $s -AsByteStream
+            $code = [System.Convert]::ToBase64String($str)
+        }
+        else {
+            $code = [System.Convert]::ToBase64String([System.Text.Encoding]::utf8.GetBytes($s))
+        }
+
+        if ($decode) {
+            if ($binary) {
+                [System.Convert]::FromBase64String($s)
+            }
+            else {
+                [System.Text.Encoding]::utf8.GetString( [System.Convert]::FromBase64String($s))
+            }
+        }
+        else {
+            $code
+        }
+    }
+}
+```
+
+
+
+!!! danger "保护敏感信息"
+    我们对config进行add-mask处理,保护config.yaml的敏感数据，但是github action输出的artifact或release仍会暴露, 使用时建议创建一份malefic到自己的仓库中设置为private再使用。
 
 #### 本地编译环境
 
@@ -116,7 +182,7 @@ function mg {
         [string]$arch = "64"
     )
     
-    $basePath = "D:\msys64\mingw"
+    $basePath = "D:\msys64\mingw" # 此处是你的msys2安装路径
     $env:PATH = "${basePath}${arch}\bin;" + $env:PATH
     Write-Host "Switched to mingw${arch} (bit) toolchain"
 }
@@ -449,7 +515,7 @@ pub trait Module {
 	async fn run(&mut self, 
 				id: u32, 
 				receiver: &mut crate::Input, 
-				sender: &mut crate::Output) -> Result 
+				sender: &mut crate::Output) -> Result
 ```
 
 #### module管理
