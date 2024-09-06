@@ -117,7 +117,7 @@ gh run list -R <username/malefic>
 ```bash
 gh run download -R <username/malefic>
 ```
-![gh-run-list-and-download](../assets/gh-run-list-download.png)
+![gh-run-list-download](../assets/gh-run-list-download.png)
 
 注意windows可能没有`base64`, 你可以通过`notepad $PROFILE`自定义一条函数
 ```powershell
