@@ -136,42 +136,57 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 
 - [ ] 补全因部分测试项未通过导致v0.0.1未能如期发布的功能
 - [ ] client端重构
-	- [ ] 从grumble切换到 https://github.com/reeflective/console
-	- [ ] 优化用户体验
-		- [ ] 提供配置文件生成与校验
-		- [ ] 优化TUI体验
-		- [ ] implant交互的基本命令按照其原本用法重写
-	- [ ] 支持website
+	- [x] 从grumble切换到 https://github.com/reeflective/console
+	- [x] 优化用户体验
+		- [x] 优化TUI体验
+		- [x] implant交互的基本命令按照其原本用法重写
+	- [x] 支持website
 - [ ] CI/CD支持
-	- [ ] 允许用户使用github action/docker等快速编译implant
-	- [ ] server/client的CI/CD
+	- [x] 允许用户使用github action/docker等快速编译implant
+	- [x] server/client的CI/CD
 - [ ] implant优化
-	- [ ] 减少依赖项
-	- [ ] 提供更多的编译选项, MSVC, MUSL等
-	- [ ] 提供多运行时支持, tokio, futures
-	- [ ] 提供基本的流量加密选项
-	- [ ] 优化编译时间
+	- [x] 提供更多的编译选项, MSVC, MUSL等
+	- [x] 优化编译时间
 - [ ] winkit
-	- [ ] Inline PE
+	- [x] Inline PE
 	- [ ] RunPE cross arch
-	- [ ] StackSpoofer
-	- [ ] SleepMask Community (maybe)
-	- [ ] Amsi Etw Community
-- [ ] 完成Professional相关功能打包并准备release
+	- [x] Amsi Etw Community
 - [ ] 实现mal插件功能
-	- [ ] 支持lua作为插件脚本语言(后续可能会支持CS的CNA)
-	- [ ] 创建mals插件索引仓库
+	- [x] 支持lua作为插件脚本语言(后续可能会支持CS的CNA)
+	- [x] 创建mals插件索引仓库
 	- [ ] 添加插件使用文档与插件开发文档
 - [ ] 提供默认插件包
-	- [ ] gogo
-	- [ ] zombie
-	- [ ] spray
+	- [x] gogo
+	- [x] zombie
+	- [x] spray
+	- [ ] 默认的lua拓展包
 	- [ ] 基本Bofs, 参考Havok提供的BOF
 - [ ] 添加第三方app通知的支持以及相关api
-- [ ] 待定
-	- [ ] ollvm
-	- [ ] stage 0 generator
+
+## v0.0.3
+
+- [ ] client
+	- [ ] 新增client端插件类型 golang
+	- [ ] 重构explore
+		- [ ] 实现process explorer
+		- [ ] 实现netstat explorer
+		- [ ] 实现services explorer
+	- [ ] 实现profile, 能自定义自动加载的插件集
+	- [ ] 初步实现通过client实现的自动化编译
+- [ ] server/listener
+	- [ ] 重构listener的parse, 尝试兼容第三方C2
+	- [ ] 实现notfiy, 通知第三方APP
+	- [ ] 实现python SDK
+	- [ ] 实现golang SDK
 	- [ ] mals 插件仓库
+- [ ] implant
+	- [ ] 提供多运行时支持, tokio, futures
+	- [ ] 提供基本的流量加密选项
+	- [ ] 更优雅的自动化编译
+	- [ ] StackSpoofer
+	- [ ] SleepMask Community 
+	- [ ] 实现stage 1 loader
+	- [ ] 实现autorun, 运行在编译时通过yaml配置一系列自动执行的任务
 
 ## 发布Professional
 
