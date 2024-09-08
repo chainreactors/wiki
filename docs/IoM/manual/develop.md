@@ -1,9 +1,6 @@
 
-## 自定义 module 开发
 
-当然， 也可以自行编写自己别具特色的 `Module` ， 我们提供了灵活的编写接口的模板, 最大程度减轻开发者的工作量
-
-### 定义proto
+## 新增 proto
 
 server与implant通过共享子模块定义通讯协议. 其中描述implant部分的请见: https://github.com/chainreactors/proto/blob/master/implant/implantpb/implant.proto
 
@@ -147,6 +144,91 @@ service MaliceRPC {
 ```
 
 好了, 定义部分现在就完成了, 可以编写对应的代码.
+
+## 新增rpc
+
+与malefic的module类似. server端的代码也是高度模板化的.
+
+实际上, 我们几乎所有module的server端代码都是通过copilot生成的. 
+
+```go
+func (rpc *Server) Cat(ctx context.Context, req *implantpb.Request) (*clientpb.Task, error) {
+	greq, err := newGenericRequest(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	ch, err := rpc.asyncGenericHandler(ctx, greq)
+	if err != nil {
+		return nil, err
+	}
+
+	go greq.HandlerAsyncResponse(ch, types.MsgResponse)
+	return greq.Task.ToProtobuf(), nil
+}
+```
+
+因为rpc的传入值通过rpc定义, 所以只需要显示校验返回值.  也就是这一行中的`types.MsgResponse`
+
+```
+	go greq.HandlerAsyncResponse(ch, types.MsgResponse)
+```
+
+在cat中, 使用了通用返回值`Response`.
+
+## 新增command
+
+贯彻IoM统一的设计风格, client端代码也是模板化的. 
+
+然后在client添加相关实现
+
+```go
+func CatCmd(ctx *grumble.Context, con *console.Console) {  
+    session := con.GetInteractive()  
+    if session == nil {  
+       return  
+    }  
+    fileName := ctx.Flags.String("name")  
+    catTask, err := con.Rpc.Cat(con.ActiveTarget.Context(), &implantpb.Request{  
+       Name:  consts.ModuleCat,  
+       Input: fileName,  
+    })  
+    if err != nil {  
+       console.Log.Errorf("Cat error: %v", err)  
+       return  
+    }  
+    con.AddCallback(catTask.TaskId, func(msg proto.Message) {  
+       resp := msg.(*implantpb.Spite).GetResponse()  
+       con.SessionLog(session.SessionId).Consolef("File content: %s\n", resp.GetOutput())  
+    })  
+}
+```
+
+在`client/command/filesystem/commands.go` 中定义命令行接口.  后续可能会从grumble切换到其他的命令行交互的库, 但是代码编写上不会有太大改动
+
+```go
+...
+		&grumble.Command{
+			Name: consts.ModuleCat,
+			Help: "Print file content",
+			Flags: func(f *grumble.Flags) {
+				f.String("n", "name", "", "File name")
+			},
+			LongHelp: help.GetHelpFor(consts.ModuleCat),
+			Run: func(ctx *grumble.Context) error {
+				CatCmd(ctx, con)
+				return nil
+			},
+			HelpGroup: consts.ImplantGroup,
+		},
+...
+```
+
+
+## 新增 module 
+
+当然， 也可以自行编写自己别具特色的 `Module` ， 我们提供了灵活的编写接口的模板, 最大程度减轻开发者的工作量
+
+
 ### 编写module代码
 
 在编写 `proto` 相关定义后， 就可以开始编写自己的 `Module` 了.
@@ -228,83 +310,8 @@ impl Module for Cat {
 
 如果任务需要**多次数据接收和结果发送**， 可以多次调用 `check_request!(recviver, Body::Request)?;` 来获取数据， 使用 `sender.send()` 函数多次发送 `TaskResult` 响应
 
-### 编写server端代码
-
-与malefic的module类似. server端的代码也是高度模板化的.
-
-实际上, 我们几乎所有module的server端代码都是通过copilot生成的. 
-
-```go
-func (rpc *Server) Cat(ctx context.Context, req *implantpb.Request) (*clientpb.Task, error) {
-	greq, err := newGenericRequest(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-	ch, err := rpc.asyncGenericHandler(ctx, greq)
-	if err != nil {
-		return nil, err
-	}
-
-	go greq.HandlerAsyncResponse(ch, types.MsgResponse)
-	return greq.Task.ToProtobuf(), nil
-}
-```
-
-因为rpc的传入值通过rpc定义, 所以只需要显示校验返回值.  也就是这一行中的`types.MsgResponse`
-
-```
-	go greq.HandlerAsyncResponse(ch, types.MsgResponse)
-```
-
-在cat中, 使用了通用返回值`Response`.
 
 ### 编写client端代码
-
-贯彻IoM统一的设计风格, client端代码也是模板化的. 
-
-然后在client添加相关实现
-
-```go
-func CatCmd(ctx *grumble.Context, con *console.Console) {  
-    session := con.GetInteractive()  
-    if session == nil {  
-       return  
-    }  
-    fileName := ctx.Flags.String("name")  
-    catTask, err := con.Rpc.Cat(con.ActiveTarget.Context(), &implantpb.Request{  
-       Name:  consts.ModuleCat,  
-       Input: fileName,  
-    })  
-    if err != nil {  
-       console.Log.Errorf("Cat error: %v", err)  
-       return  
-    }  
-    con.AddCallback(catTask.TaskId, func(msg proto.Message) {  
-       resp := msg.(*implantpb.Spite).GetResponse()  
-       con.SessionLog(session.SessionId).Consolef("File content: %s\n", resp.GetOutput())  
-    })  
-}
-```
-
-在`client/command/filesystem/commands.go` 中定义命令行接口.  后续可能会从grumble切换到其他的命令行交互的库, 但是代码编写上不会有太大改动
-
-```go
-...
-		&grumble.Command{
-			Name: consts.ModuleCat,
-			Help: "Print file content",
-			Flags: func(f *grumble.Flags) {
-				f.String("n", "name", "", "File name")
-			},
-			LongHelp: help.GetHelpFor(consts.ModuleCat),
-			Run: func(ctx *grumble.Context) error {
-				CatCmd(ctx, con)
-				return nil
-			},
-			HelpGroup: consts.ImplantGroup,
-		},
-...
-```
 
 **好了, 现在我们就成功编写了一个模块, 并打通了三端!**
 
