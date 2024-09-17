@@ -1,3 +1,7 @@
+---
+title: Internal of Malice · 部署
+---
+
 # 用户手册
 
 ## 安装

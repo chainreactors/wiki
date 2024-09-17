@@ -1,3 +1,6 @@
+---
+title: Internal of Malice · implant手册
+---
 # Implant
 
 考虑到红队人员的使用习惯， 本 `Implant` 所支持的命令将大量沿用 `CS` 工具的命令及使用习惯

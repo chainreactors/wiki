@@ -1,3 +1,7 @@
+---
+title: Internal of Malice · implant_win_kit
+---
+
 > 本文档旨在记录 `Windows` 平台 `kit` 相关拓展性功能及内容 :-)
 
 ### Process

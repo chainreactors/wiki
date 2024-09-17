@@ -1,4 +1,11 @@
-## 基本命令
+---
+title: Internal of Malice · 帮助手册
+---
+
+
+# Server
+
+## Generic
 
 ### background
 
@@ -296,39 +303,6 @@ website stop <listener_id>
 
 ## 插件管理
 
-### list_module
-
-**Command**
-
-```
-list_module
-```
-
-**About:** 列出模块
-
----
-
-### load_module
-
-**Command**
-
-```
-load_module <path>
-```
-
-**About:** 加载模块
-
-**Arguments:**
-
-- `path`: 模块文件的路径。
-
-**Flags:**
-
-- `--name`, `-n`: 要加载的模块名称。
-
----
-
-
 ### alias
 
 **Command**
@@ -536,7 +510,9 @@ extension remove <name>
 
 ---
 
-## Implant 交互
+# Implant 
+
+## filesystem
 
 ### pwd
 
@@ -695,7 +671,7 @@ rm --name <file_name>
 - `--name`, `-n`: 要删除的文件名。
 
 ---
-
+## sys
 ### whoami
 
 **Command**
@@ -795,6 +771,8 @@ info
 **About:** 获取基本远程系统信息
 
 ---
+
+## file
 
 ### download
 
@@ -1012,6 +990,38 @@ execute_pe <path>
 - `-a`, `--argue`: 参数。
 
 ---
+### list_module
+
+**Command**
+
+```
+list_module
+```
+
+**About:** 列出模块
+
+---
+
+### load_module
+
+**Command**
+
+```
+load_module <path>
+```
+
+**About:** 加载模块
+
+**Arguments:**
+
+- `path`: 模块文件的路径。
+
+**Flags:**
+
+- `--name`, `-n`: 要加载的模块名称。
+
+---
+
 
 ### inline_pe 🛠️
 
@@ -1072,4 +1082,37 @@ powershell
 - `-t`, `--timeout`: 命令超时时间，以秒为单位。
 
 ---
+## module 管理
+### list_module
 
+**Command**
+
+```
+list_module
+```
+
+**About:** 列出模块
+
+---
+
+### load_module
+
+**Command**
+
+```
+load_module <path>
+```
+
+**About:** 加载模块
+
+**Arguments:**
+
+- `path`: 模块文件的路径。
+
+**Flags:**
+
+- `--name`, `-n`: 要加载的模块名称。
+
+---
+
+## addon管理
