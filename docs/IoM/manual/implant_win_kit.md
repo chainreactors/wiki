@@ -20,35 +20,39 @@ Fork&Run 虽然已经不是 opsec 的选择， 但是某些情况下还是避不
 
 为便于理解， 可以将所有需要产生新进程的行为均理解为生成了一个 `牺牲进程`， 即包含下面将阐述的所有概念及功能
 
-所有上述支持使用 `Sacrifice Process` 即 `牺牲进程` 的功能都会可以通过参数 `--sacrifice` 开启， 所有 `牺牲进程` 都是以 `SUSPEND` 及 `NO_WINDOWS` 的形式启动的， 在做完其余处理后再唤醒主线程， 可以通过 `--param` 参数向 `牺牲进程` 传递启动参数， 如 `notepad.exe` , 并通过 `--output` 参数来决定是否需要捕获输出（如果不确定执行结果是否有可获取的结果， 请小心使用 `output` 以避免 `Implant` 错误的等待一个可能永远不会得到的结果
+所有上述支持使用 `Sacrifice Process` 即 `牺牲进程` 的功能都是以 `SUSPEND` 及 `NO_WINDOWS` 的形式启动的， 在做完其余处理后再唤醒主线程， 因此在这期间我们可以对其做非常多的事
 
 支持牺牲进程的功能有:
 
 - execute (默认启动牺牲进程， 无需增加参数）
-- execute_pe
+- execute_exe
 - execute_shellcode
 
 我们也为 pe，shellcode 提供了更加 opsec 的 inline 版本(inline_pe/inline_shellcode).
 
-接下来我们将以 `execute_shellcode` 功能来举例说明
+接下来我们将以 `execute_exe` 功能来举例说明
 
 ```bash
 # 命令示例
-execute_shellcode --sacrifice --output --param "notepad.exe" ./loader.bin
+execute_exe gogo.exe -- -i 127.0.0.1
 ```
+
+上述命令表示以默认`牺牲进程` (`notepad.exe`) 执行 `gogo.exe`, 参数为 `-i 127.0.0.1`
 
 当然， 由于原本意义上的 `Fork&Run` 耗能非常巨大且笨重， 如果确实需要也可以考虑后期添加
 
 #### Alternate Parent Processes
 
-所有上述支持 `牺牲进程` 的功能均可以自定义 `牺牲进程` 的 `ppid`, 只需在调用命令时添加 `--pid` 参数即可
+所有上述支持 `牺牲进程` 的功能均可以自定义 `牺牲进程` 的 `ppid`, 只需在调用命令时添加 `-p` 参数即可
 
 可以使用 `ps` 命令获取当前所有进程的快照内容
 
 ```bash
 # 命令示例
-execute_shellcode --sacrifice --pid 8888 --output --param "notepad.exe" ./loader.bin
+execute_shellcode -p 8888 -n "notepad.exe" ./loader.bin
 ```
+
+上述命令表示以`notepad.exe` 作为牺牲进程执行 `loader.bin` ， 并进行父进程欺骗， 将 `ppid` 设为 `8888`
 
 #### Spoof Process Arguments
 
@@ -65,7 +69,7 @@ argue net fake_net
 
 ```bash
 # 命令示例
-execute --ppid 8888 --output --param "net xxxx xxx"
+executes -- "net xxxx xxx"
 ```
 
 只需如此调用， 启动时将会自动变为 `fakenet xxxx xxx`， 而在真实调用时变为 `net xxxx xxx`
@@ -76,6 +80,16 @@ execute --ppid 8888 --output --param "net xxxx xxx"
 
 该功能需要在 `Windows 10` 及以上系统中使用
 
+#### AMSI & ETW
+
+在终端攻防漫长的对抗中， `AMSI` 及 `ETW` 的推出可谓是一石激起千层浪， 但当大家都位于 `r3` 时， 通过一些手法即可轻松绕过这些检测， 我们也在该版本中推出了基础 `bypass` 功能
+
+使用 `bypass` 命令来开启绕过 `AMSI` 及 `ETW` 检测
+
+```bash
+#使用示例
+bypass
+```
 
 ### Dll/EXE
 
@@ -85,7 +99,29 @@ execute --ppid 8888 --output --param "net xxxx xxx"
 
 `Implant` 支持动态加载和调用 `DLL/EXE ` 文件， 并可选择是否需要获取标准输出， 如需要将会把输出发布给
 
-所有执行的 `DLL/EXE` 都无需落地在内存中直接执行， 通过调用参数来控制 `DLL/EXE` 在自身内存中调用或创建一个牺牲进程以调用， 具体请参照 `Post Exploitation` 章节中 `Running Commands` 和 `Sacrifice Process` 这一小节的内容
+所有执行的 `DLL/EXE` 都无需落地在内存中直接执行， 通过调用参数来控制 `DLL/EXE` 在自身内存中调用或创建一个牺牲进程以调用，关于牺牲进程， 您可以参照 `Sacrifice Process` 这一小节的内容
+
+#### Inline PE
+
+某些极端情况下， 用户可能有在本进程执行 `PE` 文件的需求， 因此我们通过 `memory load pe` 技术以支持用户在 `Implant` 中执行 `PE` 文件
+
+您可以使用 `inline_exe` / `inline_dll` 进行调用
+
+请注意， 由于各工具实现良莠不齐， 因此您所要使用的工具可能会伴随各种泄漏问题
+
+因此， 使用该功能时建议加上超时时间以防止您丢失自己的连接， 并且需要您自行评估 `inline` 执行的 `PE/DLL` 是否会伴随有内存问题
+
+> 可以以 `EXE` 形式正常执行并结束的工具并不代表其在编写时完美关闭所有其持有的句柄或完美释放内存， 由于在 `inline` 场景下， 我们可能会丧失对于工具本身内存/句柄的监控能力（也许在不远的将来会有所有内存分配/句柄持有的监控）， 因此使用时请着重小心 :)
+
+由于我们提供了 `BOF` 执行的功能， 因此我更推荐您使用上位代替， 即使用 `bof` 功能进行拓展功能的调用:)
+
+```bash
+# 命令示例
+inline_exe gogo.exe -t 10 -- -i 127.0.0.1
+```
+
+上述命令表示以内联形式在 `implant` 本体中执行 `gogo.exe`, 超时时间为 `10s`， 参数为 `-i 127.0.0.1`
+
 
 ### Shellcode
 
@@ -93,9 +129,18 @@ execute --ppid 8888 --output --param "net xxxx xxx"
 
 `Implant` 支持动态加载 `shellcode`, 并可选择在自身进程还是牺牲进程中调用
 
-请注意，由于 `Implant` 无法分辨的 `shellcode` 是哪个架构的， 请在使用该功能时，如果不确定架构和其稳定性， 最好使用 `牺牲进程` 来进行调用， 而非在本体中进行， 以免由于误操作失去连接
+请注意，由于 `Implant` 无法分辨的 `shellcode` 是哪个架构的， 请在使用该功能时，如果不确定架构和其稳定性， 最好使用 `牺牲进程` 来进行调用， 而非在本体中进行， 以免由于误操作失去连接, 关于牺牲进程， 您可以参照 `Sacrifice Process` 这一小节的内容
 
-具体可参照 `Post Exploitation` 章节中 `Running Commands` 这一小节的内容
+目前开源版本中使用的方式基于 `APC`, 当然， `Pool party` 正在路上
+
+```bash
+# 命令示例
+# 使用牺牲进程
+execute_shellcode xxx.bin
+
+# inline 执行
+inline_shellcode xxx.bin
+```
 
 ### .NET CRL
 
@@ -103,7 +148,14 @@ execute --ppid 8888 --output --param "net xxxx xxx"
 
 `C#` 程序可以在 `Windows` 的 `.Net` 框架中运行,而 `.Net` 框架也是现代 `Windows` 系统中不可或缺的一部分。其中包含一个被称为 `Common Language Runtime(CLR)` 的运行时,`Windows` 为此提供了大量的接口,以便开发者操作 `系统API`。
 
-因此， `Implant` 支持在内存中加载并调用 `.Net` 程序,并可选择是否需要获取标准输出。使用者可以参照 `Post Exploitation` 章节中 `Running Commands` 小节的内容,进一步了解相关功能的使用方法。
+因此， `Implant` 支持在内存中加载并调用 `.Net` 程序,并可选择是否需要获取标准输出。
+
+```bash
+# 使用示例
+execute_assemble Seatbelt.exe -- AMSIProviders
+```
+
+上述命令为内存中执行 `Seatbelt.exe` .Net程序， 参数为`AMSIProviders`
 
 ### Unmanaged Powershell
 
@@ -117,6 +169,13 @@ execute --ppid 8888 --output --param "net xxxx xxx"
 - 使用 `powerpick` 命令来摆脱 `powershell.exe` 执行 `powershell` 命令
 - 使用 `powershell_import` 命令来向 `Implant` 导入 `powershell script`， 系统将在内存中保存该脚本， 以再后续使用时直接调用该脚本的内容
 
+```bash
+# 使用示例
+powershell --script powerview.ps1 -- ";Get-NetProcess"
+```
+即使用 `unmanaged powershell` 执行 `powerview.ps1` 脚本中的 `Get-NetProcess` 命令
+
+
 ### BOF
 
 常见的， 一个 C 语言源程序被编译成目标程序由四个阶段组成， 即（预处理， 编译， 汇编， 链接）
@@ -126,6 +185,20 @@ execute --ppid 8888 --output --param "net xxxx xxx"
 该类型文件由于未进行链接操作， 因此一般体积较小， 较常见 `DLL/EXE` 这类可执行程序更易于传输，被广泛利用于知名 C2 工具 Cobalt Strike(后称 CS)中， 不少红队开发人员为其模块编写了 BOF 版本， 因此 `Implant` 对该功能进行了适配工作， `Implant` 支持大部分 CS 提供的内部 API, 以减少各使用人员的使用及适配成本
 
 请注意， 由于我们的 `BOF` 功能与 `CS` 类似，执行于本进程中， 因此在使用该功能时请确保使用的 `BOF` 文件可以正确执行， 否则将丢失当前连接
+
+```bash
+# 使用示例
+bof dir.x64.o "str:C:\\Program Files" 
+```
+
+即使用 `bof` 功能加载执行 `dir.x64.o`， 参数为 `str:C:\\Program Files`
+您可选的参数模式有:
+- wstr: 以null结尾的宽字符串
+- str:  以null结尾的字符串
+- int:  4字节长度整形
+- short: 2 字节长度短整形
+- bin: 以base64编码后的bytes数组
+
 
 #### BOF 开发
 
