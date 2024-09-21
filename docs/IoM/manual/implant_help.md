@@ -38,7 +38,30 @@ list_module
 Load module
 
 ```
-load_module [module_file]
+load_module [module_file] [flags]
+```
+
+**Examples**
+
+load module from malefic-modules
+before loading, you can list the current modules: 
+~~~
+execute_addon、clear ...
+~~~
+then you can load module
+~~~
+load_module <module_file.dll>
+~~~
+you can see more modules loaded by list_module
+~~~
+execute_addon、clear 、ps、powerpic...
+~~~
+
+
+**Options**
+
+```
+  -b, --bundle string   bundle name
 ```
 
 ### refresh_module
@@ -182,7 +205,7 @@ execute_local [local_exe] [flags]
 
 
 ~~~
-exec local_exe --ppid 1234 --block_dll --etw --argue "argue"
+execute_local local_exe --ppid 1234 --block_dll --etw --argue "argue"
 ~~~
 
 
@@ -260,11 +283,25 @@ execute-assembly potato.exe -- -cmd "cmd /c whoami"
 ```
 
 ### execute_shellcode
-Executes the given shellcode in the malefic process
+Executes the given shellcode in the sacrifice process
+
+**Description**
+
+The current shellcode injection method uses APC.
+
+In the future, configurable shellcode injection settings will be provided, along with Donut, SGN, SRDI, etc.
 
 ```
 execute_shellcode [shellcode_file] [flags]
 ```
+
+**Examples**
+
+
+~~~
+execute_shellcode example.bin
+~~~
+
 
 **Options**
 
@@ -280,11 +317,25 @@ execute_shellcode [shellcode_file] [flags]
 ```
 
 ### inline_shellcode
-Executes the given inline shellcode in the IOM 
+Executes the given inline shellcode in the implant process
+
+**Description**
+
+
+The current shellcode injection method uses APC.
+
 
 ```
 inline_shellcode [shellcode_file] [flags]
 ```
+
+**Examples**
+
+
+~~~
+inline_shellcode example.bin
+~~~
+
 
 **Options**
 
@@ -298,9 +349,29 @@ inline_shellcode [shellcode_file] [flags]
 ### execute_dll
 Executes the given DLL in the sacrifice process
 
+**Description**
+
+
+use a custom Headless PE loader to load DLL in the sacrificed process.
+
+
 ```
 execute_dll [dll] [flags]
 ```
+
+**Examples**
+
+
+~~~
+execute_dll example.dll 
+~~~
+
+if entrypoint not default, you can specify the entrypoint
+
+~~~
+execute_dll example.dll -e entrypoint -- arg1 arg2
+~~~
+
 
 **Options**
 
@@ -308,7 +379,7 @@ execute_dll [dll] [flags]
       --arch string         architecture amd64,x86
   -a, --argue string        spoofing process arguments, eg: notepad.exe 
   -b, --block_dll           block not microsoft dll injection
-  -e, --entrypoint string   entrypoint (default "entrypoint")
+  -e, --entrypoint string   custom entrypoint
       --etw                 disable ETW
   -p, --ppid uint           spoofing parent processes, (0 means injection into ourselves)
   -n, --process string      custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
@@ -319,15 +390,30 @@ execute_dll [dll] [flags]
 ### inline_dll
 Executes the given inline DLL in the current process
 
+**Description**
+
+use a custom Headless PE loader to load DLL in the current process.
+
 ```
 inline_dll [dll] [flags]
 ```
+
+**Examples**
+
+execute an inline DLL with the default entry point
+~~~
+inline_dll example.dll
+~~~
+specify the entrypoint
+~~~
+inline_dll example.dll -e RunFunction -- arg1 arg2
+~~~
 
 **Options**
 
 ```
       --arch string         architecture amd64,x86
-  -e, --entrypoint string   entrypoint (default "entrypoint")
+  -e, --entrypoint string   entrypoint
   -n, --process string      custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
   -q, --quit                disable output
   -t, --timeout uint32      timeout, in seconds (default 60)
@@ -336,9 +422,21 @@ inline_dll [dll] [flags]
 ### execute_exe
 Executes the given PE in the sacrifice process
 
+**Description**
+
+use a custom Headless PE loader to load EXE in the sacrificed process.
+
 ```
 execute_exe [exe] [flags]
 ```
+
+**Examples**
+
+
+~~~
+execute_exe gogo.exe -- -i 123.123.123.123 -p top2
+~~~
+
 
 **Options**
 
@@ -356,6 +454,10 @@ execute_exe [exe] [flags]
 ### inline_exe
 Executes the given inline EXE in current process
 
+**Description**
+
+use a custom Headless PE loader to load EXE in the current process.
+
 ```
 inline_exe [exe] [flags]
 ```
@@ -364,7 +466,7 @@ inline_exe [exe] [flags]
 
 execute the inline PE file
 ~~~
-inline_exe gogo.exe -- -i 127.0.0.1
+inline_exe hackbrowserdata.exe -- -h
 ~~~
 
 
@@ -378,18 +480,47 @@ inline_exe gogo.exe -- -i 127.0.0.1
 ```
 
 ### bof
-Loads and executes Bof (Windows Only)
+COFF Loader,  executes Bof (Windows Only)
+
+**Description**
+
+
+refactor from https://github.com/hakaioffsec/coffee ,fix a bundle bugs
+
+Arguments for the BOF can be passed after the -- delimiter. Each argument must be prefixed with the type of the argument followed by a colon (:). The following types are supported:
+
+* str - A null-terminated string
+* wstr - A wide null-terminated string
+* int - A signed 32-bit integer
+* short - A signed 16-bit integer
+* bin - A base64-encoded binary blob
+
 
 ```
 bof [bof]
 ```
 
+**Examples**
+
+
+~~~
+bof dir.x64.o -- wstr:"C:\\Windows\\System32"
+~~~
+
 ### powerpick
-Loads and executes powershell (Windows Only)
+unmanaged powershell on implant process (Windows Only)
 
 ```
 powerpick [args] [flags]
 ```
+
+**Examples**
+
+
+~~~
+powerpick -s powerview.ps1 -- Get-NetUser
+~~~
+
 
 **Options**
 
@@ -480,6 +611,13 @@ Bypass AMSI and ETW
 ```
 bypass [flags]
 ```
+
+**Examples**
+
+
+~~~
+bypass --amsi --etw
+~~~
 
 **Options**
 

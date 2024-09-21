@@ -34,7 +34,7 @@ ip为外网暴露的ip, 也可以直接在配置文件中修改, 用以省略`-i
 
 **在最简配置下, listener和server同时部署**
 
-这里提供了[完整的配置文件说明]( https://chainreactors.github.io/wiki/IoM/deploy/#server-config)
+这里提供了[完整的配置文件说明]( /wiki/IoM/deploy/#server-config)
 
 可以根据自己的需要修改. 
 
@@ -99,9 +99,9 @@ docker build -f builder/Dockerfile.GNU -t malefic-builder .
 docker run -v "$PWD/:/root/src" -it --name malefic-builder ghcr.io/chainreactors/malefic-builder:v0.0.1-gnu bash
 ```
 
-在其中使用 `make` 命令进行对应环境的编译. (这里演示win64的编译, 其他操作系统和架构编译见: [implant编译](IoM/manual/implant/#build))
+在其中使用 `make` 命令进行对应环境的编译. (这里演示win64的编译, 其他操作系统和架构编译见: [implant编译](/wiki/IoM/manual/implant/#build))
 
-docker使用目录映射的方式创建, 所以只需要在本地修改`config.yaml`中的server字段, 完整对应的配置, 然后进行编译即可.  ([完整的config文档](IoM/manual/implant/#config))
+docker使用目录映射的方式创建, 所以只需要在本地修改`config.yaml`中的server字段, 完整对应的配置, 然后进行编译即可.  ([完整的config文档]((/wiki/IoM/manual/implant/#config))
 
 ```bash
 make windows_x64
@@ -117,13 +117,13 @@ make windows_x64
 
 将会在client中看到session的上线记录. 
 
-[本机手动编译文档](IoM/manual/implant/#compile)
+[本机手动编译文档](/wiki/IoM/manual/implant/#compile)
 
 ### 操作implant
 
 使用在client中使用 `sessions` 命令, 将会进入到一个交互式表格中, 可以在这个表格中找到刚才上线的session, 然后运行 回车即可进入到 session的交互上下文.
 
-这个时候输入`help` 将能看到这个session上下文完整可用的命令.  也可以在文档中找到[对应的用法](IoM/help#implant) . 
+这个时候输入`help` 将能看到这个session上下文完整可用的命令.  也可以在文档中找到[对应的用法](/wiki/IoM/manual/implant_help) . 
 
 ![](assets/Pasted%20image%2020240819003338.png)
 
