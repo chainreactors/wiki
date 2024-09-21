@@ -82,7 +82,9 @@ nav:
       - Manual: 
             - index: IoM/manual/index.md
             - IoM部署: IoM/manual/deploy.md
-            - 使用说明: IoM/manual/help.md
+            - 使用说明: 
+                - client-help: IoM/manual/client_help.md
+                - implant-help: IoM/manual/implant_help.md
             - implant文档: 
                 - malefic使用手册: IoM/manual/implant.md
                 - malefic-win-kit: IoM/manual/implant_win_kit.md
