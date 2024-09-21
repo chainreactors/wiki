@@ -1,5 +1,5 @@
 ---
-title: spray · 细节
+title: spray · 概念
 ---
 
 ## 智能过滤
