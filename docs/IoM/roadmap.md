@@ -63,14 +63,13 @@ IoM  上的流量隧道不只是点对点的， 还将是网状的，甚至是�
     - [x] execute_dll
     - [x] inline_assembly
     - [x] inline_shellcode
-    - [ ] inline_pe
-    - [ ] inline_dll
+    - [x] inline_pe
+    - [x] inline_dll
     - [x] execute-bof
     - [ ] memfd
     - [x] 实现module热加载
-    - [ ] 兼容sliver armory extension的dll加载
+    - [x] 兼容sliver armory extension的dll加载
 - [x] 实现profile, 能自定义opsec特征
-- [ ] token模拟相关实现
 - [x] 进程操作
     - [x] 进程镂空（process hollowing）
     - [x] 进程注入（process inject）
@@ -79,8 +78,8 @@ IoM  上的流量隧道不只是点对点的， 还将是网状的，甚至是�
     - [x] 牺牲进程 （sacrifice process ）
     - [x] 父进程欺骗 （spoof parent process）
     - [x] 侧加载（sideload）
-    - [ ] bypass ETW
-    - [ ] bypass AMSI
+    - [x] bypass ETW
+    - [x] bypass AMSI
     - [x] BlockDLL
 - [ ] OPSEC
     - [x] syscall
@@ -196,6 +195,7 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 	- [ ] SleepMask Community 
 	- [ ] 实现stage 1 loader
 	- [ ] 实现autorun, 运行在编译时通过yaml配置一系列自动执行的任务
+	- [ ] token模拟相关实现
 
 ## 发布Professional
 

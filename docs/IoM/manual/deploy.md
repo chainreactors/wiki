@@ -22,6 +22,7 @@ Malice-Network 服务器支持 `Linux`、 `Windows` 和 `MacOS`，但是我们�
 
 
 ```bash
+debug: false # 开启debug日志
 server:  
   enable: true        # server 是否启用
   grpc_port: 5004     # 监听的端口
@@ -32,7 +33,26 @@ server:
     packet_length: 1048576 # 与implant交互单个包上限, 默认1M
     certificate:           # grpc证书配置, 留空则自动生成
     certificate_key:       # grpc证书配置, 留空则自动生成
-  
+  notify: 
+	enable: false  
+	telegram:  
+		enable: false  
+		api_key:  
+		chat_id:  
+	dingtalk:  
+		enable: false  
+		secret:  
+		token:  
+	lark:  
+		enable: false  
+		webhook_url:  
+	serverchan:  
+		enable: false  
+		url:  
+		method:  
+		headers:  
+		content_type:  
+		bodyTemplate:
 listeners:  
   enable: true            # listener 是否启用
   name: listener          # listener名字
@@ -53,8 +73,9 @@ listeners:
         OU: "Persistent Housework, Limited"  
         ST: "State of Texas"  
         validity: "365"  
-        cert: ""  
-        key: ""  
+		cert_file: ""  
+		key_file: ""  
+		ca_file: ""
       encryption:      # 加密配置项, 当前未生效
         enable: false  
         type: aes-cfb  
