@@ -2,7 +2,7 @@
 ### login
 Login to server
 
-![login](../assets\login.gif)
+![login](../assets/login.gif)
 
 ```
 login
@@ -66,7 +66,7 @@ sessions
 
 // List all sessions, including those that have been disconnected
 sessions -a
-			~~~
+~~~
 
 **Options**
 
@@ -94,7 +94,7 @@ note newNote 08d6c05a21512a79a1dfeb9d2a8f262f
 
 // Add a note when using an active session
 note newNote
-			~~~
+~~~
 
 ### group
 group session
@@ -116,7 +116,7 @@ group newGroup 08d6c05a21512a79a1dfeb9d2a8f262f
 
 // Add a session to a group when using an active session
 group newGroup
-			~~~
+~~~
 
 ### del
 del session
@@ -134,7 +134,7 @@ del [session]
 ~~~
 // Delete a specified session
 del 08d6c05a21512a79a1dfeb9d2a8f262f
-			~~~
+~~~
 
 ### background
 back to root context
@@ -177,7 +177,7 @@ observe -l
 
 // Remove observer
 observe -r
-			~~~
+~~~
 
 **Options**
 
@@ -189,23 +189,100 @@ observe -r
 ### alias
 manage aliases
 
+**Description**
+
+
+Macros are using the sideload or spawndll commands under the hood, depending on the use case. 
+
+For Linux and Mac OS, the sideload command will be used. On Windows, it will depend on whether the macro file is a reflective DLL or not. 
+
+Load a macro: 
+~~~
+load /tmp/chrome-dump 
+~~~
+
+Sliver macros have the following structure (example for the chrome-dump macro): 
+
+chrome-dump 
+* chrome-dump.dll 
+* chrome-dump.so 
+* manifest.json
+
+It is a directory containing any number of files, with a mandatory manifest.json, that has the following structure: 
+
+~~~
+{ 
+	"macroName":"chrome-dump", // name of the macro, can be anything
+	"macroCommands":[ 
+		{ 
+			"name":"chrome-dump", // name of the command available in the sliver client (no space)
+			"entrypoint":"ChromeDump", // entrypoint of the shared library to execute
+			"help":"Dump Google Chrome cookies", // short help message
+			"allowArgs":false, // make it true if the commands require arguments
+			"defaultArgs": "test", // if you need to pass a default argument
+			"extFiles":[ // list of files, groupped per target OS
+				{ 
+					"os":"windows", // Target OS for the following files. Values can be "windows", "linux" or "darwin" 
+					"files":{ 
+						"x64":"chrome-dump.dll", 
+						"x86":"chrome-dump.x86.dll" // only x86 and x64 arch are supported, path is relative to the macro directory
+					} 
+				}, 
+				{
+					"os":"linux", 
+					"files":{
+						"x64":"chrome-dump.so" 
+					} 
+				}, 
+				{
+					"os":"darwin", 
+					"files":{ 
+						"x64":"chrome-dump.dylib"
+						} 
+					} 
+				], 
+			"isReflective":false // only set to true when using a reflective DLL
+		} 
+	] 
+} 
+~~~
+
+Each command will have the --process flag defined, which allows you to specify the process to inject into. The following default values are set:
+	
+	- Windows: c:\windows\system32\notepad.exe 
+	- Linux: /bin/bash 
+	- Mac OS X: /Applications/Safari.app/Contents/MacOS/SafariForWebKitDevelopment
+
+
 ```
 alias
 ```
 
 **SEE ALSO**
 
-* [alias install](#alias_install.md)	 - Install a command alias
-* [alias list](#alias_list.md)	 - List all aliases
-* [alias load](#alias_load.md)	 - Load a command alias
-* [alias remove](#alias_remove.md)	 - Remove an alias
+* [alias install](#alias install)	 - Install a command alias
+* [alias list](#alias list)	 - List all aliases
+* [alias load](#alias load)	 - Load a command alias
+* [alias remove](#alias remove)	 - Remove an alias
 
 #### alias install
 Install a command alias
 
+**Description**
+
+See Docs at https://sliver.sh/docs?name=Aliases%20and%20Extensions
+
 ```
 alias install [alias_file]
 ```
+
+**Examples**
+
+
+~~~
+// Install a command alias
+alias install ./rubeus.exe
+~~~
 
 **SEE ALSO**
 
@@ -213,6 +290,10 @@ alias install [alias_file]
 
 #### alias list
 List all aliases
+
+**Description**
+
+See Docs at https://sliver.sh/docs?name=Aliases%20and%20Extensions
 
 ```
 alias list
@@ -225,9 +306,21 @@ alias list
 #### alias load
 Load a command alias
 
+**Description**
+
+See Docs at https://sliver.sh/docs?name=Aliases%20and%20Extensions
+
 ```
 alias load [alias]
 ```
+
+**Examples**
+
+
+~~~
+// Load a command alias
+alias load /tmp/chrome-dump
+~~~
 
 **SEE ALSO**
 
@@ -236,9 +329,21 @@ alias load [alias]
 #### alias remove
 Remove an alias
 
+**Description**
+
+See Docs at https://sliver.sh/docs?name=Aliases%20and%20Extensions
+
 ```
 alias remove [alias]
 ```
+
+**Examples**
+
+
+~~~
+// Remove an alias
+alias remove rubeus
+~~~
 
 **SEE ALSO**
 
@@ -247,23 +352,40 @@ alias remove [alias]
 ### extension
 Extension commands
 
+**Description**
+
+See Docs at https://sliver.sh/docs?name=Aliases%20and%20Extensions
+
 ```
 extension
 ```
 
 **SEE ALSO**
 
-* [extension install](#extension_install.md)	 - Install an extension
-* [extension list](#extension_list.md)	 - List all extensions
-* [extension load](#extension_load.md)	 - Load an extension
-* [extension remove](#extension_remove.md)	 - Remove an extension
+* [extension install](#extension install)	 - Install an extension
+* [extension list](#extension list)	 - List all extensions
+* [extension load](#extension load)	 - Load an extension
+* [extension remove](#extension remove)	 - Remove an extension
 
 #### extension install
 Install an extension
 
+**Description**
+
+See Docs at https://sliver.sh/docs?name=Aliases%20and%20Extensions
+
 ```
 extension install [extension_file]
 ```
+
+**Examples**
+
+
+~~~
+// Install an extension
+extension install ./credman.tar.gz
+~~~
+
 
 **SEE ALSO**
 
@@ -271,6 +393,10 @@ extension install [extension_file]
 
 #### extension list
 List all extensions
+
+**Description**
+
+See Docs at https://sliver.sh/docs?name=Aliases%20and%20Extensions
 
 ```
 extension list
@@ -283,9 +409,22 @@ extension list
 #### extension load
 Load an extension
 
+**Description**
+
+See Docs at https://sliver.sh/docs?name=Aliases%20and%20Extensions
+
 ```
 extension load [extension]
 ```
+
+**Examples**
+
+
+~~~
+// Load an extension
+extension load ./credman/
+~~~
+
 
 **SEE ALSO**
 
@@ -294,18 +433,35 @@ extension load [extension]
 #### extension remove
 Remove an extension
 
+**Description**
+
+See Docs at https://sliver.sh/docs?name=Aliases%20and%20Extensions
+
 ```
 extension remove [extension]
 ```
+
+**Examples**
+
+
+~~~
+// Remove an extension
+extension remove credman
+~~~
+
 
 **SEE ALSO**
 
 * [extension](#extension)	 - Extension commands
 
 ### armory
-List available armory packages
+Automatically download and install extensions/aliases
 
-![armory](../assets\armory.gif)
+![armory](../assets/armory.gif)
+
+**Description**
+
+See Docs at https://sliver.sh/docs?name=Armory
 
 ```
 armory [flags]
@@ -323,21 +479,33 @@ armory [flags]
 
 **SEE ALSO**
 
-* [armory install](#armory_install.md)	 - Install a command armory
-* [armory search](#armory_search.md)	 - Search for armory packages
-* [armory update](#armory_update.md)	 - Update installed armory packages
+* [armory install](#armory install)	 - Install a command armory
+* [armory search](#armory search)	 - Search for armory packages
+* [armory update](#armory update)	 - Update installed armory packages
 
 #### armory install
 Install a command armory
+
+**Description**
+
+See Docs at https://sliver.sh/docs?name=Armory
 
 ```
 armory install [armory] [flags]
 ```
 
+**Examples**
+
+
+~~~
+// Install a command armory
+armory install rubeus 
+~~~
+
 **Options**
 
 ```
-  -a, --armory string   name of armory to install package from
+  -a, --armory string   name of the armory to install from (default "Default")
   -f, --force           force installation of package, overwriting the package if it exists
 ```
 
@@ -352,10 +520,14 @@ armory install [armory] [flags]
 
 **SEE ALSO**
 
-* [armory](#armory)	 - List available armory packages
+* [armory](#armory)	 - Automatically download and install extensions/aliases
 
 #### armory search
 Search for armory packages
+
+**Description**
+
+See Docs at https://sliver.sh/docs?name=Armory
 
 ```
 armory search [armory]
@@ -372,10 +544,14 @@ armory search [armory]
 
 **SEE ALSO**
 
-* [armory](#armory)	 - List available armory packages
+* [armory](#armory)	 - Automatically download and install extensions/aliases
 
 #### armory update
 Update installed armory packages
+
+**Description**
+
+See Docs at https://sliver.sh/docs?name=Armory
 
 ```
 armory update [flags]
@@ -384,7 +560,7 @@ armory update [flags]
 **Options**
 
 ```
-  -a, --armory string   name of armory to install package from
+  -a, --armory string   name of armory to install package from (default "Default")
 ```
 
 **Options inherited from parent commands**
@@ -398,7 +574,7 @@ armory update [flags]
 
 **SEE ALSO**
 
-* [armory](#armory)	 - List available armory packages
+* [armory](#armory)	 - Automatically download and install extensions/aliases
 
 ### mal
 mal commands
@@ -409,10 +585,10 @@ mal
 
 **SEE ALSO**
 
-* [mal install](#mal_install.md)	 - Install a mal manifest
-* [mal list](#mal_list.md)	 - List mal manifests
-* [mal load](#mal_load.md)	 - Load a mal manifest
-* [mal remove](#mal_remove.md)	 - Remove a mal manifest
+* [mal install](#mal install)	 - Install a mal manifest
+* [mal list](#mal list)	 - List mal manifests
+* [mal load](#mal load)	 - Load a mal manifest
+* [mal remove](#mal remove)	 - Remove a mal manifest
 
 #### mal install
 Install a mal manifest
@@ -512,9 +688,9 @@ tcp listener
 
 **SEE ALSO**
 
-* [tcp register](#tcp_register.md)	 - Register a new TCP pipeline and start it
-* [tcp start](#tcp_start.md)	 - Start a TCP pipeline
-* [tcp stop](#tcp_stop.md)	 - Stop a TCP pipeline
+* [tcp register](#tcp register)	 - Register a new TCP pipeline and start it
+* [tcp start](#tcp start)	 - Start a TCP pipeline
+* [tcp stop](#tcp stop)	 - Stop a TCP pipeline
 
 #### tcp register
 Register a new TCP pipeline and start it
@@ -543,7 +719,7 @@ tcp register listener --name tcp_test --host 192.168.0.43 --port 5003
 
 // Register a TCP pipeline with TLS enabled and specify certificate and key paths
 tcp register listener --tls --cert_path /path/to/cert --key_path /path/to/key
-			~~~
+~~~
 
 **Options**
 
@@ -575,7 +751,7 @@ tcp start
 
 ~~~
 tcp start tcp_test listener
-			~~~
+~~~
 
 **SEE ALSO**
 
@@ -621,9 +797,9 @@ website listener
 
 **SEE ALSO**
 
-* [website register](#website_register.md)	 - Register a new website and start it
-* [website start](#website_start.md)	 - Start a website
-* [website stop](#website_stop.md)	 - Stop a website
+* [website register](#website register)	 - Register a new website and start it
+* [website start](#website start)	 - Start a website
+* [website stop](#website stop)	 - Stop a website
 
 #### website register
 Register a new website and start it
@@ -686,7 +862,7 @@ website start
 
 ~~~
 website start web_test listener
-			~~~
+~~~
 
 **SEE ALSO**
 

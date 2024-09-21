@@ -77,7 +77,7 @@ nav:
   - IoM:
       - index: IoM/index.md
       - Design: IoM/design.md
-      - quickstart: IoM/quickstart.md
+      - Quickstart: IoM/quickstart.md
       - Concept: IoM/concept.md
       - Manual: 
             - index: IoM/manual/index.md
