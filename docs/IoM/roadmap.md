@@ -153,35 +153,36 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 	- [x] 优化编译时间
 - [ ] winkit
 	- [x] Inline PE
-	- [ ] RunPE cross arch
+	- [ ] RunPE cross arch  (推迟到v0.0.3)
 	- [x] Amsi Etw Community
 - [ ] 实现mal插件功能
 	- [x] 支持lua作为插件脚本语言(后续可能会支持CS的CNA)
 	- [x] 创建mals插件索引仓库
-	- [ ] 添加插件使用文档与插件开发文档
+	- [ ] 添加插件使用文档与插件开发文档  (推迟到v0.0.3)
 - [ ] 提供默认插件包
 	- [x] gogo
 	- [x] zombie
 	- [x] spray
-	- [ ] 默认的lua拓展包
-	- [ ] 基本Bofs, 参考Havok提供的BOF
+	- [ ] 默认的lua拓展包 (推迟到v0.0.3)
+	- [ ] 基本Bofs, 参考Havok提供的BOF  (推迟到v0.0.3)
 - [x] 添加第三方app通知的支持以及相关api
 
 ## v0.0.3
 
 - [ ] client
 	- [ ] 新增client端插件类型 golang
-	- [ ] 重构explore
+	- [ ] 重构explorer
 		- [ ] 实现process explorer
 		- [ ] 实现netstat explorer
 		- [ ] 实现services explorer
 	- [ ] 实现profile, 能自定义自动加载的插件集
 	- [ ] 初步实现通过client实现的自动化编译
+	- [ ] mals 插件仓库
+		- [ ] 实现插件从github自动下载管理
+		- [ ] 提供默认插件集合
 - [ ] server/listener
 	- [ ] 重构listener的parser, 尝试兼容第三方C2
-	- [ ] 实现python SDK
-	- [ ] 实现golang SDK
-	- [ ] mals 插件仓库
+	- [ ] 添加donut, srdi, sgn等rpc, 实现shellcode的自定义操作
 - [ ] implant
 	- [ ] 提供多运行时支持, tokio, futures
 	- [ ] 提供基本的流量加密选项
