@@ -2,7 +2,7 @@
 title: Internal of Malice · 开发
 ---
 
-## 新增 proto
+## 拓展 proto
 
 server与implant通过共享子模块定义通讯协议. 其中描述implant部分的请见: https://github.com/chainreactors/proto/blob/master/implant/implantpb/implant.proto
 
@@ -147,7 +147,7 @@ service MaliceRPC {
 
 好了, 定义部分现在就完成了, 可以编写对应的代码.
 
-## 新增rpc
+## 拓展rpc
 
 与malefic的module类似. server端的代码也是高度模板化的.
 
@@ -226,7 +226,7 @@ func CatCmd(ctx *grumble.Context, con *console.Console) {
 ```
 
 
-## 新增 module 
+## 拓展 module 
 
 当然， 也可以自行编写自己别具特色的 `Module` ， 我们提供了灵活的编写接口的模板, 最大程度减轻开发者的工作量
 
@@ -318,6 +318,10 @@ impl Module for Cat {
 **好了, 现在我们就成功编写了一个模块, 并打通了三端!**
 
 
-## 自定义alias/extension 开发🛠️
+## 自定义alias/extension 开发
+
+alias/extension 完全保留了sliver的特性, 可以在这里找到对应的文档
+
+https://github.com/BishopFox/sliver/wiki/Aliases-&-Extensions
 
 ## 自定义Mals插件开发 🛠️
