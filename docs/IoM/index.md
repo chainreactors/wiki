@@ -19,7 +19,7 @@ C2是比其他领域更具挑战性, 不管在设计上还是实现上都更为�
 !!! example "Features."
 
     - rust编写的implant, 实现全平台兼容
-    - 分布式部署的listener
+    - 分布式独立部署的listener
     - 专注于opsec (community不支持)
     - everything is fileless
     - 插件兼容, 兼容cobaltstrike的BOF与sliver的armory社区生态等等

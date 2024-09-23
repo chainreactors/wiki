@@ -1,3 +1,7 @@
+---
+title: Internal of Malice · 路线图
+---
+
 ## 整体方向
 
 **webshell 支持**
@@ -59,14 +63,13 @@ IoM  上的流量隧道不只是点对点的， 还将是网状的，甚至是�
     - [x] execute_dll
     - [x] inline_assembly
     - [x] inline_shellcode
-    - [ ] inline_pe
-    - [ ] inline_dll
+    - [x] inline_pe
+    - [x] inline_dll
     - [x] execute-bof
     - [ ] memfd
     - [x] 实现module热加载
-    - [ ] 兼容sliver armory extension的dll加载
+    - [x] 兼容sliver armory extension的dll加载
 - [x] 实现profile, 能自定义opsec特征
-- [ ] token模拟相关实现
 - [x] 进程操作
     - [x] 进程镂空（process hollowing）
     - [x] 进程注入（process inject）
@@ -75,8 +78,8 @@ IoM  上的流量隧道不只是点对点的， 还将是网状的，甚至是�
     - [x] 牺牲进程 （sacrifice process ）
     - [x] 父进程欺骗 （spoof parent process）
     - [x] 侧加载（sideload）
-    - [ ] bypass ETW
-    - [ ] bypass AMSI
+    - [x] bypass ETW
+    - [x] bypass AMSI
     - [x] BlockDLL
 - [ ] OPSEC
     - [x] syscall
@@ -134,44 +137,65 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 
 ## v0.0.2
 
-- [ ] 补全因部分测试项未通过导致v0.0.1未能如期发布的功能
+- [x] 补全因部分测试项未通过导致v0.0.1未能如期发布的功能
 - [ ] client端重构
-	- [ ] 从grumble切换到 https://github.com/reeflective/console
-	- [ ] 优化用户体验
-		- [ ] 提供配置文件生成与校验
-		- [ ] 优化TUI体验
-		- [ ] implant交互的基本命令按照其原本用法重写
-	- [ ] 支持website
+	- [x] 从grumble切换到 https://github.com/reeflective/console
+	- [x] 优化用户体验
+		- [x] 优化TUI体验
+		- [x] implant交互的基本命令按照其原本用法重写
+	- [x] 支持website
 - [ ] CI/CD支持
-	- [ ] 允许用户使用github action/docker等快速编译implant
-	- [ ] server/client的CI/CD
+	- [x] 允许用户使用github action/docker等快速编译implant
+	- [x] server/client的CI/CD
 - [ ] implant优化
-	- [ ] 减少依赖项
-	- [ ] 提供更多的编译选项, MSVC, MUSL等
+	- [x] 提供更多的编译选项, MSVC, MUSL等
+	- [x] 优化编译时间
+- [ ] winkit
+	- [x] Inline PE
+	- [ ] RunPE cross arch  (推迟到v0.0.3)
+	- [x] Amsi Etw Community
+- [ ] 实现mal插件功能
+	- [x] 支持lua作为插件脚本语言(后续可能会支持CS的CNA)
+	- [x] 创建mals插件索引仓库
+	- [ ] 添加插件使用文档与插件开发文档  (推迟到v0.0.3)
+- [ ] 提供默认插件包
+	- [x] gogo
+	- [x] zombie
+	- [x] spray
+	- [ ] 默认的lua拓展包 (推迟到v0.0.3)
+	- [ ] 基本Bofs, 参考Havok提供的BOF  (推迟到v0.0.3)
+- [x] 添加第三方app通知的支持以及相关api
+
+## v0.0.3
+
+- [ ] client
+	- [ ] 新增client端插件类型 golang
+	- [ ] 重构explorer
+		- [ ] 实现process explorer
+		- [ ] 实现netstat explorer
+		- [ ] 实现services explorer
+	- [ ] 实现profile, 能自定义自动加载的插件集
+	- [ ] 初步实现通过client实现的自动化编译
+	- [ ] mals 插件仓库
+		- [ ] 实现插件从github自动下载管理
+		- [ ] 提供默认插件集合
+- [ ] server/listener
+	- [ ] 重构listener的parser, 尝试兼容第三方C2
+	- [ ] 添加donut, srdi, sgn等rpc, 实现shellcode的自定义操作
+- [ ] implant
 	- [ ] 提供多运行时支持, tokio, futures
 	- [ ] 提供基本的流量加密选项
-	- [ ] 优化编译时间
-- [ ] winkit
-	- [ ] Inline PE
-	- [ ] RunPE cross arch
+	- [ ] 更优雅的自动化编译
+	- [ ] 新的原生module
+		- [ ] services操作
+		- [ ] 注册表操作
+		- [ ] 计划任务操作
+		- [ ] WMI/COM (待定)
 	- [ ] StackSpoofer
-	- [ ] SleepMask Community (maybe)
-	- [ ] Amsi Etw Community
-- [ ] 完成Professional相关功能打包并准备release
-- [ ] 实现mal插件功能
-	- [ ] 支持lua作为插件脚本语言(后续可能会支持CS的CNA)
-	- [ ] 创建mals插件索引仓库
-	- [ ] 添加插件使用文档与插件开发文档
-- [ ] 提供默认插件包
-	- [ ] gogo
-	- [ ] zombie
-	- [ ] spray
-	- [ ] 基本Bofs, 参考Havok提供的BOF
-- [ ] 添加第三方app通知的支持以及相关api
-- [ ] 待定
-	- [ ] ollvm
-	- [ ] stage 0 generator
-	- [ ] mals 插件仓库
+	- [ ] SleepMask Community 
+	- [ ] 实现stage 1 loader
+	- [ ] 实现autorun, 运行在编译时通过yaml配置一系列自动执行的任务
+	- [ ] token模拟相关实现
 
 ## 发布Professional
 
