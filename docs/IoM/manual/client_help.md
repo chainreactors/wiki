@@ -260,10 +260,10 @@ alias
 
 **SEE ALSO**
 
-* [alias install](#alias install)	 - Install a command alias
-* [alias list](#alias list)	 - List all aliases
-* [alias load](#alias load)	 - Load a command alias
-* [alias remove](#alias remove)	 - Remove an alias
+* [alias install](#alias-install)	 - Install a command alias
+* [alias list](#alias-list)	 - List all aliases
+* [alias load](#alias-load)	 - Load a command alias
+* [alias remove](#alias-remove)	 - Remove an alias
 
 #### alias install
 Install a command alias
@@ -362,10 +362,10 @@ extension
 
 **SEE ALSO**
 
-* [extension install](#extension install)	 - Install an extension
-* [extension list](#extension list)	 - List all extensions
-* [extension load](#extension load)	 - Load an extension
-* [extension remove](#extension remove)	 - Remove an extension
+* [extension install](#extension-install)	 - Install an extension
+* [extension list](#extension-list)	 - List all extensions
+* [extension load](#extension-load)	 - Load an extension
+* [extension remove](#extension-remove)	 - Remove an extension
 
 #### extension install
 Install an extension
@@ -479,9 +479,9 @@ armory [flags]
 
 **SEE ALSO**
 
-* [armory install](#armory install)	 - Install a command armory
-* [armory search](#armory search)	 - Search for armory packages
-* [armory update](#armory update)	 - Update installed armory packages
+* [armory install](#armory-install)	 - Install a command armory
+* [armory search](#armory-search)	 - Search for armory packages
+* [armory update](#armory-update)	 - Update installed armory packages
 
 #### armory install
 Install a command armory
@@ -585,10 +585,10 @@ mal
 
 **SEE ALSO**
 
-* [mal install](#mal install)	 - Install a mal manifest
-* [mal list](#mal list)	 - List mal manifests
-* [mal load](#mal load)	 - Load a mal manifest
-* [mal remove](#mal remove)	 - Remove a mal manifest
+* [mal install](#mal-install)	 - Install a mal manifest
+* [mal list](#mal-list)	 - List mal manifests
+* [mal load](#mal-load)	 - Load a mal manifest
+* [mal remove](#mal-remove)	 - Remove a mal manifest
 
 #### mal install
 Install a mal manifest
@@ -672,6 +672,8 @@ job
 ### tcp
 List tcp pipelines in listener
 
+![tcp](../assets/tcp.gif)
+
 **Description**
 
 Use a table to list TCP pipelines along with their corresponding listeners
@@ -688,9 +690,9 @@ tcp listener
 
 **SEE ALSO**
 
-* [tcp register](#tcp register)	 - Register a new TCP pipeline and start it
-* [tcp start](#tcp start)	 - Start a TCP pipeline
-* [tcp stop](#tcp stop)	 - Stop a TCP pipeline
+* [tcp register](#tcp-register)	 - Register a new TCP pipeline and start it
+* [tcp start](#tcp-start)	 - Start a TCP pipeline
+* [tcp stop](#tcp-stop)	 - Stop a TCP pipeline
 
 #### tcp register
 Register a new TCP pipeline and start it
@@ -797,9 +799,9 @@ website listener
 
 **SEE ALSO**
 
-* [website register](#website register)	 - Register a new website and start it
-* [website start](#website start)	 - Start a website
-* [website stop](#website stop)	 - Stop a website
+* [website register](#website-register)	 - Register a new website and start it
+* [website start](#website-start)	 - Start a website
+* [website stop](#website-stop)	 - Stop a website
 
 #### website register
 Register a new website and start it
