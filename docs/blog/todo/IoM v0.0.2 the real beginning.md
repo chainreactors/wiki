@@ -23,6 +23,7 @@ v0.0.2 是一次巨大的改动. 在仓促发布v0.0.1后, 我们同时对server
 
 对于IoM 这两者并无区别, IoM已经实现了需要加载的环境, 可以直接执行不同格式的插件. 所以在IoM新的client中, 我们不在区分这两者(在管理命令上有区分 ,在使用时无区分). 可以无缝执行所有的armory中的插件. 
 
+![](../../IoM/assets/armory.gif)
 
 #### notify
 
@@ -141,14 +142,15 @@ end
 在v0.0.2中, 我们修复了bug, 并重构了这几个功能, 现在能实现更强大更OPSEC的无文件攻击了. 
 
 ### 无文件攻击
-v0.0.2提供了6中不会创建新进程的无文件二进制文件的方式:
+v0.0.2提供了7中不会创建新进程的无文件二进制文件的方式:
 
-* inline_assembly , 等同于CS的execute_assembly当前无新进程创建的实现
+* execute_assembly , 等同于CS的execute_assembly, 但无新进程创建, 
 * inline_shellcode, 通过bof可实现类似inline的exe/dll的功能, 可以根据实际情况选用
 * inline_exe
 * inline_dll
-* powershell
+* powerpick![](../../IoM/assets/load_addon.gif)
 * bof
+* load_module
 
 也就是说, IoM现在不仅可以实现全程的无文件攻击, 还可以实现全程的无新进程攻击. 在OPSEC上迈出了新的一步. 
 
@@ -161,7 +163,7 @@ v0.0.2提供了6中不会创建新进程的无文件二进制文件的方式:
 * execute_dll
 * execute_exe
 
-(powershell, bof, assembly因为其特性, 目前不会阻塞本进程, 也不太会导致本进程崩溃, 所以只保留了更OPSEC版本)
+(powershell, assembly因为其特性, 目前不会阻塞本进程, 也不太会导致本进程崩溃, 所以只保留了更OPSEC版本)
 
 ### 新的编译方式
 
@@ -177,6 +179,10 @@ v0.0.2提供了6中不会创建新进程的无文件二进制文件的方式:
 
 只需要从github生成token, 然后使用gh cli 执行一行命令即可生成implant. 
 
+```
+gh workflow run generate.yml -f malefic_config=$(base64 </path/to/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu,i686-pc-windows-gnu," -R <username/malefic>
+```
+
 后续我们还会将目前需要手动执行命令的操作全都在server上自动实现, 使用client<->server交互即可实现可组装的implant的编译.
 
 ### addon
@@ -184,7 +190,7 @@ v0.0.2提供了6中不会创建新进程的无文件二进制文件的方式:
 
 在client提供了一组新的命令, 用来增删改查addon, 并且将对应的接口暴露给插件系统. 
 
-
+![](../../IoM/assets/load_addon.gif)
 ## v0.0.3 roadmap
 
 - [ ] client
@@ -214,6 +220,8 @@ v0.0.2提供了6中不会创建新进程的无文件二进制文件的方式:
 	- [ ] SleepMask Community 
 	- [ ] 实现stage 1 loader
 	- [ ] 实现autorun, 运行在编译时通过yaml配置一系列自动执行的任务
+	- [ ] token模拟相关实现
+
 
 有人也问过IoM与sliver有什么区别. 阅读了v0.0.2的更新公告, 应该能发现 IoM的架构与设计目标更加宏伟与激进. 
 
