@@ -242,7 +242,7 @@ ccc
 
 可以使用`--print`看到当前所有当前内置的配置. 
 
-![](assets/Pasted%20image%2020240829143848.png)
+![](assets/image_20240829143848.png)
 
 !!! warn "注意内置字典名字"
 	使用内置字典时, 不可以带后缀名用来与用户自定义字典区分. 例如dict目录下配置为`js.txt`, 在使用时请使用`-d js`
@@ -839,7 +839,7 @@ spray 并不鼓励使用递归, 因为 spray 的定位是批量从反代/cdn 中
 例如发现`index.php`存在, 就会根据 rule 与`baseurl` 生成如`~index.php`,`.index.php`, `index.php.bak`等字典加入到队列中.
 
 效果如下:
-![](assets/Pasted%20image%2020240826024605.png)
+![](assets/image_20240826024605.png)
 
 
 !!! tips "common与bak插件实际上使用了轻量级递归"

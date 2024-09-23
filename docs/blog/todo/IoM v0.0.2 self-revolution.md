@@ -15,7 +15,7 @@ v0.0.2 是一次巨大的改动. 在仓促发布v0.0.1后, 我们同时对server
 
 新的usage 渲染
 
-![](assets/Pasted%20image%2020240921042457.png)
+![](assets/image_20240921042457.png)
 
 #### 重构alias/extension
 
@@ -30,7 +30,7 @@ IoM现在原生支持第三方应用的通知.  目前我们支持了 telegram, 
 
 关于session上线, listener, pipeline, website的操作将自动发送到配置了的通知应用中. 
 
-![](assets/Pasted%20image%2020240919234428.png)
+![](assets/image_20240919234428.png)
 
 #### pipeline/website
 
@@ -70,7 +70,7 @@ listeners:
 
 在crtm中支持了iom(client) 与malice-network(server/listener) 的安装与管理
 
-![](assets/Pasted%20image%2020240919234032.png)
+![](assets/image_20240919234032.png)
 
 
 
@@ -219,7 +219,7 @@ v0.0.2提供了6中不会创建新进程的无文件二进制文件的方式:
 
 ## End
 
-![](assets/Pasted%20image%2020240914031643.png)
+![](assets/image_20240914031643.png)
 
 v0.0.1 实属仓猝发布, 有大量恶性bug以及实现到一半的功能. v0.0.2修复了近百个bug, 但还是只是稍微好一点点, 还是充满bug. 对于这一点我们很抱歉, 希望能在v0.1.0的时候达到基本可用的状态. 
 

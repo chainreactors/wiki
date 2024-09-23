@@ -42,7 +42,7 @@ ip为外网暴露的ip, 也可以直接在配置文件中修改, 用以省略`-i
 
 ![](assets/VNBYbUKdsokMfexhogfcKSLUnAh.png)
 
-#### 独立运行listener
+#### 独立运行listener (可选)
 
 从v0.0.2开始, 我们合并了listener与server两个二进制文件到`malice-network`
 
@@ -55,7 +55,7 @@ ip为外网暴露的ip, 也可以直接在配置文件中修改, 用以省略`-i
 ./malice-network -c listener.yaml
 ```
 
-![](assets/Pasted%20image%2020240903010041.png)
+![](assets/image_20240903010041.png)
 
 可以看到, 启动了独立的listener, 并与server建立了连接. 
 
@@ -125,7 +125,7 @@ make windows_x64
 
 这个时候输入`help` 将能看到这个session上下文完整可用的命令.  也可以在文档中找到[对应的用法](/wiki/IoM/manual/implant_help) . 
 
-![](assets/Pasted%20image%2020240819003338.png)
+![](assets/image_20240819003338.png)
 
 **Enjoy IoM**
 
