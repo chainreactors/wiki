@@ -1,3 +1,9 @@
+---
+date:
+  created: 2024-09-23
+slug: IoM_v0.0.2
+---
+
 
 v0.0.2 是一次巨大的改动. 在仓促发布v0.0.1后, 我们同时对server/client/listener/implant都开始了重构. 重构工程的代码量接近20000行, 是原本代码的一半. 
 
@@ -11,7 +17,7 @@ v0.0.2 是一次巨大的改动. 在仓促发布v0.0.1后, 我们同时对server
 
 我们带来了全新的client, 更优雅的命令补全, 提示与展示
 
-
+![](../../IoM/assets/completion.gif)
 
 新的usage 渲染
 
@@ -226,8 +232,6 @@ gh workflow run generate.yml -f malefic_config=$(base64 </path/to/config.yaml>) 
 有人也问过IoM与sliver有什么区别. 阅读了v0.0.2的更新公告, 应该能发现 IoM的架构与设计目标更加宏伟与激进. 
 
 ## End
-
-![](assets/image_20240914031643.png)
 
 v0.0.1 实属仓猝发布, 有大量恶性bug以及实现到一半的功能. v0.0.2修复了近百个bug, 但还是只是稍微好一点点, 还是充满bug. 对于这一点我们很抱歉, 希望能在v0.1.0的时候达到基本可用的状态. 
 
