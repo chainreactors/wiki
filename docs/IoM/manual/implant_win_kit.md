@@ -26,6 +26,8 @@ Fork&Run 虽然已经不是 opsec 的选择， 但是某些情况下还是避不
 
 - execute (默认启动牺牲进程， 无需增加参数）
 - execute_exe
+- execute_dll
+- execute_local
 - execute_shellcode
 
 我们也为 pe，shellcode 提供了更加 opsec 的 inline 版本(inline_pe/inline_shellcode).
@@ -56,23 +58,9 @@ execute_shellcode -p 8888 -n "notepad.exe" ./loader.bin
 
 #### Spoof Process Arguments
 
-由于所有的牺牲进程都会以 `SUSPEND` 参数启动， 因此在执行命令时， 我们可以对从启动到真正执行时的参数进行替换， 即调用函数进行启动时为假的命令， 真正启动时变为真的命令
+由于所有的牺牲进程都会以 `SUSPEND` 参数启动， 因此在执行命令时， 我们可以对从启动到真正执行时的参数进行替换， 即在创建牺牲进程时以伪装的命令创建， 而在牺牲进程执行时以真实命令运行， 我们为所有的带有牺牲进程的功能都提供了该参数
 
-可以使用 `argue` 命令来保存的假命令， 如
-
-```bash
-# 命令示例
-argue net fake_net
-```
-
-随后在牺牲进程启动时， 如传入参数为 `net` 将会替换为 `fake_net` 命令启动, 在执行命令时以 `net` 正确执行
-
-```bash
-# 命令示例
-executes -- "net xxxx xxx"
-```
-
-只需如此调用， 启动时将会自动变为 `fakenet xxxx xxx`， 而在真实调用时变为 `net xxxx xxx`
+真实参数将被写入保存进虚假参数的内存中， 因此， 如果真实参数比伪装参数长， 该功能将不会启用
 
 #### Blocking DLLs
 
@@ -84,12 +72,16 @@ executes -- "net xxxx xxx"
 
 在终端攻防漫长的对抗中， `AMSI` 及 `ETW` 的推出可谓是一石激起千层浪， 但当大家都位于 `r3` 时， 通过一些手法即可轻松绕过这些检测， 我们也在该版本中推出了基础 `bypass` 功能
 
-使用 `bypass` 命令来开启绕过 `AMSI` 及 `ETW` 检测
-
+使用 `bypass` 命令来开启绕过 `AMSI` 及 `ETW` 检测, 
 ```bash
 #使用示例
 bypass
 ```
+
+当然, 在某些功能使用时我们也会默认开启 `bypass` ， 例如
+
+- execute_assemble
+- powerpick
 
 ### Dll/EXE
 
@@ -103,7 +95,7 @@ bypass
 
 #### Inline PE
 
-某些极端情况下， 用户可能有在本进程执行 `PE` 文件的需求， 因此我们通过 `memory load pe` 技术以支持用户在 `Implant` 中执行 `PE` 文件
+某些极端情况下， 用户可能有在本进程执行 `PE` 文件的需求， 因此我们通过 `memory load pe` 技术以支持用户在 `Implant` 中执行 `PE` 文件, 我们将默认捕获 `PE` 文件的标准输出
 
 您可以使用 `inline_exe` / `inline_dll` 进行调用
 
@@ -111,7 +103,7 @@ bypass
 
 因此， 使用该功能时建议加上超时时间以防止您丢失自己的连接， 并且需要您自行评估 `inline` 执行的 `PE/DLL` 是否会伴随有内存问题
 
-> 可以以 `EXE` 形式正常执行并结束的工具并不代表其在编写时完美关闭所有其持有的句柄或完美释放内存， 由于在 `inline` 场景下， 我们可能会丧失对于工具本身内存/句柄的监控能力（也许在不远的将来会有所有内存分配/句柄持有的监控）， 因此使用时请着重小心 :)
+> 请注意，以`EXE` 形式正常执行并结束的工具并不代表其在编写时完美关闭所有其持有的句柄或完美释放内存， 由于在 `inline` 场景下， 我们可能会丧失对于工具本身内存/句柄的监控能力（也许在不远的将来会有所有内存分配/句柄持有的监控）， 因此使用时请着重小心 :)
 
 由于我们提供了 `BOF` 执行的功能， 因此我更推荐您使用上位代替， 即使用 `bof` 功能进行拓展功能的调用:)
 
@@ -171,7 +163,7 @@ execute_assemble Seatbelt.exe -- AMSIProviders
 
 ```bash
 # 使用示例
-powershell --script powerview.ps1 -- ";Get-NetProcess"
+powerpick --script powerview.ps1 -- ";Get-NetProcess"
 ```
 即使用 `unmanaged powershell` 执行 `powerview.ps1` 脚本中的 `Get-NetProcess` 命令
 
