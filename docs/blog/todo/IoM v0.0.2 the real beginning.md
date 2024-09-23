@@ -38,7 +38,7 @@ v0.0.1的pipeline与website命令设计存在问题, 并且存在多个bug. v0.0
 
 现在的client可以控制listener快速打开一个新的pipeline或website, 并实现了自动化的证书生成与管理.
 
-
+![](../../IoM/assets/tcp.gif)
 
 ## server
 

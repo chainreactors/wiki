@@ -255,7 +255,15 @@ powershell [cmdline] [flags]
 ```
 
 ### execute_assembly
-Loads and executes a .NET assembly in a child process (Windows Only)
+Loads and executes a .NET assembly in implant process (Windows Only)
+
+**Description**
+
+
+Load CLR assembly in implant process(will not create new process)
+
+if return 0x80004005, please use --amsi bypass.
+
 
 ```
 execute_assembly [file] [flags]
@@ -265,21 +273,19 @@ execute_assembly [file] [flags]
 
 Execute a .NET assembly without "-" arguments
 ~~~
-execute-assembly potato.exe "whoami"
+execute-assembly --amsi potato.exe "whoami" 
 ~~~
 Execute a .NET assembly with "-" arguments, you need add "--" before the arguments
 ~~~
-execute-assembly potato.exe -- -cmd "cmd /c whoami"
+execute-assembly --amsi potato.exe -- -cmd "cmd /c whoami"
 ~~~
 
 
 **Options**
 
 ```
-      --arch string      architecture amd64,x86
-  -n, --process string   custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
-  -q, --quit             disable output
-  -t, --timeout uint32   timeout, in seconds (default 60)
+      --amsi   disable AMSI
+      --etw    disable ETW
 ```
 
 ### execute_shellcode
@@ -323,6 +329,9 @@ Executes the given inline shellcode in the implant process
 
 
 The current shellcode injection method uses APC.
+
+!!! important ""instability warning!!!"
+	inline execute shellcode may cause the implant to crash, please use with caution.
 
 
 ```
@@ -392,7 +401,12 @@ Executes the given inline DLL in the current process
 
 **Description**
 
+
 use a custom Headless PE loader to load DLL in the current process.
+
+!!! important ""instability warning!!!"
+	inline execute dll may cause the implant to crash, please use with caution.
+
 
 ```
 inline_dll [dll] [flags]
@@ -421,6 +435,8 @@ inline_dll example.dll -e RunFunction -- arg1 arg2
 
 ### execute_exe
 Executes the given PE in the sacrifice process
+
+![execute_exe](../assets/execute_exe.gif)
 
 **Description**
 
@@ -456,7 +472,14 @@ Executes the given inline EXE in current process
 
 **Description**
 
+
 use a custom Headless PE loader to load EXE in the current process.
+
+!!! important ""instability warning!!!"
+	inline execute exe may cause the implant to crash, please use with caution.
+	
+	if double run same exe, More likely to crash
+
 
 ```
 inline_exe [exe] [flags]
@@ -525,6 +548,8 @@ powerpick -s powerview.ps1 -- Get-NetUser
 **Options**
 
 ```
+      --amsi            disable AMSI
+      --etw             disable ETW
   -s, --script string   powershell script
 ```
 
