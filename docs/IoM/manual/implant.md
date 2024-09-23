@@ -9,6 +9,7 @@ title: Internal of Malice · implant手册
 
 ## Build
 rust很复杂，不通过交叉编译的方式几乎无法实现所有架构的适配，所以我们参考了[cross-rs/cross](https://github.com/cross-rs/cross)的方案，但它并不完美的符合我们的需求：
+
 1. cross需要宿主机存在一个rust开发环境，编译环境不够干净，虽然这可以通过虚拟机、github action等方式解决
 2. cross对很多操作进行了封装，不够灵活，比如一些动态的变量引入、一些复杂的操作无法方便的实现
 
@@ -16,22 +17,22 @@ rust很复杂，不通过交叉编译的方式几乎无法实现所有架构的�
 这个项目提供了一些主流架构的编译环境。同时考虑到灵活性我们放弃了Makefile改用了具有强大功能的[cargo-make](https://github.com/sagiegurari/cargo-make)来管理编译任务.
 
 ### 目前支持的架构
-malefic理论上支持rust能编译的几乎所有平台, 包括各种冷门架构的IoT设备, Android系统, iOS系统等等 (有相关需求可以联系我们定制化适配)
-
-当前支持的架构可参考[cross-rust](https://github.com/chainreactors/cross-rust)
+malefic理论上支持rust能编译的几乎所有平台, 包括各种冷门架构的IoT设备, Android系统, iOS系统等等 (有相关需求可以联系我们定制化适配), 当前支持的架构可参考[cross-rust](https://github.com/chainreactors/cross-rust)
 
 ### 环境准备
 环境安装需要cargo-make、和docker 
-#### 安装cargo-make
+#### cargo-make
 有两种安装方式，一种是通过cargo安装，另一种是下载release版本的二进制文件
+
 1. cargo环境
-    ```
-    cargo install --force cargo-make
-    ```
+```
+cargo install --force cargo-make
+```
 2. 二进制文件
 
-    release链接: https://github.com/sagiegurari/cargo-make/releases
-    使用此方式的话，你需要把`makers.exe`和`cargo-make.exe`添加到PATH环境变量中，编译时的`cargo make`替换为等价的`makers`即可解析
+release链接: https://github.com/sagiegurari/cargo-make/releases
+使用此方式的话，你需要把`makers.exe`和`cargo-make.exe`添加到PATH环境变量中，编译时的`cargo make`替换为等价的`makers`即可解析
+
 #### 安装docker
 
 此处省略，可参考[官网介绍](https://www.docker.com/)
@@ -45,6 +46,18 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 
 !!! tips "注意clone子项目"
 	需要添加`--recurse-submodules`递归克隆子项目. 如果已经clone也不必担心,`git submodule update --init` 即可
+
+为了方便build，我们做了短名称映射完整映射如下：
+```
+"windows-x64-msvc" = "x86_64-pc-windows-msvc"
+"windows-x32-msvc" = "i686-pc-windows-msvc"
+"windows-x64-gnu" = "x86_64-pc-windows-gnu"
+"windows-x32-gnu" = "i686-pc-windows-gnu"
+"linux-x64-gnu" = "x86_64-unknown-linux-gnu"
+"linux-x32-gnu" = "i686-unknown-linux-gnu"
+"darwin-x64" = "x86_64-apple-darwin"
+"darwin-arm" = "aarch64-apple-darwin"
+```
 
 ### 本地编译
 安装好上述环境后，你即可通过`cargo-make`来编译impalnt，所有编译流程通过Makefile.toml进行了定义。
@@ -93,7 +106,7 @@ cargo make docker all
 
 ### Github Action编译环境
 #### 准备
-
+安装参考: https://docs.github.com/zh/github-cli/github-cli/quickstart
 #### 编译
 我们提供了github action编译环境，你可以通过gh来运行编译工作流，参考命令如下:
 
