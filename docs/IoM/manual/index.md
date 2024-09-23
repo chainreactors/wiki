@@ -1,3 +1,6 @@
+---
+title: Internal of Malice · manual
+---
 
 ## menu
 

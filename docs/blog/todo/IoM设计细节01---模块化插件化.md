@@ -1,3 +1,6 @@
+---
+slug: IoM_design_01
+---
 
 
 ## 背景
@@ -29,7 +32,7 @@ IDSL的优点非常多, 适合AI生成, 使用简单, 上手门槛低. 而缺点
 
 直到现在也只是小猫三两只, 原因就在于IDSL的表现力是不如EDSL更不如GPL的, 如果通过内嵌的python,javascript实现, 又会失去DSL的原本的优势. 
 
-![](assets/Pasted%20image%2020240823164515.png)
+![](assets/image_20240823164515.png)
 
 
 ### External DSL

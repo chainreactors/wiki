@@ -85,7 +85,7 @@ IoM将在v0.0.1-community发布的一些功能展示.
 ![](assets/6c57fd88c5df13912382166a41b7b23.png)
 
 **注册插件**
-![](assets/Pasted%20image%2020240816181210.png)
+![](assets/image_20240816181210.png)
 
 **unmanaged powershell**
 ![](assets/img_v3_02dq_7800ac0c-b7fd-47e8-b6a8-f3013d8a83fg.jpg)

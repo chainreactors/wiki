@@ -76,29 +76,32 @@ nav:
   - 导航: index.md
   - IoM:
       - index: IoM/index.md
-      - 设计: IoM/design.md
-      - quickstart: IoM/quickstart.md
-      - 用户手册: 
+      - Design: IoM/design.md
+      - Quickstart: IoM/quickstart.md
+      - Concept: IoM/concept.md
+      - Manual: 
             - index: IoM/manual/index.md
             - IoM部署: IoM/manual/deploy.md
-            - 使用说明: IoM/manual/help.md
+            - 使用说明: 
+                - client-help: IoM/manual/client_help.md
+                - implant-help: IoM/manual/implant_help.md
             - implant文档: 
                 - malefic使用手册: IoM/manual/implant.md
                 - malefic-win-kit: IoM/manual/implant_win_kit.md
             - 二次开发文档: IoM/manual/develop.md
-      - 路线图: IoM/roadmap.md
+      - RoadMap: IoM/roadmap.md
   - gogo:
       - index: gogo/index.md
       - 入门: gogo/start.md
       - 设计: gogo/design.md
-      - 细节: gogo/detail.md
+      - 细节: gogo/concept.md
       - 拓展: gogo/extension.md
       - 实战: gogo/do.md
   - spray:
       - index: spray/index.md
       - 入门: spray/start.md
       - 设计: spray/design.md
-      - 细节: spray/detail.md
+      - 细节: spray/concept.md
       - 实战: spray/do.md
   - zombie:
       - index: zombie/index.md
