@@ -127,7 +127,8 @@ linux: export GH_TOKEN="your_authentication"
 #### 触发action
 配置完所需要的config.yaml配置后, 你可以通过gh来运行编译工作流，参考命令如下
 ```bash
-gh workflow run generate.yml -f malefic_config=$(base64 </path/to/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu,i686-pc-windows-gnu," -R <username/malefic>
+# linux
+gh workflow run generate.yml -f malefic_config=$(base64 -w 0 </path/to/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu,i686-pc-windows-gnu," -R <username/malefic>
 ```
 查看编译进度
 ```bash
