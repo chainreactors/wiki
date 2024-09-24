@@ -136,7 +136,7 @@ gh run download -R <username/malefic>
 ![download-artifact-in-web.png](../assets/download-artifact-in-web.png)
 
 !!! danger "保护敏感信息"
-我们对config进行[add-mask](https://github.com/chainreactors/malefic/blob/master/.github/workflows/generate.yml#L58)处理,保护config.yaml的敏感数据，但是输出的log、artifact、release仍会暴露或多或少的信息, 使用时建议创建一份private的malefic再使用。
+	我们对config进行[add-mask](https://github.com/chainreactors/malefic/blob/master/.github/workflows/generate.yml#L58)处理,保护config.yaml的敏感数据，但是输出的log、artifact、release仍会暴露或多或少的信息, 使用时建议创建一份private的malefic再使用。
 
 #### windows-tips
 
@@ -359,75 +359,13 @@ implant端各种opsec与高级特性的配置.  在community中带🔒表示配�
     * `file_description`
     * `internal_name`
 
-#### apis 🔒
-
-在 `EDR` 的对抗分析中， 我们支持在组装 `Implant` 时由用户自行选择使用各级别的 `API`， 如直接调用系统 `API`, 动态获取并调用， 通过 `sysall` 调用，这可以有效减少程序 `Import` 表所引入的的特征
-
-在 `syscall` 调用中， 我们支持使用各类门技术来调用系统调用而非直接调用用户层 `API`， 以防止 `EDR` 对常用红队使用的 `API` 进行监控， 如何配置可见 `Implant Config File` 对应 `apis` 部分
-
-* apis: 
-    * `level` : 使用上层api还是nt api, `"sys_apis"` , `"nt_apis`
-    * `priority`:
-        * `normal` : 直接调用 
-        * `dynamic` : 动态调用
-            * `type`: 如自定义获取函数地址方法 `user_defined_dynamic`, 系统方法`sys_dynamic` (`LoadLibraryA/GetProcAddress`)
-        * `syscall`: 通过 `syscall`调用
-            * `type`: 生成方式, 函数式 `func_syscall`, inline 调用 `inline_syscall
-
-
-#### alloctor 🔒
-* allactor: 
-    * `inprocess`: 进程内分配函数, `VirtualAlloc`, `VirtualAllocEx`, `HeapAlloc`, `NtAllocateVirtualMemory`, `VirtualAllocExNuma`, `NtMapViewOfSection`
-    * `crossprocess`: 进程间分配函数, `VirtualAllocEx`, `NtAllocateVirtualMemory`,
-    `VirtualAllocExNuma`, `NtMapViewOfSection`
-
-#### advance feautres 🔒
-
-`sleep_mask`: 睡眠混淆是否开启 👤
-
-`sacriface_process`: 是否需要牺牲进程功能
-
-`fork_and_run`: 是否需要使用 `fork and run` 机制
-
-`hook_exit`: 是否需要对退出函数进行 `hook` 以防止误操作导致的退出
-
-`thread_task_spoofer`: 是否需要自定义线程调用堆栈 👤
-
 ## Module
 
 module是implant中功能的基本单元, 各种拓展能力(bof,pe,dll)的执行也依赖于module实现. 
 
 ### 已实现modules
 
-不同操作系统与架构支持的module不同. 具体支持下表:
-
-| 功能                | windows-x86 | windows-x86_64 | windows-arm* | linux-x86_64 | linux-arm | linux-aarch64 | macOS-intel | macOS-arm |
-| ----------------- | ----------- | -------------- | ------------ | ------------ | --------- | ------------- | ----------- | --------- |
-| ls                | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| cd                | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| mv                | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| pwd               | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| mem               | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| mkdir             | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| chomd             | ✗           | ✗              | ✗            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| chown             | ✗           | ✗              | ✗            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| cat               | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| upload            | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| download          | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| env               | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| kill              | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| whoami            | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| ps                | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| netstat           | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| exec              | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| command           | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| execute_shellcode | ✓           | ✓              | ✓            | ✓            | ✓         | ✓             | ✓           | ✓         |
-| execute_assembly  | ✓           | ✓              | ✓            | ✗            | ✗         | ✗             | ✗           | ✗         |
-| powershell        | ✓           | ✓              | ✓            | ✗            | ✗         | ✗             | ✗           | ✗         |
-| execute_pe        | ✓           | ✓              | ✓            | ✗            | ✗         | ✗             | ✗           | ✗         |
-| execute_bof       | ✓           | ✓              | ✓            | ✗            | ✗         | ✗             | ✗           | ✗         |
-| hot_module_load   | ✓           | ✓              | ✓            | ✗            | ✗         | ✗             | ✗           | ✗         |
-
+请见: https://github.com/chainreactors/malefic/blob/master/malefic-modules/Cargo.toml#L24-L58
 
 ### Professional Features 🔒
 
@@ -517,7 +455,7 @@ extend = [
 
 #### module定义
 
-模块的开发者绝大多数场景下不需要关注除了`run`之外的方法. [开发自定义模块请见文档](IoM/manual/develop/#module)
+模块的开发者绝大多数场景下不需要关注除了`run`之外的方法. [开发自定义模块请见文档](/wiki/IoM/manual/develop/#module)
 
 ```rust
 #[async_trait]
@@ -533,7 +471,7 @@ pub trait Module {
 
 #### module管理
 
-就像开始所说的那样， `malefic` 支持编译时组装所需功能模块， 同时也支持启动后动态的加载和卸载所需的功能模块. 我们提供了一组api用来管理模块.  具体的使用请见[使用文档module部分](IoM/manual/help/#_2)
+就像开始所说的那样， `malefic` 支持编译时组装所需功能模块， 同时也支持启动后动态的加载和卸载所需的功能模块. 我们提供了一组api用来管理模块.  具体的使用请见[使用文档module部分](/wiki/IoM/manual/implant_help/#list_module)
 
 - `list_modules` 命令允许列举当前 `Implant` 所持有的模块
 - `load_modules` 命令则支持动态加载本地新组装的模块， 只需要 `load_modules --name xxx --path module.dll` 即可动态加载新的模块， 请注意， 如本体已经含有的模块（生成时组装的模块）， 再次加载将会覆盖该模块的功能， 是的， `load_modules` 允许覆盖本体功能
