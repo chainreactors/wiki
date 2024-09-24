@@ -105,19 +105,26 @@ cargo make docker all
 ```
 
 ### Github Action编译环境
-#### 准备
-安装参考: https://docs.github.com/zh/github-cli/github-cli/quickstart
+#### 准备1-安装ghcli
+安装gh cli参考: https://docs.github.com/zh/github-cli/github-cli/quickstart
+#### 准备2-EnableGithubAction
+你需要在如下位置打开action，否则会出现workflow not found的问题
+![enable-github-action.png](../assets/enable-github-action.png))
 #### 编译
 我们提供了github action编译环境，你可以通过gh来运行编译工作流，参考命令如下:
-
-首先使用gh登录github
-```shell
-# 交互式登录 github
+#### 通过gh登录
+使用gh登录github,有两种方式，一种是交互式登录，另一种是使用token登录
+##### 交互式登录 github
+```bash
 gh auth login
-# 或者使用token
+```
+##### 使用token登录
+需要在https://github.com/settings/tokens配置一个有workflow权限的token
+```
 windows: $ENV:GH_TOKEN="your_authentication"
 linux: export GH_TOKEN="your_authentication"
 ```
+#### 触发action
 配置完所需要的config.yaml配置后, 你可以通过gh来运行编译工作流，参考命令如下
 ```bash
 gh workflow run generate.yml -f malefic_config=$(base64 </path/to/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu,i686-pc-windows-gnu," -R <username/malefic>
@@ -132,7 +139,12 @@ gh run download -R <username/malefic>
 ```
 ![gh-run-list-download](../assets/gh-run-list-download.png)
 
-注意windows可能没有`base64`, 你可以通过`notepad $PROFILE`自定义一条函数
+!!! danger "保护敏感信息"
+我们对config进行[add-mask](https://github.com/chainreactors/malefic/blob/master/.github/workflows/generate.yml#L58)处理,保护config.yaml的敏感数据，但是github action输出的artifact或release仍会暴露信息, 使用时建议创建一份malefic到自己的仓库中设置为private再使用。
+
+#### 注意
+
+注意windows用户可能没有`base64`, 你可以通过`notepad $PROFILE`自定义一条函数
 ```powershell
 function base64 {
     [CmdletBinding()]
@@ -173,11 +185,6 @@ function base64 {
     }
 }
 ```
-
-
-
-!!! danger "保护敏感信息"
-    我们对config进行[add-mask](https://github.com/chainreactors/malefic/blob/master/.github/workflows/generate.yml#L58)处理,保护config.yaml的敏感数据，但是github action输出的artifact或release仍会暴露, 使用时建议创建一份malefic到自己的仓库中设置为private再使用。
 
 ### 手动编译malefic
 
