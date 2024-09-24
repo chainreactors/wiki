@@ -207,7 +207,7 @@ makers local x86_64-pc-windows-gnu
 
 ### 手动编译malefic
 
-项目的配置(config.toml、cargo.toml、makefile.toml..)中提供了一些预设和编译优化选项. 熟悉rust的使用者也可以手动编译
+项目的配置(config.toml、cargo.toml、makefile.toml..)中提供了一些预设和编译优化选项. 熟悉rust的使用者也可以手动编译，malefic目前使用的rust版本是`nightly-2024-08-16`.
 
 添加对应的目标编译架构,以`x86_64-pc-windows-gnu`为例
 ```bash
