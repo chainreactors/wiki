@@ -89,7 +89,7 @@ cargo make docker windows-x64-gnu windows-x64-msvc windows-x32-gnu linux-x64-gnu
 cargo make docker all
 ```
 
-### Github Action编译环境(推荐)
+### Github Action编译(推荐)
 #### 1. enable action
 你需要在仓库中打开action，否则会出现workflow not found的问题
 ![enable-github-action.png](../assets/enable-github-action.png))
