@@ -4,6 +4,45 @@ title: Internal of Malice · implant_win_kit
 
 > 本文档旨在记录 `Windows` 平台 `kit` 相关拓展性功能及内容 :-)
 
+### Config
+
+在 `config.yaml` 中， 通过简单的配置可以操控和修改大量底层实现， 具体可调配项如下所示
+
+#### apis 🔒
+
+在 `EDR` 的对抗分析中， 我们支持在组装 `Implant` 时由用户自行选择使用各级别的 `API`， 如直接调用系统 `API`, 动态获取并调用， 通过 `sysall` 调用，这可以有效减少程序 `Import` 表所引入的的特征
+
+在 `syscall` 调用中， 我们支持使用各类门技术来调用系统调用而非直接调用用户层 `API`， 以防止 `EDR` 对常用红队使用的 `API` 进行监控， 如何配置可见 `Implant Config File` 对应 `apis` 部分
+
+* apis: 
+    * `level` : 使用上层api还是nt api, `"sys_apis"` , `"nt_apis`
+    * `priority`:
+        * `normal` : 直接调用 
+        * `dynamic` : 动态调用
+            * `type`: 如自定义获取函数地址方法 `user_defined_dynamic`, 系统方法`sys_dynamic` (`LoadLibraryA/GetProcAddress`)
+        * `syscall`: 通过 `syscall`调用
+            * `type`: 生成方式, 函数式 `func_syscall`, inline 调用 `inline_syscall
+
+
+#### alloctor 🔒
+* allactor: 
+    * `inprocess`: 进程内分配函数, `VirtualAlloc`, `VirtualAllocEx`, `HeapAlloc`, `NtAllocateVirtualMemory`, `VirtualAllocExNuma`, `NtMapViewOfSection`
+    * `crossprocess`: 进程间分配函数, `VirtualAllocEx`, `NtAllocateVirtualMemory`,
+    `VirtualAllocExNuma`, `NtMapViewOfSection`
+
+#### advance feautres 🔒
+
+`sleep_mask`: 睡眠混淆是否开启 👤
+
+`sacriface_process`: 是否需要牺牲进程功能
+
+`fork_and_run`: 是否需要使用 `fork and run` 机制
+
+`hook_exit`: 是否需要对退出函数进行 `hook` 以防止误操作导致的退出
+
+`thread_task_spoofer`: 是否需要自定义线程调用堆栈 👤
+
+
 ### Process
 
 #### Process hollow
