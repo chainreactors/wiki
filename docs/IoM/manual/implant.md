@@ -52,6 +52,7 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 	需要添加`--recurse-submodules`递归克隆子项目. 如果已经clone也不必担心,`git submodule update --init` 即可
 
 #### tips
+安装好上述环境后，你即可通过`cargo-make`来编译impalnt，所有编译流程通过Makefile.toml进行了定义。
 
 为了方便build，我们做了短名称映射，后续所有操作都可以用“短名称”或“target原始值”，完整映射如下：
 ```
@@ -187,9 +188,7 @@ function base64 {
 ```
 
 ### 本地编译
-安装好上述环境后，你即可通过`cargo-make`来编译impalnt，所有编译流程通过Makefile.toml进行了定义。
-由于本地环境的限制，所以任务里只提供单个target的编译任务，如果需要多平台交叉请使用`docker`编译.
-
+由于本地环境的限制，所以任务里只提供单个target的编译任务，如果需要交叉编译请使用`Docker`编译.
 以`x86_64-pc-windows-gnu/msvc`为例，
 cargo make可以通过如下命令来编译。
 ```bash
