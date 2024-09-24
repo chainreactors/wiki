@@ -91,16 +91,16 @@ https://github.com/chainreactors/malice-network/tree/master/server
 
 server是数据处理的核心, client/listener 都会通过grpc与server进行交互, implant则是通过 listener上的pipeline间接与server进行交互.
 
-所有的数据都在server中维护, 再client/listener中只会保留只读副本.  
+所有的数据都在server中维护, 在client/listener中只会保留只读副本.  
 
 
-server维护了一下状态集合(内存中只会保留存活的, 所有的数据保存于数据库中):
+server维护了一组状态集合(内存中只会保留当前存活的, 历史数据保存于数据库中):
 
-* client , 正在连接的所有的用户
-* listener, 正在连接的所有listener
-* job, 所有的pipeline, 包括(tcp, website等)
+* clients , 正在连接的所有的用户
+* listeners, 正在连接的所有listener
+* jobs, 所有的pipeline, 包括(tcp, website等)
 * event, 将会轮询所有用户, 将event广播至每个用户
-* session, 存活的implant, session还为每个implant维护了一些子状态集
+* sessions, 存活的implant, session还为每个implant维护了一些子状态集
 
 ### session
 
