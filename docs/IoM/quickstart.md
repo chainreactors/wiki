@@ -84,40 +84,13 @@ ip为外网暴露的ip, 也可以直接在配置文件中修改, 用以省略`-i
 
 对于rust新手来说, 我们提供了提前准备好的编译环境. 免得复杂的环境搭建劝退.
 
-因为rust环境安装与编译的复杂性, 我们提供了 `Docker` 环境来进行编译, 通过提前配置好的环境一键交叉编译implant.
+我们提供了如下几种方式进行编译：
+1. 本地编译
+2. Github Action编译环境(推荐)
+3. Docker 编译(推荐)
+4. 手动编译
 
-```bash
-docker pull ghcr.io/chainreactors/malefic-builder:v0.0.1-gnu
-```
-或本地构建docker镜像
-```
-docker build -f builder/Dockerfile.GNU -t malefic-builder . 
-```
-
-随后使用
-```bash
-docker run -v "$PWD/:/root/src" -it --name malefic-builder ghcr.io/chainreactors/malefic-builder:v0.0.1-gnu bash
-```
-
-在其中使用 `make` 命令进行对应环境的编译. (这里演示win64的编译, 其他操作系统和架构编译见: [implant编译](/wiki/IoM/manual/implant/#build))
-
-docker使用目录映射的方式创建, 所以只需要在本地修改`config.yaml`中的server字段, 完整对应的配置, 然后进行编译即可.  ([完整的config文档]((/wiki/IoM/manual/implant/#config))
-
-```bash
-make windows_x64
-```
-
-生成的文件将在对应 `target\[target]\release\malefic.exe` 中
-
-因为是通过目录映射创建的docker容器, 可以将其从docker中复制出也可以在本机的对应目录找到编译结果.  
-
-```
-./malefic.exe
-```
-
-将会在client中看到session的上线记录. 
-
-[本机手动编译文档](/wiki/IoM/manual/implant/#compile)
+编译完整说明手册[implant手册](/wiki/IoM/manual/implant/)
 
 ### 操作implant
 

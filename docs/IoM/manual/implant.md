@@ -14,32 +14,36 @@ rust很复杂，不通过交叉编译的方式几乎无法实现所有架构的�
 2. cross对很多操作进行了封装，不够灵活，比如一些动态的变量引入、一些复杂的操作无法方便的实现
 
 因此，我们参考了cross创建了用于维护malefic(即implant)编译的仓库[chainreactors/cross-rust](https://github.com/chainreactors/cross-rust).
-这个项目提供了一些主流架构的编译环境。同时考虑到灵活性我们放弃了Makefile改用了具有强大功能的[cargo-make](https://github.com/sagiegurari/cargo-make)来管理编译任务.
+这个项目提供了一些主流架构的编译环境。同时考虑到灵活性我们放弃了make改用了具有强大功能的[cargo-make](https://github.com/sagiegurari/cargo-make)来管理编译任务.
 
 ### 目前支持的架构
 malefic理论上支持rust能编译的几乎所有平台, 包括各种冷门架构的IoT设备, Android系统, iOS系统等等 (有相关需求可以联系我们定制化适配), 当前支持的架构可参考[cross-rust](https://github.com/chainreactors/cross-rust)
 
 ### 环境准备
-环境安装需要cargo-make、和docker 
-#### cargo-make
+环境安装需要cargo-make和docker 
+#### cargo-make install
 有两种安装方式，一种是通过cargo安装，另一种是下载release版本的二进制文件
 
-1. cargo环境
+1. cargo安装
 ```
 cargo install --force cargo-make
 ```
-2. 二进制文件
-
+2. 二进制文件安装
+没有cargo环境的情况下，你可以直接下载release版本的二进制文件，然后添加到PATH环境变量中
 release链接: https://github.com/sagiegurari/cargo-make/releases
-使用此方式的话，你需要把`makers.exe`和`cargo-make.exe`添加到PATH环境变量中，编译时的`cargo make`替换为等价的`makers`即可解析
 
-#### 安装docker
+此方式，你需要把`makers.exe`和`cargo-make.exe`添加到PATH环境变量中，后续说明中的所有`cargo make`操作替换为等价的`makers`即可，如：
+```bash
+cargo make local windows-x64-gnu
+#等价于
+makers local windows-x64-gnu
+```
+
+#### docker install
 
 此处省略，可参考[官网介绍](https://www.docker.com/)
 
-### 编译准备
-克隆[malefic](https://github.com/chainreactors/malefic)
-
+#### git clone
 ```
 git clone --recurse-submodules https://github.com/chainreactors/malefic
 ```
@@ -47,7 +51,9 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 !!! tips "注意clone子项目"
 	需要添加`--recurse-submodules`递归克隆子项目. 如果已经clone也不必担心,`git submodule update --init` 即可
 
-为了方便build，我们做了短名称映射完整映射如下：
+#### tips
+
+为了方便build，我们做了短名称映射，后续所有操作都可以用“短名称”或“target原始值”，完整映射如下：
 ```
 "windows-x64-msvc" = "x86_64-pc-windows-msvc"
 "windows-x32-msvc" = "i686-pc-windows-msvc"
@@ -59,27 +65,7 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 "darwin-arm" = "aarch64-apple-darwin"
 ```
 
-### 本地编译
-安装好上述环境后，你即可通过`cargo-make`来编译impalnt，所有编译流程通过Makefile.toml进行了定义。
-由于本地环境的限制，所以任务里只提供单个target的编译任务，如果需要多平台交叉请使用`docker`编译.
-
-以`x86_64-pc-windows-gnu/msvc`为例，
-cargo make可以通过如下命令来编译。
-```bash
-# 任务名称做了兼容既可以用短名称也可使用target原值，所以如下两个命令等价
-cargo make local windows-x64-gnu # 短名称
-cargo make local x86_64-pc-windows-gnu # target名称
-# 同理，如下两个命令等价
-cargo make local windows-x64-msvc
-cargo make local x86_64-pc-windows-msvc
-```
-makers同理
-```bash
-makers local windows-x64-gnu
-makers local x86_64-pc-windows-gnu
-```
-
-### Docker编译
+### Docker编译(推荐)
 在docker中编译环境更加干净，编译使用了volume挂载源码，所以编译完成后依然会在`target`目录下生成对应的可执行文件。
 
 #### 编译单个target
@@ -98,54 +84,67 @@ makers docker x86_64-pc-windows-gnu
 ```bash
 cargo make docker windows-x64-gnu windows-x64-msvc windows-x32-gnu linux-x64-gnu linux-x32-gnu
 ```
-
-#### 一键编译所有支持的target
+#### 编译所有target
 ```bash
 cargo make docker all
 ```
 
-### Github Action编译环境
-#### 准备1-安装ghcli
-安装gh cli参考: https://docs.github.com/zh/github-cli/github-cli/quickstart
-#### 准备2-EnableGithubAction
-你需要在如下位置打开action，否则会出现workflow not found的问题
+### Github Action编译环境(推荐)
+#### 1. enable action
+你需要在仓库中打开action，否则会出现workflow not found的问题
 ![enable-github-action.png](../assets/enable-github-action.png))
-#### 编译
-我们提供了github action编译环境，你可以通过gh来运行编译工作流，参考命令如下:
-#### 通过gh登录
-使用gh登录github,有两种方式，一种是交互式登录，另一种是使用token登录
-##### 交互式登录 github
+#### 2. gh install
+安装gh cli参考: https://docs.github.com/zh/github-cli/github-cli/quickstart
+#### 3. gh login
+你可以使用gh登录github，有两种方式，一种是交互式登录，另一种是使用token登录
+1. 交互式登录
 ```bash
 gh auth login
 ```
-##### 使用token登录
-需要在https://github.com/settings/tokens配置一个有workflow权限的token
+2. 使用token登录
 ```
 windows: $ENV:GH_TOKEN="your_authentication"
 linux: export GH_TOKEN="your_authentication"
 ```
-#### 触发action
+注：此方式需要在https://github.com/settings/tokens配置一个有workflow权限的token
+
+#### 4. Compile via action
 配置完所需要的config.yaml配置后, 你可以通过gh来运行编译工作流，参考命令如下
 ```bash
-# linux
-gh workflow run generate.yml -f malefic_config=$(base64 -w 0 </path/to/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu,i686-pc-windows-gnu," -R <username/malefic>
+gh workflow run generate.yml -f malefic_config=$(base64 -w 0 </path/to/config.yaml>) -f remark="write somthing.." -f targets="windows-x64-gnu,windows-x32-gnu" -R <username/malefic>
 ```
-查看编译进度
+tips: windows需要添加wsl的path才可使用base64,参考如下
+```
+$env:Path = -join ("/usr/bin;","$env:Path")
+```
+#### 5. 查看编译进度
 ```bash
 gh run list -R <username/malefic>
 ```
-根据填写的remark和run_id，你可以很方便的找到对应的artifact下载(artifact默认保留时间为3天,可自行更改[retention-days](https://github.com/chainreactors/malefic/blob/master/.github/workflows/generate.yml#L90))
+#### 6.download artifact
+填写的remark和run_id可以帮你找到对应的artifact(由于账户的大小限制,artifact默认保留时间为3天,防止仓库容量不够用，你可自行更改[retention-days](https://github.com/chainreactors/malefic/blob/master/.github/workflows/generate.yml#L87))
+
+1. 通过gh下载
 ```bash
 gh run download -R <username/malefic>
 ```
 ![gh-run-list-download](../assets/gh-run-list-download.png)
 
+2. 通过浏览器下载
+当然，你也可以通过浏览器直接在对应的action中的summary部分下载.
+
+![download-artifact-in-web.png](../assets/download-artifact-in-web.png)
+
 !!! danger "保护敏感信息"
-我们对config进行[add-mask](https://github.com/chainreactors/malefic/blob/master/.github/workflows/generate.yml#L58)处理,保护config.yaml的敏感数据，但是github action输出的artifact或release仍会暴露信息, 使用时建议创建一份malefic到自己的仓库中设置为private再使用。
+我们对config进行[add-mask](https://github.com/chainreactors/malefic/blob/master/.github/workflows/generate.yml#L58)处理,保护config.yaml的敏感数据，但是输出的log、artifact、release仍会暴露或多或少的信息, 使用时建议创建一份private的malefic再使用。
 
-#### 注意
+#### windows-tips
 
-注意windows用户可能没有`base64`, 你可以通过`notepad $PROFILE`自定义一条函数
+没有`wsl`, 你可以通过`notepad $PROFILE`自定义一条base64函数即可
+```powershell
+gh workflow run generate.yml -f malefic_config=$(base64 </path/to/config.yaml>) -f remark="write somthing.." -f targets="windows-x64-gnu,windows-x32-gnu" -R <username/malefic>
+```
+完整函数如下
 ```powershell
 function base64 {
     [CmdletBinding()]
@@ -185,6 +184,26 @@ function base64 {
         }
     }
 }
+```
+
+### 本地编译
+安装好上述环境后，你即可通过`cargo-make`来编译impalnt，所有编译流程通过Makefile.toml进行了定义。
+由于本地环境的限制，所以任务里只提供单个target的编译任务，如果需要多平台交叉请使用`docker`编译.
+
+以`x86_64-pc-windows-gnu/msvc`为例，
+cargo make可以通过如下命令来编译。
+```bash
+# 任务名称做了兼容既可以用短名称也可使用target原值，所以如下两个命令等价
+cargo make local windows-x64-gnu # 短名称
+cargo make local x86_64-pc-windows-gnu # target名称
+# 同理，如下两个命令等价
+cargo make local windows-x64-msvc
+cargo make local x86_64-pc-windows-msvc
+```
+makers同理
+```bash
+makers local windows-x64-gnu
+makers local x86_64-pc-windows-gnu
 ```
 
 ### 手动编译malefic
