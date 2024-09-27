@@ -6,16 +6,6 @@ mapping 是一个面向红队的攻击面管理平台(ASM). 也是 chainreactor 
 
 mapping 不是不同工具的堆积, 而是达到临界质量的链式反应。
 
-!!! example "Features."
-
-    * 全平台兼容
-    * 正向代理与反向代理
-    * 正向端口转发与反向端口转发
-    * 本地正向端口转发与本地反向端口转发(cobaltstrike中的rportfwd_local)]
-    * 多种协议的多级代理支持, socks,http,neoreg等
-    * 级联
-    * 流量特征自定义与加密方式自定义
-    * 多信道支持, udp,tcp,icmp,websocket,wireguard等
 
 ## 目录
 
