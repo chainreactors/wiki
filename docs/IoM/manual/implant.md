@@ -92,43 +92,61 @@ cargo make docker all
 
 ### Github Action编译(推荐)
 #### 1. enable action
-你需要在仓库中打开action，否则会出现workflow not found的问题
+fork https://github.com/chainreactors/malefic 仓库
+
+需要在仓库中打开action，否则会出现workflow not found的问题
+
 ![enable-github-action.png](../assets/enable-github-action.png))
+
 #### 2. gh install
+
 安装gh cli参考: https://docs.github.com/zh/github-cli/github-cli/quickstart
+
 #### 3. gh login
+
 你可以使用gh登录github，有两种方式，一种是交互式登录，另一种是使用token登录
+
 1. 交互式登录
 ```bash
 gh auth login
 ```
+
 2. 使用token登录
 ```
 windows: $ENV:GH_TOKEN="your_authentication"
 linux: export GH_TOKEN="your_authentication"
 ```
+
 注：此方式需要在https://github.com/settings/tokens配置一个有workflow权限的token
 
 #### 4. Compile via action
+
 配置完所需要的config.yaml配置后, 你可以通过gh来运行编译工作流，参考命令如下
+
 ```bash
 gh workflow run generate.yml -f malefic_config=$(base64 -w 0 </path/to/config.yaml>) -f remark="write somthing.." -f targets="windows-x64-gnu,windows-x32-gnu" -R <username/malefic>
 ```
+
 tips: windows需要添加wsl的path才可使用base64,参考如下
 ```
 $env:Path = -join ("/usr/bin;","$env:Path")
 ```
+
 #### 5. 查看编译进度
+
 ```bash
 gh run list -R <username/malefic>
 ```
+
 #### 6.download artifact
+
 填写的remark和run_id可以帮你找到对应的artifact(由于账户的大小限制,artifact默认保留时间为3天,防止仓库容量不够用，你可自行更改[retention-days](https://github.com/chainreactors/malefic/blob/master/.github/workflows/generate.yml#L87))
 
 1. 通过gh下载
 ```bash
 gh run download -R <username/malefic>
 ```
+
 ![gh-run-list-download](../assets/gh-run-list-download.png)
 
 2. 通过浏览器下载
