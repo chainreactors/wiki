@@ -190,12 +190,14 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 		- [ ] services操作
 		- [ ] 注册表操作
 		- [ ] 计划任务操作
+		- [ ] token模拟相关实现
+		- [ ] screenshot
 		- [ ] WMI/COM (待定)
 	- [ ] StackSpoofer
 	- [ ] SleepMask Community 
 	- [ ] 实现stage 1 loader
 	- [ ] 实现autorun, 运行在编译时通过yaml配置一系列自动执行的任务
-	- [ ] token模拟相关实现
+
 
 ## 发布Professional
 
