@@ -32,12 +32,13 @@ IoM将由一系列仓库组成
 
 **WIP** 🛠️ 表示将会实现; 
 
-**Private** 🔒 表示已实现但暂未公开
+**Private** 🔒 表示已实现但不完善还需要调整因暂未公开, 但在发布计划中
 
 **Professional** 👤 表示需要额外审核的用户可访问
 
 
 !!! important "文档中能见到的没有添加 🛠️, 🔒 ,  👤 标记的内容为已经开源的
+	实际上server, client, listener, implant均已完全开源, 只有implant的一部分组件因为对抗的原因不能完全开源, 已lib的方式提供. 不影响编译, 使用, 二开.
 
 **主体框架**
 
@@ -46,8 +47,6 @@ IoM将由一系列仓库组成
 * 通讯协议(protobuf): https://github.com/chainreactors/proto
 * 流量与代理: https://github.com/chainreactors/malefic-rem (🔒)
 * 插件仓库 : mals (🛠️)
-* stage 0 generator: malign 用于第一阶段加载器生成，免杀与EDR对抗 (🛠️)
-* stage 1 generator: 用于各种格式(lnk,chm,doc等)的loader生成
 
 **kits**
 是一些专注于opsec与edr对抗的插件包或各类小组件, 作为IoM的附加能力
