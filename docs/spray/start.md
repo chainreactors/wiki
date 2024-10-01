@@ -428,6 +428,7 @@ fasthttp 的性能远高于 net/http, 因此不建议手动修改配置. 如果�
 
 `--raw file ` 类似 sqlmap 的`-r`参数 , 选择纯文本的请求模板, 后续的请求都会使用这个模板构造, todo
 
+
 ## Output
 
 spray 默认输出到终端的格式是 human-like 文本. 并默认开启的 **title 获取** 与 **被动指纹识别** 功能.
@@ -653,6 +654,20 @@ extract 也存在一些常用的预设, `--extract ip`
 - cookie
 - response
 
+## Config
+
+spray的在高级用法下配置较为复杂, 现在提供了config文件可以将一些常用参数固定下来. 
+
+spray执行时会自动寻找当前目录下的`config.yaml`文件, 如果不存在则不会启用
+
+生成初始配置, 默认位于当前目录下
+
+`spray --init`
+
+手动执行config文件
+
+`spray -c custom.yaml` 
+
 ## Advance Feature
 
 ### 自定义智能过滤
@@ -848,13 +863,31 @@ spray 并不鼓励使用递归, 因为 spray 的定位是批量从反代/cdn 中
 
 ### 插件
 
-#### 通用插件
+!!! important "启用全部插件"
+`-a`/ `advance` 将同时上述开启所有功能, 并且功能之间还会交叉组合出一些惊喜.
+
+#### finger
+**check/brute通用**
 
 `--finger` 打开全部的指纹引擎
 
+打开则调用 https://github.com/chainreactors/fingers 的全量指纹库进行识别, 不打开则默认只调用fingers原生指纹库
+
+#### recon
+**check/brute通用**
+
 `--recon` 打开敏感信息提取
 
-#### Brute插件
+提取规则库位于: https://github.com/chainreactors/templates/blob/master/extract.yaml
+
+包含了优化后的jsfinder引擎, 配合目录爆破和crawl, 可以达到意想不到的效果
+
+#### crawl
+**仅brute可用**
+
+crawl 是基于linkfinder正则的大量优化后的插件, 比原生的linkfinder强数倍, 并且能递归作用.
+
+如果你正在使用linkfinder, 强烈推荐使用crawl代替linkfinder.
 
 - `--crawl` 可以开启爬虫. 限定爬虫的深度为 3, 且只能作用于当前作用域, 需要更加自由配置的爬虫配置请使用那几个 headless 爬虫. 默认情况下爬虫只爬取自身作用域
   - `--scope *.example.com` 将允许爬虫爬到指定作用域
@@ -869,15 +902,24 @@ spray 并不鼓励使用递归, 因为 spray 的定位是批量从反代/cdn 中
 !!! danger "注意"
     crawl 的结果没有像 jsfinder 中一样拼接上 baseurl, 因为从 js 中提取出来的结果通常不是最终的结果, 直接去访问大概率是 404. 为了防止造成混淆, spray 的 crawl 结果将保持原样输出. 但在爬虫递归时, 还是会尝试拼接上 baseurl 进行探测. 爬虫递归时会进行自动去重判断.
 
+#### active
+**仅brute可用**
+
 - `--active` 可以开启类似[gogo 的主动指纹识别](/wiki/gogo/extension/#_2), 并且添加`append`主动指纹字典
+
+#### bak
+**仅brute可用**
+
 - `--bak` 会构造一个备份文件字典, 包含[fuzzuli](https://github.com/musana/fuzzuli)中的 regular 规则, 自动构造备份文件字典,  并且添加`append`备份文件字典
+
+#### common
+**仅brute可用**
+
 - `--common` 一些 web 的常见[通用文件字典](https://github.com/chainreactors/templates/blob/master/spray/dict/common.txt)与[通用日志文件字典](https://github.com/chainreactors/templates/blob/master/spray/dict/log.txt), 并将这两个字典加到`append`
-`-a`/ `advance` 将同时上述开启所有功能, 并且功能之间还会交叉组合出一些惊喜.
 
-!!! tips "host爆破时的插件效果"
-	host爆破时, 直接`--active`, `--bak`, `--common` 基于根目录添加的字典将不会生效, 但是在爆破到有效目录后的追加字典依旧生效
+!!! important "如果启用了仅brute可用的插件, 会自动转为brute模式"
 
-如果还有类似的一些通用的 fuzz 手法, 欢迎提供 issue.
+有任何类似的通用 fuzz 手法, 欢迎提供 issue.
 
 ## TODO
 
