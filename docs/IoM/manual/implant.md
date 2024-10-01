@@ -51,20 +51,18 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 !!! tips "注意clone子项目"
 	需要添加`--recurse-submodules`递归克隆子项目. 如果已经clone也不必担心,`git submodule update --init` 即可
 
-#### tips
-安装好上述环境后，你即可通过`cargo-make`来编译impalnt，所有编译流程通过Makefile.toml进行了定义。
-
-为了方便build，我们做了短名称映射，后续所有操作都可以用“短名称”或“target原始值”，完整映射如下：
-```
-"windows-x64-msvc" = "x86_64-pc-windows-msvc"
-"windows-x32-msvc" = "i686-pc-windows-msvc"
-"windows-x64-gnu" = "x86_64-pc-windows-gnu"
-"windows-x32-gnu" = "i686-pc-windows-gnu"
-"linux-x64-gnu" = "x86_64-unknown-linux-gnu"
-"linux-x32-gnu" = "i686-unknown-linux-gnu"
-"darwin-x64" = "x86_64-apple-darwin"
-"darwin-arm" = "aarch64-apple-darwin"
-```
+!!! tips 安装好上述环境后，你即可通过`cargo-make`来编译impalnt，所有编译流程通过Makefile.toml进行了定义。
+	为了方便build，我们做了短名称映射，后续所有操作都可以用“短名称”或“target原始值”，完整映射如下：
+	```
+	"windows-x64-msvc" = "x86_64-pc-windows-msvc"
+	"windows-x32-msvc" = "i686-pc-windows-msvc"
+	"windows-x64-gnu" = "x86_64-pc-windows-gnu"
+	"windows-x32-gnu" = "i686-pc-windows-gnu"
+	"linux-x64-gnu" = "x86_64-unknown-linux-gnu"
+	"linux-x32-gnu" = "i686-unknown-linux-gnu"
+	"darwin-x64" = "x86_64-apple-darwin"
+	"darwin-arm" = "aarch64-apple-darwin"
+	```
 
 ### Docker编译(推荐)
 在docker中编译环境更加干净，编译使用了volume挂载源码，所以编译完成后依然会在`target`目录下生成对应的可执行文件。
