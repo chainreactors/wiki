@@ -6,15 +6,13 @@ title: Internal of Malice · index
 
 **本文档为预览文档.** 
 
-Internal of Malice(恶联网) 力图实现一套post-exploit基础设施, 在兼容CS,MSF,Sliver生态的同时, 提供更高的拓展性与隐蔽性, 并提供一套工程化的解决方案.
+Internal of Malice(恶联网) 力图实现一套开源post-exploit基础设施, 在兼容CS,MSF,Sliver生态的同时, 提供更高的拓展性与隐蔽性, 并提供一套工程化的解决方案.
 
 C2是比其他领域更具挑战性, 不管在设计上还是实现上都更为复杂. 
 
 而我们想尝试设计的更是下一代C2, 一个能在交互体验, 拓展性, 端口对抗, 流量对抗等等能力上都更先进的C2框架. 
 
-目前v0.0.1离设计目标的完全体形态还有非常大的距离. 但受限于开发进度, 我们决定先接受来自社区的意见, 闭门造车造不出最先进的工具.
-
-所以我们计划在实现第一阶段功能后, 就发布IoM-community v0.0.1 作为预览版本. 
+目前已经发布v0.0.2离设计目标的完全体形态还有较大的距离. 但受限于开发进度, 我们决定先接受来自社区的意见, 闭门造车造不出最先进的工具.
 
 !!! example "Features."
 
@@ -38,6 +36,9 @@ IoM将由一系列仓库组成
 
 **Professional** 👤 表示需要额外审核的用户可访问
 
+
+!!! important "文档中能见到的没有添加 🛠️, 🔒 ,  👤 标记的内容为已经开源的
+
 **主体框架**
 
 * server+client: https://github.com/chainreactors/malice-network
@@ -46,7 +47,7 @@ IoM将由一系列仓库组成
 * 流量与代理: https://github.com/chainreactors/malefic-rem (🔒)
 * 插件仓库 : mals (🛠️)
 * stage 0 generator: malign 用于第一阶段加载器生成，免杀与EDR对抗 (🛠️)
-* loader generator: 用于各种格式(lnk,chm,doc等)的loader生成
+* stage 1 generator: 用于各种格式(lnk,chm,doc等)的loader生成
 
 **kits**
 是一些专注于opsec与edr对抗的插件包或各类小组件, 作为IoM的附加能力
