@@ -79,6 +79,7 @@ nav:
       - Design: IoM/design.md
       - Quickstart: IoM/quickstart.md
       - Concept: IoM/concept.md
+      - RoadMap: IoM/roadmap.md
       - Manual: 
             - index: IoM/manual/index.md
             - IoM部署: IoM/manual/deploy.md
@@ -89,7 +90,6 @@ nav:
                 - malefic使用手册: IoM/manual/implant.md
                 - malefic-win-kit: IoM/manual/implant_win_kit.md
             - 二次开发文档: IoM/manual/develop.md
-      - RoadMap: IoM/roadmap.md
   - gogo:
       - index: gogo/index.md
       - 入门: gogo/start.md
