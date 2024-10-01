@@ -2,6 +2,9 @@
 title: Internal of Malice · 开发
 ---
 
+!!! danger "当前IoM位于早期阶段, 各种API都能会进行不兼容重构"
+	暂时不建议对IoM进行二次开发,  到v0.1.0之后, 我们对API调整时会考虑兼容性
+
 ## 拓展 proto
 
 server与implant通过共享子模块定义通讯协议. 其中描述implant部分的请见: https://github.com/chainreactors/proto/blob/master/implant/implantpb/implant.proto
