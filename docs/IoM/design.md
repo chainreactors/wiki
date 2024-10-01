@@ -41,7 +41,7 @@ https://howto.thec2matrix.com/ 调研了较为主流的 C2 框架.
 - [havoc](https://github.com/HavocFramework/Havoc) implant 基于 C 开发, 通过兼容 BOF 获得了不少 CS 的能力.
 - [mythic](https://github.com/its-a-feature/Mythic) 本质上是一套通讯协议， 实现了这个通讯协议的 agent 可以与这个框架交互.
 
-#### 小结
+### 小结
 
 从基础功能上来说, 基本功能之间大同小异, 稳定运行的 implant, 适合团队协作的 teamserver, 便利的客户端. 商业化工具与开源工具最大的区别是在 OPSEC 上, 其中做得比较好的是 nighthawk 与 cobaltstrike, 他们拥有大量未公开的 EDR 对抗技术, 并有良好的工程化与自定义方案。
 

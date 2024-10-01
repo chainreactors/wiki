@@ -6,13 +6,15 @@
 
 以统一的设计风格去重构各个细分领域"**allinone**"工具, 去实现以人为核心的红队工具链与工程化实践,  我们将其命名为 **redboot** .  最终计划实现面向 **面向红队** 的 **一体化平台** ,提供一整套完整的 **红队工程基础设施** . 
 
-通过工件之间的 **链式反应** 以达到 **临界质量** .
+通过达到 **临界质量** 以维持工件之间的 **链式反应**。
 
 ## Redboot Roadmap
 
 为了达成我们的终极目标. 我们的蓝图从ASM拓展到了C2框架+流量控制工件+ASM框架三个部分.  这三个领域将覆盖攻击模拟流程中的Pre-Exploit <--> Post-Exploit
 
-### Thread1 IoM
+目前我们的计划中有三条链式反应的链路, 分别对应了后渗透[IoM](IoM), 前渗透/信息收集([mapping](mapping)), 以及打通IoM与mapping的流量工具[rem](rem)
+
+### Chain1 IoM
 
 [IoM](IoM)
 
@@ -20,13 +22,16 @@ IoM(`Internal of Malice`) 的定位是下一代C2框架, 同样以高度模块�
 
 更重要的是, IoM将结合C2与webshell, 将同一套插件化的基建共享给完全不同的后渗透场景. 
 
-IoM即将发布v0.0.1, 这个版本离我们最初的v0.0.1设计目标还有很多遗憾, 但是为了防止闭门造车, 我们想提前从社区中接收反馈.
+IoM已经发布v0.0.1, 这个版本离我们最初的v0.0.1设计目标还有很多遗憾, 但是为了防止闭门造车, 我们想提前从社区中接收反馈.
+
+!!! important "update v0.0.2"
+	已经发布v0.0.2, 实现了约sliver的80%, cs的70%功能, 也有非常sliver与cs都没有的功能
 
 目前提供了IoM的[设计文档](/wiki/IoM/design)与[用户手册](/wiki/IoM/manual) ,可以在[这里](https://github.com/chainreactors/malice-network)体验到IoM的v0.0.1
 
-### Thread2 mapping
+### Chain2 mapping
 
-[mapping Roadmap](mapping/roadmap) *预计在2024年内发布*
+[mapping](mapping) *预计在2024年内发布*
 
 ASM是chainreactor的初衷, gogo/spray/zombie之类的工具实际上都是为了这个目标设计的. 通过极高的拓展性与细粒度实现的完全可控的攻击面管理引擎.
 
@@ -34,7 +39,7 @@ ASM是chainreactor的初衷, gogo/spray/zombie之类的工具实际上都是为�
 
 目前提供了mapping的[设计文档](/wiki/mapping/design), 可以在这里看到mapping作为红队向的协作式攻击面引擎的设计理念.
 
-### Thread3 rem
+### Chain3 rem
 
 *预计在2024年内发布*
 
@@ -59,10 +64,10 @@ _没有添加超链接的为暂未公开的项目_
 
 chainreactor 自研的工具链
 
-- [gogo](gogo/index) 基于端口的自动化引擎
+- [gogo](gogo/index) 面向红队的自动化引擎
 - [spray](spray/index) 下一代目录爆破工具
-- [urlfounder](https://github.com/chainreactors/urlfounder/) 快速的被动 url 收集工具
-- [zombie](https://github.com/chainreactors/zombie/) 服务口令爆破工具
+- [urlfounder](https://github.com/chainreactors/urlfounder/) 被动 url 收集工具
+- [zombie](https://github.com/chainreactors/zombie/) 服务/协议下一代爆破工具
 - searcher 空间引擎交叉递归爬虫 (Private)
 - ani 企业信息爬虫 (Private)
 - found 基于nuclei-templates的配置化的本地敏感信息收集工具 (WIP)
@@ -73,10 +78,18 @@ chainreactor 自研的工具链
 基础设施库
 
 - [words](https://chainreactors.github.io/wiki/libs/words/) , 使用 go 重写了 hashcat 中的 mask/rule 字典生成器, 并添加了一些新功能
-- [templates](https://github.com/chainreactors/templates) , gogo 的指纹库, poc 库等; 也为 spray,kindred 等工具提供指纹识别功能
+- [templates](https://github.com/chainreactors/templates)  工具链各类配置库, 包括指纹, 敏感信息, poc, 字典, 端口等等
 - [neutron](https://chainreactors.github.io/wiki/libs/neutron/) 使用纯 go 实现并去掉几乎全部第三方依赖的轻量级 nuclei 引擎, 可以无副作用的集成到任意工具中而不会破坏系统兼容性. 也几乎不会带来额外的依赖.
-- [fingers](https://chainreactors.github.io/wiki/libs/fingers/)  templates, wappalyzer, fingerprinthub等指纹库的go实现,  支持添加各类第三方指纹库
+- [fingers](https://chainreactors.github.io/wiki/libs/fingers/)  templates, wappalyzer, fingerprinthub等指纹库的go实现,  支持自定义添加各类第三方指纹库
 - [parsers](https://github.com/chainreactors/parsers), 封装了 chainreactor 工具链上的各个工具输入输出的解析相关的代码.
+- [crtm](https://github.com/chainreactors/crtm) 基于pdtm修改的chainreactor包管理工具. 
+- [picker](https://github.com/chainreactors/picker) 将repo变成RSS订阅,文章整理归档, 讨论的社区
+- [wiki](https://github.com/chainreactors/wiki) chainreactors 文档库Markdown
+
+#### 接受定制化和采购的工具
+
+- morefingers , 额外包含了约50000条指纹规则(与fingers自带的有重复), 可无缝接入fingers
+- [IoM](https://chainreactors.github.io/wiki/IoM/), 目前发布了v0.0.2, 实现了绝大部分主体功能, 正在快速开发迭代, 欢迎提供需求和定制化要求
 
 ## Other
 
