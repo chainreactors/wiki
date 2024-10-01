@@ -91,6 +91,9 @@ chainreactor 自研的工具链
 - morefingers , 额外包含了约50000条指纹规则(与fingers自带的有重复), 可无缝接入fingers
 - [IoM](https://chainreactors.github.io/wiki/IoM/), 目前发布了v0.0.2, 实现了绝大部分主体功能, 正在快速开发迭代, 欢迎提供需求和定制化要求
 
+??? mail
+	m09ician@gmail.com
+
 ## Other
 
 我们将毫无保留的公开我们的设计理念与各种实践中积累的经验, 也欢迎社区提供更多的意见, 经验以及 PR. 
