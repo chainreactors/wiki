@@ -37,8 +37,8 @@ IoM将由一系列仓库组成
 **Professional** 👤 表示需要额外审核的用户可访问
 
 
-!!! important "文档中能见到的没有添加 🛠️, 🔒 ,  👤 标记的内容为已经开源的
-	实际上server, client, listener, implant均已完全开源, 只有implant的一部分组件因为对抗的原因不能完全开源, 已lib的方式提供. 不影响编译, 使用, 二开.
+!!! important "文档中能见到的没有添加 🛠️, 🔒 ,  👤 标记的内容为已经开源的"
+	实际上server, client, listener, implant均已完全开源, 只有implant的一部分组件因为对抗的原因不能完全开源, 以lib的方式提供. 不影响编译, 使用, 二开.
 
 **主体框架**
 
