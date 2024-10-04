@@ -668,6 +668,66 @@ spray执行时会自动寻找当前目录下的`config.yaml`文件, 如果不存
 
 `spray -c custom.yaml` 
 
+## 拓展插件
+
+!!! important "启用全部插件"
+`-a`/ `advance` 将同时上述开启所有功能, 并且功能之间还会交叉组合出一些惊喜.
+
+### finger
+**check/brute通用**
+
+`--finger` 打开全部的指纹引擎
+
+打开则调用 https://github.com/chainreactors/fingers 的全量指纹库进行识别, 不打开则默认只调用fingers原生指纹库
+
+### recon
+**check/brute通用**
+
+`--recon` 打开敏感信息提取
+
+提取规则库位于: https://github.com/chainreactors/templates/blob/master/extract.yaml
+
+包含了优化后的jsfinder引擎, 配合目录爆破和crawl, 可以达到意想不到的效果
+
+### crawl
+**仅brute可用**
+
+crawl 是基于linkfinder正则的大量优化后的插件, 比原生的linkfinder强数倍, 并且能递归作用.
+
+如果你正在使用linkfinder, 强烈推荐使用crawl代替linkfinder.
+
+- `--crawl` 可以开启爬虫. 限定爬虫的深度为 3, 且只能作用于当前作用域, 需要更加自由配置的爬虫配置请使用那几个 headless 爬虫. 默认情况下爬虫只爬取自身作用域
+  - `--scope *.example.com` 将允许爬虫爬到指定作用域
+  - `--no-scope` 取消所有作用域限制
+  - `--read-all` 默认情况下如果爬虫爬到的某些文件过大, 将只读取前 16k 数据, 导致爬虫失效. 可以添加该参数解除响应大小的限制
+
+!!! tip "在基本信息探测时使用爬虫"
+	--crawl 是无法在基本信息探测时使用, 因为需要基准值去过滤爬虫的结果. 但是可以只对当前页面做信息收集. 
+	`--extract url,js` 即可打开爬虫对应的提取器, 收集url但不进行递归爬取
+
+
+!!! danger "注意"
+    crawl 的结果没有像 jsfinder 中一样拼接上 baseurl, 因为从 js 中提取出来的结果通常不是最终的结果, 直接去访问大概率是 404. 为了防止造成混淆, spray 的 crawl 结果将保持原样输出. 但在爬虫递归时, 还是会尝试拼接上 baseurl 进行探测. 爬虫递归时会进行自动去重判断.
+
+### active
+**仅brute可用**
+
+- `--active` 可以开启类似[gogo 的主动指纹识别](/wiki/gogo/extension/#_2), 并且添加`append`主动指纹字典
+
+### bak
+**仅brute可用**
+
+- `--bak` 会构造一个备份文件字典, 包含[fuzzuli](https://github.com/musana/fuzzuli)中的 regular 规则, 自动构造备份文件字典,  并且添加`append`备份文件字典
+
+### common
+**仅brute可用**
+
+- `--common` 一些 web 的常见[通用文件字典](https://github.com/chainreactors/templates/blob/master/spray/dict/common.txt)与[通用日志文件字典](https://github.com/chainreactors/templates/blob/master/spray/dict/log.txt), 并将这两个字典加到`append`
+
+!!! important "如果启用了仅brute可用的插件, 会自动转为brute模式"
+
+有任何类似的通用 fuzz 手法, 欢迎提供 issue.
+
 ## Advance Feature
 
 ### 自定义智能过滤
@@ -861,65 +921,7 @@ spray 并不鼓励使用递归, 因为 spray 的定位是批量从反代/cdn 中
 	common与bak均会使用内置的字典与规则进行轻量级递归
 
 
-### 插件
 
-!!! important "启用全部插件"
-`-a`/ `advance` 将同时上述开启所有功能, 并且功能之间还会交叉组合出一些惊喜.
-
-#### finger
-**check/brute通用**
-
-`--finger` 打开全部的指纹引擎
-
-打开则调用 https://github.com/chainreactors/fingers 的全量指纹库进行识别, 不打开则默认只调用fingers原生指纹库
-
-#### recon
-**check/brute通用**
-
-`--recon` 打开敏感信息提取
-
-提取规则库位于: https://github.com/chainreactors/templates/blob/master/extract.yaml
-
-包含了优化后的jsfinder引擎, 配合目录爆破和crawl, 可以达到意想不到的效果
-
-#### crawl
-**仅brute可用**
-
-crawl 是基于linkfinder正则的大量优化后的插件, 比原生的linkfinder强数倍, 并且能递归作用.
-
-如果你正在使用linkfinder, 强烈推荐使用crawl代替linkfinder.
-
-- `--crawl` 可以开启爬虫. 限定爬虫的深度为 3, 且只能作用于当前作用域, 需要更加自由配置的爬虫配置请使用那几个 headless 爬虫. 默认情况下爬虫只爬取自身作用域
-  - `--scope *.example.com` 将允许爬虫爬到指定作用域
-  - `--no-scope` 取消所有作用域限制
-  - `--read-all` 默认情况下如果爬虫爬到的某些文件过大, 将只读取前 16k 数据, 导致爬虫失效. 可以添加该参数解除响应大小的限制
-
-!!! tip "在基本信息探测时使用爬虫"
-	--crawl 是无法在基本信息探测时使用, 因为需要基准值去过滤爬虫的结果. 但是可以只对当前页面做信息收集. 
-	`--extract url,js` 即可打开爬虫对应的提取器, 收集url但不进行递归爬取
-
-
-!!! danger "注意"
-    crawl 的结果没有像 jsfinder 中一样拼接上 baseurl, 因为从 js 中提取出来的结果通常不是最终的结果, 直接去访问大概率是 404. 为了防止造成混淆, spray 的 crawl 结果将保持原样输出. 但在爬虫递归时, 还是会尝试拼接上 baseurl 进行探测. 爬虫递归时会进行自动去重判断.
-
-#### active
-**仅brute可用**
-
-- `--active` 可以开启类似[gogo 的主动指纹识别](/wiki/gogo/extension/#_2), 并且添加`append`主动指纹字典
-
-#### bak
-**仅brute可用**
-
-- `--bak` 会构造一个备份文件字典, 包含[fuzzuli](https://github.com/musana/fuzzuli)中的 regular 规则, 自动构造备份文件字典,  并且添加`append`备份文件字典
-
-#### common
-**仅brute可用**
-
-- `--common` 一些 web 的常见[通用文件字典](https://github.com/chainreactors/templates/blob/master/spray/dict/common.txt)与[通用日志文件字典](https://github.com/chainreactors/templates/blob/master/spray/dict/log.txt), 并将这两个字典加到`append`
-
-!!! important "如果启用了仅brute可用的插件, 会自动转为brute模式"
-
-有任何类似的通用 fuzz 手法, 欢迎提供 issue.
 
 ## TODO
 
