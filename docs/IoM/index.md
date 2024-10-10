@@ -60,7 +60,18 @@ IoM将由一系列仓库组成
 
 ## 社区
 
+### github
+
+malefic的[issues](https://github.com/chainreactors/malefic/issues)和[disscussion](https://github.com/chainreactors/malefic/discussions) 关于implant的bug, 疑惑, 需求, 建议都欢迎在该项目的issue/disscussion中讨论
+
+malice-network的[issues](https://github.com/chainreactors/malice-network/issues)和[disscussion](https://github.com/chainreactors/malice-network/discussions) 关于client/server的bug, 疑惑, 需求, 建议都欢迎在该项目的issue/disscussion中讨论
+
+!!! tips "公开的讨论更能帮助IoM改进自身"
+	当然也有一些不便公开的讨论, 欢迎通过微信群添私聊我
+
 ### 微信群
+
+如果有深入讨论关于IoM的问题, 更建议在github的issues/disscussion中进行, 微信群一般只用来广播更新进度. 
 
 ![image-20240819160739532](assets/image-20240819160739532.png)
 
