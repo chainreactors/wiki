@@ -537,6 +537,8 @@ extract也存在一些常用的预设, 可以通过`--extract url`调用内置�
 
 ### 主动指纹识别
 
+gogo的指纹识别通过 [fingers](https://github.com/chainreactors/fingers) 实现
+
 当前包括数千条web指纹, 数百条favicon指纹以及数十条tcp指纹
 
 默认情况下只进行被动指纹识别, 如需进行主动的指纹识别, 需要手动添加`-v`参数. http协议的主动指纹识别已自动适配keep-alive.
@@ -557,6 +559,8 @@ extract也存在一些常用的预设, 可以通过`--extract url`调用内置�
 	在开启了`--debug`的情况下, 将会输出该条指纹是命中了哪条配置. 
 
 ### 主动漏洞探测
+
+gogo的漏洞探测功能通过[neutron](https://github.com/chainreactors/neutron)实现.
 
 gogo并非漏扫工具,因此不会支持sql注入, xss之类的通用漏洞探测功能。
 
@@ -618,12 +622,47 @@ nuclei poc将会根据指纹识别的情况自动调用, 而非一口气全打�
 * `--mod sc` , 先进行`--mod ss`探测存活B段, 然后递归下降到`--mod s`, 并在default scan前退出, 用来探测A段中存活的C段.  是`--mod ss`的一个特例, 用作简化操作.
 * `--ping`, 在递归下降到default scan, 插入icmp协议的ip存活探测, 递归下降到default scan
 * `--no` 在启用启发式扫描时, 如果停止所有递归下降, 只会进行当前阶段的启发式扫描, 例如`-m ss`将不会下降为`-m s`
+* `--ipp` ip probe, 控制在supersmart模式下每个C段需要探测的ip
+* `--sp`  smart port probe, 控制在smart模式下每个ip的端口探针
 
 启发式扫描需要合适的参数组合才能发挥最大的作用。
 
 绝大多数常用的启发式扫描场景已经被封装到workflow中, 更建议在workflow中调用对应的扫描逻辑.。
 
 如需了解每个细节和原理, 请见 [启发式扫描原理](/wiki/gogo/detail/#_7)
+
+### OPSEC
+
+gogo是面向红队的工具, 所以OPSEC也是其设计的核心理念.
+
+`--opsec` 可以使得扫描时特征更小, 也会带来一定的能力损失. 
+
+fingers的opsec
+```
+- name: swagger
+  focus: true
+  opsec: true
+  rule:
+    - regexps:
+        vuln:
+          - Swagger UI
+      send_data: /swagger-ui.html
+      info: swagger leak
+```
+
+neutron的opsec
+```
+id: shiro-default-key
+opsec: true
+info:
+  name: brute Shiro key
+  severity: critical
+  tags: shiro
+...
+```
+
+通过在templates中添加这两个配置项即可在`--opsec`时自动忽略
+
 
 ## Make
 

@@ -20,7 +20,7 @@ nuclei更新较快, 一般情况下gogo会落后nuclei最新版几个月, 所以
 
 **明确删除并且后续不会添加的功能**
 
-部分功能会以简化的形式重新加入到gogo中
+部分功能会简化后重新加入到neutron中
 
 1. oast与OOB.
 2. workflow, 通过chain简单代替
@@ -33,7 +33,7 @@ nuclei更新较快, 一般情况下gogo会落后nuclei最新版几个月, 所以
 - [x] http redirect
 - [x] variables  
 - [x] Helper Functions (已支持完整的dsl引擎)
-- [ ] Requests Annotation
+- [x] Requests Annotation
 - [ ] Unsafe HTTP
 
 ## 案例
