@@ -169,8 +169,8 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 ## v0.0.3
 
 - [ ] client
-	- [ ] 新增client端插件类型 golang
-	- [ ] 重构explorer
+	- [x] 新增client端插件类型 golang
+	- [x] 重构explorer
 		- [ ] 实现process explorer
 		- [ ] 实现netstat explorer
 		- [ ] 实现services explorer

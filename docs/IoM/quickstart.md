@@ -42,22 +42,20 @@ ip为外网暴露的ip, 也可以直接在配置文件中修改, 用以省略`-i
 
 ![](assets/VNBYbUKdsokMfexhogfcKSLUnAh.png)
 
-#### 独立运行listener (可选)
-
-从v0.0.2开始, 我们合并了listener与server两个二进制文件到`malice-network`
-
-需要在[这里获取`listener.yaml`配置文件](https://github.com/chainreactors/malice-network/blob/master/server/listener.yaml)示例
-
-假设是在一台独立的服务器上, 我们需要将上一步骤中会自动生成的`listener.auth`复制到当前目录. 然后执行:
-
-
-```
-./malice-network -c listener.yaml
-```
-
-![](assets/image_20240903010041.png)
-
-可以看到, 启动了独立的listener, 并与server建立了连接. 
+??? info "(非必要)独立运行listener"
+	从v0.0.2开始, 我们合并了listener与server两个二进制文件到`malice-network`
+	
+	需要在[这里获取`listener.yaml`配置文件](https://github.com/chainreactors/malice-network/blob/master/server/listener.yaml)示例
+	
+	假设是在一台独立的服务器上, 我们需要将上一步骤中会自动生成的`listener.auth`复制到当前目录. 然后执行:
+	
+	```
+	./malice-network -c listener.yaml
+	```
+	
+	![](assets/image_20240903010041.png)
+	
+	可以看到, 启动了独立的listener, 并与server建立了连接. 
 
 
 ### 运行client
