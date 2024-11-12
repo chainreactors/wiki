@@ -4,11 +4,21 @@ title: Internal of Malice · 概念
 
 IoM中需要知道的概念
 
-## Spite
+## 通讯
 
-Spite 是在client 与implant 之间进行数据交换的载体. 所有的需要与交互implant的操作都需要构造Spite结构体.
+Spite是整个IoM通讯的最小单元
 
-Spite的定义位于使用protobuf的[通讯协议仓库](https://github.com/chainreactors/proto) 下的 [implant.proto](https://github.com/chainreactors/proto/blob/master/implant/implantpb/implant.proto)
+```mermaid
+flowchart TD
+    Client -- gRPC 调用 --> Server
+    Server -- 生成spite --> Listener
+    Implant -- 等待连接 --> Listener
+    Listener -- Pack&Encrypt --> Implant
+```
+
+Spite 是在server/listener <--> implant 之间进行数据交换的载体. 所有的需要与交互implant的操作都需要构造Spite结构体.
+
+Spite基于protobuf实现, 具体定义请见: [proto仓库](https://github.com/chainreactors/proto) 下的 [implant.proto](https://github.com/chainreactors/proto/blob/master/implant/implantpb/implant.proto)
 
 ```protobuf
 message Spite {
@@ -41,7 +51,7 @@ message Spite {
 }
 ```
 
-所有与module交互的协议都在这里定义. 并且预留了一些通用的`message` 用来防止新增module时需要频繁修改proto的问题. 
+所有与module交互的协议都在这里定义. 并且预留了一些通用的`message` 用来解决新增module时需要频繁修改proto的问题. 
 
 ## Listener
 
@@ -54,12 +64,12 @@ graph LR
 	MSF["MSF\n监听在本机"] --> Cobaltstrike["Cobaltstrike\n监听在Server"] --> IoM["IoM\n可以在任意服务器上监听"]
 ```
 
-listener由三个部分组成. 
+listener有四个主要组件 
 
-- pipeline listener上执行监听端口的部分.  每个listener可以有任意个websilte或者pipeline
-- forworder 每个pipeline都会通过forworder将数据转发至server
-- parser 将来自implant/webshell的数据解析为Spite
-- generator 将Spite解析为implant/webshell能识别的二进制数据
+- listener , 管理pipeline以及与server交互.
+- pipeline, 与implant交互的管道,   每个listener可以有任意个websilte或者pipeline
+- forworder, 每个pipeline都会创建一个forworder, 通过forwarder将数据转发至server
+- parser/generator, 将来自implant/webshell的数据解析为Spite; 将Spite解析为implant/webshell能识别的二进制数据
 ### pipeline
 
 数据管道
@@ -125,25 +135,17 @@ session内部还维护了多个子状态集
 
 ## Implant
 
-目前只提供了一个implant, 即[malefic](https://github.com/chainreactors/malefic)
+目前只提供了一个implant, 即[malefic](https://github.com/chainreactors/malefic), [malefic详细文档](implant/index)
+- malefic, 主程序, 包含了beacon/bind两种模式的完整功能
+- mutant,  用来实现自动化配置malefic的各种条件编译与特性, 以及生成shellcode, srdi等
+- pulse, 最小化的shellcode模板, 对应CS的artifact, 能编译出只有4kb的上线马, 非常适合被各种loader加载
+- prelude, 多段上线的中间阶段, 可以在这里按需配置权限维持, 反沙箱, 反调试等功能. 
+- malefic-srdi, 最先进的srdi技术, 最大程度减少PE特征
 
-rust的crate的结构就是malefic的组成部分, 打开[malefic](https://github.com/chainreactors/malefic)就能看到:
 
-- [core](https://github.com/chainreactors/malefic/tree/master/malefic), malefic主程序, 提供了一个跨平台的任务调度器, 本身不包含网络功能, 也没有任何有威胁的系统调用. 这个调度器理论上可以使用任意语言编写的类似功能代替. 
-- config, 用来自动管理malefic条件编译的配置工具
-- modules, malefic可用的模块
-- trait, 过程宏, 通过宏简化模块编写.
-- helper 辅助函数, 以及暴露kit中的函数, 简化依赖关系.  
-- kits 各种操作系统的高级特性工具包, (二进制开源)
-	- [win-kit](https://chainreactors.github.io/wiki/IoM/manual/implant_win_kit/) , 提供了bof, loadpe, sleepmask等等一系列高级特性的工具包
-- prelude(🛠️) stage 0 生成器, 包含了反沙箱, 反调试, 反ETW, 反Hook等一系列在主程序加载前的loader. 
-- loader (🛠️), 预计在v0.0.3上线, stage 1生成器, 提供了启动时的autorun(自动按照预配置执行一系列module), 用来权限维持,信息收集或者分阶段上线. 通过低代码模板快速编排(通过config的yaml自动生成代码)
-
-IoM计划提供一整套互相解耦的implant解决方案, 用来实现各个阶段各种需求的任务. 
-
+IoM计划提供一整套互相解耦的implant解决方案, 实现各个阶段各种需求不同的二进制文件生成. 
 
 在设计目标中, implant实际上还有更多的内容, 但受限于精力, 我们暂时只将已实现的, 或短期内将实现的功能进行简单的介绍. 后续将随着开发进度逐步补全. 
-
 
 
 ## Client
@@ -177,7 +179,41 @@ client现在支持的动态执行二进制程序(fileless)的命令有:
 
 现在的client像是一个发射架, 可以支持几乎能找到全部的拓展格式的fileless执行.  并通过多种方式去自定义自己的军火库.
 
+## OPSEC模型
 
+红队视角的OPSEC模型
 
+通过四个维度的评判， 参考CVSS的分级标准。
 
+**评分越高越安全** 分为：
+
+* 低(0-3.9)操作极其容易被检测, 明显痕迹, 造成恶性(失去立足点, 系统崩溃等)后果
+* 中(4.0-6.9) 操作可能被检测,痕迹可控, 后果可控
+* 高(7.0-8.9) 操作基本不可能不检测, 痕迹较小或无痕迹, 被检测也不会有明显后果
+* OPSEC(9.0-10)分, 这个级别的操作被称为OPSEC. 几乎不可能被检测, 没有痕迹, 不会造成后果.
+### 暴露度
+
+被EDR/NDR或任意设备检测到的暴露程度
+
+- 是否有新进程创建
+- 是否有新线程创建
+- 是否有新文件创建
+- 是否有新网络连接创建
+- 是否需要调用系统api
+### 痕迹
+
+被追踪还原操作痕迹的成功率
+
+* 是否可以删除相关操作日志
+* 是否可以删除相关文件
+### 检测可能性
+
+- 现有检测机制是否有可能追踪
+- 在操作系统内部是否有可能被追踪
+- 实现相关检测手段复杂性
+### 后果
+
+- 操作失败可能带来的后果
+- 是否影响长期潜伏
+- 是否影响驻留时间
 

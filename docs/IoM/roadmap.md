@@ -33,11 +33,11 @@ IoM  上的流量隧道不只是点对点的， 还将是网状的，甚至是�
 预计在2024年8月份发布
 ### Implant
 
-- [ ] 实现melefic调度器
+- [x] 实现melefic调度器
     - [x] 支持异步调度module
     - [x] 实现task管理相关功能
     - [x] 实现module管理相关功能
-- [ ] 实现基本命令
+- [x] 实现基本命令
     - [x] cp
     - [x] mv
     - [x] cat
@@ -55,7 +55,7 @@ IoM  上的流量隧道不只是点对点的， 还将是网状的，甚至是�
     - [x] upload
     - [x] download
     - [x] exec
-- [ ] 实现拓展能力
+- [x] 实现拓展能力
     - [x] execute_assembly
     - [x] execute_shellcode
     - [x] unmanaged powershell
@@ -81,11 +81,11 @@ IoM  上的流量隧道不只是点对点的， 还将是网状的，甚至是�
     - [x] bypass ETW
     - [x] bypass AMSI
     - [x] BlockDLL
-- [ ] OPSEC
+- [x] OPSEC
     - [x] syscall
     - [x] indirect syscall
     - [x] UDRL
-    - [ ] 内存与静态文件字符串混淆
+    - [x] 内存与静态文件字符串混淆
 
 ### Server
 
@@ -112,23 +112,23 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 	- [x] 实现pipeline的wrap TLS
 	- [x] 实现pipeline的wrap encryption
 - [x] 实现与server/client的交互
-- [ ] 实现website相关功能
+- [x] 实现website相关功能
 	- [x] 实现web的增删改查
-	- [ ] 实现与server/client的交互
+	- [x] 实现与server/client的交互
 - [x] 提供独立的配置listener.yaml 文件
 
 
 ### Client
 
-- [ ] 通过交互式的tui尽可能提高cli的用户体验
+- [x] 通过交互式的tui尽可能提高cli的用户体验
 	- [x] session explore
 	- [x] file explore
 	- [x] task explore
 	- [x] armory explore
-- [ ] command
-	- [ ] 实现armory相关功能
+- [x] command
+	- [x] 实现armory相关功能
 		- [x] 实现alias
-		- [ ] 实现extension
+		- [x] 实现extension
 		- [x] 实现armory管理器
   - [x] 实现module相关command
   - [x] 实现与server交互的相关命令
@@ -138,32 +138,32 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 ## v0.0.2
 
 - [x] 补全因部分测试项未通过导致v0.0.1未能如期发布的功能
-- [ ] client端重构
+- [x] client端重构
 	- [x] 从grumble切换到 https://github.com/reeflective/console
 	- [x] 优化用户体验
 		- [x] 优化TUI体验
 		- [x] implant交互的基本命令按照其原本用法重写
 	- [x] 支持website
-- [ ] CI/CD支持
+- [x] CI/CD支持
 	- [x] 允许用户使用github action/docker等快速编译implant
 	- [x] server/client的CI/CD
-- [ ] implant优化
+- [x] implant优化
 	- [x] 提供更多的编译选项, MSVC, MUSL等
 	- [x] 优化编译时间
-- [ ] winkit
+- [x] winkit
 	- [x] Inline PE
 	- [ ] RunPE cross arch  (推迟到v0.0.3)
 	- [x] Amsi Etw Community
-- [ ] 实现mal插件功能
+- [x] 实现mal插件功能
 	- [x] 支持lua作为插件脚本语言(后续可能会支持CS的CNA)
 	- [x] 创建mals插件索引仓库
 	- [ ] 添加插件使用文档与插件开发文档  (推迟到v0.0.3)
-- [ ] 提供默认插件包
+- [x] 提供默认插件包
 	- [x] gogo
 	- [x] zombie
 	- [x] spray
-	- [ ] 默认的lua拓展包 (推迟到v0.0.3)
-	- [ ] 基本Bofs, 参考Havok提供的BOF  (推迟到v0.0.3)
+	- [x] 默认的lua拓展包 (推迟到v0.0.3)
+	- [x] 基本Bofs, 参考Havok提供的BOF  (推迟到v0.0.3)
 - [x] 添加第三方app通知的支持以及相关api
 
 ## v0.0.3
@@ -171,56 +171,76 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 - [ ] client
 	- [x] 新增client端插件类型 golang
 	- [x] 重构explorer
-		- [ ] 实现process explorer
-		- [ ] 实现netstat explorer
-		- [ ] 实现services explorer
-	- [ ] 实现profile, 能自定义自动加载的插件集
+		- [ ] 实现taskschd explorer
+		- [ ] 实现registry explorer
+	- [x] 实现profile, 能自定义自动加载的插件集
 	- [ ] 初步实现通过client实现的自动化编译
+	- [ ] 修复 Client bug
 	- [ ] mals 插件仓库
 		- [ ] 实现插件从github自动下载管理
+		- [ ] 实现lua插件函数文件
+		- [ ] 提供lua插件定义文件
 		- [ ] 提供默认插件集合
+			- [x] default-bof
+			- [x] default-elevate
+			- [ ] default-stay
+			- [ ] default-move
+			- [ ] default-chainreactor
 - [ ] server/listener
-	- [ ] 重构listener的parser, 尝试兼容第三方C2
-	- [ ] 添加donut, srdi, sgn等rpc, 实现shellcode的自定义操作
+	- [x] 重构listener的parser, 尝试兼容第三方C2
+	- [x] 添加donut, srdi, sgn等rpc, 实现shellcode的自定义操作
 - [ ] implant
-	- [ ] 提供多运行时支持, tokio, futures
-	- [ ] 提供基本的流量加密选项
-	- [ ] 更优雅的自动化编译
-	- [ ] 新的原生module
-		- [ ] services操作
-		- [ ] 注册表操作
-		- [ ] 计划任务操作
-		- [ ] token模拟相关实现
-		- [ ] screenshot
-		- [ ] WMI/COM (待定)
-	- [ ] StackSpoofer
+	- [x] 提供基本的流量加密选项
+	- [x] 更优雅的自动化编译
+	- [x] 实现Bind模式的implant
+	- [x] 新的原生module
+		- [x] services操作
+		- [x] 注册表操作
+		- [x] 计划任务操作
+		- [x] token模拟相关实现
+		- [x] screenshot (使用bof代替)
+		- [x] WMI/COM (待定)
+	- [x] StackSpoofer
 	- [ ] SleepMask Community 
-	- [ ] 实现stage 1 loader
-	- [ ] 实现autorun, 运行在编译时通过yaml配置一系列自动执行的任务
+	- [x] 实现stage 1 loader
+	- [x] 实现autorun, 运行在编译时通过yaml配置一系列自动执行的任务
 
+## v0.0.4 (Professional release)
 
-## 发布Professional
+预计11月发布
 
-预计9-10月发布
+professinal 将在v0.0.4 同步发布
 
-Professinal 同样以implant源码的方式(不包含win-kit)交付给使用者, 共用server/listener/client基建.
+Professinal 同样以implant源码的方式(不包含win-kit)交付给使用者, 共用server/listener/client基建
 
 与Community对比新增的功能:
 
-* OPSEC
-	* 定制特征的SleepMask
-	* 堆栈混淆(StackSpoofer)
-* 提供新的编译工具链
-	* 基于cross的交叉编译工具, 
-	* 通过xargo定制std以及其中特征
-	* ollvm(第一个版本可能来不及实现)
-* professinal版本的win-kit,
-	*  允许定制indirect-syscall, alloc等各种细节
-	* 提供MSVC+GNU版本, 更自由的选择编译工具链
-* 嵌入流量工具 rem
-* stage 0 generator
+* OPSEC特性
+	* 内存/动态特性
+		* 专属的SleepMask
+		* 定制indirect-syscall, alloc等各种细节
+		* 专属的进程注入方式
+		* 专属的SRDI
+		* 专属的PE loader
+		* 专属shellcode template
+	* 静态特性
+		* 基于cross的交叉编译工具, 
+		* 提供MSVC+GNU版本, 更自由的选择编译工具链
+		* ollvm(第一个版本可能来不及实现)
+	* 流量特性
+		* 向前向后加密
+		* 内置流量工具rem, 支持所有技术的代理与端口转发技术
+* 额外功能
+	* Professional 专属工具包
 
+TODO：
 
+- client
+	- [ ] 添加creds相关功能
+	- [ ] 完善lua/golang插件,发布插件系统mals, 提供文档, vscode插件, 示例
+- [ ] implant
+	- [ ] 添加更丰富的编译选型, 实现对implant每个细节的控制
+	- [ ] 实现llvm pass插件, 适配ollvm
 
 ## v0.1.0
 

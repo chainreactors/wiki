@@ -106,7 +106,8 @@ https://github.com/chainreactors/proton  (demo)
 这两个场景都非常适合被templates化. 
 
 
-## gogo的改动
+## 其他项目更新
+### gogo的改动
 
 在过去的两年中, gogo的绝大部分能力提升都来自neutron, fingers 以及对应的templates. 均已经在各自库的文章中进行介绍, 这里不想多水一篇文章, 一次性把gogo自身重要的改动一并介绍.
 
@@ -129,7 +130,7 @@ TL;DR
 
 现在的gogo是所有扫描器中, 发包数量最少,但是能获取最多信息的扫描器. 并且能让多家厂商的态势感知完全无感(需开启 `--opsec` 配置).
 
-### 自定义opsec配置
+#### 自定义opsec配置
 
 fingers的opsec
 ```
@@ -157,8 +158,6 @@ info:
 
 通过在templates中添加这两个配置项即可在`--opsec`时自动忽略
 
-## 其他项目近期更新
-
 ### words
 
 repo: https://github.com/chainreactors/words
@@ -180,3 +179,14 @@ docs: https://chainreactors.github.io/wiki/libs/words/
 
 ![](assets/Pasted%20image%2020241010170833.png)
 
+### IoM v0.0.3 预告
+
+IoM在v0.0.1发布之后, 经过了v0.0.2 对server/client的重构, 现在implant也迎来了彻底的重构. 
+
+我们实现了srdi, 手搓汇编实现的shellcode generator, stage1 加载器, 插件合集与插件仓库等等等等一系列新功能. 
+
+更重要的是, 我们**将这些新功能统统开源**, IoM将会是最强大的可自定义的C2框架. 
+
+v0.0.3版本的IoM将是开源生态中最强大的C2之一, 在功能覆盖上已经超过了Havoc和Sliver这些知名C2框架, 并且**基于模块化实现的前所未有的自定义与拓展能力**. 
+
+v0.0.3 预计在十一月的第一周发布.

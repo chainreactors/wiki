@@ -296,4 +296,4 @@ go build ./server/cmd/server
 
 ### 编译 Implant
 
-请参阅 [Implant](implant.md) 中 compile 部分
+请参阅 [Implant](../implant/config.md) 中 compile 部分
