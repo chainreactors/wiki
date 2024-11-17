@@ -10,6 +10,8 @@ title: Internal of Malice · implant_win_kit
 
 在用户有调用 `PE/Shellcode` 各类格式的需求时， `Implant` 支持 `Process Hollow` 技术， 以伪装用户的调用需求
 
+`Process Hollow` 的核心思想为创建一个合法进程， 随后镂空其原本内存， 写入我们所需要执行的代码， 从而伪装成合法进程执行活动
+
 ####  🛠️ Process Ghost
 
 ####  🛠️ Transacted Hollowing
@@ -68,9 +70,13 @@ execute_shellcode -p 8888 -n "notepad.exe" ./loader.bin
 
 该功能需要在 `Windows 10` 及以上系统中使用
 
-#### AMSI & ETW
+#### AMSI & ETW & WLDP
 
 在终端攻防漫长的对抗中， `AMSI` 及 `ETW` 的推出可谓是一石激起千层浪， 但当大家都位于 `r3` 时， 通过一些手法即可轻松绕过这些检测， 我们也在该版本中推出了基础 `bypass` 功能
+
+目前常见的绕过技术大概分为四类， 直接 `patch`, `hook`， 修改 `IAT`以及通过 `VEH`来进行绕过
+
+在基础版本中， 我们选用了 `hook` 技术来为程序进行这类检测的绕过
 
 使用 `bypass` 命令来开启绕过 `AMSI` 及 `ETW` 检测, 
 ```bash
@@ -83,15 +89,20 @@ bypass
 - execute_assemble
 - powerpick
 
+由于 `ETW` 突然没有任何消息很突兀且明显， 因此在执行结束后， 我们还会将其复原
+
+也因为这个原因， 我们并不推荐直接粗鲁的进行 `bypass` 功能， 或使用某些不在执行后修复的 `PE2SHELLCODE` 软件， 以免发生意外
+
+
 ### Dll/EXE
 
 `DLL/EXE` 是 `Windows` 中的可执行程序格式
 
 在使用中， 可能有动态加载调用 `PE` 文件的需求， 这些文件可能是某个 `EXP` 或某个功能模块， 因此
 
-`Implant` 支持动态加载和调用 `DLL/EXE ` 文件， 并可选择是否需要获取标准输出， 如需要将会把输出发布给
+`Implant` 支持动态加载和调用 `DLL/EXE ` 文件， 并可选择是否需要获取标准输出， 我们将默认捕获标准输出内容并将其返回
 
-所有执行的 `DLL/EXE` 都无需落地在内存中直接执行， 通过调用参数来控制 `DLL/EXE` 在自身内存中调用或创建一个牺牲进程以调用，关于牺牲进程， 您可以参照 `Sacrifice Process` 这一小节的内容
+所有执行的 `DLL/EXE` 都无需落地在内存中直接执行， 通过更改参数来控制 `DLL/EXE` 在自身内存中调用或创建一个牺牲进程以调用，关于牺牲进程， 您可以参照 `Sacrifice Process` 这一小节的内容
 
 #### Inline PE
 
@@ -141,6 +152,10 @@ inline_shellcode xxx.bin
 `C#` 程序可以在 `Windows` 的 `.Net` 框架中运行,而 `.Net` 框架也是现代 `Windows` 系统中不可或缺的一部分。其中包含一个被称为 `Common Language Runtime(CLR)` 的运行时,`Windows` 为此提供了大量的接口,以便开发者操作 `系统API`。
 
 因此， `Implant` 支持在内存中加载并调用 `.Net` 程序,并可选择是否需要获取标准输出。
+
+在 `inline` 执行 `.Net` 程序集时， 我们将会在 `implant` 进程中引入 `.Net` 环境， 在内存中加载并执行您的 `.Net` 程序集
+
+我们将会默认为您绕过 `AMSI`, `WDLP` 以及 `ETW` 的检测
 
 ```bash
 # 使用示例
@@ -406,6 +421,13 @@ BeaconCleanupProcess
 
 虽然是老生常态的技术， 但作为基建设计的框架怎么会少的了它呢 :)
 
+在 `Syscall` 漫长的发展过程中， 出现了多种门技术， 在权衡了多个技术后
+
+我们最终选用通过地址排序计算 `Syscall Num` 并辅以随机 `Syscall` 地址作为我们默认的 `syscall` 调用
+
+但实际上为了规避调用检测， 最好用的还是动态获取 + 堆栈混淆 （目前默认采用）
+当然， 这里的动态获取函数的唯一目的就是减少导入表特征 :)
+
 ### HOOK
 
 #### 🛠️ inline HOOK 
@@ -418,13 +440,27 @@ BeaconCleanupProcess
 
 #### AMSI & ETW
 
+##### HOOK
+
 #####  PATCH
 
 #####  HARDWARE HOOK
 
 #### 👤 SLEEP MASK
 
-#### 👤 THREAD TASK SPOOFING
+#### THREAD TASK SPOOFING
+
+在漫长的攻防旅程中， 堆栈劫持是一个非常精美的点子， 精美到让我完全放弃使用 `syscall` 来进行底层 `API` 的构建
+
+该技术的核心思想在于， 程序在创建每一个函数栈帧时， 都会将其返回地址压入栈中， 从在函数上下文结束后返回到正确的位置， 而这样也可以方便的进行 `unwind`， 即调用堆栈的分析和检测， 因此， 如果我们在调用点处替换返回地址为我们提前预设好的返回地址， 并相对应的创建假的栈帧， 那么在真正调用时， 在 `trace stack` 时， 我们的栈帧就是非常干净非常完美的
+
+我们将所有底层 `API` 都进行了默认的堆栈混淆， 通过伪造栈帧来达到所有调用点均是来自于某个随机的系统函数， 而非在某个私有内存中 :)
+
+并且由于我们 `implant` 本体本身会有很多合法的函数调用行为， 辅以 `kit` 中各类功能模块干净的栈帧，我们的行为就会更趋近于合法程序
+
+当然， 由于 `CET` 的出现， 这项技术的检测也有了解法， 但攻防的长河总是漫漫
+
+路漫漫其修远兮， 吾将上下而求索
 
 #### 👤 LITE VM
 
