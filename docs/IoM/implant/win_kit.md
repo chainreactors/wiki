@@ -2,21 +2,16 @@
 title: Internal of Malice · implant_win_kit
 ---
 
-> 本文档旨在记录 `Windows` 平台 `kit` 相关拓展性功能及内容 :-)
 
-### Process
+## Process
 
-#### Process hollow
+### Process hollow
 
 在用户有调用 `PE/Shellcode` 各类格式的需求时， `Implant` 支持 `Process Hollow` 技术， 以伪装用户的调用需求
 
 `Process Hollow` 的核心思想为创建一个合法进程， 随后镂空其原本内存， 写入我们所需要执行的代码， 从而伪装成合法进程执行活动
 
-####  🛠️ Process Ghost
-
-####  🛠️ Transacted Hollowing
-
-#### Sacrifice Process
+### Sacrifice Process
 
 Fork&Run 虽然已经不是 opsec 的选择， 但是某些情况下还是避不开使用这个技术。
 
@@ -45,7 +40,7 @@ execute_exe gogo.exe -- -i 127.0.0.1
 
 当然， 由于原本意义上的 `Fork&Run` 耗能非常巨大且笨重， 如果确实需要也可以考虑后期添加
 
-#### Alternate Parent Processes
+### Alternate Parent Processes
 
 所有上述支持 `牺牲进程` 的功能均可以自定义 `牺牲进程` 的 `ppid`, 只需在调用命令时添加 `-p` 参数即可
 
@@ -58,19 +53,19 @@ execute_shellcode -p 8888 -n "notepad.exe" ./loader.bin
 
 上述命令表示以`notepad.exe` 作为牺牲进程执行 `loader.bin` ， 并进行父进程欺骗， 将 `ppid` 设为 `8888`
 
-#### Spoof Process Arguments
+### Spoof Process Arguments
 
 由于所有的牺牲进程都会以 `SUSPEND` 参数启动， 因此在执行命令时， 我们可以对从启动到真正执行时的参数进行替换， 即在创建牺牲进程时以伪装的命令创建， 而在牺牲进程执行时以真实命令运行， 我们为所有的带有牺牲进程的功能都提供了该参数
 
 真实参数将被写入保存进虚假参数的内存中， 因此， 如果真实参数比伪装参数长， 该功能将不会启用
 
-#### Blocking DLLs
+### Blocking DLLs
 
 使用 `blockdlls start` 命令来使得以后启动的所有牺牲进程均需要验证将要加载的 `DLL` 的签名， 非微软签名的 `DLL` 将会被禁止加载于我们的 `牺牲进程中`, 使用 `blockdlls stop` 命令来结束这一行为
 
 该功能需要在 `Windows 10` 及以上系统中使用
 
-#### AMSI & ETW & WLDP
+### AMSI & ETW & WLDP
 
 在终端攻防漫长的对抗中， `AMSI` 及 `ETW` 的推出可谓是一石激起千层浪， 但当大家都位于 `r3` 时， 通过一些手法即可轻松绕过这些检测， 我们也在该版本中推出了基础 `bypass` 功能
 
@@ -93,18 +88,8 @@ bypass
 
 也因为这个原因， 我们并不推荐直接粗鲁的进行 `bypass` 功能， 或使用某些不在执行后修复的 `PE2SHELLCODE` 软件， 以免发生意外
 
-
-### Dll/EXE
-
-`DLL/EXE` 是 `Windows` 中的可执行程序格式
-
-在使用中， 可能有动态加载调用 `PE` 文件的需求， 这些文件可能是某个 `EXP` 或某个功能模块， 因此
-
-`Implant` 支持动态加载和调用 `DLL/EXE ` 文件， 并可选择是否需要获取标准输出， 我们将默认捕获标准输出内容并将其返回
-
-所有执行的 `DLL/EXE` 都无需落地在内存中直接执行， 通过更改参数来控制 `DLL/EXE` 在自身内存中调用或创建一个牺牲进程以调用，关于牺牲进程， 您可以参照 `Sacrifice Process` 这一小节的内容
-
-#### Inline PE
+## Fileless Loader
+### Inline PE
 
 某些极端情况下， 用户可能有在本进程执行 `PE` 文件的需求， 因此我们通过 `memory load pe` 技术以支持用户在 `Implant` 中执行 `PE` 文件, 我们将默认捕获 `PE` 文件的标准输出
 
@@ -137,7 +122,6 @@ inline_exe gogo.exe -t 10 -- -i 127.0.0.1
 目前开源版本中使用的方式基于 `APC`, 当然， `Pool party` 正在路上
 
 ```bash
-# 命令示例
 # 使用牺牲进程
 execute_shellcode xxx.bin
 
@@ -178,7 +162,7 @@ execute_assemble Seatbelt.exe -- AMSIProviders
 
 ```bash
 # 使用示例
-powerpick --script powerview.ps1 -- ";Get-NetProcess"
+powerpick --script powerview.ps1 -- "Get-NetProcess"
 ```
 即使用 `unmanaged powershell` 执行 `powerview.ps1` 脚本中的 `Get-NetProcess` 命令
 
@@ -409,14 +393,9 @@ BeaconIsAdmIn
 BeaconCleanupProcess
 ```
 
-!!! 请在编写 `BOF` 文件或使用现有 `BOF` 对应工具包前详细检查是否适配了对应 `API`， 以防止丢失连接！！！
-
-
-### Memory
-
-#### 🛠 ️ 全局堆加密
-#### 🛠 ️ 随机分配 `chunk` 加料
-
+!!! danger
+	请在编写 `BOF` 时请在本地进行充分测试, BOF导致的panic会导致进程退出
+## OPSEC
 ### Syscall
 
 虽然是老生常态的技术， 但作为基建设计的框架怎么会少的了它呢 :)
@@ -428,27 +407,7 @@ BeaconCleanupProcess
 但实际上为了规避调用检测， 最好用的还是动态获取 + 堆栈混淆 （目前默认采用）
 当然， 这里的动态获取函数的唯一目的就是减少导入表特征 :)
 
-### HOOK
-
-#### 🛠️ inline HOOK 
-
-#### 🔒 Hardware HOOK
-
-###  🛠️ Rop Chain
-
-### HIDDEN
-
-#### AMSI & ETW
-
-##### HOOK
-
-#####  PATCH
-
-#####  HARDWARE HOOK
-
-#### 👤 SLEEP MASK
-
-#### THREAD TASK SPOOFING
+### THREAD TASK SPOOFING
 
 在漫长的攻防旅程中， 堆栈劫持是一个非常精美的点子， 精美到让我完全放弃使用 `syscall` 来进行底层 `API` 的构建
 
@@ -460,39 +419,12 @@ BeaconCleanupProcess
 
 当然， 由于 `CET` 的出现， 这项技术的检测也有了解法， 但攻防的长河总是漫漫
 
-路漫漫其修远兮， 吾将上下而求索
 
-#### 👤 LITE VM
 
-### 🛠️ Obfuscator LLVM
-
-#### 🛠️ Anti Class Dump
-
-#### 🛠️ Anti Hooking
-
-#### 🛠️ Anti Debug
-
-#### 🛠️ Bogus Control Flow
-
-#### 🛠️ Control Flow Flattening
-
-#### 🛠️ Basic Block Splitting
-
-#### 🛠️ Instruction Substitution
-
-#### 🛠️ Function CallSite Obf
-
-#### 🛠️ String Encryption
-
-#### 🛠️ Constant Encryption
-
-#### 🛠️ Indirect Branching
-
-#### 🛠️ Function Wrapper
+## Ref
 
 
 最后， 感谢大量优秀的开源项目及开发者们
-
 
 * https://github.com/yamakadi/clroxide/
 * https://github.com/MSxDOS/ntapi

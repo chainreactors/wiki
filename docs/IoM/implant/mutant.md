@@ -6,7 +6,7 @@ title: Internal of Malice · implant手册
 
 ## Mutant
 
-在设计中， mutant 的定位类似于 MSF 工具中的 venom， 可以动态解析和更改配置以动态生成代码， 也可以通过需求动态生成 shellcode 的 raw 文件, 因此， 目前的 mutant 含有两大模块: 
+在设计中， mutant 的定位相当于 MSF venom， 可以动态解析和更改配置以动态生成代码， 也可以通过需求动态生成 shellcode 的 raw 文件, 因此， 目前的 mutant 含有两大模块: 
 
 * generate： 根据配置动态生成代码
 * build：创建可用的 shellcode/PE 文件
@@ -33,6 +33,86 @@ Options:
 generate 模块将会根据配置动态生成一切所需的代码（pulse, prelude, beacon...）
 
 该组件由原本的 `config` 重构而来， 并增加了更多的功能
+
+#### beacon
+
+主体生成物， 这也是我们最初的 config 部分
+
+##### 配置清单
+
+由于 beacon 是整个功能的结合形态， 因此配置项略微复杂， 这里将其分为三部分来介绍
+
+1. basic
+
+    ```yaml
+    basic:
+    name: "malefic"
+    targets:
+        - "10.211.55.2:5001"
+    protocol: "tcp"
+    tls: false
+    proxy: ""
+    interval: 5
+    jitter: 0.2
+    ca: ""
+    encryption: aes
+    key: maliceofinternal
+    ```
+
+2. metadata
+    
+    ```yaml
+    metadata:
+    remap_path: "C:/Windows/Users/Maleficarum"
+    icon: ""
+    compile_time: "24 Jun 2015 18:03:01"
+    file_version: ""
+    product_version: ""
+    company_name: ""
+    product_name: ""
+    original_filename: "normal.exe"
+    file_description: "normal"
+    internal_name: ""
+    ```
+
+3. implants
+
+```yaml 
+implants:
+    mod: beacon
+    register_info: true     # 是否需要在注册时获取系统信息(提示: 该行为为危险行为:)
+    hot_load: true          # 是否需要 hot load 功能， 即动态插件加载功能
+    modules:                # 所需要使用的 modules
+        - "full"            # full (全部模块)， nano(不包含任何模块), base(基础模块)
+                            # fs_full (文件系统相关模块), net_full (网络相关模块)
+                            # sys_full (系统相关模块)
+                            # execute_full (内存执行模块)
+
+    flags:
+        start: 0x41         # 交互 body 开始标志
+        end: 0x42           # 交互 body 结束标志
+        magic: "beautiful"  # 动态校验值
+        artifact_id: 0x1    # unused 保留字段
+    ```
+
+##### 使用说明
+
+```bash
+Config beacon
+
+Usage: malefic-mutant.exe generate beacon [OPTIONS]
+
+Options:
+  -v, --version <VERSION>  Choice professional or community [default: community] [possible values: community, professional, inner]
+  -s, --source             enable build from source code
+  -h, --help               Print help
+```
+
+##### 使用示例
+
+```bash
+cargo --release -p mutant generate beacon 
+```
 
 #### pulse
 
@@ -117,120 +197,6 @@ Options:
 cargo --release -p mutant generate prelude ./xxxx.yaml
 ```
 
-#### beacon
-
-主体生成物， 这也是我们最初的 config 部分
-
-##### 配置清单
-
-由于 beacon 是整个功能的结合形态， 因此配置项略微复杂， 这里将其分为三部分来介绍
-
-1. basic
-
-    ```yaml
-    basic:
-    name: "malefic"
-    targets:
-        - "10.211.55.2:5001"
-    protocol: "tcp"
-    tls: false
-    proxy: ""
-    interval: 5
-    jitter: 0.2
-    ca: ""
-    encryption: aes
-    key: maliceofinternal
-    ```
-
-2. metadata
-    
-    ```yaml
-    metadata:
-    remap_path: "C:/Windows/Users/Maleficarum"
-    icon: ""
-    compile_time: "24 Jun 2015 18:03:01"
-    file_version: ""
-    product_version: ""
-    company_name: ""
-    product_name: ""
-    original_filename: "normal.exe"
-    file_description: "normal"
-    internal_name: ""
-    ```
-
-3. implants
-
-```yaml 
-implants:
-    mod: beacon
-    register_info: true     # 是否需要在注册时获取系统信息(提示: 该行为为危险行为:)
-    hot_load: true          # 是否需要 hot load 功能， 即动态插件加载功能
-    modules:                # 所需要使用的 modules
-        - "full"            # full (全部模块)， nano(不包含任何模块), base(基础模块)
-                            # fs_full (文件系统相关模块), net_full (网络相关模块)
-                            # sys_full (系统相关模块)
-                            # execute_full (内存执行模块)
-
-    flags:
-        start: 0x41         # 交互 body 开始标志
-        end: 0x42           # 交互 body 结束标志
-        magic: "beautiful"  # 动态校验值
-        artifact_id: 0x1    # unused 保留字段
-    apis:                   # unused, 已默认内置在 kit 中, 因此无需更改 :)
-        # apis_level: "sys_apis", "nt_apis"
-        level: "nt_apis"
-        # apis_priority: "normal", "user_defined_dyanmic", "func_syscall" "syscalls" 
-        priority:
-        normal:
-            enable: false
-            type: "normal"
-        dynamic:
-            enable: true
-            # type: "sys_dynamic", "user_defined_dynamic"
-            type: "user_defined_dynamic"
-        syscalls:
-            enable: false
-            # type: "func_syscall", "inline_syscall"
-            type: "inline_syscall"
-    alloctor:
-        # inprocess: "VirtualAlloc", "VirtualAllocEx", 
-        #            "VirtualAllocExNuma", "HeapAlloc", 
-        #            "NtMapViewOfSection", "NtAllocateVirtualMemory"
-        inprocess: "NtAllocateVirtualMemory"
-        # allocter_ex: "VirtualAllocEx", "NtAllocateVirtualMemory", 
-        #              "VirtualAllocExNuma", "NtMapViewOfSection"
-        crossprocess: "NtAllocateVirtualMemory"
-    sleep_mask: true                # unused
-    sacrifice_process: true         # unused, 默认开启于对应modules中
-    fork_and_run: false             # unused, 由于动静过于庞大， 暂时弃置
-    hook_exit: true                 # unused, 默认开启于对应modules中
-    thread_stack_spoofer: true      # unused, 默认开启于modules中
-    pe_signature_modify:            # unused
-        feature: true
-        modify:
-        magic: "\x00\x00"
-        signature: "\x00\x00"
-    ```
-
-##### 使用说明
-
-```bash
-Config beacon
-
-Usage: malefic-mutant.exe generate beacon [OPTIONS]
-
-Options:
-  -v, --version <VERSION>  Choice professional or community [default: community] [possible values: community, professional, inner]
-  -s, --source             enable build from source code
-  -h, --help               Print help
-```
-
-##### 使用示例
-
-```bash
-cargo --release -p mutant generate beacon 
-```
-
 #### bind
 
 在当前实际对抗中, 受到网络环境的限制, 很少有人使用 bind 类型的 webshell. 但在一些极端场景下, 例如不出网的webshell 中, 又或者长时间流量静默的场景下. bind 也许有用武之地
@@ -256,7 +222,7 @@ Options:
 
 ### build
 
-build 作为一切可直接使用的结果文件生成组件， 目前用于生成 `SRDI` 的 shellcode 产物
+build 作为一切可直接使用的结果文件生成器， 目前用于生成 `SRDI` 的 shellcode 产物
 
 ```bash
 Generate related commands

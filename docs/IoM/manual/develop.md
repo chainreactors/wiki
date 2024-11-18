@@ -233,46 +233,7 @@ func CatCmd(ctx *grumble.Context, con *console.Console) {
 
 当然， 也可以自行编写自己别具特色的 `Module` ， 我们提供了灵活的编写接口的模板, 最大程度减轻开发者的工作量
 
-
-### 编写module代码
-
-在编写 `proto` 相关定义后， 就可以开始编写自己的 `Module` 了.
-
-**module接口定义**
-
-```rust
-#[async_trait]
-pub trait Module {
-    fn name() -> &'static str where Self: Sized;
-    fn new() -> Self where Self: Sized;
-    fn new_instance(&self) -> Box<MaleficModule>;
-	async fn run(&mut self, 
-				id: u32, 
-				receiver: &mut crate::Input, 
-				sender: &mut crate::Output) -> Result 
-```
-
-我们已经实现了一个过程宏 `module_impl`, 只需要关注具体功能实现 `run` 函数, 无需编写重复杂余代码.
-
-**run函数定义**
-
-`id` : 即为 Task_id， 在前面的段落中我们提到，每一个用户提交的任务都被视为一个 `Task`, 并通过唯一的 `Task_id` 来进行任务状态管理
-
-`receiver`: 用于接收传入数据, 大部分情况只需要调用一次获取一个message. 对于多个请求包或者持续性的流式输入的场景, 可以调用多次receiver, 持续获得传入数据. 
-
-`sender`: 将所需要传出的数据发送给数据处理模块，
-
-**run返回值定义**
-
-```rust
-#[derive(Clone,Debug)]  
-pub struct TaskResult {  
-    pub task_id: u32,    # taskid
-    pub body: Body,      # protobuf中对应的Body类型
-    pub status: Status   # 任务状态,成功与否, 错误原因等
-}
-```
-
+module相关定义请见
 #### module 示例
 
 接下来我们以 `cat` 功能为例编写一个 `Module` :)
@@ -327,4 +288,3 @@ alias/extension 完全保留了sliver的特性, 可以在这里找到对应的�
 
 https://github.com/BishopFox/sliver/wiki/Aliases-&-Extensions
 
-## 自定义Mals插件开发 🛠️
