@@ -171,21 +171,21 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 - [ ] client
 	- [x] 新增client端插件类型 golang
 	- [x] 重构explorer
-		- [ ] 实现taskschd explorer
-		- [ ] 实现registry explorer
+		- [x] 实现taskschd explorer
+		- [x] 实现registry explorer
 	- [x] 实现profile, 能自定义自动加载的插件集
 	- [ ] 初步实现通过client实现的自动化编译
-	- [ ] 修复 Client bug
+	- [x] 修复 Client bug, https://github.com/chainreactors/malice-network/issues/16
 	- [ ] mals 插件仓库
-		- [ ] 实现插件从github自动下载管理
-		- [ ] 实现lua插件函数文件
-		- [ ] 提供lua插件定义文件
+		- [x] 实现插件从github自动下载管理
+		- [x] 实现lua插件函数文件
+		- [x] 提供lua插件定义文件
 		- [ ] 提供默认插件集合
 			- [x] default-bof
 			- [x] default-elevate
 			- [ ] default-stay
-			- [ ] default-move
-			- [ ] default-chainreactor
+			- [x] default-move
+			- [x] default-chainreactor
 - [ ] server/listener
 	- [x] 重构listener的parser, 尝试兼容第三方C2
 	- [x] 添加donut, srdi, sgn等rpc, 实现shellcode的自定义操作
@@ -201,77 +201,63 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 		- [x] screenshot (使用bof代替)
 		- [x] WMI/COM (待定)
 	- [x] StackSpoofer
-	- [ ] SleepMask Community 
+	- [ ] SleepMask Community , (计划使用新的堆加密技术代替)
 	- [x] 实现stage 1 loader
 	- [x] 实现autorun, 运行在编译时通过yaml配置一系列自动执行的任务
 
-## v0.0.4 (Professional release)
+## v0.1.0 (Professional release)
 
-预计11月发布
+预计在2025年前发布, 此时IoM将具有一个下一代C2应有的能力.   并具有商业化的潜力, 赋能所有攻击模拟需求用户.
 
-professinal 将在v0.0.4 同步发布
+经过三个版本的迭代, 已经实现了绝大部分必要的组件, 我们终于有精力腾出手去实现 professional 
 
-Professinal 同样以implant源码的方式(不包含win-kit)交付给使用者, 共用server/listener/client基建
+professional 同样以implant源码的方式(不包含win-kit)交付给使用者, 共用server/listener/client基建
 
 与Community对比新增的功能:
 
 * OPSEC特性
-	* 内存/动态特性
-		* 专属的SleepMask
-		* 定制indirect-syscall, alloc等各种细节
-		* 专属的进程注入方式
-		* 专属的SRDI
-		* 专属的PE loader
-		* 专属shellcode template
-	* 静态特性
-		* 基于cross的交叉编译工具, 
-		* 提供MSVC+GNU版本, 更自由的选择编译工具链
-		* ollvm(第一个版本可能来不及实现)
-	* 流量特性
-		* 向前向后加密
-		* 内置流量工具rem, 支持所有技术的代理与端口转发技术
+	* 专属的堆加密
+	* 定制indirect-syscall, alloc等各种细节
+	* 专属的进程注入方式
+	* 专属的SRDI
+	* 专属的PE loader
+	* 专属shellcode template
+	* 提供MSVC+GNU版本, 更自由的选择编译工具链
+	* ollvm(第一个版本可能来不及实现)
+	* 密码学前向后向安全
+	* 反沙箱
+	* 反调试
 * 额外功能
-	* Professional 专属工具包
+	* Professional 专属OPSEC工具包
+	* linux-kit
+	* 内置流量工具rem, 支持所有技术的代理与端口转发技术
 
-TODO：
 
+**v0.1.0 的主要工作将是完善文档, linux kit, ollvm, GUI** 
+
+TODO list
 - client
-	- [ ] 添加creds相关功能
-	- [ ] 完善lua/golang插件,发布插件系统mals, 提供文档, vscode插件, 示例
-- [ ] implant
-	- [ ] 添加更丰富的编译选型, 实现对implant每个细节的控制
+	- [ ] 完善golang插件, 实现更自由的插件系统
+	- [ ] 实现基本的GUI client
+- implant
+	- [ ] 添加更丰富的编译选项, 实现对implant每个细节的控制
 	- [ ] 实现llvm pass插件, 适配ollvm
-
-## v0.1.0
-
-**中期计划**
-
-预计在2025年前发布, 此时IoM将具有一个下一代C2应有的能力.   并具有商业化的潜力, 赋能所有攻击模拟需求用户.
-
-对于IoM来说, 在计划中但是还未实现功能实在太多了, 多到没办法通过Todo List展示. 
-
-我们添加了[roadmap.md](wiki/IoM/roadmap.md)用来管理IoM的进度.
-
-
-*(todo list 暂未细化)*
-
-- [ ] generator loader 
-- [ ] 自定义的ollvm 编译器
-- [ ] OPSEC
-	- [ ] sleep mask
-	- [ ] 堆栈混淆
-	- [ ] 定制化的OPSEC相关功能
-- [ ] 解耦rpc与melefic的关联, 并提供自定义implant的api与文档
-- [ ] HVNC
-- [ ] 使用rem作为内置流量控制器
-- [ ] 提供与server交互的SDK
-- [ ] 初步支持webshell
-- [ ] 提供完整的文档说明
-	- [ ] 用户手册
-	- [ ] 插件开发文档
-	- [ ] SDK文档
-
-
+	- [ ] 实现linux-kit
+		- [ ] memfd
+		- [ ] linux bof
+		- [ ] execute_elf
+		- [ ] execute_so
+	- [ ] HVNC
+	- [ ] 适配rem
+- [ ] 文档
+	- [ ] malefic-helper api文档
+	- [ ] 二次开发文档
+	- [ ] 插件的开发与迁移文档
+	- [ ] 各个功能的最佳实践文档
+	- [ ] 3-5篇技术细节文档
+	- [ ] OPSEC文档
+	- [ ] 重构设计文档
+	- [ ] 优化自动生成的插件与help文档
 ## v1.0.0
 
 **终极目标**
@@ -286,3 +272,4 @@ TODO：
 - [ ] ATT&CK
 	- [ ] 基于ATT&CK建立自己的OPSEC矩阵
 	- [ ] 添加ATT&CK攻击路线图自动生成
+- [ ] OPSEC 模型

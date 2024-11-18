@@ -1,7 +1,7 @@
 ---
 title: Internal of Malice · 开发
 ---
-
+``
 !!! danger "当前IoM位于早期阶段, 各种API都能会进行不兼容重构"
 	暂时不建议对IoM进行二次开发,  到v0.1.0之后, 我们对API调整时会考虑兼容性
 
