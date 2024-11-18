@@ -49,10 +49,6 @@ server:
 	serverchan:  
 		enable: false  
 		url:  
-		method:  
-		headers:  
-		content_type:  
-		bodyTemplate:
 listeners:  
   enable: true            # listener 是否启用
   name: listener          # listener名字
