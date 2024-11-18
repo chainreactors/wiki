@@ -7,81 +7,89 @@ module是implant中功能的基本单元, 各种拓展能力(bof,pe,dll)的执�
 
 请见: https://github.com/chainreactors/malefic/blob/master/malefic-modules/Cargo.toml#L24-L58
 
-### Professional Features 🔒
-
-部分module需要依赖各类kits中的高级特性, 在community中只提供了默认特征的版本.
-
-| 目标系统 | 目标架构    | sleep_mask | obfstr | fork&run | thread_stack_spoof | syscall | dynamic_api |
-| -------- | ----------- | ---------- | ------ | -------- | ------------------ | ------- | ----------- |
-| windows  | x86         | ✗         | ✓     | ✓       | ✗                 | ✓      | ✓          |
-|          | x86_64      | ✓         | ✓     | ✓       | ✓                 | ✓      | ✓          |
-|          | arm/aarch64 | ✗         | ✓     | ✓       | ✗                 | ✗      | ✓          |
-| linux    | intel       | ✗         | ✓     | ✗       | ✗                 | ✗      | ✗          |
-|          | arm         | ✗         | ✓     | ✗       | ✗                 | ✗      | ✗          |
-|          | mips        | ✗         | ✓     | ✗       | ✗                 | ✗      | ✗          |
-| macOS    | intel       | ✗         | ✓     | ✗       | ✗                 | ✗      | ✗          |
-|          | arm         | ✗         | ✓     | ✗       | ✗                 | ✗      | ✗          |
-
 ### Dynamic Module
 
 malefic的设计理念之一就是模块化, 自由组装. modules部分的设计也提现了这个理念. 
 
-通过rust自带的`features`相关功能, 可以控制编译过程中的模块组装.  目前提供了三种预设
+通过rust自带的`features`相关功能, 可以控制编译过程中的模块组装.  
 
 ??? info "modules预设"
 ```
-full = [  
-    "fs_ls",  
-    "fs_cd",  
-    "fs_rm",  
-    "fs_cp",  
-    "fs_mv",  
-    "fs_pwd",  
-    "fs_mem",  
-    "fs_mkdir",  
-    "fs_chmod",  
-    "fs_cat",  
-    "net_upload",  
-    "net_download",  
-    "sys_info",  
-    "sys_exec",  
-    "sys_execute_shellcode",  
-    "sys_execute_assembly",  
-    "sys_execute_powershell",  
-    "sys_execute_bof",  
-    "sys_execute_pe",  
-    "sys_env",  
-    "sys_kill",  
-    "sys_whoami",  
-    "sys_ps",  
-    "sys_netstat",  
-]  
+default = ["full"]  
+  
+nano = []  
+  
+full = ["fs_full", "execute_full", "net_full", "sys_full"]  
   
 base = [  
-    "fs_ls",  
-    "fs_cd",  
-    "fs_rm",  
-    "fs_cp",  
-    "fs_mv",  
-    "fs_pwd",  
-    "fs_cat",  
-    "net_upload",  
-    "net_download",  
-    "sys_exec",  
-    "sys_env",  
+    "ls", "cd", "rm", "cp", "mv", "pwd", "cat", "upload", "download", "exec", "env", "info"  
 ]  
   
 extend = [  
-    "sys_kill",  
-    "sys_whoami",  
-    "sys_ps",  
-    "sys_netstat",  
-    "sys_execute_bof",  
-    "sys_execute_shellcode",  
-    "sys_execute_assembly",  
-    "fs_mkdir",  
-    "fs_chmod",  
-]
+    "bypass", "kill", "whoami", "ps", "netstat", "registry", "service", "taskschd", "wmi",  
+    "execute_bof", "execute_shellcode", "execute_assembly", "execute_armory",  
+    "execute_exe", "execute_dll", "execute_local", "mkdir", "chmod"  
+]  
+  
+fs_full = [  
+    "ls", "cd", "rm", "cp", "mv", "pwd", "mem", "mkdir", "chown", "chmod", "cat", "pipe"  
+]  
+  
+ls = []  
+cd = []  
+rm = []  
+cp = []  
+mv = []  
+pwd = []  
+mem = []  
+mkdir = []  
+chmod = []  
+chown = []  
+cat = []  
+pipe = []  
+  
+sys_full = [  
+    "info", "ps", "id", "env", "whoami", "kill", "bypass", "netstat", "wmi", "service",  
+    "registry", "taskschd", "getsystem", "runas", "privs", "inject"  
+]  
+  
+info = []  
+ps = []  
+id = []  
+env = []  
+whoami = []  
+kill = []  
+bypass = []  
+netstat = []  
+wmi = []  
+service = []  
+registry = []  
+taskschd = []  
+getsystem = []  
+runas = []  
+privs = []  
+inject = []  
+  
+execute_full = [  
+    "exec", "execute_shellcode", "execute_assembly", "execute_powershell",  
+    "execute_bof", "execute_armory", "execute_exe", "execute_dll", "execute_local"  
+]  
+  
+exec = []  
+execute_shellcode = []  
+execute_assembly = []  
+execute_bof = []  
+execute_powershell = []  
+execute_armory = []  
+execute_exe = []  
+execute_dll = []  
+execute_local = []  
+  
+net = []  
+net_full = ["upload", "download"]  
+  
+upload = []  
+download = []
 ```
 
 
