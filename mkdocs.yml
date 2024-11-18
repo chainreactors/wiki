@@ -97,7 +97,7 @@ nav:
             - malefic: 
                 - index: IoM/implant/index.md
                 - 编译: IoM/implant/build.md
-                - 配置: IoM/implant/config.md
+                - 配置: IoM/implant/mutant.md
                 - 模块: IoM/implant/modules.md
                 - malefic-win-kit: IoM/implant/win_kit.md
   - gogo:
