@@ -1,3 +1,9 @@
+---
+date:
+  created: 2024-10-30
+slug: neutron-introduce
+---
+
 repo: https://github.com/chainreactors/neutron
 
 ## 背景
@@ -16,6 +22,8 @@ nuclei提供了极简的poc配置, 强大的DSL引擎以及目前**地表最庞�
 也引入了更多的bug, nuclei-templates的已经有一部分的poc随着引擎更新出现了bug. 
 
 而nuclei的绝大数poc, 都用不着这些功能, 其中最常用的协议是http与socket, 最常用的功能是通过yaml配置一个或者几个数据包, 然后校验返回值. 甚至OAST都不是必备的功能, 因为极少漏洞强依赖这个功能, 都能找到时延, 回显等方式更高效与准确的判断.
+
+<!-- more -->
 
 ### 嵌入nuclei
 
