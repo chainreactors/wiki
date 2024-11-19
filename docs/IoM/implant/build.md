@@ -6,14 +6,12 @@ title: Internal of Malice · implant 编译
 
 !!! info "rust自动化编译方案"
 	rust很复杂，不通过交叉编译的方式几乎无法实现所有架构的适配，所以我们参考了[cross-rs/cross](https://github.com/cross-rs/cross)的方案，但它并不完美的符合我们的需求：
-	
 
 	1. cross需要宿主机存在一个rust开发环境，编译环境不够干净，虽然这可以通过虚拟机、github action等方式解决
 	2. cross对很多操作进行了封装，不够灵活，比如一些动态的变量引入、一些复杂的操作无法方便的实现
 	
 	因此，我们参考了cross创建了用于维护malefic(即implant)编译的仓库[chainreactors/cross-rust](https://github.com/chainreactors/cross-rust).
-	这个项目提供了一些主流架构的编译环境。同时考虑到灵活性我们放弃了make改用了具有强大功能的[cargo-make](https://github.com/sagiegurari/cargo-make)来管理编译任务.
-
+	这个项目提供了一些主流架构的编译环境。
 ### 目前支持的架构
 
 malefic理论上支持rust能编译的几乎所有平台, 包括各种冷门架构的IoT设备, Android系统, iOS系统等等 (有相关需求可以联系我们定制化适配), 当前支持的架构可参考[cross-rust](https://github.com/chainreactors/cross-rust)
