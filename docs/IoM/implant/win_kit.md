@@ -7,27 +7,35 @@ title: Internal of Malice · implant_win_kit
 
 ### Process hollow
 
-在用户有调用 `PE/Shellcode` 各类格式的需求时， `Implant` 支持 `Process Hollow` 技术， 以伪装用户的调用需求
+当用户需要调用 `PE/Shellcode` 等多种格式时，`Implant` 提供了基于 `Process Hollowing` 的功能来伪装调用行为。
 
 `Process Hollow` 的核心思想为创建一个合法进程， 随后镂空其原本内存， 写入我们所需要执行的代码， 从而伪装成合法进程执行活动
 
 ### Sacrifice Process
 
-Fork&Run 虽然已经不是 opsec 的选择， 但是某些情况下还是避不开使用这个技术。
+尽管 `Fork&Run` 技术已不再是主流的操作安全（OPSEC）选择，但某些场景下仍不可避免。为统一概念，我们将所有需生成新进程的操作定义为生成一个 **牺牲进程**，涵盖以下所有相关功能。
 
-为便于理解， 可以将所有需要产生新进程的行为均理解为生成了一个 `牺牲进程`， 即包含下面将阐述的所有概念及功能
+#### **默认行为**
 
-所有上述支持使用 `Sacrifice Process` 即 `牺牲进程` 的功能都是以 `SUSPEND` 及 `NO_WINDOWS` 的形式启动的， 在做完其余处理后再唤醒主线程， 因此在这期间我们可以对其做非常多的事
+- 所有牺牲进程均以 `SUSPEND` 和 `NO_WINDOW` 参数启动。
+- 主线程在后续处理完成后再唤醒。
+- 允许在暂停状态下进行多种自定义操作。
 
-支持牺牲进程的功能有:
+#### **支持的功能**
 
-- execute (默认启动牺牲进程， 无需增加参数）
-- execute_exe
-- execute_dll
-- execute_local
-- execute_shellcode
+以下功能默认使用牺牲进程：
 
-我们也为 pe，shellcode 提供了更加 opsec 的 inline 版本(inline_pe/inline_shellcode).
+- `execute`
+- `execute_exe`
+- `execute_dll`
+- `execute_local`
+- `execute_shellcode`
+
+此外，还提供了更高操作安全性的内联版本：
+
+- `inline_pe`
+- `inline_shellcode`
+- inline_assembly 为了同步
 
 接下来我们将以 `execute_exe` 功能来举例说明
 

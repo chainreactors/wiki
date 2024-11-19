@@ -1,7 +1,7 @@
 ---
 title: Internal of Malice · implant 编译
 ---
-
+	
 ## Build
 
 !!! info "rust自动化编译方案"

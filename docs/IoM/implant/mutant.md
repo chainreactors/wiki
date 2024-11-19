@@ -4,7 +4,6 @@ title: Internal of Malice · implant手册
 
 > 随着 Implant 逐渐解耦， 并可预见的将会有更多组建和模块出现在项目中， 因此一个动态管理工具的出现刻不容缓， 而之前的 config 已经无法满足当前的需求， 因此我们新增了 mutant 模块， 并将之前的 config 经过重构嵌入进了该模块
 
-## Mutant
 
 在设计中， mutant 的定位相当于 MSF venom， 可以动态解析和更改配置以动态生成代码， 也可以通过需求动态生成 shellcode 的 raw 文件, 因此， 目前的 mutant 含有两大模块: 
 
@@ -28,17 +27,17 @@ Options:
   -h, --help  Print help
 ```
 
-### generate
+## generate
 
 generate 模块将会根据配置动态生成一切所需的代码（pulse, prelude, beacon...）
 
 该组件由原本的 `config` 重构而来， 并增加了更多的功能
 
-#### beacon
+### beacon
 
 主体生成物， 这也是我们最初的 config 部分
 
-##### 配置清单
+#### 配置清单
 
 由于 beacon 是整个功能的结合形态， 因此配置项略微复杂， 这里将其分为三部分来介绍
 
@@ -103,22 +102,20 @@ Config beacon
 Usage: malefic-mutant.exe generate beacon [OPTIONS]
 
 Options:
-  -v, --version <VERSION>  Choice professional or community [default: community] [possible values: community, professional, inner]
-  -s, --source             enable build from source code
   -h, --help               Print help
 ```
 
-##### 使用示例
+#### 使用示例
 
 ```bash
 cargo --release -p mutant generate beacon 
 ```
 
-#### pulse
+### pulse
 
 pulse 作为目前的 shellcode 生成器， 由 mutant 通过解析配置来提供生成代码
 
-##### 配置清单
+#### 配置清单
 
 其所依赖的配置位于 malefic/config.yaml 文件的 pulse 模块
 
@@ -144,7 +141,7 @@ pulse:
       accept_encoding: "gzip, deflate"
 ```
 
-##### 使用说明
+#### 使用说明
 
 ```bash
 Generate pulse
@@ -156,25 +153,20 @@ Arguments:
   <PLATFORM>  platform, win
 
 Options:
-  -v, --version <VERSION>  Choice professional or community [default: community] [possible values: community, professional, inner]
-  -s, --source             enable build from source code
   -h, --help               Print help
 ```
 
-##### 使用示例
+#### 使用示例
 
 ```bash
 cargo --release -p mutant generate pulse x64 win
 ```
 
-#### prelude
+### prelude
 
 prelude 为可选的用于在上线前进行权限维持, 反沙箱, 反调试等功能的中间阶段
 
-##### 配置清单
-
-
-##### 使用说明
+#### 使用说明
 
 ```bash
 Config prelude
@@ -186,18 +178,40 @@ Arguments:
 
 Options:
   --resources <RESOURCES>  Custom resources dir, default "./resources/" [default: resources]
-  -v, --version <VERSION>      Choice professional or community [default: community] [possible values: community, professional, inner]
-  -s, --source                 enable build from source code
   -h, --help                   Print help
 ```
 
-##### 使用示例
+#### autorun.yaml
+yaml示例:
 
-```bash
-cargo --release -p mutant generate prelude ./xxxx.yaml
+```yaml
+-  
+  name: bof  
+  body: !ExecuteBinary  
+    name: service  
+    bin: !File "addservice.o"
+-
+  name: exe
+  body: !ExecRequest
+    args:
+      - net
+      - user
+      - add
+      - ....
+  
 ```
 
-#### bind
+这个yaml能被自动打包编译成`spite.bin`
+
+```
+malefic-mutant generate prelude autorun.yaml
+
+cargo build -p malefic-prelude
+```
+
+能生成一个自动按顺序执行autorun.yaml 中配置的二进制程序.
+
+### bind (Unstable)
 
 在当前实际对抗中, 受到网络环境的限制, 很少有人使用 bind 类型的 webshell. 但在一些极端场景下, 例如不出网的webshell 中, 又或者长时间流量静默的场景下. bind 也许有用武之地
 
@@ -209,18 +223,9 @@ Config bind
 Usage: malefic-mutant.exe generate bind [OPTIONS]
 
 Options:
-  -v, --version <VERSION>  Choice professional or community [default: community] [possible values: community, professional, inner]
-  -s, --source             enable build from source code
   -h, --help               Print help
 ```
-
-使用示例:
-
-```bash
-
-```
-
-### build
+## build
 
 build 作为一切可直接使用的结果文件生成器， 目前用于生成 `SRDI` 的 shellcode 产物
 
@@ -237,7 +242,7 @@ Options:
   -h, --help  Print help
 ```
 
-#### SRDI
+### SRDI
 
 作为 PE2SHELLCODE 的常见解决方案， 该模块可以将我们的 prelude / beacon 转化为 shellcode 以供多段加载
 
@@ -254,7 +259,7 @@ Arguments:
 
 Options:
       --function-name <FUNCTION_NAME>    Function name [default: ]
-      --user-data-path <USER_DATA_PATH>  User data path [default: ]
+      --userdata-path <USER_DATA_PATH>  User data path [default: ]
   -h, --help                             Print help
 ```
 
