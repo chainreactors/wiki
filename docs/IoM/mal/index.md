@@ -10,8 +10,9 @@ mal-community 是一组通用插件的合集, 这些插件大多来自为Cobalts
 repo: https://github.com/chainreactors/mal-community
 
 mal-community分为多个细分用途的子目录, 可以独立安装
+
 - community-lib ,工具库, 可以当作库被其他插件使用
-	- [sharpblock](https://github.com/CCob/SharpBlock) ,
+	- [sharpblock](https://github.com/CCob/SharpBlock) 
 	- [NET.BOF](https://github.com/CCob/BOF.NET) (TODO)
 	- [No-Consolation](https://github.com/fortra/No-Consolation)
 - community-common, 常用工具包
