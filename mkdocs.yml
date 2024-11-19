@@ -80,26 +80,26 @@ nav:
       - Quickstart: IoM/quickstart.md
       - Concept: IoM/concept.md
       - RoadMap: IoM/roadmap.md
-      - Manual: 
-            - index: IoM/manual/index.md
-            - 使用说明: 
-                - 部署: IoM/manual/deploy.md
-                - 基本命令手册: IoM/manual/client_help.md
-                - implant命令手册: IoM/manual/implant_help.md
-                - 二次开发: IoM/manual/develop.md
-            - 插件手册:
-                - index: IoM/mal/index.md
-                - lua: 
-                    - builtin: IoM/mal/builtin.md
-                    - beacon: IoM/mal/beacon.md
-                    - rpc: IoM/mal/rpc.md
-                    # - events: IoM/mal/events.md
-            - malefic: 
-                - index: IoM/implant/index.md
-                - 编译: IoM/implant/build.md
-                - 配置: IoM/implant/mutant.md
-                - 模块: IoM/implant/modules.md
-                - malefic-win-kit: IoM/implant/win_kit.md
+      - Manual:
+          - index: IoM/manual/index.md
+          - 使用说明:
+              - 安装部署手册: IoM/manual/deploy.md
+              - 基本命令手册: IoM/manual/client.md
+              - implant命令手册: IoM/manual/implant.md
+              - 二次开发: IoM/manual/develop.md
+          - 插件手册:
+              - index: IoM/mal/index.md
+              - lua:
+                  - builtin: IoM/mal/builtin.md
+                  - beacon: IoM/mal/beacon.md
+                  - rpc: IoM/mal/rpc.md
+                  # - events: IoM/mal/events.md
+          - malefic:
+              - index: IoM/implant/index.md
+              - 编译: IoM/implant/build.md
+              - 配置: IoM/implant/mutant.md
+              - 模块: IoM/implant/modules.md
+              - malefic-win-kit: IoM/implant/win_kit.md
   - gogo:
       - index: gogo/index.md
       - 入门: gogo/start.md

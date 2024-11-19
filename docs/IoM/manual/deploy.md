@@ -1,28 +1,33 @@
 ---
-title: Internal of Malice · 部署
+title: Internal of Malice ·  安装部署手册
 ---
-
-# 用户手册
 
 ## 安装
 
-下载**install.sh**安装**malice-network**以及**malefic**。
+一键安装脚本:
 
 ```
-curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/dev/install.sh" | bash
+curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/dev/install.sh" | sudo bash
 ```
 
 确保**IOM**所在系统符合以下条件：
 
-- **操作系统**：Linux（推荐使用 Ubuntu、Debian 或 CentOS）。
+- **操作系统**：Linux推荐使用 Ubuntu、Debian 或 CentOS, (后续会适配mac与windows)
 - **权限**：需要以 `root` 用户或通过 `sudo` 运行安装脚本。
 - **网络连接**：确保能够访问以下资源：
   - `github.com`
   - `ghcr.io`
   - `docker.com`
-  - 其他相关依赖资源。
 
-### 配置安装参数
+
+!!! important ""
+	对于国内服务器访问github容易超时且速度较慢, 建议配置环境变量中的proxy
+	
+	```bash
+	# ssh -R 1080:127.0.0.1:1080 root@ip  , tricks: 可以映射本机的代理端口到vps
+	export http_proxy="http://127.0.0.1:1080"
+	export https_proxy="http://127.0.0.1:1080"
+	```
 
 运行脚本时，将通过交互命令行提供以下信息：
 
@@ -42,8 +47,6 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/dev/inst
   Please input your IP Address for the server to start [default: <自动检测的IP>]:
   ```
 
-### 安装内容
-
 **install.sh**将自动完成以下任务：
 
 1. 检查并安装 Docker。
@@ -61,9 +64,11 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/dev/inst
 
 ## 部署
 
-### Server Config
+### Config 示例
 
 `config.yaml` 是 Malice-Network 服务器的配置文件，其中包含了一些服务器以及 `listener` 可选的配置。
+
+默认配置中包含了tcp, pulse, website, bind 的pipeline示例. 
 
 
 ```bash
@@ -119,13 +124,13 @@ listeners:
 		key_file: ""  
 		ca_file: ""
       encryption: 
-        enable: false  
+        enable: true  
         type: aes 
         key: maliceofinternal
     - name: shellcode
       port: 5002
       host: 0.0.0.0
-      parser: pulse
+      parser: pulse    # 对应malefic-pulse上线
       enable: true
       encryption:
         enable: true
@@ -147,12 +152,89 @@ listeners:
       content:			# website 映射内容
         - path: \images\1.png
           raw:  maliceofinternal
-          type: aes
+          type: raw
         - path: \images\2.png
           raw: maliceofinternal
-          type: xor
+          type: raw
 ```
 
+### Pipeline Config
+
+#### tcp
+最常用的pipeline, 适用于主体程序交互的pipeline.
+
+tcp是目前支持了最多特性的pipeline.  单个tcp pipeline配置:
+
+```
+- name: tcp_default   # pipeline 名字
+      port: 5001          # pipeline 监听的端口
+      host: 0.0.0.0       # pipeline 监听的host
+      protocol: tcp       # 传输层协议
+      parser: malefic 	  # implant协议
+      enable: true        # pipeline是否开启
+      tls:                # tls配置项,留空则自动生成
+        enable: false  
+        name: default  
+        CN: "test"  
+        O: "Sharp Depth"  
+        C: "US"  
+        L: "Houston"  
+        OU: "Persistent Housework, Limited"  
+        ST: "State of Texas"  
+        validity: "365"  
+		cert_file: ""  
+		key_file: ""  
+		ca_file: ""
+      encryption: 
+        enable: true  
+        type: aes 
+        key: maliceofinternal
+```
+
+其中parser协议用来区分对应的implant类型. pulse与malefic目前的传输协议略有不同, 因此pulse需要单独的parser配置.
+
+```
+    - name: shellcode
+      port: 5002
+      host: 0.0.0.0
+      parser: pulse    # 对应malefic-pulse上线
+      enable: true
+      encryption:
+        enable: true
+        type: xor
+        key: maliceofinternal
+```
+
+#### website
+IoM允许将一些文件挂载web服务上
+
+```
+  websites:             # website http任务 
+    - name: test		# website 名字
+      port: 10049		# website 端口
+      root: "/test"		# website route根目录
+      enable: false     # website 是否开启
+      content:			# website 映射内容
+        - path: \images\1.png
+          raw:  maliceofinternal
+          type: raw
+        - path: \images\2.png
+          raw: maliceofinternal
+          type: raw
+```
+#### bind (Unstable)
+主动发送数据的pipeline, 不同于tcp 监听端口. bind会主动向目标发送对应协议序列化后的数据. 
+
+```
+  bind:
+    -
+      name: bind_default
+      enable: true
+      encryption:
+        enable: true
+        type: aes
+        key: maliceofinternal
+```
 ### 启动 Server
 
 **Malice-Network** 服务器是能与控制 `Implant` 并与 **Malice-Network** 客户端交互的主机。服务器还存储了部分 **Malice-Network** 收集的数据，并管理日志记录。
@@ -340,18 +422,17 @@ certificate: |
 
 ## 编译
 
-自行编译说明
+malice-network已经提供了相关的release: https://github.com/chainreactors/malice-network/releases
 
 clone项目到本地
 
 ```
-git clone --recurse-submodules https://github.com/chainreactors/malice-network
+git clone https://github.com/chainreactors/malice-network
 ```
 
 ### 编译client
 
 ```
-go generate ./client
 go mod tidy
 go build ./client/
 ```
@@ -359,12 +440,6 @@ go build ./client/
 ### 编译server
 
 ```
-go generate ./client
 go mod tidy
-go build ./server/cmd/server
+go build ./server
 ```
-
-
-### 编译 Implant
-
-请参阅 [Implant](../implant/config.md) 中 compile 部分
