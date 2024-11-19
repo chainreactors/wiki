@@ -95,6 +95,30 @@ TaskError::FieldInvalid { .. } => 6,         // 参数错误
 TaskError::NotImpl => 99,                    // 未实现的module
 ```
 
+#### example
+
+```rust
+pub struct Example {}  
+  
+#[async_trait]  
+#[module_impl("example")]  
+impl Module for Example {  
+    #[allow(unused_variables)]  
+    async fn run(&mut self, id: u32, receiver: &mut crate::Input, sender: &mut crate::Output) -> Result {  
+        let request = check_request!(receiver, Body::Request)?;  
+        if request.input == "ok" {  
+            let mut response = Response::default();  
+            response.output = "ok".to_string();  
+            Ok(TaskResult::new_with_body(id, Body::Response(response)))  
+        } else {  
+            Err(anyhow::anyhow!(NotImpl))  
+        }  
+    }  
+}
+```
+
+只需要关心run函数的逻辑, 即可使用rust快速实现一个新的模块
+
 ### 已实现 Modules
 
 请见: https://github.com/chainreactors/malefic/blob/master/malefic-modules/Cargo.toml#L24-L58
