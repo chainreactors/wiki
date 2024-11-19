@@ -36,6 +36,16 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 
 可参考[官网介绍](https://www.docker.com/)
 
+```bash
+curl -fsSL https://get.docker.com | sudo bash -s docker
+```
+
+??? info "国内安装docker"
+	```
+	curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+	```
+
+
 #### 编译
 以`x86_64-unknown-linux-musl`举例
 ```bash
@@ -169,38 +179,9 @@ cargo make --env MOUDLES_FEATURES="execute_powershell execute_assembly" module
 cargo build --release --features "execute_powershell execute_assembly" -p malefic-modules --target x86_64-pc-windows-gnu
 ```
 
-??? info "所有支持的feautres"
-	请见 https://github.com/chainreactors/malefic/blob/master/malefic-modules/Cargo.toml
-	
 
-	fs_ls = ["fs"]  
-	fs_cd = ["fs"]  
-	fs_rm = ["fs"]  
-	fs_cp = ["fs"]  
-	fs_mv = ["fs"]  
-	fs_pwd = ["fs"]  
-	fs_mem = ["fs"]  
-	fs_mkdir = ["fs"]  
-	fs_chmod = ["fs"]  
-	fs_cat = ["fs"]  
-	  
-	sys_info = ["sys"]  
-	sys_ps = ["sys"]  
-	sys_id = ["sys"]  
-	sys_env = ["sys"]  
-	sys_whoami = ["sys"]  
-	sys_exec = ["sys"]  
-	sys_kill = ["sys"]  
-	sys_execute_shellcode = ["sys"]  
-	sys_execute_assembly = ["sys"]  
-	sys_execute_bof = ["sys"]  
-	sys_execute_pe = ["sys"]  
-	sys_execute_powershell = ["sys"]  
-	sys_netstat = ["sys"]  
-	  
-	net_upload = ["net"]  
-	net_download = ["net"]
-
+!!! info "当前支持的modules"
+	请见: https://chainreactors.github.io/wiki/IoM/implant/modules/#modules
 
 编译结果为`target\[arch]\release\modules.dll`
 

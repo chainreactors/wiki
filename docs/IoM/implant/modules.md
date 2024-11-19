@@ -10,7 +10,8 @@ internal module是一组在malefic-core中定义的基本module, 用于module管
 * ping, 交换心跳包
 * clear, 清除所有额外加载的modules与addons
 * init, 用于bind模式下的初始化
-### ### module管理
+
+### module管理
 
 module是malefic功能的基本单元, 每个spite都会选择一个对应的module进行各种各样的操作. 
 
@@ -128,82 +129,82 @@ malefic的设计理念之一就是模块化, 自由组装. modules部分的设�
 通过rust自带的`features`相关功能, 可以控制编译过程中的模块组装.  
 
 ??? info "modules预设"
-```
-default = ["full"]  
-  
-nano = []  
-  
-full = ["fs_full", "execute_full", "net_full", "sys_full"]  
-  
-base = [  
-    "ls", "cd", "rm", "cp", "mv", "pwd", "cat", "upload", "download", "exec", "env", "info"  
-]  
-  
-extend = [  
-    "bypass", "kill", "whoami", "ps", "netstat", "registry", "service", "taskschd", "wmi",  
-    "execute_bof", "execute_shellcode", "execute_assembly", "execute_armory",  
-    "execute_exe", "execute_dll", "execute_local", "mkdir", "chmod"  
-]  
-  
-fs_full = [  
-    "ls", "cd", "rm", "cp", "mv", "pwd", "mem", "mkdir", "chown", "chmod", "cat", "pipe"  
-]  
-  
-ls = []  
-cd = []  
-rm = []  
-cp = []  
-mv = []  
-pwd = []  
-mem = []  
-mkdir = []  
-chmod = []  
-chown = []  
-cat = []  
-pipe = []  
-  
-sys_full = [  
-    "info", "ps", "id", "env", "whoami", "kill", "bypass", "netstat", "wmi", "service",  
-    "registry", "taskschd", "getsystem", "runas", "privs", "inject"  
-]  
-  
-info = []  
-ps = []  
-id = []  
-env = []  
-whoami = []  
-kill = []  
-bypass = []  
-netstat = []  
-wmi = []  
-service = []  
-registry = []  
-taskschd = []  
-getsystem = []  
-runas = []  
-privs = []  
-inject = []  
-  
-execute_full = [  
-    "exec", "execute_shellcode", "execute_assembly", "execute_powershell",  
-    "execute_bof", "execute_armory", "execute_exe", "execute_dll", "execute_local"  
-]  
-  
-exec = []  
-execute_shellcode = []  
-execute_assembly = []  
-execute_bof = []  
-execute_powershell = []  
-execute_armory = []  
-execute_exe = []  
-execute_dll = []  
-execute_local = []  
-  
-net_full = ["upload", "download"]  
-  
-upload = []  
-download = []
-```
+	```
+	default = ["full"]  
+	  
+	nano = []  
+	  
+	full = ["fs_full", "execute_full", "net_full", "sys_full"]  
+	  
+	base = [  
+	    "ls", "cd", "rm", "cp", "mv", "pwd", "cat", "upload", "download", "exec", "env", "info"  
+	]  
+	  
+	extend = [  
+	    "bypass", "kill", "whoami", "ps", "netstat", "registry", "service", "taskschd", "wmi",  
+	    "execute_bof", "execute_shellcode", "execute_assembly", "execute_armory",  
+	    "execute_exe", "execute_dll", "execute_local", "mkdir", "chmod"  
+	]  
+	  
+	fs_full = [  
+	    "ls", "cd", "rm", "cp", "mv", "pwd", "mem", "mkdir", "chown", "chmod", "cat", "pipe"  
+	]  
+	  
+	ls = []  
+	cd = []  
+	rm = []  
+	cp = []  
+	mv = []  
+	pwd = []  
+	mem = []  
+	mkdir = []  
+	chmod = []  
+	chown = []  
+	cat = []  
+	pipe = []  
+	  
+	sys_full = [  
+	    "info", "ps", "id", "env", "whoami", "kill", "bypass", "netstat", "wmi", "service",  
+	    "registry", "taskschd", "getsystem", "runas", "privs", "inject"  
+	]  
+	  
+	info = []  
+	ps = []  
+	id = []  
+	env = []  
+	whoami = []  
+	kill = []  
+	bypass = []  
+	netstat = []  
+	wmi = []  
+	service = []  
+	registry = []  
+	taskschd = []  
+	getsystem = []  
+	runas = []  
+	privs = []  
+	inject = []  
+	  
+	execute_full = [  
+	    "exec", "execute_shellcode", "execute_assembly", "execute_powershell",  
+	    "execute_bof", "execute_armory", "execute_exe", "execute_dll", "execute_local"  
+	]  
+	  
+	exec = []  
+	execute_shellcode = []  
+	execute_assembly = []  
+	execute_bof = []  
+	execute_powershell = []  
+	execute_armory = []  
+	execute_exe = []  
+	execute_dll = []  
+	execute_local = []  
+	  
+	net_full = ["upload", "download"]  
+	  
+	upload = []  
+	download = []
+	```
 
 
 > 关于这些module的具体配置请见 [build](/wiki/IoM/implant/build)
