@@ -415,7 +415,7 @@ BeaconCleanupProcess
 但实际上为了规避调用检测， 最好用的还是动态获取 + 堆栈混淆 （目前默认采用）
 当然， 这里的动态获取函数的唯一目的就是减少导入表特征 :)
 
-### THREAD TASK SPOOFING
+### THREAD TACK SPOOFING
 
 在漫长的攻防旅程中， 堆栈劫持是一个非常精美的点子， 精美到让我完全放弃使用 `syscall` 来进行底层 `API` 的构建
 
@@ -443,3 +443,4 @@ BeaconCleanupProcess
 * https://github.com/b4rtik/metasploit-execute-assembly
 * https://github.com/lap1nou/CLR_Heap_encryption
 * https://github.com/med0x2e/ExecuteAssembly/
+* https://github.com/postrequest/link

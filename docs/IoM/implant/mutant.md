@@ -2,7 +2,7 @@
 title: Internal of Malice · implant手册
 ---
 
-> 随着 Implant 逐渐解耦， 并可预见的将会有更多组建和模块出现在项目中， 因此一个动态管理工具的出现刻不容缓， 而之前的 config 已经无法满足当前的需求， 因此我们新增了 mutant 模块， 并将之前的 config 经过重构嵌入进了该模块
+> 随着 Implant 逐渐解耦， 并可预见的将会有更多组件和模块出现在项目中， 因此一个动态管理工具的出现刻不容缓， 而之前的 config 已经无法满足当前的需求， 因此我们新增了 mutant 模块， 并将之前的 config 经过重构嵌入进了该模块
 
 
 在设计中， mutant 的定位相当于 MSF venom， 可以动态解析和更改配置以动态生成代码， 也可以通过需求动态生成 shellcode 的 raw 文件, 因此， 目前的 mutant 含有两大模块: 
@@ -76,23 +76,23 @@ generate 模块将会根据配置动态生成一切所需的代码（pulse, prel
 
 3. implants
 
-```yaml 
-implants:
-    mod: beacon
-    register_info: true     # 是否需要在注册时获取系统信息(提示: 该行为为危险行为:)
-    hot_load: true          # 是否需要 hot load 功能， 即动态插件加载功能
-    modules:                # 所需要使用的 modules
-        - "full"            # full (全部模块)， nano(不包含任何模块), base(基础模块)
-                            # fs_full (文件系统相关模块), net_full (网络相关模块)
-                            # sys_full (系统相关模块)
-                            # execute_full (内存执行模块)
-
-    flags:
-        start: 0x41         # 交互 body 开始标志
-        end: 0x42           # 交互 body 结束标志
-        magic: "beautiful"  # 动态校验值
-        artifact_id: 0x1    # unused 保留字段
-    ```
+    ```yaml 
+    implants:
+        mod: beacon
+        register_info: true     # 是否需要在注册时获取系统信息(提示: 该行为为危险行为:)
+        hot_load: true          # 是否需要 hot load 功能， 即动态插件加载功能
+        modules:                # 所需要使用的 modules
+            - "full"            # full (全部模块)， nano(不包含任何模块), base(基础模块)
+                                # fs_full (文件系统相关模块), net_full (网络相关模块)
+                                # sys_full (系统相关模块)
+                                # execute_full (内存执行模块)
+    
+        flags:
+            start: 0x41         # 交互 body 开始标志
+            end: 0x42           # 交互 body 结束标志
+            magic: "beautiful"  # 动态校验值
+            artifact_id: 0x1    # unused 保留字段
+        ```
 
 ##### 使用说明
 
