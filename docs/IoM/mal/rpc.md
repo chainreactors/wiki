@@ -427,6 +427,27 @@
 - `$1` [context] 
 - `$2` [Ping] 
 
+### PipeClose
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [PipeRequest] 
+
+### PipeRead
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [PipeRequest] 
+
+### PipeUpload
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [PipeRequest] 
+
 ### Polling
 
 **Arguments**

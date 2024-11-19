@@ -1,3 +1,857 @@
+## 
+
+### active
+
+get current session
+
+**Arguments**
+
+
+**Example**
+
+```
+active()
+```
+
+### arg_hex
+
+**Arguments**
+
+- `input` [string] - 
+
+**Example**
+
+```
+arg_hex("aa")
+```
+
+### env_set
+
+**Arguments**
+
+- `sess` [Session] - special session
+- `envName` [string] - env name
+- `value` [string] - env value
+
+**Example**
+
+```
+env(active(), "name", "value")
+```
+
+### env_unset
+
+**Arguments**
+
+- `sess` [Session] - special session
+- `envName` [string] - env name
+
+**Example**
+
+```
+unsetenv(active(), "envName")
+```
+
+### format_path
+
+**Arguments**
+
+- `s` [string] - 
+
+**Example**
+
+```
+
+format_path("C:\\Windows\\System32\\calc.exe")
+
+```
+
+### new_64_executable
+
+**Arguments**
+
+- `module` [string] - 
+- `filename` [string] -  path to the binary
+- `argsStr` [string] -  command line arguments
+- `sacrifice` [SacrificeProcess] -  sacrifice process
+
+**Example**
+
+```
+
+sac = new_sacrifice(123, false, false, false, "")
+new_64_exec = new_64_executable("module", "filename", "args", sac)
+
+```
+
+### new_86_executable
+
+**Arguments**
+
+- `module` [string] - 
+- `filename` [string] -  path to the binary
+- `argsStr` [string] -  command line arguments
+- `sacrifice` [SacrificeProcess] -  sacrifice process
+
+**Example**
+
+```
+
+sac = new_sacrifice(123, false, false, false, "")
+new_86_exec = new_86_executable("module", "filename", "args", sac)
+
+```
+
+### new_binary
+
+**Arguments**
+
+- `module` [string] - 
+- `filename` [string] -  path to the binary
+- `args` [table<string>] -  command line arguments
+- `output` [boolean] - 
+- `timeout` [number] - 
+- `arch` [string] - 
+- `process` [string] - 
+- `sacrifice` [SacrificeProcess] -  sacrifice process
+
+**Example**
+
+```
+
+sac = new_sacrifice(123, false, false, false, "")
+new_bin = new_binary("module", "filename", "args", true, 100, "amd64", "process", sac)
+
+```
+
+### new_sacrifice
+
+**Arguments**
+
+- `ppid` [number] -  parent process id
+- `hidden` [boolean] - 
+- `blockDll` [boolean] - 
+- `disableETW` [boolean] - 
+- `argue` [string] -  arguments
+
+**Example**
+
+```
+
+sac = new_sacrifice(123, false, false, false, "")
+
+```
+
+### pack_bof
+
+**Arguments**
+
+- `format` [string] - 
+- `arg` [string] - 
+
+**Example**
+
+```
+pack_bof("Z", "aa")
+```
+
+### pack_bof_args
+
+**Arguments**
+
+- `format` [string] - 
+- `args` [table<string>] - 
+
+**Example**
+
+```
+
+pack_bof_args("ZZ", {"aa", "bb"})
+
+```
+
+### pipe_close
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  name of the pipe
+
+**Example**
+
+```
+pipe_close(active(), "pipe_name")
+```
+
+### pipe_read
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  name of the pipe
+
+**Example**
+
+```
+pipe_read(active(), "pipe_name")
+```
+
+### pipe_upload
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `pipe` [string] -  target pipe
+- `path` [string] -  file path to upload
+
+**Example**
+
+```
+pipe_upload(active(), "pipe_name", "file_path")
+```
+
+### reg_add
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `hive` [string] -  registry hive
+- `path` [string] -  registry path
+- `key` [string] -  registry
+- `stringValue` [string] -  string value
+- `byteValue` [table] -  byte value
+- `dwordValue` [number] -  dword value
+- `qwordValue` [number] -  qword value
+- `regtype` [number] -  registry type
+
+**Example**
+
+```
+reg_add(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example","TestKey","example","",1,0,0)
+```
+
+### reg_delete
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `hive` [string] -  registry hive
+- `path` [string] -  registry path
+- `key` [string] -  registry key
+
+**Example**
+
+```
+reg_delete(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example","TestKey")
+```
+
+### reg_list_key
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `hive` [string] -  registry hive
+- `path` [string] -  registry path
+
+**Example**
+
+```
+reg_list_key(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example")
+```
+
+### reg_query
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `hive` [string] -  registry hive
+- `path` [string] -  registry path
+- `key` [string] -  registry
+
+**Example**
+
+```
+reg_query(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example","TestKey")
+```
+
+### service_create
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  service name
+- `displayName` [string] -  display name
+- `executablePath` [string] -  executable path
+- `startType` [number] -  start type
+- `errorControl` [number] -  error control
+- `accountName` [string] -  account name
+
+**Example**
+
+```
+service_create(active(), "service_name", "display", "path", 0, 0, "account")
+```
+
+### service_delete
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  service name
+
+**Example**
+
+```
+service_delete(active(),"service_name")
+```
+
+### service_list
+
+**Arguments**
+
+- `session` [Session] -  special session
+
+**Example**
+
+```
+service_list(active())
+```
+
+### service_query
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  service name
+
+**Example**
+
+```
+service_query(active(),"service_name")
+```
+
+### service_start
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  service name
+
+**Example**
+
+```
+service_start(active(),"service_name")
+```
+
+### service_stop
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  service name
+
+**Example**
+
+```
+service_stop(active(),"service_name")
+```
+
+### taskschd_create
+
+**Arguments**
+
+- `sess` [Session] -  special session
+- `name` [string] -  name of the scheduled task
+- `path` [string] -  path to the executable for the scheduled task
+- `triggerType` [number] -  trigger type for the task
+- `startBoundary` [string] -  start boundary for the scheduled task
+
+**Example**
+
+```
+taskschd_create(active(), "task_name", "process_path", 1, "2023-10-10T09:00:00")
+```
+
+### taskschd_delete
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  name of the scheduled task
+
+**Example**
+
+```
+taskschd_delete(active(), "task_name")
+```
+
+### taskschd_list
+
+**Arguments**
+
+- `sess` [Session] -  special session
+
+**Example**
+
+```
+taskschd_list(active())
+```
+
+### taskschd_query
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  name of the scheduled task
+
+**Example**
+
+```
+taskschd_query(active(), "task_name")
+```
+
+### taskschd_run
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  name of the scheduled task
+
+**Example**
+
+```
+taskschd_run(active(), "task_name")
+```
+
+### taskschd_start
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  name of the scheduled task
+
+**Example**
+
+```
+taskschd_create(active(), "task_name")
+```
+
+### taskschd_stop
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  name of the scheduled task
+
+**Example**
+
+```
+taskschd_stop(active(), "task_name")
+```
+
+### upload
+
+Upload file to a named pipe
+
+Upload the content of a specified file to a named pipe.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `path` [string] -  source path
+- `target` [string] -  target path
+- `priv` [string] - 
+- `hidden` [boolean] - 
+
+**Example**
+
+```
+upload(active(),"/source/path","/target/path",parse_octal("644"),false)
+```
+
+## file
+
+### cat
+
+Print file content
+
+concatenate and display the contents of file in implant
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `fileName` [string] -  file to print
+
+**Example**
+
+```
+cat(active(),"file.txt")
+```
+
+### cd
+
+Change directory
+
+change the shell's current working directory in implant
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `path` [string] -  path to change directory
+
+**Example**
+
+```
+cd(active(),"path")
+```
+
+### chmod
+
+Change file mode
+
+change the permissions of files and directories in implant
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `path` [string] -  file to change mode
+- `mode` [string] -  mode to change
+
+**Example**
+
+```
+chmod(active(),"file.txt","644")
+```
+
+### chown
+
+Change file owner
+
+change the ownership of a file or directory in implant
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `path` [string] -  file to change owner
+- `uid` [string] -  user to change
+- `gid` [string] -  group to change
+- `recursive` [boolean] -  recursive
+
+**Example**
+
+```
+chown(active(),"file.txt","username","groupname",true)
+```
+
+### cp
+
+Copy file
+
+copy files and directories in implant
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `originPath` [string] -  origin path
+- `targetPath` [string] -  target path
+
+**Example**
+
+```
+cp(active(),"source","target")
+```
+
+### download
+
+Download file
+
+download file in implant
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `path` [string] -  file path
+
+**Example**
+
+```
+download(active(),`file.txt`)
+```
+
+### ls
+
+List directory
+
+list directory contents in implant
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `path` [string] -  path to list files
+
+**Example**
+
+```
+ls(active(),"/tmp")
+```
+
+### mkdir
+
+Make directory
+
+make directories in implant
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `path` [string] -  dir
+
+**Example**
+
+```
+mkdir(active(),"/tmp")
+```
+
+### mv
+
+Move file
+
+move files and directories in implant
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `sourcePath` [string] -  source path
+- `targetPath` [string] -  target path
+
+**Example**
+
+```
+mv(active(),"/tmp/file1.txt","/tmp/file2.txt")
+```
+
+### pwd
+
+Print working directory
+
+print working directory in implant
+
+**Arguments**
+
+- `session` [Session] -  special session
+
+**Example**
+
+```
+pwd(active())
+```
+
+### rm
+
+Remove file
+
+remove files and directories in implant
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `fileName` [string] -  file to remove
+
+**Example**
+
+```
+pwd(active(),"/tmp/file.txt")
+```
+
+## encode
+
+### base64_decode
+
+**Arguments**
+
+- `input` [string] - 
+
+**Example**
+
+```
+base64_decode("aGVsbG8=")
+```
+
+### base64_encode
+
+**Arguments**
+
+- `input` [string] - 
+
+**Example**
+
+```
+base64_encode("hello")
+```
+
+### file_exists
+
+**Arguments**
+
+- `path` [string] - 
+
+**Example**
+
+```
+file_exists("C:\\Windows\\System32\\calc.exe")
+```
+
+### ismatch
+
+**Arguments**
+
+- `pattern` [string] - 
+- `text` [string] - 
+
+**Example**
+
+```
+ismatch("([a-z]+) ([0-9]+)", "hello 123")
+```
+
+### parse_hex
+
+**Arguments**
+
+- `hexString` [string] - 
+
+**Example**
+
+```
+parse_hex("0x1f4")
+```
+
+### parse_octal
+
+**Arguments**
+
+- `octalString` [string] - 
+
+**Example**
+
+```
+parse_octal("0o744")
+```
+
+### random_string
+
+**Arguments**
+
+- `length` [number] - 
+
+**Example**
+
+```
+random_string(10)
+```
+
+### timestampMillis
+
+**Arguments**
+
+
+**Example**
+
+```
+timestampMillis()
+```
+
+## implant
+
+### cancel_task
+
+Cancel a task by task_id
+
+**Arguments**
+
+- `sess` [Session] - special session
+- `task_id` [number] - task id
+
+**Example**
+
+```
+cancel_task <task_id>
+```
+
+### clear
+
+Clear modules
+
+**Arguments**
+
+- `session` [Session] -  special session
+
+**Example**
+
+```
+clear(active())
+```
+
+### load_module
+
+Load module
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `bundle_name` [string] -  bundle name
+- `path` [string] -  path to the module file
+
+**Example**
+
+```
+load_module(active(),"bundle_name","module_file.dll")
+```
+
+### refresh_module
+
+Refresh module
+
+**Arguments**
+
+- `session` [Session] -  special session
+
+**Example**
+
+```
+refresh_module(active())
+```
+
+### sleep
+
+change implant sleep config
+
+**Arguments**
+
+- `sess` [Session] - special session
+- `interval` [number] - time interval, in seconds
+- `jitter` [number] - jitter, percentage of interval
+
+**Example**
+
+```
+sleep(active(), 10, 0.5)
+```
+
+### suicide
+
+kill implant
+
+**Arguments**
+
+- `sess` [Session] - special session
+
+**Example**
+
+```
+suicide(active())
+```
+
 ## execute
 
 ### bof
@@ -307,721 +1161,174 @@ equal: exec cmd /c "[cmdline]"
 shell(active(),"whoami",true)
 ```
 
-## file
+## base
 
-### cat
-
-Print file content
-
-concatenate and display the contents of file in implant
+### assemblyprint
 
 **Arguments**
 
-- `session` [Session] -  special session
-- `fileName` [string] -  file to print
+- `$1` [TaskContext] 
 
-**Example**
-
-```
-cat(active(),"file.txt")
-```
-
-### cd
-
-Change directory
-
-change the shell's current working directory in implant
+### barch
 
 **Arguments**
 
-- `session` [Session] -  special session
-- `path` [string] -  path to change directory
+- `$1` [Session] 
 
-**Example**
-
-```
-cd(active(),"path")
-```
-
-### chmod
-
-Change file mode
-
-change the permissions of files and directories in implant
+### blog
 
 **Arguments**
 
-- `session` [Session] -  special session
-- `path` [string] -  file to change mode
-- `mode` [string] -  mode to change
+- `$1` [Session] 
+- `$2` [string] 
 
-**Example**
-
-```
-chmod(active(),"file.txt","644")
-```
-
-### chown
-
-Change file owner
-
-change the ownership of a file or directory in implant
+### broadcast
 
 **Arguments**
 
-- `session` [Session] -  special session
-- `path` [string] -  file to change owner
-- `uid` [string] -  user to change
-- `gid` [string] -  group to change
-- `recursive` [boolean] -  recursive
+- `$1` [string] 
 
-**Example**
-
-```
-chown(active(),"file.txt","username","groupname",true)
-```
-
-### cp
-
-Copy file
-
-copy files and directories in implant
+### callback_append
 
 **Arguments**
 
-- `session` [Session] -  special session
-- `originPath` [string] -  origin path
-- `targetPath` [string] -  target path
+- `$1` [string] 
 
-**Example**
-
-```
-cp(active(),"source","target")
-```
-
-### download
-
-Download file
-
-download file in implant
+### callback_bof
 
 **Arguments**
 
-- `session` [Session] -  special session
-- `path` [string] -  file path
+- `$1` [Session] 
+- `$2` [string] 
 
-**Example**
-
-```
-download(active(),`file.txt`)
-```
-
-### ls
-
-List directory
-
-list directory contents in implant
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `path` [string] -  path to list files
-
-**Example**
-
-```
-ls(active(),"/tmp")
-```
-
-### mkdir
-
-Make directory
-
-make directories in implant
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `path` [string] -  dir
-
-**Example**
-
-```
-mkdir(active(),"/tmp")
-```
-
-### mv
-
-Move file
-
-move files and directories in implant
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `sourcePath` [string] -  source path
-- `targetPath` [string] -  target path
-
-**Example**
-
-```
-mv(active(),"/tmp/file1.txt","/tmp/file2.txt")
-```
-
-### pwd
-
-Print working directory
-
-print working directory in implant
-
-**Arguments**
-
-- `session` [Session] -  special session
-
-**Example**
-
-```
-pwd(active())
-```
-
-### rm
-
-Remove file
-
-remove files and directories in implant
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `fileName` [string] -  file to remove
-
-**Example**
-
-```
-pwd(active(),"/tmp/file.txt")
-```
-
-### upload
-
-Upload file
-
-upload local file to remote implant
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `path` [string] -  source path
-- `target` [string] -  target path
-- `priv` [string] - 
-- `hidden` [boolean] - 
-
-**Example**
-
-```
-upload(active(),"/source/path","/target/path",parse_octal("644"),false)
-```
-
-## implant
-
-### cancel_task
-
-Cancel a task by task_id
-
-**Arguments**
-
-- `sess` [Session] - special session
-- `task_id` [number] - task id
-
-**Example**
-
-```
-cancel_task <task_id>
-```
-
-### clear
-
-Clear modules
-
-**Arguments**
-
-- `session` [Session] -  special session
-
-**Example**
-
-```
-clear(active())
-```
-
-### load_module
-
-Load module
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `bundle_name` [string] -  bundle name
-- `path` [string] -  path to the module file
-
-**Example**
-
-```
-load_module(active(),"bundle_name","module_file.dll")
-```
-
-### refresh_module
-
-Refresh module
-
-**Arguments**
-
-- `session` [Session] -  special session
-
-**Example**
-
-```
-refresh_module(active())
-```
-
-### sleep
-
-change implant sleep config
-
-**Arguments**
-
-- `sess` [Session] - special session
-- `interval` [number] - time interval, in seconds
-- `jitter` [number] - jitter, percentage of interval
-
-**Example**
-
-```
-sleep(active(), 10, 0.5)
-```
-
-### suicide
-
-kill implant
-
-**Arguments**
-
-- `sess` [Session] - special session
-
-**Example**
-
-```
-suicide(active())
-```
-
-## 
-
-### active
-
-get current session
+### callback_discard
 
 **Arguments**
 
 
-**Example**
-
-```
-active()
-```
-
-### arg_hex
+### callback_file
 
 **Arguments**
 
-- `input` [string] - 
+- `$1` [string] 
 
-**Example**
-
-```
-arg_hex("aa")
-```
-
-### env_set
+### callback_log
 
 **Arguments**
 
-- `sess` [Session] - special session
-- `envName` [string] - env name
-- `value` [string] - env value
+- `$1` [Session] 
+- `$2` [boolean] 
 
-**Example**
-
-```
-env(active(), "name", "value")
-```
-
-### env_unset
+### execute_addon
 
 **Arguments**
 
-- `sess` [Session] - special session
-- `envName` [string] - env name
+- `$1` [Session] 
+- `$2` [string] 
+- `$3` [table<string>] 
+- `$4` [boolean] 
+- `$5` [number] 
+- `$6` [string] 
+- `$7` [string] 
+- `$8` [SacrificeProcess] 
 
-**Example**
-
-```
-unsetenv(active(), "envName")
-```
-
-### format_path
-
-**Arguments**
-
-- `s` [string] - 
-
-**Example**
-
-```
-
-format_path("C:\\Windows\\System32\\calc.exe")
-
-```
-
-### new_64_executable
+### get
 
 **Arguments**
 
-- `module` [string] - 
-- `filename` [string] -  path to the binary
-- `argsStr` [string] -  command line arguments
-- `sacrifice` [SacrificeProcess] -  sacrifice process
+- `$1` [Task] 
+- `$2` [number] 
 
-**Example**
-
-```
-
-sac = new_sacrifice(123, false, false, false, "")
-new_64_exec = new_64_executable("module", "filename", "args", sac)
-
-```
-
-### new_86_executable
+### is64
 
 **Arguments**
 
-- `module` [string] - 
-- `filename` [string] -  path to the binary
-- `argsStr` [string] -  command line arguments
-- `sacrifice` [SacrificeProcess] -  sacrifice process
+- `$1` [Session] 
 
-**Example**
-
-```
-
-sac = new_sacrifice(123, false, false, false, "")
-new_86_exec = new_86_executable("module", "filename", "args", sac)
-
-```
-
-### new_binary
+### isactive
 
 **Arguments**
 
-- `module` [string] - 
-- `filename` [string] -  path to the binary
-- `args` [table<string>] -  command line arguments
-- `output` [boolean] - 
-- `timeout` [number] - 
-- `arch` [string] - 
-- `process` [string] - 
-- `sacrifice` [SacrificeProcess] -  sacrifice process
+- `$1` [Session] 
 
-**Example**
-
-```
-
-sac = new_sacrifice(123, false, false, false, "")
-new_bin = new_binary("module", "filename", "args", true, 100, "amd64", "process", sac)
-
-```
-
-### new_sacrifice
+### isadmin
 
 **Arguments**
 
-- `ppid` [number] -  parent process id
-- `hidden` [boolean] - 
-- `blockDll` [boolean] - 
-- `disableETW` [boolean] - 
-- `argue` [string] -  arguments
+- `$1` [Session] 
 
-**Example**
-
-```
-
-sac = new_sacrifice(123, false, false, false, "")
-
-```
-
-### pack_bof
+### isbeacon
 
 **Arguments**
 
-- `format` [string] - 
-- `arg` [string] - 
+- `$1` [Session] 
 
-**Example**
-
-```
-pack_bof("Z", "aa")
-```
-
-### pack_bof_args
+### list_addon
 
 **Arguments**
 
-- `format` [string] - 
-- `args` [table<string>] - 
+- `$1` [Session] 
 
-**Example**
-
-```
-
-pack_bof_args("ZZ", {"aa", "bb"})
-
-```
-
-### reg_add
+### list_module
 
 **Arguments**
 
-- `session` [Session] -  special session
-- `hive` [string] -  registry hive
-- `path` [string] -  registry path
-- `key` [string] -  registry
-- `stringValue` [string] -  string value
-- `byteValue` [table] -  byte value
-- `dwordValue` [number] -  dword value
-- `qwordValue` [number] -  qword value
-- `regtype` [number] -  registry type
+- `$1` [Session] 
 
-**Example**
-
-```
-reg_add(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example","TestKey","example","",1,0,0)
-```
-
-### reg_delete
+### load_addon
 
 **Arguments**
 
-- `session` [Session] -  special session
-- `hive` [string] -  registry hive
-- `path` [string] -  registry path
-- `key` [string] -  registry key
+- `$1` [Session] 
+- `$2` [string] 
+- `$3` [string] 
+- `$4` [string] 
 
-**Example**
-
-```
-reg_delete(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example","TestKey")
-```
-
-### reg_list_key
+### log
 
 **Arguments**
 
-- `session` [Session] -  special session
-- `hive` [string] -  registry hive
-- `path` [string] -  registry path
+- `$1` [Session] 
+- `$2` [string] 
+- `$3` [boolean] 
 
-**Example**
-
-```
-reg_list_key(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example")
-```
-
-### reg_query
+### notify
 
 **Arguments**
 
-- `session` [Session] -  special session
-- `hive` [string] -  registry hive
-- `path` [string] -  registry path
-- `key` [string] -  registry
+- `$1` [string] 
 
-**Example**
-
-```
-reg_query(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example","TestKey")
-```
-
-### service_create
+### reg_list_value
 
 **Arguments**
 
-- `session` [Session] -  special session
-- `name` [string] -  service name
-- `displayName` [string] -  display name
-- `executablePath` [string] -  executable path
-- `startType` [number] -  start type
-- `errorControl` [number] -  error control
-- `accountName` [string] -  account name
+- `$1` [Session] 
+- `$2` [string] 
+- `$3` [string] 
 
-**Example**
-
-```
-service_create(active(), "service_name", "display", "path", 0, 0, "account")
-```
-
-### service_delete
+### sysinfo
 
 **Arguments**
 
-- `session` [Session] -  special session
-- `name` [string] -  service name
+- `$1` [Session] 
 
-**Example**
-
-```
-service_delete(active(),"service_name")
-```
-
-### service_list
+### taskprint
 
 **Arguments**
 
-- `session` [Session] -  special session
+- `$1` [TaskContext] 
 
-**Example**
-
-```
-service_list(active())
-```
-
-### service_query
+### tstamp
 
 **Arguments**
 
-- `session` [Session] -  special session
-- `name` [string] -  service name
+- `$1` [number] 
 
-**Example**
-
-```
-service_query(active(),"service_name")
-```
-
-### service_start
+### wait
 
 **Arguments**
 
-- `session` [Session] -  special session
-- `name` [string] -  service name
-
-**Example**
-
-```
-service_start(active(),"service_name")
-```
-
-### service_stop
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `name` [string] -  service name
-
-**Example**
-
-```
-service_stop(active(),"service_name")
-```
-
-### taskschd_create
-
-**Arguments**
-
-- `sess` [Session] -  special session
-- `name` [string] -  name of the scheduled task
-- `path` [string] -  path to the executable for the scheduled task
-- `triggerType` [number] -  trigger type for the task
-- `startBoundary` [string] -  start boundary for the scheduled task
-
-**Example**
-
-```
-taskschd_create(active(), "task_name", "process_path", 1, "2023-10-10T09:00:00")
-```
-
-### taskschd_delete
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `name` [string] -  name of the scheduled task
-
-**Example**
-
-```
-taskschd_delete(active(), "task_name")
-```
-
-### taskschd_list
-
-**Arguments**
-
-- `sess` [Session] -  special session
-
-**Example**
-
-```
-taskschd_list(active())
-```
-
-### taskschd_query
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `name` [string] -  name of the scheduled task
-
-**Example**
-
-```
-taskschd_query(active(), "task_name")
-```
-
-### taskschd_run
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `name` [string] -  name of the scheduled task
-
-**Example**
-
-```
-taskschd_run(active(), "task_name")
-```
-
-### taskschd_start
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `name` [string] -  name of the scheduled task
-
-**Example**
-
-```
-taskschd_create(active(), "task_name")
-```
-
-### taskschd_stop
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `name` [string] -  name of the scheduled task
-
-**Example**
-
-```
-taskschd_stop(active(), "task_name")
-```
+- `$1` [Task] 
 
 ## sys
 
@@ -1198,306 +1505,4 @@ Executes a WMI query within the specified namespace to retrieve system informati
 ```
 wmi_query(active(), "root\\cimv2", {"SELECT * FROM Win32_OperatingSystem"})
 ```
-
-## encode
-
-### base64_decode
-
-**Arguments**
-
-- `input` [string] - 
-
-**Example**
-
-```
-base64_decode("aGVsbG8=")
-```
-
-### base64_encode
-
-**Arguments**
-
-- `input` [string] - 
-
-**Example**
-
-```
-base64_encode("hello")
-```
-
-### file_exists
-
-**Arguments**
-
-- `path` [string] - 
-
-**Example**
-
-```
-file_exists("C:\\Windows\\System32\\calc.exe")
-```
-
-### ismatch
-
-**Arguments**
-
-- `pattern` [string] - 
-- `text` [string] - 
-
-**Example**
-
-```
-ismatch("([a-z]+) ([0-9]+)", "hello 123")
-```
-
-### parse_hex
-
-**Arguments**
-
-- `hexString` [string] - 
-
-**Example**
-
-```
-parse_hex("0x1f4")
-```
-
-### parse_octal
-
-**Arguments**
-
-- `octalString` [string] - 
-
-**Example**
-
-```
-parse_octal("0o744")
-```
-
-### random_string
-
-**Arguments**
-
-- `length` [number] - 
-
-**Example**
-
-```
-random_string(10)
-```
-
-### timestampMillis
-
-**Arguments**
-
-
-**Example**
-
-```
-timestampMillis()
-```
-
-## base
-
-### assemblyprint
-
-**Arguments**
-
-- `$1` [TaskContext] 
-
-### barch
-
-**Arguments**
-
-- `$1` [Session] 
-
-### blog
-
-**Arguments**
-
-- `$1` [Session] 
-- `$2` [string] 
-
-### broadcast
-
-**Arguments**
-
-- `$1` [string] 
-
-### callback_append
-
-**Arguments**
-
-- `$1` [string] 
-
-### callback_bof
-
-**Arguments**
-
-- `$1` [Session] 
-- `$2` [string] 
-
-### callback_discard
-
-**Arguments**
-
-
-### callback_file
-
-**Arguments**
-
-- `$1` [string] 
-
-### callback_log
-
-**Arguments**
-
-- `$1` [Session] 
-- `$2` [boolean] 
-
-### donut_dll2shellcode
-
-**Arguments**
-
-- `$1` [string] 
-- `$2` [string] 
-
-### donut_exe2shellcode
-
-**Arguments**
-
-- `$1` [string] 
-- `$2` [string] 
-
-### execute_addon
-
-**Arguments**
-
-- `$1` [Session] 
-- `$2` [string] 
-- `$3` [table<string>] 
-- `$4` [boolean] 
-- `$5` [number] 
-- `$6` [string] 
-- `$7` [string] 
-- `$8` [SacrificeProcess] 
-
-### get
-
-**Arguments**
-
-- `$1` [Task] 
-- `$2` [number] 
-
-### is64
-
-**Arguments**
-
-- `$1` [Session] 
-
-### isactive
-
-**Arguments**
-
-- `$1` [Session] 
-
-### isadmin
-
-**Arguments**
-
-- `$1` [Session] 
-
-### isbeacon
-
-**Arguments**
-
-- `$1` [Session] 
-
-### list_addon
-
-**Arguments**
-
-- `$1` [Session] 
-
-### list_module
-
-**Arguments**
-
-- `$1` [Session] 
-
-### load_addon
-
-**Arguments**
-
-- `$1` [Session] 
-- `$2` [string] 
-- `$3` [string] 
-- `$4` [string] 
-
-### log
-
-**Arguments**
-
-- `$1` [Session] 
-- `$2` [string] 
-- `$3` [boolean] 
-
-### notify
-
-**Arguments**
-
-- `$1` [string] 
-
-### payload_local
-
-**Arguments**
-
-- `$1` [string] 
-
-### reg_list_value
-
-**Arguments**
-
-- `$1` [Session] 
-- `$2` [string] 
-- `$3` [string] 
-
-### sgn_encode
-
-**Arguments**
-
-- `$1` [string] 
-- `$2` [number] 
-
-### srdi
-
-**Arguments**
-
-- `$1` [string] 
-- `$2` [string] 
-- `$3` [string] 
-
-### sysinfo
-
-**Arguments**
-
-- `$1` [Session] 
-
-### taskprint
-
-**Arguments**
-
-- `$1` [TaskContext] 
-
-### tstamp
-
-**Arguments**
-
-- `$1` [number] 
-
-### wait
-
-**Arguments**
-
-- `$1` [Task] 
 
