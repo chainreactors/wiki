@@ -6,43 +6,43 @@ title: Internal of Malice · 快速上手
 IoM是包含了一组仓库的复杂工具链, 对于用户来说可能会有使用上的挑战. 
 
 **quickstart中将会提供最小使用说明与文档导航**
+
 ## 基本使用
 
-### 预先准备
+### 安装部署
 
 IoM的server与client都是通过golang编写的, 打包成二进制文件后不需要任何的依赖环境, 直接运行即可. 
 
-可以从 https://github.com/chainreactors/malice-network/releases/latest 获取最新的server预编译文件.  ([自行编译说明](IoM/deploy/#_6))
-
-**其中`malice-network_[os]_[arch]`开头的即为server端.**
-
-但是要执行server二进制文件还需要一个配置文件. 
-
-在这里提供了一个默认配置文件. 可以下载这个配置文件放到server 二进制目录下的 `config.yaml`.
-
-https://github.com/chainreactors/malice-network/blob/master/server/config.yaml
-
-### 运行server
-
 ```
-./malice-network -i [ip]
+curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/dev/install.sh" | sudo bash
 ```
 
-ip为外网暴露的ip, 也可以直接在配置文件中修改, 用以省略`-i`
+!!! info "自行编译"
+	如需自定编译可参照: ([自行编译说明](IoM/deploy/#_6))
 
-默认将会读取`config.yaml` 也可以通过`-c path/config` 指定任意文件.
+![](assets/596887d2f643d94495d5cd43d8a43e8.png)
 
-**在最简配置下, listener和server同时部署**
+安装完成后会自动添加到服务. 
 
-这里提供了[完整的配置文件说明]( /wiki/IoM/deploy/#server-config)
+安装脚本自动使用的config为: https://github.com/chainreactors/malice-network/blob/master/server/config.yaml 
 
-可以根据自己的需要修改. 
+如需自定义可以修改config后重启服务
 
-运行成功会显式下面的log
+```bash
+service malice-network restart
+```
 
-![](assets/VNBYbUKdsokMfexhogfcKSLUnAh.png)
+!!! important "分离部署listener"
+	**在默认配置下, listener和server同时部署, 但IoM更推荐分布式部署listener**
+	
+	[完整的配置文件说明](/wiki/IoM/manual/deploy/#config)
+	
+	可以根据自己的需要修改. 
+
 
 ??? info "(非必要)独立运行listener"
+	[listener文档](/wiki/IoM/manual/deploy/#listener)
+	
 	从v0.0.2开始, 我们合并了listener与server两个二进制文件到`malice-network`
 	
 	需要在[这里获取`listener.yaml`配置文件](https://github.com/chainreactors/malice-network/blob/master/server/listener.yaml)示例
@@ -66,7 +66,8 @@ ip为外网暴露的ip, 也可以直接在配置文件中修改, 用以省略`-i
 
 在上一步操作中, 我们已经运行了server, 并且会发现在当前目录中自动生成了一个新的配置文件, `admin_[ip].auth`. 这个文件是IoM的认证凭证, **请你保护好这个文件.** 
 
-如果非本机登录, 需要将其中的 `lhost: 127.0.0.1` 修改为你的远程服务器地址(后续将会优化这一点)
+!!! danger "可能需要检查server host"
+	如果非本机登录, 需要将其中的 `host: 127.0.0.1` 修改为你的远程服务器地址(后续将会优化这一点)
 
 `./iom admin_[server_ip].auth` 即可使用这个配置文件登录到server.
 
@@ -76,14 +77,10 @@ ip为外网暴露的ip, 也可以直接在配置文件中修改, 用以省略`-i
 
 ### 编译implant
 
-因为时间问题, 我们暂时还没能把implant的编译嵌入到 client/server的交互中. 因此现在还需要手动编译implant.
-
-这个implant是完整的pe, 如果有自己的shellcode loader, 可以使用pe2shellcode并自己的loader自行加载.
-
 对于rust新手来说, 我们提供了提前准备好的编译环境. 免得复杂的环境搭建劝退.
 
 我们提供了如下几种方式进行编译：
-1. 本地编译
+1. [本地编译]
 2. Github Action编译环境(推荐)
 3. Docker 编译(推荐)
 4. 手动编译

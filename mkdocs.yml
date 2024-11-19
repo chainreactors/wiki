@@ -96,9 +96,9 @@ nav:
                   # - events: IoM/mal/events.md
           - malefic:
               - index: IoM/implant/index.md
-              - 编译: IoM/implant/build.md
-              - 配置: IoM/implant/mutant.md
-              - 模块: IoM/implant/modules.md
+              - build: IoM/implant/build.md
+              - mutant: IoM/implant/mutant.md
+              - modules: IoM/implant/modules.md
               - malefic-win-kit: IoM/implant/win_kit.md
   - gogo:
       - index: gogo/index.md
