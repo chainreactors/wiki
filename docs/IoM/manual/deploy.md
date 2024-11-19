@@ -6,13 +6,58 @@ title: Internal of Malice · 部署
 
 ## 安装
 
-按照以下说明安装 Malice-Network：
+下载**install.sh**安装**malice-network**以及**malefic**。
 
-1. 为支持的操作系统下载 Malice-Network 服务器版本和客户端版本。
+```
+curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/dev/install.sh" | bash
+```
 
-Malice-Network 服务器支持 `Linux`、 `Windows` 和 `MacOS`，但是我们建议在 Linux 主机上运行服务器，因为在 Windows 上，服务器运行某些特性可能更加困难。Malice-Network 客户端在从 Windows 访问 Linux/MacOS 服务器时能正常工作。
+确保**IOM**所在系统符合以下条件：
 
-1. 运行服务器版本二进制文件。
+- **操作系统**：Linux（推荐使用 Ubuntu、Debian 或 CentOS）。
+- **权限**：需要以 `root` 用户或通过 `sudo` 运行安装脚本。
+- **网络连接**：确保能够访问以下资源：
+  - `github.com`
+  - `ghcr.io`
+  - `docker.com`
+  - 其他相关依赖资源。
+
+### 配置安装参数
+
+运行脚本时，将通过交互命令行提供以下信息：
+
+**安装路径**：
+
+- 需要指定安装的根目录（默认路径为 /iom）：
+
+  ```
+  Please input the base directory for the installation [default: /iom]:
+  ```
+
+**IP 地址**：
+
+- **install.sh**会自动检测默认 IP 并提示：
+
+  ```
+  Please input your IP Address for the server to start [default: <自动检测的IP>]:
+  ```
+
+### 安装内容
+
+**install.sh**将自动完成以下任务：
+
+1. 检查并安装 Docker。
+2. 下载并安装 Malice-Network 服务端及客户端。
+3. 下载并安装 Malefic 组件及工具。
+4. 拉取必要的 Docker 镜像。
+   - `ghcr.io/chainreactors/x86_64-pc-windows-msvc:nightly-2023-09-18-latest`
+   - `ghcr.io/chainreactors/i686-pc-windows-msvc:nightly-2023-09-18-latest`
+   - `ghcr.io/chainreactors/x86_64-pc-windows-gnu:nightly-2023-09-18-latest`
+   - `ghcr.io/chainreactors/i686-pc-windows-gnu:nightly-2023-09-18-latest`
+   - `ghcr.io/chainreactors/x86_64-unknown-linux-musl:nightly-2023-09-18-latest`
+   - `ghcr.io/chainreactors/i686-unknown-linux-musl:nightly-2023-09-18-latest`
+   - `ghcr.io/chainreactors/aarch64-apple-darwin:nightly-2023-09-18-latest`
+5. 配置并启动 Malice-Network 服务（基于 `systemd`）。
 
 ## 部署
 
@@ -57,7 +102,8 @@ listeners:
     - name: tcp_default   # pipeline 名字
       port: 5001          # pipeline 监听的端口
       host: 0.0.0.0       # pipeline 监听的host
-      protocol: tcp       # 协议
+      protocol: tcp       # 传输层协议
+      parser: malefic 	  # implant协议
       enable: true        # pipeline是否开启
       tls:                # tls配置项,留空则自动生成
         enable: false  
@@ -72,10 +118,39 @@ listeners:
 		cert_file: ""  
 		key_file: ""  
 		ca_file: ""
-      encryption:      # 加密配置项, 当前未生效
+      encryption: 
         enable: false  
-        type: aes-cfb  
+        type: aes 
         key: maliceofinternal
+    - name: shellcode
+      port: 5002
+      host: 0.0.0.0
+      parser: pulse
+      enable: true
+      encryption:
+        enable: true
+        type: xor
+        key: maliceofinternal
+  bind:
+    -
+      name: bind_default
+      enable: true
+      encryption:
+        enable: true
+        type: aes
+        key: maliceofinternal
+  websites:             # website http任务 
+    - name: test		# website 名字
+      port: 10049		# website 端口
+      root: "/test"		# website route根目录
+      enable: false     # website 是否开启
+      content:			# website 映射内容
+        - path: \images\1.png
+          raw:  maliceofinternal
+          type: aes
+        - path: \images\2.png
+          raw: maliceofinternal
+          type: xor
 ```
 
 ### 启动 Server
