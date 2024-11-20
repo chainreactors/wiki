@@ -24,14 +24,17 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 sudo bash install.sh
 ```
 
-!!! important ""
-iom项目releases中的文件仍然需要从github下载, 国内服务器访问 github 容易超时且速度较慢, 建议配置环境变量中的 proxy, 再执行上述操作
-`bash
+!!! important "网络问题"
+	iom项目releases中的文件仍然需要从github下载, 国内服务器访问 github 容易超时, 建议配置环境变量中的 proxy, 再执行上述操作
+	
 	# ssh -R 1080:127.0.0.1:1080 root@vps.ip  , tricks: 可以映射本机的代理端口到vps
+	
 	export http_proxy="http://127.0.0.1:1080"
+	
 	export https_proxy="http://127.0.0.1:1080"
-	`
 
+	如果你的当前用户不是root, 可以使用sudo -E bash install.sh, 以保持环境变量生效
+	
 
 !!! important "服务器性能要求"
 	自动化编译服务用到了docker, 且rust生成的中间文件体积较大, 对CPU消耗较高. 
