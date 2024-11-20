@@ -14,7 +14,8 @@ IoM是包含了一组仓库的复杂工具链, 对于用户来说可能会有使
 IoM的server与client都是通过golang编写的, 打包成二进制文件后不需要任何的依赖环境, 直接运行即可. 
 
 ```
-curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/install.sh" | sudo bash
+curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/install.sh" -o install.sh
+sudo bash install.sh
 ```
 
 !!! important "服务器性能要求"
@@ -33,7 +34,7 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 ??? info "(非必要) 自行编译client与server"
 	如需自定编译可参照: ([自行编译说明](IoM/deploy/#_6))
 
-![](assets/596887d2f643d94495d5cd43d8a43e8.png)
+![](assets/install-pic.png)
 
 安装完成后会自动添加到服务. 
 
