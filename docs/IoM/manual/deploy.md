@@ -10,7 +10,7 @@ title: Internal of Malice ·  安装部署手册
 curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/install.sh" | sudo bash
 ```
 
-确保**IOM**所在系统符合以下条件：
+确保**IOM** 所在系统符合以下条件：
 
 - **操作系统**：Linux推荐使用 Ubuntu、Debian 或 CentOS, (后续会适配mac与windows)
 - **权限**：需要以 `root` 用户或通过 `sudo` 运行安装脚本。
@@ -41,13 +41,13 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 
 **IP 地址**：
 
-- **install.sh**会自动检测默认 IP 并提示：
+- **install.sh** 会自动检测默认 IP 并提示：
 
   ```
   Please input your IP Address for the server to start [default: <自动检测的IP>]:
   ```
 
-**install.sh**将自动完成以下任务：
+**install.sh** 将自动完成以下任务：
 
 1. 检查并安装 Docker。
 2. 下载并安装 Malice-Network 服务端及客户端。
