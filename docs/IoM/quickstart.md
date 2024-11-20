@@ -106,7 +106,7 @@ curl https://raw.githubusercontent.com/chainreactors/malefic/master/config.yaml 
 profile load malefic.yaml --pipeline tcp_default --name beacon_profile_name_1 # tcp_default是默认的pipeline
 # 开始一个基于beacon_profile_name_1的server端编译
 build beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl
-# 列出编译好的二进制文件，可通过左右键和回车下载
+# list编译好的二进制文件，可通过tui左、右键和回车下载
 artifact list
 # 或可执行下载命令
 artifact download UNABLE_POOl
@@ -119,7 +119,7 @@ artifact download UNABLE_POOl
 
 !!! tips "多按Tab, 大部分输入都可以通过tab自动补全"
 
-图1参考：
+图一参考：
 ![](assets/aa8ef0f33fc8e19ea7bcb9cfb3b094e.png)
 图二参考:
 ![build_and_download_beacon.png](assets/build_and_download_beacon.png)
@@ -129,7 +129,7 @@ artifact download UNABLE_POOl
 	
 	1. [本地编译](/wiki/IoM/implant/build/#_4)
 	2. [Docker 编译(推荐)](/wiki/IoM/implant/build/#docker)	
-	3. [Github Action编译环境(暂未适配)](/wiki/IoM/implant/build/#github-action)
+	3. [Github Action编译环境(暂未做适配)](/wiki/IoM/implant/build/#github-action)
 	
 
 编译完整说明手册[implant手册](/wiki/IoM/manual/implant/)
