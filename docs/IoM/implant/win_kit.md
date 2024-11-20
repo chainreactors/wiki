@@ -444,3 +444,8 @@ BeaconCleanupProcess
 * https://github.com/lap1nou/CLR_Heap_encryption
 * https://github.com/med0x2e/ExecuteAssembly/
 * https://github.com/postrequest/link
+* https://github.com/hakaioffsec/coffee/
+* https://github.com/Kudaes/Unwinder
+* https://github.com/klezVirus/SilentMoonwalk
+* https://github.com/rapid7/metasploit-framework
+* https://github.com/BishopFox/sliver
