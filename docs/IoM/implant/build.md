@@ -196,8 +196,7 @@ objcopy -O binary malefic-pulse.exe malefic-pulse.bin
 
 malefic的windows平台目前支持动态加载module, 因此可以编译单个或者一组module, 然后通过`load_module`给已上线的implant添加新的功能. 
 
-[load_module使用文档](IoM/manual/help/#load_module)
-[load_module相关介绍](#dynamic-module)
+[load_module使用文档](/wiki/IoM/manual/implant/#load_module)
 
 相关命令如下:
 
