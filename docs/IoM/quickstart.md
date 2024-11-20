@@ -93,18 +93,19 @@ service malice-network restart
 
 如果你是通过安装脚本安装的,  那么已经自动安装了完整的编译环境(基于docker).
 
-准备一个malefic的config.yaml.
+在本机准备一个malefic的config.yaml, 你可以通过如下方式下载
 
 ```
-curl https://github.com/chainreactors/malefic/blob/master/config.yaml -o malefic.yaml
+curl https://raw.githubusercontent.com/chainreactors/malefic/master/config.yaml -o malefic.yaml
 ```
 
 使用client 自动编译:
 
 ```bash
-profile load malefic.yaml --pipeline tcp-default --name test_beacon
-
-build beacon --profile test-beacon --target x86_64-unknown-linux-musl
+# 将config.yaml加载到server
+profile load malefic.yaml --pipeline tcp_default --name beacon_profile_name_1 # tcp_default是默认的pipeline
+# 开始一个基于beacon_profile_name_1的server端编译
+build beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl
 
 artifact download UNABLE_POOl
 ```
