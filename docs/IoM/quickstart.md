@@ -13,10 +13,25 @@ IoM是包含了一组仓库的复杂工具链, 对于用户来说可能会有使
 
 IoM的server与client都是通过golang编写的, 打包成二进制文件后不需要任何的依赖环境, 直接运行即可. 
 
+如果你的服务器于国外部署, 访问github畅通无阻的话可使用如下命令安装
 ```
 curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/install.sh" -o install.sh
 sudo bash install.sh
 ```
+如果你的服务器位于国内, 我们尽可能的提供了一些加速的配置：docker安装、镜像拉取等, 可以使用如下脚本一键安装
+```
+curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/install-cn.sh" -o install.sh
+sudo bash install.sh
+```
+
+!!! important ""
+iom项目releases中的文件仍然需要从github下载, 国内服务器访问 github 容易超时且速度较慢, 建议配置环境变量中的 proxy, 再执行上述操作
+`bash
+	# ssh -R 1080:127.0.0.1:1080 root@vps.ip  , tricks: 可以映射本机的代理端口到vps
+	export http_proxy="http://127.0.0.1:1080"
+	export https_proxy="http://127.0.0.1:1080"
+	`
+
 
 !!! important "服务器性能要求"
 	自动化编译服务用到了docker, 且rust生成的中间文件体积较大, 对CPU消耗较高. 
