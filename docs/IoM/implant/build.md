@@ -200,9 +200,10 @@ malefic的windows平台目前支持动态加载module, 因此可以编译单个�
 [load_module相关介绍](#dynamic-module)
 
 相关命令如下:
+
 生成对应配置
 ```bash
-cargo run -p malefic_mutant -- generate modules "execute_powershell execute_assembly"
+malefic_mutant generate modules "execute_powershell execute_assembly"
 ```
 编译modules
 ```bash
