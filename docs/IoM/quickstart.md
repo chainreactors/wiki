@@ -14,13 +14,13 @@ IoM是包含了一组仓库的复杂工具链, 对于用户来说可能会有使
 IoM的server与client都是通过golang编写的, 打包成二进制文件后不需要任何的依赖环境, 直接运行即可. 
 
 ```
-curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/dev/install.sh" | sudo bash
+curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/install.sh" | sudo bash
 ```
-
 
 !!! important "服务器性能要求"
 	自动化编译服务用到了docker, 且rust生成的中间文件体积较大, 对CPU消耗较高. 
 	
+
 	因此IoM要搭建自动化编译的服务端对性能有一定要求.
 	
 	我们推荐在2C4G内存以上的机器运行, 并保留至少30G的空间.
@@ -130,7 +130,6 @@ sessions
 ![](assets/image_20240819003338.png)
 
 **Enjoy IoM**
-
 
 
 

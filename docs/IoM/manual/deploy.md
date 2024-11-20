@@ -7,7 +7,7 @@ title: Internal of Malice ·  安装部署手册
 一键安装脚本:
 
 ```
-curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/dev/install.sh" | sudo bash
+curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/install.sh" | sudo bash
 ```
 
 确保**IOM**所在系统符合以下条件：
