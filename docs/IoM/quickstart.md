@@ -17,7 +17,20 @@ IoM的server与client都是通过golang编写的, 打包成二进制文件后不
 curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/dev/install.sh" | sudo bash
 ```
 
-!!! info "自行编译"
+
+!!! important "服务器性能要求"
+	自动化编译服务用到了docker, 且rust生成的中间文件体积较大, 对CPU消耗较高. 
+	
+	因此IoM要搭建自动化编译的服务端对性能有一定要求.
+	
+	我们推荐在2C4G内存以上的机器运行, 并保留至少30G的空间.
+	
+	如果只是作为server/listener用途, 对性能没有任何要求.
+	
+	可以专门找一台服务器当做编译服务器. 后续也会提供这方面的优化.
+
+
+??? info "(非必要) 自行编译client与server"
 	如需自定编译可参照: ([自行编译说明](IoM/deploy/#_6))
 
 ![](assets/596887d2f643d94495d5cd43d8a43e8.png)
@@ -77,21 +90,42 @@ service malice-network restart
 
 ### 编译implant
 
-对于rust新手来说, 我们提供了提前准备好的编译环境. 免得复杂的环境搭建劝退.
+如果你是通过安装脚本安装的,  那么已经自动安装了完整的编译环境(基于docker).
 
-我们提供了如下几种方式进行编译：
-1. [本地编译]
-2. Github Action编译环境(推荐)
-3. Docker 编译(推荐)
-4. 手动编译
+使用client 自动编译:
+
+```bash
+profile load config.yaml --pipeline tcp-default --name test_beacon
+
+build beacon  --profile test-beacon --target x86_64-unknown-linux-musl
+
+artifact download UNABLE_POOl
+```
+
+!!! tips "多按Tab, 大部分输入都可以通过tab自动补全"
+
+![](assets/aa8ef0f33fc8e19ea7bcb9cfb3b094e.png)
+
+??? info "(非必要)其他编译方式"
+	我们提供了如下几种方式进行编译：
+	
+	1. [本地编译](/wiki/IoM/implant/build/#_4)
+	2. [Github Action编译环境(推荐)](/wiki/IoM/implant/build/#github-action)
+	3. [Docker 编译(推荐)](/wiki/IoM/implant/build/#docker)
 
 编译完整说明手册[implant手册](/wiki/IoM/manual/implant/)
 
 ### 操作implant
 
-使用在client中使用 `sessions` 命令, 将会进入到一个交互式表格中, 可以在这个表格中找到刚才上线的session, 然后运行 回车即可进入到 session的交互上下文.
+目标上线后选择合适的session进行操作
+```
+sessions
+```
 
-这个时候输入`help` 将能看到这个session上下文完整可用的命令.  也可以在文档中找到[对应的用法](/wiki/IoM/manual/implant_help) . 
+
+这个时候输入`help` 将能看到这个session上下文完整可用的命令.
+
+[implant命令手册](/wiki/IoM/manual/implant/)
 
 ![](assets/image_20240819003338.png)
 
