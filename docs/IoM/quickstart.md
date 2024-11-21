@@ -27,8 +27,8 @@ sudo bash install.sh
 !!! important "网络问题"
 	iom项目releases中的文件仍然需要从github下载, 国内服务器访问 github 容易超时, 建议配置环境变量中的 proxy, 再执行上述操作
 	
-	# ssh -R 1080:127.0.0.1:1080 root@vps.ip  , tricks: 可以映射本机的代理端口到vps
-	
+	可以映射本机的代理端口到vps: ssh -R 1080:127.0.0.1:1080 root@vps.ip
+
 	export http_proxy="http://127.0.0.1:1080"
 	
 	export https_proxy="http://127.0.0.1:1080"
