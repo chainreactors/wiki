@@ -60,9 +60,11 @@ curl -fsSL https://get.docker.com | sudo bash -s docker
 
 
 ### 编译
-以`x86_64-unknown-linux-musl`举例
+
+以`x86_64-unknown-linux-musl`举例,  **在malefic的代码目录下执行**
 ```bash
-# 进入docker的bash
+# docker bash
+# /user/path/malefic/ 
 docker run -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/x86_64-unknown-linux-musl:nightly-2023-09-18-latest bash
 # 通过mutant生成对应的配置
 cargo run -p malefic-mutant -- generate beacon
