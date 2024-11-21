@@ -63,7 +63,7 @@ curl -fsSL https://get.docker.com | sudo bash -s docker
 以`x86_64-unknown-linux-musl`举例
 ```bash
 # 进入docker的bash
-docker run -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/x86_64-unknown-linux-musl:nightly-2023-09-20-latest bash
+docker run -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/x86_64-unknown-linux-musl:nightly-2023-09-18-latest bash
 # 通过mutant生成对应的配置
 cargo run -p malefic-mutant -- generate beacon
 # build对应的bin
@@ -83,7 +83,7 @@ curl https://sh.rustup.rs -sSf | sh
 
 安装toolchain
 ```bash
-rustup default nightly-2023-09-20
+rustup default nightly-2023-09-18
 ```
 
 添加target, [经过的测试的target推荐](/wiki/IoM/implant/build/#_1)
@@ -135,7 +135,7 @@ cargo run -p malefic-mutant -- generate beacon
 
 ### 编译malefic
 
-项目的配置(config.toml、cargo.toml、makefile.toml..)中提供了一些预设和编译优化选项. 熟悉rust的使用者也可以手动编译，malefic目前使用的rust版本是`nightly-2023-09-20`.
+项目的配置(config.toml、cargo.toml、makefile.toml..)中提供了一些预设和编译优化选项. 熟悉rust的使用者也可以手动编译，malefic目前使用的rust版本是`nightly-2023-09-18`.
 
 在进行手动编译前， 请更改 `beacon` 对应的配置项, 关于配置项， 请参考 [beacon 配置说明](/wiki/IoM/implant/mutant/#beacon)
 
