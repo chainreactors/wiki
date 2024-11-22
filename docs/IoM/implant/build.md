@@ -4,14 +4,6 @@ title: Internal of Malice · implant 编译
 	
 # Build
 
-!!! info "rust自动化编译方案"
-	rust很复杂，不通过交叉编译的方式几乎无法实现所有架构的适配，所以我们参考了[cross-rs/cross](https://github.com/cross-rs/cross)的方案，但它并不完美的符合我们的需求：
-
-	1. cross需要宿主机存在一个rust开发环境，编译环境不够干净，虽然这可以通过虚拟机、github action等方式解决
-	2. cross对很多操作进行了封装，不够灵活，比如一些动态的变量引入、一些复杂的操作无法方便的实现
-	
-	因此，我们参考了cross创建了用于维护malefic(即implant)编译的仓库[chainreactors/cross-rust](https://github.com/chainreactors/cross-rust).
-	这个项目提供了一些主流架构的编译环境。
 ## 目前支持的架构
 
 malefic理论上支持rust能编译的几乎所有平台, 包括各种冷门架构的IoT设备, Android系统, iOS系统等等 (有相关需求可以联系我们定制化适配), 当前支持的架构可参考[cross-rust](https://github.com/chainreactors/cross-rust)
@@ -29,6 +21,16 @@ malefic理论上支持rust能编译的几乎所有平台, 包括各种冷门架�
 
 
 ## Docker编译(推荐)
+
+!!! info "docker自动化编译"
+	rust很复杂，不通过交叉编译的方式几乎无法实现所有架构的适配，所以我们参考了[cross-rs/cross](https://github.com/cross-rs/cross)的方案，但它并不完美的符合我们的需求：
+
+	1. cross需要宿主机存在一个rust开发环境，编译环境不够干净，虽然这可以通过虚拟机、github action等方式解决
+	2. cross对很多操作进行了封装，不够灵活，比如一些动态的变量引入、一些复杂的操作无法方便的实现
+	
+	因此，我们参考了cross创建了用于维护malefic(即implant)编译的仓库[chainreactors/cross-rust](https://github.com/chainreactors/cross-rust).
+	这个项目提供了一些主流架构的编译环境。
+
 使用前需要先安装docker
 
 在docker中编译特征会更干净，通过volume映射源码，编译完成会在`target`目录下生成对应的二进制文件。
