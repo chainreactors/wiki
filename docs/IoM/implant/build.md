@@ -83,17 +83,22 @@ cargo build -p malefic --target x86_64-unknown-linux-musl
 
 由于本地环境的限制，如果需要交叉编译请使用`Docker`编译. 以`x86_64-pc-windows-msvc`为例，
 
-### 配置环境
+### 下载代码
 下载源码:
 ```
 git clone --recurse-submodules https://github.com/chainreactors/malefic
 ```
 
-下载并解压对应的版本resources.zip, 包含了编译需要用到的预编译的malefic-win-kit lib/a库文件.
+[下载对应的版本resources.zip](https://github.com/chainreactors/malefic/releases/download/v0.0.3/resources.zip), 包含了编译需要用到的预编译的malefic-win-kit lib/a库文件.
 
-community的resources随着版本发布时的release发布:
-https://github.com/chainreactors/malefic/releases/lasest
+community的resources随着版本发布时的release发布: https://github.com/chainreactors/malefic/releases/lasest:
 
+
+解压到源码目录下的resrouces文件夹下: 最终结果应该类似这样:
+
+![](assets/Pasted%20image%2020241122223133.png)
+
+### 配置环境
 安装rust
 ```
 curl https://sh.rustup.rs -sSf | sh
