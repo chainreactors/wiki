@@ -27,18 +27,6 @@ malefic理论上支持rust能编译的几乎所有平台, 包括各种冷门架�
 - i686-pc-windows-gnu
 - x86_64-pc-windows-gnu
 
-## 环境准备
-
-因为malefic需要用到代码生成, 并鼓励用户修改代码, 因此我们没有将代码打包到docker中, 仅准备了空的编译环境, 通过挂载实现.
-
-### git clone
-
-```
-git clone --recurse-submodules https://github.com/chainreactors/malefic
-```
-
-!!! important "注意clone子项目"
-	需要添加`--recurse-submodules`递归克隆子项目. 如果已经clone也不必担心,`git submodule update --init` 即可
 
 ## Docker编译(推荐)
 使用前需要先安装docker
@@ -58,6 +46,23 @@ curl -fsSL https://get.docker.com | sudo bash -s docker
 	curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 	```
 
+### 环境准备
+
+因为malefic需要用到代码生成, 并鼓励用户修改代码, 因此我们没有将代码打包到docker中, 仅准备了空的编译环境, 通过挂载实现.
+
+### git clone
+
+```
+git clone --recurse-submodules https://github.com/chainreactors/malefic
+```
+
+!!! important "注意clone子项目"
+	需要添加`--recurse-submodules`递归克隆子项目. 如果已经clone也不必担心,`git submodule update --init` 即可
+	
+
+下载并解压对应的版本resources.zip, 包含了编译需要用到的预编译的malefic-win-kit lib/a库文件.
+
+community的resources随着版本发布时的release发布: https://github.com/chainreactors/malefic/releases/lasest
 
 ### 编译
 
@@ -77,6 +82,15 @@ cargo build -p malefic --target x86_64-unknown-linux-musl
 由于本地环境的限制，如果需要交叉编译请使用`Docker`编译. 以`x86_64-pc-windows-msvc`为例，
 
 ### 配置环境
+下载源码:
+```
+git clone --recurse-submodules https://github.com/chainreactors/malefic
+```
+
+下载并解压对应的版本resources.zip, 包含了编译需要用到的预编译的malefic-win-kit lib/a库文件.
+
+community的resources随着版本发布时的release发布:
+https://github.com/chainreactors/malefic/releases/lasest
 
 安装rust
 ```
@@ -93,37 +107,36 @@ rustup default nightly-2023-09-18
 rustup target add x86_64-pc-windows-msvc
 ```
 
-### 手动编译注意
-
-本地手动编译时，我们推荐windows用户使用[msys2](https://www.msys2.org/)管理GNU工具链环境, 可通过官网二进制文件直接安装。
-
-在msys2的terminal下执行如下安装可以保证64、32位GNU工具链的正常编译
-
-```
-pacman -Syy # 更新包列表
-pacman -S --needed mingw-w64-x86_64-gcc
-pacman -S --needed mingw-w64-i686-gcc
-```
-
-你可自行把msys64添加到环境变量中， 也可通过`notepad $PROFILE`将如下内容添加到powershell配置中，实现在powershell中快速切换`mingw64/32`.
-
-```powershell
-function mg {
-    param (
-        [ValidateSet("32", "64")]
-        [string]$arch = "64"
-    )
-    
-    $basePath = "D:\msys64\mingw" # 此处是你的msys2安装路径
-    $env:PATH = "${basePath}${arch}\bin;" + $env:PATH
-    Write-Host "Switched to mingw${arch} (bit) toolchain"
-}
-mg 64
-```
-
-切换用法参考下图:
-
-![switch mingw](assets/switch-mingw-in-powershell.png)
+??? 编译gnu环境配置
+	本地手动编译时，我们推荐windows用户使用[msys2](https://www.msys2.org/)管理GNU工具链环境, 可通过官网二进制文件直接安装。
+	
+	在msys2的terminal下执行如下安装可以保证64、32位GNU工具链的正常编译
+	
+	```
+	pacman -Syy # 更新包列表
+	pacman -S --needed mingw-w64-x86_64-gcc
+	pacman -S --needed mingw-w64-i686-gcc
+	```
+	
+	你可自行把msys64添加到环境变量中， 也可通过`notepad $PROFILE`将如下内容添加到powershell配置中，实现在powershell中快速切换`mingw64/32`.
+	
+	```powershell
+	function mg {
+	    param (
+	        [ValidateSet("32", "64")]
+	        [string]$arch = "64"
+	    )
+	    
+	    $basePath = "D:\msys64\mingw" # 此处是你的msys2安装路径
+	    $env:PATH = "${basePath}${arch}\bin;" + $env:PATH
+	    Write-Host "Switched to mingw${arch} (bit) toolchain"
+	}
+	mg 64
+	```
+	
+	切换用法参考下图:
+	
+	![switch mingw](assets/switch-mingw-in-powershell.png)
 
 ### 生成配置与代码
 
