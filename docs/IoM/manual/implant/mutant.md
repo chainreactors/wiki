@@ -2,15 +2,11 @@
 title: Internal of Malice · implant手册
 ---
 
-
-
-
 ## Intro
 
-> 随着 Implant 逐渐解耦， 并可预见的将会有更多组件和模块出现在项目中， 因此一个动态管理工具的出现刻不容缓， 而之前的 config 已经无法满足当前的需求， 因此我们新增了 mutant 模块， 并将之前的 config 经过重构嵌入进了该模块
+ malefic 在v0.0.3中解耦为多个组件并新增了大量组件，可预见的将会有更多组件和模块出现在项目中， 因此配置生成/管理工具刻不容缓， 之前的 config 已经无法满足当前的需求， 我们新增了 malefic-mutant 代替原有的malefic-config
 
-
-在设计中， mutant 的定位相当于 MSF venom， 可以动态解析和更改配置以动态生成代码， 也可以通过需求动态生成 shellcode 的 raw 文件, 因此， 目前的 mutant 含有两大模块: 
+在设计中， mutant 的定位相当于 MSF venom， 可以动态解析和更改配置以动态生成代码， 也可以通过需求动态生成 shellcode 的 raw 文件.
 
 
 
@@ -32,6 +28,7 @@ cargo build --release -p malefic-mutant
 
 ## Usage
 
+malefic-mutant 目前有两大组件:
 
 * generate： 根据配置动态生成代码
 * build：创建可用的 shellcode/PE 文件

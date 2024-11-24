@@ -15,16 +15,16 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 - **操作系统**：Linux 推荐使用 Ubuntu、Debian 或 CentOS, (后续会适配 mac 与 windows)
 - **权限**：需要以 `root` 用户或通过 `sudo` 运行安装脚本。
 - **网络连接**：确保能够访问以下资源：
-  - `github.com`
-  - `ghcr.io`
-  - `docker.com`
+	- `github.com`
+	- `ghcr.io`
+	- `docker.com`
 
 !!! important ""
-对于国内服务器访问 github 容易超时且速度较慢, 建议配置环境变量中的 proxy
-`bash
-	# ssh -R 1080:127.0.0.1:1080 root@ip  , tricks: 可以映射本机的代理端口到vps
-	export http_proxy="http://127.0.0.1:1080"
-	export https_proxy="http://127.0.0.1:1080"
+	对于国内服务器访问 github 容易超时且速度较慢, 建议配置环境变量中的 proxy
+	`bash
+		# ssh -R 1080:127.0.0.1:1080 root@ip  , tricks: 可以映射本机的代理端口到vps
+		export http_proxy="http://127.0.0.1:1080"
+		export https_proxy="http://127.0.0.1:1080"
 	`
 
 运行脚本时，将通过交互命令行提供以下信息：
