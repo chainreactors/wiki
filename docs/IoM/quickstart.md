@@ -51,7 +51,7 @@ sudo bash install.sh
 ??? info "(非必要) 自行编译client与server"
 	如需自定编译可参照: ([自行编译说明](IoM/deploy/#_6))
 
-![](assets/install-pic.png)
+![](/wiki/IoM/assets/install-pic.png)
 
 安装完成后会自动添加到服务. 
 
@@ -84,7 +84,7 @@ service malice-network restart
 	./malice-network -c listener.yaml
 	```
 	
-	![](assets/image_20240903010041.png)
+	![](/wiki/IoM/assets/image_20240903010041.png)
 	
 	可以看到, 启动了独立的listener, 并与server建立了连接. 
 
@@ -104,7 +104,7 @@ service malice-network restart
 
 运行成功会进入到交互式命令, 这里将是操作整个IoM的地方. 
 
-![](assets/NI55beE9Bo6ad5xtT3lcMuvunAd.png)
+![](/wiki/IoM/assets/NI55beE9Bo6ad5xtT3lcMuvunAd.png)
 
 ### 编译implant
 
@@ -137,9 +137,9 @@ artifact download UNABLE_POOl
 !!! tips "多按Tab, 大部分输入都可以通过tab自动补全"
 
 图一参考：
-![](assets/aa8ef0f33fc8e19ea7bcb9cfb3b094e.png)
+![](/wiki/IoM/assets/aa8ef0f33fc8e19ea7bcb9cfb3b094e.png)
 图二参考:
-![build_and_download_beacon.png](assets/build_and_download_beacon.png)
+![build_and_download_beacon.png](/wiki/IoM/assets/build_and_download_beacon.png)
 
 ??? info "(非必要)其他编译方式"
 	我们提供了如下几种方式进行编译：
@@ -163,7 +163,7 @@ sessions
 
 [implant命令手册](/wiki/IoM/manual/implant/)
 
-![](assets/image_20240819003338.png)
+![](/wiki/IoM/assets/image_20240819003338.png)
 
 **Enjoy IoM**
 

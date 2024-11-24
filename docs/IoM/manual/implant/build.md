@@ -96,7 +96,7 @@ community的resources随着版本发布时的release发布: https://github.com/c
 
 解压到源码目录下的resrouces文件夹下: 最终结果应该类似这样:
 
-![](assets/Pasted%20image%2020241122223133.png)
+![](/wiki/IoM/assets/Pasted%20image%2020241122223133.png)
 
 ### 配置环境
 安装rust
@@ -143,7 +143,7 @@ rustup target add x86_64-pc-windows-msvc
 	
 	切换用法参考下图:
 	
-	![switch mingw](assets/switch-mingw-in-powershell.png)
+	![switch mingw](/wiki/IoM/assets/switch-mingw-in-powershell.png)
 
 ### 生成配置与代码
 

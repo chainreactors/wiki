@@ -144,7 +144,7 @@ list_addon [addon]
 ### load_addon
 Load an addon
 
-![load_addon](../assets/load_addon.gif)
+![load_addon](/wiki/IoM/assets/load_addon.gif)
 
 **Description**
 
@@ -310,7 +310,7 @@ execute_dll example.dll -e entrypoint -- arg1 arg2
 ### execute_exe
 Executes the given PE in the sacrifice process
 
-![execute_exe](../assets/execute_exe.gif)
+![execute_exe](/wiki/IoM/assets/execute_exe.gif)
 
 **Description**
 

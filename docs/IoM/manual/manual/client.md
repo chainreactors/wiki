@@ -29,7 +29,7 @@ exit
 ### login
 Login to server
 
-![login](../assets/login.gif)
+![login](/wiki/IoM/assets/login.gif)
 
 ```
 login
@@ -534,7 +534,7 @@ extension remove credman
 ### armory
 Automatically download and install extensions/aliases
 
-![armory](../assets/armory.gif)
+![armory](/wiki/IoM/assets/armory.gif)
 
 **Description**
 
@@ -886,7 +886,7 @@ pipeline stop tcp_test
 ### tcp
 List tcp pipelines in listener
 
-![tcp](../assets/tcp.gif)
+![tcp](/wiki/IoM/assets/tcp.gif)
 
 **Description**
 
@@ -956,7 +956,7 @@ tcp register listener --tls --cert_path /path/to/cert --key_path /path/to/key
 ### website
 List website in listener
 
-![website](../assets/website.gif)
+![website](/wiki/IoM/assets/website.gif)
 
 **Description**
 

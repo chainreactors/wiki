@@ -253,7 +253,7 @@ IoM 允许将一些文件挂载 web 服务上
 
 启动后服务器会输出以下信息, 并生成两个配置文件, 分别为`listener.auth` 和`admin_[server_ip].auth`, 这两个配置文件后续还有用处
 
-![](../assets/VNBYbUKdsokMfexhogfcKSLUnAh.png)
+![](/wiki/IoM/assets/VNBYbUKdsokMfexhogfcKSLUnAh.png)
 
 需要注意的是, server 中的 ip 字段需要在启动时设置为 listener 与 client 能访问到的地址, 所以可以手动修改`config.yaml`
 
@@ -315,11 +315,11 @@ listeners:
 
 listener 成功启动后，listener 终端会输出以下信息：
 
-![image-20240816214150489](../assets/image-20240816214150489.png)
+![image-20240816214150489](/wiki/IoM/assets/image-20240816214150489.png)
 
 **Malice-Network** 服务器也会输出 listener 登录信息：
 
-![image-20240816214248821](../assets/image-20240816214248821.png)
+![image-20240816214248821](/wiki/IoM/assets/image-20240816214248821.png)
 
 ### 启动客户端
 
@@ -333,7 +333,7 @@ listener 成功启动后，listener 终端会输出以下信息：
 
 客户端登录成功后会输出以下信息：
 
-![](../assets/NI55beE9Bo6ad5xtT3lcMuvunAd.png)
+![](/wiki/IoM/assets/NI55beE9Bo6ad5xtT3lcMuvunAd.png)
 
 下次登录后，客户端会自动显示在用户配置文件夹下所有的用户配置，根据需求，选择对应的用户进行选择。
 
@@ -341,7 +341,7 @@ listener 成功启动后，listener 终端会输出以下信息：
 ./iom
 ```
 
-![](../assets/EEgKb86iwop9xaxBUt8cHZG9n8f.png)
+![](/wiki/IoM/assets/EEgKb86iwop9xaxBUt8cHZG9n8f.png)
 
 ## ROOTRPC
 
@@ -383,7 +383,7 @@ certificate: |
 
 执行命令成功后，服务端会输出以下信息并在所处文件夹下生成对应用户配置文件：
 
-![](assets/image_20240903012951.png)
+![](/wiki/IoM/assets/image_20240903012951.png)
 
 也可以删除用户, 吊销证书, 使其无法登录 server
 
