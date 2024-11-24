@@ -66,13 +66,13 @@ service malice-network restart
 !!! important "分离部署listener"
 	**在默认配置下, listener和server同时部署, 但IoM更推荐分布式部署listener**
 	
-	[完整的配置文件说明](/wiki/IoM/manual/deploy/#config)
+	[完整的配置文件说明](/wiki/IoM/manual/manual/deploy/#config)
 	
 	可以根据自己的需要修改. 
 
 
 ??? info "(非必要)独立运行listener"
-	[listener文档](/wiki/IoM/manual/deploy/#listener)
+	[listener文档](/wiki/IoM/manual/manual/deploy/#listener)
 	
 	从v0.0.2开始, 我们合并了listener与server两个二进制文件到`malice-network`
 	
@@ -144,12 +144,12 @@ artifact download UNABLE_POOl
 ??? info "(非必要)其他编译方式"
 	我们提供了如下几种方式进行编译：
 	
-	1. [本地编译](/wiki/IoM/implant/build/#_4)
-	2. [Docker 编译(推荐)](/wiki/IoM/implant/build/#docker)	
-	3. [Github Action编译环境(暂未做适配)](/wiki/IoM/implant/build/#github-action)
+	1. [本地编译](/wiki/IoM/manual/implant/build/#_4)
+	2. [Docker 编译(推荐)](/wiki/IoM/manual/implant/build/#docker)	
+	3. [Github Action编译环境(暂未做适配)](/wiki/IoM/manual/implant/build/#github-action)
 	
 
-编译完整说明手册[implant手册](/wiki/IoM/manual/implant/)
+编译完整说明手册[implant手册](/wiki/IoM/manual/implant/build)
 
 ### 操作implant
 

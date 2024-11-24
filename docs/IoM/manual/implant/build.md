@@ -109,7 +109,7 @@ curl https://sh.rustup.rs -sSf | sh
 rustup default nightly-2023-09-18
 ```
 
-添加target, [经过的测试的target推荐](/wiki/IoM/implant/build/#_1)
+添加target, [经过的测试的target推荐](/wiki/IoM/manual/implant/build/#_1)
 ```
 rustup target add x86_64-pc-windows-msvc
 ```
@@ -153,13 +153,13 @@ rustup target add x86_64-pc-windows-msvc
 cargo run -p malefic-mutant -- generate beacon
 ```
 
-[mutant完整文档](/wiki/IoM/implant/mutant)
+[mutant完整文档](/wiki/IoM/manual/implant/mutant)
 
 ### 编译malefic
 
 项目的配置(config.toml、cargo.toml、makefile.toml..)中提供了一些预设和编译优化选项. 熟悉rust的使用者也可以手动编译，malefic目前使用的rust版本是`nightly-2023-09-18`.
 
-在进行手动编译前， 请更改 `beacon` 对应的配置项, 关于配置项， 请参考 [beacon 配置说明](/wiki/IoM/implant/mutant/#beacon)
+在进行手动编译前， 请更改 `beacon` 对应的配置项, 关于配置项， 请参考 [beacon 配置说明](/wiki/IoM/manual/implant/mutant/#beacon)
 
 添加对应的目标编译架构,以`x86_64-pc-windows-gnu`为例
 
@@ -193,7 +193,7 @@ cargo build --release -p malefic-prelude --target x86_64-pc-windows-gnu
 
 与手动编译 `malefic` 相似， 但目前 pulse 需要开启 `lto` 优化， 因此需要使用开启了 `lto` 的配置选项， 当然， 如果熟悉rust的使用者也可以自行更改
 
-在进行手动编译前， 请更改 `pulse` 对应的配置项, 关于配置项， 请参考 [pulse 配置说明](/wiki/IoM/implant/mutant/#pulse)
+在进行手动编译前， 请更改 `pulse` 对应的配置项, 关于配置项， 请参考 [pulse 配置说明](/wiki/IoM/manual/implant/mutant/#pulse)
 
 ```bash
 malefic-mutant generate pulse
@@ -233,7 +233,7 @@ cargo build --release --features "execute_powershell execute_assembly" -p malefi
 
 
 !!! info "当前支持的modules"
-	请见: https://chainreactors.github.io/wiki/IoM/implant/modules/#modules
+	请见: https://chainreactors.github.io/wiki/IoM/manual/implant/modules/#modules
 
 编译结果为`target\[arch]\release\modules.dll`
 

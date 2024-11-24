@@ -8,8 +8,8 @@ IoM的一切几乎都是解耦的, 可插拔可替换, 模块化的.
 
 目前的IoM有三个主要部分. 
 
-- client/server/listener 主体交互系统, [文档](/wiki/IoM/manual/)
-- mals插件, 一个多语言多SDK的插件生态系统, [文档](/wiki/IoM/mal/)
-- implant, 跨平台跨架构的植入物, [文档](/wiki/IoM/implant)
+- client/server/listener 主体交互系统, [文档](/wiki/IoM/manual/manual/)
+- mals插件, 一个多语言多SDK的插件生态系统, [文档](/wiki/IoM/manual/mal/)
+- implant, 跨平台跨架构的植入物, [文档](/wiki/IoM/manual/implant)
 
 
