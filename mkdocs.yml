@@ -87,7 +87,7 @@ nav:
               - 基本命令手册: IoM/manual/client.md
               - implant命令手册: IoM/manual/implant.md
               - 二次开发: IoM/manual/develop.md
-          - 插件手册:
+          - Mals插件生态:
               - index: IoM/mal/index.md
               - lua:
                   - builtin: IoM/mal/builtin.md
