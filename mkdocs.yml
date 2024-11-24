@@ -86,7 +86,7 @@ nav:
               - 安装部署手册: IoM/manual/deploy.md
               - 基本命令手册: IoM/manual/client.md
               - implant命令手册: IoM/manual/implant.md
-              - 二次开发: IoM/manual/develop.md
+            #   - 二次开发: IoM/manual/develop.md
           - Mals插件生态:
               - index: IoM/mal/index.md
               - lua:
