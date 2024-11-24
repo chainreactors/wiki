@@ -28,7 +28,7 @@ cargo build --release -p malefic-mutant
 ```
 
 !!! tips "编译环境"
-	编译环境可以参考build中对应的配置流程: https://chainreactors.github.io/wiki/IoM/implant/build/#_6
+	编译环境可以参考build中对应的配置流程: https://chainreactors.github.io/wiki/IoM/manual/implant/build/#_6
 
 ## Usage
 

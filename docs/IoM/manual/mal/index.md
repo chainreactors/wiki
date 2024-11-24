@@ -51,9 +51,9 @@ lua 是一门非常简单的脚本语言, 上手难度远远低于python, 也低
 
 目前mal lua 已经实现了数百个api, 为了更好的管理与分类这些api. 我们将这些api分到三个package中. 
 
-* [builtin](/wiki/IoM/mal/builtin/), 直接在当前上下文可用, mal相关核心api
-* [rpc](wiki/IoM/mal/rpc/), grpc相关api的lua实现
-* [beacon](/wiki/IoM/mal/builtin/), 对CobaltStrike的兼容层api. 实现了大量与aggressive scirpt中`b`开头函数等价的api
+* [builtin](/wiki/IoM/manual/mal/builtin/), 直接在当前上下文可用, mal相关核心api
+* [rpc](/wiki/IoM/manual/mal/rpc/), grpc相关api的lua实现
+* [beacon](/wiki/IoM/manual/mal/builtin/), 对CobaltStrike的兼容层api. 实现了大量与aggressive scirpt中`b`开头函数等价的api
 
 #### lua 标准库
 
