@@ -79,7 +79,7 @@ malice-network的[issues](https://github.com/chainreactors/malice-network/issues
 
 如果有深入讨论关于IoM的问题, 更建议在github的issues/disscussion中进行, 微信群一般只用来广播更新进度. 
 
-![image-20240819160739532](assets/image-20240819160739532.png)
+![image-20240819160739532](/wiki/IoM/assets/image-20240819160739532.png)
 
 ### 用户协议
 

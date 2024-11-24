@@ -1,10 +1,15 @@
----
-title: Internal of Malice · manual
----
+IoM 是一个极其复杂的系统, 我们在v0.0.1-v0.1.0的过程中向其添加了作为红队基础设施所必须的一切. 在短时间内急速膨胀的功能导致各个模块之间相对独立, 缺少交互, 配置复杂, bug频出等等问题. 
 
-## menu
+我们正在积极解决这些, 也继续各种各样的试用反馈, 有任何使用上的疑问、使用过程中的bug、希望添加的功能都可以通过issue发起, 我们会尽快解决。
 
-1. [安装部署](/wiki/manual/deploy) : IoM client/listener/server 安装、部署、编译
-2. [client手册](/wiki/manual/client) : IoM listener/pipeline/build/mal等管理配置
-3. [implant手册](/wiki/manual/implant) : implant操作手册
-4. [二次开发文档](IoM/manual/develop): 二次开发文档(Unstable)
+## 概览
+
+IoM的一切几乎都是解耦的, 可插拔可替换, 模块化的. 
+
+目前的IoM有三个主要部分. 
+
+- client/server/listener 主体交互系统, [文档](/wiki/IoM/manual/)
+- mals插件, 一个多语言多SDK的插件生态系统, [文档](/wiki/IoM/mal/)
+- implant, 跨平台跨架构的植入物, [文档](/wiki/IoM/implant)
+
+
