@@ -2,10 +2,36 @@
 title: Internal of Malice · implant手册
 ---
 
+
+
+
+## Intro
+
 > 随着 Implant 逐渐解耦， 并可预见的将会有更多组件和模块出现在项目中， 因此一个动态管理工具的出现刻不容缓， 而之前的 config 已经无法满足当前的需求， 因此我们新增了 mutant 模块， 并将之前的 config 经过重构嵌入进了该模块
 
 
 在设计中， mutant 的定位相当于 MSF venom， 可以动态解析和更改配置以动态生成代码， 也可以通过需求动态生成 shellcode 的 raw 文件, 因此， 目前的 mutant 含有两大模块: 
+
+
+
+## Install/Build
+
+malefic-mutant 会随着每个版本自动编译对应的release. 直接下载即可使用
+
+https://github.com/chainreactors/malefic/releases/latest
+
+
+也支持从源码编译:
+
+```
+cargo build --release -p malefic-mutant 
+```
+
+!!! tips "编译环境"
+	编译环境可以参考build中对应的配置流程: https://chainreactors.github.io/wiki/IoM/implant/build/#_6
+
+## Usage
+
 
 * generate： 根据配置动态生成代码
 * build：创建可用的 shellcode/PE 文件
@@ -29,13 +55,18 @@ Options:
 
 ## generate
 
+generate是代码, 配置, 编译条件的生成器, 因此需要在源代码目录下使用.
+
+如果还没有下载对应的源代码, 请先尝试clone malefic.
+
+```
+git clone --recurse-submodules https://github.com/chainreactors/malefic
+```
+
 generate 模块将会根据配置动态生成一切所需的代码（pulse, prelude, beacon...）
 
-该组件由原本的 `config` 重构而来， 并增加了更多的功能
 
 ### beacon
-
-主体生成物， 这也是我们最初的 config 部分
 
 #### 配置清单
 
@@ -108,7 +139,7 @@ Options:
 #### 使用示例
 
 ```bash
-cargo --release -p mutant generate beacon 
+malefic-mutant generate beacon 
 ```
 
 ### pulse
@@ -159,7 +190,7 @@ Options:
 #### 使用示例
 
 ```bash
-cargo --release -p mutant generate pulse x64 win
+malefic-mutant generate pulse x64 win
 ```
 
 ### prelude
@@ -266,7 +297,7 @@ Options:
 使用示例：
 
 ```bash
-cargo --release -p mutant build srdi ./beacon.exe win x64 ./beacon.bin
+malefic-mutant build srdi ./beacon.exe win x64 ./beacon.bin
 
-cargo --release -p mutant build srdi ./beacon.dll win x64 ./beacon.bin --function-name "main"
+malefic-mutant build srdi ./beacon.dll win x64 ./beacon.bin --function-name "main"
 ```

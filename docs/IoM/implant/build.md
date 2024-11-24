@@ -114,7 +114,7 @@ rustup default nightly-2023-09-18
 rustup target add x86_64-pc-windows-msvc
 ```
 
-??? 编译gnu环境配置
+??? windows配置gnu环境(非必要)
 	本地手动编译时，我们推荐windows用户使用[msys2](https://www.msys2.org/)管理GNU工具链环境, 可通过官网二进制文件直接安装。
 	
 	在msys2的terminal下执行如下安装可以保证64、32位GNU工具链的正常编译
