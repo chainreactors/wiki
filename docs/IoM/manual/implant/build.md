@@ -67,16 +67,23 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 community的resources随着版本发布时的release发布: https://github.com/chainreactors/malefic/releases/lasest
 
 ### 编译
-
 以`x86_64-unknown-linux-musl`举例,  **在malefic的代码目录下执行**
+
+你可以通过一行命令执行build
 ```bash
-# docker bash
-# /user/path/malefic/ 
-docker run -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/x86_64-unknown-linux-musl:nightly-2023-09-18-latest bash
+# cd /user/path/malefic/  
+docker run -v "$(pwd)/cache/registry:/root/cargo/registry" -v "$(pwd)/cache/git:/root/cargo/git" -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/x86_64-unknown-linux-musl:nightly-2023-09-18-latest bash -c "(./target/release/malefic-mutant generate beacon  || cargo run -p malefic-mutant --release -- generate beacon) && cargo build --release -p malefic --target x86_64-unknown-linux-musl"
+```
+
+或者你也可分步执行
+```bash
+# cd /user/path/malefic/ 
+# 进入docker的bash
+docker run -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/x86_64-unknown-linux-musl:nightly-2023-09-20-latest bash
 # 通过mutant生成对应的配置
-cargo run -p malefic-mutant -- generate beacon
+(./target/release/malefic-mutant generate beacon  || cargo run -p malefic-mutant --release -- generate beacon)
 # build对应的bin
-cargo build -p malefic --target x86_64-unknown-linux-musl
+cargo build -p malefic --release --target x86_64-unknown-linux-musl
 ```
 
 ## 本地编译
