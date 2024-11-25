@@ -14,7 +14,7 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 
 - **操作系统**：Linux 推荐使用 Ubuntu、Debian 或 CentOS, (后续会适配 mac 与 windows)
 - **权限**：需要以 `root` 用户或通过 `sudo` 运行安装脚本。
-- **网络连接**：确保能够访问以下资源：
+- **网络连接**：确保能够访问以下资源
 	- `github.com`
 	- `ghcr.io`
 	- `docker.com`
@@ -45,20 +45,19 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
   Please input your IP Address for the server to start [default: <自动检测的IP>]:
   ```
 
-**install.sh** 将自动完成以下任务：
-
-1. 检查并安装 Docker。
-2. 下载并安装 Malice-Network 服务端及客户端。
-3. 下载并安装 Malefic 组件及工具。
-4. 拉取必要的 Docker 镜像。
-   - `ghcr.io/chainreactors/x86_64-pc-windows-msvc:nightly-2023-09-18-latest`
-   - `ghcr.io/chainreactors/i686-pc-windows-msvc:nightly-2023-09-18-latest`
-   - `ghcr.io/chainreactors/x86_64-pc-windows-gnu:nightly-2023-09-18-latest`
-   - `ghcr.io/chainreactors/i686-pc-windows-gnu:nightly-2023-09-18-latest`
-   - `ghcr.io/chainreactors/x86_64-unknown-linux-musl:nightly-2023-09-18-latest`
-   - `ghcr.io/chainreactors/i686-unknown-linux-musl:nightly-2023-09-18-latest`
-   - `ghcr.io/chainreactors/aarch64-apple-darwin:nightly-2023-09-18-latest`
-5. 配置并启动 Malice-Network 服务（基于 `systemd`）。
+??? "**install.sh** 将自动完成以下任务："
+	1. 检查并安装 Docker。
+	2. 下载并安装 Malice-Network 服务端及客户端。
+	3. 下载并安装 Malefic 源码及工具。
+	4. 拉取必要的 Docker 镜像, （需要大约13G 空间, 我们正在尝试优化）
+		- `ghcr.io/chainreactors/x86_64-pc-windows-msvc:nightly-2023-09-18-latest`
+		- `ghcr.io/chainreactors/i686-pc-windows-msvc:nightly-2023-09-18-latest`
+		- `ghcr.io/chainreactors/x86_64-pc-windows-gnu:nightly-2023-09-18-latest`
+		- `ghcr.io/chainreactors/i686-pc-windows-gnu:nightly-2023-09-18-latest`
+		- `ghcr.io/chainreactors/x86_64-unknown-linux-musl:nightly-2023-09-18-latest`
+		- `ghcr.io/chainreactors/i686-unknown-linux-musl:nightly-2023-09-18-latest`
+		- `ghcr.io/chainreactors/aarch64-apple-darwin:nightly-2023-09-18-latest`
+	5. 配置并启动 Malice-Network 服务（基于 `systemd`）。
 
 ## 部署
 
@@ -127,7 +126,7 @@ listeners:
     - name: shellcode
       port: 5002
       host: 0.0.0.0
-      parser: pulse    # 对应malefic-pulse上线
+      parser: pulse    # implant 协议, pulse 需要指定对应的
       enable: true
       encryption:
         enable: true
@@ -270,7 +269,7 @@ ip: 123.123.123.123
 ```
 
 !!! tips "同时启动 server 与 listener"
-在设计上, server 和 listener 是独立的, 但我们也提供了便捷的用法, 仓库中提供的默认`config.yaml`同时配置了 server 与 listener. 所以会同时启动多个服务.
+	在设计上, server 和 listener 是独立的, 为了方便部署提供了同时部署的用法, 仓库中提供的默认`config.yaml`同时配置了 server 与 listener. 会同时启动server, listener.
 
 ### 启动 Listener
 
@@ -311,7 +310,7 @@ listeners:
 ```
 
 !!! important "请检查 listener.auth"
-如果换了一台服务部署 listener, 请检查目录下是否存在`listener.yaml`与`listener.auth`
+	如果换了一台服务部署 listener, 请检查目录下是否存在`listener.yaml`与`listener.auth`
 
 listener 成功启动后，listener 终端会输出以下信息：
 
