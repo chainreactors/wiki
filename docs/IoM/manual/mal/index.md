@@ -100,4 +100,8 @@ mal lua中同样支持lua标准库, 相关文档可以查阅 lua5.1文档.
 - [http](https://github.com/cjoudrey/gluahttp) http
 - [crypto](https://github.com/tengattack/gluacrypto)  hash(md5, sha1,sha256, HMAC...), base64, aes 
 
+在lua脚本中, 可以通过 require 引入对应的依赖
 
+```
+local crypto = require("crypto")
+```

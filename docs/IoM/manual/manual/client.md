@@ -1102,8 +1102,6 @@ Download a build output file from the server
 
 Download a specific build output file from the server by specifying its unique artifact name.
 
-The following flag is supported:
-- **--output**, **-o**: Specify the output path where the downloaded file will be saved. If not provided, the file will be saved in the current directory.
 
 ```
 artifact download [flags]
@@ -1152,10 +1150,7 @@ Upload a build output file to the server
 
 Upload a custom artifact to the server for storage or further use.
 
-The following flags are supported:
-- **--stage**, **-s**: Specify the stage for the artifact (eg.,: **loader**, **prelude**, **beacon**, **bind**, **modules**)
-- **--type**, **-t**: Define the type of the artifact
-- **--name**, **-n**: Provide an alias name for the uploaded artifact. If not provided, the server will use the original file name.
+
 
 ```
 artifact upload [flags]
@@ -1193,7 +1188,9 @@ build
 
 * [build beacon](#build-beacon)	 - Build a beacon
 * [build bind](#build-bind)	 - Build a bind payload
+* [build log](#build-log)	 - Show build log
 * [build modules](#build-modules)	 - Compile specified modules into DLLs
+* [build prelude](#build-prelude)	 - Build a prelude payload
 * [build pulse](#build-pulse)	 - stage 0 shellcode generate
 
 #### build beacon
@@ -1203,9 +1200,6 @@ Build a beacon
 
 Generate a beacon artifact based on the specified profile.
 
-The **target** flag is required to specify the arch and platform for the beacon, such as **x86_64-unknown-linux-musl** or **x86_64-pc-windows-msvc**.
-- If **profile_name** is provided, it must match an existing compile profile. Otherwise, the command will use default settings for the beacon generation.
-- Additional modules can be added to the beacon using the **modules** flag, separated by commas.
 
 ```
 build beacon [flags]
@@ -1214,14 +1208,15 @@ build beacon [flags]
 **Examples**
 
 ~~~
-// Build a beacon with specified settings
-build beacon --target x86_64-unknown-linux-musl --profile_name beacon_profile
+// Build a beacon
+build beacon --target x86_64-unknown-linux-musl --profile beacon_profile
 
-// Build a beacon for the Windows platform
-build beacon --target x86_64-unknown-linux-musl
+// Build a beacon using additional modules
+build beacon --target x86_64-pc-windows-msvc --profile beacon_profile --modules full
 
-// Build a beacon using a specific profile and additional modules
-build beacon --target x86_64-pc-windows-msvc --profile_name beacon_profile --modules full
+// Build a beacon using SRDI technology
+build beacon --target x86_64-pc-windows-msvc --profile beacon_profile --srdi
+
 ~~~
 
 **Options**
@@ -1234,7 +1229,7 @@ build beacon --target x86_64-pc-windows-msvc --profile_name beacon_profile --mod
   -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
       --profile string    profile name
       --srdi string       enable srdi
-      --target string     build target
+      --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
 ```
 
 **SEE ALSO**
@@ -1248,10 +1243,6 @@ Build a bind payload
 
 Generate a bind payload that connects a client to the server.
 
-The **target** flag is required to specify the target arch and platform, such as **x86_64-unknown-linux-musl** or **x86_64-pc-windows-msvc**.
-- If **profile_name** is provided, it must match an existing compile profile.
-- Use additional flags to include functionality such as modules or custom configurations.
-
 ```
 build bind [flags]
 ```
@@ -1259,14 +1250,15 @@ build bind [flags]
 **Examples**
 
 ~~~
-// Build a bind payload for the Windows platform
-build bind --target x86_64-unknown-linux-musl
-
-// Build a bind payload with a specific profile
-build bind --target x86_64-pc-windows-msvc --profile_name bind_profile
+// Build a bind payload
+build bind --target x86_64-pc-windows-msvc --profile bind_profile
 
 // Build a bind payload with additional modules
-build bind --target x86_64-pc-windows-msvc --modules base,sys_full
+build bind --target x86_64-unknown-linux-musl --profile bind_profile --modules base,sys_full
+
+// Build a bind payload with SRDI technology
+build bind --target x86_64-pc-windows-msvc --profile bind_profile --srdi
+
 ~~~
 
 **Options**
@@ -1279,7 +1271,36 @@ build bind --target x86_64-pc-windows-msvc --modules base,sys_full
   -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
       --profile string    profile name
       --srdi string       enable srdi
-      --target string     build target
+      --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
+```
+
+**SEE ALSO**
+
+* [build](#build)	 - build
+
+#### build log
+Show build log
+
+**Description**
+
+Displays the log for the specified number of rows
+
+```
+build log [flags]
+```
+
+**Examples**
+
+
+~~~
+build log builder_name --limit 70
+~~~
+
+
+**Options**
+
+```
+      --limit int   limit of rows (default 50)
 ```
 
 **SEE ALSO**
@@ -1293,9 +1314,6 @@ Compile specified modules into DLLs
 
 Compile the specified modules into DLL files for deployment or integration.
 
-The **target** flag is required to specify the platform for the modules, such as **x86_64-unknown-linux-musl** or **x86_64-pc-windows-msvc**,
-- The **profile_name** flag is optional; if provided, it must match an existing compile profile, allowing the modules to inherit relevant configurations such as interval, jitter, or proxy settings.
-- Additional modules can be explicitly defined using the **modules** flag as a comma-separated list (e.g., base,execute_dll). This allows fine-grained control over which modules are compiled. If **modules** is not specified, the default value will be **full**, which includes all available modules.
 
 ```
 build modules
@@ -1305,17 +1323,62 @@ build modules
 
 ~~~
 // Compile all modules for the Windows platform
-build modules --target x86_64-unknown-linux-musl
+build modules --target x86_64-unknown-linux-musl --profile module_profile
 
 // Compile a predefined feature set of modules (nano)
-build modules --target x86_64-unknown-linux-musl --modules nano
+build modules --target x86_64-unknown-linux-musl --profile module_profile --modules nano
 
 // Compile specific modules into DLLs
-build modules --target x86_64-pc-windows-msvc --modules base,execute_dll
+build modules --target x86_64-pc-windows-msvc --profile module_profile --modules base,execute_dll
 
-// Compile modules using a specific profile
-build modules --target x86_64-pc-windows-msvc --profile_name my_profile --modules full
+// Compile modules with srdi
+build modules --target x86_64-pc-windows-msvc --profile module_profile --srdi
 ~~~
+
+**SEE ALSO**
+
+* [build](#build)	 - build
+
+#### build prelude
+Build a prelude payload
+
+**Description**
+
+Generate a prelude payload as part of a multi-stage deployment.
+	
+	The **target** flag is required to specify the platform, such as **x86_64-unknown-linux-musl** or **x86_64-pc-windows-msvc**, ensuring compatibility with the deployment environment.
+	
+
+```
+build prelude [flags]
+```
+
+**Examples**
+
+~~~
+	// Build a prelude payload
+	build prelude --target x86_64-unknown-linux-musl --profile prelude_profile --autorun /path/to/autorun.yaml
+	
+	// Build a prelude payload with additional modules
+	build prelude --target x86_64-pc-windows-msvc --profile prelude_profile --autorun /path/to/autorun.yaml --modules base,sys_full
+	
+	// Build a prelude payload with SRDI technology
+	build prelude --target x86_64-pc-windows-msvc --profile prelude_profile --autorun /path/to/autorun.yaml --srdi
+	~~~
+
+**Options**
+
+```
+  -a, --address string    implant address
+      --autorun string    set autorun.yaml
+      --ca string         custom ca file
+      --interval int      interval /second (default -1)
+      --jitter float      jitter (default -1)
+  -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
+      --profile string    profile name
+      --srdi string       enable srdi
+      --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
+```
 
 **SEE ALSO**
 
@@ -1326,7 +1389,8 @@ stage 0 shellcode generate
 
 **Description**
 
-Generate 'pulse' payload
+Generate 'pulse' payload,a minimized shellcode template, corresponding to CS artifact, very suitable for loading by various loaders
+
 
 ```
 build pulse [flags]
@@ -1336,7 +1400,14 @@ build pulse [flags]
 
 
 ~~~
-build pulse --target x86_64-pc-windows-msvc --srdi --address 127.0.0.1:5002
+// Build a pulse payload
+build pulse --target x86_64-unknown-linux-musl --profile pulse_profile
+
+// Build a pulse payload with additional modules
+build pulse --target x86_64-pc-windows-msvc --profile pulse_profile --modules base,sys_full
+	
+// Build a pulse payload with SRDI technology
+build pulse --target x86_64-pc-windows-msvc --profile pulse_profile --srdi
 ~~~
 
 
@@ -1350,7 +1421,7 @@ build pulse --target x86_64-pc-windows-msvc --srdi --address 127.0.0.1:5002
   -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
       --profile string    profile name
       --srdi string       enable srdi
-      --target string     build target
+      --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
 ```
 
 **SEE ALSO**
@@ -1394,14 +1465,8 @@ Create a new compile profile
 
 Create a new compile profile with customizable attributes.
 
-If no **name** is provided, the command concatenates the target with a random name.
-- Specify the **pipeline_id** to associate the listener and pipeline.
-- Specify the **target** to set the build target arch and platform.
-- Use the **modules** flag to define a comma-separated list of modules, such as execute_exe or execute_dll.
-- **interval** defaults to 5 seconds, controlling the execution interval of the profile.
-- **jitter** adds randomness to the interval (default value is 0.2).
-- The **proxy** flag allows setting up proxy configurations (e.g., http or socks5).
-- **ca** enables or disables CA validation (default: disabled).
+The **profile load** command requires a valid configuration file path (e.g., **config.yaml**) to load settings. This file specifies attributes necessary for generating the compile profile.
+
 
 ```
 profile load [flags]
@@ -1410,27 +1475,24 @@ profile load [flags]
 **Examples**
 
 ~~~
-// Create a new profile with default settings
-profile new --name my_profile --target x86_64-unknown-linux-musl
+// Create a new profile
+profile load /path/to/config.yaml --name my_profile
+
+// Create a new profile using network configuration in pipeline
+profile load /path/to/config.yaml --name my_profile --pipeline pipeline_name
 
 // Create a profile with specific modules
-profile new --name my_profile --target x86_64-unknown-linux-musl --modules base,sys_full
+profile load /path/to/config.yaml --name my_profile --modules base,sys_full
 
 // Create a profile with custom interval and jitter
-profile new --name my_profile --target x86_64-unknown-linux-musl --interval 10 --jitter 0.5
+profile load /path/to/config.yaml --name my_profile --interval 10 --jitter 0.5
 ~~~
 
 **Options**
 
 ```
-      --ca string         Set ca
-      --interval int      Set interval (default 5)
-      --jitter float32    Set jitter (default 0.2)
-      --modules strings   Set modules e.g.: execute_exe,execute_dll
-      --name string       Set profile name
-      --pipeline string   Set profile pipeline_id
-      --proxy string      Set proxy
-      --target string     Set build target
+      --name string       Overwrite profile name
+      --pipeline string   Overwrite profile pipeline_id
 ```
 
 **SEE ALSO**
@@ -1446,12 +1508,6 @@ Generate an SRDI (Shellcode Reflective DLL Injection) artifact to minimize PE (P
 
 SRDI technology reduces the PE characteristics of a DLL, enabling more effective injection and evasion during execution. The following options are supported:
 
-- The **path** flag specifies the file path to the target DLL that will be processed. This is required if **id** is not provided.
-- The **id** flag identifies a specific artifact or build file in the system for conversion to SRDI format. This is required if **path** is not provided.
-- The **arch** flag defines the architecture of the generated shellcode, such as **x86** or **x64**. This flag is required to ensure compatibility with the target environment.
-- The **platform** flag specifies the platform of the shellcode. Defaults to **win**, but can also be set to **linux**. This flag is required to tailor the shellcode for the desired operating system.
-- The **function_name** flag sets the entry function name within the DLL for execution. This is critical for specifying which function will be executed when the DLL is loaded.
-- The **userdata_path** flag allows the inclusion of user-defined data to be embedded with the shellcode during generation. This can be used to pass additional information or configuration to the payload at runtime.
 
 ```
 srdi [flags]
@@ -1476,11 +1532,11 @@ srdi --id artifact_id --arch x64 --platform linux
 **Options**
 
 ```
-      --arch string             shellcode architecture, eg: x86,x64
-      --function_name string    shellcode function name
-      --id uint32               build file id
-      --path string             file path
-      --platform string         shellcode platform, eg: windows,linux (default "win")
-      --user_data_path string   user data path
+      --arch string            shellcode architecture, eg: x86,x64 (default "x64")
+      --function_name string   shellcode entrypoint
+      --id uint32              build file id
+      --path string            file path
+      --platform string        shellcode platform, eg: windows,linux (default "win")
+      --userdata_path string   user data path
 ```
 
