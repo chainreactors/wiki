@@ -95,6 +95,19 @@ docker run -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/x86_64-unknown-l
 cargo build -p malefic --release --target x86_64-unknown-linux-musl
 ```
 
+目前已经支持的镜像:
+- ghcr.io/chainreactors/x86_64-pc-windows-msvc:nightly-2023-09-20-latest
+- ghcr.io/chainreactors/i686-pc-windows-msvc:nightly-2023-09-20-latest
+- ghcr.io/chainreactors/i686-pc-windows-gnu:nightly-2023-09-20-latest
+- ghcr.io/chainreactors/x86_64-pc-windows-gnu:nightly-2023-09-20-latest
+- ghcr.io/chainreactors/x86_64-unknown-linux-musl:nightly-2023-09-20-latest
+- ghcr.io/chainreactors/i686-unknown-linux-musl:nightly-2023-09-20-latest
+- ghcr.io/chainreactors/x86_64-unknown-linux-gnu:nightly-2023-09-20-latest
+- ghcr.io/chainreactors/i686-unknown-linux-gnu:nightly-2023-09-20-latest
+- ghcr.io/chainreactors/x86_64-apple-darwin:nightly-2023-09-20-latest
+- ghcr.io/chainreactors/aarch64-apple-darwin:nightly-2023-09-20-latest
+
+
 ## 本机编译环境配置
 
 由于本地环境的编译更为复杂，如果需要交叉编译建议使用`Docker`编译. 以`x86_64-pc-windows-msvc`为例，
