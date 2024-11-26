@@ -47,8 +47,8 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 
 ??? "**install.sh** 将自动完成以下任务："
 	1. 检查并安装 Docker。
-	2. 下载并安装 Malice-Network 服务端及客户端。
-	3. 下载并安装 Malefic 源码及工具。
+	2. 下载并安装 Malice-Network 服务端及客户端, 并添加到环境变量
+	3. 下载并安装 Malefic 源码及工具
 	4. 拉取必要的 Docker 镜像, （需要大约13G 空间, 我们正在尝试优化）
 		- `ghcr.io/chainreactors/x86_64-pc-windows-msvc:nightly-2023-09-18-latest`
 		- `ghcr.io/chainreactors/i686-pc-windows-msvc:nightly-2023-09-18-latest`
@@ -60,6 +60,8 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 	5. 配置并启动 Malice-Network 服务（基于 `systemd`）。
 
 ## 部署
+
+
 
 ### Config 示例
 
@@ -247,6 +249,8 @@ IoM 允许将一些文件挂载 web 服务上
 ```
 ./malice-network
 ```
+
+
 
 如果配置文件非默认的 `config.yaml`, 可以通过 `-c path/any.yaml` 指定
 
