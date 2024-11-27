@@ -70,6 +70,21 @@ curl -fsSL https://get.docker.com | sudo bash -s docker
 	curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 	`
 
+目前已经支持的镜像:
+
+- ghcr.io/chainreactors/x86_64-pc-windows-msvc:nightly-2023-09-18-latest
+- ghcr.io/chainreactors/i686-pc-windows-msvc:nightly-2023-09-18-latest
+- ghcr.io/chainreactors/i686-pc-windows-gnu:nightly-2023-09-18-latest
+- ghcr.io/chainreactors/x86_64-pc-windows-gnu:nightly-2023-09-18-latest
+- ghcr.io/chainreactors/x86_64-unknown-linux-musl:nightly-2023-09-18-latest
+- ghcr.io/chainreactors/i686-unknown-linux-musl:nightly-2023-09-18-latest
+- ghcr.io/chainreactors/x86_64-unknown-linux-gnu:nightly-2023-09-18-latest
+- ghcr.io/chainreactors/i686-unknown-linux-gnu:nightly-2023-09-18-latest
+- ghcr.io/chainreactors/x86_64-apple-darwin:nightly-2023-09-18-latest
+- ghcr.io/chainreactors/aarch64-apple-darwin:nightly-2023-09-18-latest
+
+!!! tips "如果不了解原理, 请选择对应target的镜像"
+	ghcr.io/chainreactors/x86_64-pc-windows-gnu:nightly-2023-09-18-latest 能编译绝大多数target. 如果了解rust的编译操作, 可以使用这个镜像实现大多数编译场景
 ### 编译
 
 !!! important "请注意已完成了基础环境配置"
@@ -94,18 +109,6 @@ docker run -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/x86_64-unknown-l
 # build对应的bin
 cargo build -p malefic --release --target x86_64-unknown-linux-musl
 ```
-
-目前已经支持的镜像:
-- ghcr.io/chainreactors/x86_64-pc-windows-msvc:nightly-2023-09-20-latest
-- ghcr.io/chainreactors/i686-pc-windows-msvc:nightly-2023-09-20-latest
-- ghcr.io/chainreactors/i686-pc-windows-gnu:nightly-2023-09-20-latest
-- ghcr.io/chainreactors/x86_64-pc-windows-gnu:nightly-2023-09-20-latest
-- ghcr.io/chainreactors/x86_64-unknown-linux-musl:nightly-2023-09-20-latest
-- ghcr.io/chainreactors/i686-unknown-linux-musl:nightly-2023-09-20-latest
-- ghcr.io/chainreactors/x86_64-unknown-linux-gnu:nightly-2023-09-20-latest
-- ghcr.io/chainreactors/i686-unknown-linux-gnu:nightly-2023-09-20-latest
-- ghcr.io/chainreactors/x86_64-apple-darwin:nightly-2023-09-20-latest
-- ghcr.io/chainreactors/aarch64-apple-darwin:nightly-2023-09-20-latest
 
 
 ## 本机编译环境配置
