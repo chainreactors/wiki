@@ -19,7 +19,7 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 	- `ghcr.io`
 	- `docker.com`
 
-!!! important ""
+!!! important "配置代理"
 	对于国内服务器访问 github 容易超时且速度较慢, 建议配置环境变量中的 proxy
 	`bash
 		# ssh -R 1080:127.0.0.1:1080 root@ip  , tricks: 可以映射本机的代理端口到vps

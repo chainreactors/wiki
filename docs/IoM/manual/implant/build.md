@@ -30,7 +30,7 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 ```
 
 !!! important "注意 clone 子项目"
-需要添加`--recurse-submodules`递归克隆子项目. 如果已经 clone 也不必担心,`git submodule update --init` 即可
+	需要添加`--recurse-submodules`递归克隆子项目. 如果已经 clone 也不必担心,`git submodule update --init` 即可
 
 ### 下载 resources
 
@@ -45,13 +45,13 @@ community 的 resources 随着版本发布时的 release 发布: https://github.
 ## Docker 编译(推荐)
 
 !!! info "docker 自动化编译"
-rust 很复杂，不通过交叉编译的方式几乎无法实现所有架构的适配，所以我们参考了[cross-rs/cross](https://github.com/cross-rs/cross)的方案，但它并不完美的符合我们的需求：
-
-    1. cross需要宿主机存在一个rust开发环境，编译环境不够干净，虽然这可以通过虚拟机、github action等方式解决
-    2. cross对很多操作进行了封装，不够灵活，比如一些动态的变量引入、一些复杂的操作无法方便的实现
-
-    因此，我们参考了cross创建了用于维护malefic(即implant)编译的仓库[chainreactors/cross-rust](https://github.com/chainreactors/cross-rust).
-    这个项目提供了一些主流架构的编译环境。
+	rust 很复杂，不通过交叉编译的方式几乎无法实现所有架构的适配，所以我们参考了[cross-rs/cross](https://github.com/cross-rs/cross)的方案，但它并不完美的符合我们的需求：
+	
+	    1. cross需要宿主机存在一个rust开发环境，编译环境不够干净，虽然这可以通过虚拟机、github action等方式解决
+	    2. cross对很多操作进行了封装，不够灵活，比如一些动态的变量引入、一些复杂的操作无法方便的实现
+	
+	    因此，我们参考了cross创建了用于维护malefic(即implant)编译的仓库[chainreactors/cross-rust](https://github.com/chainreactors/cross-rust).
+	    这个项目提供了一些主流架构的编译环境。
 
 使用前需要先安装 docker
 
@@ -66,9 +66,9 @@ curl -fsSL https://get.docker.com | sudo bash -s docker
 ```
 
 ??? info "国内安装 docker"
-`
+	```bash
 	curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-	`
+	```
 
 目前已经支持的镜像:
 
@@ -85,6 +85,7 @@ curl -fsSL https://get.docker.com | sudo bash -s docker
 
 !!! tips "如果不了解原理, 请选择对应target的镜像"
 	ghcr.io/chainreactors/x86_64-pc-windows-gnu:nightly-2023-09-18-latest 能编译绝大多数target. 如果了解rust的编译操作, 可以使用这个镜像实现大多数编译场景
+
 ### 编译
 
 !!! important "请注意已完成了基础环境配置"
@@ -115,15 +116,29 @@ cargo build -p malefic --release --target x86_64-unknown-linux-musl
 
 由于本地环境的编译更为复杂，如果需要交叉编译建议使用`Docker`编译. 以`x86_64-pc-windows-msvc`为例，
 
-### 配置环境
-
-安装 rust
+### 安装rust
+linux安装 rust
 
 ```
 curl https://sh.rustup.rs -sSf | sh
 ```
 
-安装 toolchain
+windows安装rust
+三种方式选择一种即可:
+
+1. 直接下载安装程序: 
+https://www.rust-lang.org/tools/install 或使用包管理工具下载
+2. scoop install
+```
+scoop install rustup
+```
+3. winget install
+```
+winget install rustup
+```
+
+
+### 安装 toolchain与target
 
 ```bash
 rustup default nightly-2023-09-18
@@ -136,28 +151,28 @@ rustup target add x86_64-pc-windows-msvc
 ```
 
 ??? "windows 配置 gnu 环境(非必要)"
-本地手动编译时，我们推荐 windows 用户使用[msys2](https://www.msys2.org/)管理 GNU 工具链环境, 可通过官网二进制文件直接安装。
-在 msys2 的 terminal 下执行如下安装可以保证 64、32 位 GNU 工具链的正常编译
-`
-	pacman -Syy # 更新包列表
-	pacman -S --needed mingw-w64-x86_64-gcc
-	pacman -S --needed mingw-w64-i686-gcc
+	本地手动编译时，我们推荐 windows 用户使用[msys2](https://www.msys2.org/)管理 GNU 工具链环境, 可通过官网二进制文件直接安装。
+	在 msys2 的 terminal 下执行如下安装可以保证 64、32 位 GNU 工具链的正常编译
 	`
-你可自行把 msys64 添加到环境变量中， 也可通过`notepad $PROFILE`将如下内容添加到 powershell 配置中，实现在 powershell 中快速切换`mingw64/32`.
-`powershell
-	function mg {
-	    param (
-	        [ValidateSet("32", "64")]
-	        [string]$arch = "64"
-	    )
-	    
-	    $basePath = "D:\msys64\mingw" # 此处是你的msys2安装路径
-	    $env:PATH = "${basePath}${arch}\bin;" + $env:PATH
-	    Write-Host "Switched to mingw${arch} (bit) toolchain"
-	}
-	mg 64
-	`
-切换用法参考下图:
+		pacman -Syy # 更新包列表
+		pacman -S --needed mingw-w64-x86_64-gcc
+		pacman -S --needed mingw-w64-i686-gcc
+		`
+	你可自行把 msys64 添加到环境变量中， 也可通过`notepad $PROFILE`将如下内容添加到 powershell 配置中，实现在 powershell 中快速切换`mingw64/32`.
+	`powershell
+		function mg {
+		    param (
+		        [ValidateSet("32", "64")]
+		        [string]$arch = "64"
+		    )
+		    
+		    $basePath = "D:\msys64\mingw" # 此处是你的msys2安装路径
+		    $env:PATH = "${basePath}${arch}\bin;" + $env:PATH
+		    Write-Host "Switched to mingw${arch} (bit) toolchain"
+		}
+		mg 64
+		`
+	切换用法参考下图:
 ![switch mingw](/wiki/IoM/assets/switch-mingw-in-powershell.png)
 
 ## 编译命令
@@ -259,14 +274,14 @@ cargo build --release --features "execute_powershell execute_assembly" -p malefi
 ```
 
 !!! info "当前支持的 modules"
-请见: https://chainreactors.github.io/wiki/IoM/manual/implant/modules/#modules
+	请见: https://chainreactors.github.io/wiki/IoM/manual/implant/modules/#modules
 
 编译结果为`target\[arch]\release\modules.dll`
 
 可以使用`load_module`热加载这个 dll
 
 !!! important "module 动态加载目前只支持 windows"
-linux 与 mac 在理论上也可以实现
+	linux 与 mac 在理论上也可以实现, 将会随着对应的kit发布
 
 常见的使用场景:
 
