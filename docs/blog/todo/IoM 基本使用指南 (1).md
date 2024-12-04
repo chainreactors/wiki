@@ -48,8 +48,60 @@ IoM通过几个月的快速迭代, 已经具备了一个现代化C2的绝大部�
 
 ### 其他更新
 
-* 
+* **自动化工作流触发**：
 
+  通过命令行传递配置，client能够自动触发GitHub工作流，编译指定类型的malefic。执行完GitHub工作流后，server会从github artifact中下载对应的artifact。
 
+  Github相关配置在client所处主机的~/.config/malice/malice.yaml下进行设置。
 
+  ```
+  resources: ""
+  tmp: ""
+  aliases: []
+  extensions:[]
+  mals:[]
+  settings:
+    tables: ""
+    autoadult: false
+    beacon_autoresults: false
+    small_term_width: 0
+    always_overflow: false
+    vim_mode: false
+    default_timeout: 0
+    max_server_log_size: 10
+    github_repo:                           # malefic的仓库名
+    github_owner:                          # github用户名 
+    github_token:                          # github的token 
+    github_workflow_file: generate.yaml    # workflow的配置文件名
+    opsec_threshold: ""
+    vt_api_key: ""
+  
+  ```
 
+  命令示例：
+
+  ```
+  action run --profile test --type beacon --target x86_64-pc-windows-msvc
+  ```
+
+  为了统一使用，action run的参数命令与docker build的参数基本一致，只是需要使用 `type` 来指定编译阶段。从server上下载action的artifact也与docker的下载流程一致，使用artifact list展示所有artifact时，会使用 `source` 字段区分 `action` 和 `docker ` 。
+
+- **pulse自动link**：
+
+  目前生成pulse，需要使用前置的beacon或bind。
+
+  docker和action生成pulse时，现在需要指定前置beacon或者bind的 `artifact_id` ，当 `artifact_id`为0并且使用的profile中pulse下的 `artifact_id` 也为0时，server会自动编译新的beacon转化成shellcode，并且和pulse绑定。
+
+  ```
+  # Github action
+  action run --profile test --type pulse --target x86_64-pc-windows-msvc --artifact-id 0
+  
+  # Docker build 
+   build pulse --profile test --target x86_64-pc-windows-gnu --artifact-id 0
+  ```
+
+  转换成shellcode的beacon和bind会设置`is_srdi` 为true来和未转换的artifact作为区分。
+
+- **Docker编译队列**：
+
+  由于Docker编译malefic时，会占用大量的cpu和内存，而由于部署server的服务器一般配置都较为有限，这会导致编译过程中的资源争用，影响服务器的其他任务运行。为了避免这种情况，我们引入了Docker编译队列机制，目前编译队列默认允许同时只有一个编译任务运行。
