@@ -1,0 +1,3058 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="chainreactors wiki">
+      
+      
+        <meta name="author" content="M09ic">
+      
+      
+        <link rel="canonical" href="https://chainreactors.github.io/wiki/IoM/manual/manual/deploy/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../client/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.47">
+    
+    
+      
+        <title>Internal of Malice ·  安装部署手册 - ChainReactor Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-DCRVR86FG2"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-DCRVR86FG2",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-DCRVR86FG2",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="ChainReactor Wiki" class="md-header__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ChainReactor Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Internal of Malice ·  安装部署手册
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+    
+  
+  导航
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../" class="md-tabs__link">
+          
+  
+    
+  
+  IoM
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../gogo/" class="md-tabs__link">
+          
+  
+    
+  
+  gogo
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../spray/" class="md-tabs__link">
+          
+  
+    
+  
+  spray
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../zombie/" class="md-tabs__link">
+          
+  
+    
+  
+  zombie
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../libs/" class="md-tabs__link">
+          
+  
+    
+  
+  libs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../mapping/" class="md-tabs__link">
+          
+  
+    
+  
+  Preview
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../blog/" class="md-tabs__link">
+          
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="ChainReactor Wiki" class="md-nav__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ChainReactor Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    导航
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    IoM
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            IoM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Design
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quickstart
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concept/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Concept
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../roadmap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RoadMap
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Manual
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6" id="__nav_2_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Manual
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6_2" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    client/server
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6_2" id="__nav_2_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            client/server
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    安装部署手册
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    安装部署手册
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      部署
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="部署">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#config" class="md-nav__link">
+    <span class="md-ellipsis">
+      Config 示例
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pipeline Config
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pipeline Config">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      tcp
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#website" class="md-nav__link">
+    <span class="md-ellipsis">
+      website
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bind-unstable" class="md-nav__link">
+    <span class="md-ellipsis">
+      bind (Unstable)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server" class="md-nav__link">
+    <span class="md-ellipsis">
+      启动 Server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listener" class="md-nav__link">
+    <span class="md-ellipsis">
+      启动 Listener
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      启动客户端
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rootrpc" class="md-nav__link">
+    <span class="md-ellipsis">
+      ROOTRPC
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ROOTRPC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      认证文件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#client" class="md-nav__link">
+    <span class="md-ellipsis">
+      添加 client
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listener_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      添加 listener
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="编译">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#client_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译 client
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译 server
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../client/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    基本命令手册
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../implant/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    implant命令手册
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mal/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    mals插件生态
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6_3" id="__nav_2_6_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            mals插件生态
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6_3_2" id="__nav_2_6_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    lua
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_6_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            lua
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/builtin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    builtin
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/beacon/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    beacon
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/rpc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    rpc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implant/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    implant
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6_4" id="__nav_2_6_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            implant
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implant/build/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    build
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implant/mutant/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mutant
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implant/modules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    modules
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implant/win_kit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    malefic-win-kit
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../gogo/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    gogo
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            gogo
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/start/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/design/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    设计
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/concept/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    细节
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/extension/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    拓展
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/do/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实战
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../spray/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    spray
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            spray
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/start/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/design/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    设计
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/concept/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    细节
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/do/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实战
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../zombie/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    zombie
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            zombie
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../zombie/start/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../zombie/design/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    设计
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../zombie/extension/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    拓展
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    libs
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            libs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/neutron/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    neutron
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            neutron
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/neutron/update/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/words/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    words
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            words
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/fingers/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    fingers
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            fingers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/fingers/rule/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    rule
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/fingers/sdk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Preview
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Preview
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../mapping/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    mapping
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            mapping
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mapping/design/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    design
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../rem/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    rem
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            rem
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/design/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    design
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/roadmap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    roadmap
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../blog/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Blog
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Blog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Archive
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            Archive
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2024/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2023/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2022/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2022
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>安装部署手册</h1>
+
+<h2 id="_1">安装<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>一键安装脚本:</p>
+<div class="highlight"><pre><span></span><code>curl -L &quot;https://raw.githubusercontent.com/chainreactors/malice-network/master/install.sh&quot; | sudo bash
+</code></pre></div>
+<p>确保 <strong>IOM</strong> 所在系统符合以下条件：</p>
+<ul>
+<li><strong>操作系统</strong>：Linux 推荐使用 Ubuntu、Debian 或 CentOS, (后续会适配 mac 与 windows)</li>
+<li><strong>权限</strong>：需要以 <code>root</code> 用户或通过 <code>sudo</code> 运行安装脚本。</li>
+<li><strong>网络连接</strong>：确保能够访问以下资源<ul>
+<li><code>github.com</code></li>
+<li><code>ghcr.io</code></li>
+<li><code>docker.com</code></li>
+</ul>
+</li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">配置代理</p>
+<p>对于国内服务器访问 github 容易超时且速度较慢, 建议配置环境变量中的 proxy
+<code>bash
+    # ssh -R 1080:127.0.0.1:1080 root@ip  , tricks: 可以映射本机的代理端口到vps
+    export http_proxy="http://127.0.0.1:1080"
+    export https_proxy="http://127.0.0.1:1080"</code></p>
+</div>
+<p>运行脚本时，将通过交互命令行提供以下信息：</p>
+<p><strong>安装路径</strong> ：</p>
+<ul>
+<li>需要指定安装的根目录（默认路径为 /iom）：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>Please input the base directory for the installation [default: /iom]:
+</code></pre></div>
+<p><strong>IP 地址</strong>：</p>
+<ul>
+<li><strong>install.sh</strong> 会自动检测默认 IP 并提示：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>Please input your IP Address for the server to start [default: &lt;自动检测的IP&gt;]:
+</code></pre></div>
+<details>
+<summary><strong>install.sh</strong> 将自动完成以下任务：</summary>
+<ol>
+<li>检查并安装 Docker。</li>
+<li>下载并安装 Malice-Network 服务端及客户端, 并添加到环境变量</li>
+<li>下载并安装 Malefic 源码及工具</li>
+<li>拉取必要的 Docker 镜像, （需要大约13G 空间, 我们正在尝试优化）<ul>
+<li><code>ghcr.io/chainreactors/x86_64-pc-windows-msvc:nightly-2023-09-18-latest</code></li>
+<li><code>ghcr.io/chainreactors/i686-pc-windows-msvc:nightly-2023-09-18-latest</code></li>
+<li><code>ghcr.io/chainreactors/x86_64-pc-windows-gnu:nightly-2023-09-18-latest</code></li>
+<li><code>ghcr.io/chainreactors/i686-pc-windows-gnu:nightly-2023-09-18-latest</code></li>
+<li><code>ghcr.io/chainreactors/x86_64-unknown-linux-musl:nightly-2023-09-18-latest</code></li>
+<li><code>ghcr.io/chainreactors/i686-unknown-linux-musl:nightly-2023-09-18-latest</code></li>
+<li><code>ghcr.io/chainreactors/aarch64-apple-darwin:nightly-2023-09-18-latest</code></li>
+</ul>
+</li>
+<li>配置并启动 Malice-Network 服务（基于 <code>systemd</code>）。</li>
+</ol>
+</details>
+<h2 id="_2">部署<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="config">Config 示例<a class="headerlink" href="#config" title="Permanent link">&para;</a></h3>
+<p><code>config.yaml</code> 是 Malice-Network 服务器的配置文件，其中包含了一些服务器以及 <code>listener</code> 可选的配置。</p>
+<p>默认配置中包含了 tcp, pulse, website, bind 的 pipeline 示例.</p>
+<div class="highlight"><pre><span></span><code>debug:<span class="w"> </span><span class="nb">false</span><span class="w"> </span><span class="c1"># 开启debug日志</span>
+server:
+<span class="w">  </span>enable:<span class="w"> </span><span class="nb">true</span><span class="w">        </span><span class="c1"># server 是否启用</span>
+<span class="w">  </span>grpc_port:<span class="w"> </span><span class="m">5004</span><span class="w">     </span><span class="c1"># 监听的端口</span>
+<span class="w">  </span>grpc_host:<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w">  </span><span class="c1"># 监听的host</span>
+<span class="w">  </span>ip:<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w">       </span><span class="c1"># 服务外部ip</span>
+<span class="w">  </span>audit:<span class="w"> </span><span class="m">1</span><span class="w">            </span><span class="c1"># 日志审计等级 0 close , 1 basic , 2 detail</span>
+<span class="w">  </span>config:
+<span class="w">    </span>packet_length:<span class="w"> </span><span class="m">1048576</span><span class="w"> </span><span class="c1"># 与implant交互单个包上限, 默认1M</span>
+<span class="w">    </span>certificate:<span class="w">           </span><span class="c1"># grpc证书配置, 留空则自动生成</span>
+<span class="w">    </span>certificate_key:<span class="w">       </span><span class="c1"># grpc证书配置, 留空则自动生成</span>
+<span class="w">  </span>notify:
+<span class="w">    </span>enable:<span class="w"> </span><span class="nb">false</span>
+<span class="w">    </span>telegram:
+<span class="w">        </span>enable:<span class="w"> </span><span class="nb">false</span>
+<span class="w">        </span>api_key:
+<span class="w">        </span>chat_id:
+<span class="w">    </span>dingtalk:
+<span class="w">        </span>enable:<span class="w"> </span><span class="nb">false</span>
+<span class="w">        </span>secret:
+<span class="w">        </span>token:
+<span class="w">    </span>lark:
+<span class="w">        </span>enable:<span class="w"> </span><span class="nb">false</span>
+<span class="w">        </span>webhook_url:
+<span class="w">    </span>serverchan:
+<span class="w">        </span>enable:<span class="w"> </span><span class="nb">false</span>
+<span class="w">        </span>url:
+listeners:
+<span class="w">  </span>enable:<span class="w"> </span><span class="nb">true</span><span class="w">            </span><span class="c1"># listener 是否启用</span>
+<span class="w">  </span>name:<span class="w"> </span>listener<span class="w">          </span><span class="c1"># listener名字</span>
+<span class="w">  </span>auth:<span class="w"> </span>listener.auth<span class="w">     </span><span class="c1"># 认证文件路径</span>
+<span class="w">  </span>tcp:<span class="w">                    </span><span class="c1"># tcp协议的pipeline</span>
+<span class="w">    </span>-<span class="w"> </span>name:<span class="w"> </span>tcp_default<span class="w">   </span><span class="c1"># pipeline 名字</span>
+<span class="w">      </span>port:<span class="w"> </span><span class="m">5001</span><span class="w">          </span><span class="c1"># pipeline 监听的端口</span>
+<span class="w">      </span>host:<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w">       </span><span class="c1"># pipeline 监听的host</span>
+<span class="w">      </span>protocol:<span class="w"> </span>tcp<span class="w">       </span><span class="c1"># 传输层协议</span>
+<span class="w">      </span>parser:<span class="w"> </span>malefic<span class="w">     </span><span class="c1"># implant协议</span>
+<span class="w">      </span>enable:<span class="w"> </span><span class="nb">true</span><span class="w">        </span><span class="c1"># pipeline是否开启</span>
+<span class="w">      </span>tls:<span class="w">                </span><span class="c1"># tls配置项,留空则自动生成</span>
+<span class="w">        </span>enable:<span class="w"> </span><span class="nb">false</span>
+<span class="w">        </span>name:<span class="w"> </span>default
+<span class="w">        </span>CN:<span class="w"> </span><span class="s2">&quot;test&quot;</span>
+<span class="w">        </span>O:<span class="w"> </span><span class="s2">&quot;Sharp Depth&quot;</span>
+<span class="w">        </span>C:<span class="w"> </span><span class="s2">&quot;US&quot;</span>
+<span class="w">        </span>L:<span class="w"> </span><span class="s2">&quot;Houston&quot;</span>
+<span class="w">        </span>OU:<span class="w"> </span><span class="s2">&quot;Persistent Housework, Limited&quot;</span>
+<span class="w">        </span>ST:<span class="w"> </span><span class="s2">&quot;State of Texas&quot;</span>
+<span class="w">        </span>validity:<span class="w"> </span><span class="s2">&quot;365&quot;</span>
+<span class="w">        </span>cert_file:<span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">        </span>key_file:<span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">        </span>ca_file:<span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">      </span>encryption:
+<span class="w">        </span>enable:<span class="w"> </span><span class="nb">true</span>
+<span class="w">        </span>type:<span class="w"> </span>aes
+<span class="w">        </span>key:<span class="w"> </span>maliceofinternal
+<span class="w">    </span>-<span class="w"> </span>name:<span class="w"> </span>shellcode
+<span class="w">      </span>port:<span class="w"> </span><span class="m">5002</span>
+<span class="w">      </span>host:<span class="w"> </span><span class="m">0</span>.0.0.0
+<span class="w">      </span>parser:<span class="w"> </span>pulse<span class="w">    </span><span class="c1"># implant 协议, pulse 需要指定对应的</span>
+<span class="w">      </span>enable:<span class="w"> </span><span class="nb">true</span>
+<span class="w">      </span>encryption:
+<span class="w">        </span>enable:<span class="w"> </span><span class="nb">true</span>
+<span class="w">        </span>type:<span class="w"> </span>xor
+<span class="w">        </span>key:<span class="w"> </span>maliceofinternal
+<span class="w">  </span>bind:
+<span class="w">    </span>-
+<span class="w">      </span>name:<span class="w"> </span>bind_default
+<span class="w">      </span>enable:<span class="w"> </span><span class="nb">true</span>
+<span class="w">      </span>encryption:
+<span class="w">        </span>enable:<span class="w"> </span><span class="nb">true</span>
+<span class="w">        </span>type:<span class="w"> </span>aes
+<span class="w">        </span>key:<span class="w"> </span>maliceofinternal
+<span class="w">  </span>websites:<span class="w">             </span><span class="c1"># website http任务</span>
+<span class="w">    </span>-<span class="w"> </span>name:<span class="w"> </span><span class="nb">test</span><span class="w">        </span><span class="c1"># website 名字</span>
+<span class="w">      </span>port:<span class="w"> </span><span class="m">10049</span><span class="w">       </span><span class="c1"># website 端口</span>
+<span class="w">      </span>root:<span class="w"> </span><span class="s2">&quot;/test&quot;</span><span class="w">     </span><span class="c1"># website route根目录</span>
+<span class="w">      </span>enable:<span class="w"> </span><span class="nb">false</span><span class="w">     </span><span class="c1"># website 是否开启</span>
+<span class="w">      </span>content:<span class="w">          </span><span class="c1"># website 映射内容</span>
+<span class="w">        </span>-<span class="w"> </span>path:<span class="w"> </span><span class="se">\i</span>mages<span class="se">\1</span>.png
+<span class="w">          </span>raw:<span class="w">  </span>maliceofinternal
+<span class="w">          </span>type:<span class="w"> </span>raw
+<span class="w">        </span>-<span class="w"> </span>path:<span class="w"> </span><span class="se">\i</span>mages<span class="se">\2</span>.png
+<span class="w">          </span>raw:<span class="w"> </span>maliceofinternal
+<span class="w">          </span>type:<span class="w"> </span>raw
+</code></pre></div>
+<h3 id="pipeline-config">Pipeline Config<a class="headerlink" href="#pipeline-config" title="Permanent link">&para;</a></h3>
+<h4 id="tcp">tcp<a class="headerlink" href="#tcp" title="Permanent link">&para;</a></h4>
+<p>最常用的 pipeline, 适用于主体程序交互的 pipeline.</p>
+<p>tcp 是目前支持了最多特性的 pipeline. 单个 tcp pipeline 配置:</p>
+<div class="highlight"><pre><span></span><code>- name: tcp_default   # pipeline 名字
+      port: 5001          # pipeline 监听的端口
+      host: 0.0.0.0       # pipeline 监听的host
+      protocol: tcp       # 传输层协议
+      parser: malefic     # implant协议
+      enable: true        # pipeline是否开启
+      tls:                # tls配置项,留空则自动生成
+        enable: false
+        name: default
+        CN: &quot;test&quot;
+        O: &quot;Sharp Depth&quot;
+        C: &quot;US&quot;
+        L: &quot;Houston&quot;
+        OU: &quot;Persistent Housework, Limited&quot;
+        ST: &quot;State of Texas&quot;
+        validity: &quot;365&quot;
+        cert_file: &quot;&quot;
+        key_file: &quot;&quot;
+        ca_file: &quot;&quot;
+      encryption:
+        enable: true
+        type: aes
+        key: maliceofinternal
+</code></pre></div>
+<p>其中 parser 协议用来区分对应的 implant 类型. pulse 与 malefic 目前的传输协议略有不同, 因此 pulse 需要单独的 parser 配置.</p>
+<div class="highlight"><pre><span></span><code>    - name: shellcode
+      port: 5002
+      host: 0.0.0.0
+      parser: pulse    # 对应malefic-pulse上线
+      enable: true
+      encryption:
+        enable: true
+        type: xor
+        key: maliceofinternal
+</code></pre></div>
+<h4 id="website">website<a class="headerlink" href="#website" title="Permanent link">&para;</a></h4>
+<p>IoM 允许将一些文件挂载 web 服务上</p>
+<div class="highlight"><pre><span></span><code>  websites:             # website http任务
+    - name: test        # website 名字
+      port: 10049       # website 端口
+      root: &quot;/test&quot;     # website route根目录
+      enable: false     # website 是否开启
+      content:          # website 映射内容
+        - path: \images\1.png
+          raw:  maliceofinternal
+          type: raw
+        - path: \images\2.png
+          raw: maliceofinternal
+          type: raw
+</code></pre></div>
+<h4 id="bind-unstable">bind (Unstable)<a class="headerlink" href="#bind-unstable" title="Permanent link">&para;</a></h4>
+<p>主动发送数据的 pipeline, 不同于 tcp 监听端口. bind 会主动向目标发送对应协议序列化后的数据.</p>
+<div class="highlight"><pre><span></span><code>  bind:
+    -
+      name: bind_default
+      enable: true
+      encryption:
+        enable: true
+        type: aes
+        key: maliceofinternal
+</code></pre></div>
+<h3 id="server">启动 Server<a class="headerlink" href="#server" title="Permanent link">&para;</a></h3>
+<p><strong>Malice-Network</strong> 服务器是能与控制 <code>Implant</code> 并与 <strong>Malice-Network</strong> 客户端交互的主机。服务器还存储了部分 <strong>Malice-Network</strong> 收集的数据，并管理日志记录。</p>
+<p>需要提前获取对应的配置文件: <a href="https://github.com/chainreactors/malice-network/blob/master/server/listener.yaml">https://github.com/chainreactors/malice-network/blob/master/server/listener.yaml</a> ,并放到<code>malice-network</code>所在目录下</p>
+<p>最简启动</p>
+<div class="highlight"><pre><span></span><code>./malice-network
+</code></pre></div>
+<p>如果配置文件非默认的 <code>config.yaml</code>, 可以通过 <code>-c path/any.yaml</code> 指定</p>
+<p>启动后服务器会输出以下信息, 并生成两个配置文件, 分别为<code>listener.auth</code> 和<code>admin_[server_ip].auth</code>, 这两个配置文件后续还有用处</p>
+<p><img alt="" src="/wiki/IoM/assets/VNBYbUKdsokMfexhogfcKSLUnAh.png" /></p>
+<p>需要注意的是, server 中的 ip 字段需要在启动时设置为 listener 与 client 能访问到的地址, 所以可以手动修改<code>config.yaml</code></p>
+<div class="highlight"><pre><span></span><code>...
+ip: 123.123.123.123
+...
+</code></pre></div>
+<p>也可以使用<code>-i</code> 重载这个参数</p>
+<div class="highlight"><pre><span></span><code>./malice-network -i 123.123.123.123
+</code></pre></div>
+<div class="admonition tips">
+<p class="admonition-title">同时启动 server 与 listener</p>
+<p>在设计上, server 和 listener 是独立的, 为了方便部署提供了同时部署的用法, 仓库中提供的默认<code>config.yaml</code>同时配置了 server 与 listener. 会同时启动server, listener.</p>
+</div>
+<h3 id="listener">启动 Listener<a class="headerlink" href="#listener" title="Permanent link">&para;</a></h3>
+<p>从 v0.0.2 开始, 将只提供一个服务端配置文件, 会根据配置自动解析需要开启的服务. 可以通过 enable 字段进行简单控制</p>
+<p>刚才提到 Server 的 <code>config.yaml</code> 中已经包含了 listener 配置。 是对 server 与 listener 在同一台机器上部署时的简化。但在交互逻辑上, 同时启动的 listener 与 server 依旧通过 rpc 通讯, 与独立部署的 listener 没有任何区别.</p>
+<p>可以在这里获取到<a href="https://github.com/chainreactors/malice-network/blob/master/server/listener.yaml">独立的<code>listener.yaml</code> 配置文件</a>, <code>listener.yaml</code> 的配置格式与 <code>config.yaml</code> 中的 listener 部分完全一致.</p>
+<p>如果配置文件非默认的 <code>listener.yaml</code>, 可以通过 <code>-c path/any.yaml</code> 指定.</p>
+<p>配置样例:</p>
+<div class="highlight"><pre><span></span><code>listeners:
+<span class="w">  </span>enable:<span class="w"> </span><span class="nb">true</span>
+<span class="w">  </span>name:<span class="w"> </span>default
+<span class="w">  </span>auth:<span class="w"> </span>listener.auth
+<span class="w">  </span>tcp:
+<span class="w">    </span>-<span class="w"> </span>name:<span class="w"> </span>tcp_default
+<span class="w">      </span>port:<span class="w"> </span><span class="m">5001</span>
+<span class="w">      </span>host:<span class="w"> </span><span class="m">0</span>.0.0.0
+<span class="w">      </span>protocol:<span class="w"> </span>tcp
+<span class="w">      </span>enable:<span class="w"> </span><span class="nb">true</span>
+<span class="w">      </span>tls:
+<span class="w">        </span>enable:<span class="w"> </span><span class="nb">false</span>
+<span class="w">        </span>CN:<span class="w"> </span><span class="s2">&quot;test&quot;</span>
+<span class="w">        </span>O:<span class="w"> </span><span class="s2">&quot;Sharp Depth&quot;</span>
+<span class="w">        </span>C:<span class="w"> </span><span class="s2">&quot;US&quot;</span>
+<span class="w">        </span>L:<span class="w"> </span><span class="s2">&quot;Houston&quot;</span>
+<span class="w">        </span>OU:<span class="w"> </span><span class="s2">&quot;Persistent Housework, Limited&quot;</span>
+<span class="w">        </span>ST:<span class="w"> </span><span class="s2">&quot;State of Texas&quot;</span>
+<span class="w">        </span>validity:<span class="w"> </span><span class="s2">&quot;365&quot;</span>
+<span class="w">      </span>encryption:
+<span class="w">        </span>enable:<span class="w"> </span><span class="nb">false</span>
+<span class="w">        </span>type:<span class="w"> </span>aes-cfb
+<span class="w">        </span>key:<span class="w"> </span>maliceofinternal
+</code></pre></div>
+<div class="admonition important">
+<p class="admonition-title">请检查 listener.auth</p>
+<p>如果换了一台服务部署 listener, 请检查目录下是否存在<code>listener.yaml</code>与<code>listener.auth</code></p>
+</div>
+<p>listener 成功启动后，listener 终端会输出以下信息：</p>
+<p><img alt="image-20240816214150489" src="/wiki/IoM/assets/image-20240816214150489.png" /></p>
+<p><strong>Malice-Network</strong> 服务器也会输出 listener 登录信息：</p>
+<p><img alt="image-20240816214248821" src="/wiki/IoM/assets/image-20240816214248821.png" /></p>
+<h3 id="_3">启动客户端<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>将生成的用户配置文件, 默认为 <code>admin_[server_ip].auth</code> 复制到 <code>Malice-Network</code> 客户端的所在位置。使用新的用户配置文件时，可以使用以下指令启动客户端：</p>
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">iom</span> <span class="n">admin_</span><span class="no">[server_ip]</span><span class="p">.</span><span class="n">auth</span>
+</code></pre></div>
+<p>执行命令后，客户端会自动使用新的客户配置文件与服务器连接，并将用户配置文件移动至客户端的用户配置文件夹 (Windows 下为 <code>C:\Users\user\.config\malice\configs</code>,MacOS X 为 <code>/home/username/.config/malice/configs</code>，Linux 为 <code>/Users/username/.config/malice/configs</code>）</p>
+<p>客户端登录成功后会输出以下信息：</p>
+<p><img alt="" src="/wiki/IoM/assets/NI55beE9Bo6ad5xtT3lcMuvunAd.png" /></p>
+<p>下次登录后，客户端会自动显示在用户配置文件夹下所有的用户配置，根据需求，选择对应的用户进行选择。</p>
+<div class="highlight"><pre><span></span><code>./iom
+</code></pre></div>
+<p><img alt="" src="/wiki/IoM/assets/EEgKb86iwop9xaxBUt8cHZG9n8f.png" /></p>
+<h2 id="rootrpc">ROOTRPC<a class="headerlink" href="#rootrpc" title="Permanent link">&para;</a></h2>
+<p><code>malice-network</code> 实际上还存在一个高权限的管理组件. 需要根证书配置才可实现. 这个证书不会生成<code>.auth</code>文件, 直接保存在服务端配置和数据库中.</p>
+<p>只允许已经启动了<code>malice-network</code>的机器上, 继续通过<code>malice-network user</code> 或 <code>malice-network listener</code> 进行用户管理.</p>
+<h3 id="_4">认证文件<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p><strong>Malice-Network</strong> 客户端需要使用用户配置文件才能与服务端进行交互。用户配置文件中包含由服务端生成的证书信息。每次客户端尝试连接服务端时，服务端都会校验该证书信息，以确保用户的合法性。这一过程保证了只有经过认证的用户才能访问和使用 <strong>Malice-Network</strong> 服务，从而提升了系统的安全性和可靠性。</p>
+<p>所有的远程 rpc 交互都需要<code>auth</code>文件打开 mtls 认证.</p>
+<div class="highlight"><pre><span></span><code>operator: listener # 操作者名字
+host: 127.0.0.1    # server grpc ip
+port: 5004         # server grpc port
+type: listener     # 操作者类型, 如果不匹配则会认证失败, 默认生成的即可
+ca: |
+   ...
+private_key: |
+   ...
+certificate: |
+   ...
+</code></pre></div>
+<h3 id="client">添加 client<a class="headerlink" href="#client" title="Permanent link">&para;</a></h3>
+<p>默认情况下, 会生成一个<code>admin_[server_ip].auth</code>的配置. 大部分情况下, 使用这个 auth 即可.</p>
+<p>目前所有用户都是平级的, 但可以在服务端添加或吊销指定用户的证书实现简单的管理</p>
+<p>在确保 <strong>Malice-Network</strong> 服务器已经运行后，在终端输入以下指令：</p>
+<div class="highlight"><pre><span></span><code>.\malice-network user add [username]
+</code></pre></div>
+<p>执行命令成功后，服务端会输出以下信息并在所处文件夹下生成对应用户配置文件：</p>
+<p><img alt="" src="/wiki/IoM/assets/image_20240903012951.png" /></p>
+<p>也可以删除用户, 吊销证书, 使其无法登录 server</p>
+<div class="highlight"><pre><span></span><code>.\malice-network user del [username]
+</code></pre></div>
+<p>列出所有可用的用户配置</p>
+<div class="highlight"><pre><span></span><code>.\malice-network user list
+</code></pre></div>
+<h3 id="listener_1">添加 listener<a class="headerlink" href="#listener_1" title="Permanent link">&para;</a></h3>
+<p>在确保 <strong>Malice-Network</strong> 服务器已经运行后，在终端输入以下指令：</p>
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">malice-network</span> <span class="n">listener</span> <span class="n">add</span> <span class="no">[listener_name]</span>
+</code></pre></div>
+<p>执行命令成功后，服务端会输出以下信息并在所处文件夹下生成对应 auth 配置文件：</p>
+<p>也可以删除用户, 使其无法登录 server</p>
+<div class="highlight"><pre><span></span><code>.\malice-network listener del [listener_name]
+</code></pre></div>
+<p>列出所有可用的用户配置</p>
+<div class="highlight"><pre><span></span><code>.\malice-network listener list
+</code></pre></div>
+<h2 id="_5">编译<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>malice-network 已经提供了相关的 release: <a href="https://github.com/chainreactors/malice-network/releases">https://github.com/chainreactors/malice-network/releases</a></p>
+<p>clone 项目到本地</p>
+<div class="highlight"><pre><span></span><code>git clone https://github.com/chainreactors/malice-network
+</code></pre></div>
+<h3 id="client_1">编译 client<a class="headerlink" href="#client_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>go mod tidy
+go build ./client/
+</code></pre></div>
+<h3 id="server_1">编译 server<a class="headerlink" href="#server_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>go mod tidy
+go build ./server
+</code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 ChainReactors
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/chainreactors" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "toc.integrate", "toc.follo", "navigation.top", "header.autohide", "search.share", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>
