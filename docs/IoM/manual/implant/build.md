@@ -214,6 +214,9 @@ rustup target add x86_64-pc-windows-gnu
 cargo build --release -p malefic --target x86_64-pc-windows-gnu
 # mg 32
 cargo build --release -p malefic --target i686-pc-windows-gnu
+
+# 如果你需要编译win7的target,请使用如下命令
+cargo +nightly build --release -p malefic --target x86_64-win7-windows-msvc -Z build-std=std,panic_abort
 ```
 
 ### 编译 malefic-prelude
