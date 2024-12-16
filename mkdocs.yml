@@ -119,6 +119,12 @@ nav:
       - 入门: zombie/start.md
       - 设计: zombie/design.md
       - 拓展: zombie/extension.md
+  - rem:
+      - index: rem/index.md
+      - 入门: rem/usage.md
+      - 概念: rem/concept.md
+      - 设计: rem/design.md
+      - 路线图: rem/roadmap.md
   - libs:
       - index: libs/index.md
       - neutron:
@@ -134,9 +140,5 @@ nav:
       - mapping:
           index: mapping/index.md
           design: mapping/design.md
-      - rem:
-          index: rem/index.md
-          design: rem/design.md
-          roadmap: rem/roadmap.md
   - Blog:
       - blog/index.md
