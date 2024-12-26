@@ -1,54 +1,24 @@
 ## Intro
 
-IoM通过几个月的快速迭代, 已经具备了一个现代化C2的绝大部分功能. IoM的定位一直是下一代C2, 因此
-
-
-### 快速编译
-
-基于github action实现快速编译
-
-#todo 操作流程
-
-
-### mals插件
-
-#todo 通过mals命令下载基本插件，并对插件基本使用介绍
-
-
-
-
+IoM通过几个月的快速迭代, 已经具备了一个现代化C2的绝大部分功能. 
 
 ## v0.0.4  更新日志
 
 
-### 接入github action
+### 自动化编译
 
 在刚发布的v0.0.3中, 我们使用docker作为自动化编译的解决方案。 但是rust复杂的编译方案不得不准备每个target对应的编译环境。这导致了对CPU, 内存，硬盘都有巨大的占用， 并且我们目前只实现了基于linux的自动化安装。 
 
 比起sliver或者CobaltStrike过于笨重, 这导致上手门槛极大提高。为此， 我们准备了更加轻量的解决方案。 
 
-在v0.0.2中， 提供了使用两行gh命令实现的自动化编译， 在本次patch中，我们将github action的云编译接入到client/server中， 只需要申请一个github token， 即可实现对client/server无任何环境要求的自动化编译
+在v0.0.2中， 提供了使用两行gh命令实现的自动化编译， 在v0.0.4中，我们将github action的云编译接入到client/server中， 只需要申请一个github token， 即可实现对client/server无任何环境要求的自动化编译
 
 
-### artifact功能组
+#### 基于github action的快速编译
+基于github action实现快速编译
 
-为了在提权脚本中更方便使用IoM, 就像CS能直接通过listener生成对应的shellcode一样. patch2将一系列shellcode与artifact操作的函数暴露出来了。
+#todo 操作流程 
 
-这一组api如下:
-* artifact_payload ,对应CobaltStrike中的同名函数， 用于生成stageless的shellcode， 在IoM是SRDI后的beacon
-* artifact_stager， 对应CobaltStrike中的同名函数， 用于生成stager的shellcode， 在IoM中式SRDI后的pulse
-* donut_dll2shellcode, 基于godonut库与donut实现的dll转shellcode 
-* donut_exe2shellcode, 基于godonut库与donut实现的exe转shellcode
-* sgn_encode, shellcode sgn混淆
-* srdi, 
-
-### 非交互式的client
-
-
-
-### 其他更新
-
-* **自动化工作流触发**：
 
   通过命令行传递配置，client能够自动触发GitHub工作流，编译指定类型的malefic。执行完GitHub工作流后，server会从github artifact中下载对应的artifact。
 
@@ -86,7 +56,7 @@ IoM通过几个月的快速迭代, 已经具备了一个现代化C2的绝大部�
 
   为了统一使用，action run的参数命令与docker build的参数基本一致，只是需要使用 `type` 来指定编译阶段。从server上下载action的artifact也与docker的下载流程一致，使用artifact list展示所有artifact时，会使用 `source` 字段区分 `action` 和 `docker ` 。
 
-- **pulse自动link**：
+#### pulse自动link
 
   目前生成pulse，需要使用前置的beacon或bind。
 
@@ -102,6 +72,48 @@ IoM通过几个月的快速迭代, 已经具备了一个现代化C2的绝大部�
 
   转换成shellcode的beacon和bind会设置`is_srdi` 为true来和未转换的artifact作为区分。
 
-- **Docker编译队列**：
+#### 自动化安装
 
-  由于Docker编译malefic时，会占用大量的cpu和内存，而由于部署server的服务器一般配置都较为有限，这会导致编译过程中的资源争用，影响服务器的其他任务运行。为了避免这种情况，我们引入了Docker编译队列机制，目前编译队列默认允许同时只有一个编译任务运行。
+原本的install.sh 会下载约13g的镜像， 然后生成几个g的编译中间文件。现在我们大大简化了对服务器的负担， 提供了新的allinone的编译镜像以及简化安装脚本。 
+
+#### docker优化
+
+添加了服务器端的docker编译队列，因为rust端对性能占用较大， 编译时会占用所有的CPU。现在添加了编译队列， 同时只会运行一个编译任务。 
+
+#### allinone docker镜像
+
+### artifact功能组
+
+为了在提权脚本中更方便使用IoM, 就像CS能直接通过listener生成对应的shellcode一样. patch2将一系列shellcode与artifact操作的函数暴露出来了。
+
+这一组api如下:
+* artifact_payload ,对应CobaltStrike中的同名函数， 用于生成stageless的shellcode， 在IoM是SRDI后的beacon
+* artifact_stager， 对应CobaltStrike中的同名函数， 用于生成stager的shellcode， 在IoM中式SRDI后的pulse
+* donut_dll2shellcode, 基于godonut库与donut实现的dll转shellcode 
+* donut_exe2shellcode, 基于godonut库与donut实现的exe转shellcode
+* sgn_encode, shellcode sgn混淆
+* srdi, 
+
+#### gonut
+
+### implant更新
+
+#### 解决win7/windows 2008兼容性
+
+#### 解决rust tls锁
+
+#### inline_local
+
+#### dllspanw
+
+### 其他更新
+
+
+#### 非交互式client
+
+
+#### Other of others
+
+* lua api文档格式重构， 现在更加清晰
+* 将sgn与malefic-mutant在编译时内嵌， 减少使用时的步骤
+* 优化`!`命令， 能更好得执行本地的命令， 而不需要退出程序
