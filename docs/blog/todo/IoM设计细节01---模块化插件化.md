@@ -135,7 +135,14 @@ CS中CNA插件可以在Client添加, 也可以在Server添加. 我们只需要�
 
 
 
+现在的IoM尝试实现代替CobaltStrike的准备，朝着这一目标前进。
 
+CobaltStrike 留给用户可更改的接口很多:
 
+* 基于sleep语言的Aggressive Script, 能通过脚本调用绝大部分implant的功能以及对ui的动态拓展;
+* 通过profile实现的对流量特征已经部分动态特征的自定义
+* arsenal kit中提供的sleepmask， artifact， udrl，resource 等对CS全局的功能替换， 实现自定义的OPSEC
 
+要实现对CobaltStrike的完全替换， 不可避免得实现上诉所有功能。
 
+这是个庞大的工程， 目前IoM能做到CS大部分拓展功能的等价替换， 但确实在不少细节上无法完全实现。 
