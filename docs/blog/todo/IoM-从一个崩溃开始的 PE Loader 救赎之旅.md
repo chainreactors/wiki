@@ -4,7 +4,26 @@
 > 
 > 在推出`stager` 版本之后， 交流群的一位同学贴出了[Writing a PE Loader for the Xbox in 2024](https://landaire.net/reflective-pe-loader-for-xbox/) 这篇文章， 用一种非常粗暴的方式解决了 `Rust`在使用`MSVC`编译时引入了`TLS(thread-local storage)`  , 而只常见的`PELoader` 简单调用 `tls callback` 无法正常加载 `PE` 文件的问题， 遂成文。
 > 
-> 当然， 除了这个还有很多有意思的事情可以与各位分享，  由于本文是介绍 `IOM` 的第一篇文章， 内容上可能略有冗余， 但在之后的文章将会逐步减少，敬请期待 :)
+> 当然， 除了这个还有很多有意思的事情可以与各位分享，  本文是 `IoM` 进阶系列的的第一篇文章。本文与IoM关系不大，解决的问题是所有基于rust的loader都需要关注的问题。 
+
+## TL;NR
+
+在本文之前，所有的SRDI或者类似的PE Loader都会面临PE中已经存在TLS就无法加载的问题。
+
+这个问题的表现在rust编译的程序无法被任意 PE loader 加载。 当然不仅限于rust， 有非常多的语言都会使用TLS性能加速。 如果你遇到过某使用donut/SRDI生成的shellcode莫名其妙崩溃， 很有可能就是这个问题。 
+
+可能因为他们不是基于rust生态构建，所以可以暂时逃避这个问题， 也意味着放弃所有使用rust编写的工具。但IoM完全基于rust 构建自己的基础设施，所以我们不得不面对这个问题。
+
+- [No-Consolation](https://github.com/fortra/No-Consolation): 不支持TLS
+
+![](assets/Pasted%20image%2020241227161625.png)
+- [donut](https://github.com/TheWover/donut), 不支持TLS， 也意味着所有基于donut构建的C2也都不支持， 包括sliver, xiebroC2, merlin等等。 (顺带一提, 目前大部分C2的pe loader都基于donut构建， donut是个非常强大的项目)
+- [sRDI](https://github.com/monoxgas/sRDI) 不支持TLS
+- [link](https://github.com/postrequest/link), link 实现了自己的sRDI, 但是他也不支持TLS, 不能加载自身。 
+- [c3](https://github.com/WithSecureLabs/C3) 解决了win7, win10部分版本的TLS问题
+- ... 
+
+几乎所有的PE Loader都放弃了对rust程序以及用到了TLS程序的的兼容。
 
 ## 从 Implant 的设计理念说起
 
@@ -1044,7 +1063,18 @@ pub unsafe fn find_ldrp_handle_tls_data() -> usize {
 好在我们现在可以稳定找到 `LdrpAllocateTlsEntry` 函数， 让我们用仅有的函数试试看，
 
 
+#### 
 
+## 实现
+
+在本文发布时，IoM v0.0.4也已经发布, 本文的相关成果将随着malefic-mutant一同发布。 
+
+可以使用malefic-mutant 将带有TLS的PE文件转为shellcode， 该shellcode能被任意shellcode loader加载。 
+
+```
+malefic-mutant build srdi -i malefic.exe
+```
+![](assets/Pasted%20image%2020241227174327.png)
 ### References
 
 非常感谢下面几篇文章为本文和解决`TLS`问题所给予的非常大的帮助:)
