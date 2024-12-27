@@ -1,4 +1,4 @@
-## base
+## basic
 
 ### bcat
 
@@ -30,6 +30,14 @@
 - `$2` [number] 
 - `$3` [string] 
 
+### bdllspawn
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [number] 
+- `$3` [string] 
+
 ### bdownload
 
 **Arguments**
@@ -42,6 +50,33 @@
 **Arguments**
 
 - `$1` [Session] 
+
+### bexecute
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `cmd` [string] -  command to execute
+
+**Example**
+
+```
+bexecute(active(),"whoami")
+```
+
+### bexecute_assembly
+
+**Arguments**
+
+- `sessions` [Session] - 
+- `path` [string] - 
+- `args` [string] - 
+
+**Example**
+
+```
+bexecute_assembly(active(),"sharp.exe",{})
+```
 
 ### bexecute_exe
 
@@ -69,6 +104,20 @@
 - `$2` [string] 
 - `$3` [string] 
 
+### binline_execute
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `bofPath` [string] -  path to BOF
+- `args` [string] -  arguments
+
+**Example**
+
+```
+binline_execute(active(),"/path/dir.x64.o","/path/to/list")
+```
+
 ### binline_shellcode
 
 **Arguments**
@@ -82,6 +131,19 @@
 
 - `$1` [Session] 
 - `$2` [string] 
+
+### bls
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `path` [string] -  path to list files
+
+**Example**
+
+```
+bls(active(),"/tmp")
+```
 
 ### bmkdir
 
@@ -103,6 +165,33 @@
 **Arguments**
 
 - `$1` [Session] 
+
+### bpowerpick
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `path` [string] -  powershell script
+- `ps` [string] -  ps args
+
+**Example**
+
+```
+bpowerpick(active(),"powerview.ps1",{""}))
+```
+
+### bpowershell
+
+**Arguments**
+
+- `session` [Session] - 
+- `cmd` [string] - 
+
+**Example**
+
+```
+bpowershell(active(),"dir")
+```
 
 ### bps
 
@@ -148,111 +237,6 @@
 - `$2` [string] 
 - `$3` [string] 
 
-### bshinject
-
-**Arguments**
-
-- `$1` [Session] 
-- `$2` [number] 
-- `$3` [string] 
-- `$4` [string] 
-
-### bunsetenv
-
-**Arguments**
-
-- `$1` [Session] 
-- `$2` [string] 
-
-### bwhoami
-
-**Arguments**
-
-- `$1` [Session] 
-
-## 
-
-### bexecute
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `cmd` [string] -  command to execute
-
-**Example**
-
-```
-bexecute(active(),"whoami")
-```
-
-### bexecute_assembly
-
-**Arguments**
-
-- `sessions` [Session] - 
-- `path` [string] - 
-- `args` [string] - 
-
-**Example**
-
-```
-bexecute_assembly(active(),"sharp.exe",{})
-```
-
-### binline_execute
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `bofPath` [string] -  path to BOF
-- `args` [string] -  arguments
-
-**Example**
-
-```
-binline_execute(active(),"/path/dir.x64.o","/path/to/list")
-```
-
-### bls
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `path` [string] -  path to list files
-
-**Example**
-
-```
-bls(active(),"/tmp")
-```
-
-### bpowerpick
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `path` [string] -  powershell script
-- `ps` [string] -  ps args
-
-**Example**
-
-```
-bpowerpick(active(),"powerview.ps1",{""}))
-```
-
-### bpowershell
-
-**Arguments**
-
-- `session` [Session] - 
-- `cmd` [string] - 
-
-**Example**
-
-```
-bpowershell(active(),"dir")
-```
-
 ### bshell
 
 **Arguments**
@@ -265,6 +249,15 @@ bpowershell(active(),"dir")
 ```
 bshell(active(),"whoami",true)
 ```
+
+### bshinject
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [number] 
+- `$3` [string] 
+- `$4` [string] 
 
 ### bsleep
 
@@ -279,6 +272,13 @@ bshell(active(),"whoami",true)
 sleep(active(), 10)
 ```
 
+### bunsetenv
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+
 ### bupload
 
 **Arguments**
@@ -291,4 +291,10 @@ sleep(active(), 10)
 ```
 bupload(active(),"/source/path")
 ```
+
+### bwhoami
+
+**Arguments**
+
+- `$1` [Session] 
 

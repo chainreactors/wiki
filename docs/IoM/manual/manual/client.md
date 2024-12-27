@@ -94,36 +94,42 @@ observe -r
 ```
 
 ### session
-Session manager
-
-**SEE ALSO**
-
-* [session del](#session-del)	 - del session
-* [session group](#session-group)	 - group session
-* [session newbind](#session-newbind)	 - new bind session
-* [session note](#session-note)	 - add note to session
-
-#### session del
-del session
+List and Choice sessions
 
 **Description**
 
-Del a specified session.
+Display a table of active sessions on the server, 
+allowing you to navigate up and down to select a desired session. 
+Press the Enter key to use the selected session. 
+Use the -a or --all option to display all sessions, including those that have been disconnected.
+		
 
 ```
-session del [session]
+session [flags]
 ```
 
 **Examples**
 
 ~~~
-// Delete a specified session
-del 08d6c05a21512a79a1dfeb9d2a8f262f
+// List all active sessions
+session
+
+// List all sessions, including those that have been disconnected
+session -a
 ~~~
+
+**Options**
+
+```
+  -a, --all   show all sessions
+```
 
 **SEE ALSO**
 
-* [session](#session)	 - Session manager
+* [session group](#session-group)	 - group session
+* [session newbind](#session-newbind)	 - new bind session
+* [session note](#session-note)	 - add note to session
+* [session remove](#session-remove)	 - remove session
 
 #### session group
 group session
@@ -149,7 +155,7 @@ group newGroup
 
 **SEE ALSO**
 
-* [session](#session)	 - Session manager
+* [session](#session)	 - List and Choice sessions
 
 #### session newbind
 new bind session
@@ -168,7 +174,7 @@ session newbind [session] [flags]
 
 **SEE ALSO**
 
-* [session](#session)	 - Session manager
+* [session](#session)	 - List and Choice sessions
 
 #### session note
 add note to session
@@ -194,63 +200,29 @@ note newNote
 
 **SEE ALSO**
 
-* [session](#session)	 - Session manager
+* [session](#session)	 - List and Choice sessions
 
-### sessions
-List and Choice sessions
+#### session remove
+remove session
 
 **Description**
 
-Display a table of active sessions on the server, 
-allowing you to navigate up and down to select a desired session. 
-Press the Enter key to use the selected session. 
-Use the -a or --all option to display all sessions, including those that have been disconnected.
-		
+Remove a specified session.
 
 ```
-sessions
+session remove [session]
 ```
 
 **Examples**
 
 ~~~
-// List all active sessions
-sessions
-
-// List all sessions, including those that have been disconnected
-sessions -a
+// remove a specified session
+remove 08d6c05a21512a79a1dfeb9d2a8f262f
 ~~~
 
-**Options**
-
-```
-  -a, --all   show all sessions
-```
-
 **SEE ALSO**
 
-* [sessions info](#sessions-info)	 - show session info
-
-#### sessions info
-show session info
-
-**Description**
-
-Displays the specified session info.
-
-```
-sessions info
-```
-
-**Options inherited from parent commands**
-
-```
-  -a, --all   show all sessions
-```
-
-**SEE ALSO**
-
-* [sessions](#sessions)	 - List and Choice sessions
+* [session](#session)	 - List and Choice sessions
 
 ### use
 Use session
@@ -813,9 +785,21 @@ pipeline
 
 **SEE ALSO**
 
+* [pipeline delete](#pipeline-delete)	 - Delete a pipeline
 * [pipeline list](#pipeline-list)	 - List pipelines in listener
 * [pipeline start](#pipeline-start)	 - Start a TCP pipeline
 * [pipeline stop](#pipeline-stop)	 - Stop a TCP pipeline
+
+#### pipeline delete
+Delete a pipeline
+
+```
+pipeline delete
+```
+
+**SEE ALSO**
+
+* [pipeline](#pipeline)	 - manage pipeline
 
 #### pipeline list
 List pipelines in listener
@@ -912,11 +896,7 @@ Register a new TCP pipeline and start it
 **Description**
 
 Register a new TCP pipeline with the specified listener.
-- If **name** is not provided, it will be generated in the format **listenerID_tcp_port**.
-- If **host** is not specified, the default value will be **0.0.0.0**.
-- If **port** is not specified, a random port will be selected from the range **10000-15000**.
-- If TLS is enabled, you can provide file paths for the certificate and key.
-- If no certificate or key paths are provided, the server will automatically generate a TLS certificate and key.
+If **name** is not provided, it will be generated in the format **listenerID_tcp_port**.
 
 ```
 tcp new [name]  [flags]
@@ -926,26 +906,26 @@ tcp new [name]  [flags]
 
 ~~~
 // Register a TCP pipeline with the default settings
-tcp register listener
+tcp register --listener tcp_default
 
 // Register a TCP pipeline with a custom name, host, and port
-tcp register listener --name tcp_test --host 192.168.0.43 --port 5003
+tcp register --name tcp_test --listener tcp_default --host 192.168.0.43 --port 5003
 
 // Register a TCP pipeline with TLS enabled and specify certificate and key paths
-tcp register listener --tls --cert_path /path/to/cert --key_path /path/to/key
+tcp register --listener tcp_default --tls --cert_path /path/to/cert --key_path /path/to/key
 ~~~
 
 **Options**
 
 ```
       --cert string              tls cert path
-      --encryption-enable        whether to enable encryption 
+      --encryption-enable        whether to enable encryption
       --encryption-key string    encryption key
       --encryption-type string   encryption type
-      --host string              pipeline host (default "0.0.0.0")
+      --host string              pipeline host, the default value is **0.0.0.0** (default "0.0.0.0")
       --key string               tls key path
   -l, --listener string          listener id
-  -p, --port uint                pipeline port
+  -p, --port uint                pipeline port, random port is selected from the range **10000-15000**
   -t, --tls                      enable tls
 ```
 
@@ -983,13 +963,7 @@ Register a new website and start it
 
 **Description**
 
-Register a new website with the specified listener.
-- You must provide a web route path and the static file path. Currently, only one file can be registered.
-- If **name** is not provided, it will be generated in the format **listenerID_web_port**.
-- If **port** is not specified, a random port will be selected from the range **15001-20000**.
-- If **content_type** is not specified, the default value will be **text/html**.
-- If TLS is enabled, you can provide file paths for the certificate and key.
-- If no certificate or key paths are provided, the server will automatically generate a TLS certificate and key.
+Register a new website with the specified listener.If **name** is not provided, it will be generated in the format **listenerID_web_port**.
 
 ```
 website new [listener_id] [route_path] [content_path] [flags]
@@ -999,27 +973,27 @@ website new [listener_id] [route_path] [content_path] [flags]
 
 ~~~
 // Register a website with the default settings
-website register name /webtest /path/to/file
+website register name /webtest /path/to/file --listener tcp_default
 
 // Register a website with a custom name, port, and content type
-website register name /webtest /path/to/file --name web_test --port 5003 --content_type text/html
+website register name /webtest /path/to/file --name web_test --port 5003 --content_type text/html --listener tcp_default
 			
 // Register a website with TLS enabled and specify certificate and key paths
-website register name /webtest /path/to/file --tls --cert /path/to/cert --key /path/to/key
+website register name /webtest /path/to/file --tls --cert /path/to/cert --key /path/to/key --listener tcp_default
 ~~~
 
 **Options**
 
 ```
       --cert string              tls cert path
-      --content_type string      website content type
-      --encryption-enable        whether to enable encryption 
+      --content_type string      website content type, the default value is **text/html
+      --encryption-enable        whether to enable encryption
       --encryption-key string    encryption key
       --encryption-type string   encryption type
-      --host string              pipeline host (default "0.0.0.0")
+      --host string              pipeline host, the default value is **0.0.0.0** (default "0.0.0.0")
       --key string               tls key path
   -l, --listener string          listener id
-  -p, --port uint                pipeline port
+  -p, --port uint                pipeline port, random port is selected from the range **10000-15000**
   -t, --tls                      enable tls
 ```
 
@@ -1091,9 +1065,35 @@ Manage build output files on the server. Use the **list** command to view all av
 
 **SEE ALSO**
 
+* [artifact delete](#artifact-delete)	 - Delete a artifact file in the server
 * [artifact download](#artifact-download)	 - Download a build output file from the server
 * [artifact list](#artifact-list)	 - list build output file in server
 * [artifact upload](#artifact-upload)	 - Upload a build output file to the server
+
+#### artifact delete
+Delete a artifact file in the server
+
+**Description**
+
+Delete a specify artifact in the server.
+
+
+
+```
+artifact delete  
+```
+
+**Examples**
+
+
+~~~
+artifact delete --name artifact_name
+~~~
+
+
+**SEE ALSO**
+
+* [artifact](#artifact)	 - artifact manage
 
 #### artifact download
 Download a build output file from the server
@@ -1107,10 +1107,24 @@ Download a specific build output file from the server by specifying its unique a
 artifact download [flags]
 ```
 
+**Examples**
+
+
+// Download a artifact
+	artifact download artifact_name
+
+// Download a artifact to specific path
+	artifact download artifact_name -o /path/to/output
+
+// Download a artifact by srdi
+	artifact download artifact_name -s
+
+
 **Options**
 
 ```
   -o, --output string   output path
+  -s, --srdi            download srdi
 ```
 
 **SEE ALSO**
@@ -1228,7 +1242,7 @@ build beacon --target x86_64-pc-windows-msvc --profile beacon_profile --srdi
       --jitter float      jitter (default -1)
   -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
       --profile string    profile name
-      --srdi string       enable srdi
+      --srdi              enable srdi (default true)
       --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
 ```
 
@@ -1270,7 +1284,7 @@ build bind --target x86_64-pc-windows-msvc --profile bind_profile --srdi
       --jitter float      jitter (default -1)
   -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
       --profile string    profile name
-      --srdi string       enable srdi
+      --srdi              enable srdi (default true)
       --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
 ```
 
@@ -1316,7 +1330,7 @@ Compile the specified modules into DLL files for deployment or integration.
 
 
 ```
-build modules
+build modules [flags]
 ```
 
 **Examples**
@@ -1335,6 +1349,19 @@ build modules --target x86_64-pc-windows-msvc --profile module_profile --modules
 build modules --target x86_64-pc-windows-msvc --profile module_profile --srdi
 ~~~
 
+**Options**
+
+```
+  -a, --address string    implant address
+      --ca string         custom ca file
+      --interval int      interval /second (default -1)
+      --jitter float      jitter (default -1)
+  -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
+      --profile string    profile name
+      --srdi              enable srdi (default true)
+      --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
+```
+
 **SEE ALSO**
 
 * [build](#build)	 - build
@@ -1345,8 +1372,6 @@ Build a prelude payload
 **Description**
 
 Generate a prelude payload as part of a multi-stage deployment.
-	
-	The **target** flag is required to specify the platform, such as **x86_64-unknown-linux-musl** or **x86_64-pc-windows-msvc**, ensuring compatibility with the deployment environment.
 	
 
 ```
@@ -1376,7 +1401,7 @@ build prelude [flags]
       --jitter float      jitter (default -1)
   -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
       --profile string    profile name
-      --srdi string       enable srdi
+      --srdi              enable srdi (default true)
       --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
 ```
 
@@ -1408,20 +1433,20 @@ build pulse --target x86_64-pc-windows-msvc --profile pulse_profile --modules ba
 	
 // Build a pulse payload with SRDI technology
 build pulse --target x86_64-pc-windows-msvc --profile pulse_profile --srdi
+
+// Build a pulse payload by specifying artifact
+build pulse --target x86_64-pc-windows-msvc --profile pulse_profile --artifact-id 1
 ~~~
 
 
 **Options**
 
 ```
-  -a, --address string    implant address
-      --ca string         custom ca file
-      --interval int      interval /second (default -1)
-      --jitter float      jitter (default -1)
-  -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
-      --profile string    profile name
-      --srdi string       enable srdi
-      --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
+  -a, --address string       implant address
+      --artifact-id uint32   load remote shellcode build-id
+      --profile string       profile name
+      --srdi string          enable srdi
+      --target string        build target
 ```
 
 **SEE ALSO**
@@ -1437,8 +1462,29 @@ profile
 
 **SEE ALSO**
 
+* [profile delete](#profile-delete)	 - Delete a compile profile in server
 * [profile list](#profile-list)	 - List all compile profile
-* [profile load](#profile-load)	 - Create a new compile profile
+* [profile load](#profile-load)	 - Load exist implant profile
+* [profile new](#profile-new)	 - Create new compile profile with default profile
+
+#### profile delete
+Delete a compile profile in server
+
+```
+profile delete
+```
+
+**Examples**
+
+
+~~~
+profile delete --name profile_name
+~~~
+
+
+**SEE ALSO**
+
+* [profile](#profile)	 - compile profile 
 
 #### profile list
 List all compile profile
@@ -1459,11 +1505,10 @@ profile list
 * [profile](#profile)	 - compile profile 
 
 #### profile load
-Create a new compile profile
+Load exist implant profile
 
 **Description**
 
-Create a new compile profile with customizable attributes.
 
 The **profile load** command requires a valid configuration file path (e.g., **config.yaml**) to load settings. This file specifies attributes necessary for generating the compile profile.
 
@@ -1475,68 +1520,55 @@ profile load [flags]
 **Examples**
 
 ~~~
-// Create a new profile
-profile load /path/to/config.yaml --name my_profile
-
 // Create a new profile using network configuration in pipeline
-profile load /path/to/config.yaml --name my_profile --pipeline pipeline_name
+profile load /path/to/config.yaml --name my_profile --basic-pipeline pipeline_name
 
 // Create a profile with specific modules
-profile load /path/to/config.yaml --name my_profile --modules base,sys_full
+profile load /path/to/config.yaml --name my_profile --modules base,sys_full --basic-pipeline pipeline_name
 
 // Create a profile with custom interval and jitter
-profile load /path/to/config.yaml --name my_profile --interval 10 --jitter 0.5
+profile load /path/to/config.yaml --name my_profile --interval 10 --jitter 0.5 --basic-pipeline pipeline_name
+
+// Create a profile for pulse
+profile load /path/to/config.yaml --name my_profile --basic-pipeline pipeline_name --pulse-pipeline pulse_pipeline_name
 ~~~
 
 **Options**
 
 ```
-      --name string       Overwrite profile name
-      --pipeline string   Overwrite profile pipeline_id
+  -b, --basic-pipeline string   Overwrite profile basic pipeline_id
+  -n, --name string             Overwrite profile name
+  -p, --pulse-pipeline string   Overwrite profile pulse pipeline_id
 ```
 
 **SEE ALSO**
 
 * [profile](#profile)	 - compile profile 
 
-### srdi
-Build SRDI artifact
-
-**Description**
-
-Generate an SRDI (Shellcode Reflective DLL Injection) artifact to minimize PE (Portable Executable) signatures.
-
-SRDI technology reduces the PE characteristics of a DLL, enabling more effective injection and evasion during execution. The following options are supported:
-
+#### profile new
+Create new compile profile with default profile
 
 ```
-srdi [flags]
+profile new [flags]
 ```
 
 **Examples**
 
+
 ~~~
-// Convert a DLL to SRDI format with architecture and platform
-srdi --path /path/to/target --arch x64 --platform win
-
-// Specify an entry function for the DLL during SRDI conversion
-srdi --path /path/to/target --arch x86 --platform linux 
-
-// Include user-defined data with the generated shellcode
-srdi --path /path/to/target.dll --arch x64 --platform win --user_data_path /path/to/user_data --function_name DllMain
-
-// Convert a specific artifact to SRDI format using its ID
-srdi --id artifact_id --arch x64 --platform linux
+profile new --name my_profile --basic-pipeline default_tcp
 ~~~
+
 
 **Options**
 
 ```
-      --arch string            shellcode architecture, eg: x86,x64 (default "x64")
-      --function_name string   shellcode entrypoint
-      --id uint32              build file id
-      --path string            file path
-      --platform string        shellcode platform, eg: windows,linux (default "win")
-      --userdata_path string   user data path
+  -b, --basic-pipeline string   Overwrite profile basic pipeline_id
+  -n, --name string             Overwrite profile name
+  -p, --pulse-pipeline string   Overwrite profile pulse pipeline_id
 ```
+
+**SEE ALSO**
+
+* [profile](#profile)	 - compile profile 
 

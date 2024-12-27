@@ -1,10 +1,208 @@
-## 
+## artifact
+
+### artifact_payload
+
+get artifact stageless shellcode
+
+**Arguments**
+
+- `pipeline` [string] -  pipeline id
+- `format` [string] -  reserved parameter
+- `os` [string] -  os, windows only
+- `arch` [string] -  arch, x64/x86
+
+**Example**
+
+```
+artifact_payload("tcp_default","raw","windows","x64")
+```
+
+### artifact_stager
+
+get artifact stager shellcode
+
+**Arguments**
+
+- `pipeline` [string] -  pipeline id
+- `format` [string] -  reserved parameter
+- `os` [string] -  os, windows only
+- `arch` [string] -  arch, x64/x86
+
+**Example**
+
+```
+artifact_stager("tcp_default","raw","windows","x64")
+```
+
+### clr2shellcode
+
+clr to shellcode with donut
+
+**Arguments**
+
+- `file` [string] -  path to PE file
+- `arch` [string] -  architecture, x86/x64
+- `cmdline` [string] -  cmd args
+- `method` [string] -  name of method or DLL function to invoke for .NET DLL and unmanaged DLL
+- `classname` [string] -  name of class with optional namespace for .NET DLL
+- `appdomain` [string] -  name of domain to create for .NET DLL/EXE
+
+### delete_artifact
+
+delete artifact with special build name
+
+**Arguments**
+
+- `$1` [string] - 
+
+### dll2shellcode
+
+dll to shellcode with donut
+
+**Arguments**
+
+- `bin` [table] -  dll bin
+- `arch` [string] -  architecture, x86/x64
+- `param` [string] -  cmd args
+
+### donut
+
+Generates x86, x64, or AMD64+x86 position-independent shellcode that loads .NET Assemblies, PE files, and other Windows payloads from memory and runs them with parameters 
+
+**Arguments**
+
+- `file` [string] -  path to PE file
+- `arch` [string] -  architecture, x86/x64
+- `cmdline` [string] -  cmd args
+
+### download_artifact
+
+download artifact with special build id
+
+**Arguments**
+
+- `$1` [string] - 
+- `$2` [boolean] - 
+
+### exe2shellcode
+
+exe to shellcode with donut
+
+**Arguments**
+
+- `bin` [table] -  dll bin
+- `arch` [string] -  architecture
+- `param` [string] -  cmd args
+
+### get_artifact
+
+get artifact with session self
+
+**Arguments**
+
+- `sess` [Session] -  session
+- `format` [string] -  only support shellcode
+
+### malefic_srdi
+
+malefic srdi
+
+**Arguments**
+
+- `$1` [string] - 
+- `$2` [number] - 
+- `$3` [string] - 
+- `$4` [any] - 
+
+### search_artifact
+
+search build artifact with arch,os,typ and pipeline id
+
+**Arguments**
+
+- `pipeline` [string] -  pipeline id
+- `type` [string] -  build type, beacon,bind,prelude
+- `format` [string] -  only support shellcode
+- `arch` [string] -  arch
+- `os` [string] -  os
+
+**Example**
+
+```
+search_artifact("x64","windows","beacon","tcp_default", true)
+```
+
+### self_payload
+
+get self artifact stageless shellcode
+
+**Arguments**
+
+- `sess` [Session] -  Session
+
+**Example**
+
+```
+self_payload(active())
+```
+
+### self_stager
+
+get self artifact stager shellcode
+
+**Arguments**
+
+- `sess` [Session] -  session
+
+**Example**
+
+```
+self_payload(active())
+```
+
+### sgn_encode
+
+shellcode encode with sgn
+
+**Arguments**
+
+- `bin` [table] -  shellcode bin
+- `arch` [string] -  architecture, x86/x64
+- `iterations` [number] -  sgn iterations
+
+### srdi
+
+dll/exe to shellcode with srdi
+
+**Arguments**
+
+- `bin` [table] -  dll/exe bin
+- `entry` [string] -  entry function for dll
+- `arch` [string] -  architecture, x86/x64
+- `param` [string] -  cmd args
+
+### upload_artifact
+
+upload local bin to server build
+
+**Arguments**
+
+- `$1` [string] - 
+- `$2` [string] - 
+- `$3` [string] - 
+- `$4` [string] - 
+
+## basic
+
+### action_run
+
+**Arguments**
+
+- `$1` [string] 
 
 ### active
 
 get current session
-
-**Arguments**
 
 
 **Example**
@@ -13,46 +211,76 @@ get current session
 active()
 ```
 
-### arg_hex
+### assemblyprint
 
 **Arguments**
 
-- `input` [string] - 
+- `$1` [TaskContext] 
 
-**Example**
-
-```
-arg_hex("aa")
-```
-
-### env_set
+### barch
 
 **Arguments**
 
-- `sess` [Session] - special session
-- `envName` [string] - env name
-- `value` [string] - env value
+- `$1` [Session] 
 
-**Example**
-
-```
-env(active(), "name", "value")
-```
-
-### env_unset
+### blog
 
 **Arguments**
 
-- `sess` [Session] - special session
-- `envName` [string] - env name
+- `$1` [Session] 
+- `$2` [string] 
 
-**Example**
+### broadcast
 
-```
-unsetenv(active(), "envName")
-```
+**Arguments**
+
+- `$1` [string] 
+
+### callback_append
+
+**Arguments**
+
+- `$1` [string] 
+
+### callback_bof
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+
+### callback_discard
+
+
+### callback_file
+
+**Arguments**
+
+- `$1` [string] 
+
+### callback_log
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [boolean] 
+
+### execute_addon
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+- `$3` [table<string>] 
+- `$4` [boolean] 
+- `$5` [number] 
+- `$6` [string] 
+- `$7` [string] 
+- `$8` [SacrificeProcess] 
 
 ### format_path
+
+format windows path
 
 **Arguments**
 
@@ -66,7 +294,75 @@ format_path("C:\\Windows\\System32\\calc.exe")
 
 ```
 
+### get
+
+**Arguments**
+
+- `$1` [Task] 
+- `$2` [number] 
+
+### is64
+
+**Arguments**
+
+- `$1` [Session] 
+
+### isactive
+
+**Arguments**
+
+- `$1` [Session] 
+
+### isadmin
+
+**Arguments**
+
+- `$1` [Session] 
+
+### isbeacon
+
+**Arguments**
+
+- `$1` [Session] 
+
+### list_addon
+
+**Arguments**
+
+- `$1` [Session] 
+
+### list_module
+
+**Arguments**
+
+- `$1` [Session] 
+
+### load_addon
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+- `$3` [string] 
+- `$4` [string] 
+
+### log
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+- `$3` [boolean] 
+
+### mal_pack_binary
+
+**Arguments**
+
+- `$1` [string] 
+
 ### new_64_executable
+
+new x64 process execute binary config
 
 **Arguments**
 
@@ -86,6 +382,8 @@ new_64_exec = new_64_executable("module", "filename", "args", sac)
 
 ### new_86_executable
 
+new x86 process execute binary config
+
 **Arguments**
 
 - `module` [string] - 
@@ -103,6 +401,8 @@ new_86_exec = new_86_executable("module", "filename", "args", sac)
 ```
 
 ### new_binary
+
+new execute binary config
 
 **Arguments**
 
@@ -124,7 +424,40 @@ new_bin = new_binary("module", "filename", "args", true, 100, "amd64", "process"
 
 ```
 
+### new_bypass
+
+new bypass options
+
+**Arguments**
+
+- `bypassAMSI` [boolean] - 
+- `bypassETW` [boolean] - 
+- `bypassWLDP` [boolean] - 
+
+**Example**
+
+```
+
+params = new_bypass(true, true, true)
+
+```
+
+### new_bypass_all
+
+new bypass all options
+
+
+**Example**
+
+```
+
+params = new_bypass_all()
+
+```
+
 ### new_sacrifice
+
+new sacrifice process config
 
 **Arguments**
 
@@ -142,7 +475,15 @@ sac = new_sacrifice(123, false, false, false, "")
 
 ```
 
+### notify
+
+**Arguments**
+
+- `$1` [string] 
+
 ### pack_bof
+
+pack bof single argument
 
 **Arguments**
 
@@ -157,6 +498,8 @@ pack_bof("Z", "aa")
 
 ### pack_bof_args
 
+pack bof arguments
+
 **Arguments**
 
 - `format` [string] - 
@@ -170,303 +513,527 @@ pack_bof_args("ZZ", {"aa", "bb"})
 
 ```
 
-### pipe_close
+### reg_list_value
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+- `$3` [string] 
+
+### taskprint
+
+**Arguments**
+
+- `$1` [TaskContext] 
+
+### tstamp
+
+**Arguments**
+
+- `$1` [number] 
+
+### wait
+
+**Arguments**
+
+- `$1` [Task] 
+
+## encode
+
+### arg_hex
+
+hexlify encode
+
+**Arguments**
+
+- `input` [string] - 
+
+**Example**
+
+```
+arg_hex("aa")
+```
+
+### base64_decode
+
+base64 decode
+
+**Arguments**
+
+- `input` [string] - 
+
+**Example**
+
+```
+base64_decode("aGVsbG8=")
+```
+
+### base64_encode
+
+**Arguments**
+
+- `input` [string] - 
+
+**Example**
+
+```
+base64_encode("hello")
+```
+
+### file_exists
+
+check file exists
+
+**Arguments**
+
+- `path` [string] - 
+
+**Example**
+
+```
+file_exists("C:\\Windows\\System32\\calc.exe")
+```
+
+### ismatch
+
+regexp match
+
+**Arguments**
+
+- `pattern` [string] - 
+- `text` [string] - 
+
+**Example**
+
+```
+ismatch("([a-z]+) ([0-9]+)", "hello 123")
+```
+
+### parse_hex
+
+parse hex string to int64
+
+**Arguments**
+
+- `hexString` [string] - 
+
+**Example**
+
+```
+parse_hex("0x1f4")
+```
+
+### parse_octal
+
+parse octal string to int64
+
+**Arguments**
+
+- `octalString` [string] - 
+
+**Example**
+
+```
+parse_octal("0o744")
+```
+
+### random_string
+
+generate random string
+
+**Arguments**
+
+- `length` [number] - 
+
+**Example**
+
+```
+random_string(10)
+```
+
+### timestampMillis
+
+get current timestamp in milliseconds
+
+
+**Example**
+
+```
+timestampMillis()
+```
+
+## execute
+
+### bof
+
+COFF Loader,  executes Bof (Windows Only)
+
+
+refactor from https://github.com/hakaioffsec/coffee ,fix a bundle bugs
+
+Arguments for the BOF can be passed after the -- delimiter. Each argument must be prefixed with the type of the argument followed by a colon (:). The following types are supported:
+
+* str - A null-terminated string
+* wstr - A wide null-terminated string
+* int - A signed 32-bit integer
+* short - A signed 16-bit integer
+* bin - A base64-encoded binary blob
+
 
 **Arguments**
 
 - `session` [Session] -  special session
-- `name` [string] -  name of the pipe
+- `bofPath` [string] -  path to BOF
+- `args` [table<string>] -  arguments
+- `output` [boolean] -  output
 
 **Example**
 
 ```
-pipe_close(active(), "pipe_name")
+bof(active(),"/path/dir.x64.o",{"/path/to/list"},true)
 ```
 
-### pipe_read
+### dllspawn
+
+DllSpawn the given DLL in the sacrifice process
+
+use a custom Headless PE loader to load DLL in the sacrificed process.
 
 **Arguments**
 
 - `session` [Session] -  special session
-- `name` [string] -  name of the pipe
+- `dllPath` [string] - 
+- `entrypoint` [string] - 
+- `args` [string] - 
+- `binPath` [string] - 
+- `output` [boolean] - 
+- `timeout` [number] - 
+- `arch` [string] - 
+- `process` [string] - 
+- `sac` [SacrificeProcess] -  sacrifice process
 
 **Example**
 
 ```
-pipe_read(active(), "pipe_name")
+dllspawn(active(),"example.dll",{},true,60,"","",new_sacrifice(1234,false,true,true,""))
 ```
 
-### pipe_upload
+### exec
+
+Execute commands
+
+Exec implant local executable file
+
+**Arguments**
+
+- `sessions` [Session] - 
+- `cmd` [string] - 
+- `output` [boolean] - 
+
+**Example**
+
+```
+exec(active(),`whoami`,true)
+```
+
+### execute_assembly
+
+Loads and executes a .NET assembly in implant process (Windows Only)
+
+
+Load CLR assembly in sacrifice process (with donut)
+
+
+**Arguments**
+
+- `sessions` [Session] - 
+- `path` [string] - 
+- `args` [table<string>] - 
+- `output` [boolean] - 
+- `param, bypass amsi,wldp,etw` [SacrificeProcess] - 
+
+**Example**
+
+```
+execute_assembly(active(),"sharp.exe",{}, true, new_bypass_all())
+```
+
+### execute_dll
+
+Executes the given DLL in the sacrifice process
+
+
+use a custom Headless PE loader to load DLL in the sacrificed process.
+
 
 **Arguments**
 
 - `session` [Session] -  special session
-- `pipe` [string] -  target pipe
-- `path` [string] -  file path to upload
+- `dllPath` [string] - 
+- `entrypoint` [string] - 
+- `args` [table<string>] - 
+- `binPath` [string] - 
+- `output` [boolean] - 
+- `timeout` [number] - 
+- `arch` [string] - 
+- `process` [string] - 
+- `sac` [SacrificeProcess] -  sacrifice process
 
 **Example**
 
 ```
-pipe_upload(active(), "pipe_name", "file_path")
+execute_dll(active(),"example.dll",{},true,60,"","",new_sacrifice(1234,false,true,true,""))
 ```
 
-### reg_add
+### execute_exe
+
+Executes the given PE in the sacrifice process
+
+use a custom Headless PE loader to load EXE in the sacrificed process.
 
 **Arguments**
 
 - `session` [Session] -  special session
-- `hive` [string] -  registry hive
-- `path` [string] -  registry path
-- `key` [string] -  registry
-- `stringValue` [string] -  string value
-- `byteValue` [table] -  byte value
-- `dwordValue` [number] -  dword value
-- `qwordValue` [number] -  qword value
-- `regtype` [number] -  registry type
+- `pePath` [string] -  PE file
+- `args` [table<string>] -  PE args
+- `output` [boolean] - 
+- `timeout` [number] - 
+- `arch` [string] - 
+- `process` [string] - 
+- `sac` [SacrificeProcess] -  sacrifice process
 
 **Example**
 
 ```
-reg_add(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example","TestKey","example","",1,0,0)
+execute_exe(active(),"/path/to/gogo.exe",{"-i","127.0.0.1"},true,60,"","",new_sacrifice(1234,false,true,true,"argue"))
 ```
 
-### reg_delete
+### execute_local
+
+Execute local PE on sacrifice process
+
+
+Execute local PE on sacrifice process, support spoofing process arguments, spoofing ppid, block-dll, disable etw
+		
 
 **Arguments**
 
 - `session` [Session] -  special session
-- `hive` [string] -  registry hive
-- `path` [string] -  registry path
-- `key` [string] -  registry key
+- `args` [table<string>] -  arguments
+- `output` [boolean] - 
+- `process` [string] - 
+- `sacrifice` [SacrificeProcess] -  sacrifice process
 
 **Example**
 
 ```
-reg_delete(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example","TestKey")
+execute_local(active(),{"-i","127.0.0.1","-p","top2"},true,"gogo.exe",new_sacrifice(1234,false,true,true,"argue"))
 ```
 
-### reg_list_key
+### execute_shellcode
+
+Executes the given shellcode in the sacrifice process
+
+The current shellcode injection method uses APC.
+
+In the future, configurable shellcode injection settings will be provided, along with Donut, SGN, SRDI, etc.
 
 **Arguments**
 
 - `session` [Session] -  special session
-- `hive` [string] -  registry hive
-- `path` [string] -  registry path
+- `shellcodePath` [string] -  path to shellcode
+- `args` [table<string>] -  arguments
+- `output` [boolean] - 
+- `timeout` [number] - 
+- `arch` [string] - 
+- `process` [string] - 
+- `sac` [SacrificeProcess] -  sacrifice process
 
 **Example**
 
 ```
-reg_list_key(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example")
+execute_shellcode(active(), "/path/to/shellcode", {}, true, 60, "x64", "",new_sacrifice(1234,false,true,true)
 ```
 
-### reg_query
+### inline_assembly
+
+Loads and inline execute a .NET assembly (Windows Only)
+
+Load CLR assembly in implant process(will not create new process)
+
+if return 0x80004005, please use --amsi bypass.
+
+**Arguments**
+
+- `sessions` [Session] - 
+- `path` [string] - 
+- `args` [table<string>] - 
+- `output` [boolean] - 
+- `bypass_params` [any] - 
+
+**Example**
+
+```
+inline_assembly(active(),"seatbelt.exe",{},true,new_bypass_all())
+```
+
+### inline_dll
+
+Executes the given inline DLL in the current process
+
+
+use a custom Headless PE loader to load DLL in the current process.
+
+!!! important ""instability warning!!!"
+	inline execute dll may cause the implant to crash, please use with caution.
+
 
 **Arguments**
 
 - `session` [Session] -  special session
-- `hive` [string] -  registry hive
-- `path` [string] -  registry path
-- `key` [string] -  registry
+- `path` [string] - 
+- `entryPoint` [string] - 
+- `args` [table<string>] - 
+- `output` [boolean] - 
+- `timeout` [number] - 
+- `arch` [string] - 
+- `process` [string] - 
 
 **Example**
 
 ```
-reg_query(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example","TestKey")
+inline_dll(active(),"example.dll","",{"arg1","arg2"},true,60,"","")
 ```
 
-### service_create
+### inline_exe
+
+Executes the given inline EXE in current process
+
+
+use a custom Headless PE loader to load EXE in the current process.
+
+!!! important ""instability warning!!!"
+	inline execute exe may cause the implant to crash, please use with caution.
+	
+	if double run same exe, More likely to crash
+
 
 **Arguments**
 
 - `session` [Session] -  special session
-- `name` [string] -  service name
-- `displayName` [string] -  display name
-- `executablePath` [string] -  executable path
-- `startType` [number] -  start type
-- `errorControl` [number] -  error control
-- `accountName` [string] -  account name
+- `path` [string] -  PE file
+- `args` [table<string>] -  PE args
+- `output` [boolean] - 
+- `timeout` [number] - 
+- `arch` [string] - 
+- `process` [string] - 
 
 **Example**
 
 ```
-service_create(active(), "service_name", "display", "path", 0, 0, "account")
+inline_exe(active(),"gogo.exe",{"-i","127.0.0.1"},true,60,"",""))
 ```
 
-### service_delete
+### inline_local
+
+Execute inline PE on implant process
+
+
+Execute inline PE on implant process, support spoofing process arguments
+
 
 **Arguments**
 
 - `session` [Session] -  special session
-- `name` [string] -  service name
+- `args` [table<string>] -  arguments
+- `output` [boolean] - 
+- `process` [string] - 
 
 **Example**
 
 ```
-service_delete(active(),"service_name")
+inline_local(active(),{""},true,"whoami")
 ```
 
-### service_list
+### inline_shellcode
+
+Executes the given inline shellcode in the implant process
+
+
+The current shellcode injection method uses APC.
+
+!!! important ""instability warning!!!"
+	inline execute shellcode may cause the implant to crash, please use with caution.
+
 
 **Arguments**
 
 - `session` [Session] -  special session
+- `path` [string] - 
+- `args` [table<string>] - 
+- `output` [boolean] - 
+- `timeout` [number] - 
+- `arch` [string] - 
+- `process` [string] - 
 
 **Example**
 
 ```
-service_list(active())
+inline_shellcode(active(),"/path/to/shellcode",{},true,60,"x64","")
 ```
 
-### service_query
+### powerpick
+
+unmanaged powershell on implant process (Windows Only)
 
 **Arguments**
 
 - `session` [Session] -  special session
-- `name` [string] -  service name
+- `path` [string] -  powershell script
+- `powershell` [table<string>] -  powershell cmdline
+- `param` [any] -  bypass amsi,etw,wldp
 
 **Example**
 
 ```
-service_query(active(),"service_name")
+powerpick(active(),"powerview.ps1",{""},new_bypass_all()))
 ```
 
-### service_start
+### powershell
+
+Execute cmd with powershell
+
+equal: powershell.exe -ExecutionPolicy Bypass -w hidden -nop "[cmdline]"
 
 **Arguments**
 
-- `session` [Session] -  special session
-- `name` [string] -  service name
+- `session` [Session] - 
+- `cmd` [string] - 
+- `output` [boolean] - 
 
 **Example**
 
 ```
-service_start(active(),"service_name")
+powershell(active(),"dir",true))
 ```
 
-### service_stop
+### shell
+
+Execute cmd
+
+equal: exec cmd /c "[cmdline]"
 
 **Arguments**
 
-- `session` [Session] -  special session
-- `name` [string] -  service name
+- `sessions` [Session] - 
+- `cmd` [string] - 
+- `output` [boolean] - 
 
 **Example**
 
 ```
-service_stop(active(),"service_name")
-```
-
-### taskschd_create
-
-**Arguments**
-
-- `sess` [Session] -  special session
-- `name` [string] -  name of the scheduled task
-- `path` [string] -  path to the executable for the scheduled task
-- `triggerType` [number] -  trigger type for the task
-- `startBoundary` [string] -  start boundary for the scheduled task
-
-**Example**
-
-```
-taskschd_create(active(), "task_name", "process_path", 1, "2023-10-10T09:00:00")
-```
-
-### taskschd_delete
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `name` [string] -  name of the scheduled task
-
-**Example**
-
-```
-taskschd_delete(active(), "task_name")
-```
-
-### taskschd_list
-
-**Arguments**
-
-- `sess` [Session] -  special session
-
-**Example**
-
-```
-taskschd_list(active())
-```
-
-### taskschd_query
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `name` [string] -  name of the scheduled task
-
-**Example**
-
-```
-taskschd_query(active(), "task_name")
-```
-
-### taskschd_run
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `name` [string] -  name of the scheduled task
-
-**Example**
-
-```
-taskschd_run(active(), "task_name")
-```
-
-### taskschd_start
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `name` [string] -  name of the scheduled task
-
-**Example**
-
-```
-taskschd_create(active(), "task_name")
-```
-
-### taskschd_stop
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `name` [string] -  name of the scheduled task
-
-**Example**
-
-```
-taskschd_stop(active(), "task_name")
-```
-
-### upload
-
-Upload file to a named pipe
-
-Upload the content of a specified file to a named pipe.
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `path` [string] -  source path
-- `target` [string] -  target path
-- `priv` [string] - 
-- `hidden` [boolean] - 
-
-**Example**
-
-```
-upload(active(),"/source/path","/target/path",parse_octal("644"),false)
+shell(active(),"whoami",true)
 ```
 
 ## file
@@ -630,6 +1197,58 @@ move files and directories in implant
 mv(active(),"/tmp/file1.txt","/tmp/file2.txt")
 ```
 
+### pipe_close
+
+Close a named pipe
+
+Close a specified named pipe.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  name of the pipe
+
+**Example**
+
+```
+pipe_close(active(), "pipe_name")
+```
+
+### pipe_read
+
+Read data from a named pipe
+
+Read data from a specified named pipe.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  name of the pipe
+
+**Example**
+
+```
+pipe_read(active(), "pipe_name")
+```
+
+### pipe_upload
+
+Upload file to a named pipe
+
+Upload the content of a specified file to a named pipe.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `pipe` [string] -  target pipe
+- `path` [string] -  file path to upload
+
+**Example**
+
+```
+pipe_upload(active(), "pipe_name", "file_path")
+```
+
 ### pwd
 
 Print working directory
@@ -663,102 +1282,24 @@ remove files and directories in implant
 pwd(active(),"/tmp/file.txt")
 ```
 
-## encode
+### upload
 
-### base64_decode
+Upload file to a named pipe
+
+Upload the content of a specified file to a named pipe.
 
 **Arguments**
 
-- `input` [string] - 
+- `session` [Session] -  special session
+- `path` [string] -  source path
+- `target` [string] -  target path
+- `priv` [string] - 
+- `hidden` [boolean] - 
 
 **Example**
 
 ```
-base64_decode("aGVsbG8=")
-```
-
-### base64_encode
-
-**Arguments**
-
-- `input` [string] - 
-
-**Example**
-
-```
-base64_encode("hello")
-```
-
-### file_exists
-
-**Arguments**
-
-- `path` [string] - 
-
-**Example**
-
-```
-file_exists("C:\\Windows\\System32\\calc.exe")
-```
-
-### ismatch
-
-**Arguments**
-
-- `pattern` [string] - 
-- `text` [string] - 
-
-**Example**
-
-```
-ismatch("([a-z]+) ([0-9]+)", "hello 123")
-```
-
-### parse_hex
-
-**Arguments**
-
-- `hexString` [string] - 
-
-**Example**
-
-```
-parse_hex("0x1f4")
-```
-
-### parse_octal
-
-**Arguments**
-
-- `octalString` [string] - 
-
-**Example**
-
-```
-parse_octal("0o744")
-```
-
-### random_string
-
-**Arguments**
-
-- `length` [number] - 
-
-**Example**
-
-```
-random_string(10)
-```
-
-### timestampMillis
-
-**Arguments**
-
-
-**Example**
-
-```
-timestampMillis()
+upload(active(),"/source/path","/target/path",parse_octal("644"),false)
 ```
 
 ## implant
@@ -852,484 +1393,6 @@ kill implant
 suicide(active())
 ```
 
-## execute
-
-### bof
-
-COFF Loader,  executes Bof (Windows Only)
-
-
-refactor from https://github.com/hakaioffsec/coffee ,fix a bundle bugs
-
-Arguments for the BOF can be passed after the -- delimiter. Each argument must be prefixed with the type of the argument followed by a colon (:). The following types are supported:
-
-* str - A null-terminated string
-* wstr - A wide null-terminated string
-* int - A signed 32-bit integer
-* short - A signed 16-bit integer
-* bin - A base64-encoded binary blob
-
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `bofPath` [string] -  path to BOF
-- `args` [table<string>] -  arguments
-- `output` [boolean] -  output
-
-**Example**
-
-```
-bof(active(),"/path/dir.x64.o",{"/path/to/list"},true)
-```
-
-### exec
-
-Execute commands
-
-Exec implant local executable file
-
-**Arguments**
-
-- `sessions` [Session] - 
-- `cmd` [string] - 
-- `output` [boolean] - 
-
-**Example**
-
-```
-exec(active(),`whoami`,true)
-```
-
-### execute_assembly
-
-Loads and executes a .NET assembly in implant process (Windows Only)
-
-
-Load CLR assembly in implant process(will not create new process)
-
-if return 0x80004005, please use --amsi bypass.
-
-
-**Arguments**
-
-- `sessions` [Session] - 
-- `path` [string] - 
-- `args` [table<string>] - 
-- `output` [boolean] - 
-- `amsi` [boolean] - 
-- `etw` [boolean] - 
-
-**Example**
-
-```
-execute_assembly(active(),"sharp.exe",{},true,false,false)
-```
-
-### execute_dll
-
-Executes the given DLL in the sacrifice process
-
-
-use a custom Headless PE loader to load DLL in the sacrificed process.
-
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `dllPath` [string] - 
-- `entrypoint` [string] - 
-- `args` [table<string>] - 
-- `binPath` [string] - 
-- `output` [boolean] - 
-- `timeout` [number] - 
-- `arch` [string] - 
-- `process` [string] - 
-- `sac` [SacrificeProcess] -  sacrifice process
-
-**Example**
-
-```
-execute_dll(active(),"example.dll",{},true,60,"","",new_sacrifice(1234,false,true,true,""))
-```
-
-### execute_exe
-
-Executes the given PE in the sacrifice process
-
-use a custom Headless PE loader to load EXE in the sacrificed process.
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `pePath` [string] -  PE file
-- `args` [table<string>] -  PE args
-- `output` [boolean] - 
-- `timeout` [number] - 
-- `arch` [string] - 
-- `process` [string] - 
-- `sac` [SacrificeProcess] -  sacrifice process
-
-**Example**
-
-```
-execute_exe(active(),"/path/to/gogo.exe",{"-i","127.0.0.1"},true,60,"","",new_sacrifice(1234,false,true,true,"argue"))
-```
-
-### execute_local
-
-Execute local PE on sacrifice process
-
-
-Execute local PE on sacrifice process, support spoofing process arguments, spoofing ppid, block-dll, disable etw
-		
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `args` [table<string>] -  arguments
-- `output` [boolean] - 
-- `process` [string] - 
-- `sacrifice` [SacrificeProcess] -  sacrifice process
-
-**Example**
-
-```
-execute_local(active(),{"-i","127.0.0.1","-p","top2"},true,"gogo.exe",new_sacrifice(1234,false,true,true,"argue"))
-```
-
-### execute_shellcode
-
-Executes the given shellcode in the sacrifice process
-
-The current shellcode injection method uses APC.
-
-In the future, configurable shellcode injection settings will be provided, along with Donut, SGN, SRDI, etc.
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `shellcodePath` [string] -  path to shellcode
-- `args` [table<string>] -  arguments
-- `output` [boolean] - 
-- `timeout` [number] - 
-- `arch` [string] - 
-- `process` [string] - 
-- `sac` [SacrificeProcess] -  sacrifice process
-
-**Example**
-
-```
-execute_shellcode(active(), "/path/to/shellcode", {}, true, 60, "x64", "",new_sacrifice(1234,false,true,true)
-```
-
-### inline_dll
-
-Executes the given inline DLL in the current process
-
-
-use a custom Headless PE loader to load DLL in the current process.
-
-!!! important ""instability warning!!!"
-	inline execute dll may cause the implant to crash, please use with caution.
-
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `path` [string] - 
-- `entryPoint` [string] - 
-- `args` [table<string>] - 
-- `output` [boolean] - 
-- `timeout` [number] - 
-- `arch` [string] - 
-- `process` [string] - 
-
-**Example**
-
-```
-inline_dll(active(),"example.dll","",{"arg1","arg2"},true,60,"","")
-```
-
-### inline_exe
-
-Executes the given inline EXE in current process
-
-
-use a custom Headless PE loader to load EXE in the current process.
-
-!!! important ""instability warning!!!"
-	inline execute exe may cause the implant to crash, please use with caution.
-	
-	if double run same exe, More likely to crash
-
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `path` [string] -  PE file
-- `args` [table<string>] -  PE args
-- `output` [boolean] - 
-- `timeout` [number] - 
-- `arch` [string] - 
-- `process` [string] - 
-
-**Example**
-
-```
-inline_exe(active(),"gogo.exe",{"-i","127.0.0.1"},true,60,"",""))
-```
-
-### inline_shellcode
-
-Executes the given inline shellcode in the implant process
-
-
-The current shellcode injection method uses APC.
-
-!!! important ""instability warning!!!"
-	inline execute shellcode may cause the implant to crash, please use with caution.
-
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `path` [string] - 
-- `args` [table<string>] - 
-- `output` [boolean] - 
-- `timeout` [number] - 
-- `arch` [string] - 
-- `process` [string] - 
-
-**Example**
-
-```
-inline_shellcode(active(),"/path/to/shellcode",{},true,60,"x64","")
-```
-
-### powerpick
-
-unmanaged powershell on implant process (Windows Only)
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `path` [string] -  powershell script
-- `ps` [table<string>] -  ps args
-- `amsi` [boolean] - 
-- `etw` [boolean] - 
-
-**Example**
-
-```
-powerpick(active(),"powerview.ps1",{""},true,true))
-```
-
-### powershell
-
-Execute cmd with powershell
-
-equal: powershell.exe -ExecutionPolicy Bypass -w hidden -nop "[cmdline]"
-
-**Arguments**
-
-- `session` [Session] - 
-- `cmd` [string] - 
-- `output` [boolean] - 
-
-**Example**
-
-```
-powershell(active(),"dir",true))
-```
-
-### shell
-
-Execute cmd
-
-equal: exec cmd /c "[cmdline]"
-
-**Arguments**
-
-- `sessions` [Session] - 
-- `cmd` [string] - 
-- `output` [boolean] - 
-
-**Example**
-
-```
-shell(active(),"whoami",true)
-```
-
-## base
-
-### assemblyprint
-
-**Arguments**
-
-- `$1` [TaskContext] 
-
-### barch
-
-**Arguments**
-
-- `$1` [Session] 
-
-### blog
-
-**Arguments**
-
-- `$1` [Session] 
-- `$2` [string] 
-
-### broadcast
-
-**Arguments**
-
-- `$1` [string] 
-
-### callback_append
-
-**Arguments**
-
-- `$1` [string] 
-
-### callback_bof
-
-**Arguments**
-
-- `$1` [Session] 
-- `$2` [string] 
-
-### callback_discard
-
-**Arguments**
-
-
-### callback_file
-
-**Arguments**
-
-- `$1` [string] 
-
-### callback_log
-
-**Arguments**
-
-- `$1` [Session] 
-- `$2` [boolean] 
-
-### execute_addon
-
-**Arguments**
-
-- `$1` [Session] 
-- `$2` [string] 
-- `$3` [table<string>] 
-- `$4` [boolean] 
-- `$5` [number] 
-- `$6` [string] 
-- `$7` [string] 
-- `$8` [SacrificeProcess] 
-
-### get
-
-**Arguments**
-
-- `$1` [Task] 
-- `$2` [number] 
-
-### is64
-
-**Arguments**
-
-- `$1` [Session] 
-
-### isactive
-
-**Arguments**
-
-- `$1` [Session] 
-
-### isadmin
-
-**Arguments**
-
-- `$1` [Session] 
-
-### isbeacon
-
-**Arguments**
-
-- `$1` [Session] 
-
-### list_addon
-
-**Arguments**
-
-- `$1` [Session] 
-
-### list_module
-
-**Arguments**
-
-- `$1` [Session] 
-
-### load_addon
-
-**Arguments**
-
-- `$1` [Session] 
-- `$2` [string] 
-- `$3` [string] 
-- `$4` [string] 
-
-### log
-
-**Arguments**
-
-- `$1` [Session] 
-- `$2` [string] 
-- `$3` [boolean] 
-
-### notify
-
-**Arguments**
-
-- `$1` [string] 
-
-### reg_list_value
-
-**Arguments**
-
-- `$1` [Session] 
-- `$2` [string] 
-- `$3` [string] 
-
-### sysinfo
-
-**Arguments**
-
-- `$1` [Session] 
-
-### taskprint
-
-**Arguments**
-
-- `$1` [TaskContext] 
-
-### tstamp
-
-**Arguments**
-
-- `$1` [number] 
-
-### wait
-
-**Arguments**
-
-- `$1` [Task] 
-
 ## sys
 
 ### bypass
@@ -1360,6 +1423,37 @@ List environment variables
 
 ```
 env(active())
+```
+
+### env_set
+
+Set environment variable
+
+**Arguments**
+
+- `sess` [Session] - special session
+- `envName` [string] - env name
+- `value` [string] - env value
+
+**Example**
+
+```
+env(active(), "name", "value")
+```
+
+### env_unset
+
+Unset environment variable
+
+**Arguments**
+
+- `sess` [Session] - special session
+- `envName` [string] - env name
+
+**Example**
+
+```
+unsetenv(active(), "envName")
 ```
 
 ### getsystem
@@ -1402,7 +1496,7 @@ List network connections
 **Example**
 
 ```
-sysinfo(active)
+netstat(active)
 ```
 
 ### privs
@@ -1433,6 +1527,86 @@ List processes
 ps(active)
 ```
 
+### reg_add
+
+Add or modify a registry key
+
+Add or modify a registry key with specified values such as string, byte, DWORD, or QWORD.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `hive` [string] -  registry hive
+- `path` [string] -  registry path
+- `key` [string] -  registry
+- `stringValue` [string] -  string value
+- `byteValue` [table] -  byte value
+- `dwordValue` [number] -  dword value
+- `qwordValue` [number] -  qword value
+- `regtype` [number] -  registry type
+
+**Example**
+
+```
+reg_add(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example","TestKey","example","",1,0,0)
+```
+
+### reg_delete
+
+Delete a registry key
+
+Remove a specific registry key.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `hive` [string] -  registry hive
+- `path` [string] -  registry path
+- `key` [string] -  registry key
+
+**Example**
+
+```
+reg_delete(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example","TestKey")
+```
+
+### reg_list_key
+
+List subkeys in a registry path
+
+Retrieve a list of all subkeys under a specified registry path.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `hive` [string] -  registry hive
+- `path` [string] -  registry path
+
+**Example**
+
+```
+reg_list_key(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example")
+```
+
+### reg_query
+
+Query a registry key
+
+Retrieve the value associated with a specific registry key.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `hive` [string] -  registry hive
+- `path` [string] -  registry path
+- `key` [string] -  registry
+
+**Example**
+
+```
+reg_query(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example","TestKey")
+```
+
 ### runas
 
 Run a program as another user
@@ -1452,6 +1626,249 @@ Run a program as another user
 
 ```
 runas(active(),"admin","EXAMPLE","password123","/path/to/program","arg1 arg2",0,false)
+```
+
+### service_create
+
+Create a new service
+
+Create a new service with specified name, display name, executable path, start type, error control, and account name.
+		
+Control the start type and error control by providing appropriate values.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  service name
+- `displayName` [string] -  display name
+- `executablePath` [string] -  executable path
+- `startType` [number] -  start type
+- `errorControl` [number] -  error control
+- `accountName` [string] -  account name
+
+**Example**
+
+```
+service_create(active(), "service_name", "display", "path", 0, 0, "account")
+```
+
+### service_delete
+
+Delete a specified service
+
+Delete a service by specifying its name, removing it from the system permanently.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  service name
+
+**Example**
+
+```
+service_delete(active(),"service_name")
+```
+
+### service_list
+
+List all available services
+
+Retrieve and display a list of all services available on the system, including their configuration and current status.
+
+**Arguments**
+
+- `session` [Session] -  special session
+
+**Example**
+
+```
+service_list(active())
+```
+
+### service_query
+
+Query the status of a service
+
+Retrieve the current status and configuration of a specified service.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  service name
+
+**Example**
+
+```
+service_query(active(),"service_name")
+```
+
+### service_start
+
+Start an existing service
+
+Start a service by specifying its name.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  service name
+
+**Example**
+
+```
+service_start(active(),"service_name")
+```
+
+### service_stop
+
+Stop a running service
+
+Stop a service by specifying its name. This command will halt the service's operation.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  service name
+
+**Example**
+
+```
+service_stop(active(),"service_name")
+```
+
+### sysinfo
+
+Get basic sys info
+
+**Arguments**
+
+- `sess` [Session] -  special session
+
+**Example**
+
+```
+sysinfo(active)
+```
+
+### taskschd_create
+
+Create a new scheduled task
+
+Create a new scheduled task with the specified name, executable path, trigger type, and start boundary.
+
+**Arguments**
+
+- `sess` [Session] -  special session
+- `name` [string] -  name of the scheduled task
+- `path` [string] -  path to the executable for the scheduled task
+- `triggerType` [number] -  trigger type for the task
+- `startBoundary` [string] -  start boundary for the scheduled task
+
+**Example**
+
+```
+taskschd_create(active(), "task_name", "process_path", 1, "2023-10-10T09:00:00")
+```
+
+### taskschd_delete
+
+Delete a scheduled task
+
+Delete a scheduled task by specifying its name.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  name of the scheduled task
+
+**Example**
+
+```
+taskschd_delete(active(), "task_name")
+```
+
+### taskschd_list
+
+List all scheduled tasks
+
+Retrieve a list of all scheduled tasks on the system.
+
+**Arguments**
+
+- `sess` [Session] -  special session
+
+**Example**
+
+```
+taskschd_list(active())
+```
+
+### taskschd_query
+
+Query the configuration of a scheduled task
+
+Retrieve the current configuration, status, and timing information of a specified scheduled task by name.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  name of the scheduled task
+
+**Example**
+
+```
+taskschd_query(active(), "task_name")
+```
+
+### taskschd_run
+
+Run a scheduled task immediately
+
+Execute a scheduled task immediately by specifying its name.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  name of the scheduled task
+
+**Example**
+
+```
+taskschd_run(active(), "task_name")
+```
+
+### taskschd_start
+
+Start a scheduled task
+
+Start a scheduled task by specifying its name.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  name of the scheduled task
+
+**Example**
+
+```
+taskschd_create(active(), "task_name")
+```
+
+### taskschd_stop
+
+Stop a running scheduled task
+
+Stop a scheduled task by specifying its name.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  name of the scheduled task
+
+**Example**
+
+```
+taskschd_stop(active(), "task_name")
 ```
 
 ### whoami

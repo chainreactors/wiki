@@ -74,7 +74,12 @@ execute_addon、clear 、ps、powerpic...
 **Options**
 
 ```
-  -b, --bundle string   bundle name
+      --build string      build resource,eg: docker/action
+  -b, --bundle string     bundle name
+      --modules strings   modules list,eg: basic,extend
+      --path string       module path
+      --profile string    build profile
+      --target string     module target
 ```
 
 ### refresh_module
@@ -128,9 +133,9 @@ execute_addon gogo -- -i 127.0.0.1 -p http
   -a, --argue string     spoofing process arguments, eg: notepad.exe 
   -b, --block_dll        block not microsoft dll injection
       --etw              disable ETW
-  -p, --ppid uint        spoofing parent processes, (0 means injection into ourselves)
+  -p, --ppid uint32      spoofing parent processes, (0 means injection into ourselves)
   -n, --process string   custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
-  -q, --quit             disable output
+  -q, --quiet            disable output
   -t, --timeout uint32   timeout, in seconds (default 60)
 ```
 
@@ -202,6 +207,40 @@ bof [bof]
 bof dir.x64.o -- wstr:"C:\\Windows\\System32"
 ~~~
 
+### dllspawn
+DllSpawn the given DLL in the sacrifice process
+
+**Description**
+
+use a custom Headless PE loader to load DLL in the sacrificed process.
+
+```
+dllspawn [dll] [flags]
+```
+
+**Examples**
+
+
+~~~
+dllspawn example.dll
+~~~
+
+
+**Options**
+
+```
+      --arch string         architecture x64,x86
+  -a, --argue string        spoofing process arguments, eg: notepad.exe 
+      --binPath string      custom process path
+  -b, --block_dll           block not microsoft dll injection
+  -e, --entrypoint string   custom entrypoint
+      --etw                 disable ETW
+  -p, --ppid uint32         spoofing parent processes, (0 means injection into ourselves)
+  -n, --process string      custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
+  -q, --quiet               disable output
+  -t, --timeout uint32      timeout, in seconds (default 60)
+```
+
 ### exec
 Execute commands
 
@@ -237,9 +276,7 @@ Loads and executes a .NET assembly in implant process (Windows Only)
 **Description**
 
 
-Load CLR assembly in implant process(will not create new process)
-
-if return 0x80004005, please use --amsi bypass.
+Load CLR assembly in sacrifice process (with donut)
 
 
 ```
@@ -248,21 +285,18 @@ execute_assembly [file] [flags]
 
 **Examples**
 
-Execute a .NET assembly without "-" arguments
 ~~~
-execute-assembly --amsi potato.exe "whoami" 
-~~~
-Execute a .NET assembly with "-" arguments, you need add "--" before the arguments
-~~~
-execute-assembly --amsi potato.exe -- -cmd "cmd /c whoami"
+execute-assembly potato.exe "whoami" 
 ~~~
 
 
 **Options**
 
 ```
-      --amsi   disable AMSI
-      --etw    disable ETW
+  -a, --argue string   spoofing process arguments, eg: notepad.exe 
+  -b, --block_dll      block not microsoft dll injection
+      --etw            disable ETW
+  -p, --ppid uint32    spoofing parent processes, (0 means injection into ourselves)
 ```
 
 ### execute_dll
@@ -301,9 +335,9 @@ execute_dll example.dll -e entrypoint -- arg1 arg2
   -b, --block_dll           block not microsoft dll injection
   -e, --entrypoint string   custom entrypoint
       --etw                 disable ETW
-  -p, --ppid uint           spoofing parent processes, (0 means injection into ourselves)
+  -p, --ppid uint32         spoofing parent processes, (0 means injection into ourselves)
   -n, --process string      custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
-  -q, --quit                disable output
+  -q, --quiet               disable output
   -t, --timeout uint32      timeout, in seconds (default 60)
 ```
 
@@ -335,9 +369,9 @@ execute_exe gogo.exe -- -i 123.123.123.123 -p top2
   -a, --argue string     spoofing process arguments, eg: notepad.exe 
   -b, --block_dll        block not microsoft dll injection
       --etw              disable ETW
-  -p, --ppid uint        spoofing parent processes, (0 means injection into ourselves)
+  -p, --ppid uint32      spoofing parent processes, (0 means injection into ourselves)
   -n, --process string   custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
-  -q, --quit             disable output
+  -q, --quiet            disable output
   -t, --timeout uint32   timeout, in seconds (default 60)
 ```
 
@@ -368,9 +402,10 @@ execute_local local_exe --ppid 1234 --block_dll --etw --argue "argue"
   -a, --argue string     spoofing process arguments, eg: notepad.exe 
   -b, --block_dll        block not microsoft dll injection
       --etw              disable ETW
-  -p, --ppid uint        spoofing parent processes, (0 means injection into ourselves)
+  -o, --output           disable output
+  -p, --ppid uint32      spoofing parent processes, (0 means injection into ourselves)
   -n, --process string   custom process path
-  -q, --quit             disable output
+  -q, --quiet            disable output
 ```
 
 ### execute_shellcode
@@ -401,10 +436,45 @@ execute_shellcode example.bin
   -a, --argue string     spoofing process arguments, eg: notepad.exe 
   -b, --block_dll        block not microsoft dll injection
       --etw              disable ETW
-  -p, --ppid uint        spoofing parent processes, (0 means injection into ourselves)
+  -p, --ppid uint32      spoofing parent processes, (0 means injection into ourselves)
   -n, --process string   custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
-  -q, --quit             disable output
+  -q, --quiet            disable output
   -t, --timeout uint32   timeout, in seconds (default 60)
+```
+
+### inline_assembly
+Loads and inline execute a .NET assembly (Windows Only)
+
+**Description**
+
+Load CLR assembly in implant process(will not create new process)
+
+if return 0x80004005, please use --amsi bypass.
+
+```
+inline_assembly [file] [flags]
+```
+
+**Examples**
+
+
+inline execute a .NET assembly
+~~~
+inline-assembly --amsi potato.exe "whoami" 
+~~~
+Execute a .NET assembly with "-" arguments, you need add "--" before the arguments
+~~~
+inline-assembly --amsi potato.exe -- cmd /c whoami
+~~~
+
+
+**Options**
+
+```
+      --amsi         bypass AMSI
+      --bypass-all   bypass AMSI,ETW,WLDP
+      --etw          bypass ETW
+      --wldp         bypass WLDP
 ```
 
 ### inline_dll
@@ -440,7 +510,7 @@ inline_dll example.dll -e RunFunction -- arg1 arg2
       --arch string         architecture x64,x86
   -e, --entrypoint string   entrypoint
   -n, --process string      custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
-  -q, --quit                disable output
+  -q, --quiet               disable output
   -t, --timeout uint32      timeout, in seconds (default 60)
 ```
 
@@ -475,9 +545,29 @@ inline_exe hackbrowserdata.exe -- -h
 ```
       --arch string      architecture x64,x86
   -n, --process string   custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
-  -q, --quit             disable output
+  -q, --quiet            disable output
   -t, --timeout uint32   timeout, in seconds (default 60)
 ```
+
+### inline_local
+Execute inline PE on implant process
+
+**Description**
+
+
+Execute inline PE on implant process, support spoofing process arguments
+
+
+```
+inline_local [local_exe]
+```
+
+**Examples**
+
+
+~~~
+inline_local whoami
+~~~
 
 ### inline_shellcode
 Executes the given inline shellcode in the implant process
@@ -508,7 +598,7 @@ inline_shellcode example.bin
 ```
       --arch string      architecture x64,x86
   -n, --process string   custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
-  -q, --quit             disable output
+  -q, --quiet            disable output
   -t, --timeout uint32   timeout, in seconds (default 60)
 ```
 
@@ -530,9 +620,11 @@ powerpick -s powerview.ps1 -- Get-NetUser
 **Options**
 
 ```
-      --amsi            disable AMSI
-      --etw             disable ETW
+      --amsi            bypass AMSI
+      --bypass-all      bypass AMSI,ETW,WLDP
+      --etw             bypass ETW
   -s, --script string   powershell script
+      --wldp            bypass WLDP
 ```
 
 ### powershell

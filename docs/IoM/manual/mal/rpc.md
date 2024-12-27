@@ -1,4 +1,4 @@
-## base
+## basic
 
 ### Broadcast
 
@@ -8,6 +8,20 @@
 - `$2` [Event] 
 
 ### Build
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Generate] 
+
+### BuildLog
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Builder] 
+
+### BuildModules
 
 **Arguments**
 
@@ -84,6 +98,27 @@
 - `$1` [context] 
 - `$2` [DLL2Shellcode] 
 
+### DeleteArtifact
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Artifact] 
+
+### DeleteProfile
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Profile] 
+
+### DockerStatus
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Empty] 
+
 ### Download
 
 **Arguments**
@@ -96,7 +131,7 @@
 **Arguments**
 
 - `$1` [context] 
-- `$2` [Builder] 
+- `$2` [Artifact] 
 
 ### EXE2Shellcode
 
@@ -196,12 +231,33 @@
 - `$1` [context] 
 - `$2` [ExecuteBinary] 
 
+### FindArtifact
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Artifact] 
+
+### GetAllDownloadFiles
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Empty] 
+
 ### GetAllTaskContent
 
 **Arguments**
 
 - `$1` [context] 
 - `$2` [Task] 
+
+### GetArtifactsByProfile
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Profile] 
 
 ### GetBasic
 
@@ -308,6 +364,13 @@
 - `$1` [context] 
 - `$2` [Request] 
 
+### InlineLocal
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [ExecuteBinary] 
+
 ### Kill
 
 **Arguments**
@@ -322,7 +385,7 @@
 - `$1` [context] 
 - `$2` [Request] 
 
-### ListArtifact
+### ListBuilder
 
 **Arguments**
 
@@ -672,12 +735,26 @@
 - `$1` [context] 
 - `$2` [TaskScheduleRequest] 
 
+### TriggerWorkflowDispatch
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [GithubWorkflowRequest] 
+
 ### UnsetEnv
 
 **Arguments**
 
 - `$1` [context] 
 - `$2` [Request] 
+
+### UpdateProfile
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Profile] 
 
 ### Upload
 
@@ -691,7 +768,7 @@
 **Arguments**
 
 - `$1` [context] 
-- `$2` [Builder] 
+- `$2` [Artifact] 
 
 ### WaitTaskContent
 
@@ -769,4 +846,11 @@
 
 - `$1` [context] 
 - `$2` [WmiQueryRequest] 
+
+### WorkflowStatus
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [GithubWorkflowRequest] 
 
