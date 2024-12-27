@@ -102,19 +102,7 @@ gost的server与client是通过组合Listener，Dialer，Conn，Proxy实现的�
 
 gost作为一个代理工具， 已经能覆盖绝大部分需求。 但对于攻防场景来说, 还是有不少特殊的需求
 
-### 基本概念
 
-在rem中, 基于传输层之上重新抽象了整个网络交互的流程。
-
-- 传输层, 对应core/tunnel, 分为listener和dialer,  可以实现自定义的任意传输层信道， 只需要实现对应的golang的接口即可。目前实现了，tcp, udp, icmp, websocket.
-- 会话层, 实现了链接复用(mux)，会话管理.
-- 加密混淆层(对应表示层)，对应 core/wrapper，对应的接口是ReadWriteCloser, 只需要实现对应的Read和Writer接口， 即可实现对传输层流程的加密，混淆， 伪装。甚至可以实现上下行流量分别配置不同的wrapper. 目前实现了 aes, xor, padding.
-- 中转/代理层(对应表示层) (可选), 可以通过第三方代理/服务中转流量， 例如通过ssh, socks5, neoreg, suo5等任意具有流量功能的实现数据转发, 目前实现了http/https, socks5/4, ssh, shadowsocks
-- 应用层, 基于上面三层实现的信道, 可以被封装为不同的应用, 目前实现了socks5, port forward, http代理, shadowsocks, trojan
-
-基于这样的抽象层级, 我们可以任意拓展rem的能力边界。 我们可以快速添加一个传输层协议， 或是加密混淆算法， 或是代理中转工具， 又或是最终面向用户的协议。 
-
-这是前所未有的潜力， 理论上不存在任何在流量上被检测的可能性。 
 
 ### Features
 
