@@ -15,14 +15,35 @@ IoM通过几个月的快速迭代, 已经具备了一个现代化C2的绝大部�
 
 
 #### 基于github action的快速编译
-基于github action实现快速编译
+##### github相关配置
 
-#todo 操作流程 
+使用github action前，需要先在server所处服务器上对server二进制文件同一目录下的config.yaml进行配置。将malefic源码所在的github仓库名、github用户名github token以及workflow配置文件名填入。
+
+```
+server:
+  grpc_port: 5004
+  grpc_host: 0.0.0.0
+  ip: 127.0.0.1
+  audit: 1
+  enable: true
+  config:
+    packet_length: 10485760
+    certificate:
+    certificate_key:
+  notify:
+    enable: false
+    lark:
+      enable: false
+      webhook_url:
+  github:
+    repo:           				# malefic的仓库名
+    owner:           				# github用户名 
+    token:                          # github的token
+    workflow: 				        # workflow的配置文件名（默认为generate.yml）
+```
 
 
-  通过命令行传递配置，client能够自动触发GitHub工作流，编译指定类型的malefic。执行完GitHub工作流后，server会从github artifact中下载对应的artifact。
-
-  Github相关配置在client所处主机的~/.config/malice/malice.yaml下进行设置。
+ 若有多个用户使用服务器，也可以在client所处主机的~/.config/malice/malice.yaml下进行配置。当client端的github 配置填入之后，server会优先使用client提供的github配置，来启动工作流。
 
   ```
   resources: ""
@@ -42,35 +63,55 @@ IoM通过几个月的快速迭代, 已经具备了一个现代化C2的绝大部�
     github_repo:                           # malefic的仓库名
     github_owner:                          # github用户名 
     github_token:                          # github的token 
-    github_workflow_file: generate.yaml    # workflow的配置文件名
+    github_workflow_file: 			     # workflow的配置文件名（默认为generate.yml）
     opsec_threshold: ""
     vt_api_key: ""
   
   ```
 
-  命令示例：
+##### 新建profile
+
+进行github action编译之前，需要先确认是否存在profile。若没有，则需要新建一个profile来提供malefic编译时所需要的相关配置，artifact的通信address与pipeline绑定。
+
+![image-20241227035253675](../../IoM/assets/image-20241227035253675.png)  
+
+##### action build
+
+使用action和子命令来进行编译，必须指定build target以及对应的profile。当workflow运行成功时，client会提示当前workflow的html_url，方便在网页端进行查看。当编译完成时，也会在client进行通知。
+
+![image-20241227041104563](../../IoM/assets/image-20241227035800410.png)
+
+命令示例：
 
   ```
   action run --profile test --type beacon --target x86_64-pc-windows-msvc
   ```
 
-  为了统一使用，action run的参数命令与docker build的参数基本一致，只是需要使用 `type` 来指定编译阶段。从server上下载action的artifact也与docker的下载流程一致，使用artifact list展示所有artifact时，会使用 `source` 字段区分 `action` 和 `docker ` 。
+  为了统一使用，action run的参数命令与docker build的参数基本一致。
+
+##### artifact download
+
+编译完成后，可以在使用artifact list命令，来查看所有的artifact，选中对应的artifact，进行下载。
+
+![image-20241227132719260](../../IoM/assets/image-20241227041300281.png)
 
 #### pulse自动link
 
-  目前生成pulse，需要使用前置的beacon或bind。
+目前生成pulse，需要使用前置的beacon或bind。
 
-  docker和action生成pulse时，现在需要指定前置beacon或者bind的 `artifact_id` ，当 `artifact_id`为0并且使用的profile中pulse下的 `artifact_id` 也为0时，server会自动编译新的beacon转化成shellcode，并且和pulse绑定。
+docker和action生成pulse时，现在需要指定前置beacon或者bind的 `artifact_id` ，当 `artifact_id`为0并且使用的profile中pulse下的 `artifact_id` 也为0时，server会自动编译新的beacon转化成shellcode，并且和pulse绑定。
 
   ```
   # Github action
-  action run --profile test --type pulse --target x86_64-pc-windows-msvc --artifact-id 0
+  action pulse --profile test --target x86_64-pc-windows-msvc --artifact-id 0
   
   # Docker build 
-   build pulse --profile test --target x86_64-pc-windows-gnu --artifact-id 0
+  build pulse --profile test --target x86_64-pc-windows-gnu --artifact-id 0
   ```
 
-  转换成shellcode的beacon和bind会设置`is_srdi` 为true来和未转换的artifact作为区分。
+![image-20241227140938974](../../IoM/assets/image-20241227140810819.png)
+
+![image-20241227141440388](../../IoM/assets/image-20241227141440388.png)
 
 #### 自动化安装
 
