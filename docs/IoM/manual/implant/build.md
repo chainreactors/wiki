@@ -34,6 +34,8 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 
 ### 下载 resources
 
+!!! tips "使用install.sh会自动下载resources"
+
 [下载对应的版本 resources.zip](https://github.com/chainreactors/malefic/releases/download/v0.0.3/resources.zip), 包含了编译需要用到的预编译的 malefic-win-kit lib/a 库文件.
 
 community 的 resources 随着版本发布时的 release 发布: https://github.com/chainreactors/malefic/releases/lasest:
@@ -116,6 +118,7 @@ cargo build -p malefic --release --target x86_64-unknown-linux-musl
 
 由于本地环境的编译更为复杂，如果需要交叉编译建议使用`Docker`编译. 以`x86_64-pc-windows-msvc`为例，
 
+!!! important "手动编译前请检查"
 ### 安装rust
 linux安装 rust
 
@@ -137,7 +140,6 @@ scoop install rustup
 winget install rustup
 ```
 
-
 ### 安装 toolchain与target
 
 ```bash
@@ -152,26 +154,30 @@ rustup target add x86_64-pc-windows-msvc
 
 ??? "windows 配置 gnu 环境(非必要)"
 	本地手动编译时，我们推荐 windows 用户使用[msys2](https://www.msys2.org/)管理 GNU 工具链环境, 可通过官网二进制文件直接安装。
+	
 	在 msys2 的 terminal 下执行如下安装可以保证 64、32 位 GNU 工具链的正常编译
-	`
-		pacman -Syy # 更新包列表
-		pacman -S --needed mingw-w64-x86_64-gcc
-		pacman -S --needed mingw-w64-i686-gcc
-		`
+	
+	```
+	pacman -Syy # 更新包列表
+	pacman -S --needed mingw-w64-x86_64-gcc
+	pacman -S --needed mingw-w64-i686-gcc
+	```
+	
 	你可自行把 msys64 添加到环境变量中， 也可通过`notepad $PROFILE`将如下内容添加到 powershell 配置中，实现在 powershell 中快速切换`mingw64/32`.
-	`powershell
-		function mg {
-		    param (
-		        [ValidateSet("32", "64")]
-		        [string]$arch = "64"
-		    )
-		    
-		    $basePath = "D:\msys64\mingw" # 此处是你的msys2安装路径
-		    $env:PATH = "${basePath}${arch}\bin;" + $env:PATH
-		    Write-Host "Switched to mingw${arch} (bit) toolchain"
-		}
-		mg 64
-		`
+	
+	```powershell
+	function mg {
+		param (
+			[ValidateSet("32", "64")]
+			[string]$arch = "64"
+		)
+		
+		$basePath = "D:\msys64\mingw" # 此处是你的msys2安装路径
+		$env:PATH = "${basePath}${arch}\bin;" + $env:PATH
+		Write-Host "Switched to mingw${arch} (bit) toolchain"
+	}
+	mg 64
+	```
 	切换用法参考下图:
 ![switch mingw](/wiki/IoM/assets/switch-mingw-in-powershell.png)
 
@@ -179,12 +185,13 @@ rustup target add x86_64-pc-windows-msvc
 
 对应的编译命令通用于 docker 与本机.
 
+!!! important "本机安装请注意[下载resources](#resources)并解压到指定目录"
 ### 生成配置与代码
 
 通过 mutant 生成对应的配置
 
 ```bash
-cargo run -p malefic-mutant -- generate beacon
+cargo run -p malefic-mutant generate beacon
 ```
 
 也可以使用预编译的 malefic-mutant 在对应目录下执行相同的命令
