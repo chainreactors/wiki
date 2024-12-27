@@ -97,6 +97,12 @@ server:
 	serverchan:
 		enable: false
 		url:
+  github:
+    repo:           	  # malefic的仓库名
+    owner:           	  # github用户名 
+    token:                # github的token
+    workflow: 			  # workflow的配置文件名（默认为generate.yml）
+
 listeners:
   enable: true            # listener 是否启用
   name: listener          # listener名字
@@ -345,6 +351,24 @@ listener 成功启动后，listener 终端会输出以下信息：
 ```
 
 ![](/wiki/IoM/assets/EEgKb86iwop9xaxBUt8cHZG9n8f.png)
+
+每个client下拥有独立的profile配置，每次client启动都会读取对应的用户配置。如果在多用户情况下需要进行私有配置，可以在client的用户配置文件下的malice.yaml进行修改。
+
+```
+resources: ""                             
+tmp: ""
+aliases: []								# sliver aliases本地加载列表
+extensions:[]							# sliver extensions本地加载列表
+mals: []								# mals本地加载列表
+settings:
+  max_server_log_size: 10				# 每个session在iom保存的最大日志个数
+  github_repo: ""						# malefic的仓库名
+  github_owner: ""						# github用户名
+  github_token: ""						# github的token
+  github_workflow_file: generate.yml	# workflow的配置文件名（默认为generate.yml
+```
+
+
 
 ## ROOTRPC
 

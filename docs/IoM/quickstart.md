@@ -28,13 +28,13 @@ sudo bash install.sh
 	iom项目releases中的文件仍然需要从github下载, 国内服务器访问 github 容易超时, 建议配置环境变量中的 proxy, 再执行上述操作
 	
 	可以映射本机的代理端口到vps: ssh -R 1080:127.0.0.1:1080 root@vps.ip
-
+	
 	export http_proxy="http://127.0.0.1:1080"
 	
 	export https_proxy="http://127.0.0.1:1080"
-
-	如果你的当前用户不是root, 可以使用sudo -E bash install.sh, 以保持环境变量生效
 	
+	如果你的当前用户不是root, 可以使用sudo -E bash install.sh, 以保持环境变量生效
+
 
 !!! important "服务器性能要求"
 	自动化编译服务用到了docker, 且rust生成的中间文件体积较大, 对CPU消耗较高. 
@@ -108,21 +108,15 @@ service malice-network restart
 
 ### 编译implant
 
-如果你是通过安装脚本安装的,  那么已经自动安装了完整的编译环境(基于docker).
-
-在本机准备一个malefic的config.yaml, 你可以通过如下方式下载
-
-```
-curl https://raw.githubusercontent.com/chainreactors/malefic/master/config.yaml -o malefic.yaml
-```
+在v0.0.4下，我们引入了github action来编译implant，避免因为rust复杂的编译方案而需要准备docker环境来编译。现在你只需准备好malefic仓库和对应的token（需要workflow和package权限），并且在sever或者client端配置（[详见配置说明](/wiki/docs/IoM/manual/manual/deploy)），即可使用命令行进行github action编译。
 
 使用client 自动编译:
 
 ```bash
-# 将config.yaml加载到server
-profile load malefic.yaml --pipeline tcp_default --name beacon_profile_name_1 # tcp_default是默认的pipeline
-# 开始一个基于beacon_profile_name_1的server端编译
-build beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl
+# 新建build profile
+profile new --basic-pipeline tcp_default --name beacon_profile_name_1 # tcp_default是默认的pipeline
+# 开始一个基于beacon_profile_name_1的github action编译
+action beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl
 # list编译好的二进制文件，可通过tui左、右键和回车下载
 artifact list
 # 或可执行下载命令
@@ -144,10 +138,11 @@ artifact download UNABLE_POOl
 ??? info "(非必要)其他编译方式"
 	我们提供了如下几种方式进行编译：
 	
+
 	1. [本地编译](/wiki/IoM/manual/implant/build/#_4)
-	2. [Docker 编译(推荐)](/wiki/IoM/manual/implant/build/#docker)	
-	3. [Github Action编译环境(暂未做适配)](/wiki/IoM/manual/implant/build/#github-action)
-	
+	2. [Docker 编译](/wiki/IoM/manual/implant/build/#docker)	
+	3. [Github Action编译环境（推荐)](/wiki/IoM/manual/implant/build/#github-action)
+
 
 编译完整说明手册[implant手册](/wiki/IoM/manual/implant/build)
 
