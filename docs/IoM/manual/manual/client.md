@@ -1521,24 +1521,24 @@ profile load [flags]
 
 ~~~
 // Create a new profile using network configuration in pipeline
-profile load /path/to/config.yaml --name my_profile --basic-pipeline pipeline_name
+profile load /path/to/config.yaml --name my_profile --pipeline pipeline_name
 
 // Create a profile with specific modules
-profile load /path/to/config.yaml --name my_profile --modules base,sys_full --basic-pipeline pipeline_name
+profile load /path/to/config.yaml --name my_profile --modules base,sys_full --pipeline pipeline_name
 
 // Create a profile with custom interval and jitter
-profile load /path/to/config.yaml --name my_profile --interval 10 --jitter 0.5 --basic-pipeline pipeline_name
+profile load /path/to/config.yaml --name my_profile --interval 10 --jitter 0.3 --pipeline pipeline_name
 
 // Create a profile for pulse
-profile load /path/to/config.yaml --name my_profile --basic-pipeline pipeline_name --pulse-pipeline pulse_pipeline_name
+profile load /path/to/config.yaml --name my_profile --pipeline pipeline_name --pulse-pipeline pulse_pipeline_name
 ~~~
 
 **Options**
 
 ```
-  -b, --basic-pipeline string   Overwrite profile basic pipeline_id
   -n, --name string             Overwrite profile name
-  -p, --pulse-pipeline string   Overwrite profile pulse pipeline_id
+  -p, --pipeline string         Overwrite profile basic pipeline_id
+      --pulse-pipeline string   Overwrite profile pulse pipeline_id
 ```
 
 **SEE ALSO**
@@ -1556,16 +1556,16 @@ profile new [flags]
 
 
 ~~~
-profile new --name my_profile --basic-pipeline default_tcp
+profile new --name my_profile --pipeline default_tcp
 ~~~
 
 
 **Options**
 
 ```
-  -b, --basic-pipeline string   Overwrite profile basic pipeline_id
   -n, --name string             Overwrite profile name
-  -p, --pulse-pipeline string   Overwrite profile pulse pipeline_id
+  -p, --pipeline string         Overwrite profile basic pipeline_id
+      --pulse-pipeline string   Overwrite profile pulse pipeline_id
 ```
 
 **SEE ALSO**
