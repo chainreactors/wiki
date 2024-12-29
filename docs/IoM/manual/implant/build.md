@@ -16,8 +16,10 @@ malefic 理论上支持 rust 能编译的几乎所有平台, 包括各种冷门�
 - i686-unknown-linux-musl
 - x86_64-pc-windows-msvc
 - i686-pc-windows-msvc
-- i686-pc-windows-gnu
 - x86_64-pc-windows-gnu
+- i686-pc-windows-gnu
+- armv7-unknown-linux-musleabihf
+- armv7-unknown-linux-musleabi
 
 ## 基础环境配置
 
@@ -47,17 +49,17 @@ community 的 resources 随着版本发布时的 release 发布: https://github.
 ## Docker 编译(推荐)
 
 !!! info "docker 自动化编译"
-	rust 很复杂，不通过交叉编译的方式几乎无法实现所有架构的适配，所以我们参考了[cross-rs/cross](https://github.com/cross-rs/cross)的方案，但它并不完美的符合我们的需求：
+	rust 很复杂，不通过交叉编译的方式几乎无法实现所有架构的适配，所以我们参考了[cross-rs/cross](https://github.com/cross-rs/cross)的方案，但是cross需要主机存在一个rust开发环境，并且导入了用户名等信息，编译环境不够干净，这并不完美的符合我们的需求：
 	
-	    1. cross需要宿主机存在一个rust开发环境，编译环境不够干净，虽然这可以通过虚拟机、github action等方式解决
+	    1. cross需要宿主机存在一个rust开发环境，并会导入主机的一些信息(用户名等)，编译环境不够干净，当然这可以通过虚拟机、github action等方式解决
 	    2. cross对很多操作进行了封装，不够灵活，比如一些动态的变量引入、一些复杂的操作无法方便的实现
 	
-	    因此，我们参考了cross创建了用于维护malefic(即implant)编译的仓库[chainreactors/cross-rust](https://github.com/chainreactors/cross-rust).
-	    这个项目提供了一些主流架构的编译环境。
+	    因此，我们参考了cross创建了用于维护malefic(即implant)编译的镜像仓库[chainreactors/cross-rust](https://github.com/chainreactors/cross-rust).
+	    这个项目暂时提供了一些主流架构的编译环境。
 
 使用前需要先安装 docker
 
-在 docker 中编译特征会更干净，通过 volume 映射源码，编译完成会在`target`目录下生成对应的二进制文件。
+在 docker 中编译通过 volume 映射源码，编译完成会在`./target/<target_triple>/`目录下生成对应的二进制文件。
 
 ### docker install
 
@@ -86,33 +88,61 @@ curl -fsSL https://get.docker.com | sudo bash -s docker
 - ghcr.io/chainreactors/aarch64-apple-darwin:nightly-2023-09-18-latest
 
 !!! tips "如果不了解原理, 请选择对应target的镜像"
-	ghcr.io/chainreactors/x86_64-pc-windows-gnu:nightly-2023-09-18-latest 能编译绝大多数target. 如果了解rust的编译操作, 可以使用这个镜像实现大多数编译场景
+	ghcr.io/chainreactors/malefic-builder:v0.0.4(包含x86_64/i686的windows-gnu、linux-musl以及x86_64/aarch64的darwin的target). 如果了解rust的编译操作, 可以使用这个镜像实现大多数编译场景
 
 ### 编译
 
 !!! important "请注意已完成了基础环境配置"
 
-以`x86_64-unknown-linux-musl`举例, **在 malefic 的代码目录下执行**
+以`x86_64-unknown-linux-musl`举例, **在 malefic 的代码根目录下执行**
 
 你可以通过一行命令执行 build
-
 ```bash
 # cd /user/path/malefic/
-docker run -v "$(pwd)/cache/registry:/root/cargo/registry" -v "$(pwd)/cache/git:/root/cargo/git" -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/x86_64-unknown-linux-musl:nightly-2023-09-18-latest bash -c "(./target/release/malefic-mutant generate beacon  || cargo run -p malefic-mutant --release -- generate beacon) && cargo build --release -p malefic --target x86_64-unknown-linux-musl"
+docker run -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/malefic-builder:v0.0.4 make beacon target_triple="x86_64-unknown-linux-musl"
+
+# 如果不想每次都下载依赖, 可以使用
+docker run -v "$(pwd):/root/src" -v "$(pwd)/cache/registry:/root/cargo/registry" -v "$(pwd)/cache/git:/root/cargo/git" --rm -it ghcr.io/chainreactors/malefic-builder:v0.0.4 make beacon target_triple="x86_64-unknown-linux-musl"
 ```
 
-或者你也可分步执行
+## Github Action编译
+目前client+server已经内置了github action编译的命令，可以通过client直接编译，你可通过`action build --help`查看详细用法。 接下来叙述如何手动通过gh编译。
 
-```bash
-# cd /user/path/malefic/
-# 进入docker的bash
-docker run -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/x86_64-unknown-linux-musl:nightly-2023-09-20-latest bash
-# 通过mutant生成对应的配置
-(./target/release/malefic-mutant generate beacon  || cargo run -p malefic-mutant --release -- generate beacon)
-# build对应的bin
-cargo build -p malefic --release --target x86_64-unknown-linux-musl
+首先, 你需要git clone一份malefic源码，并push到一份到你的仓库(建议设置私人仓库)，并开启github action功能，参考下图:
+
+![](/wiki/docs/IoM/assets/enable-github-action.png)
+
+然后, 在本地安装[gh cli](https://docs.github.com/zh/github-cli/github-cli/quickstart)工具，通过设置`GH_TOKEN`环境变量或`gh auth login`登录你的github账号，然后执行如下命令即可编译.
+
+注意: windows用户如果没有base64等函数，建议通过git-bash.exe执行.
+
+1. 编译beacon
+```git-bash
+gh workflow run generate.yml -f package="beacon" -f malefic_config_yaml=$(base64 -w 0 </path/to/malefic_src/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu" -R <username/malefic>
 ```
 
+2. 编译bind
+```git-bash
+gh workflow run generate.yml -f package="beacon" -f malefic_config_yaml=$(base64 -w 0 </path/to/malefic_src/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu" -R <username/malefic>
+```
+
+3. 编译 pulse
+```git-bash
+gh workflow run generate.yml -f package="pulse" -f malefic_config_yaml=$(base64 -w 0 </path/to/malefic_src/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu" -R <username/malefic>
+```
+
+4. 编译prelude
+```git-bash
+gh workflow run generate.yml -f package="prelude" -f autorun_yaml=$(base64 -w 0 </path/to/malefic_src/autorun.yaml>) -f malefic_config_yaml=$(base64 -w 0 </path/to/malefic_src/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu" -R <username/malefic>
+```
+
+5. 编译modules
+```git-bash
+gh workflow run generate.yml -f package="modules" -f malefic_modules_features="execute_powershell execute_assembl..." -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu" -R <username/malefic>
+```
+编译完成后你可以通过`gh run list --workflow=generate.yml -R <username/malefic>`查看编译结果，
+通过`gh run download <run_id> -R <username/malefic>`下载对应的二进制文件.
+![](/wiki/docs/IoM/assets/gh-run-list-download.png)
 
 ## 本机编译环境配置
 
@@ -155,16 +185,19 @@ rustup target add x86_64-pc-windows-msvc
 ??? "windows 配置 gnu 环境(非必要)"
 	本地手动编译时，我们推荐 windows 用户使用[msys2](https://www.msys2.org/)管理 GNU 工具链环境, 可通过官网二进制文件直接安装。
 	
-	在 msys2 的 terminal 下执行如下安装可以保证 64、32 位 GNU 工具链的正常编译
+	在 msys2 的 terminal 执行如下安装可以保证 64、32 位 GNU 工具链的正常编译
 	
+
 	```
 	pacman -Syy # 更新包列表
 	pacman -S --needed mingw-w64-x86_64-gcc
 	pacman -S --needed mingw-w64-i686-gcc
 	```
 	
-	你可自行把 msys64 添加到环境变量中， 也可通过`notepad $PROFILE`将如下内容添加到 powershell 配置中，实现在 powershell 中快速切换`mingw64/32`.
+
+	你可以把 msys64 添加到环境变量中， 或通过`notepad $PROFILE`将如下内容添加到 powershell 配置中，实现在 powershell 中快速切换`mingw64/32`.
 	
+
 	```powershell
 	function mg {
 		param (
@@ -178,40 +211,42 @@ rustup target add x86_64-pc-windows-msvc
 	}
 	mg 64
 	```
-	切换用法参考下图:
+
+用法参考下图:
 ![switch mingw](/wiki/IoM/assets/switch-mingw-in-powershell.png)
 
-## 编译命令
-
-对应的编译命令通用于 docker 与本机.
+## 编译
 
 !!! important "本机安装请注意[下载resources](#resources)并解压到指定目录"
-### 生成配置与代码
 
-通过 mutant 生成对应的配置
-
-```bash
-cargo run -p malefic-mutant generate beacon
-```
-
-也可以使用预编译的 malefic-mutant 在对应目录下执行相同的命令
-
-```bash
-malefic-mutant generate beacon
-```
-
-[mutant 完整文档](/wiki/IoM/manual/implant/mutant)
+此部分仍然可以使用make命令进行编译, 手动编译命令如下，流程与前文Makefile一致
 
 ### 编译 malefic
 
-项目的配置(config.toml、cargo.toml、makefile.toml..)中提供了一些预设和编译优化选项. 熟悉 rust 的使用者也可以手动编译，malefic 目前使用的 rust 版本是`nightly-2023-09-18`.
+项目的配置(.cargo/config.toml、cargo.toml、Makefile)中提供了一些预设和编译优化选项. 熟悉 rust 的使用者也可以手动编译，malefic 目前使用的 rust 版本是`nightly-2023-09-18`.
 
-在进行手动编译前， 请更改 `beacon` 对应的配置项, 关于配置项， 请参考 [beacon 配置说明](/wiki/IoM/manual/implant/mutant/#beacon)
+在进行手动编译前， 请更改 `beacon/bind` 对应的配置项, 关于配置项， 请参考 [beacon 配置说明](/wiki/IoM/manual/implant/mutant/#beacon)
 
 添加对应的目标编译架构,以`x86_64-pc-windows-gnu`为例
 
 ```bash
 rustup target add x86_64-pc-windows-gnu
+```
+
+### 生成配置与代码
+
+
+编译mutant, 或从malefic release中下载编译好的mutant,[mutant 完整文档](/wiki/IoM/manual/implant/mutant)
+```bash
+cargo build --release -p malefic-mutant
+```
+
+通过 mutant 生成对应的配置
+```bash
+# 生成 beacon 编译所需的配置和代码
+./target/release/malefic-mutant generate beacon
+# 生成 bind 编译所需的配置和代码
+./target/release/malefic-mutant generate bind
 ```
 
 指定 `target` 编译

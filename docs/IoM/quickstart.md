@@ -110,7 +110,7 @@ service malice-network restart
 profile new --basic-pipeline tcp_default --name beacon_profile_name_1 # tcp_default是默认的pipeline
 # 开始一个基于beacon_profile_name_1的github action编译
 action beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl
-# list编译好的二进制文件，可通过tui左、右键和回车下载
+# list编译好的二进制文件，可通过键盘方向键和回车下载
 artifact list
 # 或可执行下载命令
 artifact download UNABLE_POOl
