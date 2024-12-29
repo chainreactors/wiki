@@ -153,6 +153,25 @@ CS中各种提权的dll以及各种功能， 绝大部分都基于此实现， �
 
 ![](assets/Pasted%20image%2020241227195559.png)
 
+### implant更新
+
+#### 解决win7/windows 2008兼容性
+
+解决了只能使用 `target` 为 `*-win7-windows-msvc` 来编译 `win7/win2008` 的问题
+
+#### 解决rust 静态tls问题
+
+解决了基本的 `loadpe` 功能无法加载隐式 `TLS` 导致以 `Rust` 编写并使用 `msvc` 编译的程序无法被正确加载的问题
+
+并提供了目前较为唯一的适配了隐式 `tls` 的 `SRDI` 功能
+
+#### dllspanw
+
+由于还有很多资源停留在 `CS` 的各类库中， 因此， 我们提供了 `dllspanw` 来适配 `CS` 的对应功能
+
+### 其他更新
+
+
 #### 非交互式client
 
 ```bash

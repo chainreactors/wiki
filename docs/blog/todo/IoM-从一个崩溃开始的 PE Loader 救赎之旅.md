@@ -8,7 +8,7 @@
 
 ## TL;NR
 
-在本文之前，所有的SRDI或者类似的PE Loader都会面临PE中已经存在TLS就无法加载的问题。
+在本文之前，几乎所有的SRDI或者类似的PE Loader都会面临PE中已经存在隐性TLS就无法加载的问题。
 
 这个问题的表现在rust编译的程序无法被任意 PE loader 加载。 当然不仅限于rust， 有非常多的语言都会使用TLS性能加速。 如果你遇到过某使用donut/SRDI生成的shellcode莫名其妙崩溃， 很有可能就是这个问题。 
 
