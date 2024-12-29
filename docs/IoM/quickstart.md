@@ -2,7 +2,7 @@
 title: Internal of Malice · 快速上手
 ---
 
-IoM 是包含了一组仓库的复杂工具链, 对于用户来说可能会有使用上的挑战.
+IoM 是包含了一系列仓库的复杂工具链, 我们正在全力简化其使用上的困难。
 
 **quickstart 中将会提供最小使用说明与文档导航**
 
@@ -27,21 +27,30 @@ sudo bash install.sh
 ```
 
 !!! important "网络问题"
-iom 项目 releases 中的文件仍然需要从 github 下载, 国内服务器访问 github 容易超时, 建议配置环境变量中的 proxy, 再执行上述操作
-可以映射本机的代理端口到 vps: ssh -R 1080:127.0.0.1:1080 root@vps.ip
-export http_proxy="http://127.0.0.1:1080"
-export https_proxy="http://127.0.0.1:1080"
-如果你的当前用户不是 root, 可以使用 sudo -E bash install.sh, 以保持环境变量生效
+	iom 项目 releases 中的文件仍然需要从 github 下载, 国内服务器访问 github 容易超时, 建议配置环境变量中的 proxy, 再执行上述操作
+	
+	可以映射本机的代理端口到 vps: ssh -R 1080:127.0.0.1:1080 root@vps.ip
+	
+	```
+	export http_proxy="http://127.0.0.1:1080"
+	export https_proxy="http://127.0.0.1:1080"
+	```
+
+	如果你的当前用户不是 root, 可以使用 sudo -E bash install.sh, 以保持环境变量生效
 
 !!! important "服务器性能要求"
-自动化编译服务用到了 docker, 且 rust 生成的中间文件体积较大, 对 CPU 消耗较高.
-因此 IoM 要搭建自动化编译的服务端对性能有一定要求.
-我们推荐在 4 核或以上的机器运行, 并保留至少 50G 的空间.
-如果只是作为 server/listener 用途, 对性能没有任何要求.
-可以专门找一台服务器当做编译服务器. 后续也会提供这方面的优化.
+	自动化编译服务用到了 docker, 且 rust 生成的中间文件体积较大, 对 CPU 消耗较高.
+	
+	因此 IoM 要搭建自动化编译的服务端对性能有一定要求.
+	
+	我们推荐在 4 核或以上的机器运行, 并保留至少 20G 的空间.
+	
+	如果只是作为 server/listener 用途, 对性能没有任何要求.
+	
+	可以专门找一台服务器当做编译服务器. 后续也会提供这方面的优化.
 
 ??? info "(非必要) 自行编译 client 与 server"
-如需自定编译可参照: ([自行编译说明](IoM/deploy/#_6))
+	如需自定编译可参照: ([自行编译说明](IoM/deploy/#_6))
 
 ![](/wiki/IoM/assets/install-pic.png)
 
@@ -55,21 +64,21 @@ export https_proxy="http://127.0.0.1:1080"
 service malice-network restart
 ```
 
-!!! important "分离部署 listener"
-**在默认配置下, listener 和 server 同时部署, 但 IoM 更推荐分布式部署 listener**
-[完整的配置文件说明](/wiki/IoM/manual/manual/deploy/#config)
-可以根据自己的需要修改.
-
 ??? info "(非必要)独立运行 listener"
-[listener 文档](/wiki/IoM/manual/manual/deploy/#listener)
-从 v0.0.2 开始, 我们合并了 listener 与 server 两个二进制文件到`malice-network`
-需要在[这里获取`listener.yaml`配置文件](https://github.com/chainreactors/malice-network/blob/master/server/listener.yaml)示例
-假设是在一台独立的服务器上, 我们需要将上一步骤中会自动生成的`listener.auth`复制到当前目录. 然后执行:
-`
+	[listener 文档](/wiki/IoM/manual/manual/deploy/#listener)
+	
+	从 v0.0.2 开始, 我们合并了 listener 与 server 两个二进制文件到`malice-network`
+	需要在[这里获取`listener.yaml`配置文件](https://github.com/chainreactors/malice-network/blob/master/server/listener.yaml)示例
+	
+	假设是在一台独立的服务器上, 我们需要将上一步骤中会自动生成的`listener.auth`复制到当前目录. 然后执行:
+	
+	```
 	./malice-network -c listener.yaml
-	`
-![](/wiki/IoM/assets/image_20240903010041.png)
-可以看到, 启动了独立的 listener, 并与 server 建立了连接.
+	```
+	
+	![](/wiki/IoM/assets/image_20240903010041.png)
+	
+	可以看到, 启动了独立的 listener, 并与 server 建立了连接.
 
 ### 运行 client
 
@@ -80,9 +89,11 @@ service malice-network restart
 在上一步操作中, 我们已经运行了 server, 并且会发现在当前目录中自动生成了一个新的配置文件, `admin_[ip].auth`. 这个文件是 IoM 的认证凭证, **请你保护好这个文件.**
 
 !!! danger "可能需要检查 server host"
-如果非本机登录, 需要将其中的 `host: 127.0.0.1` 修改为你的远程服务器地址(后续将会优化这一点)
+	如果非本机登录, 需要将其中的 `host: 127.0.0.1` 修改为你的远程服务器地址(后续将会优化这一点)
+	
+	或在启动server时使用-i 添加配置外网ip
 
-`./iom admin_[server_ip].auth` 即可使用这个配置文件登录到 server.
+`./iom login admin_[server_ip].auth` 即可使用这个配置文件登录到 server.
 
 运行成功会进入到交互式命令, 这里将是操作整个 IoM 的地方.
 
@@ -106,31 +117,33 @@ artifact download UNABLE_POOl
 ```
 
 ??? info "自定义 malefic 的 config"
-在使用 client 自动编译时, 会自动指定 pipeline 的 address, 如果需要自定义, 可以通过--address 修改.
-malefic 的 config.yaml [详细配置说明](/wiki/implant/mutant)
+	在使用 client 自动编译时, 会自动指定 pipeline 的 address, 如果需要自定义, 可以通过--address 修改.
+	
+	malefic 的 config.yaml [详细配置说明](/wiki/implant/mutant)
 
 !!! tips "多按 Tab, 大部分输入都可以通过 tab 自动补全"
 
-图一参考：
+
 ![](/wiki/IoM/assets/aa8ef0f33fc8e19ea7bcb9cfb3b094e.png)
-图二参考:
+
+
 ![build_and_download_beacon.png](/wiki/IoM/assets/build_and_download_beacon.png)
 
 ??? info "(非必要)其他编译方式"
-我们提供了如下几种方式进行编译：
-
+	我们提供了如下几种方式进行编译：
+	
     1. [本地编译](/wiki/IoM/manual/implant/build/#_4)
     2. [Docker 编译(纯本地更安全)](/wiki/IoM/manual/implant/build/#docker)
     3. [Github Action编译环境(0环境配置, 推荐)](/wiki/IoM/manual/implant/build/#github-action)
 
-编译完整说明手册[implant 手册](/wiki/IoM/manual/implant/build)
+	编译完整说明手册[implant 手册](/wiki/IoM/manual/implant/build)
 
 ### 操作 implant
 
 目标上线后选择合适的 session 进行操作
 
 ```
-sessions
+session
 ```
 
 这个时候输入`help` 将能看到这个 session 上下文完整可用的命令.
