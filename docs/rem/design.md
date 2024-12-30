@@ -10,9 +10,8 @@
 * [stowaway](https://github.com/ph4ntonn/Stowaway) 多级代理工具, 支持正反向代理， 但是进支持TCP/HTTP/WS协议通讯. 类似的工具还有lcx,termite,earthworm.
 
 
-## 设计
+## 设计目标
 
-### 基本功能
 
 从开源世界的工具大致能总结出一款能适配所有场景的代理工具应该具备的能力. 
 
@@ -24,7 +23,7 @@
 
 一个工具实现了这五项基本的功能, 那么就终于可以开始讨论下一代代理工具应该是什么样子的.
 
-### 设计理念
+## 设计理念
 
 在背景中提到过的工具中，最接近设计目标的是gost_v3, 所以我们先看看它的架构.
 
@@ -33,6 +32,8 @@
 > 一个GOST服务或节点被分为两层，数据通道层和数据处理层. 数据通道层对应的是拨号器和监听器，数据处理层对应的是连接器，处理器和转发器，这里又根据是否使用转发器来区分是代理还是转发。
 
 这个架构对应的是go的net包中的架构, 与go本身的设计理念非常契合. golang的网络设计非常符合直觉.
+
+### golang的net包
 
 golang 包中的几个重要概念。
 **Listener 监听器**
@@ -71,23 +72,20 @@ type Conn interface {
     // Close 关闭连接。
     Close() error
     
-    // LocalAddr 返回本地网络地址。
-    LocalAddr() Addr
-    
-    // RemoteAddr 返回远程网络地址。
-    RemoteAddr() Addr
-    
-    // SetDeadline 设置读写操作的截止时间。
-    SetDeadline(t time.Time) error
-    
-    // SetReadDeadline 设置读操作的截止时间。
-    SetReadDeadline(t time.Time) error
-    
-    // SetWriteDeadline 设置写操作的截止时间。
-    SetWriteDeadline(t time.Time) error
+... Others
 }
 ```
 
+golang 将tcp/udp都按照这样的抽象进行封装, 也是传输层的最小抽象。 换句话说，我们只要实现了这三个interface， 就能让任意数据传输的信道作为我们的传输层（当然现实要比这复杂一点，后面会提到）。
+
+更重要的是为什么rem使用golang构建，这也与这个设计有关。 如果对golang的各种网络库熟悉的朋友应该知道，net.Conn这个接口或者其缩略版 io.ReadWriteCloser 接口被广泛用于各种各样有关数据传输/加密/网络/流式传输的场景。
+
+例如http,tls,shadowsocks库中都有ServerConn函数， 用于为实现了net.Conn结构体的结构实现上层应用， 并且ServerConn返回值一般还是net.Conn, 可以被多层嵌套。
+
+假设我们将一个基于某个外部api通讯(例如telegram)的信道作为传输层，只需实现Dial和Listener对应的方法即可让其包装上tls,shadowsocks等各种加密协议。
+
+
+### gost的设计
 
 golang将tcp,udp,icmp的各种用法都封装成了这些用法。如果熟悉golang各种网络相关的库，更是会发现，各种复杂的协议实现几乎都最终对外暴露这些interface。是接口与组合这个设计理念的教科书。
 
@@ -102,15 +100,221 @@ gost的server与client是通过组合Listener，Dialer，Conn，Proxy实现的�
 
 gost作为一个代理工具， 已经能覆盖绝大部分需求。 但对于攻防场景来说, 还是有不少特殊的需求
 
+### rem的设计
+
+而rem的抽象会更加彻底一些。 
+
+#### 传输层
+
+rem的传输层表示为tunnel。每个tunnel由一个dialer和一个listener组成, 需要注意的是， listener和dialer只在传输层上表示server和client的关系， 当建立起tunnel后，rem之间都是平等的节点。这一点和以往的代理工具有很大不同。
+
+golang已经提供了icmp, udp, tcp, unix四个协议作为传输层，标准库实现了其Dialer和Listener接口， 开箱即用。 
+
+因此tcp也是最容易实现的tunnel， 几乎不需要额外的修改， 就可以将tcp协议作为tunnel使用。 这里是一个删去无关代码的tcp tunnel的实现。
+
+```
+type TCPDialer struct {  
+    net.Conn  
+    meta core.Metas  
+}  
+  
+func NewTCPDialer(meta core.Metas) *TCPDialer {  
+    return &TCPDialer{  
+       meta: meta,  
+    }  
+}  
+  
+func (c *TCPDialer) Dial(dst string) (net.Conn, error) {  
+    u, err := core.NewURL(dst)  
+    if err != nil {  
+       return nil, err  
+    }  
+    c.meta["url"] = u  
+    return net.Dial("tcp", u.Host)  
+}  
+  
+type TCPListener struct {  
+    listener net.Listener  
+    meta     core.Metas  
+}  
+  
+func NewTCPListener(meta core.Metas) *TCPListener {  
+    return &TCPListener{  
+       meta: meta,  
+    }  
+}  
+  
+func (c *TCPListener) Listen(dst string) (net.Listener, error) {  
+    u, err := core.NewURL(dst)  
+    if err != nil {  
+       return nil, err  
+    }  
+    c.meta["url"] = u  
+  
+    listener, err := net.Listen("tcp", u.Host)  
+    if err != nil {  
+       return nil, err  
+    }  
+    c.listener = listener  
+    return listener, nil  
+}
+```
+
+非常简单且清晰。 
+
+但是其他传输层协议就没这么简单了。
+
+#### 传输层之下
+
+golang虽然默认就实现了udp协议的所有的接口， 默认提供的udp协议是不可靠的， 如果要将其作为tunnel，那我们就需要自己来做。 通常这个协议叫做 ARQ (**Automatic Repeat-reQuest**), 世界上有非常多的ARQ协议，例如TCP就是最知名的ARQ协议。 
+
+为什么将ARQ协议称为传输层之下， 原因就在于ARQ协议不适用net.Conn， 而是基于net.PacketConn. 
+
+```
+type PacketConn interface {  
+    ReadFrom(p []byte) (n int, addr Addr, err error)  
+  
+    WriteTo(p []byte, addr Addr) (n int, err error)
+    ...
+}
+```
+与net.Conn最大的区别就是这两个接口。 PacketConn是面向无状态的数据包的， 不同于tcp已经在操作系统层实现了写给谁的问题，UDP/ICMP或者其他无状态数据包(例如基于外部api的传输层)， 都需要处理这个问题。 
+
+我们需要将PacketConn封装为Conn，并且处理其中的各种错误/重传/丢包/顺序等问题， 才能实现一个稳定的传输层。 tunnel是搭建在稳定可靠的Conn之上的，是面向数据流的。
+
+好在golang中已经有非常多成熟的ARQ协议实现， 例如:
+
+- [kcp-go](https://github.com/xtaci/kcp-go) 相对轻量的ARQ协议，原生实现虽然对PacketConn做了一定抽象， 但是只支持UDP
+- [quic-go](https://github.com/quic-go/quic-go)， google设计的ARQ协议， 现在已经改名http3， 实现了非常多的特性，但是也相对笨重
+- ...
+
+rem选择相对轻量的kcp作为rem的默认ARQ协议（ARQ协议也会引入新的特征）。并且基于kcp-go进行了重构， 将其原本对UDP的耦合解耦， 任意实现了PacketConn接口的数据交换都可以被KCP封装为可靠的Conn。 并交付给上层的tunnel。
+
+通过KCP， 将golang原本就支持的icmp/udp封装为了可靠的tunnel， 但到这里还没完。 
+
+对于单工信道（simplex），例如http协议，或者基于各种api的数据交换信道。 还需要一层封装。 
+
+http协议只允许单向发起请求， 因此要让数据能即时从server传输给client， 必须通过client发起轮询。并且轮询的间隔就是连接的最小RTT(往返时间)。我们需要非server和client分别实现不同的ReadFrom和WriteTo才可以实现对应的数据交换， 并交付给上层的tunnel。
+
+最终的成果位于: https://github.com/chainreactors/rem/tree/master/x/kcp
+#### 传输层之上
+
+在传输层之上，OSI模型中是会话层， 表示层， 和应用层， 分别对应到rem就是mux(链接复用)层，加密混淆层，应用层。
+
+在golang中， 已经有很多个成熟的多路复用(connection multiplexing)实现， 例如smux和yamux。 但这和arq协议一样，会引入新的特征，并且不是所有的情况都适合多路复用器工作， 例如使用http这类单工协议模拟流时， smux的控制小包会带来额外的传输延迟。 所以rem实现了一个自己的多路复用器。这个多路复用器工作在wrapper(后面会提到)之上。
+
+wrapper则是代替原本OSI模型中的表示层，tunnel传输的数据将会经过wrapper的包装。
+
+wrapper本质上是 io.ReadWriteCloser ，是面向流的数据处理协议。wrapper将会包装tunnel提供的net.Conn接口, 然将被wrapper后的Conn交付给mux， 再由mux交付给应用层。 
+
+一个基于xor实现的wrapper只需要实现简单的Read和Write接口即可将数据进行简单的加密:
+
+```
+func NewXorWrapper(r io.Reader, w io.Writer, opt map[string]string) core.Wrapper {  
+    var key []byte  
+    if k, ok := opt["key"]; ok {  
+       key = []byte(k)  
+    } else {  
+       key = []byte{} // 使用空字节切片作为默认值  
+    }  
+  
+    var iv []byte  
+    if i, ok := opt["iv"]; ok {  
+       iv = []byte(i)  
+    } else {  
+       iv = key // 如果没有提供iv，使用key作为iv  
+    }  
+  
+    encryptor := utils.NewXorEncryptor(key, iv)  
+    return &XorWrapper{  
+       reader:    &cipher.StreamReader{S: encryptor.GetStream(), R: r},  
+       writer:    &cipher.StreamWriter{S: encryptor.GetStream(), W: w},  
+       encryptor: encryptor,  
+    }  
+}  
+  
+func (w *XorWrapper) Name() string {  
+    return consts.XORWrapper  
+}  
+  
+func (w *XorWrapper) Read(p []byte) (n int, err error) {  
+    return w.reader.Read(p)  
+}  
+  
+func (w *XorWrapper) Write(p []byte) (n int, err error) {  
+    return w.writer.Write(p)  
+}  
+  
+func (w *XorWrapper) Close() error {  
+    return w.encryptor.Reset()  
+}
+```
+
+但对于非流式的加密混淆协议， 会稍微麻烦一点， 我们需要在wrapper中添加缓冲区， 将需要的数据读到缓冲区后进行特定的操作再交付给上层。（这样的实现可能在一定层度上会影响性能）
+
+最终， 还可以将多个wrapper连接在一起， 将数据进行复杂的加密混淆操作。 
+
+在rem中， 会话层和表示层是倒置的。 会话层承载在表示层之上。 
+
+#### 传输层之间
+
+rem是在传输层之上重新构建的一整套网络架构。 对于底层的交换路由设备，rem不会有涉及， 但是原本的网络中， 就有各种各样的应用层代理，例如http，socks5，ssh等各种各样的代理协议， 以及在安全中常用的neoreg，suo5等webshell实现的代理协议。 
+
+为了让rem能与外部的代理协议有交互，我们还需要在各个层面上允许rem通过原本就存在的代理协议搭建信道（通常用在各种不出网或者限制出网场景下）。
+
+rem需要让tunnel，outbound等各种场景都支持上基于原本的代理协议实现数据传输。 
+
+在特别早期版本找到了 https://github.com/zhuhaow/ProxyClient 这个库， 但因为代码之类较低又替换为了 https://github.com/missdeer/ProxyClient 。结果新的这个库在每个协议上都存在bug。 
+
+最后基于 https://github.com/missdeer/ProxyClient 重构并修复了大量的bug, 才能让rem工作在各种代理协议上。 
+
+最终的成果位于: https://github.com/chainreactors/rem/tree/master/x/proxyclient
+
+#### 传输层之外
+
+现代的流量检测设备， 除了特征检测之外， 还会有大数据， 统计学， AI之类的对抗维度。 我们刚刚构建的传输层本质上只解决了特征检测和密码学安全的问题。 对于这些新的检测维度， 我们也需要新的手段。 
 
 
-### Features
+rem还提供了一组接口， 能让用户对数据进行统计学层面的操作。 
 
-基本概念也是代理工具中的基本功能, 通过组合这些基本功能能够覆盖绝大部分的使用场景. 
+```
+type BeforeHook struct {  
+    DialHook   func(ctx context.Context, addr string) context.Context  
+    AcceptHook func(ctx context.Context) context.Context  
+    ListenHook func(ctx context.Context, addr string) context.Context  
+}  
+  
+type AfterHookFunc func(ctx context.Context, c net.Conn, addr string) (context.Context, net.Conn, error)  
+  
+type AfterHook struct {  
+    Priority   uint  
+    DialerHook func(ctx context.Context, c net.Conn, addr string) (context.Context, net.Conn, error)  
+    AcceptHook func(ctx context.Context, c net.Conn) (context.Context, net.Conn, error)  
+    ListenHook func(ctx context.Context, listener net.Listener) (context.Context, net.Listener, error)  
+}
+```
 
-这些功能其他代理工具基本能达到同样的效果. 区别只在于性能与安全性.
+after和before hook能在tunnel dial/accept前后实现特定的操作。 例如添加随机的**延迟/流量控制/压缩/随机填充**等等操作， 来规避统计学和大数据上的检测。 （顺带一提， wrapper也是基于hook实现的）。甚至更进一步， 我们可以独立控制上下行的数据特征， 去模拟任意数据传输的特性。 
 
-用法:
+#### 应用层
+
+之前提到过rem之间并不分server和client，只有tunnel有逻辑意义上的server和client， 最终的原因就是我们通过inbound/outbound来控制流量的方向， 而inbound/outbound 既可以搭建在tunnel的server上也可以是client上。 
+
+inbound是数据入口， outbound是数据出口。 用户的数据从inbound经过tunnel到outbound对外发起请求。
+
+大多数场景下， 我们只会用到反向代理，由外网访问到目标内网。
+
+但是我们现在可以做的更多， 我们只需要实现一个符合cobaltstrike的external c2 协议的inbound， 我们就可以让cobaltstrike的流量走到rem构建的网络中。 
+
+再进一步， 我们可以通过tun/tap虚拟网卡，真正意义上将目标和本地的网络连为一体。
+
+更甚至， 通过STUN协议， 实现p2p的网络通讯。
+
+这一切， 都可以在rem的能力覆盖范围之内。 
+
+## Features
+
+### 基本功能
 
 * 正向端口转发, 将端口从本机转发到远程
 * 反向端口转发,  将端口从远程转发到本机
@@ -123,13 +327,6 @@ gost作为一个代理工具， 已经能覆盖绝大部分需求。 但对于�
 * 多级代理转发, 将流量通过rem转发到任意rem网络中的节点
 * RPORTFWD_LOCAL, (多级端口转发的特例), 将本机的的端口通过rem转发至
 * PORTFWD_LOCAL,  (多级端口转发的特例), 将rem节点的端口转发至本机
-
-特性:
-
-* 传输层, 支持TCP, UDP, ICMP, WIREGUARD等各种场景传输层协议
-* 加密层, TLS/MTLS或者任意自定义的加密协议
-* 混淆层, 模拟特定协议
-* 连接复用
 
 ### 高级特性
 
