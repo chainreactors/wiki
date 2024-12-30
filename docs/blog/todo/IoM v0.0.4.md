@@ -149,7 +149,7 @@ CS中各种提权的dll以及各种功能， 绝大部分都基于此实现， �
 
 1. 将内置的donut 从v1.0 更新到v1.1 , 现在更加稳定
 2. 将execute-assembly替换为donut生成的shellcode
-3. 注册donut命令
+3. 新增donut命令
 
 ![](assets/Pasted%20image%2020241227195559.png)
 
@@ -187,3 +187,31 @@ CS中各种提权的dll以及各种功能， 绝大部分都基于此实现， �
 * 将sgn与malefic-mutant在编译时内嵌， 减少使用时的步骤
 * 优化`!`命令， 能更好得执行本地的命令， 而不需要退出程序
 * 修复了各种细节处的bug数十处
+
+## End
+
+在我们最初的计划中， 我们的ASM框架mapping可以与C2框架IoM同步进行。 但是C2需要耗费的精力远超想象， 所以ASM再次被搁置。 好在代理工具rem的进展顺利，不出意外近期就可以见面。 
+
+### rem
+
+rem的简介：
+
+
+> 在 rem 中, 基于传输层之上重新抽象了整个网络交互的流程。
+> 
+> - 传输层, 对应 tunnel, 分为 listener 和 dialer, 可以实现自定义的任意传输层信道， 只需要实现对应的 golang 的接口即可。目前实现了，tcp, udp, icmp, websocket.
+> - 会话层, 实现了链接复用(mux)，会话管理.
+> - 加密混淆层(对应表示层)，对应 core/wrapper，对应的接口是 ReadWriteCloser, 只需要实现对应的 Read 和 Writer 接口， 即可实现对传输层流程的加密，混淆， 伪装。甚至可以实现上下行流量分别配置不同的 wrapper. 目前实现了 aes, xor, padding.
+> - 中转/代理层(对应表示层) (可选), 可以通过第三方代理/服务中转流量， 例如通过 ssh, socks5, neoreg, suo5 等任意具有流量功能的实现数据转发, 目前实现了 http/https, socks5/4, ssh, shadowsocks
+> - 应用层, 基于上面三层实现的信道, 可以被封装为不同的应用, 目前实现了 socks5, port forward, http 代理, shadowsocks, trojan
+> 
+> 基于这样的抽象层级, 我们可以任意拓展 rem 的能力边界。 我们可以快速添加一个传输层协议， 或是加密混淆算法， 或是代理中转工具， 又或是最终面向用户的协议。
+> 
+> 这是前所未有的潜力， 理论上不存在任何在流量上被特征/统计学检测的可能。
+
+
+### IoM-gui
+
+并且IoM的GUI也已经完成了大部分工作， 马上可以发布v0.0.1的IoM-gui 
+
+

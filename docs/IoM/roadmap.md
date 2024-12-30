@@ -279,6 +279,9 @@ TODO list
 	- [ ] 可组装的loader
 	- [ ] 反沙箱
 	- [ ] 反调试
+	- [ ] webshell implant的初步实现
+		- [ ] jsp
+		- [ ] aspx
 - [ ] 文档
 	- [ ] malefic-helper api文档
 	- [ ] 二次开发文档

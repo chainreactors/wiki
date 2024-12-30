@@ -1,3 +1,5 @@
+# 从一个崩溃开始的 PE Loader 救赎之旅
+
 > 如果读者已经熟知PE加载， 那么本文的内容将不会有非常大的革新， 但各位阅读完本文可能也会看到一些新鲜玩意， 聊以慰籍 :)
 > 
 > 今年8月， 我们推出了下一代 `C2` 计划 -- `Internal of Malice` , 旨在实现一套 `post-exploit` 基础设施， 在`implant`的语言选用中， 我们尝试了这两年最火热的红队语言：`Rust`, 也因为这个选择，在实现过程中遇到了和解决了非常多有意思的问题。
@@ -1062,8 +1064,219 @@ pub unsafe fn find_ldrp_handle_tls_data() -> usize {
 
 好在我们现在可以稳定找到 `LdrpAllocateTlsEntry` 函数， 让我们用仅有的函数试试看，
 
+### demo
+win10及以下, 通过固定特征的字节码实现：
 
-#### 
+```rust
+unsafe fn get_ldrp_handle_tls_offset_data(win_ver: &WinVer) -> ldrp_handle_tls_search {
+    let mut ret_pattern: ldrp_handle_tls_search = core::mem::zeroed();
+    #[cfg(target_arch = "x86_64")]
+    {
+        if IsWindows10RS3OrGreater(win_ver) {
+            let mut offset = 0x43;
+            if IsWindows1019H1OrGreater(win_ver) {
+                offset = 0x46;
+            } else if IsWindows10RS4OrGreater(win_ver) {
+                offset = 0x44;
+            }
+            let pattern = [
+                0x74, 0x33, 0x44, 0x8D, 0x43, 0x09
+            ];
+            srdi_memcpy(
+                ret_pattern.pattern.as_mut_ptr(), 
+                pattern.as_ptr(), 
+                pattern.len()
+            );
+            ret_pattern.offset = offset;
+            ret_pattern.real_len = pattern.len();
+            // return (b"\x74\x33\x44\x8d\x43\x09", offset);
+        } else if IsWindows10RS2OrGreater(win_ver) {
+            let pattern = [
+                0x74, 0x33, 0x44, 0x8D, 0x43, 0x09
+            ];
+            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
+            ret_pattern.real_len = pattern.len();
+            ret_pattern.offset = 0x43;
+        } else if IsWindows8Point1OrGreater(win_ver) {
+            let pattern = [
+                0x44, 0x8D, 0x43, 0x09, 0x4C, 0x8D, 0x4C, 0x24, 0x38
+            ];
+            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
+            ret_pattern.real_len = pattern.len();
+            ret_pattern.offset = 0x43;
+            // return (b"\x44\x8d\x43\x09\x4c\x8d\x4c\x24\x38", 0x43);
+        } else if IsWindows8OrGreater(win_ver) {
+            let pattern = [
+                0x48, 0x8B, 0x79, 0x30, 0x45, 0x8D, 0x66, 0x01
+            ];
+            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
+            ret_pattern.real_len = pattern.len();
+            ret_pattern.offset = 0x49;
+            // return (b"\x48\x8b\x79\x30\x45\x8d\x66\x01", 0x49);
+        } else if IsWindows7OrGreater(win_ver) {
+            let update1 = win_ver.rversion.gt(&24059);
+            let pattern = [
+                0x41, 0xB8, 0x09, 0x00, 0x00, 0x00, 0x48, 0x8D, 0x44, 0x24, 0x38
+            ];
+            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
+            ret_pattern.real_len = pattern.len();
+            ret_pattern.offset = if update1 { 0x23 } else { 0x27 };
+            // let code = b"\x41\xb8\x09\x00\x00\x00\x48\x8d\x44\x24\x38";
+            // return (code, if update1 { 0x23 } else { 0x27 });
+        }
+    }
+    #[cfg(target_arch = "x86")]
+    {
+        if IsWindows10RS3OrGreater(win_ver) {
+            let pattern = [
+                0x8b, 0xc1, 0x8d, 0x4d, 0x08, 0x51
+            ];
+            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
+            ret_pattern.real_len = pattern.len();
+            // let mut pattern = b"\x8b\xc1\x8d\x4d\xbc\x51";
+            if IsWindows10RS5OrGreater(win_ver) {
+                let pattern = [
+                    0x33, 0xf6, 0x85, 0xc0, 0x79, 0x03
+                ];
+                srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
+                ret_pattern.real_len = pattern.len();
+                // pattern = b"\x33\xf6\x85\xc0\x79\x03";
+            } else if IsWindows10RS4OrGreater(win_ver) {
+                let pattern = [
+                    0x8b, 0xc1, 0x8d, 0x4d, 0xac, 0x51
+                ];
+                srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
+                ret_pattern.real_len = pattern.len();
+                // pattern = b"\x8b\xc1\x8d\x4d\xac\x51";
+            }
+            // let mut offset = 0x18;
+            ret_pattern.offset = 0x18;
+            if IsWindows1020H1OrGreater(win_ver) {
+                ret_pattern.offset = 0x2c;
+                // offset = 0x2C;
+            } else if IsWindows1019H1OrGreater(win_ver) {
+                ret_pattern.offset = 0x2e;
+                // offset = 0x2E;
+            } else if IsWindows10RS5OrGreater(win_ver) {
+                ret_pattern.offset = 0x2c;
+                // offset = 0x2C;
+            }
+            // return (pattern, offset);
+        } else if IsWindows10RS2OrGreater(win_ver) {
+            let pattern = [
+                0x8b, 0xc1, 0x8d, 0x4d, 0xbc, 0x51
+            ];
+            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
+            ret_pattern.real_len = pattern.len();
+            ret_pattern.offset = 0x18;
+            // return (b"\x8b\xc1\x8d\x4d\xbc\x51", 0x18);
+        } else if IsWindows8Point1OrGreater(win_ver) {
+            let pattern = [
+                0x50, 0x6a, 0x09, 0x6a, 0x01, 0x8b, 0xc1
+            ];
+            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
+            ret_pattern.real_len = pattern.len();
+            ret_pattern.offset = 0x1B;
+            // return (b"\x50\x6a\x09\x6a\x01\x8b\xc1", 0x1B);
+        } else if IsWindows8OrGreater(win_ver) {
+            let pattern = [
+                0x8b, 0x45, 0x08, 0x89, 0x45, 0xa0
+            ];
+            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
+            ret_pattern.real_len = pattern.len();
+            ret_pattern.offset = 0xC;
+            // return (b"\x8b\x45\x08\x89\x45\xa0", 0xC);
+        } else if IsWindows7OrGreater(win_ver) {
+            let pattern = [
+                0x74, 0x20, 0x8d, 0x45, 0xd4, 0x50, 0x6a, 0x09
+            ];
+            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
+            ret_pattern.real_len = pattern.len();
+            ret_pattern.offset = 0x14;
+            // return (b"\x74\x20\x8d\x45\xd4\x50\x6a\x09", 0x14);
+        }
+    }
+    return ret_pattern;
+}
+```
+
+win11下的实现
+
+```rust
+#[no_mangle]
+pub unsafe fn find_ldrp_handle_tls_greator_win11(
+    ntdll: *const c_void
+) -> usize {
+    loop {
+        let str_pattern: [u8; 18] = [
+            0x4C, 0x64, 0x72, 0x70, 0x49, 0x6E, 
+            0x69, 0x74, 0x69, 0x61, 0x6C, 0x69, 
+            0x7A, 0x65, 0x54, 0x6C, 0x73, 0x00
+        ];
+        let s_addr;
+        #[cfg(target_arch = "x86_64")]
+        {
+            s_addr = find_string_in_rdata(ntdll, &str_pattern);
+        }
+        #[cfg(target_arch = "x86")]
+        {
+            s_addr = find_string_in_text(ntdll, &str_pattern);
+        }
+    
+        let xref_addr;
+        #[cfg(target_arch = "x86_64")]
+        {
+            let start_pattern: [u8;3] = [0x4C, 0x8D, 0x05];
+            xref_addr = 
+                find_xref_in_text(ntdll, &start_pattern, 7, s_addr as usize);
+            if xref_addr.eq(&0) {
+                break;
+            }
+        }
+        #[cfg(target_arch = "x86")]
+        {
+            let start_pattern: [u8;1] = [0x68];
+            xref_addr = find_xref_in_text_without_rva(
+                ntdll, &start_pattern, 5, s_addr as usize
+            );
+            if xref_addr.eq(&0) {
+                break;
+            }
+        }
+        let xref_addr = xref_addr as usize + ntdll as usize;
+        let call_code: [u8;1] = [0xE8];
+        let call_drp_log_internal_addr = boyer_moore(
+                xref_addr as _, 0x30, &call_code, call_code.len());
+        if call_drp_log_internal_addr.eq(&-1) {
+            break;
+        }
+        let call_drp_log_internal_addr = 
+            call_drp_log_internal_addr as usize + xref_addr as usize;
+        let call_ldr_allocate_tls_entry = boyer_moore(
+            (call_drp_log_internal_addr + 5) as _, 0x30, &call_code, call_code.len());
+        if call_ldr_allocate_tls_entry.eq(&-1) {
+            break;
+        }
+        let call_ldr_allocate_tls_entry = 
+            call_ldr_allocate_tls_entry as usize + 
+            call_drp_log_internal_addr + 5;
+    
+        let ldr_allocate_tls_entry = call_ldr_allocate_tls_entry.wrapping_add(
+            calc_call_rva(call_ldr_allocate_tls_entry as _) as _);
+        let black_list: [usize; 1] = [call_ldr_allocate_tls_entry];
+        let call_ldr_allocate_tls_entry2 = 
+            find_call_rva_in_text(ntdll, ldr_allocate_tls_entry, &black_list);
+        if call_ldr_allocate_tls_entry2.eq(&0) {
+            break;
+        }
+    
+        return find_func_start(ntdll, call_ldr_allocate_tls_entry2);
+    }
+    0
+}
+
+```
+
 
 ## 实现
 
