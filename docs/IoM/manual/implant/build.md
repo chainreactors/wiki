@@ -118,29 +118,29 @@ docker run -v "$(pwd):/root/src" -v "$(pwd)/cache/registry:/root/cargo/registry"
 
 1. 编译beacon
 ```git-bash
-gh workflow run generate.yml -f package="beacon" -f malefic_config_yaml=$(base64 -w 0 </path/to/malefic_src/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu" -R <username/malefic>
+gh workflow run generate.yaml -f package="beacon" -f malefic_config_yaml=$(base64 -w 0 </path/to/malefic_src/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu" -R <username/malefic>
 ```
 
 2. 编译bind
 ```git-bash
-gh workflow run generate.yml -f package="beacon" -f malefic_config_yaml=$(base64 -w 0 </path/to/malefic_src/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu" -R <username/malefic>
+gh workflow run generate.yaml -f package="beacon" -f malefic_config_yaml=$(base64 -w 0 </path/to/malefic_src/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu" -R <username/malefic>
 ```
 
 3. 编译 pulse
 ```git-bash
-gh workflow run generate.yml -f package="pulse" -f malefic_config_yaml=$(base64 -w 0 </path/to/malefic_src/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu" -R <username/malefic>
+gh workflow run generate.yaml -f package="pulse" -f malefic_config_yaml=$(base64 -w 0 </path/to/malefic_src/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu" -R <username/malefic>
 ```
 
 4. 编译prelude
 ```git-bash
-gh workflow run generate.yml -f package="prelude" -f autorun_yaml=$(base64 -w 0 </path/to/malefic_src/autorun.yaml>) -f malefic_config_yaml=$(base64 -w 0 </path/to/malefic_src/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu" -R <username/malefic>
+gh workflow run generate.yaml -f package="prelude" -f autorun_yaml=$(base64 -w 0 </path/to/malefic_src/autorun.yaml>) -f malefic_config_yaml=$(base64 -w 0 </path/to/malefic_src/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu" -R <username/malefic>
 ```
 
 5. 编译modules
 ```git-bash
-gh workflow run generate.yml -f package="modules" -f malefic_modules_features="execute_powershell execute_assembl..." -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu" -R <username/malefic>
+gh workflow run generate.yaml -f package="modules" -f malefic_modules_features="execute_powershell execute_assembl..." -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu" -R <username/malefic>
 ```
-编译完成后你可以通过`gh run list --workflow=generate.yml -R <username/malefic>`查看编译结果，
+编译完成后你可以通过`gh run list --workflow=generate.yaml -R <username/malefic>`查看编译结果，
 通过`gh run download <run_id> -R <username/malefic>`下载对应的二进制文件.
 ![](/wiki/docs/IoM/assets/gh-run-list-download.png)
 

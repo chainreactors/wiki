@@ -188,7 +188,7 @@ v0.0.2提供了7中不会创建新进程的无文件二进制文件的方式:
 只需要从github生成token, 然后使用gh cli 执行一行命令即可生成implant. 
 
 ```
-gh workflow run generate.yml -f malefic_config=$(base64 </path/to/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu,i686-pc-windows-gnu," -R <username/malefic>
+gh workflow run generate.yaml -f malefic_config=$(base64 </path/to/config.yaml>) -f remark="write somthing.." -f targets="x86_64-pc-windows-gnu,i686-pc-windows-gnu," -R <username/malefic>
 ```
 
 后续我们还会将目前需要手动执行命令的操作全都在server上自动实现, 使用client<->server交互即可实现可组装的implant的编译.

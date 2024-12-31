@@ -42,7 +42,7 @@ profressinal额外支持的功能:
     repo:           				# malefic的仓库名
     owner:           				# github用户名 
     token:                          # github的token
-    workflow: 				        # workflow的配置文件名（默认为generate.yml）
+    workflow: 				        # workflow的配置文件名（默认为generate.yaml）
 ```
 
 
@@ -53,7 +53,7 @@ profressinal额外支持的功能:
     github_repo:                           # malefic的仓库名
     github_owner:                          # github用户名 
     github_token:                          # github的token 
-    github_workflow_file: 			     # workflow的配置文件名（默认为generate.yml）
+    github_workflow_file: 			     # workflow的配置文件名（默认为generate.yaml）
   ```
 
 ##### 新建profile
