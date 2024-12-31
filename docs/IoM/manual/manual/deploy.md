@@ -101,7 +101,7 @@ server:
     repo:           	  # malefic的仓库名
     owner:           	  # github用户名 
     token:                # github的token
-    workflow: 			  # workflow的配置文件名（默认为generate.yml）
+    workflow: 			  # workflow的配置文件名（默认为generate.yaml）
 
 listeners:
   enable: true            # listener 是否启用
@@ -365,7 +365,7 @@ settings:
   github_repo: ""						# malefic的仓库名
   github_owner: ""						# github用户名
   github_token: ""						# github的token
-  github_workflow_file: generate.yml	# workflow的配置文件名（默认为generate.yml
+  github_workflow_file: generate.yaml	# workflow的配置文件名（默认为generate.yaml
 ```
 
 
