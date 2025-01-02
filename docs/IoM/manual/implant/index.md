@@ -23,7 +23,7 @@ rust的crate的结构就是malefic的组成部分
 
 **基础库:**
 
-- malefic-modules, 各种模块的具体实现, v0.0.3添加了仅30个原生模块, 覆盖service, registry, taskscheduer, token, wmi等常用功能
+- malefic-modules, 各种模块的具体实现, v0.0.3添加了近30个原生模块, 覆盖service, registry, taskscheduer, token, wmi等常用功能
 - malefic-core, 核心库, 实现beacon/bind与modules的交互, 可以通过core快速实现各种不同模板不同需求的implant.
 - malefic-proto, 加密与协议库, 定义了implant与server数据交互的协议与加密方式等
 - malefic-helper, 辅助函数库, 也是对接malefic-kits的中间库, kits中的api将会通过FFI在helper中二次包装, 实现对kit中各种功能的调用
