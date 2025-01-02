@@ -101,7 +101,7 @@ service malice-network restart
 
 ### 编译 implant
 
-在 v0.0.4 下，我们引入了 github action 来编译 implant，避免因为 rust 复杂的编译方案而需要准备 docker 环境来编译。现在你只需准备好 malefic 仓库和对应的 token（需要 workflow 和 package 权限），并且在 sever 或者 client 端配置（[详见配置说明](/wiki/docs/IoM/manual/manual/deploy)），即可使用命令行进行 github action 编译。
+在 v0.0.4 下，我们引入了 github action 来编译 implant，避免因为 rust 复杂的编译方案而需要准备 docker 环境来编译。现在你只需准备好 malefic 仓库和对应的 token（需要 workflow 和 package 权限），并且在 sever 或者 client 端配置（[详见配置说明](/wiki/IoM/manual/manual/deploy)），即可使用命令行进行 github action 编译。
 
 使用 client 自动编译:
 
