@@ -1,3 +1,9 @@
+---
+date:
+  created: 2025-01-02
+slug: IoM_v0.0.4
+---
+
 ## Intro
 
 IoM通过几个月的快速迭代, 已经具备了一个现代化C2的绝大部分功能. 
@@ -11,16 +17,48 @@ profressinal额外支持的功能:
 * 基于独特的ollvm 能对malefic的所有编译产物进行高度混淆
 * 可自定义可组装的loader
 * 独特的pe loader与sRDI, 能实现无新进程执行cmd/wmic等任意命令， 或loader远程二进制文件
+* linux kit
 * 基于rem实现的任意信道的流量, 代理功能
 * OPSEC
 	* 独立的堆加密
 	* 独立的堆栈混淆
 	* 独立的indirect-syscall
 	* 可自定义的进程注入
+	* ......
 
 **professional 将提供从静态、行为、内存、流量场景的解决方案**
 
 ## v0.0.4  更新日志
+
+v0.0.4 是一个过度版本，大部分更新都在修复bug， 提高兼容性稳定性， 降低使用难度与简化操作上。 
+
+### implant更新
+
+#### 兼容win7/windows 2008
+
+新版的rust放弃了对windows7/windows server 2008的支持。 为了兼容win7，我们调整了编译环境的版本， 使用1.74 rust + lto 链接， 使得v0.0.4的implant能运行在低版本的windows中。 
+
+并重载了链接过程，解决rust lto无法正确加载符号表的bug: https://github.com/rust-lang/rust/issues/44322 
+
+#### 修复sRDI 静态 TLS 无法加载的问题 
+
+解决了PE loader 无法加载存在静态 `TLS`的PE文件， 导致以 `Rust` 编写的程序加载panic问题。 
+
+目前还没有解决了这个问题的sRDI， 为此我们实现了自己的sRDI并替换了原有的link sRDI
+
+```
+.\malefic-mutant.exe build srdi -i .\malefic.exe
+```
+
+![](assets/Pasted%20image%2020241227192048.png)
+
+(在v0.0.4发布之时，我们同步开启了硬核的系列技术文章分享， 将分享一些尚未有人解决过的问题)
+#### dllspawn
+
+由于还有很多资源停留在 `CS` 的各类库中， 因此， 我们提供了 `dllspanw` 来适配 `CS` 的对应功能
+
+CS中各种提权的dll以及各种功能， 绝大部分都基于此实现， 现在我们能完美的兼容CS的dll像相关命令了
+
 
 ### 自动化编译
 
@@ -56,12 +94,6 @@ profressinal额外支持的功能:
     github_workflow_file: 			     # workflow的配置文件名（默认为generate.yaml）
   ```
 
-##### 新建profile
-
-进行github action编译之前，需要先确认是否存在profile。若没有，则需要新建一个profile来提供malefic编译时所需要的相关配置，artifact的通信address与pipeline绑定。
-
-![image-20241227035253675](../../IoM/assets/image-20241227035253675.png)  
-
 ##### action build
 
 使用action和子命令来进行编译，必须指定build target以及对应的profile。当workflow运行成功时，client会提示当前workflow的html_url，方便在网页端进行查看。当编译完成时，也会在client进行通知。
@@ -74,25 +106,7 @@ profressinal额外支持的功能:
   action run --profile test --type beacon --target x86_64-pc-windows-msvc
   ```
 
-  为了统一使用，action run的参数命令与docker build的参数基本一致。
-
-#### pulse自动link
-
-目前生成pulse，需要使用前置的beacon或bind。
-
-docker和action生成pulse时，现在需要指定前置beacon或者bind的 `artifact_id` ，当 `artifact_id`为0并且使用的profile中pulse下的 `artifact_id` 也为0时，server会自动编译新的beacon转化成shellcode，并且和pulse绑定。
-
-  ```
-  # Github action
-  action pulse --profile test --target x86_64-pc-windows-msvc --artifact-id 0
-  
-  # Docker build 
-  build pulse --profile test --target x86_64-pc-windows-gnu --artifact-id 0
-  ```
-
-![image-20241227140938974](../../IoM/assets/image-20241227140810819.png)
-
-![image-20241227141440388](../../IoM/assets/image-20241227141440388.png)
+为了统一使用，action run的参数命令与docker build的参数基本一致。
 
 #### docker优化
 
@@ -102,19 +116,25 @@ docker和action生成pulse时，现在需要指定前置beacon或者bind的 `art
 
 原本的install.sh 会下载约13g的镜像， 然后生成几个g的编译中间文件。现在我们大大简化了对服务器的负担， 提供了新的allinone的编译镜像以及简化安装脚本。 
 
+allinone 镜像: ghcr.io/chainreactors/malefic-builder:v0.0.4
+
+这个镜像解决了大量的rust的环境安装，交叉编译等问题。如果有其他rust项目在编译上遇到各种错误， 不妨使用这个试试。 
 ### client更新
 
 #### artifact功能组
 
 为了在提权脚本中更方便使用IoM, 就像CS能直接通过listener生成对应的shellcode一样. patch2将一系列shellcode与artifact操作的函数暴露出来了。
 
-这一组api如下:
+我们添加大量shellcode生成，sRDI等操作相关的api。
+
 * artifact_payload ,对应CobaltStrike中的同名函数， 用于生成stageless的shellcode， 在IoM是SRDI后的beacon
 * artifact_stager， 对应CobaltStrike中的同名函数， 用于生成stager的shellcode， 在IoM中式SRDI后的pulse
 * donut_dll2shellcode, 基于donut实现的dll转shellcode 
 * donut_exe2shellcode, 基于donut实现的exe转shellcode
 * sgn_encode, shellcode sgn混淆
 * srdi, 能调用malefic-mutant中支持的srdi将二进制程序转为shellcode
+
+详细文档可以查阅: https://chainreactors.github.io/wiki/IoM/manual/mal/builtin/#artifact 
 
 #### donut
 
@@ -123,41 +143,10 @@ docker和action生成pulse时，现在需要指定前置beacon或者bind的 `art
 并对其进行了大量改动:
 
 1. 将内置的donut 从v1.0 更新到v1.1 , 现在更加稳定
-2. 将execute-assembly替换为donut生成的shellcode
+2. 将execute-assembly替换为donut生成的shellcode (临时， 后续会使用malefic-srdi代替)
 3. 新增donut命令
 
 ![](assets/Pasted%20image%2020241227195559.png)
-
-### implant更新
-
-#### 解决win7/windows 2008兼容性
-
-解决了只能使用 `target` 为 `*-win7-windows-msvc` 来编译 `win7/win2008` 的问题
-
-#### 解决含有静态 TLS 无法加载的问题 
-
-解决了基本的 `loadpe` 功能无法加载隐式 `TLS` 导致以 `Rust` 编写并使用 `msvc` 编译的程序无法被正确加载的问题
-并提供了目前较为唯一的适配了隐式 `tls` 的 `SRDI` 功能
-
-```
-.\malefic-mutant.exe build srdi -i .\malefic.exe
-```
-
-![](assets/Pasted%20image%2020241227192048.png)
-
-#### 新的SRDI
-
-在v0.0.3 我们的 `malefic-mutant` 中的 `sRDI` 使用的是 `link` 的 `sRDI`, 但由于其无法加载含有隐式 `TLS` 的 `PE` 文件，
-
-因此在新版本中我们推出了支持隐式 `TLS` 加载的 `sRDI`， 以支持各类 `PE` 文件
-
-#### dllspanw
-
-由于还有很多资源停留在 `CS` 的各类库中， 因此， 我们提供了 `dllspanw` 来适配 `CS` 的对应功能
-
-CS中各种提权的dll以及各种功能， 绝大部分都基于此实现， 现在我们能完美的兼容CS的dll像相关命令了
-
-### 其他更新
 
 
 #### 非交互式client
@@ -168,12 +157,14 @@ CS中各种提权的dll以及各种功能， 绝大部分都基于此实现， �
 
 ![](assets/Pasted%20image%2020241227194931.png)
  
-
 ### Other of others
 
 * lua api文档格式重构， 现在更加清晰
-* 将sgn与malefic-mutant在编译时内嵌， 减少使用时的步骤
+* 将sgn与malefic-mutant在编译时内嵌， 减少安装时的步骤
 * 优化`!`命令， 能更好得执行本地的命令， 而不需要退出程序
+* 编译pulse时 联动beacon
+* 重构website
+* 优化tui渲染的颜色
 * 修复了各种细节处的bug数十处
 
 ## End
@@ -197,7 +188,7 @@ rem的简介：
 > 
 > 这是前所未有的潜力， 理论上不存在任何在流量上被特征/统计学检测的可能。
 
-可以在这里找到rem的设计文档(update 2024.12), 更新了重构后的rem架构设计。 这将是一个彻底改变流量对抗生态的工具。 
+可以在 https://chainreactors.github.io/wiki/rem/design/ 找到rem的设计文档(update 2024.12), 更新了重构后的rem架构设计。
 
 ### IoM-gui
 

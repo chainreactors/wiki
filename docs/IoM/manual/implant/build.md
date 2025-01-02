@@ -88,7 +88,7 @@ curl -fsSL https://get.docker.com | sudo bash -s docker
 - ghcr.io/chainreactors/aarch64-apple-darwin:nightly-2023-09-18-latest
 
 !!! tips "如果不了解原理, 请选择对应target的镜像"
-	ghcr.io/chainreactors/malefic-builder:v0.0.4(包含x86_64/i686的windows-gnu、linux-musl以及x86_64/aarch64的darwin的target). 如果了解rust的编译操作, 可以使用这个镜像实现大多数编译场景
+	ghcr.io/chainreactors/malefic-builder:v0.0.4 (包含x86_64/i686的windows-gnu、linux-musl以及x86_64/aarch64的darwin的target). 如果了解rust的编译操作, 可以使用这个镜像实现大多数编译场景
 
 ### 编译
 

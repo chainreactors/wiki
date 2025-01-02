@@ -1,16 +1,17 @@
 # 从一个崩溃开始的 PE Loader 救赎之旅
 
+本系列文章虽然叫做IoM进阶系列， 但实际与IoM关系不大，只是在开发IoM的过程中遇到的。进阶系列均为解决前无古人的问题、创新等， 本文将从最常用的技术 PE-Loader开始。 
+
 > 如果读者已经熟知PE加载， 那么本文的内容将不会有非常大的革新， 但各位阅读完本文可能也会看到一些新鲜玩意， 聊以慰籍 :)
 > 
 > 今年8月， 我们推出了下一代 `C2` 计划 -- `Internal of Malice` , 旨在实现一套 `post-exploit` 基础设施， 在`implant`的语言选用中， 我们尝试了这两年最火热的红队语言：`Rust`, 也因为这个选择，在实现过程中遇到了和解决了非常多有意思的问题。
 > 
 > 在推出`stager` 版本之后， 交流群的一位同学贴出了[Writing a PE Loader for the Xbox in 2024](https://landaire.net/reflective-pe-loader-for-xbox/) 这篇文章， 用一种非常粗暴的方式解决了 `Rust`在使用`MSVC`编译时引入了`TLS(thread-local storage)`  , 而只常见的`PELoader` 简单调用 `tls callback` 无法正常加载 `PE` 文件的问题， 遂成文。
-> 
-> 当然， 除了这个还有很多有意思的事情可以与各位分享，  本文是 `IoM` 进阶系列的的第一篇文章。本文与IoM关系不大，解决的问题是所有基于rust的loader都需要关注的问题。 
+
 
 ## TL;NR
 
-在本文之前，几乎所有的SRDI或者类似的PE Loader都会面临PE中已经存在隐性TLS就无法加载的问题。
+在本文之前，几乎所有的SRDI或者类似的PE Loader都会面临PE中已经存在静态TLS段就无法加载的问题。
 
 这个问题的表现在rust编译的程序无法被任意 PE loader 加载。 当然不仅限于rust， 有非常多的语言都会使用TLS性能加速。 如果你遇到过某使用donut/SRDI生成的shellcode莫名其妙崩溃， 很有可能就是这个问题。 
 
