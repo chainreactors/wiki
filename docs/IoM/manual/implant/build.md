@@ -217,6 +217,7 @@ rustup target add x86_64-pc-windows-msvc
 	```
 
 用法参考下图:
+
 ![switch mingw](/wiki/IoM/assets/switch-mingw-in-powershell.png)
 
 ## 编译
