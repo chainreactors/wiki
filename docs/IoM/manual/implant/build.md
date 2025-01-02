@@ -169,6 +169,10 @@ scoop install rustup
 ```
 winget install rustup
 ```
+### 安装llvm
+```
+scoop install llvm
+```
 
 ### 安装 toolchain与target
 
