@@ -120,7 +120,6 @@ docker和action生成pulse时，现在需要指定前置beacon或者bind的 `art
 ```
 
 ![](assets/Pasted%20image%2020241227192048.png)
-#### inline_local
 
 #### dllspawn
 
@@ -209,9 +208,12 @@ rem的简介：
 > 
 > 这是前所未有的潜力， 理论上不存在任何在流量上被特征/统计学检测的可能。
 
+可以在这里找到rem的设计文档(update 2024.12), 更新了重构后的rem架构设计。 这将是一个彻底改变流量对抗生态的工具。 
 
 ### IoM-gui
 
-并且IoM的GUI也已经完成了大部分工作， 马上可以发布v0.0.1的IoM-gui 
+并且IoM的GUI也已经完成了大部分工作， 马上可以发布v0.0.1的IoM-gui .
 
+我们终于可以通过可视化的方式呈现各种复杂的功能。
 
+![](assets/img_v3_02i2_d14419de-3d26-4776-b61c-60a9ede22a7g.jpg)

@@ -273,6 +273,13 @@
 - `$1` [context] 
 - `$2` [Empty] 
 
+### GetEvent
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Int] 
+
 ### GetFiles
 
 **Arguments**
@@ -320,7 +327,7 @@
 **Arguments**
 
 - `$1` [context] 
-- `$2` [SessionLog] 
+- `$2` [Int] 
 
 ### GetSessions
 
@@ -783,48 +790,6 @@
 
 - `$1` [context] 
 - `$2` [Task] 
-
-### Website
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [Website] 
-
-### WebsiteAddContent
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [WebsiteAddContent] 
-
-### WebsiteRemove
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [Website] 
-
-### WebsiteRemoveContent
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [WebsiteRemoveContent] 
-
-### WebsiteUpdateContent
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [WebsiteAddContent] 
-
-### Websites
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [Empty] 
 
 ### Whoami
 

@@ -934,16 +934,67 @@ tcp register --listener tcp_default --tls --cert_path /path/to/cert --key_path /
 * [tcp](#tcp)	 - List tcp pipelines in listener
 
 ### website
-List website in listener
+website manager
 
 ![website](/wiki/IoM/assets/website.gif)
+
+```
+website
+```
+
+**SEE ALSO**
+
+* [website add](#website-add)	 - Add content to a website
+* [website list](#website-list)	 - List website in listener
+* [website list-content](#website-list-content)	 - List content in a website
+* [website new](#website-new)	 - Register a new website
+* [website remove](#website-remove)	 - Remove content from a website
+* [website start](#website-start)	 - Start a website
+* [website stop](#website-stop)	 - Stop a website
+* [website update](#website-update)	 - Update content in a website
+
+#### website add
+Add content to a website
+
+**Description**
+
+Add new content to an existing website
+
+```
+website add [file_path] [flags]
+```
+
+**Examples**
+
+~~~
+// Add content to a website with default web path (using filename)
+website add /path/to/content.html --website web_test
+
+// Add content to a website with custom web path and type
+website add /path/to/content.html --website web_test --path /custom/path --type text/html
+~~~
+
+**Options**
+
+```
+      --path string      web path for the content (defaults to filename)
+      --type string      content type of the file (default "raw")
+      --website string   website name (required)
+```
+
+**SEE ALSO**
+
+* [website](#website)	 - website manager
+
+#### website list
+List website in listener
 
 **Description**
 
 Use a table to list websites along with their corresponding listeners
 
 ```
-website
+website list
 ```
 
 **Examples**
@@ -954,68 +1005,108 @@ website [listener]
 
 **SEE ALSO**
 
-* [website new](#website-new)	 - Register a new website and start it
-* [website start](#website-start)	 - Start a website
-* [website stop](#website-stop)	 - Stop a website
+* [website](#website)	 - website manager
 
-#### website new
-Register a new website and start it
+#### website list-content
+List content in a website
 
 **Description**
 
-Register a new website with the specified listener.If **name** is not provided, it will be generated in the format **listenerID_web_port**.
+List all content in a website with detailed information
 
 ```
-website new [listener_id] [route_path] [content_path] [flags]
+website list-content [website_name]
+```
+
+**Examples**
+
+~~~
+// List all content in a website with detailed information
+website list-content web_test
+~~~
+
+**SEE ALSO**
+
+* [website](#website)	 - website manager
+
+#### website new
+Register a new website
+
+**Description**
+
+Register a new website with the specified listener. If **name** is not provided, it will be generated in the format **listenerID_web_port**.
+
+```
+website new [name] [flags]
 ```
 
 **Examples**
 
 ~~~
 // Register a website with the default settings
-website register name /webtest /path/to/file --listener tcp_default
+website new --listener tcp_default --root /webtest
 
-// Register a website with a custom name, port, and content type
-website register name /webtest /path/to/file --name web_test --port 5003 --content_type text/html --listener tcp_default
-			
-// Register a website with TLS enabled and specify certificate and key paths
-website register name /webtest /path/to/file --tls --cert /path/to/cert --key /path/to/key --listener tcp_default
+// Register a website with a custom name and port
+website new web_test --listener tcp_default --port 5003 --root /webtest
+
+// Register a website with TLS enabled
+website new --listener tcp_default --root /webtest --tls --cert /path/to/cert --key /path/to/key
 ~~~
 
 **Options**
 
 ```
-      --cert string              tls cert path
-      --content_type string      website content type, the default value is **text/html
-      --encryption-enable        whether to enable encryption
-      --encryption-key string    encryption key
-      --encryption-type string   encryption type
-      --host string              pipeline host, the default value is **0.0.0.0** (default "0.0.0.0")
-      --key string               tls key path
-  -l, --listener string          listener id
-  -p, --port uint                pipeline port, random port is selected from the range **10000-15000**
-  -t, --tls                      enable tls
+      --cert string       tls cert path
+      --host string       pipeline host, the default value is **0.0.0.0** (default "0.0.0.0")
+      --key string        tls key path
+  -l, --listener string   listener id
+  -p, --port uint         pipeline port, random port is selected from the range **10000-15000**
+      --root string       website root path (default "/")
+  -t, --tls               enable tls
 ```
 
 **SEE ALSO**
 
-* [website](#website)	 - List website in listener
+* [website](#website)	 - website manager
+
+#### website remove
+Remove content from a website
+
+**Description**
+
+Remove content from an existing website using content ID
+
+```
+website remove [content_id]
+```
+
+**Examples**
+
+~~~
+// Remove content from a website using content ID
+website remove 123e4567-e89b-12d3-a456-426614174000
+~~~
+
+**SEE ALSO**
+
+* [website](#website)	 - website manager
 
 #### website start
 Start a website
 
 **Description**
 
-Start a website with the specified name and listener ID
+Start a website with the specified name
 
 ```
-website start [flags]
+website start [name] [flags]
 ```
 
 **Examples**
 
 ~~~
-website start web_test 
+// Start a website
+website start web_test --listener tcp_default
 ~~~
 
 **Options**
@@ -1026,23 +1117,24 @@ website start web_test
 
 **SEE ALSO**
 
-* [website](#website)	 - List website in listener
+* [website](#website)	 - website manager
 
 #### website stop
 Stop a website
 
 **Description**
 
-Stop a website with the specified name and listener ID
+Stop a website with the specified name
 
 ```
-website stop [flags]
+website stop [name] [flags]
 ```
 
 **Examples**
 
 ~~~
-website stop web_test listener
+// Stop a website
+website stop web_test --listener tcp_default
 ~~~
 
 **Options**
@@ -1053,7 +1145,36 @@ website stop web_test listener
 
 **SEE ALSO**
 
-* [website](#website)	 - List website in listener
+* [website](#website)	 - website manager
+
+#### website update
+Update content in a website
+
+**Description**
+
+Update existing content in a website using content ID
+
+```
+website update [content_id] [file_path] [flags]
+```
+
+**Examples**
+
+~~~
+// Update content in a website with content ID
+website update 123e4567-e89b-12d3-a456-426614174000 /path/to/new_content.html --website web_test
+~~~
+
+**Options**
+
+```
+      --type string      content type of the file (default "raw")
+      --website string   website name (required)
+```
+
+**SEE ALSO**
+
+* [website](#website)	 - website manager
 
 ## generator
 ### artifact
