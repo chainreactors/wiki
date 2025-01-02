@@ -101,31 +101,7 @@ docker和action生成pulse时，现在需要指定前置beacon或者bind的 `art
 极大减少了install.sh安装时的配置, 现在只会下载一个allinone的镜像. 这个镜像允许除了arm架构以及win MSVC之外的所有架构编译。 
 
 原本的install.sh 会下载约13g的镜像， 然后生成几个g的编译中间文件。现在我们大大简化了对服务器的负担， 提供了新的allinone的编译镜像以及简化安装脚本。 
-### implant更新
 
-#### 解决win7/windows server 2008兼容性
-
-#### 新的SRDI
-
-在v0.0.3 我们的malefic-mutant中的sRDI使用的是link的sRDI, 现在将我们自己实现的更加OPSEC的sRDI合并到malefic-mutant. 
-
-#todo
-
-#### 解决rust tls锁 
-
-用rust编译的程序， 不能被sRDI， pe2shellcode， donut，No-Consolation等所有pe-loader加载。现在我们找到了通用解决方案, 并集成到了malefic-mutant中。 
-
-```
-.\malefic-mutant.exe build srdi -i .\malefic.exe
-```
-
-![](assets/Pasted%20image%2020241227192048.png)
-
-#### dllspawn
-
-CobaltStrike加载dll时会直接通过DLLMain传参, 与我们原来的execute/inline_dll中基于entrypoint的传参方式不同。 所以我们新添加了dllspawn模块， 用来兼容CS中庞大的用户社区。 
-
-CS中各种提权的dll以及各种功能， 绝大部分都基于此实现， 现在我们能完美的兼容CS的dll像相关命令了
 ### client更新
 
 #### artifact功能组
@@ -158,15 +134,28 @@ CS中各种提权的dll以及各种功能， 绝大部分都基于此实现， �
 
 解决了只能使用 `target` 为 `*-win7-windows-msvc` 来编译 `win7/win2008` 的问题
 
-#### 解决rust 静态tls问题
+#### 解决含有静态 TLS 无法加载的问题 
 
 解决了基本的 `loadpe` 功能无法加载隐式 `TLS` 导致以 `Rust` 编写并使用 `msvc` 编译的程序无法被正确加载的问题
-
 并提供了目前较为唯一的适配了隐式 `tls` 的 `SRDI` 功能
+
+```
+.\malefic-mutant.exe build srdi -i .\malefic.exe
+```
+
+![](assets/Pasted%20image%2020241227192048.png)
+
+#### 新的SRDI
+
+在v0.0.3 我们的 `malefic-mutant` 中的 `sRDI` 使用的是 `link` 的 `sRDI`, 但由于其无法加载含有隐式 `TLS` 的 `PE` 文件，
+
+因此在新版本中我们推出了支持隐式 `TLS` 加载的 `sRDI`， 以支持各类 `PE` 文件
 
 #### dllspanw
 
 由于还有很多资源停留在 `CS` 的各类库中， 因此， 我们提供了 `dllspanw` 来适配 `CS` 的对应功能
+
+CS中各种提权的dll以及各种功能， 绝大部分都基于此实现， 现在我们能完美的兼容CS的dll像相关命令了
 
 ### 其他更新
 
