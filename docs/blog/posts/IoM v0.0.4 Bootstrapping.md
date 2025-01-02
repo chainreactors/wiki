@@ -38,7 +38,7 @@ v0.0.4 是一个过度版本，大部分更新都在修复bug， 提高兼容性
 
 新版的rust放弃了对windows7/windows server 2008的支持。 为了兼容win7，我们调整了编译环境的版本， 使用1.74 rust + lto 链接， 使得v0.0.4的implant能运行在低版本的windows中。 
 
-并重载了链接过程，解决rust lto无法正确加载符号表的bug: https://github.com/rust-lang/rust/issues/44322 
+重载了链接过程，解决rust lto无法正确加载符号表的bug: https://github.com/rust-lang/rust/issues/44322 
 
 #### 修复sRDI 静态 TLS 无法加载的问题 
 
@@ -59,6 +59,11 @@ v0.0.4 是一个过度版本，大部分更新都在修复bug， 提高兼容性
 
 CS中各种提权的dll以及各种功能， 绝大部分都基于此实现， 现在我们能完美的兼容CS的dll像相关命令了
 
+#### http pulse 
+
+在v0.0.3 中， 支持了基于tcp协议的stager，但是因为静态TLS锁的问题， 现有的所有sRDI或PE loader (donut, pe2shellcode, No-Consolation等等)都无法加载rust MSVC编译的程序。又因为GNU的win7兼容性问题， pulse事实上只是一个摆设。
+
+现在我们同时解决了win7兼容性与静态TLS锁的问题。并新增了pulse的http实现，现在pulse可以真正发挥stager的作用了。
 
 ### 自动化编译
 
@@ -70,7 +75,8 @@ CS中各种提权的dll以及各种功能， 绝大部分都基于此实现， �
 
 **v0.0.4支持无任何本地环境的自动化编译了， 极大减轻了malefic编译的心智负担**
 #### 基于github action的快速编译
-##### github相关配置
+
+**github相关配置**
 
 使用github action前，需要先在server所处服务器上对server二进制文件同一目录下的config.yaml进行配置。将malefic源码所在的github仓库名、github用户名github token以及workflow配置文件名填入。
 
@@ -86,15 +92,15 @@ CS中各种提权的dll以及各种功能， 绝大部分都基于此实现， �
 
  若有多个用户使用服务器，也可以在client所处主机的~/.config/malice/malice.yaml下进行配置。当client端的github 配置填入之后，server会优先使用client提供的github配置，来启动工作流。
 
-  ```
+```
 ...
     github_repo:                           # malefic的仓库名
     github_owner:                          # github用户名 
     github_token:                          # github的token 
     github_workflow_file: 			     # workflow的配置文件名（默认为generate.yaml）
-  ```
+```
 
-##### action build
+**action build**
 
 使用action和子命令来进行编译，必须指定build target以及对应的profile。当workflow运行成功时，client会提示当前workflow的html_url，方便在网页端进行查看。当编译完成时，也会在client进行通知。
 
@@ -103,7 +109,7 @@ CS中各种提权的dll以及各种功能， 绝大部分都基于此实现， �
 命令示例：
 
   ```
-  action run --profile test --type beacon --target x86_64-pc-windows-msvc
+  action beacon --profile test --target x86_64-pc-windows-msvc
   ```
 
 为了统一使用，action run的参数命令与docker build的参数基本一致。
@@ -133,6 +139,7 @@ allinone 镜像: ghcr.io/chainreactors/malefic-builder:v0.0.4
 * donut_exe2shellcode, 基于donut实现的exe转shellcode
 * sgn_encode, shellcode sgn混淆
 * srdi, 能调用malefic-mutant中支持的srdi将二进制程序转为shellcode
+* .....
 
 详细文档可以查阅: https://chainreactors.github.io/wiki/IoM/manual/mal/builtin/#artifact 
 
@@ -151,6 +158,8 @@ allinone 镜像: ghcr.io/chainreactors/malefic-builder:v0.0.4
 
 #### 非交互式client
 
+特定场景下使用, 更轻量的交互模式
+
 ```bash
 .\client.exe implant whoami --use 08d6c05a21512a79a1dfeb9d2a8f262f --auth admin_127.0.0.1.auth --wait
 ```
@@ -160,7 +169,7 @@ allinone 镜像: ghcr.io/chainreactors/malefic-builder:v0.0.4
 ### Other of others
 
 * lua api文档格式重构， 现在更加清晰
-* 将sgn与malefic-mutant在编译时内嵌， 减少安装时的步骤
+* 将sgn与malefic-mutant在编译时内嵌， 减少安装时的步骤 
 * 优化`!`命令， 能更好得执行本地的命令， 而不需要退出程序
 * 编译pulse时 联动beacon
 * 重构website
