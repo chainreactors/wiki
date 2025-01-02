@@ -110,7 +110,7 @@ docker run -v "$(pwd):/root/src" -v "$(pwd)/cache/registry:/root/cargo/registry"
 
 首先, 你需要git clone一份malefic源码，并push到一份到你的仓库(建议设置私人仓库)，并开启github action功能，参考下图:
 
-![](/wiki/docs/IoM/assets/enable-github-action.png)
+![](/wiki/IoM/assets/enable-github-action.png)
 
 然后, 在本地安装[gh cli](https://docs.github.com/zh/github-cli/github-cli/quickstart)工具，通过设置`GH_TOKEN`环境变量或`gh auth login`登录你的github账号，然后执行如下命令即可编译.
 
@@ -142,7 +142,7 @@ gh workflow run generate.yaml -f package="modules" -f malefic_modules_features="
 ```
 编译完成后你可以通过`gh run list --workflow=generate.yaml -R <username/malefic>`查看编译结果，
 通过`gh run download <run_id> -R <username/malefic>`下载对应的二进制文件.
-![](/wiki/docs/IoM/assets/gh-run-list-download.png)
+![](/wiki/IoM/assets/gh-run-list-download.png)
 
 ## 本机编译环境配置
 
