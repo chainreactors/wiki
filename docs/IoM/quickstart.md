@@ -200,7 +200,8 @@ session
 
 这个时候输入`help` 将能看到这个 session 上下文完整可用的命令.
 
-[implant 命令手册](/wiki/IoM/manual/implant/)
+!!! important "implant 命令手册"
+	[implant 命令手册](/wiki/IoM/manual/manual/implant/)
 
 ![](/wiki/IoM/assets/image_20240819003338.png)
 
