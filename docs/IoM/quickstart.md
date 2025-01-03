@@ -68,7 +68,7 @@ fork 或者push到自己的malefic仓库
 ```yaml
 github:  
   repo: malefic  
-  workflow: generate.yml  
+  workflow: generate.yaml  
   owner: your_name
   token: your_token
 ```

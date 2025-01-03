@@ -97,7 +97,7 @@ CS中各种提权的dll以及各种功能， 绝大部分都基于此实现， �
     github_repo:                           # malefic的仓库名
     github_owner:                          # github用户名 
     github_token:                          # github的token 
-    github_workflow_file: 			     # workflow的配置文件名（默认为generate.yaml）
+    github_workflow_file: 			       # workflow的配置文件名（默认为generate.yaml）
 ```
 
 **action build**
