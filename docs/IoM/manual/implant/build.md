@@ -105,7 +105,7 @@ docker run -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/malefic-builder:
 docker run -v "$(pwd):/root/src" -v "$(pwd)/cache/registry:/root/cargo/registry" -v "$(pwd)/cache/git:/root/cargo/git" --rm -it ghcr.io/chainreactors/malefic-builder:v0.0.4 make beacon target_triple="x86_64-unknown-linux-musl"
 ```
 
-## Github Action编译
+## Github Action编译 (推荐)
 目前client+server已经内置了github action编译的命令，可以通过client直接编译，你可通过`action build --help`查看详细用法。 接下来叙述如何手动通过gh编译。
 
 首先, 你需要git clone一份malefic源码，并push到一份到你的仓库(建议设置私人仓库)，并开启github action功能，参考下图:
