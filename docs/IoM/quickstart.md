@@ -165,20 +165,21 @@ build beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl
 action beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl
 ```
 
-下载编译结果
+
+![build_and_download_beacon.png](/wiki/IoM/assets/build_and_download_beacon.png)
+
+**下载编译结果**
 ```
 artifact list
 # 或可执行下载命令
 artifact download [UNABLE_POOl] 
 ```
 
-!!! tips "多按 Tab, 大部分输入都可以通过 tab 自动补全"
-
-
 ![](/wiki/IoM/assets/aa8ef0f33fc8e19ea7bcb9cfb3b094e.png)
 
 
-![build_and_download_beacon.png](/wiki/IoM/assets/build_and_download_beacon.png)
+!!! tips "多按 Tab, 大部分输入都可以通过 tab 自动补全"
+
 
 ??? info "(非必要)其他编译方式"
 	我们提供了如下几种方式进行编译：
