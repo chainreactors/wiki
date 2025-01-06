@@ -11,22 +11,22 @@
 
 ## TL;NR
 
-在本文之前，几乎所有的SRDI或者类似的PE Loader都会面临PE中已经存在静态TLS段就无法加载的问题。
+在本文之前，几乎所有的SRDI或者类似的PE Loader都会面临PE使用静态TLS而导致的加载问题
 
 这个问题的表现在rust编译的程序无法被任意 PE loader 加载。 当然不仅限于rust， 有非常多的语言都会使用TLS性能加速。 如果你遇到过某使用donut/SRDI生成的shellcode莫名其妙崩溃， 很有可能就是这个问题。 
 
 可能因为他们不是基于rust生态构建，所以可以暂时逃避这个问题， 也意味着放弃所有使用rust编写的工具。但IoM完全基于rust 构建自己的基础设施，所以我们不得不面对这个问题。
 
-- [No-Consolation](https://github.com/fortra/No-Consolation): 不支持TLS
+- [No-Consolation](https://github.com/fortra/No-Consolation): 不支持静态TLS
 
 ![](assets/Pasted%20image%2020241227161625.png)
-- [donut](https://github.com/TheWover/donut), 不支持TLS， 也意味着所有基于donut构建的C2也都不支持， 包括sliver, xiebroC2, merlin等等。 (顺带一提, 目前大部分C2的pe loader都基于donut构建， donut是个非常强大的项目)
-- [sRDI](https://github.com/monoxgas/sRDI) 不支持TLS
-- [link](https://github.com/postrequest/link), link 实现了自己的sRDI, 但是他也不支持TLS, 不能加载自身。 
-- [c3](https://github.com/WithSecureLabs/C3) 解决了win7, win10部分版本的TLS问题
+- [donut](https://github.com/TheWover/donut), 不支持静态TLS， 也意味着所有基于donut构建的C2也都不支持， 包括sliver, xiebroC2, merlin等等。 (顺带一提, 目前大部分C2的pe loader都基于donut构建， donut是个非常强大的项目)
+- [sRDI](https://github.com/monoxgas/sRDI) 不支持静态TLS
+- [link](https://github.com/postrequest/link), link 实现了自己的sRDI, 但是他也不支持T静态TLS, 不能加载自身。 
+- [c3](https://github.com/WithSecureLabs/C3) 解决了win7, win10部分版本的静态TLS问题
 - ... 
 
-几乎所有的PE Loader都放弃了对rust程序以及用到了TLS程序的的兼容。
+几乎所有的PE Loader都放弃了对rust程序以及用到了静态TLS程序的的兼容。
 
 ## 从 Implant 的设计理念说起
 
@@ -442,7 +442,7 @@ __int64 __fastcall std::sys::windows::thread_local_key::on_tls_callback(__int64 
 }
 ```
 
-符合之前的猜想， 而如果此时查看所有 `tls_index` 的引用， 那么可以发现足足有 `45`处引用
+符合之前的猜想， 而如果此时查看所有 `tls_index` 的引用， 那么可以发现足足有 `45` 处引用
 
 而此时如果我们编译一个 `gnu` 版本 `hello world`
 
@@ -1061,222 +1061,174 @@ pub unsafe fn find_ldrp_handle_tls_data() -> usize {
 
 而方法二呢， 我们是否可以实现一个 `LdrpHandleTlsData` 来完成工作呢，通过`hook` 线程启动来为每一个新线程做处理？这自然也是可行的，比如 [VistaImplicitTls](http://www.nynaeve.net/Code/VistaImplicitTls.cpp) 或 [MemoryModulePP](https://github.com/bb107/MemoryModulePP/tree/master)  但在我们的场景中， 稳定性和简洁性更为重要， 但如果只是为了在纯c环境中加载我们的的 `hello world`， 我们可以写一个简化的 `demo`
 
-
-
-好在我们现在可以稳定找到 `LdrpAllocateTlsEntry` 函数， 让我们用仅有的函数试试看，
-
-### demo
-win10及以下, 通过固定特征的字节码实现：
+而方法二呢， 我们是否可以实现一个 `LdrpHandleTlsData` 来完成工作呢，通过`hook` 线程启动来为每一个新线程做处理？这自然也是可行的，比如 [VistaImplicitTls](http://www.nynaeve.net/Code/VistaImplicitTls.cpp) 或 [MemoryModulePP](https://github.com/bb107/MemoryModulePP/tree/master)  但在我们的场景中， 稳定性和简洁性更为重要， 但如果只是为了在纯c环境中加载我们的的 `hello world`， 我们可以写一个简化的 `demo`, 参考于 [Manually-fixing-static-tls](https://www.unknowncheats.me/forum/general-programming-and-reversing/428195-manually-fixing-static-tls.html)
 
 ```rust
-unsafe fn get_ldrp_handle_tls_offset_data(win_ver: &WinVer) -> ldrp_handle_tls_search {
-    let mut ret_pattern: ldrp_handle_tls_search = core::mem::zeroed();
-    #[cfg(target_arch = "x86_64")]
-    {
-        if IsWindows10RS3OrGreater(win_ver) {
-            let mut offset = 0x43;
-            if IsWindows1019H1OrGreater(win_ver) {
-                offset = 0x46;
-            } else if IsWindows10RS4OrGreater(win_ver) {
-                offset = 0x44;
-            }
-            let pattern = [
-                0x74, 0x33, 0x44, 0x8D, 0x43, 0x09
-            ];
-            srdi_memcpy(
-                ret_pattern.pattern.as_mut_ptr(), 
-                pattern.as_ptr(), 
-                pattern.len()
-            );
-            ret_pattern.offset = offset;
-            ret_pattern.real_len = pattern.len();
-            // return (b"\x74\x33\x44\x8d\x43\x09", offset);
-        } else if IsWindows10RS2OrGreater(win_ver) {
-            let pattern = [
-                0x74, 0x33, 0x44, 0x8D, 0x43, 0x09
-            ];
-            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
-            ret_pattern.real_len = pattern.len();
-            ret_pattern.offset = 0x43;
-        } else if IsWindows8Point1OrGreater(win_ver) {
-            let pattern = [
-                0x44, 0x8D, 0x43, 0x09, 0x4C, 0x8D, 0x4C, 0x24, 0x38
-            ];
-            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
-            ret_pattern.real_len = pattern.len();
-            ret_pattern.offset = 0x43;
-            // return (b"\x44\x8d\x43\x09\x4c\x8d\x4c\x24\x38", 0x43);
-        } else if IsWindows8OrGreater(win_ver) {
-            let pattern = [
-                0x48, 0x8B, 0x79, 0x30, 0x45, 0x8D, 0x66, 0x01
-            ];
-            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
-            ret_pattern.real_len = pattern.len();
-            ret_pattern.offset = 0x49;
-            // return (b"\x48\x8b\x79\x30\x45\x8d\x66\x01", 0x49);
-        } else if IsWindows7OrGreater(win_ver) {
-            let update1 = win_ver.rversion.gt(&24059);
-            let pattern = [
-                0x41, 0xB8, 0x09, 0x00, 0x00, 0x00, 0x48, 0x8D, 0x44, 0x24, 0x38
-            ];
-            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
-            ret_pattern.real_len = pattern.len();
-            ret_pattern.offset = if update1 { 0x23 } else { 0x27 };
-            // let code = b"\x41\xb8\x09\x00\x00\x00\x48\x8d\x44\x24\x38";
-            // return (code, if update1 { 0x23 } else { 0x27 });
-        }
+pub unsafe fn ldrp_handle_tls_data_demo(
+    module_base: *const core::ffi::c_void,
+    module_entry: *mut LDR_DATA_TABLE_ENTRY,
+) {
+    (*module_entry).DllBase = module_base as _;
+    let mut size = 0;
+    let tls_directory: *mut IMAGE_TLS_DIRECTORY = MRtlImageDirectoryEntryToData(
+        module_base as _, 
+        1,
+        IMAGE_DIRECTORY_ENTRY_TLS,
+        &mut size as *mut _ as _
+    ) as _;
+    let mut old = 0;
+    MVirtualProtect(tls_directory as _, size_of::<IMAGE_TLS_DIRECTORY>(), PAGE_EXECUTE_READWRITE, &mut old as *mut _ as _);
+    println!("[+] size is {:x}", size);
+    if tls_directory.is_null() || size.eq(&0) {
+        println!("[+] tls directory is null");
+        return;
     }
-    #[cfg(target_arch = "x86")]
-    {
-        if IsWindows10RS3OrGreater(win_ver) {
-            let pattern = [
-                0x8b, 0xc1, 0x8d, 0x4d, 0x08, 0x51
-            ];
-            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
-            ret_pattern.real_len = pattern.len();
-            // let mut pattern = b"\x8b\xc1\x8d\x4d\xbc\x51";
-            if IsWindows10RS5OrGreater(win_ver) {
-                let pattern = [
-                    0x33, 0xf6, 0x85, 0xc0, 0x79, 0x03
-                ];
-                srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
-                ret_pattern.real_len = pattern.len();
-                // pattern = b"\x33\xf6\x85\xc0\x79\x03";
-            } else if IsWindows10RS4OrGreater(win_ver) {
-                let pattern = [
-                    0x8b, 0xc1, 0x8d, 0x4d, 0xac, 0x51
-                ];
-                srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
-                ret_pattern.real_len = pattern.len();
-                // pattern = b"\x8b\xc1\x8d\x4d\xac\x51";
-            }
-            // let mut offset = 0x18;
-            ret_pattern.offset = 0x18;
-            if IsWindows1020H1OrGreater(win_ver) {
-                ret_pattern.offset = 0x2c;
-                // offset = 0x2C;
-            } else if IsWindows1019H1OrGreater(win_ver) {
-                ret_pattern.offset = 0x2e;
-                // offset = 0x2E;
-            } else if IsWindows10RS5OrGreater(win_ver) {
-                ret_pattern.offset = 0x2c;
-                // offset = 0x2C;
-            }
-            // return (pattern, offset);
-        } else if IsWindows10RS2OrGreater(win_ver) {
-            let pattern = [
-                0x8b, 0xc1, 0x8d, 0x4d, 0xbc, 0x51
-            ];
-            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
-            ret_pattern.real_len = pattern.len();
-            ret_pattern.offset = 0x18;
-            // return (b"\x8b\xc1\x8d\x4d\xbc\x51", 0x18);
-        } else if IsWindows8Point1OrGreater(win_ver) {
-            let pattern = [
-                0x50, 0x6a, 0x09, 0x6a, 0x01, 0x8b, 0xc1
-            ];
-            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
-            ret_pattern.real_len = pattern.len();
-            ret_pattern.offset = 0x1B;
-            // return (b"\x50\x6a\x09\x6a\x01\x8b\xc1", 0x1B);
-        } else if IsWindows8OrGreater(win_ver) {
-            let pattern = [
-                0x8b, 0x45, 0x08, 0x89, 0x45, 0xa0
-            ];
-            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
-            ret_pattern.real_len = pattern.len();
-            ret_pattern.offset = 0xC;
-            // return (b"\x8b\x45\x08\x89\x45\xa0", 0xC);
-        } else if IsWindows7OrGreater(win_ver) {
-            let pattern = [
-                0x74, 0x20, 0x8d, 0x45, 0xd4, 0x50, 0x6a, 0x09
-            ];
-            srdi_memcpy(ret_pattern.pattern.as_mut_ptr(), pattern.as_ptr(), pattern.len());
-            ret_pattern.real_len = pattern.len();
-            ret_pattern.offset = 0x14;
-            // return (b"\x74\x20\x8d\x45\xd4\x50\x6a\x09", 0x14);
-        }
-    }
-    return ret_pattern;
-}
-```
+    println!("[+] tls directory is not null, it is {:#?}", tls_directory as *const core::ffi::c_void);
+    let LdrpTlsList: *const core::ffi::c_void = 0x00007ffa46110388usize as _;
+    let LdrpLdrpTlsBitmap: *const core::ffi::c_void = 0x00007ffa461162a0usize as _;
+    let index = MRtlFindClearBitsAndSet(
+        LdrpLdrpTlsBitmap as _, 
+        1, 
+        0
+    );
 
-win11下的实现
+    (*tls_directory).AddressOfIndex = index as _;
+    println!("[+] index is {:x}", index);
+    let tls_entry: *mut TLS_ENTRY = MHeapAlloc(size_of::<TLS_ENTRY>(), 0) as _;
+    println!("[+] index is {:x}", index);
+    (*tls_entry).TlsDirectory = *tls_directory;
+    (*tls_entry).ModuleTlsData = module_entry;
+    (*tls_entry).TlsIndex = index as _;
+    println!("[+] will insert tail list");
+    // RtlInitializeListEntry(&mut (*tls_entry).TlsEntryLinks as *mut _ as _);
+    InsertTailList(
+        LdrpTlsList as _, 
+        &mut (*tls_entry).TlsEntryLinks as *mut _ as _
+    );
+    println!("[+] insert tail list success");
+    let mut thread_base_info: THREAD_BASIC_INFORMATION = core::mem::zeroed();
+    let hthread = MGetCurrentThread();
+    let mut dw: u32 = 0;
+    MNtQueryInformationThread(
+        hthread, 
+        ThreadBasicInformation as _, 
+        &mut thread_base_info as *mut _ as _, 
+        size_of::<THREAD_BASIC_INFORMATION>() as _, 
+        &mut dw as *mut _);
+    MCloseHandle(hthread);
+    println!("[+] query information thread");
+    let teb1: *mut TEB2 = thread_base_info.TebBaseAddress as _;
 
-```rust
-#[no_mangle]
-pub unsafe fn find_ldrp_handle_tls_greator_win11(
-    ntdll: *const c_void
-) -> usize {
-    loop {
-        let str_pattern: [u8; 18] = [
-            0x4C, 0x64, 0x72, 0x70, 0x49, 0x6E, 
-            0x69, 0x74, 0x69, 0x61, 0x6C, 0x69, 
-            0x7A, 0x65, 0x54, 0x6C, 0x73, 0x00
-        ];
-        let s_addr;
-        #[cfg(target_arch = "x86_64")]
-        {
-            s_addr = find_string_in_rdata(ntdll, &str_pattern);
-        }
-        #[cfg(target_arch = "x86")]
-        {
-            s_addr = find_string_in_text(ntdll, &str_pattern);
-        }
-    
-        let xref_addr;
-        #[cfg(target_arch = "x86_64")]
-        {
-            let start_pattern: [u8;3] = [0x4C, 0x8D, 0x05];
-            xref_addr = 
-                find_xref_in_text(ntdll, &start_pattern, 7, s_addr as usize);
-            if xref_addr.eq(&0) {
-                break;
-            }
-        }
-        #[cfg(target_arch = "x86")]
-        {
-            let start_pattern: [u8;1] = [0x68];
-            xref_addr = find_xref_in_text_without_rva(
-                ntdll, &start_pattern, 5, s_addr as usize
-            );
-            if xref_addr.eq(&0) {
-                break;
-            }
-        }
-        let xref_addr = xref_addr as usize + ntdll as usize;
-        let call_code: [u8;1] = [0xE8];
-        let call_drp_log_internal_addr = boyer_moore(
-                xref_addr as _, 0x30, &call_code, call_code.len());
-        if call_drp_log_internal_addr.eq(&-1) {
-            break;
-        }
-        let call_drp_log_internal_addr = 
-            call_drp_log_internal_addr as usize + xref_addr as usize;
-        let call_ldr_allocate_tls_entry = boyer_moore(
-            (call_drp_log_internal_addr + 5) as _, 0x30, &call_code, call_code.len());
-        if call_ldr_allocate_tls_entry.eq(&-1) {
-            break;
-        }
-        let call_ldr_allocate_tls_entry = 
-            call_ldr_allocate_tls_entry as usize + 
-            call_drp_log_internal_addr + 5;
-    
-        let ldr_allocate_tls_entry = call_ldr_allocate_tls_entry.wrapping_add(
-            calc_call_rva(call_ldr_allocate_tls_entry as _) as _);
-        let black_list: [usize; 1] = [call_ldr_allocate_tls_entry];
-        let call_ldr_allocate_tls_entry2 = 
-            find_call_rva_in_text(ntdll, ldr_allocate_tls_entry, &black_list);
-        if call_ldr_allocate_tls_entry2.eq(&0) {
-            break;
-        }
-    
-        return find_func_start(ntdll, call_ldr_allocate_tls_entry2);
+    let new_tls: *mut *mut usize = MHeapAlloc((index + 1) as usize * size_of::<usize>(), 0) as _;
+
+    if (*teb1).ThreadLocalStoragePointer.is_null() {
+        memset(
+            new_tls as _, 
+            0, 
+            index as usize * size_of::<usize>());
+    } else {
+        memcpy(
+            new_tls as _, 
+            (*teb1).ThreadLocalStoragePointer as _, 
+            index as usize * size_of::<usize>());
     }
-    0
+    println!("[+] thread lodal storage is {:x}", (*teb1).ThreadLocalStoragePointer as usize);
+
+    (*teb1).ThreadLocalStoragePointer = new_tls as _;
+    // (*teb1).ThreadLocalStoragePointer =  null_mut();
+    let size = (*tls_directory).EndAddressOfRawData - (*tls_directory).StartAddressOfRawData;
+    let tls_data = MHeapAlloc(size as _, 0);
+    memcpy(
+        tls_data as _, 
+        (*tls_directory).StartAddressOfRawData as _, 
+        size as _);
+    *new_tls.offset(index as _) = tls_data as _;
 }
 
 ```
+
+当然， 这也与 `xbox loader` 的尝试类似
+
+```rust
+diff --git a/crates/loader/src/lib.rs b/crates/loader/src/lib.rs
+index 97311d0..d66773d 100755
+--- a/crates/loader/src/lib.rs
++++ b/crates/loader/src/lib.rs
+@@ -180,34 +185,53 @@ unsafe fn reflective_loader_impl(context: LoaderContext) {
+             .OptionalHeader
+             .AddressOfEntryPoint as usize) as *const c_void;
+
+-    let tls_directory = &ntheader_ref.OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS];
++    let tls_directory =
++        &ntheader_ref.OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS as usize];
++
++    // Grab the TLS data from the PE we're loading
++    let tls_data_addr =
++        baseptr.offset(tls_directory.VirtualAddress as isize) as *mut IMAGE_TLS_DIRECTORY64;
++
++    // TODO: Patch the module list
++    let tls_index = patch_module_list(
++        context.image_name,
++        baseptr,
++        imagesize,
++        context.fns.get_module_handle_fn,
++        tls_data_addr,
++        context.fns.virtual_protect,
++        entrypoint,
++    );
++
+     if tls_directory.Size > 0 {
+         // Grab the TLS data from the PE we're loading
+         let tls_data_addr =
+             baseptr.offset(tls_directory.VirtualAddress as isize) as *mut IMAGE_TLS_DIRECTORY64;
+
+-        let tls_data: &IMAGE_TLS_DIRECTORY64 = unsafe { core::mem::transmute(tls_data_addr) };
++        let tls_data: &mut IMAGE_TLS_DIRECTORY64 = unsafe { core::mem::transmute(tls_data_addr) };
+
+         // Grab the TLS start from the TEB
+         let tls_start: *mut *mut c_void;
+         unsafe { core::arch::asm!("mov {}, gs:[0x58]", out(reg) tls_start) }
+
+-        let tls_index = unsafe { *(tls_data.AddressOfIndex as *const u32) };
+-
+         let tls_slot = tls_start.offset(tls_index as isize);
+         let raw_data_size = tls_data.EndAddressOfRawData - tls_data.StartAddressOfRawData;
+-        *tls_slot = (context.fns.virtual_alloc)(
++        let tls_data_addr = (context.fns.virtual_alloc)(
+             ptr::null(),
+-            raw_data_size as usize,
++            raw_data_size as usize, // + tls_data.SizeOfZeroFill as usize,
+             MEM_COMMIT,
+             PAGE_READWRITE,
+         );
+
+-        // if !tls_start.is_null() {
+-        //     // Zero out this memory
+-        //     let tls_slots: &mut [u64] = unsafe { core::slice::from_raw_parts_mut(tls_start, 64) };
+-        //     tls_slots.iter_mut().for_each(|slot| *slot = 0);
+-        // }
++        core::ptr::copy_nonoverlapping(
++            tls_data.StartAddressOfRawData as *const _,
++            tls_data_addr,
++            raw_data_size as usize,
++        );
++
++        // Update the TLS index
++        core::ptr::write(tls_data.AddressOfIndex as *mut u32, tls_index);
++        *tls_slot = tls_data_addr;
+
+         let mut callbacks_addr = tls_data.AddressOfCallBacks as *const *const c_void;
+         if !callbacks_addr.is_null() {
+```
+
+
+### 闲言片语
+
+由于测试性代码和工程化的差距还有很多距离， 而本文并非为了说明工程化过程， 因此本文只讨论了windows11版本且程序在64位的情况， 32位就会略有不同
+
+如果能将文章看到这里， 希望各位都有所收获， 那么剩下的内容就留给各位自己来完成啦
+
+当然， 由于本人才疏学浅， 因此如有错误的地方欢迎各位与我讨论， 让我们一起追根溯源 :）
 
 
 ## 实现
@@ -1299,3 +1251,5 @@ malefic-mutant build srdi -i malefic.exe
 [https://landaire.net/reflective-pe-loader-for-xbox/](https://landaire.net/reflective-pe-loader-for-xbox/)
 [Thread_local_Storage](https://en.wikipedia.org/wiki/Thread-local_storage)
 [16-std库(五)线程管理](https://github.com/Warrenren/inside-rust-std-library/blob/main/16-std%E5%BA%93(%E4%BA%94)%E7%BA%BF%E7%A8%8B%E7%AE%A1%E7%90%86.md)
+[static-tls-storage](https://www.unknowncheats.me/forum/general-programming-and-reversing/274023-static-tls-storage.html)
+[Manually-fixing-static-tls](https://www.unknowncheats.me/forum/general-programming-and-reversing/428195-manually-fixing-static-tls.html)
