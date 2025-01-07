@@ -1059,8 +1059,6 @@ pub unsafe fn find_ldrp_handle_tls_data() -> usize {
 
 当然， 如果基于前人的工作， 我们只需要考虑`win11` 的情况就不必解析`.pdata` 段了， 这里就许愿 `windows` 后续的更新不会再有其它情况了 :)
 
-而方法二呢， 我们是否可以实现一个 `LdrpHandleTlsData` 来完成工作呢，通过`hook` 线程启动来为每一个新线程做处理？这自然也是可行的，比如 [VistaImplicitTls](http://www.nynaeve.net/Code/VistaImplicitTls.cpp) 或 [MemoryModulePP](https://github.com/bb107/MemoryModulePP/tree/master)  但在我们的场景中， 稳定性和简洁性更为重要， 但如果只是为了在纯c环境中加载我们的的 `hello world`， 我们可以写一个简化的 `demo`
-
 而方法二呢， 我们是否可以实现一个 `LdrpHandleTlsData` 来完成工作呢，通过`hook` 线程启动来为每一个新线程做处理？这自然也是可行的，比如 [VistaImplicitTls](http://www.nynaeve.net/Code/VistaImplicitTls.cpp) 或 [MemoryModulePP](https://github.com/bb107/MemoryModulePP/tree/master)  但在我们的场景中， 稳定性和简洁性更为重要， 但如果只是为了在纯c环境中加载我们的的 `hello world`， 我们可以写一个简化的 `demo`, 参考于 [Manually-fixing-static-tls](https://www.unknowncheats.me/forum/general-programming-and-reversing/428195-manually-fixing-static-tls.html)
 
 ```rust
@@ -1241,6 +1239,7 @@ index 97311d0..d66773d 100755
 malefic-mutant build srdi -i malefic.exe
 ```
 ![](assets/Pasted%20image%2020241227174327.png)
+
 ### References
 
 非常感谢下面几篇文章为本文和解决`TLS`问题所给予的非常大的帮助:)
