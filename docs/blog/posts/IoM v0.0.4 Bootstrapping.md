@@ -10,21 +10,24 @@ IoM通过几个月的快速迭代, 已经具备了一个现代化C2的绝大部�
 
 v0.0.4将是v0.1.0之前的最后一个版本， 可以在这里看到我们v0.1.0的路线图: https://chainreactors.github.io/wiki/IoM/roadmap/#v010-professional-release
 
+广告时间: 
+
 在这几个月的开发历程中，我们积累了足够多的独一无二的功能。 从v0.1.0 开始， 我们将尝试发布professional。
 
-profressinal额外支持的功能:
-
-* 基于独特的ollvm 能对malefic的所有编译产物进行高度混淆
-* 可自定义可组装的loader
-* 独特的pe loader与sRDI, 能实现无新进程执行cmd/wmic等任意命令， 或loader远程二进制文件
-* linux kit
-* 基于rem实现的任意信道的流量, 代理功能
-* OPSEC
-	* 独立的堆加密
-	* 独立的堆栈混淆
-	* 独立的indirect-syscall
-	* 可自定义的进程注入
-	* ......
+> 
+> profressinal额外支持的功能:
+> 
+> * 基于独特的ollvm 能对malefic的所有编译产物进行高度混淆
+> * 可自定义可组装的loader
+> * 独特的pe loader与sRDI, 能实现无新进程执行cmd/wmic等任意命令， 或loader远程二进制文件
+> * linux kit
+> * 基于rem实现的任意信道的流量, 代理功能
+> * OPSEC
+> 	* 独立的堆加密
+> 	* 独立的堆栈混淆
+> 	* 独立的indirect-syscall
+> 	* 可自定义的进程注入
+> 	* ......
 
 **professional 将提供从静态、行为、内存、流量场景的解决方案**
 
@@ -57,7 +60,9 @@ v0.0.4 是一个过度版本，大部分更新都在修复bug， 提高兼容性
 
 由于还有很多资源停留在 `CS` 的各类库中， 因此， 我们提供了 `dllspanw` 来适配 `CS` 的对应功能
 
-CS中各种提权的dll以及各种功能， 绝大部分都基于此实现， 现在我们能完美的兼容CS的dll像相关命令了
+CS中各种提权的dll以及各种功能， 绝大部分都基于此实现， 现在我们能完美的兼容CS的dll相关命令了
+
+![](assets/ea2f300db1f9740e864589e7e3886b2.png)
 
 #### http pulse 
 
