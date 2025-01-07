@@ -880,6 +880,8 @@ Down	o	.pdata:000000018017F728	RUNTIME_FUNCTION <rva LdrpAllocateTlsEntry, rva b
 
 很好， 只需要我们通过 `debug` 字符串特征反查到 `call LdrpAllocateTlsEntry` 的地方， 再通过扫描`.text` 段中对该地址的 `call rva` 的 `opcode`， 扫描到函数开头就能找到`LdrpHandleTlsData`了， 而由于对齐的原因， 函数开头前面会有 `CC CC CC`类的填充， 那么接下来的事情就非常容易了
 
+### done!
+
 ```rust
 pub unsafe fn find_ldrp_handle_tls_data() -> usize {
     let ntdll = match GetModuleBaseAddr(
