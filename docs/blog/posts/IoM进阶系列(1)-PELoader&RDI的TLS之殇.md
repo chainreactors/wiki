@@ -14,7 +14,7 @@ slug: IoM_advanced_TLS
 > 
 > 在推出`stager` 版本之后， 交流群的一位同学贴出了[Writing a PE Loader for the Xbox in 2024](https://landaire.net/reflective-pe-loader-for-xbox/) 这篇文章， 用一种非常粗暴的方式解决了 `Rust`在使用`MSVC`编译时引入了`TLS(thread-local storage)`  , 而只常见的`PELoader` 简单调用 `tls callback` 无法正常加载 `PE` 文件的问题， 遂成文。
 
-
+<!-- more -->
 ## TL;NR
 
 在本文之前，几乎所有的SRDI或者类似的PE Loader都会面临PE使用静态TLS而导致的加载问题

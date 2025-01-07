@@ -10,6 +10,8 @@ IoM通过几个月的快速迭代, 已经具备了一个现代化C2的绝大部�
 
 v0.0.4将是v0.1.0之前的最后一个版本， 可以在这里看到我们v0.1.0的路线图: https://chainreactors.github.io/wiki/IoM/roadmap/#v010-professional-release
 
+<!-- more -->
+
 广告时间: 
 
 在这几个月的开发历程中，我们积累了足够多的独一无二的功能。 从v0.1.0 开始， 我们将尝试发布professional。
