@@ -34,6 +34,15 @@ slug: IoM_advanced_TLS
 
 几乎所有的PE Loader都放弃了对rust程序以及用到了静态TLS程序的的兼容。
 
+在本文发布时，IoM v0.0.4也已经发布, 本文的相关成果将随着malefic-mutant一同发布。 
+
+可以使用malefic-mutant 将带有TLS的PE文件转为shellcode， 该shellcode能被任意shellcode loader加载。 
+
+```
+malefic-mutant build srdi -i malefic.exe
+```
+![](assets/Pasted%20image%2020241227174327.png)
+
 ## 从 Implant 的设计理念说起
 
 在设计之初， `implant` 就是一个由各种可替换组件构成的 `星舰`， 一个涵盖了多种无文件攻击模块(以`Windows`平台举例的`Shellcode`, `PE`, `.Net`, `Powershell`, `BOF`) 的可组装载体， 它应该是一个可以承载各种格式的 `payload` 发射器，或者作为一个安静的流量代理工具， 因此对于 `implant` 而言， 各种动态加载的功能必不可少， 而在 `windows` 中， `LoadPE` 就是实现这个想法的一个最基本的功能
@@ -1237,16 +1246,8 @@ index 97311d0..d66773d 100755
 当然， 由于本人才疏学浅， 因此如有错误的地方欢迎各位与我讨论， 让我们一起追根溯源 :）
 
 
-## 实现
 
-在本文发布时，IoM v0.0.4也已经发布, 本文的相关成果将随着malefic-mutant一同发布。 
 
-可以使用malefic-mutant 将带有TLS的PE文件转为shellcode， 该shellcode能被任意shellcode loader加载。 
-
-```
-malefic-mutant build srdi -i malefic.exe
-```
-![](assets/Pasted%20image%2020241227174327.png)
 
 ### References
 
