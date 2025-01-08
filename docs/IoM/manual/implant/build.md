@@ -323,6 +323,17 @@ malefic_mutant generate modules "execute_powershell execute_assembly"
 cargo build --release --features "execute_powershell execute_assembly" -p malefic-modules --target x86_64-pc-windows-gnu
 ```
 
+注: 使用手动交叉编译也可以使用[zigbuild](https://github.com/rust-cross/cargo-zigbuild),
+```
+pip install cargo-zigbuild
+```
+编译命令如下，以malefic beacon为例:
+```
+cargo zigbuild --release -p malefic --target x86_64-pc-windows-msvc
+cargo zigbuild --release -p malefic --target x86_64-unknown-linux-musl
+```
+
+
 !!! info "当前支持的 modules"
 	请见: https://chainreactors.github.io/wiki/IoM/manual/implant/modules/#modules
 
