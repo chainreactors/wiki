@@ -64,6 +64,12 @@ IoM将由一系列仓库组成
 * malefic-android-kit (🛠️)
 * mice (🔒), 持久性后门
 
+## 更新日志
+
+- [v0.0.1 next generation C2 project](/wiki/blog/2024/08/16/%E4%B8%80%E4%B8%8B%E4%BB%A3c2%E8%AE%A1%E5%88%92-----internal-of-malice/)
+- [v0.0.2 the Real Beginning](/wiki/blog/2024/09/23/IoM_v0.0.2/)
+- [v0.0.3 RedTeam Infra&C2 framework](/wiki/blog/2024/11/20/IoM_v0.0.3/)
+- [v0.0.4 Bootstrapping](/wiki/blog/2025/01/02/IoM_v0.0.4/)
 ## 社区
 
 ### github
@@ -79,8 +85,7 @@ malice-network的[issues](https://github.com/chainreactors/malice-network/issues
 
 如果有深入讨论关于IoM的问题, 更建议在github的issues/disscussion中进行, 微信群一般只用来广播更新进度. 
 
-![image-20240819160739532](/wiki/IoM/assets/image-20240819160739532.png)
-
+微信群已超过200人, 可以通过 m09ician@gmail.com 发送邮件, 会定期拉人入群
 ### 用户协议
 
 * 本工具仅限拥有授权的用户在被授权项目中使用, 任何非法使用造成的后果与本工具无关.
