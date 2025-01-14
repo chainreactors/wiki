@@ -85,7 +85,7 @@ malice-network的[issues](https://github.com/chainreactors/malice-network/issues
 
 如果有深入讨论关于IoM的问题, 更建议在github的issues/disscussion中进行, 微信群一般只用来广播更新进度. 
 
-微信群已超过200人, 可以通过 m09ician@gmail.com 发送邮件, 会定期拉人入群
+微信群已超过200人, 可以通过 @m09ician@gmail.com 发送邮件, 会定期拉人入群
 ### 用户协议
 
 * 本工具仅限拥有授权的用户在被授权项目中使用, 任何非法使用造成的后果与本工具无关.
