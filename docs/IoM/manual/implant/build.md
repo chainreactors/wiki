@@ -145,7 +145,7 @@ gh workflow run generate.yaml -f package="modules" -f malefic_modules_features="
 通过`gh run download <run_id> -R <username/malefic>`下载对应的二进制文件.
 ![](/wiki/IoM/assets/gh-run-list-download.png)
 
-## 本机编译环境配置
+## 本机编译
 
 !!! danger "由于本地环境的编译更为复杂, 只建议有rust使用经验的用户采用"
 	本机编译时交叉编译配置或者不同的target都可能有不同的环境依赖. 例如编译gnu相关需要依赖特定版本的gcc, 编译musl或者darwin也需要安装对应的环境。这些基础环境配置我们在docker里解决了一遍， **对于没有相关经验的使用者会非常劝退**。

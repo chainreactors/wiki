@@ -277,24 +277,25 @@ Options:
 ```bash
 Generate SRDI
 
-Usage: malefic-mutant.exe build srdi [OPTIONS] <SRC_PATH> <PLATFORM> <ARCH> <TARGET_PATH>
-
-Arguments:
-  <SRC_PATH>     Source exec path
-  <PLATFORM>     platform, win
-  <ARCH>         Choice arch x86/x64
-  <TARGET_PATH>  Target shellcode path
+Usage: malefic-mutant.exe build srdi [OPTIONS]
 
 Options:
-      --function-name <FUNCTION_NAME>    Function name [default: ]
-      --userdata-path <USER_DATA_PATH>  User data path [default: ]
-  -h, --help                             Print help
+  -t, --type <TYPE>                    Srdi type: link(not support TLS)/malefic(support TLS) [default: malefic]
+  -i, --input <INPUT>                  Source exec path [default: ]
+  -p, --platform <PLATFORM>            platform, win [default: win]
+  -a, --arch <ARCH>                    Choice arch x86/x64 [default: x64]
+  -o, --output <OUTPUT>                Target shellcode path [default: malefic.bin]
+      --function-name <FUNCTION_NAME>  Function name [default: ]
+      --userdata-path <USERDATA_PATH>  User data path [default: ]
+  -h, --help                           Print help
 ```
 
 使用示例：
 
 ```bash
-malefic-mutant build srdi ./beacon.exe win x64 ./beacon.bin
+malefic-mutant build srdi -i ./beacon.exe
 
-malefic-mutant build srdi ./beacon.dll win x64 ./beacon.bin --function-name "main"
+malefic-mutant build srdi -i ./beacon.exe -o x64 -o ./beacon.bin
+
+malefic-mutant build srdi -i ./beacon.dll  --function-name "main"
 ```
