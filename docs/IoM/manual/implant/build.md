@@ -40,7 +40,7 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 
 [下载对应的版本 resources.zip](https://github.com/chainreactors/malefic/releases/download/v0.0.3/resources.zip), 包含了编译需要用到的预编译的 malefic-win-kit lib/a 库文件.
 
-community 的 resources 随着版本发布时的 release 发布: https://github.com/chainreactors/malefic/releases/lasest:
+community 的 resources 随着版本发布时的 release 发布: https://github.com/chainreactors/malefic/releases/latest 
 
 解压到源码目录下的 resrouces 文件夹下: 最终结果应该类似这样:
 
@@ -93,6 +93,7 @@ curl -fsSL https://get.docker.com | sudo bash -s docker
 ### 编译
 
 !!! important "请注意已完成了基础环境配置"
+	使用`install.sh` 安装的会自动配置对应的基础环境. 如果是手动配置请检查[基础环境配置](/wiki/IoM/manual/implant/build/#_2)
 
 以`x86_64-unknown-linux-musl`举例, **在 malefic 的代码根目录下执行**
 
@@ -146,9 +147,11 @@ gh workflow run generate.yaml -f package="modules" -f malefic_modules_features="
 
 ## 本机编译环境配置
 
-由于本地环境的编译更为复杂，如果需要交叉编译建议使用`Docker`编译. 以`x86_64-pc-windows-msvc`为例，
+!!! danger "由于本地环境的编译更为复杂, 只建议有rust使用经验的用户采用"
+	本机编译时交叉编译配置或者不同的target都可能有不同的环境依赖. 例如编译gnu相关需要依赖特定版本的gcc, 编译musl或者darwin也需要安装对应的环境。这些基础环境配置我们在docker里解决了一遍， **对于没有相关经验的使用者会非常劝退**。
+	
+	如果没有丰富的rust使用经验， 建议使用我们提前准备的docker/github aciton进行编译
 
-!!! important "手动编译前请检查"
 ### 安装rust
 linux安装 rust
 
@@ -169,24 +172,40 @@ scoop install rustup
 ```
 winget install rustup
 ```
-### 安装llvm
-```
-scoop install llvm
-```
-
-### 安装 toolchain与target
+### 安装 toolchain
 
 ```bash
 rustup default nightly-2023-09-18
 ```
 
-添加 target, [经过的测试的 target 推荐](/wiki/IoM/manual/implant/build/#_1)
+### 环境配置
 
-```
-rustup target add x86_64-pc-windows-msvc
+!!! tips "交叉编译小技巧"
+	使用手动交叉编译也可以使用[zigbuild](https://github.com/rust-cross/cargo-zigbuild)可以免去坑非常多的环境配置问题
+	
+	```
+	pip install cargo-zigbuild
+	```
+	
+	编译命令如下，以malefic beacon为例:
+	
+	```
+	cargo zigbuild --release -p malefic --target x86_64-pc-windows-gnu
+	cargo zigbuild --release -p malefic --target x86_64-unknown-linux-musl
+	```
+
+#### linux
+
+```bash
+sudo apt install -y openssl libssl-dev libudev-dev cmake llvm clang musl-tools build-essential
 ```
 
-??? "windows 配置 gnu 环境(非必要)"
+#### windows 
+
+??? "windows 配置msvc环境(使用x86_64-pc-windows-msvc必须)"
+	请参考: https://rust-lang.github.io/rustup/installation/windows-msvc.html
+
+??? "windows 配置 gnu 环境(如果使用x86_64-pc-windows-gnu必须)"
 	本地手动编译时，我们推荐 windows 用户使用[msys2](https://www.msys2.org/)管理 GNU 工具链环境, 可通过官网二进制文件直接安装。
 	
 	在 msys2 的 terminal 执行如下安装可以保证 64、32 位 GNU 工具链的正常编译
@@ -224,7 +243,7 @@ rustup target add x86_64-pc-windows-msvc
 
 !!! important "本机安装请注意[下载resources](#resources)并解压到指定目录"
 
-此部分仍然可以使用make命令进行编译, 手动编译命令如下，流程与前文Makefile一致
+此部分也可以使用make命令进行编译, 与前文Makefile一致
 
 ### 编译 malefic
 
@@ -238,15 +257,18 @@ rustup target add x86_64-pc-windows-msvc
 rustup target add x86_64-pc-windows-gnu
 ```
 
+
 ### 生成配置与代码
 
 
 编译mutant, 或从malefic release中下载编译好的mutant,[mutant 完整文档](/wiki/IoM/manual/implant/mutant)
+
 ```bash
 cargo build --release -p malefic-mutant
 ```
 
 通过 mutant 生成对应的配置
+
 ```bash
 # 生成 beacon 编译所需的配置和代码
 ./target/release/malefic-mutant generate beacon
@@ -280,8 +302,6 @@ cargo build --release -p malefic-prelude --target x86_64-pc-windows-gnu
 
 ### 编译 malefic-pulse
 
-与手动编译 `malefic` 相似， 但目前 pulse 需要开启 `lto` 优化， 因此需要使用开启了 `lto` 的配置选项， 当然， 如果熟悉 rust 的使用者也可以自行更改
-
 在进行手动编译前， 请更改 `pulse` 对应的配置项, 关于配置项， 请参考 [pulse 配置说明](/wiki/IoM/manual/implant/mutant/#pulse)
 
 ```bash
@@ -292,9 +312,9 @@ malefic-mutant generate pulse
 
 ```bash
 # mg 64
-cargo build --profile release-lto -p malefic-pulse --target x86_64-pc-windows-gnu
+cargo build -p malefic-pulse --target x86_64-pc-windows-gnu
 # mg 32
-cargo build --profile release-lto -p malefic-pulse --target i686-pc-windows-gnu
+cargo build -p malefic-pulse --target i686-pc-windows-gnu
 ```
 
 生成对应的 `malefic-pulse.exe` 文件后，您可以使用 `objcopy` 来进行 `shellcode` 的转化
@@ -322,17 +342,6 @@ malefic_mutant generate modules "execute_powershell execute_assembly"
 ```bash
 cargo build --release --features "execute_powershell execute_assembly" -p malefic-modules --target x86_64-pc-windows-gnu
 ```
-
-注: 使用手动交叉编译也可以使用[zigbuild](https://github.com/rust-cross/cargo-zigbuild),
-```
-pip install cargo-zigbuild
-```
-编译命令如下，以malefic beacon为例:
-```
-cargo zigbuild --release -p malefic --target x86_64-pc-windows-msvc
-cargo zigbuild --release -p malefic --target x86_64-unknown-linux-musl
-```
-
 
 !!! info "当前支持的 modules"
 	请见: https://chainreactors.github.io/wiki/IoM/manual/implant/modules/#modules
