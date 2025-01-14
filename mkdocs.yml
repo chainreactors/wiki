@@ -84,12 +84,13 @@ nav:
         - index: IoM/manual/index.md
         - client/server:
             - index: IoM/manual/manual/index.md
-            - 安装部署手册: IoM/manual/manual/deploy.md
-            - 基本命令手册: IoM/manual/manual/client.md
-            - implant命令手册: IoM/manual/manual/implant.md
+            - install&deploy: IoM/manual/manual/deploy.md
+            - client usage: IoM/manual/manual/client.md
+            - implant usage: IoM/manual/manual/implant.md
         #   - 二次开发: IoM/manual/manual/develop.md
         - mals插件生态:
             - index: IoM/manual/mal/index.md
+            - quickstart: IoM/manual/mal/quickstart.md
             - lua:
                 - builtin: IoM/manual/mal/builtin.md
                 - beacon: IoM/manual/mal/beacon.md
