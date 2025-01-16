@@ -81,7 +81,9 @@ chainreactor 自研的工具链
 - [templates](https://github.com/chainreactors/templates)  工具链各类配置库, 包括指纹, 敏感信息, poc, 字典, 端口等等
 - [neutron](https://chainreactors.github.io/wiki/libs/neutron/) 使用纯 go 实现并去掉几乎全部第三方依赖的轻量级 nuclei 引擎, 可以无副作用的集成到任意工具中而不会破坏系统兼容性. 也几乎不会带来额外的依赖.
 - [fingers](https://chainreactors.github.io/wiki/libs/fingers/)  templates, wappalyzer, fingerprinthub等指纹库的go实现,  支持自定义添加各类第三方指纹库
+- [proxyclient](https://github.com/chainreactors/proxyclient) golang风格的proxy客户端, 支持http/https, socks5/socks4/socks4a, ssh等代理
 - [parsers](https://github.com/chainreactors/parsers), 封装了 chainreactor 工具链上的各个工具输入输出的解析相关的代码.
+- [mals](https://github.com/chainreactors/mals) 基于lua实现的插件引擎
 - [crtm](https://github.com/chainreactors/crtm) 基于pdtm修改的chainreactor包管理工具. 
 - [picker](https://github.com/chainreactors/picker) 将repo变成RSS订阅,文章整理归档, 讨论的社区
 - [wiki](https://github.com/chainreactors/wiki) chainreactors 文档库Markdown
