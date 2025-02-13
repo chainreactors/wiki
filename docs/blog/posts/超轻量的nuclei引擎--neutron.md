@@ -26,6 +26,34 @@ nuclei提供了极简的poc配置, 强大的DSL引擎以及目前**地表最庞�
 
 <!-- more -->
 
+
+### Internal DSL
+
+> 名词解释: 内部DSL是嵌入在宿主语言中的领域特定语言。它利用宿主语言的语法、语义和库来创建一个特殊的语法，供特定领域的任务使用。
+
+projectdiscovery的nuclei, 最初通过基于yaml的DSL( Domain Specific Language 特定领域语言), 实现poc的规范化. 在新的大版本nuclei v3更是提供了`Internal DSL` 嵌入了python, javascript作为GPL(General-Purpose Language 一般用途语言). 
+
+> 顺便一提, nuclei到v3, 评价有些开始两级分化了. nuclei朝着通用扫描器(类似AWVS)前进, 但是最开始使用nuclei的用户看重的是其轻量化, 稳定, 可控, 可拓展. 过度的功能膨胀不止带来了非常多的bug(nuclei非常多的poc已经无法正常运行), 也带来了体积上升, 性能下降, debug困难等问题. 
+> 曾经为了满足gogo在windows xp中使用, 编写的轻量nuclei-templates引擎 [nuetron](https://github.com/chainreactors/neutron) 现在兼容了nuclei v2.* 90%以上的功能, 并且不会带来大量依赖, 不会破坏原有的兼容性, 可以在任意代码中快速嵌入并解析运行 nuclei的templates-yaml.
+
+IDSL的优点非常多, 适合AI生成, 使用简单, 上手门槛低. 而缺点也显而易见, IDSL通常只能满足较小的特定领域, 例如描述一个漏洞的POC如何实现, 但是对于更加复杂的场景会显得捉襟见肘, 处处限制.
+
+例如nuclei尝试支持通用漏洞(例如SQL注入, XSS), 曾经叫 [fuzzing-templates](https://github.com/projectdiscovery/fuzzing-templates), 现在是[templates仓库下的dast](https://github.com/projectdiscovery/nuclei-templates/tree/main/dast) .
+
+直到现在也只是小猫三两只, 原因就在于IDSL的表达力是不如EDSL更不如GPL的, 如果通过内嵌的python,javascript实现, 又会失去DSL的原本的优势. 
+
+![](assets/image_20240823164515.png)
+我猜这也是nuclei在v3版本引入javascript/python等GPL作为其DSL的拓展的原因。不提高自己的基础能力就没办法覆盖复杂场景。但也因为nuclei变得复杂，chainreactors中的gogo/zombie两个工具不得不放弃原版的nuclei，自行实现了[轻量级的poc引擎 neutron](https://github.com/chainreactors/neutron)
+
+### External DSL
+
+> 名词解释: 外部DSL是一种独立的领域特定语言，它有自己的语法和语义，通常需要一个专门的解析器或编译器来处理
+
+这个技术路线在安全领域的例子就是近两年火热的 yaklang 以及对应的yakit.  yakit早期应该是基于golang的解释器实现的(我不是特别了解, 欢迎纠正), 现在则是运行在自己实现的虚拟机上, 逐渐朝着GPL发展. 
+
+yaklang从最初的兼容golang的生态, 到现在能将不同语言/DSL编译到自己的VM上以兼容网络安全领域五花八门的生态. 他们的技术路线几乎是网络安全领域实现DSL的最佳实践.
+
+要说缺点，也和nuclei v3遇到的问题有点类似，这样的设计能用在个人的机器上，但是要基于此一套分布式或者内网特化的工具式还是过于笨重了。
 ### 嵌入nuclei
 
 但对于nuclei的初衷---poc引擎来说, 确实拓展了引擎的能力边界, 也意味着很难将nuclei嵌入到各种场景中, 不管什么工具引入了nuclei, 体积都要飙升到30-50M. 压缩完体积也超过了10M.
