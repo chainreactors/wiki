@@ -53,6 +53,7 @@ nighthawk 与 cobaltstrike 都是闭源的工具, 他们虽然提供了各种接
 
 可以想象一个能调用 cobaltstrike 的 cna 脚本的冰鞋/哥斯拉有多么强大!
 
+安全的对抗几乎都集中在 post-exploit 上, 在 pre-exploit 上, 防守方能做的只有收敛攻击面， 在 exploit 对抗上只能做好 VM(漏洞管理) 解决 1day/nday 问题。 这两者加起来, 都对 0day 无能为力, WAF 这类流量设备进行的抵抗不足为惧, 真正能解决这个问题的是在 post-exploit 过程中的对抗. post-exploit 对抗过程中出现了纵深防护, 态势感知, 零信任等等方法, 出现了长长的一系列产品, 全都是用来与 C2 对抗. 所以 C2 是红蓝双方争夺最激烈最重要的高地.
 ## 架构/architecture
 
 **进攻是最好的防御.**
@@ -63,34 +64,31 @@ Internal of Malice(恶联网) 力图实现一套 post-exploit 基础设施, 在�
 
 - server 数据处理与交互服务
 - 监听器(listener), 与 server 解耦, 可以独立于 server 单独部署
-  - 反向连接器, 用来接收反连数据
-  - 正向连接器, 用来连接 webshell 或者正向连接的 implant (WIP)
-  - 开放接口, 支持第三方implant/webshell
+	- 反向连接器, 用来接收反连数据
+	- 正向连接器, 用来连接 webshell 或者正向连接的 implant (v0.0.3 done)
+	- 开放接口, 支持第三方implant/webshell
 - 植入物(implant), 并能接受任意语言编写的插件
-  - 基于 rust 的全平台反向植入物
-  - 基于 webshell 的正向植入物 webshell (WIP)
-  - loader generator (WIP)
-  - ollvm 编译器 (WIP)
-  - webshell/bind , 基于 web/其他协议的正向的 implant (WIP)
+	- 基于 rust 的全平台反向植入物
+	- 基于 webshell 的正向植入物 webshell (v0.1.0)
+	- loader generator (v0.0.4 done)
+	- ollvm 编译器 (v0.1.0 WIP)
+	- bind (v0.0.3 done)
 - client
-  - cli
-  - gui (WIP)
+	- cli
+	- gui (v0.1.0 WIP)
 - 插件生态
-
-  - implant 端插件
-
-    - armory, sliver 的插件生态
-    - BOF, cobaltstrike 的 bof 插件生态
-    - dynamic module, IoM 自身的插件生态
-    - UDRL, DLL loader
-    - HeadlessPE, PEloader
-    - CRL(C# loader)
-    - Unmanaged powershell
-    - ......
-
-  - server 端插件
-
-安全的对抗几乎都集中在 post-exploit 上, 在 pre-exploit 上, 防守方能做的只有收敛攻击面， 在 exploit 对抗上只能做好 VM(漏洞管理) 解决 1day/nday 问题。 这两者加起来, 都对 0day 无能为力, WAF 这类流量设备进行的抵抗不足为惧, 真正能解决这个问题的是在 post-exploit 过程中的对抗. post-exploit 对抗过程中出现了纵深防护, 态势感知, 零信任等等方法, 出现了长长的一系列产品, 全都是用来与 C2 对抗. 所以 C2 是红蓝双方争夺最激烈最重要的高地.
+	- implant 端插件
+	    - armory, sliver 的插件生态
+	    - BOF, cobaltstrike 的 bof 插件生态
+	    - dynamic module, IoM 自身的插件生态
+	    - UDRL, DLL loader
+	    - HeadlessPE, PEloader
+	    - CRL(C# loader)
+	    - Unmanaged powershell
+	    - shellcode
+	- server/client 端插件
+		  - 基于lua/go实现的动态插件语言 [mals](https://github.com/chainreactors/mals
+		  - 基于grpc生成的[多语言SDK](https://github.com/chainreactors/proto)
 
 ## 设计
 
@@ -150,79 +148,19 @@ message Spite {
 
 解耦出来的 Listener 还可以做得更多, 在 IoM 的整体设计中包含了 webshell 相关的功能, Listener 还可以作为流量的出口节点实现与 webshell 交互的相关功能.
 
-### 插件生态
+#### 自定义parser
 
-经过多年的发展，MSF、CobaltStrike、Sliver 这些工具都积累了庞大的插件生态与社区支持。IoM 尝试了最大可能的兼容已有的插件生态。
+既然listener已经解耦出来了， 为什么不能更进一步。 我们不必要求implant与listener的通讯协议有任何固定的格式。只需要在implant和listener上实现各自的marshal与parse即可处理任意的通讯协议。 
 
-#### implant 端插件
+需要注意的是， 这里指的parser是承载在传输层上的， 不同的parser与不同的传输层是互相解耦的。 可以使用任意的parser搭配任意的传输层协议。
 
-已兼容的插件生态:
+只需要对外暴露一组接口， 即可经过简单的修改实现任意的协议. 实际上， 我们的pulse(stager)与malefic(stageless) 使用的就是有一些不同的协议。
 
-- ReflectiveDLL
-- CRL 生态，兼容能运行在 CRL 运行时中的二进制文件
-- CobaltStrike 的 BOF 生态
-- Powershell 生态
-- PE 生态, 兼容绝大多数的 PE 文件
-- sliver Armory生态
+到了这一步， 再拓展一下思路，我们只需要按照Cobaltstrike 的external的协议实现对应的parser并将流量转发至CS的teamserver， 我们的listener也可以当作CS的external C2.
 
-这些生态如此繁杂, 如CS提供了`agressor script`将这些拓展能力变成CNA脚本, 集成到用户端. 可以在下文中看到关于IoM的插件语言的设计.
+不过需要注意的是，流量层面的对抗不止是在这一层面进行。 可以阅读后续的章节。 
 
-##### malice module
-
-在兼容已有的插件生态的同时， 我们也推出了自己插件格式。
-
-能够反射加载采用本工具指定结构的模块，默认使用 rust 编写；同时支持实现了 FFI 接口的其他语言的二进制文件，实现跨语言的模块热加载。
-
-通过 malice module 编写的插件能在编译时被自由的组装，根据不同的场景按需生成不同的 implant
-
-##### 自定义Listener Parser
-
-现在的listener提供了与malefic通讯协议交互的parser. 目前存在一定的耦合.
-
-但在IoM的设计中, server/client/listener是通用基础设施, malefic并不是IoM implant的唯一实现, 可以在不修改implant/webshell代码的情况下接入IoM的通用基础设施. 只需要在Listener的Parser中提供对应写的解析支持, 即可实现. 
-
-我们计划提供对listener的二次开发接口与文档, 让listener能支持任意的第三方implant/webshell. 并且我们也会提供冰蝎/哥斯拉 以及CS的beacon作为兼容示范. 
-
-#### 用户侧插件
-
-CobaltStrike 提供了 Aggressive Script 作为用户侧的插件编写语言, [xiebroC2](https://github.com/INotGreen/XiebroC2) 则使用 lua 作为插件编写的语言. sliver 中则使用了 SDK 实现这个需求，protobuf+grpc 几乎天然得实现了多语言的 SDK. 暂未发布的 sliver1.6 还通过非交互式的命令行能实现通过 sh/cmd 脚本调用 client 实现类似能力.
-
-IoM 采用了与 sliver 类似的通讯设计, 因此也自然而然能导出一个基于 protobuf+grpc 的多语言 SDK, 通过 protobuf 生成的 SDK 能覆盖大多数语言(来自 google 的顶级跨语言支持).
-
-##### 兼容 Armory
-
-从上文也能看得出来, 因为 IoM 和 sliver 采用了相似的通讯设计(实际上也复用了 sliver 大量 server/client 的代码), 兼容 Armory 生态也变得顺其自然了.
-
-Armory 生态分为`alias`和`extension`两大类, 通过 https://github.com/sliverarmory/armory/blob/master/armory.json 作为插件索引.
-
-可以从索引中找到对应的仓库, 然后下载并动态加载到 client/implant 中.
-
-其中`alias`实际上是命令的别名, 将一些较为复杂的用法封装为固定的预设.
-
-`extension` 则会在 implant 内存中驻留. 例如大量的 BOF 插件都是通过 extension 实现的, 首先会注册`coff-loader`到 implant 的 extension 标中. 然后后续执行的 extension 如果`extension.json`中存在`"depends_on": "coff-loader"` 则会使用 implant 中对应的 extension 去加载这个 extension.
-
-我们只需要在 IoM 中实现类似的操作, 并将其对接即可完美兼容 armory.
-
-##### 兼容 CNA
-
-其中拥有最大社区生态的 CobaltStrike 的 CNA 插件如果能被迁移到 IoM 中， 可以省去很多迁移与重复开发时间. 这个目前来看还有很有挑战性.
-
-`Aggressive Script` 基于[`Sleep`语言](http://sleep.dashnine.org/)实现, 目前这个语言只有 java 的实现. 如果要兼容 CNA 脚本, 首先需要能解析这个语言的前端, 然后在其中注册与 CobaltStrike 中的每个 API. 将每个 API 与 IoM 中的 rpc 实现同等功能的对接. 这里面的工作量非常大, 因此暂时我们还见不到这个功能.
-
-##### Mal
-
-Mal插件生态将提供
-
-* lua与TCL的嵌入式脚本语言支持, 可以在client加载对应的插件包. 
-* 在server提供多语言SDK. 提供任意语言的rpc调用
-
-通过将rpc注册到client端的lua/TCL中函数实现类似CS的agressor_script支持.
-
-并通过mals仓库索引社区中的插件仓库. 
-
-**Mal插件生态的实现将会是接下来的第一优先级.**
-
-### 端上对抗
+### 端上对抗 (partially completed)
 
 现代 C2 框架最重要的是如何设计 opsec 相关功能. 在 IoM 中, 我们实现了 cobaltstrike 能提供的绝大部分用于 opsec 的对抗. 并加入了更多的我们自己的想法.
 
@@ -245,7 +183,7 @@ Mal插件生态将提供
 
 ![image-20240811014605854](/wiki/IoM/assets/image-20240811014605854.png)
 
-### 流量对抗
+### 流量对抗 (done)
 
 现代 NDR（网络检测与响应系统）, 同样在多年的对抗中变得强大无比。从最开始的特征检测，到现在的 TLS 探针、大数据检测、威胁情报等等手段， 从各方面对恶意软件的通讯过程进行检测与打击。不同于端上对抗， 可以采用自缚双手式的先锋马，流量上的对抗避无可避。
 
@@ -281,3 +219,75 @@ graph LR
 IoM 默认采用了 TCP 的方式进行通讯。 并支持 TLS 与 MTLS 对通讯流量进行加密. 如果使用了 rem 作为前置加载器, 则所有的通讯都将被 rem 接管
 
 更多协议的信道支持与高级的流量对抗的能力, 将通过 rem 拓展这方面的能力. 请见[rem 设计文档](/wiki/rem/design)
+
+### 拓展能力
+
+经过多年的发展，MSF、CobaltStrike、Sliver 这些工具都积累了庞大的插件生态与社区支持。IoM 尝试了最大可能的兼容已有的插件生态。
+
+#### implant 端插件
+
+##### 已兼容的插件生态(done)
+
+- ReflectiveDLL
+- CRL 生态，兼容能运行在 CRL 运行时中的二进制文件
+- CobaltStrike 的 BOF 生态
+- Powershell 生态
+- PE 生态, 兼容绝大多数的 PE 文件
+- sliver Armory生态
+
+这些生态如此繁杂, 如CS提供了`agressor script`将这些拓展能力变成CNA脚本, 集成到用户端. 可以在下文中看到关于IoM的插件语言的设计.
+
+##### malice module (done)
+
+在兼容已有的插件生态的同时， 我们也推出了自己插件格式。
+
+能够反射加载采用本工具指定结构的模块，默认使用 rust 编写；同时支持实现了 FFI 接口的其他语言的二进制文件，实现跨语言的模块热加载。
+
+通过 malice module 编写的插件能在编译时被自由的组装，根据不同的场景按需生成不同的 implant
+
+##### 自定义Listener Parser (done)
+
+现在的listener提供了与malefic通讯协议交互的parser. 目前存在一定的耦合.
+
+但在IoM的设计中, server/client/listener是通用基础设施, malefic并不是IoM implant的唯一实现, 可以在不修改implant/webshell代码的情况下接入IoM的通用基础设施. 只需要在Listener的Parser中提供对应写的解析支持, 即可实现. 
+
+我们计划提供对listener的二次开发接口与文档, 让listener能支持任意的第三方implant/webshell. 并且我们也会提供冰蝎/哥斯拉 以及CS的beacon作为兼容示范. 
+
+#### 用户侧插件 (done)
+
+CobaltStrike 提供了 Aggressive Script 作为用户侧的插件编写语言, [xiebroC2](https://github.com/INotGreen/XiebroC2) 则使用 lua 作为插件编写的语言. sliver 中则使用了 SDK 实现这个需求，protobuf+grpc 几乎天然得实现了多语言的 SDK. 暂未发布的 sliver1.6 还通过非交互式的命令行能实现通过 sh/cmd 脚本调用 client 实现类似能力.
+
+IoM 采用了与 sliver 类似的通讯设计, 因此也自然而然能导出一个基于 protobuf+grpc 的多语言 SDK, 通过 protobuf 生成的 SDK 能覆盖大多数语言(来自 google 的顶级跨语言支持).
+
+##### 兼容 Armory (done)
+
+从上文也能看得出来, 因为 IoM 和 sliver 采用了相似的通讯设计(实际上也复用了 sliver 大量 server/client 的代码), 兼容 Armory 生态也变得顺其自然了.
+
+Armory 生态分为`alias`和`extension`两大类, 通过 https://github.com/sliverarmory/armory/blob/master/armory.json 作为插件索引.
+
+可以从索引中找到对应的仓库, 然后下载并动态加载到 client/implant 中.
+
+其中`alias`实际上是命令的别名, 将一些较为复杂的用法封装为固定的预设.
+
+`extension` 则会在 implant 内存中驻留. 例如大量的 BOF 插件都是通过 extension 实现的, 首先会注册`coff-loader`到 implant 的 extension 标中. 然后后续执行的 extension 如果`extension.json`中存在`"depends_on": "coff-loader"` 则会使用 implant 中对应的 extension 去加载这个 extension.
+
+我们只需要在 IoM 中实现类似的操作, 并将其对接即可完美兼容 armory.
+
+##### 兼容 CNA (搁置)
+
+其中拥有最大社区生态的 CobaltStrike 的 CNA 插件如果能被迁移到 IoM 中， 可以省去很多迁移与重复开发时间. 这个目前来看还有很有挑战性.
+
+`Aggressive Script` 基于[`Sleep`语言](http://sleep.dashnine.org/)实现, 目前这个语言只有 java 的实现. 如果要兼容 CNA 脚本, 首先需要能解析这个语言的前端, 然后在其中注册与 CobaltStrike 中的每个 API. 将每个 API 与 IoM 中的 rpc 实现同等功能的对接. 这里面的工作量非常大, 因此暂时我们还见不到这个功能.
+
+##### Mal (done)
+
+Mal插件生态将提供
+
+* lua与go的嵌入式脚本语言支持, 可以在client加载对应的插件包. 
+* 在server提供多语言SDK. 提供任意语言的rpc调用
+
+通过将rpc注册到client端的lua/TCL中函数实现类似CS的agressor_script支持.
+
+并通过mals仓库索引社区中的插件仓库. 
+
+
