@@ -136,7 +136,10 @@ nav:
       - fingers:
           - index: libs/fingers/index.md
           - rule: libs/fingers/rule.md
-          - sdk: libs/fingers/sdk.md
+          - SDK: libs/fingers/sdk.md
+      - proxyclient:
+          - index: libs/proxyclient/index.md
+          - SDK: libs/proxyclient/sdk.md
   - Preview:
       - mapping:
           index: mapping/index.md
