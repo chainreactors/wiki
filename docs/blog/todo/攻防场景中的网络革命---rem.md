@@ -1,13 +1,18 @@
 
+本文主要内容都来自 https://chainreactors.github.io/wiki/rem/design 
 
-## 背景
+## 前言
 
 有一个笑话，"中国人的网络水平特别好". 事实上也确实如此, 绝大部分代理相关的工具都和中国开发者有关.
+
+我们已经有了很多好用的代理工具，如下面提到的这部分:
 
 * [frp](https://github.com/fatedier/frp) 最常使用, 最稳定的反向代理工具. 配置相对麻烦, 有一些强特征已被主流防护设备识别, 类似的还有nps, ngrok, rathole, spp. 不支持反向端口转发
 * [gost](https://github.com/go-gost/gost) 一款强大的正向代理工具, v2版本不支持反向代理, v3开始支持更多种多样的流量操作方式, 未来可期.
 * [iox](https://github.com/EddieIvan01/iox) 轻量但稳定的端口转发工具, 但是通讯不加密
 * [stowaway](https://github.com/ph4ntonn/Stowaway) 多级代理工具, 支持正反向代理， 但是进支持TCP/HTTP/WS协议通讯. 类似的工具还有lcx,termite,earthworm.
+
+从使用场景覆盖来说， 这些工具加起来确实覆盖了关于 proxy/tunnel 的90%以上场景, 但如frp，gost, iox 这些工具设计上并不是给攻防场景使用的, 现在的NDR设备可以轻松捕获他们的特征. 并且往往是单个工具只解决了部分场景的需求， 不能覆盖所有场景。
 
 
 ## 设计
@@ -227,7 +232,7 @@ wrapper本质上是 io.ReadWriteCloser ，是面向流的数据处理协议。wr
 
 一个基于xor实现的wrapper只需要实现简单的Read和Write接口即可将数据进行简单的加密:
 
-```
+```go
 func NewXorWrapper(r io.Reader, w io.Writer, opt map[string]string) core.Wrapper {  
     var key []byte  
     if k, ok := opt["key"]; ok {  
@@ -330,6 +335,28 @@ inbound是数据入口， outbound是数据出口。 用户的数据从inbound�
 
 这一切， 都可以在rem的能力覆盖范围之内。 
 
+### 小结
+
+
+看到这里可以发现,  rem基于传输层之上重新抽象了整个网络交互的流程。
+
+- 传输层, 对应 core/tunnel, 分为 listener 和 dialer, 可以实现自定义的任意传输层信道， 只需要实现对应的 golang 的接口即可。目前实现了，tcp, udp, icmp, websocket.
+- 会话层, 实现了链接复用(mux)和agent管理.
+- 加密混淆层(对应表示层)，对应 core/wrapper，对应的接口是 ReadWriteCloser, 只需要实现对应的 Read 和 Writer 接口， 即可实现对传输层流程的加密，混淆， 伪装。甚至可以实现上下行流量分别配置不同的 wrapper. 目前实现了 aes, xor, padding.
+- 中转/代理层(对应表示层) (可选), 可以通过第三方代理/服务中转流量， 例如通过 ssh, socks5, http, neoreg, suo5 等任意具有流量功能的实现数据转发
+- 应用层, 基于上面三层实现的信道, 可以被封装为不同的应用, 目前实现了 socks5, port forward, http 代理, shadowsocks, trojan等
+
+基于这样的抽象层级, 我们可以任意拓展 rem 的能力边界。 我们可以快速添加一个传输层协议， 或是加密混淆算法， 或是代理中转工具， 又或是最终面向用户的协议。
+
+这是前所未有的潜力，我们可以做非常多事情, **之前无法想象的事情**！ 举几个例子:
+
+- 可以实现 cobaltstrike externalC2的应用层协议, 让CS的流量走rem构建的信道中
+- 可以作为cobaltstrike的前置Redirector, 让溯源变得困难重重
+- 可以单独实现上行与下行协议的特征, 在流量层面上模拟已知协议
+- 可以通过tun将目标网络连成一片, 忽略所有形式的网络隔离
+* 编译为WASM, 直接通过浏览器提供的XHR接口搭建代理
+- ......
+
 ## Features
 
 ### 基本功能
@@ -349,7 +376,7 @@ inbound是数据入口， outbound是数据出口。 用户的数据从inbound�
 * 跨语言互操作性与模块化
 * ... 
 
-理论上只需要将上诉功能交叉组合就能实现一切 proxy/tunnel相关的需求. 
+理论上只需要将上述功能交叉组合就能实现一切 proxy/tunnel相关的需求. 
 
 ### OPSEC特性
 
@@ -393,49 +420,16 @@ rem默认提供了命令行工具， 但更重要的是rem能作为包被嵌入�
 
 - https://github.com/chainreactors/malice-network
 - https://github.com/chainreactors/malefic
-## Features
 
-### 基本功能
+## End
 
-* 正向端口转发, 将端口从本机转发到远程
-* 反向端口转发,  将端口从远程转发到本机
-* 正向代理, 搭建socks5/http代理
-* 反向代理, 通过服务器, 将流量代理至客户端. (rem中实际上并不一定有服务端与客户端之分, rem中可以将流量代理至任意节点)
-* 代理, 通过其他服务提供的代理协议, 例如socks5/http代理, 转发rem协议本身的流量
-* 转发, 通过其他服务提供的代理协议, 将出方向的流量转发到指定目标
-* 级联, 能通过rem自身的协议, 形成多级的节点的连接关系
-* 多级端口转发,  将端口从本机通过rem转发到任意rem网络中的节点
-* 多级代理转发, 将流量通过rem转发到任意rem网络中的节点
-* RPORTFWD_LOCAL, (多级端口转发的特例), 将本机的的端口通过rem转发至
-* PORTFWD_LOCAL,  (多级端口转发的特例), 将rem节点的端口转发至本机
+rem 是redboot计划中三大路线之二, 目前只有面向红队的高交互的半自动ASM--- mapping还没有发布， 受限于精力也无法在短期发布。 
 
-### 高级特性
+rem主要解决的问题就是在各种场景中的tunnel/proxy问题， 并且作为串联其他工具的中间件使用. 
 
-#### webshell代理 (done)
+IoM 可以通过rem搭建代理， 也可以直接基于rem构建信道.  更可以搭建基于rem的listener.
 
-例如所有协议都不出网的场景，红队通常会构建webshell代理的方式实现，如neoreg或suo5，然后红队通过webshell代理访问内网。neoreg实际上是半双工的信道，需要通过轮询读取数据，因此不管是延迟还是性能都并不是特别出色，而suo5采用了websocket全双工信道。 gost无法在这种场景下使用。但实际上可以实现neoreg与suo5代理协议, 通过webshell代理与内网的agent联通，以实现更复杂的流量隧道操作。
+mapping可以通过rem将其的能力拓展到内网或者使用rem构建分布式扫描集群. 
 
-#### 无损代理 (done)
+rem是整个红队基础设施中重要的一环, 我相信它能承担攻防场景中更多的网络侧功能，给整个生态带来变化。
 
-各种代理工具为了保证最大兼容度, 通常最终对外暴露的都是socks5或者更高级一些使用clash. 但这种方式进行的转换其实是有非常大的性能损失的.  特别是在进行扫描时通常会有很多目标, 因此会在本地建立大量的连接. 这种场景下代理的性能会极大的衰减.
-
-要解决这个问题, 代理工具就应该提供直接交互的SDK, 让第三方工具能够直接使用代理工具的信道，而不需要将其先转为socks或者其他协议.
-
-#### 用户体验 (done)
-
-rem的所有操作都只需要一行命令, 用过frp, nps之类的工具后, 我不想要有配置文件, 也不想要有server和client两端. 只想要一个简洁而优雅的命令行工具, 所有的操作都通过一行命令实现. 
-
-
-#### Proxy as a SDK (done)
-
-rem默认提供了命令行工具， 但更重要的是rem能作为包被嵌入到各种各样的工具中, 或者通过proxyclient与非golang的工具联动.
-
-已经通过proxyclient实现其代理功能的第三方工具：
-
-- https://github.com/chainreactors/gogo
-- https://github.com/chainreactors/zombie
-- https://github.com/zema1/suo5
-
-直接嵌入rem的工具:
-
-- https://github.com/chainreactors/malice-network
