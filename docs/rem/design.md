@@ -330,16 +330,31 @@ inbound是数据入口， outbound是数据出口。 用户的数据从inbound�
 
 ### 高级特性
 
-#### webshell代理
+#### webshell代理 (done)
 
 例如所有协议都不出网的场景，红队通常会构建webshell代理的方式实现，如neoreg或suo5，然后红队通过webshell代理访问内网。neoreg实际上是半双工的信道，需要通过轮询读取数据，因此不管是延迟还是性能都并不是特别出色，而suo5采用了websocket全双工信道。 gost无法在这种场景下使用。但实际上可以实现neoreg与suo5代理协议, 通过webshell代理与内网的agent联通，以实现更复杂的流量隧道操作。
 
-#### 无损代理
+#### 无损代理 (done)
 
 各种代理工具为了保证最大兼容度, 通常最终对外暴露的都是socks5或者更高级一些使用clash. 但这种方式进行的转换其实是有非常大的性能损失的.  特别是在进行扫描时通常会有很多目标, 因此会在本地建立大量的连接. 这种场景下代理的性能会极大的衰减.
 
 要解决这个问题, 代理工具就应该提供直接交互的SDK, 让第三方工具能够直接使用代理工具的信道，而不需要将其先转为socks或者其他协议.
 
-#### 用户体验
+#### 用户体验 (done)
 
 rem的所有操作都只需要一行命令, 用过frp, nps之类的工具后, 我不想要有配置文件, 也不想要有server和client两端. 只想要一个简洁而优雅的命令行工具, 所有的操作都通过一行命令实现. 
+
+
+#### Proxy as a SDK (done)
+
+rem默认提供了命令行工具， 但更重要的是rem能作为包被嵌入到各种各样的工具中, 或者通过proxyclient与非golang的工具联动.
+
+已经通过proxyclient实现其代理功能的第三方工具：
+
+- https://github.com/chainreactors/gogo
+- https://github.com/chainreactors/zombie
+- https://github.com/zema1/suo5
+
+直接嵌入rem的工具:
+
+- https://github.com/chainreactors/malice-network
