@@ -110,15 +110,10 @@ Suo5 协议支持多种参数配置。
   
 ```  
 格式：suo5(s)://host:port/path?param1=value1&param2=value2  
-参数：  
-- timeout: 连接超时时间，如：5s  
-- retry: 重试次数，默认10  
-- interval: 读写间隔，如：100ms  
-- buffer_size: 缓冲区大小，默认32KB  
-  
+
 示例：  
-suo5://example.com:8080/tunnel?timeout=10&retry=5  
-suo5s://example.com:8443/tunnel?interval=200ms  
+suo5://example.com:8080/suo5.jsp
+suo5s://example.com:8443/suo5.jsp
 ```  
   
 ### Neoreg  
@@ -135,6 +130,6 @@ Neoreg 协议支持丰富的参数配置。
 - buffer_size: 读取缓冲区大小，默认32KB  
   
 示例：  
-neoreg://password@example.com:8080/tunnel?timeout=10s  
-neoregs://password@example.com:8443/tunnel?interval=200ms&retry=5  
+neoreg://password@example.com:8080/tunnel.jsp?timeout=10s  
+neoregs://password@example.com:8443/tunnel.jsp?interval=200ms&retry=5  
 ```
