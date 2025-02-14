@@ -1,6 +1,20 @@
+---
+date:
+  created: 2025-02-14
+slug: proxyclient-introduce
+---
+
+
 ## 前言
 
 本文是rem发布前的前菜， 是在实现rem过程中的附带产物，但因其可以被使用在大量其他组件中， 故将其抽象出来作为独立的库使用。 
+
+TLNR:
+
+repo: https://github.com/chainreactors/proxyclient
+
+wiki: https://chainreactors.github.io/wiki/libs/proxyclient/
+
 ## golang 代理的背景知识
 
 
@@ -188,7 +202,16 @@ func main() {
 }
 ```
 
+已经用上proxyclient的项目:
 
+- https://github.com/chainreactors/gogo
+- https://github.com/chainreactors/zombie
+- https://github.com/chainreactors/malice-network
+- https://github.com/zema1/suo5
+
+**proxyclient模糊了数据传输与代理的边界， 只要存在数据交换的地方，就可以将其注册到proxyclient**
+
+如果你的工具有代理的需求, 将其切换到proxyclient只需要10分钟，不会带来任何的副作用， 就能极大的拓展这么方面的能力。
 ## 性能无损的代理
 
 现在可以回到一开始的误区中了， 之前提到
@@ -256,6 +279,8 @@ func newRemProxyClient(proxyURL *url.URL, upstreamDial proxyclient.Dial) (proxyc
 
 ## End
 
+
+
 proxyclient是rem的一角， rem还有非常多独有的先进特性， 其核心设计可以在 https://chainreactors.github.io/wiki/rem/design/  里预览。这也导致了对rem的开源有一定担忧， 担心这些特性会被滥用。 
 
-rem将会以rem-community的形式发布， 保留完整的接口抽象， 但是在一些具体实现上删除了过于有侵略性的特性，使用者可以基于自身需求自行修改。 **删除侵略性后的rem-community也是目前最先进的代理工具**。 预计在本文发布后的两周到三周后发布
+rem将会以rem-community的形式发布， 保留完整的接口抽象， 但是在一些具体实现上删除了过于有侵略性的特性，使用者可以基于自身需求自行修改。 **删除侵略性后的rem-community也是目前最先进的代理工具**。 预计在本文发布后的两周到三周后发布.
