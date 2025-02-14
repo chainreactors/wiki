@@ -22,6 +22,7 @@ wiki: https://chainreactors.github.io/wiki/libs/proxyclient/
 
 越来越多的扫描器也都基于golang实现，这也包括了我在多年前编写的扫描器gogo。 **在gogo开发的早期我对使用代理去扫描是有偏见的**，这源于我对网络协议和golang设计上的了解不够深入，还有一个重要原因是标准库库中的proxy提供了很好的抽象， 但是在具体实现上略显混乱。 这也导致了很长一段时间gogo的代理扫描实际上是误用了，让我一直以为只有socks5协议能代理socket。
 
+<!-- more -->
 
 ![](assets/Pasted%20image%2020250208165213.png)
 
