@@ -87,6 +87,7 @@ nav:
             - install&deploy: IoM/manual/manual/deploy.md
             - client usage: IoM/manual/manual/client.md
             - implant usage: IoM/manual/manual/implant.md
+            - GUI(内测): IoM/manual/manual/GUI.md
         #   - 二次开发: IoM/manual/manual/develop.md
         - mals插件生态:
             - index: IoM/manual/mal/index.md
