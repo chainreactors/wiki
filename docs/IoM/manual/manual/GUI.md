@@ -25,6 +25,12 @@ IoM需要 malice-network生成的.auth凭证, 所以在这一步之前请先自�
 
 可以参考[quickstart文档](/wiki/IoM/quickstart/#server)快速搭建server
 
+安装server的命令需要修改为:
+```bash
+curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/install.sh" -o install.sh
+sudo MALICE_NETWORK=nightly bash install.sh
+```
+
 ![](/wiki/IoM/assets/Pasted%20image%2020250220014242.png)
 
 如果已经通过client连接过server， 则会直接显示历史连接过的auth文件. 单击即可进入到交互界面. 
@@ -40,3 +46,22 @@ IoM需要 malice-network生成的.auth凭证, 所以在这一步之前请先自�
 GUI还未完全实现client的全部功能, 目前只实现了较为重要的功能. 并且在很多交互上还缺乏联动，存在bug等等问题。 请见谅
 
 如果有任何用户体验, bug, 建议， 欢迎提供issue。 我们会尽快处理。
+
+### 配置github action编译
+
+
+fork https://github.com/chainreactors/malefic
+
+申请github token， 需要有以下权限
+
+![](/wiki/IoM/assets/Pasted%20image%2020250220142414.png)
+
+在设置中搜索iom
+
+![](/wiki/IoM/assets/Pasted%20image%2020250220142402.png)
+
+
+这里的参数填写fork后的仓库所有者和仓库名， 以及github token
+
+连接任意服务器， 点击`Artifacts` 发现github变为绿点表示github action 自动编译已正确启用，点击Add Profile即可生成implant编译任务
+![](/wiki/IoM/assets/Pasted%20image%2020250220142736.png)
