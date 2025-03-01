@@ -25,7 +25,7 @@ v0.0.3 已经实现我们最初设计目标的大部分功能, 并且可以说�
     - rust编写的implant, 实现全平台兼容
     - 分布式独立部署的listener
     - 支持正向与反向链接的implant
-    - 专注于opsec (community不支持)
+    - 专注于OPSEC
     - everything is fileless
     - 插件兼容, 兼容cobaltstrike的BOF与sliver的armory社区生态等等
     - 插件生态, 通过lua与yaegi实现了一个能动态加载的mal插件生态

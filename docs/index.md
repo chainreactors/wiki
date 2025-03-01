@@ -24,10 +24,10 @@ IoM(`Internal of Malice`) 的定位是下一代C2框架, 同样以高度模块�
 
 IoM已经发布v0.0.1, 这个版本离我们最初的v0.0.1设计目标还有很多遗憾, 但是为了防止闭门造车, 我们想提前从社区中接收反馈.
 
-!!! important "update v0.0.2"
-	已经发布v0.0.2, 实现了约sliver的80%, cs的70%功能, 也有非常sliver与cs都没有的功能
+!!! important "update v0.0.4"
+	已经发布v0.0.4, 实现了约sliver的80%, cs的70%功能, 也有非常sliver与cs都没有的功能
 
-目前提供了IoM的[设计文档](/wiki/IoM/design)与[用户手册](/wiki/IoM/manual) ,可以在[这里](https://github.com/chainreactors/malice-network)体验到IoM的v0.0.1
+目前提供了IoM的[设计文档](/wiki/IoM/design)与[用户手册](/wiki/IoM/manual) ,可以在[这里](https://github.com/chainreactors/malice-network)体验到IoM的v0.0.4
 
 ### Chain2 mapping
 
@@ -53,7 +53,19 @@ rem是全场景的流量/代理工具. 能用来解决绝大多数场景的代�
 
 ### 可能会存在的商业化计划
 
-现在redboot相关的项目逐渐从玩票性质转为了主业. 我们暂时有其他来源的收入, 但redboot的终极形态太过有吸引力, 几乎是 **一体化攻击平台** 的 **理想形态** . 这个吸引力不只是对以技术为追求目标的人来说的, 对于所有有需求的人来说都是同样的. 因此, 我们认为存在商业化的潜力, **有任何类似需求的关注者欢迎与我们沟通您的需求** . 在开始商业化技术之前, 我们只会通过简单的`Profession License` 与社区捐献基本的收入. 
+现在redboot相关的项目逐渐从玩票性质转为了主业. redboot几乎是 **一体化攻击平台** 的 **理想形态** . 因此, 我们认为这个计划存在商业化的潜力.
+
+如果您有**蓝军基础设施建设**，红队服务的需求， 欢迎与我们联系。
+
+
+??? mail
+	m09ician@gmail.com
+#### 接受定制化和采购的工具
+
+- morefingers , 额外包含了约50000条指纹规则(与fingers自带的有重复), 可无缝接入fingers
+- [IoM](https://chainreactors.github.io/wiki/IoM/), 目前发布了v0.0.4, 下一代C2框架, 正在快速开发迭代, 欢迎提供需求和定制化要求
+- [rem](https://chainreactors.github.io/wiki/rem/) 能实现一切代理/流量侧的需求
+
 ## ToolChain
 
 chainreactor 并非在各个领域重新造轮子, chainreactor 将会在各个细分领域深入探索, 以工件化的视角定义下一代的工具. 工具链将作为3个Threads的基本粒子赋能各个细分领域. 
@@ -88,14 +100,7 @@ chainreactor 自研的工具链
 - [picker](https://github.com/chainreactors/picker) 将repo变成RSS订阅,文章整理归档, 讨论的社区
 - [wiki](https://github.com/chainreactors/wiki) chainreactors 文档库Markdown
 
-#### 接受定制化和采购的工具
 
-- morefingers , 额外包含了约50000条指纹规则(与fingers自带的有重复), 可无缝接入fingers
-- [IoM](https://chainreactors.github.io/wiki/IoM/), 目前发布了v0.0.4, 实现了绝大部分主体功能, 正在快速开发迭代, 欢迎提供需求和定制化要求
-- [rem](https://chainreactors.github.io/wiki/rem/) 能实现一切代理/流量测的需求
-
-??? mail
-	m09ician@gmail.com
 
 ## Other
 
