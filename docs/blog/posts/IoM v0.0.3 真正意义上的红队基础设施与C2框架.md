@@ -367,7 +367,7 @@ end
 - 修复了 sliver armory 的一些 bug, 重新支持了 extension
 - 优化 sliver armory 的索引方式
 - 重构 website 与 pipeline 相关组件
-- 重构 server db 相关代码, 实 �� 依赖关系反转
+- 重构 server db 相关代码,  依赖关系反转
 - 添加 donut 与 sliver SRDI rpc 与 lua api, 后续还会暴露到 client 的 cmd 中
 - 优化`!` 命令, 现在能从 PATH 中寻找程序
 - 实装了 encryption 与 tls 相关参数
