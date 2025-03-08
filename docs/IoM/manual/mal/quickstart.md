@@ -105,14 +105,15 @@ local msg = ProtobufMessage.New("modulepb.ExecuteBinary", {
 ### 调用rpc命令
 
 ```lua
-local rpc = require("rpc")
+function load_rem()
+    local rpc = require("rpc")
 
-local task = rpc.ExecuteAssembly(active().Context(), ProtobufMessage.New("modulepb.ExecuteBinary", {
-    Name = "execute_assembly",
-    Bin = read_resource("example.exe"),
-    Type = "example_type",
-    Args = {"whoami"}
-})
+    local task = rpc.LoadRem(active():Context(), ProtobufMessage.New("modulepb.Request", {
+        Name = "load_rem",
+        Bin = read_resource("chainreactors/rem.dll"),
+    }))
+    wait(task)
+end
 ```
 
 ### 注册为库
