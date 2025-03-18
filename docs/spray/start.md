@@ -218,7 +218,7 @@ spray --resume stat.json
 **host爆破**
 
 ```
-spray -u http://123.123.123.123 -w "{?0}.example.com" -d 1.txt
+spray -m host -u http://123.123.123.123 -w "{?0}.example.com" -d 1.txt
 ```
 
 1.txt:
