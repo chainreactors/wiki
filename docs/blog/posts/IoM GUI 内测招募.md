@@ -24,13 +24,13 @@ IoM-GUI采用vscode extension的形式实现， 不是传统的GUI client， 也
 
 **目前提供的版本是早期测试版，每天都会自动基于最新的commit打包，是极不稳定的状态**
 
+<!-- more -->
+
 数据和api可能每天都会改变，如果用于生产环境请三思。 
 
 有任何建议和反馈， 欢迎在 https://github.com/chainreactors/malice-network/issues 中沟通
 
 或通过wiki中的联系方式发送邮件， 我会手动拉入交流群
-
-
 
 ## 安装
 
