@@ -1,5 +1,7 @@
 
- 经过几个月的时间，带来了四大全新的功能模块
+ 经过几个月的时间，带来了四大全新组件, 以及十几个较大的功能性更新与数百个修复与优化。
+
+四大新组件: 
 
 - 基于vscode extension的GUI客户端
 - 基于lua脚本语言的插件系统以及迁移了数百个插件的基础插件生态
@@ -10,7 +12,8 @@
 
 CobaltStrike最大的护城河是丝滑的GUI客户端， 稳定的beacon，以及丰富的插件生态。以至于抹平其OPSEC上的劣势。 而现在CobaltStrike的二开止步4.6， 破解版本停滞在4.10， 主流的CobaltStrike的使用者逐渐远离了其最新版本。 这让IoM有机会成为CS的备选品(我们承认距离代替CS还有不小的距离)。
 
-## 更新日志
+## 新组件
+
 ### GUI 客户端
 
 https://github.com/chainreactors/IoM-gui
@@ -105,7 +108,11 @@ CobaltStrike有三个大的OPSEC定制切面， 分别是UDRL，sleepmask 以及
 
 #### Ollvm
 
+
+
 ### IoM for AI (Unstable)
+
+*这是隐藏的第五个新组件，但是功能暂时还没有稳定，所以不算是正式发布。* 
 
 AI给IoM的开发提供了非常巨大的帮助， 有不少模块的原型都是AI实现的。
 
@@ -120,7 +127,7 @@ AI给IoM的开发提供了非常巨大的帮助， 有不少模块的原型都�
 
 
 
-### 其他更新
+## 更新日志
 
 #### (server) Context 重构
 
@@ -135,7 +142,7 @@ AI给IoM的开发提供了非常巨大的帮助， 有不少模块的原型都�
 - 感谢 @howmp 的 https://github.com/howmp/donut_ollvm 
 - 感谢@howmp 将malefic-srdi中TLS的解决方案移植到了zig。 
 - 感谢@zema1 将TLS的解决方案从zig移植到了donut
-- 感谢@wabzsy的 https://github.com/wabzsy/gonut 基于donut 1.1实现了
+- 感谢@wabzsy的 https://github.com/wabzsy/gonut 基于donut 1.1实现了golang版本的donut前端
 
 又进行了大量的改造：
 
@@ -256,6 +263,8 @@ implants:
 - [server] event乱序bug
 - [server] 数据库结构大量改动，需要重建数据库， **从这个版本开始，后续将会实现自动化数据库迁移， 就算版本更新也不用担心数据丢失**
 - [client] 更新底层readline与console 
+- [client] 添加ClientGroup mals函数组, 添加了一组与cli交互的辅助函数，例如各种命令行补全
+- [client] event format 重构， 现在将会在server format后再发送到各端
 - [implant] 特定情况下implant 发送header中断导致的挂死
 - [implant] 重构pipe
 - [implant] 去除绝大部分的async_std 依赖， 使用futures代替

@@ -263,9 +263,19 @@ release note: [v0.0.4 Bootstrapping](/wiki/blog/2025/01/02/IoM_v0.0.4/)
 		- [ ] Pivoting
 - Implant
 	- [ ] malefic-SRDI与Donut 合并，重构
-	- [ ] 修复Inline local 
+	- [ ] bug 修复
+		- [ ] 修复Inline local
+		- [x] Win11 PE loader
+		- [x] transport 高延迟网络下不工作
 	- [ ] OLLVM 落地
 	- [x] 去掉所有第三方依赖
+	- [x] 运行时解耦
+		- [x] tokio
+		- [x] smol
+		- [x] async-std
+	- [x] 资源文件重构
+	- [x] http transport
+	- [x] implant autorun
 	- [ ] 实现linux-kit
 		- [ ] memfd
 		- [ ] linux bof
@@ -275,7 +285,7 @@ release note: [v0.0.4 Bootstrapping](/wiki/blog/2025/01/02/IoM_v0.0.4/)
 		- [x] rem-static
 		- [x] rem-reflection
 		- [ ] keylogger
-		- [ ] vnc
+		- [ ] vnc/rustdest
 
 
 ## v0.1.0 (Professional release)
