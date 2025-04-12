@@ -1,5 +1,8 @@
-
-本文主要内容都来自 https://chainreactors.github.io/wiki/rem/design 
+---
+date:
+  created: 2025-04-13
+slug: rem-introduce
+---
 
 ## 前言
 

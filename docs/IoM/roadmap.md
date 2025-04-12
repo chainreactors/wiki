@@ -262,7 +262,7 @@ release note: [v0.0.4 Bootstrapping](/wiki/blog/2025/01/02/IoM_v0.0.4/)
 		- [x] Context
 		- [ ] Pivoting
 - Implant
-	- [ ] malefic-SRDI与Donut 合并，重构
+	- [x] malefic-SRDI与Donut 合并，重构
 	- [ ] bug 修复
 		- [ ] 修复Inline local
 		- [x] Win11 PE loader
