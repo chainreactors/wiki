@@ -1,6 +1,8 @@
 
  经过几个月的时间，带来了四大全新组件, 以及十几个较大的功能性更新与数百个修复与优化。
 
+**与之前一样，在更新公告中的内容都已开源或开放使用**
+
 四大新组件: 
 
 - 基于vscode extension的GUI客户端
@@ -8,7 +10,7 @@
 - 基于rem实现的代理/隧道功能组
 - 类似BeaconGate的动态函数调用
 
-当然目前与CobaltStrike对比不免有些不自量力，班门弄斧。但这也代表IoM主体功能的阶段性成果。IoM不再是一个实验室中的demo， 而是能初步用于实战的工具。 
+当然目前与CobaltStrike对比不免有些不自量力(因缺少大量实战测试修复各种bug)。但这也代表IoM主体功能的阶段性成果。IoM不再是一个实验室中的demo， 而是能初步用于实战的工具。 
 
 CobaltStrike最大的护城河是丝滑的GUI客户端， 稳定的beacon，以及丰富的插件生态。以至于抹平其OPSEC上的劣势。 而现在CobaltStrike的二开止步4.6， 破解版本停滞在4.10， 主流的CobaltStrike的使用者逐渐远离了其最新版本。 这让IoM有机会成为CS的备选品(我们承认距离代替CS还有不小的距离)。
 
@@ -18,7 +20,12 @@ CobaltStrike最大的护城河是丝滑的GUI客户端， 稳定的beacon，以�
 
 https://github.com/chainreactors/IoM-gui
 
+一些简单的图示
+![](assets/Pasted%20image%2020250412003635.png)
 
+![](assets/Pasted%20image%2020250412003552.png)
+
+![](assets/Pasted%20image%2020250412003559.png)
 ### Mals 插件生态
 
 https://github.com/chainreactors/mal-community
@@ -31,18 +38,28 @@ https://github.com/chainreactors/mal-community
 
 已经实现/迁移的插件包: 
 - lib
-  - noconsolation, https://github.com/fortra/No-Consolation
-  - SharpBlock, https://github.com/CCob/SharpBlock
+	- noconsolation, https://github.com/fortra/No-Consolation
+	- SharpBlock, https://github.com/CCob/SharpBlock
 - common (基础工具)
-  - operatorskit, https://github.com/REDMED-X/OperatorsKit
-  - remoteopsbof, https://github.com/trustedsec/CS-Remote-OPs-BOF
-  - situationalbof, https://github.com/trustedsec/CS-Situational-Awareness-BOF
-  - chainreactor, gogo/zombie/spray 等 chainreactor 的工具
+	- operatorskit, https://github.com/REDMED-X/OperatorsKit
+	- remoteopsbof, https://github.com/trustedsec/CS-Remote-OPs-BOF
+	- situationalbof, https://github.com/trustedsec/CS-Situational-Awareness-BOF
+	- chainreactor, gogo/zombie/spray 等 chainreactor 的工具
+	- 大量其他独立工具
 - elevate (提权)
+	- https://github.com/icyguider/UAC-BOF-Bonanza
+	- postexpkit中的部分
+	- https://github.com/rsmudge/ElevateKit
 - persistence (权限维持)
+	-  https://github.com/0xthirteen/StayKit
 - proxy (网络/代理)
 	- https://github.com/go-gost/gost
 	- https://github.com/chainreactors/rem/
+- domain (域渗透)
+	- https://github.com/wavvs/nanorobeus
+	- 常用域渗透工具
+- move (横向移动)
+	- 
 
 我们迁移了数百个CobaltStrike的插件功能， 完成了mals社区的起步阶段的基础设施建设， 这些功能覆盖绝大多数常用的CobaltStrike的使用场景。
 
@@ -62,7 +79,7 @@ https://github.com/chainreactors/rem/
 
 rem是全场景代理/隧道工具. 提供了全访问的网络侧功能。 例如正反向代理，端口转发，多传输层信道， 级联等等功能。
 
-v0.0.5 全面接入了rem 它会在listener，client， implant发挥不同的作用。 我将分别介绍
+v0.1.0 全面接入了rem 它会在listener，client， implant发挥不同的作用。 我将分别介绍
 #### rem for pipeline
 
 新增rem配置项， 监听rem console 服务
@@ -82,12 +99,28 @@ v0.0.5 全面接入了rem 它会在listener，client， implant发挥不同的�
 
 这三种方式覆盖了绝大多数使用场景， rem虽然是golang编写的， 但是可以在编译时静态连接/反射动态加载到implant中。 可以作为独立的工具， 和其他二进制程序一样被pe loader加载。 在OPSEC上有略微的不同， 可以参照对应的命令的helper理解其实现原理。 
 
+##### 常用的tunnel/proxy功能
 
+常见的正反向端口转发, 正反向代理都可以，以及类似CS的rportfwd_local以及CS都没有的portfwd_local都可以基于rem实现。完成常见proxy/tunnel 的全覆盖
+
+![](assets/Pasted%20image%2020250412001458.png)
+
+![](assets/Pasted%20image%2020250412001455.png)
+##### implant rem transport
 除了运行rem模块搭建隧道，还支持重载implant的信道，实现 rem over implant。 让rem在网络侧对抗发光发热， rust在网络相关的玩法上略逊于golang。 
+
+通过rem静态链接库的FFI接口在implant编译时链接， 实现重载传输层，复用rem能够实现的一切流量层特性。
+
+这也是IoM在之前的版本中都没有提供除了tls之外的任何传输层的原因，所有网络侧的对抗都可以交给rem实现
+
+![](assets/Pasted%20image%2020250411235959.png)
 
 #### rem for client/mals
 
 rem本身只需要通过单行命令实现所有功能， 而IoM的client上的rem相关命令组一定程度上提供了rem的交互式命令行管理工具。 可以在client上管理已有的连接，新建隧道， 修改配置等。 
+
+最常见的用法已经封装在命令行中， 但是还有一些rem特有的高级用法，通过mal-community中的[community-proxy](https://github.com/chainreactors/mal-community/tree/master/community-proxy "community-proxy")动态注册。 
+![](assets/Pasted%20image%2020250412001630.png)
 
 
 而client本身也支持接入 listener <--> implant 构建的网络， 实现网络测的三端打通。 
@@ -96,9 +129,6 @@ rem本身只需要通过单行命令实现所有功能， 而IoM的client上的r
 
 总的来说， 我们可以在client中通过一组命令操控server管理rem的console， 也可以直接基于rem在implant实现各种 proxy/tunnel的功能。 
 
-```
-
-```
 ### implant OPSEC
 
 关于OPSEC的部分我们会保持闭源， 通过提供静态链接库公开基础可用版本。
@@ -106,21 +136,37 @@ rem本身只需要通过单行命令实现所有功能， 而IoM的client上的r
 CobaltStrike有三个大的OPSEC定制切面， 分别是UDRL，sleepmask 以及最新的BeaconGate。我们正在逐步实现CS的这些OPSEC功能， 以及更多的CS没有的OPSEC选项。 
 #### Beacon Gate
 
-在设计初期， `IOM` 对各类 `API` 的调用都是为一切可配置可调控而设计的， 虽然并未以开源形式公开， 但我们发现其与 `Beacon Gate` 的设计不谋而合， 这也意味着我们在内部可以做到同样的操作， 用内置各类动态可调控 `API` 为 `BOF` 和 `Beacon` 进行武装
+在设计初期， `IoM` 对各类 `API` 的调用都是为一切可配置可调控而设计的， 虽然并未以开源形式公开， 但我们发现其与 `Beacon Gate` 的设计不谋而合， 这也意味着我们在内部可以做到同样的操作， 用内置各类动态可调控 `API` 为 `BOF` 和 `Beacon` 进行武装
 
-虽然功能并未开放， 但各位可以从我们的 `config.yaml` 中 `apis` 这一项一窥我们的设计， 当然， 除了这些内存分配/写入外， 我们还支持了内部的其余 `api`， 以供动态调配， 在我们的设计中， `API` 也应该如积木一样， 一键切换 :)
+在v0.1.0版本中， BeaconGate得到了全面升级或许我们得给这个功能起一个新的名字。 
+
+**该功能暂时仅提供给Professional版本。**  后续将会从中切割一个与CobaltStrike的beacongate类似的功能提供给community。 
 
 #### Ollvm
 
-面对目前某些杀软基于特征的静态文件识别方案， 如何快速改变内部结构是一个非常有趣的话题， `ollvm` 便是一种非常有效而有力的手段， 通过添加 `pass`， 在增加逆向成本的同时， 我们也可以快速增加程序的信息熵， 以进行静态特征上的规避
+ollvm是rust静态免杀的通用解决方案之一。 面对目前某些杀软基于特征的静态文件识别方案， 如何快速改变内部结构是一个非常有趣的话题， `ollvm` 便是一种非常有效而有力的手段， 通过添加 `pass`， 在增加逆向成本的同时， 我们也可以快速增加程序的信息熵， 以进行静态特征上的规避。
 
-为便于各位使用，又由于其体积过大的原因， 我们经过考量没有放置多种 `ollvm` 进入我们的镜像中， 因此除了内置默认的 `ollvm16 + rust1.74.0` 以外， 我们还提供了 `ollvm17 + rust1.74.0` 的 `Dockerfile` 以供各位自行使用
+v0.1.0 中， 我们提供了集成了ollvm的docker镜像( `ollvm16 + rust1.74.0` toolchain,  此外还提供了 `ollvm17 + rust1.74.0` 的 `Dockerfile`)以及malefic-mutant编译工具。带来了基础版本的ollvm。 community中的ollvm为开源版本的工程化实现, 特征与特性与开源版本一致， 但是大大简化了环境配置的复杂性。  
 
-这里需要感谢开源社区的慷慨
 - 感谢@https://github.com/joaovarelas/Obfuscator-LLVM-16.0 提供的 `Dockerfile`及 `ollvm16 patch`
 - 感谢@https://github.com/DreamSoule/ollvm17 对 `ollvm17` 的支持
 - 感谢@https://github.com/61bcdefg/Hikari-LLVM15-Core/ 对平坦化的支持
 
+```yaml
+build:  
+  zigbuild: false  
+  ollvm:  
+    enable: true  
+    bcfobf: true  
+    splitobf: false  
+    subobf: false  
+    fco: false  
+    constenc: false
+```
+
+```sh
+malefic-mutant build malefic
+```
 
 ### IoM for AI (Unstable)
 
@@ -226,7 +272,6 @@ implant添加了pack相关配置， 可以指定打包文件的路径与释放�
 当然， 除了这里还有一处 `NtManageHotPatch` 函数需要处理， 如果各位感兴趣可以参考和阅读我上面贴出的文章一窥究竟 :)
 
 
-
 #### (implant) 去除外部依赖库
 
 在早期版本中， 为了快速实现功能， 引入了大量第三方库， 这些库会引入更多不必要的库和特征， 并且会导致我们无法定制每个细节的OPSEC。 
@@ -314,10 +359,10 @@ implants:
 ## End
 
 
-原本计划从v0.0.4直接跳跃到v0.1.0, 实现商业化版本的各种功能。 但现实遇到的困难比预期多得多，我们不得不先发布一个中间版本 v0.0.5。而这个版本也将作为可预见未来内的最后一个大版本，后续会有一些小的改动和修复。 等待从社区中获取足够的使用反馈， 才会进行下一步的开发。 **可以尝试将IoM v0.0.5作为一个稳定版本投入生产， 期待你们的反馈！**
+原本计划从v0.0.4直接跳跃到商业化版本, 但现实遇到的困难比预期多得多，我们不得不先发布一个中间版本 v0.1.0。而这个版本也将作为可预见未来内的最后一个大版本，后续会有一些小的改动和修复。 等待从社区中获取足够的使用反馈， 才会进行下一步的开发。 **可以尝试将IoM v0.1.0作为一个稳定版本投入生产， 期待你们的反馈！**
 
 
-也有一个相对遗憾的消息， 受限于资源和精力， v0.0.5 可能将是未来一段时间内的稳定版本。 因为实现roadmap中v0.1.0需要消耗的资源比预计的更多，也因为各种其他原因，我们无法按照预期实现v0.1.0的 Professional 和Community两个版本。 v0.1.0 应该只会面向付费用户。
+也有一个相对遗憾的消息， 受限于资源和精力， v0.1.0 可能将是未来一段时间内的稳定版本。 因为实现roadmap中v0.1.0需要消耗的资源比预计的更多，也因为各种其他原因，我们无法按照预期实现v0.1.0的所有计划内的功能。
 
 如果您认可我们的产品， 欢迎联系我们咨询关于IoM Professional的相关信息。 联系方式: m09ician@gmail.com
 

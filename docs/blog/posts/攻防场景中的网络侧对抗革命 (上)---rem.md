@@ -17,6 +17,7 @@ slug: rem-introduce
 
 从使用场景覆盖来说， 这些工具加起来确实覆盖了关于 proxy/tunnel 的90%以上场景, 但如frp，gost, iox 这些工具设计上并不是给攻防场景使用的, 现在的NDR设备可以轻松捕获他们的特征. 并且往往是单个工具只解决了部分场景的需求， 不能覆盖所有场景。
 
+<!-- more -->
 
 ## 设计
 
@@ -49,7 +50,7 @@ slug: rem-introduce
 golang 包中的几个重要概念。
 **Listener 监听器**
 
-```
+```go
 type Listener interface {
     // Accept 等待并返回下一个连接到此监听器的连接。
     Accept() (Conn, error)
@@ -64,7 +65,7 @@ type Listener interface {
 
 **Dialer 拨号器**
 
-```
+```go
 type Dialer interface {
     Dial(network, address string) (net.Conn, error)
 }
@@ -72,7 +73,7 @@ type Dialer interface {
 
 **Conn 连接**, Accept与Dial都将返回Conn
 
-```
+```go
 type Conn interface {
     // Read 从连接中读取数据。
     Read(b []byte) (n int, err error)
@@ -181,7 +182,7 @@ golang虽然默认就实现了udp协议的所有的接口， 但默认提供的u
 
 为什么将ARQ协议称为传输层之下， 原因就在于ARQ协议不适用net.Conn， 而是基于net.PacketConn. 
 
-```
+```go
 type PacketConn interface {  
     ReadFrom(p []byte) (n int, addr Addr, err error)  
   
