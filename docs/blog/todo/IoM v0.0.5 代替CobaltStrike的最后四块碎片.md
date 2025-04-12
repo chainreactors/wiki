@@ -106,8 +106,20 @@ rem本身只需要通过单行命令实现所有功能， 而IoM的client上的r
 CobaltStrike有三个大的OPSEC定制切面， 分别是UDRL，sleepmask 以及最新的BeaconGate。我们正在逐步实现CS的这些OPSEC功能， 以及更多的CS没有的OPSEC选项。 
 #### Beacon Gate
 
+在设计初期， `IOM` 对各类 `API` 的调用都是为一切可配置可调控而设计的， 虽然并未以开源形式公开， 但我们发现其与 `Beacon Gate` 的设计不谋而合， 这也意味着我们在内部可以做到同样的操作， 用内置各类动态可调控 `API` 为 `BOF` 和 `Beacon` 进行武装
+
+虽然功能并未开放， 但各位可以从我们的 `config.yaml` 中 `apis` 这一项一窥我们的设计， 当然， 除了这些内存分配/写入外， 我们还支持了内部的其余 `api`， 以供动态调配， 在我们的设计中， `API` 也应该如积木一样， 一键切换 :)
+
 #### Ollvm
 
+面对目前某些杀软基于特征的静态文件识别方案， 如何快速改变内部结构是一个非常有趣的话题， `ollvm` 便是一种非常有效而有力的手段， 通过添加 `pass`， 在增加逆向成本的同时， 我们也可以快速增加程序的信息熵， 以进行静态特征上的规避
+
+为便于各位使用，又由于其体积过大的原因， 我们经过考量没有放置多种 `ollvm` 进入我们的镜像中， 因此除了内置默认的 `ollvm16 + rust1.74.0` 以外， 我们还提供了 `ollvm17 + rust1.74.0` 的 `Dockerfile` 以供各位自行使用
+
+这里需要感谢开源社区的慷慨
+- 感谢@https://github.com/joaovarelas/Obfuscator-LLVM-16.0 提供的 `Dockerfile`及 `ollvm16 patch`
+- 感谢@https://github.com/DreamSoule/ollvm17 对 `ollvm17` 的支持
+- 感谢@https://github.com/61bcdefg/Hikari-LLVM15-Core/ 对平坦化的支持
 
 
 ### IoM for AI (Unstable)
@@ -139,7 +151,7 @@ AI给IoM的开发提供了非常巨大的帮助， 有不少模块的原型都�
 
 之前我们尝试自行实现了 https://github.com/chainreactors/malefic-srdi ， 但是RDI的功能并不止PE to shellcode， 还有大量各种各样的功能, 最后我们选择了妥协。 后续将采用二开的donut实现。 
 这里
-- 感谢 @howmp 的 https://github.com/howmp/donut_ollvm 
+- 感谢@howmp 的 https://github.com/howmp/donut_ollvm 
 - 感谢@howmp 将malefic-srdi中TLS的解决方案移植到了zig。 
 - 感谢@zema1 将TLS的解决方案从zig移植到了donut
 - 感谢@wabzsy的 https://github.com/wabzsy/gonut 基于donut 1.1实现了golang版本的donut前端
@@ -184,7 +196,34 @@ implant添加了pack相关配置， 可以指定打包文件的路径与释放�
 
 ![](assets/Pasted%20image%2020250411013947.png)
 
-#### (implant) 支持win11 最新版本的pe loader
+#### (implant) 支持win11 24H2及以后的RunPE
+
+不知道是不是微软安全团队发力， 在 `win11 24H2` 版本中， 如果各位使用 `Process Hollowing`， 将会得到这样的报错 `0xc0000141`
+
+如果各位感兴趣，可以查看[hasherezade](https://hshrzd.wordpress.com/2025/01/27/process-hollowing-on-windows-11-24h2/) 的精彩分析
+
+我将在这里简要介绍原因及解决方案
+
+为避免部分读者对 `Process Hollowing` 有些陌生， 因此我会简单介绍一下该技术
+
+`Process Hollowing` 顾名思义就是镂空一个正常进程， 披着该进程的外皮执行我们的代码， 因此我们需要 `stop` 住原本的进程启动逻辑， 释放掉系统原本分配的原进程内存， 将我们的进程装载进该进程中， 修改进程上下文以替换入口点。 当然， 也可以不释放内存， 直接分配一块新内存， 再修改对应上下文信息
+
+但这也引发了另一个问题， 我们所分配的内存皆是 `private` 的内存，而非正常加载时的 `image` 内存， 因此微软在这次更新中新增了对该段内存的 `check`， 其使用 `zwqueryvirtualmemory` 以及一个新参数 [MemoryImageExtensionInformation ](https://ntdoc.m417z.com/memory_information_class) 来检测是否是合法内存， 从而阻止我们原本的攻击链条
+
+因此，解决方案也呼之欲出了，我们可以简要将其分为两种
+* 让我们分配出 `MEM_IMAGE` 的内存
+* 对函数进行 `hook` 来绕过
+
+首先是第一类方法， 在对抗中， 早已出现了大量的`Process Hollowing` 变体， 比如
+
+* [process_doppelganging](https://github.com/hasherezade/process_doppelganging)
+* [process_ghosting](https://github.com/hasherezade/process_ghosting)
+* [herpaderping](https://github.com/jxy-s/herpaderping)
+* [process_overwriting](https://github.com/hasherezade/process_overwriting)
+
+当然， 也有更加简单粗暴的方案： `hook`， 由于该防御方案位于 `r3` 层， 因此进攻和防守方显得十分公平， 解决起来也异常简单
+
+当然， 除了这里还有一处 `NtManageHotPatch` 函数需要处理， 如果各位感兴趣可以参考和阅读我上面贴出的文章一窥究竟 :)
 
 
 
