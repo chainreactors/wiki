@@ -2,9 +2,8 @@
 title: rem · index
 ---
 
-## overview (内测中)
+## overview 
 
-**本文档为预览文档. 预计在 2024 年内发布**
 
 rem 是一个解决全场景流量操作的万能工具, 将提供全场景的 Tunnel(流量隧道), Proxy(代理), Pivoting(跳板), Forward(转发)解决方案.
 
@@ -23,6 +22,9 @@ rem 可以让工件们不落地, 可以让 mapping 从 EASM 接入到内网, 可
     * 流量特征自定义与加密方式自定义
     * 多信道支持, udp,tcp,icmp,websocket,wireguard等
 
-## 目录
+### release
 
-1. [设计目标](/wiki/rem/design)
+
+community: https://github.com/chainreactors/rem-community  , professional 在功能上与professional完全一致
+
+professional: https://github.com/chainreactors/rem/ (不对外开放，接受定制化开发)

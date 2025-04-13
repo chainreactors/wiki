@@ -126,7 +126,7 @@ nav:
       - 入门: rem/usage.md
       - 概念: rem/concept.md
       - 设计: rem/design.md
-      - 路线图: rem/roadmap.md
+      - Changelog: rem/changelog.md
   - libs:
       - index: libs/index.md
       - neutron:

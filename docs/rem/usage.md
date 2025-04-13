@@ -159,7 +159,7 @@ ss://
 127.0.0.1
 ```
 
-## 传输层
+## 参数解释
 
 当两个 rem 建立连接, 实际上就虚拟了一个传输层网络. 我们可以在这个网络上实现自由转发数据构造上层应用.
 
@@ -171,59 +171,67 @@ rem 提供了三种工作模式, 分别是:
 
 每个 agent 进程在逻辑上行可以承载任意多个隧道, 自动根据 rem 之间建立的传输层信道链接复用. 为了命令操作方便, 一般情况下, 我们通过一行命令描述一个服务.
 
-### transport
+### Console
 
-当前支持的传输层
+Console当前支持的传输层
 
-- tcp
-- udp (arq 协议: kcp)
+- tcp 默认启用
+- udp (arq 协议: kcp) 默认启用
 - icmp (arq 协议: kcp)
-- unix , windows 上基于命名管道实现, 非 unix 系统基于文件实现
+- unix , windows 上基于命名管道(SMB)实现, 非 unix 系统基于文件实现
 - websocket
+- wireguard
 - http (通过单工信道模拟, arq 协议 kcp)
 - memory 本进程中使用的虚拟信道
 
-#### tcp
-
-最稳定的最常用的信道， 也是 rem 的默认配置
-
-server 端:
-
+完整示例: 
 ```
-./rem
+./rem -c [transport]://[key]:@[host]:[port]?wrapper=[]&tls=[bool]&tlsintls=[bool]&compress=[bool]
 ```
 
-client 端:
+**每个`[]`都表示可选项, 所有参都可留空**， 最简表达为搭建tcp协议的rem console， 随机加密方式。
 
-```
-./rem -c [link]
-```
 
-基于 tcp 搭建传输层， 对 server 端暴露 socks5 的反向代理
+参数解释:
 
-#### udp
+- transport:  传输层，默认为tcp 
+- key: 配置加密密钥， 留空自动使用默认值
+- host: host留空或者为0.0.0.0 时表示监听rem console 服务, 其他值则为指定domain/ip的rem console
+- port: console 端口
+- wrapper: 留空自动生成随机加密方式， 特殊值`raw`不启用任何加密方式
+- tls: 自动生成tls配置，并打开tls通讯，默认不启用
+- tlsintls，默认不启用
 
-#### icmp
+### Local && Remote
 
-#### uinx
+rem 通过-l与-r 描述所有的应用层常见， 通过-m描述流量方向。 
 
-#### websocket
+**三种mod:**
 
-#### http
+- reverse (默认值), 表示流量入口在server， 会在server监听一个服务
+- proxy , 表示流量入口在client， 会在client监听一个服务
+- bind , 单机模式, 搭建普通的http/socks5代理
 
-#### memory
+**应用层协议** 
 
-### wrapper
+- socks5 (默认启用)
+- http/https (默认启用)
+- port forward (默认启用)
+- trojan
+- shadowsocks
 
-- xor
-- aes
-- padding
+通过组合remote, local , mod 即可实现各种应用场景。
 
-### 转发链 forward chain
 
-转发器, 与代理器是相对应的概念. 用作 client 连接 server 时需要跨过的流量节点.
+todo: 有一些参数有特殊的配置, 正在补充
+
+### Forward
+
+转发器,  用作 client 连接 server 时需要跨过的流量节点.
 
 例如 client 连接 server 的时候可以通过多级代理, 常见于不出网内网但存在一个 http/socks5 代理让部分应用能够出网.
+
+fowardd flag为`-f`/`forward`
 
 `./rem -c [link] -f socks5://192.168.1.1:1080 -f http://192.168.2.2:1081`
 
@@ -233,7 +241,21 @@ client 端:
 
 先通过 192.168.1.1 绕过白名单限制， 再通过出网代理建立代理
 
-### 级联 redirecter
+proxyclient的配置请见: https://chainreactors.github.io/wiki/libs/proxyclient/
+### Outbound Proxy
+
+outbound会在某一端对外发起请求,  这个请求同样支持代理链。
+
+例如反向代理场景， 内网存在一个socks5代理跳板. 可以通过配置outbound proxy实现简单多级反向代理。
+
+outbound proxy的flag为`-x` / `--proxy`
+
+```
+./rem -c [rem_link] -r socks5://:10080 -x socks5://10.1.1.1:1080
+```
+
+proxyclient的配置请见: https://chainreactors.github.io/wiki/libs/proxyclient/
+### 级联
 
 user <-> console <-[网络隔离]-> client
 
@@ -261,44 +283,28 @@ user 通过 console 访问 client.
 
 远程端口转发: `./rem -c [link]  -d internal -l :8888 -m proxy` 将会将 user 的 8888 端口转发到 client 的随机生成的端口
 
-## 应用层
 
-### 代理协议
 
-- socks5
-- trojan
-- shadowsocks
-- port forward
-- http/https
+## Build 
 
-### 代理链 proxy chain
+自动发布的release中, 默认仅支持 tcp/udp的transport和socks4/socks5, http/https, port forward 的应用层协议。 
 
-代理链，表示对 outbound 配置的代理
+因此虽然实现了很多协议， 但是其他协议需要手动启用.
 
-可以将任何信道(一般是应用层代理)封装为 proxier, 例如最基本的 socks5, http, https 之外, 还可以将 neoreg(已实现), sou5 等
+rem 提供了自动编译指定协议, 以及固定配置的编译脚本。
 
-使用-x/--proxy , 当前支持
+https://github.com/chainreactors/rem-community/blob/master/build.sh
 
-- socks4, socks4a, socks5
-- http, https
-- ssh
-- shadowsocks
-- rem
-- memory
-- neoreg(todo)
-- suo5(todo)
+参数: 
 
-使用场景:
+- -o 指定架构 , `-o linux/amd64`
+- -t 指定传输层协议, -t "tcp,udp,icmp"
+- -a 指定应用层协议, -a "socks,http,trojan,shadowsocks"
 
-控制了位于边界的 192 网段内的服务， 需要访问三层代理后的专网内的服务。
+某些情况下, 我们希望预配置rem参数, 可以通过以下参数实现, 与rem原命令行一致
 
-`./rem -c [link] -x socks5://192.169.1.1:1080 -x http://172.16.1.1:1081 -x neoreg://10.0.0.1:1082`  
-表示在服务器上打开 socks5 协议的反向代理. 通过这个反向代理对内网访问时，还会经过位于内网的任意层级代理链。
+- -m 
+- -c 
+- -r
+- -l 
 
-这里配置的表示出口流量先经过 192.169.1.1，172.16.1.1， 10.0.0.1 最终访问到位于层层内网之内的目标服务。
-
-todo:
-
-- 当前只支持 tcp 协议, udp 支持开发中
-- 支持正向代理的 proxy
-- 云函数代理
