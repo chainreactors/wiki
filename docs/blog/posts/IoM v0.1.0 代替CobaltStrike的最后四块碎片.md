@@ -27,11 +27,11 @@ CobaltStrike最大的护城河是丝滑的GUI客户端， 稳定的beacon，以�
 https://github.com/chainreactors/IoM-gui
 
 一些简单的图示
-![](/wiki/IoM/assets/Pasted%20image%2020250412003635.png)
+![](assets/Pasted%20image%2020250412003635.png)
 
-![](/wiki/IoM/assets/Pasted%20image%2020250412003552.png)
+![](assets/Pasted%20image%2020250412003552.png)
 
-![](/wiki/IoM/assets/Pasted%20image%2020250412003559.png)
+![](assets/Pasted%20image%2020250412003559.png)
 ### Mals 插件生态
 
 https://github.com/chainreactors/mal-community
@@ -90,7 +90,7 @@ v0.1.0 全面接入了rem 它会在listener，client， implant发挥不同的�
 
 新增rem配置项， 监听rem console 服务
 
-![](/wiki/IoM/assets/Pasted%20image%2020250327004454.png)
+![](assets/Pasted%20image%2020250327004454.png)
 
 这个服务可以给普通的rem二进制文件直接使用， 也可以让client与implant连接。
 
@@ -109,9 +109,9 @@ v0.1.0 全面接入了rem 它会在listener，client， implant发挥不同的�
 
 常见的正反向端口转发, 正反向代理都可以，以及类似CS的rportfwd_local以及CS都没有的portfwd_local都可以基于rem实现。完成常见proxy/tunnel 的全覆盖
 
-![](/wiki/IoM/assets/Pasted%20image%2020250412001458.png)
+![](assets/Pasted%20image%2020250412001458.png)
 
-![](/wiki/IoM/assets/Pasted%20image%2020250412001455.png)
+![](assets/Pasted%20image%2020250412001455.png)
 ##### implant rem transport
 除了运行rem模块搭建隧道，还支持重载implant的信道，实现 rem over implant。 让rem在网络侧对抗发光发热， rust在网络相关的玩法上略逊于golang。 
 
@@ -119,14 +119,14 @@ v0.1.0 全面接入了rem 它会在listener，client， implant发挥不同的�
 
 这也是IoM在之前的版本中都没有提供除了tls之外的任何传输层的原因，所有网络侧的对抗都可以交给rem实现
 
-![](/wiki/IoM/assets/Pasted%20image%2020250411235959.png)
+![](assets/Pasted%20image%2020250411235959.png)
 
 #### rem for client/mals
 
 rem本身只需要通过单行命令实现所有功能， 而IoM的client上的rem相关命令组一定程度上提供了rem的交互式命令行管理工具。 可以在client上管理已有的连接，新建隧道， 修改配置等。 
 
 最常见的用法已经封装在命令行中， 但是还有一些rem特有的高级用法，通过mal-community中的[community-proxy](https://github.com/chainreactors/mal-community/tree/master/community-proxy "community-proxy")动态注册。 
-![](/wiki/IoM/assets/Pasted%20image%2020250412001630.png)
+![](assets/Pasted%20image%2020250412001630.png)
 
 
 而client本身也支持接入 listener <--> implant 构建的网络， 实现网络测的三端打通。 
@@ -187,19 +187,19 @@ AI给IoM的开发提供了非常巨大的帮助， 有不少模块的原型都�
 而这段时间内，出现了MCP协议， 作为AI与传统工具的桥梁， 让我们可以更快的打通其间的壁垒， 让我们不再需要自行实现一个agent框架，直接将知识和能力都暴露给AI， 让AI根据需求自行调用。 
 
 **该功能还处于于早期测试阶段，会在nightly release中发布** 
-![](/wiki/IoM/assets/965c49bcc9de7d1706afc1cbfea36d0.png)
+![](assets/965c49bcc9de7d1706afc1cbfea36d0.png)
 
-![](/wiki/IoM/assets/941fed749f4f0819b97078390c163f5.png)
+![](assets/941fed749f4f0819b97078390c163f5.png)
 
 
-![](/wiki/IoM/assets/2e2ca8f08f59978f166497f79e92958.png)
+![](assets/2e2ca8f08f59978f166497f79e92958.png)
 ## 更新日志
 
 #### (server) Context 重构
 
 为了管理可复用的数据，提供了一组api保存渗透过程中需要重复使用的常见数据。
 
-![](/wiki/IoM/assets/Pasted%20image%2020250411004105.png)
+![](assets/Pasted%20image%2020250411004105.png)
 
 #### (server) donut 重构
 
@@ -227,20 +227,20 @@ AI给IoM的开发提供了非常巨大的帮助， 有不少模块的原型都�
 #### (client) 命令行UI美化
 
 flag分组展示
-![](/wiki/IoM/assets/959b94bc14e874f769a13000e27d807.jpg)
+![](assets/959b94bc14e874f769a13000e27d807.jpg)
 
 OPSEC标记，颜色标记，ATT&CK标记
 
-![](/wiki/IoM/assets/Pasted%20image%2020250411013610.png)
+![](assets/Pasted%20image%2020250411013610.png)
 
 命令行help细节
 
-![](/wiki/IoM/assets/Pasted%20image%2020250411013629.png)
+![](assets/Pasted%20image%2020250411013629.png)
 #### (implant) 支持打包与释放文件
 
 implant添加了pack相关配置， 可以指定打包文件的路径与释放路径， 并在释放后自动打开文件。 
 
-![](/wiki/IoM/assets/Pasted%20image%2020250411013800.png)
+![](assets/Pasted%20image%2020250411013800.png)
 
 #### (implant) 重构资源文件
 
@@ -248,7 +248,7 @@ implant添加了pack相关配置， 可以指定打包文件的路径与释放�
 
 例如在启动时申请管理员权限或者UAC权限
 
-![](/wiki/IoM/assets/Pasted%20image%2020250411013947.png)
+![](assets/Pasted%20image%2020250411013947.png)
 
 #### (implant) 支持win11 24H2及以后的RunPE
 
