@@ -43,6 +43,7 @@ https://github.com/chainreactors/mal-community
 
 
 已经实现/迁移的插件包: 
+
 - lib
 	- noconsolation, https://github.com/fortra/No-Consolation
 	- SharpBlock, https://github.com/CCob/SharpBlock
@@ -65,7 +66,7 @@ https://github.com/chainreactors/mal-community
 	- https://github.com/wavvs/nanorobeus
 	- 常用域渗透工具
 - move (横向移动)
-	- 
+	- https://github.com/0xthirteen/MoveKit
 
 我们迁移了数百个CobaltStrike的插件功能， 完成了mals社区的起步阶段的基础设施建设， 这些功能覆盖绝大多数常用的CobaltStrike的使用场景。
 
