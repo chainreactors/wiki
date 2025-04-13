@@ -95,9 +95,9 @@ func (c *UnixListener) Listen(dst string) (net.Listener, error) {
 
 非常有用的信道还有例如wireguard, tor,  dns(doh), unix socket, SMB 等等. 有一些在rem-community 中已经实现，其他的实现也不困难。这些信道在不同的领域有不同的用途。
 
-在这里可以看到rem已经支持的所有信道: https://github.com/chainreactors/rem/tree/master/protocol/tunnel
+在这里可以看到rem已经支持的所有信道: https://github.com/chainreactors/rem-community/tree/master/protocol/tunnel
 
-在github 自动编译的release中只使用了tcp/udp两个最常用的信道。如果有更多的信道需求, 可以通过rem自带的条件编译工具 https://github.com/chainreactors/rem/blob/master/build.sh 实现。
+在github 自动编译的release中只使用了tcp/udp两个最常用的信道。如果有更多的信道需求, 可以通过rem自带的条件编译工具 https://github.com/chainreactors/rem-community/blob/master/build.sh 实现。
 
 ```sh
 sh ./build.sh -o "windows/amd64" -t "unix"
@@ -192,10 +192,10 @@ https://lolc2.github.io/  是一个知名的基于合法服务构建C2信道的�
 可以参考下面代码，封装了一组接口，可以将例如HTTP协议的单工信道模拟成双工信道（实际上还是单工）：
 
 单工信道模拟双工通信:
-https://github.com/chainreactors/rem/blob/master/x/kcp/simplex.go
+https://github.com/chainreactors/rem-community/blob/master/x/kcp/simplex.go
 
 基于http协议的具体实现， 将http协议模拟为双工通讯
-https://github.com/chainreactors/rem/blob/master/x/kcp/http.go
+https://github.com/chainreactors/rem-community/blob/master/x/kcp/http.go
 
 假设有一个可信服务能交换数据，只需要根据http协议进行简单的修改， 即可构建一个基于该服务的双工通讯信道。 
 
@@ -381,7 +381,7 @@ execute_exe rem.exe -- -c [rem_link] ...
 
 这段代码暴露了一个类似命令行程序的函数， 能接收字符串， 并解析参数执行rem。 
 
-https://github.com/chainreactors/rem/blob/master/cmd/export/main.go
+https://github.com/chainreactors/rem-community/blob/master/cmd/export/main.go
 
 ```go
 //export RemDial
