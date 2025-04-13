@@ -3,8 +3,6 @@ title: Internal of Malice · index
 ---
 ## overview 
 
-**本文档为预览文档.** 
-
 Internal of Malice(恶联网) 力图实现一套开源post-exploit基础设施, 在兼容CS,MSF,Sliver生态的同时, 提供更高的拓展性与隐蔽性, 并提供一套工程化的解决方案.
 
 C2是比其他领域更具挑战性, 不管在设计上还是实现上都更为复杂. 
