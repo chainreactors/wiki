@@ -204,7 +204,7 @@ rem选择相对轻量的kcp作为rem的默认ARQ协议（ARQ协议也会引入�
 
 通过KCP， 将golang原本就支持的icmp/udp封装为了可靠的tunnel， 但到这里还没完。 
 
-最终的成果位于: https://github.com/chainreactors/rem/tree/master/x/kcp
+最终的成果位于: https://github.com/chainreactors/rem-community/tree/master/x/kcp
 
 ##### lolc2
 
