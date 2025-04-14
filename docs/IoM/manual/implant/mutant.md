@@ -69,58 +69,70 @@ generate 模块将会根据配置动态生成一切所需的代码（pulse, prel
 
 由于 beacon 是整个功能的结合形态， 因此配置项略微复杂， 这里将其分为三部分来介绍
 
-1. basic
+配置文件模板: https://github.com/chainreactors/malefic/blob/master/config.yaml
 
-    ```yaml
-    basic:
-    name: "malefic"
-    targets:
-        - "10.211.55.2:5001"
-    protocol: "tcp"
-    tls: false
-    proxy: ""
-    interval: 5
-    jitter: 0.2
-    ca: ""
-    encryption: aes
-    key: maliceofinternal
-    ```
+1. basic, 用于连接参数配置
 
-2. metadata
+```yaml
+basic:  
+  name: "malefic"  
+  targets:  
+    - "127.0.0.1:5001"  
+  protocol: "tcp"  
+  tls: false  
+  proxy:  
+  interval: 5  
+  jitter: 0.2  
+  ca:  
+  encryption: aes  
+  key: maliceofinternal  
+  rem:  
+    link:  
+  http:  
+    method: "POST"  
+    path: "/pulse"  
+    host: "127.0.0.1"  
+    version: "1.1"  
+    headers:  
+      User-Agent: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0"
+```
+
+2. metadata, 基于resources实现的二进制文件基本信息配置
     
-    ```yaml
-    metadata:
-    remap_path: "C:/Windows/Users/Maleficarum"
-    icon: ""
-    compile_time: "24 Jun 2015 18:03:01"
-    file_version: ""
-    product_version: ""
-    company_name: ""
-    product_name: ""
-    original_filename: "normal.exe"
-    file_description: "normal"
-    internal_name: ""
-    ```
+```yaml
+metadata:  
+  remap_path: "C:/Windows/Users/"  
+  icon: ""  
+  compile_time: "24 Jun 2015 18:03:01"  
+  file_version: ""  
+  product_version: ""  
+  company_name: ""  
+  product_name: ""  
+  original_filename: "normal.exe"  
+  file_description: "normal"  
+  internal_name: ""  
+  require_admin: false  # whether to require admin privilege  
+  require_uac: false    # whether to require uac privilege
+```
 
-3. implants
+3. implants, 关于implant功能性配置
 
-    ```yaml 
-    implants:
-        mod: beacon
-        register_info: true     # 是否需要在注册时获取系统信息(提示: 该行为为危险行为:)
-        hot_load: true          # 是否需要 hot load 功能， 即动态插件加载功能
-        modules:                # 所需要使用的 modules
-            - "full"            # full (全部模块)， nano(不包含任何模块), base(基础模块)
-                                # fs_full (文件系统相关模块), net_full (网络相关模块)
-                                # sys_full (系统相关模块)
-                                # execute_full (内存执行模块)
-    
-        flags:
-            start: 0x41         # 交互 body 开始标志
-            end: 0x42           # 交互 body 结束标志
-            magic: "beautiful"  # 动态校验值
-            artifact_id: 0x1    # unused 保留字段
-        ```
+```yaml
+implants:  
+  runtime: tokio          # async runtime: smol/tokio/async-std  
+  mod: beacon             # malefic mod: beacon/bind  
+  register_info: true     # whether collect sysinfo when register  
+  hot_load: true          # enable hot load module  
+  modules:                # module when malefic compile  
+    - "full"  
+  enable_3rd: false       # enable 3rd module  
+  3rd_modules:            # 3rd module when malefic compile  
+    - "full"  
+  autorun: ""             # autorun config filename  
+  pack:                   # pack  
+#    - src: "1.docx"  
+#      dst: "1.docs"
+```
 
 ##### 使用说明
 

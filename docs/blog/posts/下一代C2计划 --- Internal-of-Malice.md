@@ -156,7 +156,7 @@ https://chainreactors.github.io/wiki/rem/ *预计在2024年内发布*
 
 rem是全场景的流量/代理工具. 能用来解决绝大多数场景的代理与转发需求, 也用来打通mapping与IoM, 让mapping能通过rem+IoM接入内网. rem提供了在传输层, 应用层, 加密层, 混淆层的拓展接口. 可以被轻松修改为自定义特征, 也将是IoM在流量端的能力拓展. 
 
-目前提供了rem的[设计文档](/wiki/rem/design) 与 [路线图](wiki/rem/roadmap)
+目前提供了rem的[设计文档](/wiki/rem/design) 与 [路线图](wiki/rem/changelog)
 
 ### 可能会存在的商业化计划
 
