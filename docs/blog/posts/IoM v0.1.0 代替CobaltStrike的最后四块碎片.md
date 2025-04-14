@@ -13,7 +13,7 @@ slug: IoM_v0.0.5
 - 基于vscode extension的GUI客户端
 - 基于lua脚本语言的插件系统以及迁移了数百个插件的基础插件生态
 - 基于rem实现的代理/隧道功能组
-- 类似BeaconGate的动态函数调用
+- 类似BeaconGate的动态函数调用和Ollvm
 
 当然目前与CobaltStrike对比不免有些不自量力(因缺少大量实战测试修复各种bug)。但这也代表IoM主体功能的阶段性成果。IoM不再是一个实验室中的demo， 而是能初步用于实战的工具。 
 
@@ -188,10 +188,10 @@ AI给IoM的开发提供了非常巨大的帮助， 有不少模块的原型都�
 而这段时间内，出现了MCP协议， 作为AI与传统工具的桥梁， 让我们可以更快的打通其间的壁垒， 让我们不再需要自行实现一个agent框架，直接将知识和能力都暴露给AI， 让AI根据需求自行调用。 
 
 **该功能还处于于早期测试阶段，会在nightly release中发布** 
+
 ![](assets/965c49bcc9de7d1706afc1cbfea36d0.png)
 
 ![](assets/941fed749f4f0819b97078390c163f5.png)
-
 
 ![](assets/2e2ca8f08f59978f166497f79e92958.png)
 ## 更新日志
