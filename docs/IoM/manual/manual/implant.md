@@ -20,6 +20,34 @@ List all downloaded files.
 files
 ```
 
+### list_task
+List all tasks
+
+```
+list_task
+```
+
+**Examples**
+
+~~~
+list_task
+~~~
+
+
+### query_task
+Query a task by task_id
+
+```
+query_task [task_id]
+```
+
+**Examples**
+
+~~~
+query_task <task_id>
+~~~
+
+
 ### tasks
 List tasks
 
@@ -867,18 +895,18 @@ service create [flags]
 
 Create a new service named "example_service":
   ~~~
-  service create --name example_service --display "Example Service" --path /path/to/executable --start_type 2 --error 1
+  service create --name example_service --display "Example Service" --path /path/to/executable --start_type AutoStart --error Normal
   ~~~
 
 **Options**
 
 ```
-      --account string      Account name for the service (default "SYSTEM")
+      --account string      AccountName for service (LocalSystem, NetworkService; \<hostname\>\\\<username\> NT AUTHORITY\SYSTEM; .\username, ..) (default "LocalSystem")
       --display string      Display name of the service
-      --error uint32        Error control level (e.g., 1 for normal) (default 1)
+      --error string        Error control level (Ignore, Normal, Severe, Critical) (default "Normal")
       --name string         Name of the service (required)
       --path string         Path to the executable (required)
-      --start_type uint32   Service start type (e.g., 2 for auto-start) (default 3)
+      --start_type string   Service start type (BootStart, SystemStart, AutoStart, DemandStart, Disabled) (default "AutoStart")
 ```
 
 **SEE ALSO**
@@ -1015,18 +1043,28 @@ Add or modify a registry key
 
 **Description**
 
-Add or modify a registry key with specified values such as string, byte, DWORD, or QWORD.
+Add or modify a registry key with specified values. Supported types: REG_SZ, REG_BINARY, REG_DWORD, REG_QWORD
 
 ```
-reg add --hive [hive] --path [path] --key [key]
+reg add [path] [flags]
 ```
 
 **Examples**
 
 Add or modify a registry key:
   ~~~
-  reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Example TestKey --string_value "example" --dword_value 1
+  reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Example -v TestValue -t REG_DWORD -d 1
+  reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Example -v TestString -t REG_SZ -d "Hello World"
+  reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Example -v TestBinary -t REG_BINARY -d 01020304
   ~~~
+
+**Options**
+
+```
+  -d, --data string    Data to set
+  -t, --type string    Value type (REG_SZ, REG_BINARY, REG_DWORD, REG_QWORD) (default "REG_SZ")
+  -v, --value string   Value name
+```
 
 **SEE ALSO**
 
@@ -1106,7 +1144,7 @@ Query a registry key
 Retrieve the value associated with a specific registry key.
 
 ```
-reg query --hive [hive] --path [path] --key [key] [flags]
+reg query --hive [hive] --path [path] --key [key]
 ```
 
 **Examples**
@@ -1115,16 +1153,6 @@ Query a registry key:
   ~~~
   reg query HKEY_LOCAL_MACHINE\\SOFTWARE\\Example TestKey
   ~~~
-
-**Options**
-
-```
-      --byte_value bytesBase64   Byte array value to write
-      --dword_value uint32       DWORD value to write
-      --qword_value uint         QWORD value to write
-      --regtype uint32           Registry data type (e.g., 1 for REG_SZ) (default 1)
-      --string_value string      String value to write
-```
 
 **SEE ALSO**
 
@@ -1171,7 +1199,7 @@ Create a scheduled task:
       --name string             Name of the scheduled task (required)
       --path string             Path to the executable for the scheduled task (required)
       --start_boundary string   Start boundary for the scheduled task (e.g., 2023-10-10T09:00:00)
-      --trigger_type uint32     Trigger type for the task (e.g., 1 for daily, 2 for weekly) (default 1)
+      --trigger_type string     Trigger type for the task (e.g. Daily,Weekly,monthly)
 ```
 
 **SEE ALSO**
@@ -1321,7 +1349,7 @@ getsystem
 
 Attempt to elevate privileges:
   ~~~
-  sys getsystem
+  getsystem
   ~~~
 
 ### privs
@@ -1380,23 +1408,6 @@ download [implant_file]
 
 ~~~
 download ./file.txt
-~~~
-
-### sync
-Sync file
-
-**Description**
-
-sync download file in server
-
-```
-sync [file_id]
-```
-
-**Examples**
-
-~~~
-sync 1
 ~~~
 
 ### upload
@@ -1597,31 +1608,8 @@ Perform operations related to named pipes, including uploading, reading, and clo
 
 **SEE ALSO**
 
-* [pipe close](#pipe-close)	 - Close a named pipe
 * [pipe read](#pipe-read)	 - Read data from a named pipe
 * [pipe upload](#pipe-upload)	 - Upload file to a named pipe
-
-#### pipe close
-Close a named pipe
-
-**Description**
-
-Close a specified named pipe.
-
-```
-pipe close [pipe_name]
-```
-
-**Examples**
-
-Close a pipe:
-  ~~~
-  pipe close \\.\pipe\test_pipe
-  ~~~
-
-**SEE ALSO**
-
-* [pipe](#pipe)	 - Manage named pipes
 
 #### pipe read
 Read data from a named pipe

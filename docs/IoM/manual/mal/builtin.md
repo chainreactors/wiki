@@ -81,7 +81,7 @@ download artifact with special build id
 
 **Arguments**
 
-- `$1` [string] - 
+- `$1` [number] - 
 - `$2` [boolean] - 
 
 ### exe2shellcode
@@ -131,6 +131,14 @@ search build artifact with arch,os,typ and pipeline id
 ```
 search_artifact("x64","windows","beacon","tcp_default", true)
 ```
+
+### self_artifact
+
+get artifact with session self
+
+**Arguments**
+
+- `sess` [Session] -  session
 
 ### self_payload
 
@@ -211,17 +219,93 @@ get current session
 active()
 ```
 
+### add_credential
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [Task] 
+- `$3` [string] 
+- `$4` [any] 
+
+### add_download
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [Task] 
+- `$3` [table] 
+
+### add_keylogger
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [Task] 
+- `$3` [table] 
+
+### add_port
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [Task] 
+- `$3` [table] 
+
+### add_screenshot
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [Task] 
+- `$3` [table] 
+
+### add_upload
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [Task] 
+- `$3` [table] 
+
 ### assemblyprint
 
 **Arguments**
 
 - `$1` [TaskContext] 
 
+### async_run
+
+**Arguments**
+
+- `$1` [any] 
+
 ### barch
 
 **Arguments**
 
 - `$1` [Session] 
+
+### bdata
+
+get session custom data
+
+**Arguments**
+
+- `$1` [Session] - 
+
+**Example**
+
+```
+bdata(active())
+```
+
+### bind_flags_completer
+
+**Arguments**
+
+- `$1` [table] 
+- `$2` [any] 
 
 ### blog
 
@@ -247,7 +331,12 @@ active()
 **Arguments**
 
 - `$1` [Session] 
-- `$2` [string] 
+
+### callback_context
+
+**Arguments**
+
+- `$1` [Session] 
 
 ### callback_discard
 
@@ -264,6 +353,33 @@ active()
 
 - `$1` [Session] 
 - `$2` [boolean] 
+
+### check_module
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+
+### credentials
+
+
+### data
+
+get session data
+
+**Arguments**
+
+- `$1` [Session] - 
+
+**Example**
+
+```
+data(active())
+```
+
+### downloads
+
 
 ### execute_addon
 
@@ -301,11 +417,23 @@ format_path("C:\\Windows\\System32\\calc.exe")
 - `$1` [Task] 
 - `$2` [number] 
 
+### get_sess_dir
+
+**Arguments**
+
+- `$1` [string] 
+
 ### is64
 
 **Arguments**
 
 - `$1` [Session] 
+
+### is_full_path
+
+**Arguments**
+
+- `$1` [string] 
 
 ### isactive
 
@@ -324,6 +452,9 @@ format_path("C:\\Windows\\System32\\calc.exe")
 **Arguments**
 
 - `$1` [Session] 
+
+### keyloggers
+
 
 ### list_addon
 
@@ -353,12 +484,6 @@ format_path("C:\\Windows\\System32\\calc.exe")
 - `$1` [Session] 
 - `$2` [string] 
 - `$3` [boolean] 
-
-### mal_pack_binary
-
-**Arguments**
-
-- `$1` [string] 
 
 ### new_64_executable
 
@@ -481,6 +606,12 @@ sac = new_sacrifice(123, false, false, false, "")
 
 - `$1` [string] 
 
+### pack_binary
+
+**Arguments**
+
+- `$1` [string] 
+
 ### pack_bof
 
 pack bof single argument
@@ -513,6 +644,33 @@ pack_bof_args("ZZ", {"aa", "bb"})
 
 ```
 
+### pipe_close
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `name` [string] -  name of the pipe
+
+**Example**
+
+```
+pipe_close(active(), "pipe_name")
+```
+
+### pipe_upload_raw
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+- `$3` [string] 
+
+### pivots
+
+
+### ports
+
+
 ### reg_list_value
 
 **Arguments**
@@ -521,23 +679,142 @@ pack_bof_args("ZZ", {"aa", "bb"})
 - `$2` [string] 
 - `$3` [string] 
 
+### rem_link
+
+**Arguments**
+
+- `$1` [string] 
+
+### run
+
+**Arguments**
+
+- `$1` [any] 
+
+### screenshots
+
+
+### shellsplit
+
+**Arguments**
+
+- `$1` [string] 
+
 ### taskprint
 
 **Arguments**
 
 - `$1` [TaskContext] 
 
-### tstamp
+### timestamp_format
 
 **Arguments**
 
-- `$1` [number] 
+- `$1` [string] 
+
+### uploadraw
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+- `$3` [string] 
+- `$4` [string] 
+- `$5` [boolean] 
+
+### uploads
+
 
 ### wait
 
 **Arguments**
 
 - `$1` [Task] 
+
+### with_context
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+
+### with_value
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+- `$3` [string] 
+
+### with_values
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [table<string>] 
+
+## client
+
+### addon_completer
+
+
+### all_pipeline_completer
+
+
+### artifact_completer
+
+
+### artifact_name_completer
+
+
+### bind_args_completer
+
+**Arguments**
+
+- `$1` [table] - 
+- `$2` [table] - 
+
+### content_completer
+
+
+### listener_completer
+
+
+### listener_with_pipeline_completer
+
+
+### module_completer
+
+
+### profile_completer
+
+
+### rem_agent_completer
+
+
+### rem_completer
+
+
+### resource_completer
+
+
+### session_completer
+
+
+### sync_completer
+
+
+### target_completer
+
+
+### task_completer
+
+
+### type_completer
+
+
+### website_completer
+
 
 ## encode
 
@@ -595,21 +872,6 @@ check file exists
 file_exists("C:\\Windows\\System32\\calc.exe")
 ```
 
-### ismatch
-
-regexp match
-
-**Arguments**
-
-- `pattern` [string] - 
-- `text` [string] - 
-
-**Example**
-
-```
-ismatch("([a-z]+) ([0-9]+)", "hello 123")
-```
-
 ### parse_hex
 
 parse hex string to int64
@@ -621,7 +883,7 @@ parse hex string to int64
 **Example**
 
 ```
-parse_hex("0x1f4")
+parse_hex("0x1f04")
 ```
 
 ### parse_octal
@@ -652,15 +914,15 @@ generate random string
 random_string(10)
 ```
 
-### timestampMillis
+### timestamp
 
-get current timestamp in milliseconds
+Get current timestamp in milliseconds or formatted date string.
 
 
 **Example**
 
 ```
-timestampMillis()
+timestampOrFormatted(), timestampOrFormatted("01/02 15:04")
 ```
 
 ## execute
@@ -1197,23 +1459,6 @@ move files and directories in implant
 mv(active(),"/tmp/file1.txt","/tmp/file2.txt")
 ```
 
-### pipe_close
-
-Close a named pipe
-
-Close a specified named pipe.
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `name` [string] -  name of the pipe
-
-**Example**
-
-```
-pipe_close(active(), "pipe_name")
-```
-
 ### pipe_read
 
 Read data from a named pipe
@@ -1333,6 +1578,20 @@ Clear modules
 clear(active())
 ```
 
+### list_task
+
+List all tasks
+
+**Arguments**
+
+- `sess` [Session] - special session
+
+**Example**
+
+```
+list_task
+```
+
 ### load_module
 
 Load module
@@ -1347,6 +1606,21 @@ Load module
 
 ```
 load_module(active(),"bundle_name","module_file.dll")
+```
+
+### query_task
+
+Query a task by task_id
+
+**Arguments**
+
+- `sess` [Session] - special session
+- `task_id` [number] - task id
+
+**Example**
+
+```
+query_task <task_id>
 ```
 
 ### refresh_module
@@ -1393,6 +1667,71 @@ kill implant
 suicide(active())
 ```
 
+## listener
+
+### rem
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `pipeline` [string] -  pipeline name
+- `args` [table<string>] -  command args
+
+**Example**
+
+```
+rem(active(),"pipeline1",{"-p","1080"})
+```
+
+### webcontent_add
+
+**Arguments**
+
+- `$1` [string] - 
+- `$2` [string] - 
+- `$3` [string] - 
+- `$4` [string] - 
+
+### webcontent_remove
+
+**Arguments**
+
+- `$1` [string] - 
+
+### webcontent_update
+
+**Arguments**
+
+- `$1` [string] - 
+- `$2` [string] - 
+- `$3` [string] - 
+- `$4` [string] - 
+
+### website_new
+
+**Arguments**
+
+- `$1` [string] - 
+- `$2` [string] - 
+- `$3` [string] - 
+- `$4` [number] - 
+- `$5` [boolean] - 
+- `$6` [string] - 
+- `$7` [string] - 
+- `$8` [string] - 
+
+### website_start
+
+**Arguments**
+
+- `$1` [string] - 
+
+### website_stop
+
+**Arguments**
+
+- `$1` [string] - 
+
 ## sys
 
 ### bypass
@@ -1409,6 +1748,27 @@ Bypass AMSI and ETW
 
 ```
 bypass(active(), true, true)
+```
+
+### curl
+
+Send HTTP request
+
+Send HTTP request to specified URL
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `url` [string] -  target url
+- `method` [string] -  HTTP method
+- `timeout` [number] -  request timeout in seconds
+- `body` [table] -  request body
+- `headers` [any] -  request headers
+
+**Example**
+
+```
+curl(active(),"http://example.com","GET",30,nil,nil)
 ```
 
 ### env
@@ -1531,24 +1891,21 @@ ps(active)
 
 Add or modify a registry key
 
-Add or modify a registry key with specified values such as string, byte, DWORD, or QWORD.
+Add or modify a registry key with specified values. Supported types: REG_SZ, REG_BINARY, REG_DWORD, REG_QWORD
 
 **Arguments**
 
 - `session` [Session] -  special session
 - `hive` [string] -  registry hive
 - `path` [string] -  registry path
-- `key` [string] -  registry
-- `stringValue` [string] -  string value
-- `byteValue` [table] -  byte value
-- `dwordValue` [number] -  dword value
-- `qwordValue` [number] -  qword value
-- `regtype` [number] -  registry type
+- `valueName` [string] -  value name
+- `valueType` [string] -  value type (REG_SZ, REG_BINARY, REG_DWORD, REG_QWORD)
+- `data` [string] -  value data
 
 **Example**
 
 ```
-reg_add(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example","TestKey","example","",1,0,0)
+reg_add(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example","TestValue","REG_DWORD","1")
 ```
 
 ### reg_delete
@@ -1642,8 +1999,8 @@ Control the start type and error control by providing appropriate values.
 - `name` [string] -  service name
 - `displayName` [string] -  display name
 - `executablePath` [string] -  executable path
-- `startType` [number] -  start type
-- `errorControl` [number] -  error control
+- `startType` [string] -  start type
+- `errorControl` [string] -  error control
 - `accountName` [string] -  account name
 
 **Example**
@@ -1761,7 +2118,7 @@ Create a new scheduled task with the specified name, executable path, trigger ty
 - `sess` [Session] -  special session
 - `name` [string] -  name of the scheduled task
 - `path` [string] -  path to the executable for the scheduled task
-- `triggerType` [number] -  trigger type for the task
+- `triggerType` [string] -  trigger type for the task
 - `startBoundary` [string] -  start boundary for the scheduled task
 
 **Example**

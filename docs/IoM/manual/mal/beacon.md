@@ -22,6 +22,19 @@
 - `$2` [string] 
 - `$3` [string] 
 
+### bcurl
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `url` [string] -  target url
+
+**Example**
+
+```
+bcurl(active(),"http://example.com")
+```
+
 ### bdllinject
 
 **Arguments**
@@ -291,6 +304,14 @@ sleep(active(), 10)
 ```
 bupload(active(),"/source/path")
 ```
+
+### buploadraw
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+- `$3` [string] 
 
 ### bwhoami
 
