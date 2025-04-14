@@ -32,6 +32,7 @@ malefic-mutant 目前有两大组件:
 
 * generate： 根据配置动态生成代码
 * build：创建可用的 shellcode/PE 文件
+* tool: 一些可用的小工具（目前为srdi）
 
 其中 generate 所依赖的配置均在 malefic/config.yaml 文件中
 
@@ -42,8 +43,9 @@ Config malefic beacon and prelude.
 Usage: malefic-mutant.exe <COMMAND>
 
 Commands:
-  generate  Config related commands
-  build     Generate related commands
+  generate  auto generate config
+  build     auto build
+  tool
   help      Print this message or the help of the given subcommand(s)
 
 Options:
@@ -267,19 +269,76 @@ Options:
 ```
 ## build
 
-build 作为一切可直接使用的结果文件生成器， 目前用于生成 `SRDI` 的 shellcode 产物
+build 作为一切可直接使用的结果文件生成器， 用于生成最终产物
 
 ```bash
-Generate related commands
+auto build
 
-Usage: malefic-mutant.exe build <COMMAND>
+Usage: malefic-mutant.exe build [OPTIONS] <COMMAND>
 
 Commands:
-  srdi        Generate SRDI
-  help        Print this message or the help of the given subcommand(s)
+  malefic  Build beacon
+  prelude  Build prelude
+  modules  Build modules
+  pulse    Build pulse
+  help     Print this message or the help of the given subcommand(s)
+
+Options:
+  -c, --config <CONFIG>  Config file path [default: config.yaml]
+  -t, --target <TARGET>  [default: x86_64-pc-windows-gnu]
+  -h, --help             Print help
+```
+
+### ollvm 配置
+
+由于我们引入了 `ollvm`， 因此需要进行 `ollvm` 的编译配置（注意， 目前只支持使用 `docker` 进行编译）
+
+该配置项同样位于 `config.yaml` 中
+
+```yaml
+build:
+  zigbuild: false
+  ollvm:
+    enable: false
+    bcfobf: false # Bogus Control Flow Obfuscation
+    splitobf: false # Split Control Flow Obfuscation
+    subobf: false # Instruction Substitution Obfuscation
+    fco: false # Function CallSite  Obfuscation
+    constenc: false # Constant Encryption Obfuscation
+```
+
+### build 产物
+在进行配置之后， 就可以进行正常的Build了， 方法如下
+
+```bash
+Build beacon
+
+Usage: malefic-mutant.exe build malefic [OPTIONS]
+
+Options:
+  -c, --config <CONFIG>  Config file path [default: config.yaml]
+  -t, --target <TARGET>  [default: x86_64-pc-windows-gnu]
+  -h, --help             Print help
+```
+即直接
+
+```bash
+malefic-mutant.exe build malefic
+```
+就会默认编译 `x86_64-pc-windows-gnu` 版本的 `beacon`
+
+## tool
+
+```bash
+Usage: malefic-mutant.exe tool <COMMAND>
+
+Commands:
+  srdi  Generate SRDI
+  help  Print this message or the help of the given subcommand(s)
 
 Options:
   -h, --help  Print help
+
 ```
 
 ### SRDI
@@ -289,7 +348,7 @@ Options:
 ```bash
 Generate SRDI
 
-Usage: malefic-mutant.exe build srdi [OPTIONS]
+Usage: malefic-mutant.exe tool srdi [OPTIONS]
 
 Options:
   -t, --type <TYPE>                    Srdi type: link(not support TLS)/malefic(support TLS) [default: malefic]
@@ -305,9 +364,9 @@ Options:
 使用示例：
 
 ```bash
-malefic-mutant build srdi -i ./beacon.exe
+malefic-mutant tool srdi -i ./beacon.exe
 
-malefic-mutant build srdi -i ./beacon.exe -o x64 -o ./beacon.bin
+malefic-mutant tool srdi -i ./beacon.exe -o x64 -o ./beacon.bin
 
-malefic-mutant build srdi -i ./beacon.dll  --function-name "main"
+malefic-mutant tool srdi -i ./beacon.dll  --function-name "main"
 ```
