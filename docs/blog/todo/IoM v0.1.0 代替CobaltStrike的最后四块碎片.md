@@ -324,7 +324,7 @@ persistence.yaml:
 
 #### (implant) 新增3rd module crate
 
-为了实现内置的rem， 我们引入了[3rd module](https://github.com/chainreactors/implant/tree/master/malefic-3rd)。 
+为了实现内置的rem， 我们引入了[3rd module](https://github.com/chainreactors/malefic/tree/master/malefic-3rd)。 
 
 在这个module集合中， 不再限制外部依赖库的使用， 后续的rustdest, keylogger或者各种需要依赖外部rust库的功能都会放到这里。 
 

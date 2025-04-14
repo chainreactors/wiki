@@ -427,7 +427,7 @@ go build -buildmode=c-shared -o dist/rem.dll -ldflags "-s -w" -buildvcs=false .\
 ```
 
 这个是FFI的公头， 在rust中实现对应的母头， 但是略微不同的是， 我们不会采用原始的加载DLL的方式，而是更加OPSEC的反射加载。 
-https://github.com/chainreactors/implant/blob/master/malefic-helper/src/common/rem/rem_reflection.rs
+https://github.com/chainreactors/malefic/blob/master/malefic-helper/src/common/rem/rem_reflection.rs
 
 ```rust
 #[cfg(target_os = "windows")]  
@@ -529,7 +529,7 @@ go build -buildmode=c-archive -o dist/rem.a -ldflags "-s -w" -buildvcs=false .\c
 
 在rust中实现对应的链接, 复用方法2中的rust定义即可。 
 
-https://github.com/chainreactors/implant/blob/master/malefic-helper/build.rs
+https://github.com/chainreactors/malefic/blob/master/malefic-helper/build.rs
 ```rust
 #[cfg(feature = "rem_static")]  
 {  
@@ -555,7 +555,7 @@ https://github.com/chainreactors/implant/blob/master/malefic-helper/build.rs
 }
 ```
 
-实现对应的implant transport，见: https://github.com/chainreactors/implant/blob/master/malefic-core/src/transport/rem/mod.rs
+实现对应的implant transport，见: https://github.com/chainreactors/malefic/blob/master/malefic-core/src/transport/rem/mod.rs
 
 对于使用者来说， 修改implant 的config.yaml
 
