@@ -1,18 +1,60 @@
 ## basic
 
+### AddContext
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Context] 
+
+### AddCredential
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Context] 
+
+### AddDownload
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Context] 
+
+### AddKeylogger
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Context] 
+
+### AddPort
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Context] 
+
+### AddScreenShot
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Context] 
+
+### AddUpload
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Context] 
+
 ### Broadcast
 
 **Arguments**
 
 - `$1` [context] 
 - `$2` [Event] 
-
-### Build
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [Generate] 
 
 ### BuildLog
 
@@ -40,7 +82,7 @@
 **Arguments**
 
 - `$1` [context] 
-- `$2` [ImplantTask] 
+- `$2` [TaskCtrl] 
 
 ### Cat
 
@@ -111,13 +153,6 @@
 
 - `$1` [context] 
 - `$2` [Profile] 
-
-### DockerStatus
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [Empty] 
 
 ### Download
 
@@ -231,20 +266,6 @@
 - `$1` [context] 
 - `$2` [ExecuteBinary] 
 
-### FindArtifact
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [Artifact] 
-
-### GetAllDownloadFiles
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [Empty] 
-
 ### GetAllTaskContent
 
 **Arguments**
@@ -273,6 +294,20 @@
 - `$1` [context] 
 - `$2` [Empty] 
 
+### GetContextFiles
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Session] 
+
+### GetContexts
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Context] 
+
 ### GetEvent
 
 **Arguments**
@@ -286,6 +321,13 @@
 
 - `$1` [context] 
 - `$2` [Session] 
+
+### GetGithubConfig
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Empty] 
 
 ### GetJobs
 
@@ -301,7 +343,7 @@
 - `$1` [context] 
 - `$2` [Empty] 
 
-### GetPipelines
+### GetNotifyConfig
 
 **Arguments**
 
@@ -349,13 +391,6 @@
 
 - `$1` [context] 
 - `$2` [Task] 
-
-### GetTaskFiles
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [Session] 
 
 ### GetTasks
 
@@ -413,6 +448,13 @@
 - `$1` [context] 
 - `$2` [Request] 
 
+### ListTasks
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Request] 
+
 ### LoadAddon
 
 **Arguments**
@@ -426,6 +468,13 @@
 
 - `$1` [context] 
 - `$2` [LoadModule] 
+
+### LoadRem
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Request] 
 
 ### LoginClient
 
@@ -468,13 +517,6 @@
 
 - `$1` [context] 
 - `$2` [Request] 
-
-### NewProfile
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [Profile] 
 
 ### Notify
 
@@ -546,6 +588,20 @@
 - `$1` [context] 
 - `$2` [Request] 
 
+### QueryTask
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [TaskCtrl] 
+
+### RefreshConfig
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Empty] 
+
 ### RefreshModule
 
 **Arguments**
@@ -587,6 +643,13 @@
 
 - `$1` [context] 
 - `$2` [RegistryRequest] 
+
+### RemDial
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Request] 
 
 ### Rm
 
@@ -742,19 +805,26 @@
 - `$1` [context] 
 - `$2` [TaskScheduleRequest] 
 
-### TriggerWorkflowDispatch
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [GithubWorkflowRequest] 
-
 ### UnsetEnv
 
 **Arguments**
 
 - `$1` [context] 
 - `$2` [Request] 
+
+### UpdateGithubConfig
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [GithubWorkflowRequest] 
+
+### UpdateNotifyConfig
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Notify] 
 
 ### UpdateProfile
 
@@ -811,11 +881,4 @@
 
 - `$1` [context] 
 - `$2` [WmiQueryRequest] 
-
-### WorkflowStatus
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [GithubWorkflowRequest] 
 

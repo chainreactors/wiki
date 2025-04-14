@@ -35,6 +35,30 @@ Login to server
 login
 ```
 
+### pivot
+List all pivot agents
+
+**Description**
+
+List all active pivot agents with their details
+
+```
+pivot [flags]
+```
+
+**Examples**
+
+List all pivot agents:
+~~~
+pivot
+~~~
+
+**Options**
+
+```
+  -a, --all   list all pivot agents
+```
+
 ### version
 show server version
 
@@ -706,21 +730,10 @@ mal remove [mal]
 
 ## listener
 ### bind
-manage bind pipeline to a listener
-
-```
-bind
-```
-
-**SEE ALSO**
-
-* [bind new](#bind-new)	 - Register a new bind pipeline and start it
-
-#### bind new
 Register a new bind pipeline and start it
 
 ```
-bind new [name] [flags]
+bind [flags]
 ```
 
 **Examples**
@@ -728,7 +741,7 @@ bind new [name] [flags]
 
 new bind pipeline
 ~~~
-bind new listener
+bind listener
 ~~~
 
 
@@ -738,9 +751,49 @@ bind new listener
       --listener string   listener id
 ```
 
-**SEE ALSO**
+### http
+Register a new HTTP pipeline and start it
 
-* [bind](#bind)	 - manage bind pipeline to a listener
+**Description**
+
+Register a new HTTP pipeline with the specified listener.
+
+```
+http [flags]
+```
+
+**Examples**
+
+~~~
+// Register an HTTP pipeline with the default settings
+http --listener http_default
+
+// Register an HTTP pipeline with custom headers and error page
+http --name http_test --listener http_default --host 192.168.0.43 --port 8080 --headers "Content-Type=text/html" --error-page /path/to/error.html
+
+// Register an HTTP pipeline with TLS enabled
+http --listener http_default --tls --cert_path /path/to/cert --key_path /path/to/key
+~~~
+
+**Options**
+
+```
+      --beacon-pipeline string   beacon pipeline id
+      --cert string              tls cert path
+      --encryption-enable        whether to enable encryption
+      --encryption-key string    encryption key
+      --encryption-type string   encryption type
+      --error-page string        Path to custom error page file
+      --headers stringToString   HTTP response headers (key=value) (default [])
+      --host string              pipeline host, the default value is **0.0.0.0** (default "0.0.0.0")
+      --ip string                external ip (default "ip")
+      --key string               tls key path
+  -l, --listener string          listener id
+      --parser string            pipeline parser (default "default")
+  -p, --port uint32              pipeline port, random port is selected from the range **10000-15000** 
+      --target strings           build target
+  -t, --tls                      enable tls
+```
 
 ### job
 List jobs in server
@@ -867,314 +920,180 @@ pipeline stop tcp_test
 
 * [pipeline](#pipeline)	 - manage pipeline
 
-### tcp
-List tcp pipelines in listener
-
-![tcp](/wiki/IoM/assets/tcp.gif)
-
-**Description**
-
-Use a table to list TCP pipelines along with their corresponding listeners
-
+### rem
 ```
-tcp
+rem
 ```
 
 **Examples**
 
 ~~~
-tcp listener
+rem
 ~~~
 
 **SEE ALSO**
 
-* [tcp new](#tcp-new)	 - Register a new TCP pipeline and start it
+* [rem delete](#rem-delete)	 - Delete a REM
+* [rem list](#rem-list)	 - List REMs in listener
+* [rem new](#rem-new)	 - Register a new REM and start it
+* [rem start](#rem-start)	 - Start a REM
+* [rem stop](#rem-stop)	 - Stop a REM
 
-#### tcp new
+#### rem delete
+Delete a REM
+
+```
+rem delete
+```
+
+**Examples**
+
+~~~
+rem delete rem_test
+~~~
+
+**SEE ALSO**
+
+* [rem](#rem)	 - 
+
+#### rem list
+List REMs in listener
+
+**Description**
+
+Use a table to list REMs along with their corresponding listeners
+
+```
+rem list [listener]
+```
+
+**Examples**
+
+~~~
+rem
+~~~
+
+**SEE ALSO**
+
+* [rem](#rem)	 - 
+
+#### rem new
+Register a new REM and start it
+
+**Description**
+
+Register a new REM with the specified listener.
+
+```
+rem new [name] [flags]
+```
+
+**Examples**
+
+~~~
+// Register a REM with the default settings
+rem new --listener listener_id
+
+// Register a REM with a custom name and console URL
+rem new --name rem_test --listener listener_id -c tcp://127.0.0.1:19966
+~~~
+
+**Options**
+
+```
+  -c, --console string    REM console URL (default "tcp://0.0.0.0")
+  -l, --listener string   listener id
+```
+
+**SEE ALSO**
+
+* [rem](#rem)	 - 
+
+#### rem start
+Start a REM
+
+**Description**
+
+Start a REM with the specified name
+
+```
+rem start
+```
+
+**Examples**
+
+~~~
+rem start rem_test
+~~~
+
+**SEE ALSO**
+
+* [rem](#rem)	 - 
+
+#### rem stop
+Stop a REM
+
+**Description**
+
+Stop a REM with the specified name
+
+```
+rem stop
+```
+
+**Examples**
+
+~~~
+rem stop rem_test
+~~~
+
+**SEE ALSO**
+
+* [rem](#rem)	 - 
+
+### tcp
 Register a new TCP pipeline and start it
+
+![tcp](/wiki/IoM/assets/tcp.gif)
 
 **Description**
 
 Register a new TCP pipeline with the specified listener.
-If **name** is not provided, it will be generated in the format **listenerID_tcp_port**.
 
 ```
-tcp new [name]  [flags]
+tcp [flags]
 ```
 
 **Examples**
 
 ~~~
 // Register a TCP pipeline with the default settings
-tcp register --listener tcp_default
+tcp --listener tcp_default
 
 // Register a TCP pipeline with a custom name, host, and port
-tcp register --name tcp_test --listener tcp_default --host 192.168.0.43 --port 5003
+tcp --name tcp_test --listener tcp_default --host 192.168.0.43 --port 5003
 
 // Register a TCP pipeline with TLS enabled and specify certificate and key paths
-tcp register --listener tcp_default --tls --cert_path /path/to/cert --key_path /path/to/key
+tcp --listener tcp_default --tls --cert_path /path/to/cert --key_path /path/to/key
 ~~~
 
 **Options**
 
 ```
+      --beacon-pipeline string   beacon pipeline id
       --cert string              tls cert path
       --encryption-enable        whether to enable encryption
       --encryption-key string    encryption key
       --encryption-type string   encryption type
       --host string              pipeline host, the default value is **0.0.0.0** (default "0.0.0.0")
+      --ip string                external ip (default "ip")
       --key string               tls key path
   -l, --listener string          listener id
-  -p, --port uint                pipeline port, random port is selected from the range **10000-15000**
+      --parser string            pipeline parser (default "default")
+  -p, --port uint32              pipeline port, random port is selected from the range **10000-15000** 
+      --target strings           build target
   -t, --tls                      enable tls
 ```
-
-**SEE ALSO**
-
-* [tcp](#tcp)	 - List tcp pipelines in listener
-
-### website
-website manager
-
-![website](/wiki/IoM/assets/website.gif)
-
-```
-website
-```
-
-**SEE ALSO**
-
-* [website add](#website-add)	 - Add content to a website
-* [website list](#website-list)	 - List website in listener
-* [website list-content](#website-list-content)	 - List content in a website
-* [website new](#website-new)	 - Register a new website
-* [website remove](#website-remove)	 - Remove content from a website
-* [website start](#website-start)	 - Start a website
-* [website stop](#website-stop)	 - Stop a website
-* [website update](#website-update)	 - Update content in a website
-
-#### website add
-Add content to a website
-
-**Description**
-
-Add new content to an existing website
-
-```
-website add [file_path] [flags]
-```
-
-**Examples**
-
-~~~
-// Add content to a website with default web path (using filename)
-website add /path/to/content.html --website web_test
-
-// Add content to a website with custom web path and type
-website add /path/to/content.html --website web_test --path /custom/path --type text/html
-~~~
-
-**Options**
-
-```
-      --path string      web path for the content (defaults to filename)
-      --type string      content type of the file (default "raw")
-      --website string   website name (required)
-```
-
-**SEE ALSO**
-
-* [website](#website)	 - website manager
-
-#### website list
-List website in listener
-
-**Description**
-
-Use a table to list websites along with their corresponding listeners
-
-```
-website list
-```
-
-**Examples**
-
-~~~
-website [listener]
-~~~
-
-**SEE ALSO**
-
-* [website](#website)	 - website manager
-
-#### website list-content
-List content in a website
-
-**Description**
-
-List all content in a website with detailed information
-
-```
-website list-content [website_name]
-```
-
-**Examples**
-
-~~~
-// List all content in a website with detailed information
-website list-content web_test
-~~~
-
-**SEE ALSO**
-
-* [website](#website)	 - website manager
-
-#### website new
-Register a new website
-
-**Description**
-
-Register a new website with the specified listener. If **name** is not provided, it will be generated in the format **listenerID_web_port**.
-
-```
-website new [name] [flags]
-```
-
-**Examples**
-
-~~~
-// Register a website with the default settings
-website new --listener tcp_default --root /webtest
-
-// Register a website with a custom name and port
-website new web_test --listener tcp_default --port 5003 --root /webtest
-
-// Register a website with TLS enabled
-website new --listener tcp_default --root /webtest --tls --cert /path/to/cert --key /path/to/key
-~~~
-
-**Options**
-
-```
-      --cert string       tls cert path
-      --host string       pipeline host, the default value is **0.0.0.0** (default "0.0.0.0")
-      --key string        tls key path
-  -l, --listener string   listener id
-  -p, --port uint         pipeline port, random port is selected from the range **10000-15000**
-      --root string       website root path (default "/")
-  -t, --tls               enable tls
-```
-
-**SEE ALSO**
-
-* [website](#website)	 - website manager
-
-#### website remove
-Remove content from a website
-
-**Description**
-
-Remove content from an existing website using content ID
-
-```
-website remove [content_id]
-```
-
-**Examples**
-
-~~~
-// Remove content from a website using content ID
-website remove 123e4567-e89b-12d3-a456-426614174000
-~~~
-
-**SEE ALSO**
-
-* [website](#website)	 - website manager
-
-#### website start
-Start a website
-
-**Description**
-
-Start a website with the specified name
-
-```
-website start [name] [flags]
-```
-
-**Examples**
-
-~~~
-// Start a website
-website start web_test --listener tcp_default
-~~~
-
-**Options**
-
-```
-      --listener string   listener ID
-```
-
-**SEE ALSO**
-
-* [website](#website)	 - website manager
-
-#### website stop
-Stop a website
-
-**Description**
-
-Stop a website with the specified name
-
-```
-website stop [name] [flags]
-```
-
-**Examples**
-
-~~~
-// Stop a website
-website stop web_test --listener tcp_default
-~~~
-
-**Options**
-
-```
-      --listener string   listener ID
-```
-
-**SEE ALSO**
-
-* [website](#website)	 - website manager
-
-#### website update
-Update content in a website
-
-**Description**
-
-Update existing content in a website using content ID
-
-```
-website update [content_id] [file_path] [flags]
-```
-
-**Examples**
-
-~~~
-// Update content in a website with content ID
-website update 123e4567-e89b-12d3-a456-426614174000 /path/to/new_content.html --website web_test
-~~~
-
-**Options**
-
-```
-      --type string      content type of the file (default "raw")
-      --website string   website name (required)
-```
-
-**SEE ALSO**
-
-* [website](#website)	 - website manager
 
 ## generator
 ### artifact
@@ -1237,7 +1156,7 @@ artifact download [flags]
 // Download a artifact to specific path
 	artifact download artifact_name -o /path/to/output
 
-// Download a artifact by srdi
+// Download a shellcode artifact by enabling the 'srdi' flag
 	artifact download artifact_name -s
 
 
@@ -1245,7 +1164,7 @@ artifact download [flags]
 
 ```
   -o, --output string   output path
-  -s, --srdi            download srdi
+  -s, --srdi            Set to true to download shellcode.
 ```
 
 **SEE ALSO**
