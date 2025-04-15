@@ -21,6 +21,7 @@ rem 可以让工件们不落地, 可以让 mapping 从 EASM 接入到内网, 可
     * 级联
     * 流量特征自定义与加密方式自定义
     * 多信道支持, udp,tcp,icmp,websocket,wireguard等
+    * clash订阅支持
 
 ### release
 
