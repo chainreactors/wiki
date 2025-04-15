@@ -2,7 +2,36 @@
 
 ```
 Usage:
-  rem
+  C:\Users\Hunter\AppData\Local\Temp\go-build3142230917\b001\exe\rem.exe
+        WIKI: https://chainreactors.github.io/wiki/rem
+
+        QUICKSTART:
+                serving:
+                        ./rem
+
+                reverse socks5 proxy:
+                        ./rem -c [link]
+
+                serve socks5 proxy on client:
+                        ./rem -c [link] -m proxy
+
+                remote port forward:
+                        ./rem -c [link] -l port://:8080
+
+                local port forward:
+                        ./rem -c [link] -r port://:8080
+
+
+
+Main Options:
+  -c, --console=        console address
+  -l, --local=          local address
+  -r, --remote=         remote address
+  -d, --destination=    destination agent id
+  -x, --proxy=          outbound proxy chain
+  -f, --forward=        proxy chain for connect to console
+  -m, --mod=            rem mod, reverse/proxy/bind
+  -n, --connect-only    only connect to console
 
 Miscellaneous Options:
   -k, --key=            key for encrypt
@@ -11,22 +40,14 @@ Miscellaneous Options:
       --debug           debug mode
       --detail          show detail
       --quiet           quiet mode
-
-Main Options:
-  -c, --console=        console address (default: tcp://0.0.0.0:34996)
-  -l, --local=          local address
-  -r, --remote=         remote address
-  -d, --destination=    destination agent id
-  -x, --proxy=          outbound proxy chain
-  -f, --forward=        proxy chain for connect to console
-  -m, --mod=            rem mod, reverse/proxy/bind (default: default)
+      --dump            dump data
 
 Config Options:
   -i, --ip=             console external ip address
-      --tls             enable tls
       --retry=          retry times (default: 10)
       --retry-interval= retry interval (default: 10)
       --sub=            subscribe address (default: http://0.0.0.0:29999)
+      --no-sub          disable subscribe
 
 Help Options:
   -h, --help            Show this help message
@@ -155,7 +176,7 @@ ss://
 ```
 
 ```
-# 指定host
+# 仅指定host, 自动补全其他参数
 127.0.0.1
 ```
 
@@ -284,7 +305,57 @@ user 通过 console 访问 client.
 远程端口转发: `./rem -c [link]  -d internal -l :8888 -m proxy` 将会将 user 的 8888 端口转发到 client 的随机生成的端口
 
 
+## Clash订阅
 
+默认情况下, 会自动自动打开clash订阅服务。 
+
+
+![](assets/Pasted%20image%2020250415084713.png)
+
+自动根据常见内网生成配置
+
+```yaml
+proxies:
+    - name: Sangfor-c0e9550e127fd067
+      type: socks5
+      server: 127.0.0.1
+      port: 10086
+      udp: true
+      tls: false
+      skip-cert-verify: true
+mode: rule
+rules:
+    - IP-CIDR,10.0.0.0/8,10_NET
+    - IP-CIDR,172.16.0.0/12,172_NET
+    - IP-CIDR,192.168.0.0/16,192_NET
+    - IP-CIDR,10.0.0.1/24,LOCAL_NET
+    - MATCH,DIRECT
+proxy-groups:
+    - name: 10_NET
+      type: select
+      proxies:
+        - Sangfor-c0e9550e127fd067
+        - DIRECT
+    - name: 172_NET
+      type: select
+      proxies:
+        - Sangfor-c0e9550e127fd067
+        - DIRECT
+    - name: 192_NET
+      type: select
+      proxies:
+        - Sangfor-c0e9550e127fd067
+        - DIRECT
+    - name: LOCAL_NET
+      type: select
+      proxies:
+        - Sangfor-c0e9550e127fd067
+        - DIRECT
+```
+
+可以通过`-sub http://0.0.0.0:12345/abcd` 指定clash订阅链接
+
+可以通过 `--no-sub` 关闭clash订阅
 ## Build 
 
 自动发布的release中, 默认仅支持 tcp/udp的transport和socks4/socks5, http/https, port forward 的应用层协议。 
@@ -298,13 +369,26 @@ https://github.com/chainreactors/rem-community/blob/master/build.sh
 参数: 
 
 - -o 指定架构 , `-o linux/amd64`
-- -t 指定传输层协议, -t "tcp,udp,icmp"
-- -a 指定应用层协议, -a "socks,http,trojan,shadowsocks"
+- -t 指定传输层协议, `-t "tcp,udp,icmp"`
+- -a 指定应用层协议, `-a "socks,http,trojan,shadowsocks"`
 
 某些情况下, 我们希望预配置rem参数, 可以通过以下参数实现, 与rem原命令行一致
+
+当前支持
 
 - -m 
 - -c 
 - -r
 - -l 
 
+example:
+
+`sh build.sh -o "windows/amd64" -t "tcp,udp"`
+
+```
+sh build.sh -c [rem_link] 
+```
+
+```
+sh build.sh -t icmp -a socks5
+```
