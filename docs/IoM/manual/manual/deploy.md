@@ -21,11 +21,13 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 
 !!! important "配置代理"
 	对于国内服务器访问 github 容易超时且速度较慢, 建议配置环境变量中的 proxy
-	`bash
-		# ssh -R 1080:127.0.0.1:1080 root@ip  , tricks: 可以映射本机的代理端口到vps
-		export http_proxy="http://127.0.0.1:1080"
-		export https_proxy="http://127.0.0.1:1080"
-	`
+	```
+	ssh -R 1080:127.0.0.1:1080 root@ip  , tricks: 可以映射本机的代理端口到vps
+	export http_proxy="http://127.0.0.1:1080"
+	export https_proxy="http://127.0.0.1:1080"
+	```
+
+
 
 运行脚本时，将通过交互命令行提供以下信息：
 
@@ -454,6 +456,46 @@ clone 项目到本地
 
 ```
 git clone https://github.com/chainreactors/malice-network
+```
+
+### 安装环境
+
+**需要go >=1.20版本**
+
+
+安装`protoc` 
+
+- Linux, using `apt` or `apt-get`, for example:
+    
+    ```
+    apt install -y protobuf-compiler 
+    protoc --version  # Ensure compiler version is 3+`
+    ```
+- MacOS, using [Homebrew](https://brew.sh/):
+    
+```
+brew install protobuf protoc --version  # Ensure compiler version is 3+``
+```
+    
+- Windows, using [Winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
+    
+    ```
+    winget install protobuf 
+    protoc --version # Ensure compiler version is 3+
+    ```
+
+!!! tips 请参考 https://protobuf.dev/installation/
+
+安装protobuf的golang与grpc plugin， 需要指定版本
+
+```bash    
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.3.0  
+go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.34.1  
+```
+
+默认情况下， 代码中包含了生成好的protobuf 相关代码。 但如果自行修改了 `./proto`的定义， 需要手动重新生成
+```bash
+go generate ./client
 ```
 
 ### 编译 client
