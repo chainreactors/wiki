@@ -314,7 +314,7 @@ Options:
 
 ### malefic 
 
-
+编译
 ```bash
 Build beacon
 
@@ -325,12 +325,13 @@ Options:
   -t, --target <TARGET>  [default: x86_64-pc-windows-gnu]
   -h, --help             Print help
 ```
-即直接
+
+示例
 
 ```bash
-malefic-mutant.exe build malefic
+malefic-mutant.exe build malefic --target x86_64-pc-windows-msvc
 ```
-就会默认编译 `x86_64-pc-windows-gnu` 版本的 `beacon`
+
 
 ### pulse
 

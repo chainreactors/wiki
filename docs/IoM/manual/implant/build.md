@@ -38,7 +38,7 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 
 !!! tips "使用install.sh会自动下载resources"
 
-[下载对应的版本 resources.zip](https://github.com/chainreactors/malefic/releases/download/v0.0.3/resources.zip), 包含了编译需要用到的预编译的 malefic-win-kit lib/a 库文件.
+[下载对应的版本 resources.zip](https://github.com/chainreactors/malefic/releases/latest), 包含了编译需要用到的预编译的 malefic-win-kit lib/a 库文件.
 
 community 的 resources 随着版本发布时的 release 发布: https://github.com/chainreactors/malefic/releases/latest 
 
