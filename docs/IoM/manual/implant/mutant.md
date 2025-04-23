@@ -28,10 +28,10 @@ cargo build --release -p malefic-mutant
 
 ## Usage
 
-malefic-mutant 目前有两大组件:
+malefic-mutant 目前有三大组件:
 
 * generate： 根据配置动态生成代码
-* build：创建可用的 shellcode/PE 文件
+* build：创建可用的 shellcode/PE 文件和编译
 * tool: 一些可用的小工具（目前为srdi）
 
 其中 generate 所依赖的配置均在 malefic/config.yaml 文件中
@@ -64,16 +64,18 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 
 generate 模块将会根据配置动态生成一切所需的代码（pulse, prelude, beacon...）
 
+在每次修改完implant的`config.yaml`后， 都需要重新执行 `malefic-mutant generate  ...` 生成对应的配置
+### 配置说明
+#### beacon
 
-### beacon
-
-#### 配置清单
 
 由于 beacon 是整个功能的结合形态， 因此配置项略微复杂， 这里将其分为三部分来介绍
 
 配置文件模板: https://github.com/chainreactors/malefic/blob/master/config.yaml
 
-1. basic, 用于连接参数配置
+#### basic
+
+用于连接参数配置
 
 ```yaml
 basic:  
@@ -98,8 +100,27 @@ basic:
     headers:  
       User-Agent: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0"
 ```
+#### build 
 
-2. metadata, 基于resources实现的二进制文件基本信息配置
+mutant build 使用的配置
+
+!!! important "ollvm相关配置只支持在IoM提供的malefic-builder中使用"
+
+```yaml
+build:
+  zigbuild: false
+  ollvm:
+    enable: false
+    bcfobf: false # Bogus Control Flow Obfuscation
+    splitobf: false # Split Control Flow Obfuscation
+    subobf: false # Instruction Substitution Obfuscation
+    fco: false # Function CallSite  Obfuscation
+    constenc: false # Constant Encryption Obfuscation
+```
+
+#### metadata
+
+基于resources实现的二进制文件基本信息配置
     
 ```yaml
 metadata:  
@@ -117,7 +138,8 @@ metadata:
   require_uac: false    # whether to require uac privilege
 ```
 
-3. implants, 关于implant功能性配置
+#### implants
+关于implant功能性配置
 
 ```yaml
 implants:  
@@ -136,7 +158,8 @@ implants:
 #      dst: "1.docs"
 ```
 
-##### 使用说明
+### 使用
+#### beacon
 
 ```bash
 Config beacon
@@ -147,17 +170,17 @@ Options:
   -h, --help               Print help
 ```
 
-#### 使用示例
+**使用示例**
 
 ```bash
 malefic-mutant generate beacon 
 ```
 
-### pulse
+#### pulse
 
 pulse 作为目前的 shellcode 生成器， 由 mutant 通过解析配置来提供生成代码
 
-#### 配置清单
+**配置**
 
 其所依赖的配置位于 malefic/config.yaml 文件的 pulse 模块
 
@@ -183,7 +206,6 @@ pulse:
       accept_encoding: "gzip, deflate"
 ```
 
-#### 使用说明
 
 ```bash
 Generate pulse
@@ -198,17 +220,17 @@ Options:
   -h, --help               Print help
 ```
 
-#### 使用示例
+**使用示例**
 
 ```bash
 malefic-mutant generate pulse x64 win
 ```
 
-### prelude
+#### prelude
 
 prelude 为可选的用于在上线前进行权限维持, 反沙箱, 反调试等功能的中间阶段
 
-#### 使用说明
+**使用说明**
 
 ```bash
 Config prelude
@@ -223,7 +245,7 @@ Options:
   -h, --help                   Print help
 ```
 
-#### autorun.yaml
+##### autorun.yaml
 yaml示例:
 
 ```yaml
@@ -252,8 +274,8 @@ cargo build -p malefic-prelude
 ```
 
 能生成一个自动按顺序执行autorun.yaml 中配置的二进制程序.
-
-### bind (Unstable)
+#### modules
+#### bind (Unstable)
 
 在当前实际对抗中, 受到网络环境的限制, 很少有人使用 bind 类型的 webshell. 但在一些极端场景下, 例如不出网的webshell 中, 又或者长时间流量静默的场景下. bind 也许有用武之地
 
@@ -289,26 +311,9 @@ Options:
   -h, --help             Print help
 ```
 
-### ollvm 配置
 
-由于我们引入了 `ollvm`， 因此需要进行 `ollvm` 的编译配置（注意， 目前只支持使用 `docker` 进行编译）
+### malefic 
 
-该配置项同样位于 `config.yaml` 中
-
-```yaml
-build:
-  zigbuild: false
-  ollvm:
-    enable: false
-    bcfobf: false # Bogus Control Flow Obfuscation
-    splitobf: false # Split Control Flow Obfuscation
-    subobf: false # Instruction Substitution Obfuscation
-    fco: false # Function CallSite  Obfuscation
-    constenc: false # Constant Encryption Obfuscation
-```
-
-### build 产物
-在进行配置之后， 就可以进行正常的Build了， 方法如下
 
 ```bash
 Build beacon
@@ -327,6 +332,11 @@ malefic-mutant.exe build malefic
 ```
 就会默认编译 `x86_64-pc-windows-gnu` 版本的 `beacon`
 
+### pulse
+
+### prelude
+
+### modules
 ## tool
 
 ```bash

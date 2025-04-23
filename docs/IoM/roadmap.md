@@ -253,7 +253,7 @@ release note: [v0.0.4 Bootstrapping](/wiki/blog/2025/01/02/IoM_v0.0.4/)
 		- [x] portforward
 		- [x] portfoward local
 	- [x] 插件系统正式版
-	- [ ] 插件完成生态迁移
+	- [x] 插件完成生态迁移
 	- [x] Client 命令渲染重构
 	- [x] GUI 测试开启
 		- [x] Session
@@ -263,11 +263,11 @@ release note: [v0.0.4 Bootstrapping](/wiki/blog/2025/01/02/IoM_v0.0.4/)
 		- [ ] Pivoting
 - Implant
 	- [x] malefic-SRDI与Donut 合并，重构
-	- [ ] bug 修复
-		- [ ] 修复Inline local
+	- [x] bug 修复
+		- [x] 修复Inline local
 		- [x] Win11 PE loader
 		- [x] transport 高延迟网络下不工作
-	- [ ] OLLVM 落地
+	- [x] OLLVM 落地
 	- [x] 去掉所有第三方依赖
 	- [x] 运行时解耦
 		- [x] tokio
