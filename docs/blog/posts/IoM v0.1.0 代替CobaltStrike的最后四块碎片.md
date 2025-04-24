@@ -24,14 +24,28 @@ CobaltStrike最大的护城河是丝滑的GUI客户端， 稳定的beacon，以�
 
 ### GUI 客户端
 
-https://github.com/chainreactors/IoM-gui
+GUI 使用说明见 https://chainreactors.github.io/wiki/IoM/manual/manual/GUI/
 
-一些简单的图示
-![](assets/Pasted%20image%2020250412003635.png)
+showcase
 
-![](assets/Pasted%20image%2020250412003552.png)
+![session](/wiki/IoM/assets/session_gui.jpg)
 
-![](assets/Pasted%20image%2020250412003559.png)
+![pipeline](/wiki/IoM/assets/pipeline_gui.png)
+
+![website](/wiki/IoM/assets/website_gui.png)
+
+![artifact](/wiki/IoM/assets/artifact_gui.png)
+
+![third party](/wiki/IoM/assets/third_party_gui.png)
+
+![use session](/wiki/IoM/assets/use_session_gui.png)
+
+![task](/wiki/IoM/assets/task_gui.png)
+
+![netstat](/wiki/IoM/assets/netstat_gui.png)
+
+![services](/wiki/IoM/assets/services_gui.png)
+
 ### Mals 插件生态
 
 https://github.com/chainreactors/mal-community
