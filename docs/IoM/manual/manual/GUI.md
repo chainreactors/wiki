@@ -3,7 +3,7 @@
 ## 安装
 
 ### 下载文件
-从 [malice-network仓库](https://github.com/chainreactors/malice-network/releases/tag/nightly) 中的nightly release中下载对应的vscode插件文件以及client文件
+从 [malice-network仓库](https://github.com/chainreactors/malice-network/releases/tag/nightly) 中的release中下载对应的vscode插件`iom.vsix` 以及client文件
 
 ![](/wiki/IoM/assets/Pasted%20image%2020250220013427.png)
 
@@ -15,7 +15,7 @@
 
 ### 配置VSCODE插件
 
-IoM: Executable Path 填入从nightly release下载的iom二进制程序
+IoM: Executable Path 填入从release下载的iom二进制程序
 
 ![](/wiki/IoM/assets/Pasted%20image%2020250220014015.png)
 
@@ -28,7 +28,7 @@ IoM需要 malice-network生成的.auth凭证, 所以在这一步之前请先自�
 安装server的命令需要修改为:
 ```bash
 curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/install.sh" -o install.sh
-sudo MALICE_NETWORK=nightly bash install.sh
+bash install.sh
 ```
 
 ![](/wiki/IoM/assets/Pasted%20image%2020250220014242.png)

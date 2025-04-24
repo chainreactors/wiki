@@ -52,6 +52,7 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 	2. 下载并安装 Malice-Network 服务端及客户端, 并添加到环境变量
 	3. 下载并安装 Malefic 源码及工具
 	4. 拉取必要的 Docker 镜像, （需要大约13G 空间, 我们正在尝试优化）
+
 		- `ghcr.io/chainreactors/x86_64-pc-windows-msvc:nightly-2023-09-18-latest`
 		- `ghcr.io/chainreactors/i686-pc-windows-msvc:nightly-2023-09-18-latest`
 		- `ghcr.io/chainreactors/x86_64-pc-windows-gnu:nightly-2023-09-18-latest`
@@ -73,19 +74,19 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 
 ```bash
 debug: false # 开启debug日志
-server:
-  enable: true        # server 是否启用
-  grpc_port: 5004     # 监听的端口
-  grpc_host: 0.0.0.0  # 监听的host
-  ip: 127.0.0.1       # 服务外部ip
-  audit: 1            # 日志审计等级 0 close , 1 basic , 2 detail
-  config:
-    packet_length: 1048576 # 与implant交互单个包上限, 默认1M
-    certificate:           # grpc证书配置, 留空则自动生成
-    certificate_key:       # grpc证书配置, 留空则自动生成
-  notify:
-	enable: false
-	telegram:
+server:  
+  grpc_port: 5004  
+  grpc_host: 0.0.0.0  
+  ip: 127.0.0.1  
+  audit: 1  # 0 close , 1 basic , 2 detail  
+  enable: true  
+  config:  
+    packet_length: 10485760 # 10M: 1024*1024*10  
+    certificate:  
+    certificate_key:  
+  notify:            # 第三方应用通知
+	enable: false    
+	telegram:         
 		enable: false
 		api_key:
 		chat_id:
@@ -99,69 +100,120 @@ server:
 	serverchan:
 		enable: false
 		url:
-  github:
-    repo:           	  # malefic的仓库名
-    owner:           	  # github用户名 
-    token:                # github的token
-    workflow: 			  # workflow的配置文件名（默认为generate.yaml）
-
-listeners:
-  enable: true            # listener 是否启用
-  name: listener          # listener名字
-  auth: listener.auth     # 认证文件路径
-  tcp:                    # tcp协议的pipeline
-    - name: tcp_default   # pipeline 名字
-      port: 5001          # pipeline 监听的端口
-      host: 0.0.0.0       # pipeline 监听的host
-      protocol: tcp       # 传输层协议
-      parser: malefic 	  # implant协议
-      enable: true        # pipeline是否开启
-      tls:                # tls配置项,留空则自动生成
-        enable: false
-        name: default
-        CN: "test"
-        O: "Sharp Depth"
-        C: "US"
-        L: "Houston"
-        OU: "Persistent Housework, Limited"
-        ST: "State of Texas"
-        validity: "365"
-		cert_file: ""
-		key_file: ""
-		ca_file: ""
-      encryption:
-        enable: true
-        type: aes
-        key: maliceofinternal
-    - name: shellcode
-      port: 5002
-      host: 0.0.0.0
-      parser: pulse    # implant 协议, pulse 需要指定对应的
-      enable: true
-      encryption:
-        enable: true
-        type: xor
-        key: maliceofinternal
-  bind:
-    -
-      name: bind_default
-      enable: true
-      encryption:
-        enable: true
-        type: aes
-        key: maliceofinternal
-  websites:             # website http任务
-    - name: test		# website 名字
-      port: 10049		# website 端口
-      root: "/test"		# website route根目录
-      enable: false     # website 是否开启
-      content:			# website 映射内容
-        - path: \images\1.png
-          raw:  maliceofinternal
-          type: raw
-        - path: \images\2.png
-          raw: maliceofinternal
-          type: raw
+  github:           # github action build 配置
+    repo: malefic  
+    workflow: generate.yml  
+    owner:  
+    token:  
+  
+listeners:          # listener 配置, 可独立生效
+  name: listener  
+  auth: listener.auth  
+  enable: true  
+  ip: 127.0.0.1   
+  tcp:                    
+    - name: tcp_malefic # tcp beacon pipeline
+      port: 5001  
+      host: 0.0.0.0  
+      protocol: tcp  
+      parser: malefic  
+      enable: true  
+      # 自动化编译, 如果配置了docker/github action, 会自动执行编译任务
+	  auto_build:  
+		target:  
+		  - x86_64-unknown-linux-musl
+		  - x86_64-pc-windows-msvc
+      tls:          # tls配置, 按照配置生成证书或者使用已有的证书文件
+        enable: false  
+        name: default  
+        CN: "test"  
+        O: "Sharp Depth"  
+        C: "US"  
+        L: "Houston"  
+        OU: "Persistent Housework, Limited"  
+        ST: "State of Texas"  
+        validity: "365"  
+        cert_file: ""  
+        key_file: ""  
+        ca_file: ""  
+      encryption:   # 加密配置, 需要与implant对应
+        enable: true  
+        type: aes  
+        key: maliceofinternal  
+    - name: tcp_pulse   # tcp pulse pipeline
+      port: 5002  
+      host: 0.0.0.0  
+      parser: pulse  
+	  auto_build:  
+		target:  
+		  - x86_64-unknown-linux-musl
+		  - x86_64-pc-windows-msvc
+        beacon_pipeline: tcp_malefic  
+      enable: true  
+      encryption:  
+        enable: true  
+        type: xor  
+        key: maliceofinternal  
+  http:  
+    - name: http-malefic  
+      enable: true  
+      host: 0.0.0.0  
+      port: 8080  
+      parser: malefic  
+      tls:  
+        enable: false  
+        name: default  
+        CN: "test"  
+        O: "Sharp Depth"  
+        C: "US"  
+        L: "Houston"  
+        OU: "Persistent Housework, Limited"  
+        ST: "State of Texas"  
+        validity: "365"  
+        cert_file: ""  
+        key_file: ""  
+        ca_file: ""  
+      encryption:  
+        enable: true  
+        type: aes  
+        key: maliceofinternal  
+	  auto_build:  
+		target:  
+		  - x86_64-unknown-linux-musl
+		  - x86_64-pc-windows-msvc
+      error_page: ""  
+    - name: http-pulse  
+      enable: true  
+      host: 0.0.0.0  
+      port: 8081  
+      parser: pulse  
+      encryption:  
+        enable: true  
+        type: xor  
+        key: maliceofinternal  
+	  auto_build:  
+		target:  
+		  - x86_64-unknown-linux-musl
+		  - x86_64-pc-windows-msvc
+        beacon_pipeline: http-malefic  
+      error_page: ""  
+  bind:  
+    - name: bind_pipeline  
+      enable: true  
+      encryption:  
+        enable: true  
+        type: aes  
+        key: maliceofinternal  
+  website:  
+    - name: default-website  
+      port: 80  
+      root: "/"  
+      enable: true  
+  
+  rem:  
+    - name: rem_default  
+      enable: true  
+      console: tcp://0.0.0.0:12345
 ```
 
 ### Pipeline Config
@@ -170,7 +222,9 @@ listeners:
 
 最常用的 pipeline, 适用于主体程序交互的 pipeline.
 
-tcp 是目前支持了最多特性的 pipeline. 单个 tcp pipeline 配置:
+tcp 是目前支持了最多特性的 pipeline. 
+
+单个 tcp pipeline 配置:
 
 ```
 - name: tcp_default   # pipeline 名字
@@ -223,10 +277,10 @@ IoM 允许将一些文件挂载 web 服务上
       root: "/test"		# website route根目录
       enable: false     # website 是否开启
       content:			# website 映射内容
-        - path: \images\1.png
+        - path: '\images\1.png'
           raw:  maliceofinternal
           type: raw
-        - path: \images\2.png
+        - path: '\images\2.png'
           raw: maliceofinternal
           type: raw
 ```
@@ -269,9 +323,10 @@ IoM 允许将一些文件挂载 web 服务上
 需要注意的是, server 中的 ip 字段需要在启动时设置为 listener 与 client 能访问到的地址, 所以可以手动修改`config.yaml`
 
 ```
-...
-ip: 123.123.123.123
-...
+server:
+	...
+	ip: 123.123.123.123
+	...
 ```
 
 也可以使用`-i` 重载这个参数
@@ -285,11 +340,18 @@ ip: 123.123.123.123
 
 ### 启动 Listener
 
-从 v0.0.2 开始, 将只提供一个服务端配置文件, 会根据配置自动解析需要开启的服务. 可以通过 enable 字段进行简单控制
+listener与IoM中用来管理pipeline的控制器, 一般在一台服务器上只需要部署一个listener， 即可添加、删除、修改pipeline。 pipeline与真正与implant交换数据的管道。 
+
+#### 独立部署listener
+
+!!! tips "可选的listener启动方式"
+	默认情况下listener与server同时启动
+	
+	从 v0.0.2 开始, 将只提供一个服务端配置文件, 会根据配置自动解析需要开启的服务. 可以通过 enable 字段进行简单控制
 
 刚才提到 Server 的 `config.yaml` 中已经包含了 listener 配置。 是对 server 与 listener 在同一台机器上部署时的简化。但在交互逻辑上, 同时启动的 listener 与 server 依旧通过 rpc 通讯, 与独立部署的 listener 没有任何区别.
 
-可以在这里获取到[独立的`listener.yaml` 配置文件](https://github.com/chainreactors/malice-network/blob/master/server/listener.yaml), `listener.yaml` 的配置格式与 `config.yaml` 中的 listener 部分完全一致.
+如果要独立启动listener， 只需要创建一个单独的配置文件即可。
 
 如果配置文件非默认的 `listener.yaml`, 可以通过 `-c path/any.yaml` 指定.
 
@@ -332,15 +394,37 @@ listener 成功启动后，listener 终端会输出以下信息：
 
 ![image-20240816214248821](/wiki/IoM/assets/image-20240816214248821.png)
 
+#### autobuild
+
+如果在server上配置了autobuild选项，并且配置了docker/github action至少一个编译环境，在pipeline启动时， 就会自动下发编译任务。
+
+```yaml
+listeners:  
+  name: listener  
+  auth: listener.auth  
+  enable: true  
+  tcp:  
+    - name: tcp_malefic  
+      port: 5001  
+      host: 0.0.0.0  
+      protocol: tcp  
+      parser: malefic  
+      enable: true  
+      auto_build:  
+        target:  
+          - x86_64-unknown-linux-musl
+```
+
+编译结果可以通过artifact命令查看
 ### 启动客户端
 
 将生成的用户配置文件, 默认为 `admin_[server_ip].auth` 复制到 `Malice-Network` 客户端的所在位置。使用新的用户配置文件时，可以使用以下指令启动客户端：
 
 ```powershell
-.\iom admin_[server_ip].auth
+.\iom login [admin_ip.auth]
 ```
 
-执行命令后，客户端会自动使用新的客户配置文件与服务器连接，并将用户配置文件移动至客户端的用户配置文件夹 (Windows 下为 `C:\Users\user\.config\malice\configs`,MacOS X 为 `/home/username/.config/malice/configs`，Linux 为 `/Users/username/.config/malice/configs`）
+执行命令后，客户端会自动使用新的客户配置文件与服务器连接，并将用户配置文件移动至客户端的用户配置文件夹 (Windows 下为 `C:\Users\user\.config\malice\configs`, Linux 为 `/home/[username]/.config/malice/configs`，MacOS  为 `/Users/[username]/.config/malice/configs`）
 
 客户端登录成功后会输出以下信息：
 
@@ -370,8 +454,6 @@ settings:
   github_workflow_file: generate.yaml	# workflow的配置文件名（默认为generate.yaml
 ```
 
-
-
 ## ROOTRPC
 
 `malice-network` 实际上还存在一个高权限的管理组件. 需要根证书配置才可实现. 这个证书不会生成`.auth`文件, 直接保存在服务端配置和数据库中.
@@ -382,7 +464,7 @@ settings:
 
 **Malice-Network** 客户端需要使用用户配置文件才能与服务端进行交互。用户配置文件中包含由服务端生成的证书信息。每次客户端尝试连接服务端时，服务端都会校验该证书信息，以确保用户的合法性。这一过程保证了只有经过认证的用户才能访问和使用 **Malice-Network** 服务，从而提升了系统的安全性和可靠性。
 
-所有的远程 rpc 交互都需要`auth`文件打开 mtls 认证.
+所有的远程 rpc 交互都需要`auth`文件使用 mtls 认证.
 
 ```
 operator: listener # 操作者名字
@@ -397,6 +479,7 @@ certificate: |
    ...
 
 ```
+
 
 ### 添加 client
 

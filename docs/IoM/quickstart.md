@@ -204,8 +204,10 @@ session
 这个时候输入`help` 将能看到这个 session 上下文完整可用的命令.
 
 !!! important "implant 命令手册"
+	[client 命令手册](/wiki/IoM/manual/manual/client/)
+	
 	[implant 命令手册](/wiki/IoM/manual/manual/implant/)
 
-![](/wiki/IoM/assets/image_20240819003338.png)
+![](/wiki/IoM/assets/Pasted%20image%2020250424154703.png)
 
 **Enjoy IoM**
