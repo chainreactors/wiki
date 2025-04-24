@@ -294,6 +294,13 @@ implant添加了pack相关配置， 可以指定打包文件的路径与释放�
 
 当然， 除了这里还有一处 `NtManageHotPatch` 函数需要处理， 如果各位感兴趣可以参考和阅读我上面贴出的文章一窥究竟 :)
 
+#### (implant) PELoader 修复
+
+在之前的版本中， 由于对某些结构的理解不够深入， 因此导致了某些区段并没有正确修复， 现已加入套餐
+
+* 通过实现同等于 `ntdll!RtlpInsertInvertedFunctionTableEntry` 的方法支持了 `C++ Exceptions`
+* 修复了 `IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT` 表恢复错误的问题
+* 修复了某些情况下加载 `PE` 时读取非对齐内存 `panic` 的问题
 
 #### (implant) 去除外部依赖库
 
@@ -376,6 +383,7 @@ implants:
 - [implant] 重构pipe
 - [implant] 去除绝大部分的async_std 依赖， 使用futures代替
 - [implant] mutant log 格式美化
+- [implant] 修复了PELoader某些情况下加载错误的问题
 - ......
 
 
