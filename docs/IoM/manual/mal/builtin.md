@@ -300,13 +300,6 @@ get session custom data
 bdata(active())
 ```
 
-### bind_flags_completer
-
-**Arguments**
-
-- `$1` [table] 
-- `$2` [any] 
-
 ### blog
 
 **Arguments**
@@ -394,6 +387,22 @@ data(active())
 - `$7` [string] 
 - `$8` [SacrificeProcess] 
 
+### find_global_resource
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+- `$3` [string] 
+
+### find_resource
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+- `$3` [string] 
+
 ### format_path
 
 format windows path
@@ -418,6 +427,12 @@ format_path("C:\\Windows\\System32\\calc.exe")
 - `$2` [number] 
 
 ### get_sess_dir
+
+**Arguments**
+
+- `$1` [string] 
+
+### global_resource
 
 **Arguments**
 
@@ -671,6 +686,18 @@ pipe_close(active(), "pipe_name")
 ### ports
 
 
+### read_global_resource
+
+**Arguments**
+
+- `$1` [string] 
+
+### read_resource
+
+**Arguments**
+
+- `$1` [string] 
+
 ### reg_list_value
 
 **Arguments**
@@ -693,6 +720,12 @@ pipe_close(active(), "pipe_name")
 
 ### screenshots
 
+
+### script_resource
+
+**Arguments**
+
+- `$1` [string] 
 
 ### shellsplit
 
@@ -774,8 +807,38 @@ pipe_close(active(), "pipe_name")
 - `$1` [table] - 
 - `$2` [table] - 
 
+### bind_flags_completer
+
+**Arguments**
+
+- `$1` [table] - 
+- `$2` [any] - 
+
+### command
+
+**Arguments**
+
+- `$1` [string] - 
+- `$2` [table] - 
+- `$3` [string] - 
+- `$4` [string] - 
+
 ### content_completer
 
+
+### example
+
+**Arguments**
+
+- `$1` [string] - 
+- `$2` [string] - 
+
+### help
+
+**Arguments**
+
+- `$1` [string] - 
+- `$2` [string] - 
 
 ### listener_completer
 
@@ -785,6 +848,13 @@ pipe_close(active(), "pipe_name")
 
 ### module_completer
 
+
+### opsec
+
+**Arguments**
+
+- `$1` [string] - 
+- `$2` [number] - 
 
 ### profile_completer
 
@@ -1013,12 +1083,13 @@ Load CLR assembly in sacrifice process (with donut)
 - `path` [string] - 
 - `args` [table<string>] - 
 - `output` [boolean] - 
-- `param, bypass amsi,wldp,etw` [SacrificeProcess] - 
+- `param, bypass amsi,wldp,etw` [any] - 
+- `sac, sacrifice process` [SacrificeProcess] - 
 
 **Example**
 
 ```
-execute_assembly(active(),"sharp.exe",{}, true, new_bypass_all())
+execute_assembly(active(),"sharp.exe",{}, true, new_bypass_all(), new_sacrifice(1234,false,true,true,""))
 ```
 
 ### execute_dll
@@ -1068,7 +1139,7 @@ use a custom Headless PE loader to load EXE in the sacrificed process.
 **Example**
 
 ```
-execute_exe(active(),"/path/to/gogo.exe",{"-i","127.0.0.1"},true,60,"","",new_sacrifice(1234,false,true,true,"argue"))
+execute_exe(active(),"/path/to/gogo.exe",{"-i","127.0.0.1"},true,60,"","",new_sacrifice(1234,false,true,true,""))
 ```
 
 ### execute_local
