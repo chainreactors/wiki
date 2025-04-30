@@ -83,7 +83,7 @@ nav:
       - Usage: 
         - index: IoM/manual/usage/index.md
         - DumpLSASS: IoM/manual/usage/DumpLSASS.md
-        - REM: IoM/manual/usage/REM.md
+        - REM: IoM/manual/usage/rem.md
       - Manual:
         - index: IoM/manual/index.md
         - client/server:
