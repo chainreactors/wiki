@@ -6,7 +6,7 @@ slug: IoM_v0.1.0
 
  经过几个月的时间，带来了四大全新组件, 以及十几个较大的功能性更新与数百个修复与优化。
 
-**与之前一样，在更新公告中的内容都将会在community版本中提供**
+**与之前一样，在更新公告中的大部分内容都将会在community版本中提供**
 
 四大新组件: 
 
@@ -231,6 +231,7 @@ AI给IoM的开发提供了非常巨大的帮助， 有不少模块的原型都�
 - 修复多个gonut的错误
 - 将gonut升级到适配donut 1.1
 - 注册到IoM的client与server的各个使用场景中
+- 使用saferwall/pe代替Binject/debug , 更稳定的pe解析库
 
 最终成功呈现在 https://github.com/chainreactors/malice-network/tree/dev/external/gonut 中
 #### (server) http pipeline

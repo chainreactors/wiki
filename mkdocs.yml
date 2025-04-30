@@ -80,6 +80,10 @@ nav:
       - Quickstart: IoM/quickstart.md
       - Concept: IoM/concept.md
       - RoadMap: IoM/roadmap.md
+      - Usage: 
+        - index: IoM/usage/index.md
+        - DumpLSASS: IoM/usage/DumpLSASS.md
+        - REM: IoM/usage/REM.md
       - Manual:
         - index: IoM/manual/index.md
         - client/server:

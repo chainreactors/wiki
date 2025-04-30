@@ -1,0 +1,9 @@
+
+IoM是一个较为复杂的系统， 里面包含了数百项不同的功能点。我们很难逐一在文档中介绍所有的能力，只好选择妥协之策。 将一些常用的功能使用示例详细解释。
+
+如果有其他文档描述不清楚或者想了解的用法欢迎在 https://github.com/chainreactors/malice-network/issues 中反馈， 我们会添加相应的使用案例
+
+## 目录
+
+- [0x01 DumpLSASS](/wiki/IoM/usage/DumpLSASS)
+- [0x02 REM使用](/wiki/IoM/usage/REM)
