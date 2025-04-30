@@ -81,8 +81,8 @@ nav:
       - Concept: IoM/concept.md
       - RoadMap: IoM/roadmap.md
       - Usage: 
-        - index: IoM/usage/index.md
-        - DumpLSASS: IoM/usage/DumpLSASS.md
+        - index: IoM/manual/usage/index.md
+        - DumpLSASS: IoM/manual/usage/DumpLSASS.md
         - REM: IoM/usage/REM.md
       - Manual:
         - index: IoM/manual/index.md
