@@ -5,6 +5,7 @@ slug: IoM_design_01
 > IoM 设计系列主要闲话IoM的设计理念，技术选型， 对社区、环境、未来的思考等。 也许能给做同样事情的朋友带来一些不一样的想法。
 > 与进阶系列不同的是， 设计系列不会有太多的代码，但这并不意味着信息量降低 :)
 
+> 澄清一个误会， 很多朋友以为IoM几次更新公告中提到的功能只在 Professional版本中可以使用， 但实际上除了极少数
 ## 背景
 
 我们为什么想要自己实现一个C2 Framework, 其中有对CobaltStrike技术路线不够满意，又无奈与无法在开源社区中找到一个足够成熟的C2代替，更是计划用新的技术路线去尝试新的想法。 
@@ -25,16 +26,19 @@ slug: IoM_design_01
 * server与listener则通过统一的数据包协议`Spite`(protobuf的message)交互. 
 * listener与malefic(malefic只是implant的一个具体实现)通过parser将数据解析为`Spite`
 
-拆分一下,一点一点实现, 主要在这四个地方进行拓展
+简单来说就是listener上可以根据parser切换不同的implant协议。 client/server/listener之间的交互统一使用同一个protobuf 定义。 
 
-* Client端插件脚本语言
-* Server端rpc SDK
+
+对于拓展性来说， 主要在这四个地方进行拓展
+
+* Client端插件脚本语言和Command
+* Server端rpc
 * Listener的Pipeline和Parser
 * Implant端的module, kits, 3rd-module
 
-在普通用户看来, 最终使用体验会CS的aggressor script相似， 也对能力更强的开发者保留了完整的SDK以及非常多可以二开的接口。 
+在用户看来, 最终使用体验会CS的aggressor script相似， 也对能力更强的开发者保留了完整的SDK以及非常多可以二开的接口。 
 
-**在本文发布时，已经实现本文提到的90%的内容，均可以在我们的github中找到**
+**在本文发布时，已经实现本文提到的100%的内容，均可以在我们的github中找到**
 
 ## Client端
 
@@ -50,7 +54,7 @@ sliver则通过在官方统一维护了[armory武器库](https://github.com/sliv
 
 ### mals
 
-现在来更具体的描述这个设计理念的实现路径
+mals是主要的面向用户的拓展接口。 封装了全量的IoM的功能，理论上可以使用lua实现一个功能等价的cli的甚至gui。 
 
 #### 语言无关的拓展性
 
@@ -262,12 +266,13 @@ IoM的架构很适合作为BAS的基础能力的一部分，提供大量的元�
 
 将IoM的implant作为CAASM的agent, 在目标内网进行自动化的探测，交互， 数据汇总。
 
-### With AI
+### With  AI
 
 AI已经完全融入了IoM开发的工作流中， 在长期的使用中能很轻易的发现， 要让AI从零去做某个事情， 往往需要大量的对话， 但是如果已经有一套相对成熟的框架， 让AI去填充内存， AI能完成得非常好。 而现在IoM提供了好几套可拓展的接口，以及一个开发框架。 当我尝试让AI去编写插件或者控制IoM完成任务时， AI表现出了超过大部分人类的能力。 
 
-我们正在探索通过提供不同场景的prompt， 基于我们的vscode的GUI插件，直接控制IoM代替人类去完成任务。
+~~我们正在探索通过提供不同场景的prompt， 基于我们的vscode的GUI插件，直接控制IoM代替人类去完成任务。~~
 
+在写这篇文章的过程中，诞生了一个极大简化AI agent实现的MCP协议。 我们发现不再需要通过prompt来教会AI， 可以直接通过MCP协议
 ## 小结
 
 在IoM中, client/server/listener/implant 四端几乎是完全解耦的, 可以在任意一端插入用户自己编写的实现. 而不影响到其他组件的工作, 我们通过约定统一的规范来兼容尽可能多的生态与社区. 
