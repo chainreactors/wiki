@@ -104,7 +104,6 @@ nav:
         - implant:
             - index: IoM/manual/implant/index.md
             - build: IoM/manual/implant/build.md
-            - mutant: IoM/manual/implant/mutant.md
             - modules: IoM/manual/implant/modules.md
             - malefic-win-kit: IoM/manual/implant/win_kit.md
   - gogo:
