@@ -9,4 +9,4 @@ mapping 不是不同工具的堆积, 而是达到临界质量的链式反应。
 
 ## 目录
 
-1. [设计理念](/wiki/mapping/design)
+1. [设计理念](/mapping/design)

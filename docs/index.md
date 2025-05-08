@@ -27,7 +27,7 @@ IoM已经发布v0.0.1, 这个版本离我们最初的v0.0.1设计目标还有很
 !!! important "update v0.0.4"
 	已经发布v0.0.4, 实现了约sliver的80%, cs的70%功能, 也有非常sliver与cs都没有的功能
 
-目前提供了IoM的[设计文档](/wiki/IoM/design)与[用户手册](/wiki/IoM/manual) ,可以在[这里](https://github.com/chainreactors/malice-network)体验到IoM的v0.0.4
+目前提供了IoM的[设计文档](/IoM/design)与[用户手册](/IoM/manual) ,可以在[这里](https://github.com/chainreactors/malice-network)体验到IoM的v0.0.4
 
 ### Chain2 mapping
 
@@ -37,7 +37,7 @@ ASM是chainreactor的初衷, gogo/spray/zombie之类的工具实际上都是为�
 
 现在这个目标已经完成了v0.0.1, 但因为一些数据源与部署方式的问题, 暂时无法发布. 
 
-目前提供了mapping的[设计文档](/wiki/mapping/design), 可以在这里看到mapping作为红队向的协作式攻击面引擎的设计理念.
+目前提供了mapping的[设计文档](/mapping/design), 可以在这里看到mapping作为红队向的协作式攻击面引擎的设计理念.
 
 ### Chain3 rem
 
@@ -45,7 +45,7 @@ ASM是chainreactor的初衷, gogo/spray/zombie之类的工具实际上都是为�
 
 rem是全场景的流量/代理工具. 能用来解决绝大多数场景的代理与转发需求, 也用来打通mapping与IoM, 让mapping能通过rem+IoM接入内网. rem提供了在传输层, 应用层, 加密层, 混淆层的拓展接口. 可以被轻松修改为自定义特征, 也将是IoM在流量端的能力拓展. 
 
-目前提供了rem的[设计文档](/wiki/rem)
+目前提供了rem的[设计文档](/rem)
 
 ---
 

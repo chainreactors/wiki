@@ -182,7 +182,7 @@ session内部还维护了多个子状态集
 
 ## Implant
 
-目前只提供了一个implant, 即[malefic](https://github.com/chainreactors/malefic), [malefic详细文档](/wiki/IoM/manual/implant/)
+目前只提供了一个implant, 即[malefic](https://github.com/chainreactors/malefic), [malefic详细文档](/IoM/manual/implant/)
 - malefic, 主程序, 包含了beacon/bind两种模式的完整功能
 - mutant,  用来实现自动化配置malefic的各种条件编译与特性, 以及生成shellcode, srdi等
 - pulse, 最小化的shellcode模板, 对应CS的artifact, 能编译出只有4kb的上线马, 非常适合被各种loader加载

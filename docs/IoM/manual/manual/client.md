@@ -29,7 +29,7 @@ exit
 ### login
 Login to server
 
-![login](/wiki/IoM/assets/login.gif)
+![login](/IoM/assets/login.gif)
 
 ```
 login
@@ -530,7 +530,7 @@ extension remove credman
 ### armory
 Automatically download and install extensions/aliases
 
-![armory](/wiki/IoM/assets/armory.gif)
+![armory](/IoM/assets/armory.gif)
 
 **Description**
 
@@ -1054,7 +1054,7 @@ rem stop rem_test
 ### tcp
 Register a new TCP pipeline and start it
 
-![tcp](/wiki/IoM/assets/tcp.gif)
+![tcp](/IoM/assets/tcp.gif)
 
 **Description**
 

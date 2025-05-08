@@ -44,7 +44,7 @@ community 的 resources 随着版本发布时的 release 发布: https://github.
 
 解压到源码目录下的 resrouces 文件夹下: 最终结果应该类似这样:
 
-![](/wiki/IoM/assets/Pasted%20image%2020241122223133.png)
+![](/IoM/assets/Pasted%20image%2020241122223133.png)
 
 ## Docker 编译(推荐)
 
@@ -93,7 +93,7 @@ curl -fsSL https://get.docker.com | sudo bash -s docker
 ### 编译
 
 !!! important "请注意已完成了基础环境配置"
-	使用`install.sh` 安装的会自动配置对应的基础环境. 如果是手动配置请检查[基础环境配置](/wiki/IoM/manual/implant/build/#_2)
+	使用`install.sh` 安装的会自动配置对应的基础环境. 如果是手动配置请检查[基础环境配置](/IoM/manual/implant/build/#_2)
 
 以`x86_64-unknown-linux-musl`举例, **在 malefic 的代码根目录下执行**
 
@@ -111,7 +111,7 @@ docker run -v "$(pwd):/root/src" -v "$(pwd)/cache/registry:/root/cargo/registry"
 
 首先, 你需要git clone一份malefic源码，并push到一份到你的仓库(建议设置私人仓库)，并开启github action功能，参考下图:
 
-![](/wiki/IoM/assets/enable-github-action.png)
+![](/IoM/assets/enable-github-action.png)
 
 然后, 在本地安装[gh cli](https://docs.github.com/zh/github-cli/github-cli/quickstart)工具，通过设置`GH_TOKEN`环境变量或`gh auth login`登录你的github账号，然后执行如下命令即可编译.
 
@@ -143,7 +143,7 @@ gh workflow run generate.yaml -f package="modules" -f malefic_modules_features="
 ```
 编译完成后你可以通过`gh run list --workflow=generate.yaml -R <username/malefic>`查看编译结果，
 通过`gh run download <run_id> -R <username/malefic>`下载对应的二进制文件.
-![](/wiki/IoM/assets/gh-run-list-download.png)
+![](/IoM/assets/gh-run-list-download.png)
 
 ## 本机编译
 
@@ -237,7 +237,7 @@ sudo apt install -y openssl libssl-dev libudev-dev cmake llvm clang musl-tools b
 	
 	用法参考下图:
 	
-	![switch mingw](/wiki/IoM/assets/switch-mingw-in-powershell.png)
+	![switch mingw](/IoM/assets/switch-mingw-in-powershell.png)
 
 ## 编译
 
@@ -249,7 +249,7 @@ sudo apt install -y openssl libssl-dev libudev-dev cmake llvm clang musl-tools b
 
 项目的配置(.cargo/config.toml、cargo.toml、Makefile)中提供了一些预设和编译优化选项. 熟悉 rust 的使用者也可以手动编译，malefic 目前使用的 rust 版本是`nightly-2023-09-18`.
 
-在进行手动编译前， 请更改 `beacon/bind` 对应的配置项, 关于配置项， 请参考 [beacon 配置说明](/wiki/IoM/manual/implant/mutant/#beacon)
+在进行手动编译前， 请更改 `beacon/bind` 对应的配置项, 关于配置项， 请参考 [beacon 配置说明](/IoM/manual/implant/mutant/#beacon)
 
 添加对应的目标编译架构,以`x86_64-pc-windows-gnu`为例
 
@@ -261,7 +261,7 @@ rustup target add x86_64-pc-windows-gnu
 ### 生成配置与代码
 
 
-编译mutant, 或从malefic release中下载编译好的mutant,[mutant 完整文档](/wiki/IoM/manual/implant/mutant)
+编译mutant, 或从malefic release中下载编译好的mutant,[mutant 完整文档](/IoM/manual/implant/mutant)
 
 ```bash
 cargo build --release -p malefic-mutant
@@ -302,7 +302,7 @@ cargo build --release -p malefic-prelude --target x86_64-pc-windows-gnu
 
 ### 编译 malefic-pulse
 
-在进行手动编译前， 请更改 `pulse` 对应的配置项, 关于配置项， 请参考 [pulse 配置说明](/wiki/IoM/manual/implant/mutant/#pulse)
+在进行手动编译前， 请更改 `pulse` 对应的配置项, 关于配置项， 请参考 [pulse 配置说明](/IoM/manual/implant/mutant/#pulse)
 
 ```bash
 malefic-mutant generate pulse
@@ -327,7 +327,7 @@ objcopy -O binary malefic-pulse.exe malefic-pulse.bin
 
 malefic 的 windows 平台目前支持动态加载 module, 因此可以编译单个或者一组 module, 然后通过`load_module`给已上线的 implant 添加新的功能.
 
-[load_module 使用文档](/wiki/IoM/manual/implant/#load_module)
+[load_module 使用文档](/IoM/manual/implant/#load_module)
 
 相关命令如下:
 

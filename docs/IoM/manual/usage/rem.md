@@ -96,7 +96,7 @@ malefic-mutant generate beacon
 
 上线后，与rem_reflection不同的是, 我们不再需要安装插件包。 可以直接使用client自带的命令组
 
-![](/wiki/blog/assets/Pasted%20image%2020250412001458.png)
+![](/blog/assets/Pasted%20image%2020250412001458.png)
 
 例如搭建反向socks5代理只需要
 

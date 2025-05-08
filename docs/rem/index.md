@@ -7,7 +7,7 @@ title: rem · index
 
 rem 是一个解决全场景流量操作的万能工具, 将提供全场景的 Tunnel(流量隧道), Proxy(代理), Pivoting(跳板), Forward(转发)解决方案.
 
-rem 将作为所有工具的集中点, 除了最基本的 cli 外, 还将提供一套 SDK 以供各种工具交互. 用来打通各种工件([gogo](/wiki/gogo/), [zombie](/wiki/zombie/), [spray](/wiki/spray)), ASM([mapping](/wiki/mapping)), C2([IoM](/wiki/IoM/))直接的通信问题.
+rem 将作为所有工具的集中点, 除了最基本的 cli 外, 还将提供一套 SDK 以供各种工具交互. 用来打通各种工件([gogo](/gogo/), [zombie](/zombie/), [spray](/spray)), ASM([mapping](/mapping)), C2([IoM](/IoM/))直接的通信问题.
 
 rem 可以让工件们不落地, 可以让 mapping 从 EASM 接入到内网, 可以让 C2 使用各种流量规避以及安全的信道传输数据.
 

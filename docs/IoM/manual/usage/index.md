@@ -5,5 +5,5 @@ IoM是一个较为复杂的系统， 里面包含了数百项不同的功能点�
 
 ## 目录
 
-- [0x01 DumpLSASS](/wiki/IoM/usage/DumpLSASS)
-- [0x02 REM使用](/wiki/IoM/usage/REM)
+- [0x01 DumpLSASS](/IoM/usage/DumpLSASS)
+- [0x02 REM使用](/IoM/usage/REM)

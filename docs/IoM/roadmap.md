@@ -26,7 +26,7 @@ IoM  上的流量隧道不只是点对点的， 还将是网状的，甚至是�
 
 预计在2024年8月份发布
 
-release note:  [v0.0.1 next generation C2 project](/wiki/blog/2024/08/16/%E4%B8%80%E4%B8%8B%E4%BB%A3c2%E8%AE%A1%E5%88%92-----internal-of-malice/)
+release note:  [v0.0.1 next generation C2 project](/blog/2024/08/16/%E4%B8%80%E4%B8%8B%E4%BB%A3c2%E8%AE%A1%E5%88%92-----internal-of-malice/)
 ### Implant
 
 - [x] 实现melefic调度器
@@ -133,7 +133,7 @@ listener是独立部署的组件, 通过pipeline解析并转发implant的数据�
 
 ## v0.0.2 the Real Beginning (已发布)
 
-release note: [v0.0.2 the Real Beginning](/wiki/blog/2024/09/23/IoM_v0.0.2/)
+release note: [v0.0.2 the Real Beginning](/blog/2024/09/23/IoM_v0.0.2/)
 
 - [x] 补全因部分测试项未通过导致v0.0.1未能如期发布的功能
 - [x] client端重构
@@ -166,7 +166,7 @@ release note: [v0.0.2 the Real Beginning](/wiki/blog/2024/09/23/IoM_v0.0.2/)
 
 ## v0.0.3 真正意义上的红队基础设施与C2框架 (已发布)
 
-release note: [v0.0.3 RedTeam Infra&C2 framework](/wiki/blog/2024/11/20/IoM_v0.0.3/)
+release note: [v0.0.3 RedTeam Infra&C2 framework](/blog/2024/11/20/IoM_v0.0.3/)
 
 - [ ] client
 	- [x] 新增client端插件类型 golang
@@ -207,7 +207,7 @@ release note: [v0.0.3 RedTeam Infra&C2 framework](/wiki/blog/2024/11/20/IoM_v0.0
 
 ## v0.0.4 Bootstrapping (已发布)
 
-release note: [v0.0.4 Bootstrapping](/wiki/blog/2025/01/02/IoM_v0.0.4/)
+release note: [v0.0.4 Bootstrapping](/blog/2025/01/02/IoM_v0.0.4/)
 
 - implant
 	- [x] 修复对win7兼容性  (部分解决)

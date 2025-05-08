@@ -6,7 +6,7 @@ title: zombie · 拓展
 zombie的拓展分为两种
 
 1. 通过go编写的原生插件, 可以调用第三方库, 处理一些较为复杂的认证逻辑. 例如各种数据库, telnet等较为复杂的模块. 
-2. 通过[neutron](/wiki/libs/neutron) tamplate支持的模块, 用来处理使用http协议认证的服务或较为简单的socket通讯协议
+2. 通过[neutron](/libs/neutron) tamplate支持的模块, 用来处理使用http协议认证的服务或较为简单的socket通讯协议
 
 ## go原生插件
 
@@ -89,7 +89,7 @@ type Plugin interface {
 
 ## template动态加载的插件
 
-zombie使用了与gogo相同的template引擎 [neutron](/wiki/libs/neutron), 并复用了gogo的[template仓库](https://github.com/chainreactors/templates/tree/master/neutron/login)中的login部分. 
+zombie使用了与gogo相同的template引擎 [neutron](/libs/neutron), 并复用了gogo的[template仓库](https://github.com/chainreactors/templates/tree/master/neutron/login)中的login部分. 
 
 只需要对原版的nucleipoc进行简单的修改, 即可移植给gogo与zombie使用.
 
