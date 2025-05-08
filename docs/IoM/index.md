@@ -51,7 +51,7 @@ IoM将由一系列仓库组成
 * 通讯协议(protobuf): https://github.com/chainreactors/proto
 * 插件仓库 : [mals](https://github.com/chainreactors/mals)
 	* 社区版默认插件包: [mal-community](https://github.com/chainreactors/mal-community)
-* 流量与代理: https://github.com/chainreactors/malefic-rem (🔒)
+* 流量与代理: https://github.com/chainreactors/rem-community 
 
 **kits**
 是一些专注于opsec与edr对抗的插件包或各类小组件, 作为IoM的附加能力
@@ -68,6 +68,11 @@ IoM将由一系列仓库组成
 - [v0.0.2 the Real Beginning](/wiki/blog/2024/09/23/IoM_v0.0.2/)
 - [v0.0.3 RedTeam Infra&C2 framework](/wiki/blog/2024/11/20/IoM_v0.0.3/)
 - [v0.0.4 Bootstrapping](/wiki/blog/2025/01/02/IoM_v0.0.4/)
+- [v0.1.0 代替CobaltStrike的最后四块碎片](/wiki/blog/2025/04/14/IoM_v0.1.0/)
+
+**Advanced Posts:**
+
+- [PELoader&RDI的TLS之殇](/wiki/blog/2025/01/07/IoM_advanced_TLS/)
 ## 社区
 
 ### github
