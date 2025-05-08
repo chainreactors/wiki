@@ -107,13 +107,13 @@ Help Options:
 
 **smart mod**
 
-当目标范围的子网掩码小于24时, 建议启用 [smart mod](/wiki/gogo/detail/#b)
+当目标范围的子网掩码小于24时, 建议启用 [smart mod](/gogo/detail/#b)
 
 例如子网掩码为16, (如果输出结果较多, 建议开启--af输出到文件, 命令行只输出日志)
 
 `gogo -i 192.168.1.1/16 --mod s -p top2,win,db --af`
 
-`--af`的意思为自动生成文件, `--mod s`的意思为使用[smart mod](/wiki/gogo/detail/#b)进行扫描, `-p`的意思为指定端口, 可使用端口预设(`-P port` 查看所有的[端口预设](/wiki/gogo/start/#_1)).
+`--af`的意思为自动生成文件, `--mod s`的意思为使用[smart mod](/gogo/detail/#b)进行扫描, `-p`的意思为指定端口, 可使用端口预设(`-P port` 查看所有的[端口预设](/gogo/start/#_1)).
 
 这个命令有些复杂, 但不用担心, 可以使用workflow代替.如 `gogo --workflow 192`, 
 
@@ -121,7 +121,7 @@ Help Options:
 
 **supersmart mod** 
 
-当目标范围的子网掩码小于16, 建议启用[supersmart模式](/wiki/gogo/detail/#a)扫描, 例如:
+当目标范围的子网掩码小于16, 建议启用[supersmart模式](/gogo/detail/#a)扫描, 例如:
 
 `gogo -i 10.0.0.0/8 --mod ss -p top2,win,db --af`
 
@@ -136,7 +136,7 @@ Help Options:
 !!! note "注意"
 	workflow中的预设参数优先级低于命令行输入, 因此可以通过命令行覆盖workflow中的参数. 
 
-使用`-P workflow`查看所有的[workflow预设](/wiki/gogo/start/#workflow), 更便捷的使用gogo.
+使用`-P workflow`查看所有的[workflow预设](/gogo/start/#workflow), 更便捷的使用gogo.
 
 **分析扫描结果**
 
@@ -629,7 +629,7 @@ nuclei poc将会根据指纹识别的情况自动调用, 而非一口气全打�
 
 绝大多数常用的启发式扫描场景已经被封装到workflow中, 更建议在workflow中调用对应的扫描逻辑.。
 
-如需了解每个细节和原理, 请见 [启发式扫描原理](/wiki/gogo/detail/#_7)
+如需了解每个细节和原理, 请见 [启发式扫描原理](/gogo/detail/#_7)
 
 ### OPSEC
 

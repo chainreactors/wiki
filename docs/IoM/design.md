@@ -181,7 +181,7 @@ message Spite {
 
 将这些维度落地到工程中, 就变成了庞大的需求表, 这里是冰山一角.
 
-![image-20240811014605854](/wiki/IoM/assets/image-20240811014605854.png)
+![image-20240811014605854](/IoM/assets/image-20240811014605854.png)
 
 ### 流量对抗 (done)
 
@@ -191,7 +191,7 @@ message Spite {
 
 要解决这个问题, 只需要把流量相关的功能都拎出来, 与 implant 彻底解耦, implant 端保留了最基本的 tcp 与 tls 信道, 更多的拓展功能将通过`Read`与`Write`接口从第三方工具中获取. 正巧, 原本的工具链中就有一个全能的流量代理工具, 现在它又多了一个用途, 当作 implant 的前置 stage.
 
-IoM 的代理与流量隧道的高级功能均通过[rem](/wiki/rem/index)实现.
+IoM 的代理与流量隧道的高级功能均通过[rem](/rem/index)实现.
 
 我们将 rem 打包成 dll, 并暴露出 Read 与 Write 接口. 这样上线的不只是 implant, 还能直接打通 implant 端的网络
 
@@ -218,7 +218,7 @@ graph LR
 
 IoM 默认采用了 TCP 的方式进行通讯。 并支持 TLS 与 MTLS 对通讯流量进行加密. 如果使用了 rem 作为前置加载器, 则所有的通讯都将被 rem 接管
 
-更多协议的信道支持与高级的流量对抗的能力, 将通过 rem 拓展这方面的能力. 请见[rem 设计文档](/wiki/rem/design)
+更多协议的信道支持与高级的流量对抗的能力, 将通过 rem 拓展这方面的能力. 请见[rem 设计文档](/rem/design)
 
 ### 拓展能力
 

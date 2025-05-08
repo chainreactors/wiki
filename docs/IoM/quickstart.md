@@ -41,7 +41,7 @@ sudo bash install.sh
 ??? info "(非必要) 自行编译 client 与 server"
 	如需自定编译可参照: ([自行编译说明](IoM/deploy/#_6))
 
-![](/wiki/IoM/assets/install-pic.png)
+![](/IoM/assets/install-pic.png)
 
 安装完成后会自动添加到服务.
 
@@ -51,7 +51,7 @@ sudo bash install.sh
 	
 	安装脚本自动使用的 config 为: https://github.com/chainreactors/malice-network/blob/master/server/config.yaml
 	
-	malefic 的 config.yaml [详细配置说明](/wiki/implant/mutant)
+	malefic 的 config.yaml [详细配置说明](/implant/mutant)
 
 
 ### 运行 client
@@ -72,7 +72,7 @@ sudo bash install.sh
 
 运行成功会进入到交互式命令, 这里将是操作整个 IoM 的地方.
 
-![](/wiki/IoM/assets/NI55beE9Bo6ad5xtT3lcMuvunAd.png)
+![](/IoM/assets/NI55beE9Bo6ad5xtT3lcMuvunAd.png)
 
 ### 编译 implant
 
@@ -104,7 +104,7 @@ service malice-network restart
 ```
 
 ??? info "(非必要)独立运行 listener"
-	[listener 文档](/wiki/IoM/manual/manual/deploy/#listener)
+	[listener 文档](/IoM/manual/manual/deploy/#listener)
 	
 	从 v0.0.2 开始, 我们合并了 listener 与 server 两个二进制文件到`malice-network`
 	需要在 [这里获取`listener.yaml`配置文件](https://github.com/chainreactors/malice-network/blob/master/server/listener.yaml)示例
@@ -115,11 +115,11 @@ service malice-network restart
 	./malice-network -c listener.yaml
 	```
 	
-	![](/wiki/IoM/assets/image_20240903010041.png)
+	![](/IoM/assets/image_20240903010041.png)
 	
 	可以看到, 启动了独立的 listener, 并与 server 建立了连接.
 
-在 v0.0.4 下，我们引入了 github action 来编译 implant，避免因为 rust 复杂的编译方案而需要准备 docker 环境来编译。现在你只需准备好 malefic 仓库和对应的 token（需要 workflow 和 package 权限），并且在 sever 或者 client 端配置（[详见配置说明](/wiki/IoM/manual/manual/deploy)），即可使用命令行进行 github action 编译。
+在 v0.0.4 下，我们引入了 github action 来编译 implant，避免因为 rust 复杂的编译方案而需要准备 docker 环境来编译。现在你只需准备好 malefic 仓库和对应的 token（需要 workflow 和 package 权限），并且在 sever 或者 client 端配置（[详见配置说明](/IoM/manual/manual/deploy)），即可使用命令行进行 github action 编译。
 
 使用 client 自动编译:
 
@@ -142,7 +142,7 @@ action beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl
 ```
 
 
-![build_and_download_beacon.png](/wiki/IoM/assets/build_and_download_beacon.png)
+![build_and_download_beacon.png](/IoM/assets/build_and_download_beacon.png)
 
 **下载编译结果**
 ```
@@ -151,7 +151,7 @@ artifact list
 artifact download [UNABLE_POOl] 
 ```
 
-![](/wiki/IoM/assets/aa8ef0f33fc8e19ea7bcb9cfb3b094e.png)
+![](/IoM/assets/aa8ef0f33fc8e19ea7bcb9cfb3b094e.png)
 
 
 !!! tips "多按 Tab, 大部分输入都可以通过 tab 自动补全"
@@ -160,11 +160,11 @@ artifact download [UNABLE_POOl]
 ??? info "(非必要)其他编译方式"
 	我们提供了如下几种方式进行编译：
 	
-    1. [本地编译](/wiki/IoM/manual/implant/build/#_4)
-    2. [Docker 编译(纯本地更安全)](/wiki/IoM/manual/implant/build/#docker)
-    3. [Github Action编译环境(0环境配置, 推荐)](/wiki/IoM/manual/implant/build/#github-action)
+    1. [本地编译](/IoM/manual/implant/build/#_4)
+    2. [Docker 编译(纯本地更安全)](/IoM/manual/implant/build/#docker)
+    3. [Github Action编译环境(0环境配置, 推荐)](/IoM/manual/implant/build/#github-action)
 
-	编译完整说明手册[implant 手册](/wiki/IoM/manual/implant/build)
+	编译完整说明手册[implant 手册](/IoM/manual/implant/build)
 
 #### 使用docker (对服务器性能有要求)
 
@@ -204,10 +204,10 @@ session
 这个时候输入`help` 将能看到这个 session 上下文完整可用的命令.
 
 !!! important "implant 命令手册"
-	[client 命令手册](/wiki/IoM/manual/manual/client/)
+	[client 命令手册](/IoM/manual/manual/client/)
 	
-	[implant 命令手册](/wiki/IoM/manual/manual/implant/)
+	[implant 命令手册](/IoM/manual/manual/implant/)
 
-![](/wiki/IoM/assets/Pasted%20image%2020250424154703.png)
+![](/IoM/assets/Pasted%20image%2020250424154703.png)
 
 **Enjoy IoM**

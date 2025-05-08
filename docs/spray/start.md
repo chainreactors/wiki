@@ -712,7 +712,7 @@ crawl 是基于linkfinder正则的大量优化后的插件, 比原生的linkfind
 ### active
 **仅brute可用**
 
-- `--active` 可以开启类似[gogo 的主动指纹识别](/wiki/gogo/extension/#_2), 并且添加`append`主动指纹字典
+- `--active` 可以开启类似[gogo 的主动指纹识别](/gogo/extension/#_2), 并且添加`append`主动指纹字典
 
 ### bak
 **仅brute可用**
@@ -732,7 +732,7 @@ crawl 是基于linkfinder正则的大量优化后的插件, 比原生的linkfind
 
 ### 自定义智能过滤
 
-智能过滤的逻辑很难用几行文字描述, 可以见[智能过滤逻辑](/wiki/spray/detail/#_1)
+智能过滤的逻辑很难用几行文字描述, 可以见[智能过滤逻辑](/spray/detail/#_1)
 
 可以通过控制状态码列表自定义一部分的智能过滤逻辑.
 
