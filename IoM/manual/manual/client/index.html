@@ -1,0 +1,4787 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="chainreactors wiki">
+      
+      
+        <meta name="author" content="M09ic">
+      
+      
+        <link rel="canonical" href="https://wiki.chainreactors.red/wiki/IoM/manual/manual/client/">
+      
+      
+        <link rel="prev" href="../deploy/">
+      
+      
+        <link rel="next" href="../implant/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
+    
+    
+      
+        <title>client usage - ChainReactor Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.2afb09e1.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-DCRVR86FG2"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-DCRVR86FG2",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-DCRVR86FG2",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#generic" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="ChainReactor Wiki" class="md-header__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ChainReactor Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              client usage
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  导航
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  IoM
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../gogo/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  gogo
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../spray/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  spray
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../zombie/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  zombie
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../rem/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  rem
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../libs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  libs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../mapping/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Preview
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../blog/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="ChainReactor Wiki" class="md-nav__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ChainReactor Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    导航
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    IoM
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            IoM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Design
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quickstart
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Concept
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RoadMap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../usage/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Usage
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6" id="__nav_2_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Usage
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/DumpLSASS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DumpLSASS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/rem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    REM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Manual
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7" id="__nav_2_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            Manual
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    client/server
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_2" id="__nav_2_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            client/server
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    install&deploy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    client usage
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    client usage
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#generic" class="md-nav__link">
+    <span class="md-ellipsis">
+      generic
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="generic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      !
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#broadcast" class="md-nav__link">
+    <span class="md-ellipsis">
+      broadcast
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exit" class="md-nav__link">
+    <span class="md-ellipsis">
+      exit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#login" class="md-nav__link">
+    <span class="md-ellipsis">
+      login
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pivot" class="md-nav__link">
+    <span class="md-ellipsis">
+      pivot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version" class="md-nav__link">
+    <span class="md-ellipsis">
+      version
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manage" class="md-nav__link">
+    <span class="md-ellipsis">
+      manage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="manage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    <span class="md-ellipsis">
+      background
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    <span class="md-ellipsis">
+      history
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#obverse" class="md-nav__link">
+    <span class="md-ellipsis">
+      obverse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session" class="md-nav__link">
+    <span class="md-ellipsis">
+      session
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="session">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#session-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      session group
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session-newbind" class="md-nav__link">
+    <span class="md-ellipsis">
+      session newbind
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      session note
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session-remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      session remove
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use" class="md-nav__link">
+    <span class="md-ellipsis">
+      use
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alias" class="md-nav__link">
+    <span class="md-ellipsis">
+      alias
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="alias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#alias-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      alias install
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alias-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      alias list
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alias-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      alias load
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alias-remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      alias remove
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      extension
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="extension">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extension-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      extension install
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extension-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      extension list
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extension-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      extension load
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extension-remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      extension remove
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#armory" class="md-nav__link">
+    <span class="md-ellipsis">
+      armory
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="armory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#armory-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      armory install
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#armory-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      armory search
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#armory-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      armory update
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mal" class="md-nav__link">
+    <span class="md-ellipsis">
+      mal
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="mal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mal-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      mal install
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mal-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      mal list
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mal-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      mal load
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mal-refresh" class="md-nav__link">
+    <span class="md-ellipsis">
+      mal refresh
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mal-remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      mal remove
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#listener" class="md-nav__link">
+    <span class="md-ellipsis">
+      listener
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="listener">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bind" class="md-nav__link">
+    <span class="md-ellipsis">
+      bind
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http" class="md-nav__link">
+    <span class="md-ellipsis">
+      http
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#job" class="md-nav__link">
+    <span class="md-ellipsis">
+      job
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listener_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      listener
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      pipeline
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      pipeline delete
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      pipeline list
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      pipeline start
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      pipeline stop
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rem" class="md-nav__link">
+    <span class="md-ellipsis">
+      rem
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="rem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rem-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      rem delete
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rem-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      rem list
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rem-new" class="md-nav__link">
+    <span class="md-ellipsis">
+      rem new
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rem-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      rem start
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rem-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      rem stop
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      tcp
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generator" class="md-nav__link">
+    <span class="md-ellipsis">
+      generator
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="generator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#artifact" class="md-nav__link">
+    <span class="md-ellipsis">
+      artifact
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="artifact">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#artifact-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      artifact delete
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#artifact-download" class="md-nav__link">
+    <span class="md-ellipsis">
+      artifact download
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#artifact-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      artifact list
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#artifact-upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      artifact upload
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build" class="md-nav__link">
+    <span class="md-ellipsis">
+      build
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build-beacon" class="md-nav__link">
+    <span class="md-ellipsis">
+      build beacon
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-bind" class="md-nav__link">
+    <span class="md-ellipsis">
+      build bind
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      build log
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      build modules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-prelude" class="md-nav__link">
+    <span class="md-ellipsis">
+      build prelude
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../implant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    implant usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GUI/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    GUI(内测)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mal/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    mals插件生态
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_3" id="__nav_2_7_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            mals插件生态
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    quickstart
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7_3_3" id="__nav_2_7_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    lua
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_7_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            lua
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/builtin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    builtin
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/beacon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    beacon
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/rpc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    rpc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implant/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    implant
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_4" id="__nav_2_7_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            implant
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implant/build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    build
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implant/modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implant/win_kit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    malefic-win-kit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../gogo/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    gogo
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            gogo
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    入门
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    设计
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    细节
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    拓展
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实战
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../spray/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    spray
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            spray
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    入门
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    设计
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    细节
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实战
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../zombie/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    zombie
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            zombie
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../zombie/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    入门
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../zombie/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    设计
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../zombie/extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    拓展
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../rem/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    rem
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            rem
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    入门
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    概念
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    设计
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    libs
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            libs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/neutron/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    neutron
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            neutron
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/neutron/update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    update
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/words/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    words
+    
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            words
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/fingers/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    fingers
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_4" id="__nav_7_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            fingers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/fingers/rule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    rule
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/fingers/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SDK
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/proxyclient/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    proxyclient
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_5" id="__nav_7_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            proxyclient
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/proxyclient/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SDK
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Preview
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Preview
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../mapping/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    mapping
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            mapping
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mapping/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    design
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../blog/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Blog
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9" id="__nav_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Blog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Archive
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            Archive
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2022
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>client usage</h1>
+
+<h2 id="generic">generic<a class="headerlink" href="#generic" title="Permanent link">&para;</a></h2>
+<h3 id="_1">!<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<p>Run a command</p>
+<div class="highlight"><pre><span></span><code>! [command]
+</code></pre></div>
+<h3 id="broadcast">broadcast<a class="headerlink" href="#broadcast" title="Permanent link">&para;</a></h3>
+<p>Broadcast a message to all clients</p>
+<div class="highlight"><pre><span></span><code>broadcast [message] [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -n, --notify   notify the message to third-party services
+</code></pre></div>
+<h3 id="exit">exit<a class="headerlink" href="#exit" title="Permanent link">&para;</a></h3>
+<p>exit client</p>
+<div class="highlight"><pre><span></span><code>exit
+</code></pre></div>
+<h3 id="login">login<a class="headerlink" href="#login" title="Permanent link">&para;</a></h3>
+<p>Login to server</p>
+<p><img alt="login" src="/IoM/assets/login.gif" /></p>
+<div class="highlight"><pre><span></span><code>login
+</code></pre></div>
+<h3 id="pivot">pivot<a class="headerlink" href="#pivot" title="Permanent link">&para;</a></h3>
+<p>List all pivot agents</p>
+<p><strong>Description</strong></p>
+<p>List all active pivot agents with their details</p>
+<div class="highlight"><pre><span></span><code>pivot [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<p>List all pivot agents:
+<div class="highlight"><pre><span></span><code>pivot
+</code></pre></div></p>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -a, --all   list all pivot agents
+</code></pre></div>
+<h3 id="version">version<a class="headerlink" href="#version" title="Permanent link">&para;</a></h3>
+<p>show server version</p>
+<div class="highlight"><pre><span></span><code>version
+</code></pre></div>
+<h2 id="manage">manage<a class="headerlink" href="#manage" title="Permanent link">&para;</a></h2>
+<h3 id="background">background<a class="headerlink" href="#background" title="Permanent link">&para;</a></h3>
+<p>back to root context</p>
+<p><strong>Description</strong></p>
+<p>Exit the current session and return to the root context.</p>
+<div class="highlight"><pre><span></span><code>background
+</code></pre></div>
+<h3 id="history">history<a class="headerlink" href="#history" title="Permanent link">&para;</a></h3>
+<p>show log history</p>
+<p><strong>Description</strong></p>
+<p>Displays the specified number of log lines of the current session.</p>
+<div class="highlight"><pre><span></span><code>history
+</code></pre></div>
+<h3 id="obverse">obverse<a class="headerlink" href="#obverse" title="Permanent link">&para;</a></h3>
+<p>observe manager</p>
+<p><strong>Description</strong></p>
+<p>Control observers to listen session in the background.</p>
+<div class="highlight"><pre><span></span><code>obverse [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// List all observers
+observe -l
+
+// Remove observer
+observe -r
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -l, --list     list all observers
+  -r, --remove   remove observer
+</code></pre></div>
+<h3 id="session">session<a class="headerlink" href="#session" title="Permanent link">&para;</a></h3>
+<p>List and Choice sessions</p>
+<p><strong>Description</strong></p>
+<p>Display a table of active sessions on the server, 
+allowing you to navigate up and down to select a desired session. 
+Press the Enter key to use the selected session. 
+Use the -a or --all option to display all sessions, including those that have been disconnected.</p>
+<div class="highlight"><pre><span></span><code>session [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// List all active sessions
+session
+
+// List all sessions, including those that have been disconnected
+session -a
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -a, --all   show all sessions
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#session-group">session group</a>    - group session</li>
+<li><a href="#session-newbind">session newbind</a>    - new bind session</li>
+<li><a href="#session-note">session note</a>  - add note to session</li>
+<li><a href="#session-remove">session remove</a>  - remove session</li>
+</ul>
+<h4 id="session-group">session group<a class="headerlink" href="#session-group" title="Permanent link">&para;</a></h4>
+<p>group session</p>
+<p><strong>Description</strong></p>
+<p>Add a session to a group. If the group does not exist, it will be created.
+When using an active session, only provide the group name.</p>
+<div class="highlight"><pre><span></span><code>session group [group] [session]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Add a session to a group
+group newGroup 08d6c05a21512a79a1dfeb9d2a8f262f
+
+// Add a session to a group when using an active session
+group newGroup
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#session">session</a>    - List and Choice sessions</li>
+</ul>
+<h4 id="session-newbind">session newbind<a class="headerlink" href="#session-newbind" title="Permanent link">&para;</a></h4>
+<p>new bind session</p>
+<div class="highlight"><pre><span></span><code>session newbind [session] [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -n, --name string       session name
+      --pipeline string   pipeline id
+  -t, --target string     session target
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#session">session</a>    - List and Choice sessions</li>
+</ul>
+<h4 id="session-note">session note<a class="headerlink" href="#session-note" title="Permanent link">&para;</a></h4>
+<p>add note to session</p>
+<p><strong>Description</strong></p>
+<p>Add a note to a session. If a note already exists, it will be updated. 
+When using an active session, only provide the new note.</p>
+<div class="highlight"><pre><span></span><code>session note [note] [session]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Add a note to specified session
+note newNote 08d6c05a21512a79a1dfeb9d2a8f262f
+
+// Add a note when using an active session
+note newNote
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#session">session</a>    - List and Choice sessions</li>
+</ul>
+<h4 id="session-remove">session remove<a class="headerlink" href="#session-remove" title="Permanent link">&para;</a></h4>
+<p>remove session</p>
+<p><strong>Description</strong></p>
+<p>Remove a specified session.</p>
+<div class="highlight"><pre><span></span><code>session remove [session]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// remove a specified session
+remove 08d6c05a21512a79a1dfeb9d2a8f262f
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#session">session</a>    - List and Choice sessions</li>
+</ul>
+<h3 id="use">use<a class="headerlink" href="#use" title="Permanent link">&para;</a></h3>
+<p>Use session</p>
+<p><strong>Description</strong></p>
+<p>use</p>
+<div class="highlight"><pre><span></span><code>use [session]
+</code></pre></div>
+<h3 id="alias">alias<a class="headerlink" href="#alias" title="Permanent link">&para;</a></h3>
+<p>manage aliases</p>
+<p><strong>Description</strong></p>
+<p>Macros are using the sideload or spawndll commands under the hood, depending on the use case. </p>
+<p>For Linux and Mac OS, the sideload command will be used. On Windows, it will depend on whether the macro file is a reflective DLL or not. </p>
+<p>Load a macro: 
+<div class="highlight"><pre><span></span><code>load /tmp/chrome-dump 
+</code></pre></div></p>
+<p>Sliver macros have the following structure (example for the chrome-dump macro): </p>
+<p>chrome-dump 
+* chrome-dump.dll 
+* chrome-dump.so 
+* manifest.json</p>
+<p>It is a directory containing any number of files, with a mandatory manifest.json, that has the following structure: </p>
+<div class="highlight"><pre><span></span><code>{ 
+    &quot;macroName&quot;:&quot;chrome-dump&quot;, // name of the macro, can be anything
+    &quot;macroCommands&quot;:[ 
+        { 
+            &quot;name&quot;:&quot;chrome-dump&quot;, // name of the command available in the sliver client (no space)
+            &quot;entrypoint&quot;:&quot;ChromeDump&quot;, // entrypoint of the shared library to execute
+            &quot;help&quot;:&quot;Dump Google Chrome cookies&quot;, // short help message
+            &quot;allowArgs&quot;:false, // make it true if the commands require arguments
+            &quot;defaultArgs&quot;: &quot;test&quot;, // if you need to pass a default argument
+            &quot;extFiles&quot;:[ // list of files, groupped per target OS
+                { 
+                    &quot;os&quot;:&quot;windows&quot;, // Target OS for the following files. Values can be &quot;windows&quot;, &quot;linux&quot; or &quot;darwin&quot; 
+                    &quot;files&quot;:{ 
+                        &quot;x64&quot;:&quot;chrome-dump.dll&quot;, 
+                        &quot;x86&quot;:&quot;chrome-dump.x86.dll&quot; // only x86 and x64 arch are supported, path is relative to the macro directory
+                    } 
+                }, 
+                {
+                    &quot;os&quot;:&quot;linux&quot;, 
+                    &quot;files&quot;:{
+                        &quot;x64&quot;:&quot;chrome-dump.so&quot; 
+                    } 
+                }, 
+                {
+                    &quot;os&quot;:&quot;darwin&quot;, 
+                    &quot;files&quot;:{ 
+                        &quot;x64&quot;:&quot;chrome-dump.dylib&quot;
+                        } 
+                    } 
+                ], 
+            &quot;isReflective&quot;:false // only set to true when using a reflective DLL
+        } 
+    ] 
+} 
+</code></pre></div>
+<p>Each command will have the --process flag defined, which allows you to specify the process to inject into. The following default values are set:</p>
+<div class="highlight"><pre><span></span><code>- Windows: c:\windows\system32\notepad.exe 
+- Linux: /bin/bash 
+- Mac OS X: /Applications/Safari.app/Contents/MacOS/SafariForWebKitDevelopment
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>alias
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#alias-install">alias install</a>    - Install a command alias</li>
+<li><a href="#alias-list">alias list</a>  - List all aliases</li>
+<li><a href="#alias-load">alias load</a>  - Load a command alias</li>
+<li><a href="#alias-remove">alias remove</a>  - Remove an alias</li>
+</ul>
+<h4 id="alias-install">alias install<a class="headerlink" href="#alias-install" title="Permanent link">&para;</a></h4>
+<p>Install a command alias</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>alias install [alias_file]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Install a command alias
+alias install ./rubeus.exe
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#alias">alias</a>    - manage aliases</li>
+</ul>
+<h4 id="alias-list">alias list<a class="headerlink" href="#alias-list" title="Permanent link">&para;</a></h4>
+<p>List all aliases</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>alias list
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#alias">alias</a>    - manage aliases</li>
+</ul>
+<h4 id="alias-load">alias load<a class="headerlink" href="#alias-load" title="Permanent link">&para;</a></h4>
+<p>Load a command alias</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>alias load [alias]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Load a command alias
+alias load /tmp/chrome-dump
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#alias">alias</a>    - manage aliases</li>
+</ul>
+<h4 id="alias-remove">alias remove<a class="headerlink" href="#alias-remove" title="Permanent link">&para;</a></h4>
+<p>Remove an alias</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>alias remove [alias]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Remove an alias
+alias remove rubeus
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#alias">alias</a>    - manage aliases</li>
+</ul>
+<h3 id="extension">extension<a class="headerlink" href="#extension" title="Permanent link">&para;</a></h3>
+<p>Extension commands</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>extension
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#extension-install">extension install</a>    - Install an extension</li>
+<li><a href="#extension-list">extension list</a>  - List all extensions</li>
+<li><a href="#extension-load">extension load</a>  - Load an extension</li>
+<li><a href="#extension-remove">extension remove</a>  - Remove an extension</li>
+</ul>
+<h4 id="extension-install">extension install<a class="headerlink" href="#extension-install" title="Permanent link">&para;</a></h4>
+<p>Install an extension</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>extension install [extension_file]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Install an extension
+extension install ./credman.tar.gz
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#extension">extension</a>    - Extension commands</li>
+</ul>
+<h4 id="extension-list">extension list<a class="headerlink" href="#extension-list" title="Permanent link">&para;</a></h4>
+<p>List all extensions</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>extension list
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#extension">extension</a>    - Extension commands</li>
+</ul>
+<h4 id="extension-load">extension load<a class="headerlink" href="#extension-load" title="Permanent link">&para;</a></h4>
+<p>Load an extension</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>extension load [extension]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Load an extension
+extension load ./credman/
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#extension">extension</a>    - Extension commands</li>
+</ul>
+<h4 id="extension-remove">extension remove<a class="headerlink" href="#extension-remove" title="Permanent link">&para;</a></h4>
+<p>Remove an extension</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>extension remove [extension]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Remove an extension
+extension remove credman
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#extension">extension</a>    - Extension commands</li>
+</ul>
+<h3 id="armory">armory<a class="headerlink" href="#armory" title="Permanent link">&para;</a></h3>
+<p>Automatically download and install extensions/aliases</p>
+<p><img alt="armory" src="/IoM/assets/armory.gif" /></p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Armory">https://sliver.sh/docs?name=Armory</a></p>
+<div class="highlight"><pre><span></span><code>armory [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --bundle           install bundle
+  -c, --ignore-cache     ignore metadata cache, force refresh
+  -I, --insecure         skip tls certificate validation
+  -p, --proxy string     specify a proxy url (e.g. http://localhost:8080)
+  -t, --timeout string   download timeout
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#armory-install">armory install</a>  - Install a command armory</li>
+<li><a href="#armory-search">armory search</a>    - Search for armory packages</li>
+<li><a href="#armory-update">armory update</a>    - Update installed armory packages</li>
+</ul>
+<h4 id="armory-install">armory install<a class="headerlink" href="#armory-install" title="Permanent link">&para;</a></h4>
+<p>Install a command armory</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Armory">https://sliver.sh/docs?name=Armory</a></p>
+<div class="highlight"><pre><span></span><code>armory install [armory] [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Install a command armory
+armory install rubeus 
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -a, --armory string   name of the armory to install from (default &quot;Default&quot;)
+  -f, --force           force installation of package, overwriting the package if it exists
+</code></pre></div>
+<p><strong>Options inherited from parent commands</strong></p>
+<div class="highlight"><pre><span></span><code>  -c, --ignore-cache     ignore metadata cache, force refresh
+  -I, --insecure         skip tls certificate validation
+  -p, --proxy string     specify a proxy url (e.g. http://localhost:8080)
+  -t, --timeout string   download timeout
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#armory">armory</a>  - Automatically download and install extensions/aliases</li>
+</ul>
+<h4 id="armory-search">armory search<a class="headerlink" href="#armory-search" title="Permanent link">&para;</a></h4>
+<p>Search for armory packages</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Armory">https://sliver.sh/docs?name=Armory</a></p>
+<div class="highlight"><pre><span></span><code>armory search [armory]
+</code></pre></div>
+<p><strong>Options inherited from parent commands</strong></p>
+<div class="highlight"><pre><span></span><code>  -c, --ignore-cache     ignore metadata cache, force refresh
+  -I, --insecure         skip tls certificate validation
+  -p, --proxy string     specify a proxy url (e.g. http://localhost:8080)
+  -t, --timeout string   download timeout
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#armory">armory</a>  - Automatically download and install extensions/aliases</li>
+</ul>
+<h4 id="armory-update">armory update<a class="headerlink" href="#armory-update" title="Permanent link">&para;</a></h4>
+<p>Update installed armory packages</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Armory">https://sliver.sh/docs?name=Armory</a></p>
+<div class="highlight"><pre><span></span><code>armory update [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -a, --armory string   name of armory to install package from (default &quot;Default&quot;)
+</code></pre></div>
+<p><strong>Options inherited from parent commands</strong></p>
+<div class="highlight"><pre><span></span><code>  -c, --ignore-cache     ignore metadata cache, force refresh
+  -I, --insecure         skip tls certificate validation
+  -p, --proxy string     specify a proxy url (e.g. http://localhost:8080)
+  -t, --timeout string   download timeout
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#armory">armory</a>  - Automatically download and install extensions/aliases</li>
+</ul>
+<h3 id="mal">mal<a class="headerlink" href="#mal" title="Permanent link">&para;</a></h3>
+<p>mal commands</p>
+<div class="highlight"><pre><span></span><code>mal [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --ignore-cache     ignore cache
+      --insecure         insecure
+      --proxy string     proxy
+      --timeout string   timeout
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#mal-install">mal install</a>    - Install a mal manifest</li>
+<li><a href="#mal-list">mal list</a>  - List mal manifests</li>
+<li><a href="#mal-load">mal load</a>  - Load a mal manifest</li>
+<li><a href="#mal-refresh">mal refresh</a>    - Refresh mal manifests</li>
+<li><a href="#mal-remove">mal remove</a>  - Remove a mal manifest</li>
+</ul>
+<h4 id="mal-install">mal install<a class="headerlink" href="#mal-install" title="Permanent link">&para;</a></h4>
+<p>Install a mal manifest</p>
+<div class="highlight"><pre><span></span><code>mal install [mal_file]
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#mal">mal</a>    - mal commands</li>
+</ul>
+<h4 id="mal-list">mal list<a class="headerlink" href="#mal-list" title="Permanent link">&para;</a></h4>
+<p>List mal manifests</p>
+<div class="highlight"><pre><span></span><code>mal list
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#mal">mal</a>    - mal commands</li>
+</ul>
+<h4 id="mal-load">mal load<a class="headerlink" href="#mal-load" title="Permanent link">&para;</a></h4>
+<p>Load a mal manifest</p>
+<div class="highlight"><pre><span></span><code>mal load [mal]
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#mal">mal</a>    - mal commands</li>
+</ul>
+<h4 id="mal-refresh">mal refresh<a class="headerlink" href="#mal-refresh" title="Permanent link">&para;</a></h4>
+<p>Refresh mal manifests</p>
+<div class="highlight"><pre><span></span><code>mal refresh
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#mal">mal</a>    - mal commands</li>
+</ul>
+<h4 id="mal-remove">mal remove<a class="headerlink" href="#mal-remove" title="Permanent link">&para;</a></h4>
+<p>Remove a mal manifest</p>
+<div class="highlight"><pre><span></span><code>mal remove [mal]
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#mal">mal</a>    - mal commands</li>
+</ul>
+<h2 id="listener">listener<a class="headerlink" href="#listener" title="Permanent link">&para;</a></h2>
+<h3 id="bind">bind<a class="headerlink" href="#bind" title="Permanent link">&para;</a></h3>
+<p>Register a new bind pipeline and start it</p>
+<div class="highlight"><pre><span></span><code>bind [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<p>new bind pipeline
+<div class="highlight"><pre><span></span><code>bind listener
+</code></pre></div></p>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --listener string   listener id
+</code></pre></div>
+<h3 id="http">http<a class="headerlink" href="#http" title="Permanent link">&para;</a></h3>
+<p>Register a new HTTP pipeline and start it</p>
+<p><strong>Description</strong></p>
+<p>Register a new HTTP pipeline with the specified listener.</p>
+<div class="highlight"><pre><span></span><code>http [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Register an HTTP pipeline with the default settings
+http --listener http_default
+
+// Register an HTTP pipeline with custom headers and error page
+http --name http_test --listener http_default --host 192.168.0.43 --port 8080 --headers &quot;Content-Type=text/html&quot; --error-page /path/to/error.html
+
+// Register an HTTP pipeline with TLS enabled
+http --listener http_default --tls --cert_path /path/to/cert --key_path /path/to/key
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --beacon-pipeline string   beacon pipeline id
+      --cert string              tls cert path
+      --encryption-enable        whether to enable encryption
+      --encryption-key string    encryption key
+      --encryption-type string   encryption type
+      --error-page string        Path to custom error page file
+      --headers stringToString   HTTP response headers (key=value) (default [])
+      --host string              pipeline host, the default value is **0.0.0.0** (default &quot;0.0.0.0&quot;)
+      --ip string                external ip (default &quot;ip&quot;)
+      --key string               tls key path
+  -l, --listener string          listener id
+      --parser string            pipeline parser (default &quot;default&quot;)
+  -p, --port uint32              pipeline port, random port is selected from the range **10000-15000** 
+      --target strings           build target
+  -t, --tls                      enable tls
+</code></pre></div>
+<h3 id="job">job<a class="headerlink" href="#job" title="Permanent link">&para;</a></h3>
+<p>List jobs in server</p>
+<p><strong>Description</strong></p>
+<p>Use a table to list jobs on the server</p>
+<div class="highlight"><pre><span></span><code>job
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>job
+</code></pre></div>
+<h3 id="listener_1">listener<a class="headerlink" href="#listener_1" title="Permanent link">&para;</a></h3>
+<p>List listeners in server</p>
+<p><strong>Description</strong></p>
+<p>Use a table to list listeners on the server</p>
+<div class="highlight"><pre><span></span><code>listener
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>listener
+</code></pre></div>
+<h3 id="pipeline">pipeline<a class="headerlink" href="#pipeline" title="Permanent link">&para;</a></h3>
+<p>manage pipeline</p>
+<div class="highlight"><pre><span></span><code>pipeline
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#pipeline-delete">pipeline delete</a>    - Delete a pipeline</li>
+<li><a href="#pipeline-list">pipeline list</a>    - List pipelines in listener</li>
+<li><a href="#pipeline-start">pipeline start</a>  - Start a TCP pipeline</li>
+<li><a href="#pipeline-stop">pipeline stop</a>    - Stop a TCP pipeline</li>
+</ul>
+<h4 id="pipeline-delete">pipeline delete<a class="headerlink" href="#pipeline-delete" title="Permanent link">&para;</a></h4>
+<p>Delete a pipeline</p>
+<div class="highlight"><pre><span></span><code>pipeline delete
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#pipeline">pipeline</a>  - manage pipeline</li>
+</ul>
+<h4 id="pipeline-list">pipeline list<a class="headerlink" href="#pipeline-list" title="Permanent link">&para;</a></h4>
+<p>List pipelines in listener</p>
+<div class="highlight"><pre><span></span><code>pipeline list
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<p>list all pipelines
+<div class="highlight"><pre><span></span><code>pipeline list
+</code></pre></div></p>
+<p>list pipelines in listener
+<div class="highlight"><pre><span></span><code>pipeline list listener_id
+</code></pre></div></p>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#pipeline">pipeline</a>  - manage pipeline</li>
+</ul>
+<h4 id="pipeline-start">pipeline start<a class="headerlink" href="#pipeline-start" title="Permanent link">&para;</a></h4>
+<p>Start a TCP pipeline</p>
+<p><strong>Description</strong></p>
+<p>Start a TCP pipeline with the specified name and listener ID</p>
+<div class="highlight"><pre><span></span><code>pipeline start
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>tcp start tcp_test
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#pipeline">pipeline</a>  - manage pipeline</li>
+</ul>
+<h4 id="pipeline-stop">pipeline stop<a class="headerlink" href="#pipeline-stop" title="Permanent link">&para;</a></h4>
+<p>Stop a TCP pipeline</p>
+<p><strong>Description</strong></p>
+<p>Stop a TCP pipeline with the specified name and listener ID</p>
+<div class="highlight"><pre><span></span><code>pipeline stop
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>pipeline stop tcp_test
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#pipeline">pipeline</a>  - manage pipeline</li>
+</ul>
+<h3 id="rem">rem<a class="headerlink" href="#rem" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>rem
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>rem
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#rem-delete">rem delete</a>  - Delete a REM</li>
+<li><a href="#rem-list">rem list</a>  - List REMs in listener</li>
+<li><a href="#rem-new">rem new</a>    - Register a new REM and start it</li>
+<li><a href="#rem-start">rem start</a>    - Start a REM</li>
+<li><a href="#rem-stop">rem stop</a>  - Stop a REM</li>
+</ul>
+<h4 id="rem-delete">rem delete<a class="headerlink" href="#rem-delete" title="Permanent link">&para;</a></h4>
+<p>Delete a REM</p>
+<div class="highlight"><pre><span></span><code>rem delete
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>rem delete rem_test
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#rem">rem</a>    - </li>
+</ul>
+<h4 id="rem-list">rem list<a class="headerlink" href="#rem-list" title="Permanent link">&para;</a></h4>
+<p>List REMs in listener</p>
+<p><strong>Description</strong></p>
+<p>Use a table to list REMs along with their corresponding listeners</p>
+<div class="highlight"><pre><span></span><code>rem list [listener]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>rem
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#rem">rem</a>    - </li>
+</ul>
+<h4 id="rem-new">rem new<a class="headerlink" href="#rem-new" title="Permanent link">&para;</a></h4>
+<p>Register a new REM and start it</p>
+<p><strong>Description</strong></p>
+<p>Register a new REM with the specified listener.</p>
+<div class="highlight"><pre><span></span><code>rem new [name] [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Register a REM with the default settings
+rem new --listener listener_id
+
+// Register a REM with a custom name and console URL
+rem new --name rem_test --listener listener_id -c tcp://127.0.0.1:19966
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -c, --console string    REM console URL (default &quot;tcp://0.0.0.0&quot;)
+  -l, --listener string   listener id
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#rem">rem</a>    - </li>
+</ul>
+<h4 id="rem-start">rem start<a class="headerlink" href="#rem-start" title="Permanent link">&para;</a></h4>
+<p>Start a REM</p>
+<p><strong>Description</strong></p>
+<p>Start a REM with the specified name</p>
+<div class="highlight"><pre><span></span><code>rem start
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>rem start rem_test
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#rem">rem</a>    - </li>
+</ul>
+<h4 id="rem-stop">rem stop<a class="headerlink" href="#rem-stop" title="Permanent link">&para;</a></h4>
+<p>Stop a REM</p>
+<p><strong>Description</strong></p>
+<p>Stop a REM with the specified name</p>
+<div class="highlight"><pre><span></span><code>rem stop
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>rem stop rem_test
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#rem">rem</a>    - </li>
+</ul>
+<h3 id="tcp">tcp<a class="headerlink" href="#tcp" title="Permanent link">&para;</a></h3>
+<p>Register a new TCP pipeline and start it</p>
+<p><img alt="tcp" src="/IoM/assets/tcp.gif" /></p>
+<p><strong>Description</strong></p>
+<p>Register a new TCP pipeline with the specified listener.</p>
+<div class="highlight"><pre><span></span><code>tcp [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Register a TCP pipeline with the default settings
+tcp --listener tcp_default
+
+// Register a TCP pipeline with a custom name, host, and port
+tcp --name tcp_test --listener tcp_default --host 192.168.0.43 --port 5003
+
+// Register a TCP pipeline with TLS enabled and specify certificate and key paths
+tcp --listener tcp_default --tls --cert_path /path/to/cert --key_path /path/to/key
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --beacon-pipeline string   beacon pipeline id
+      --cert string              tls cert path
+      --encryption-enable        whether to enable encryption
+      --encryption-key string    encryption key
+      --encryption-type string   encryption type
+      --host string              pipeline host, the default value is **0.0.0.0** (default &quot;0.0.0.0&quot;)
+      --ip string                external ip (default &quot;ip&quot;)
+      --key string               tls key path
+  -l, --listener string          listener id
+      --parser string            pipeline parser (default &quot;default&quot;)
+  -p, --port uint32              pipeline port, random port is selected from the range **10000-15000** 
+      --target strings           build target
+  -t, --tls                      enable tls
+</code></pre></div>
+<h2 id="generator">generator<a class="headerlink" href="#generator" title="Permanent link">&para;</a></h2>
+<h3 id="artifact">artifact<a class="headerlink" href="#artifact" title="Permanent link">&para;</a></h3>
+<p>artifact manage</p>
+<p><strong>Description</strong></p>
+<p>Manage build output files on the server. Use the <strong>list</strong> command to view all available artifacts, <strong>download</strong> to retrieve a specific artifact, and <strong>upload</strong> to add a new artifact to the server.</p>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#artifact-delete">artifact delete</a>    - Delete a artifact file in the server</li>
+<li><a href="#artifact-download">artifact download</a>    - Download a build output file from the server</li>
+<li><a href="#artifact-list">artifact list</a>    - list build output file in server</li>
+<li><a href="#artifact-upload">artifact upload</a>    - Upload a build output file to the server</li>
+</ul>
+<h4 id="artifact-delete">artifact delete<a class="headerlink" href="#artifact-delete" title="Permanent link">&para;</a></h4>
+<p>Delete a artifact file in the server</p>
+<p><strong>Description</strong></p>
+<p>Delete a specify artifact in the server.</p>
+<div class="highlight"><pre><span></span><code>artifact delete  
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>artifact delete --name artifact_name
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#artifact">artifact</a>  - artifact manage</li>
+</ul>
+<h4 id="artifact-download">artifact download<a class="headerlink" href="#artifact-download" title="Permanent link">&para;</a></h4>
+<p>Download a build output file from the server</p>
+<p><strong>Description</strong></p>
+<p>Download a specific build output file from the server by specifying its unique artifact name.</p>
+<div class="highlight"><pre><span></span><code>artifact download [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<p>// Download a artifact
+    artifact download artifact_name</p>
+<p>// Download a artifact to specific path
+    artifact download artifact_name -o /path/to/output</p>
+<p>// Download a shellcode artifact by enabling the 'srdi' flag
+    artifact download artifact_name -s</p>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -o, --output string   output path
+  -s, --srdi            Set to true to download shellcode.
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#artifact">artifact</a>  - artifact manage</li>
+</ul>
+<h4 id="artifact-list">artifact list<a class="headerlink" href="#artifact-list" title="Permanent link">&para;</a></h4>
+<p>list build output file in server</p>
+<p><strong>Description</strong></p>
+<p>Retrieve a list of all build output files currently stored on the server.</p>
+<p>This command fetches metadata about artifacts, such as their names, IDs, and associated build configurations. The artifacts are displayed in a table format for easy navigation.</p>
+<div class="highlight"><pre><span></span><code>artifact list
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// List all available build artifacts on the server
+artifact list
+
+// Navigate the artifact table and press enter to download a specific artifact
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#artifact">artifact</a>  - artifact manage</li>
+</ul>
+<h4 id="artifact-upload">artifact upload<a class="headerlink" href="#artifact-upload" title="Permanent link">&para;</a></h4>
+<p>Upload a build output file to the server</p>
+<p><strong>Description</strong></p>
+<p>Upload a custom artifact to the server for storage or further use.</p>
+<div class="highlight"><pre><span></span><code>artifact upload [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Upload an artifact with default settings
+artifact upload /path/to/artifact
+
+// Upload an artifact with a specific stage and alias name
+artifact upload /path/to/artifact --stage production --name my_artifact
+
+// Upload an artifact and specify its type
+artifact upload /path/to/artifact --type DLL
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -n, --name string    alias name
+  -s, --stage string   Set stage
+  -t, --type string    Set type
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#artifact">artifact</a>  - artifact manage</li>
+</ul>
+<h3 id="build">build<a class="headerlink" href="#build" title="Permanent link">&para;</a></h3>
+<p>build</p>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#build-beacon">build beacon</a>  - Build a beacon</li>
+<li><a href="#build-bind">build bind</a>  - Build a bind payload</li>
+<li><a href="#build-log">build log</a>    - Show build log</li>
+<li><a href="#build-modules">build modules</a>    - Compile specified modules into DLLs</li>
+<li><a href="#build-prelude">build prelude</a>    - Build a prelude payload</li>
+<li><a href="#build-pulse">build pulse</a>    - stage 0 shellcode generate</li>
+</ul>
+<h4 id="build-beacon">build beacon<a class="headerlink" href="#build-beacon" title="Permanent link">&para;</a></h4>
+<p>Build a beacon</p>
+<p><strong>Description</strong></p>
+<p>Generate a beacon artifact based on the specified profile.</p>
+<div class="highlight"><pre><span></span><code>build beacon [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Build a beacon
+build beacon --target x86_64-unknown-linux-musl --profile beacon_profile
+
+// Build a beacon using additional modules
+build beacon --target x86_64-pc-windows-msvc --profile beacon_profile --modules full
+
+// Build a beacon using SRDI technology
+build beacon --target x86_64-pc-windows-msvc --profile beacon_profile --srdi
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -a, --address string    implant address
+      --ca string         custom ca file
+      --interval int      interval /second (default -1)
+      --jitter float      jitter (default -1)
+  -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
+      --profile string    profile name
+      --srdi              enable srdi (default true)
+      --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#build">build</a>    - build</li>
+</ul>
+<h4 id="build-bind">build bind<a class="headerlink" href="#build-bind" title="Permanent link">&para;</a></h4>
+<p>Build a bind payload</p>
+<p><strong>Description</strong></p>
+<p>Generate a bind payload that connects a client to the server.</p>
+<div class="highlight"><pre><span></span><code>build bind [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Build a bind payload
+build bind --target x86_64-pc-windows-msvc --profile bind_profile
+
+// Build a bind payload with additional modules
+build bind --target x86_64-unknown-linux-musl --profile bind_profile --modules base,sys_full
+
+// Build a bind payload with SRDI technology
+build bind --target x86_64-pc-windows-msvc --profile bind_profile --srdi
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -a, --address string    implant address
+      --ca string         custom ca file
+      --interval int      interval /second (default -1)
+      --jitter float      jitter (default -1)
+  -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
+      --profile string    profile name
+      --srdi              enable srdi (default true)
+      --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#build">build</a>    - build</li>
+</ul>
+<h4 id="build-log">build log<a class="headerlink" href="#build-log" title="Permanent link">&para;</a></h4>
+<p>Show build log</p>
+<p><strong>Description</strong></p>
+<p>Displays the log for the specified number of rows</p>
+<div class="highlight"><pre><span></span><code>build log [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>build log builder_name --limit 70
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --limit int   limit of rows (default 50)
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#build">build</a>    - build</li>
+</ul>
+<h4 id="build-modules">build modules<a class="headerlink" href="#build-modules" title="Permanent link">&para;</a></h4>
+<p>Compile specified modules into DLLs</p>
+<p><strong>Description</strong></p>
+<p>Compile the specified modules into DLL files for deployment or integration.</p>
+<div class="highlight"><pre><span></span><code>build modules [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Compile all modules for the Windows platform
+build modules --target x86_64-unknown-linux-musl --profile module_profile
+
+// Compile a predefined feature set of modules (nano)
+build modules --target x86_64-unknown-linux-musl --profile module_profile --modules nano
+
+// Compile specific modules into DLLs
+build modules --target x86_64-pc-windows-msvc --profile module_profile --modules base,execute_dll
+
+// Compile modules with srdi
+build modules --target x86_64-pc-windows-msvc --profile module_profile --srdi
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -a, --address string    implant address
+      --ca string         custom ca file
+      --interval int      interval /second (default -1)
+      --jitter float      jitter (default -1)
+  -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
+      --profile string    profile name
+      --srdi              enable srdi (default true)
+      --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#build">build</a>    - build</li>
+</ul>
+<h4 id="build-prelude">build prelude<a class="headerlink" href="#build-prelude" title="Permanent link">&para;</a></h4>
+<p>Build a prelude payload</p>
+<p><strong>Description</strong></p>
+<p>Generate a prelude payload as part of a multi-stage deployment.</p>
+<div class="highlight"><pre><span></span><code>build prelude [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<p><div class="highlight"><pre><span></span><code>    // Build a prelude payload
+    build prelude --target x86_64-unknown-linux-musl --profile prelude_profile --autorun /path/to/autorun.yaml
+
+    // Build a prelude payload with additional modules
+    build prelude --target x86_64-pc-windows-msvc --profile prelude_profile --autorun /path/to/autorun.yaml --modules base,sys_full
+
+    // Build a prelude payload with SRDI technology
+    build prelude --target x86_64-pc-windows-msvc --profile prelude_profile --autorun /path/to/autorun.yaml --srdi
+    ~~~
+
+**Options**
+
+```
+  -a, --address string    implant address
+      --autorun string    set autorun.yaml
+      --ca string         custom ca file
+      --interval int      interval /second (default -1)
+      --jitter float      jitter (default -1)
+  -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
+      --profile string    profile name
+      --srdi              enable srdi (default true)
+      --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
+```
+
+**SEE ALSO**
+
+* [build](#build)    - build
+
+#### build pulse
+stage 0 shellcode generate
+
+**Description**
+
+Generate &#39;pulse&#39; payload,a minimized shellcode template, corresponding to CS artifact, very suitable for loading by various loaders
+
+
+```
+build pulse [flags]
+```
+
+**Examples**
+</code></pre></div>
+// Build a pulse payload
+build pulse --target x86_64-unknown-linux-musl --profile pulse_profile</p>
+<p>// Build a pulse payload with additional modules
+build pulse --target x86_64-pc-windows-msvc --profile pulse_profile --modules base,sys_full</p>
+<p>// Build a pulse payload with SRDI technology
+build pulse --target x86_64-pc-windows-msvc --profile pulse_profile --srdi</p>
+<p>// Build a pulse payload by specifying artifact
+build pulse --target x86_64-pc-windows-msvc --profile pulse_profile --artifact-id 1
+<div class="highlight"><pre><span></span><code>**Options**
+
+```
+  -a, --address string       implant address
+      --artifact-id uint32   load remote shellcode build-id
+      --profile string       profile name
+      --srdi string          enable srdi
+      --target string        build target
+```
+
+**SEE ALSO**
+
+* [build](#build)    - build
+
+### profile
+compile profile 
+
+```
+profile
+```
+
+**SEE ALSO**
+
+* [profile delete](#profile-delete)  - Delete a compile profile in server
+* [profile list](#profile-list)  - List all compile profile
+* [profile load](#profile-load)  - Load exist implant profile
+* [profile new](#profile-new)    - Create new compile profile with default profile
+
+#### profile delete
+Delete a compile profile in server
+
+```
+profile delete
+```
+
+**Examples**
+</code></pre></div>
+profile delete --name profile_name
+<div class="highlight"><pre><span></span><code>**SEE ALSO**
+
+* [profile](#profile)    - compile profile 
+
+#### profile list
+List all compile profile
+
+```
+profile list
+```
+
+**Examples**
+</code></pre></div>
+// List all compile profiles
+profile list
+<div class="highlight"><pre><span></span><code>**SEE ALSO**
+
+* [profile](#profile)    - compile profile 
+
+#### profile load
+Load exist implant profile
+
+**Description**
+
+
+The **profile load** command requires a valid configuration file path (e.g., **config.yaml**) to load settings. This file specifies attributes necessary for generating the compile profile.
+
+
+```
+profile load [flags]
+```
+
+**Examples**
+</code></pre></div>
+// Create a new profile using network configuration in pipeline
+profile load /path/to/config.yaml --name my_profile --pipeline pipeline_name</p>
+<p>// Create a profile with specific modules
+profile load /path/to/config.yaml --name my_profile --modules base,sys_full --pipeline pipeline_name</p>
+<p>// Create a profile with custom interval and jitter
+profile load /path/to/config.yaml --name my_profile --interval 10 --jitter 0.3 --pipeline pipeline_name</p>
+<p>// Create a profile for pulse
+profile load /path/to/config.yaml --name my_profile --pipeline pipeline_name --pulse-pipeline pulse_pipeline_name
+<div class="highlight"><pre><span></span><code>**Options**
+
+```
+  -n, --name string             Overwrite profile name
+  -p, --pipeline string         Overwrite profile basic pipeline_id
+      --pulse-pipeline string   Overwrite profile pulse pipeline_id
+```
+
+**SEE ALSO**
+
+* [profile](#profile)    - compile profile 
+
+#### profile new
+Create new compile profile with default profile
+
+```
+profile new [flags]
+```
+
+**Examples**
+</code></pre></div>
+profile new --name my_profile --pipeline default_tcp
+~~~</p>
+<p><strong>Options</strong></p>
+<p><code>-n, --name string             Overwrite profile name
+  -p, --pipeline string         Overwrite profile basic pipeline_id
+      --pulse-pipeline string   Overwrite profile pulse pipeline_id</code></p>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#profile">profile</a>    - compile profile </li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 ChainReactors
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/chainreactors" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "toc.integrate", "toc.follo", "navigation.top", "header.autohide", "search.share", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>
