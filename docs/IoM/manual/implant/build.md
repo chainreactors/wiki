@@ -759,7 +759,7 @@ Options:
 ```bash
 malefic-mutant tool srdi -i ./beacon.exe
 
-malefic-mutant tool srdi -i ./beacon.exe -o x64 -o ./beacon.bin
+malefic-mutant tool srdi -i ./beacon.exe -a x64 -o ./beacon.bin
 
 malefic-mutant tool srdi -i ./beacon.dll  --function-name "main"
 ```
