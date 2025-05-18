@@ -211,6 +211,7 @@ mapping的v0.0.1版本主要关注外部攻击面, 第一批引入的工件有:
 例如RPA(机器人自动化流程), SOAR(安全编排与自动化响应), BAS(入侵和攻击模拟), CI/CD(持续集成/持续部署)等等领域. 这些领域都有着相同的内核, 即可编排性, 即对应用的自动化配置, 管理, 调度.
 
 同时也诞生了一些用于编排的现代化工作流引擎, 例如
+
 * [argo workflow](https://github.com/argoproj/argo-workflows)   https://github.com/leveryd-asm/asm 和 https://trickest.com/news/introducing-new-workflow-execution-engine/ 就是基于这个工作流引擎实现的任务编排, argo还提供了图形化拖拽实现的编排). 
 * [temporal](https://github.com/temporalio/temporal), 基于go实现的现代化工作流引擎, 性能应该是最好的之一
 * [prefect](https://github.com/PrefectHQ/prefect) 与python语法特性融合得比较好的工作流引擎. mapping就采用了这个, 但实际上没用到prefect多少本身的特性, ASM场景对于工作流引擎来说是比较特殊的, 许多特性需要自行实现. 
