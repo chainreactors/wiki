@@ -341,7 +341,7 @@ rem 的桥接通过 -d/--destination 实现
 ./rem -c [link]  -d internal -r :1234 -m proxy
 ```
   
-  ####  场景2 级联
+####  场景2 级联
 
 假设有内网服务器A，可出网， 能访问到公网服务器C； 有内网服务器B， 可以访问到内网服务器A，但不出网访问不到公网服务器C
 
@@ -365,7 +365,7 @@ rem 的桥接通过 -d/--destination 实现
 需要注意的是， rem的console的端口已经被转发到A上， 所以**需要修改address为A上转发后的端口， 其他参数保持不变**
 
 ```
-.\rem -c tcp://[A ip]:[port]/?wrapper=.......
+./rem -c tcp://[A ip]:[port]/?wrapper=.......
 ```
 
 !!! danger "场景2仅支持服务器B能访问到服务器A的情况下"
@@ -389,17 +389,17 @@ rem 的桥接通过 -d/--destination 实现
 服务器B启动 socks5代理
 
 ```
-.\rem.exe -m bind  -l socks5://:12345
+./rem -m bind  -l socks5://:12345
 ```
 
 服务器A通过outbound proxy 实现级联
 
 ```
-rem -c [link] -f socks5://remno1:0onmer@[B]:12345
+./rem -c [link] -f socks5://remno1:0onmer@[B]:12345
 ```
 
 !!! danger "服务器A与服务器B的通讯为明文的socks5"
-	可以通过rem代替socks作为代理服务器
+	可能存在被检测的风险。可以通过rem代替socks作为代理服务器
 
 ### 特殊场景
 
