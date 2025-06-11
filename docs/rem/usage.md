@@ -276,35 +276,139 @@ outbound proxy的flag为`-x` / `--proxy`
 ```
 
 proxyclient的配置请见: https://chainreactors.github.io/wiki/libs/proxyclient/
-### 级联
+### 多级网络
 
-user <-> console <-[网络隔离]-> client
+级联分为多个细分场景， 实际上是极为复杂的。 也收到了较多对级联比较迷惑的反馈。
 
-rem 的级联实现通过 -d/--destination 实现
+#### 场景1 桥接
+
+假设有内网服务器A，内网服务器B ， A与B位于不同的内网中， 有A与B都能访问到的服务器C
+
+目的是打通A与B的网络，这个场景有点类似Cobaltstrike的rportfwd_local， 需要将目标服务器的某端口转发到本地。 但是rem可以更进一步， 直接进行代理而不是端口转发。 
+
+我们通过服务器C作为桥， 打通A与B的内网。
+
+
+user -[单向访问]-> console <-[单向访问]- client
+
+rem 的桥接通过 -d/--destination 实现
 
 每个连接对都会有唯一 ID, 也可以使用 alias(通过-a/--alias 自定义)
 
-console 启动 rem
+服务器C 启动 rem
 
-`./rem`
+```
+./rem
+```
 
-client 连接到 console
+内网A 连接到 C
 
-`./rem -c [link] -a internal` , 如果不填 alias,则是系统分配的 ip:port
+如果不填 alias,则是自动分配的 ip:port
 
-user 通过 console 访问 client.
+```
+./rem -c [link] -a internal
+```
 
-`./rem -c [link]  -d internal` 将会在 client 监听一个 socks5 端口, 通过该端口可以直接访问到 user 所在的内网.
+内网B连接到 C
+
+将会在内网A监听一个 socks5 端口, 通过该端口可以直接访问到 A所在的内网. 
+
+```
+./rem -c [link]  -d internal
+``` 
 
 具体用法与非级联场景完全一致
 
-本地反向代理: `./rem -c [link] -d internal` 将在 user 监听 socks5 端口, 通过该端口可以直接访问到 client 所在的内网.
+**将在 A 监听 socks5 端口, 通过该端口可以直接访问到 B 所在的内网.**
 
-本地端口转发: `./rem -c [link] -d internal -l port://:12345 ` 将会将 client 的 12345 端口转发到 user 的随机生成的端口
+```
+./rem -c [link] -d internal
+```
 
-远程端口转发: `./rem -c [link]  -d internal -l :8888 -m proxy` 将会将 user 的 8888 端口转发到 client 的随机生成的端口
+**将在B 监听socks5端口， 通过该端口可以直接访问到A所在的内网**
+
+```
+./rem -c [link] -d internal -m proxy
+```
+
+**将 B 的 12345 端口转发到 A 的随机生成的端口**
+```
+./rem -c [link] -d internal -l port://:12345
+```
+
+**将会将 A 的 8888 端口转发到 B 的随机生成的端口**
+```
+./rem -c [link]  -d internal -r :1234 -m proxy
+```
+  
+  ####  场景2 级联
+
+假设有内网服务器A，可出网， 能访问到公网服务器C； 有内网服务器B， 可以访问到内网服务器A，但不出网访问不到公网服务器C
+
+如果想搭建一个多级的代理， 让C服务器上搭建的socks5服务能直通最内层的服务器B。 可以按照如下操作
+
+服务器C 启动 rem
+
+```
+./rem
+```
+
+服务器A上启动端口转发, 将C上的rem console的端口转发到本地的1234端口
+
+```
+./rem -c [link] -m proxy -r raw://:34996 -l port://:1234
+```
 
 
+在服务器B上搭建级联的反向代理
+
+需要注意的是， rem的console的端口已经被转发到A上， 所以**需要修改address为A上转发后的端口， 其他参数保持不变**
+
+```
+.\rem -c tcp://[A ip]:[port]/?wrapper=.......
+```
+
+!!! danger "场景2仅支持服务器B能访问到服务器A的情况下"
+	如果是服务器A能访问到更内层服务器B， 而B无法访问到位于网络边界的服务器A， 可以使用另一种方式
+
+
+#### 场景3 内网单向连通的级联
+
+
+假设有内网服务器A，可出网， 能访问到公网服务器C； 有内网服务器B， 可以访问到内网服务器A，但不出网访问不到公网服务器C。 **服务器A能访问到更内层服务器B， 而B无法访问到位于网络边界的服务器A**
+
+!!! tips "此思路也用于复现已存在的跨ACL代理实现级联"
+
+
+服务器C 启动 rem
+
+```
+./rem
+```
+
+服务器B启动 socks5代理
+
+```
+.\rem.exe -m bind  -l socks5://:12345
+```
+
+服务器A通过outbound proxy 实现级联
+
+```
+rem -c [link] -f socks5://remno1:0onmer@[B]:12345
+```
+
+!!! danger "服务器A与服务器B的通讯为明文的socks5"
+	可以通过rem代替socks作为代理服务器
+
+### 特殊场景
+
+todo
+### 内网代理出网
+
+### 白名单HOST出网
+
+### 特定业务出网
 ## Clash订阅
 
 默认情况下, 会自动自动打开clash订阅服务。 
