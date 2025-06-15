@@ -403,12 +403,70 @@ rem 的桥接通过 -d/--destination 实现
 
 ### 特殊场景
 
-todo
-### 内网代理出网
+#### 域前置
 
-### 白名单HOST出网
+域前置需要依赖阿里云、腾讯云、cloudflare等云服务提供商。 本质上并无不同， 我以cloudflare举例。
 
-### 特定业务出网
+**配置cloudflare**
+
+添加一个域名后， 添加一个示例的子域名 `rem` , IP 为rem 实际部署的服务器IP。
+
+![](assets/Pasted%20image%2020250615145125.png)
+
+**打开rem服务**
+
+因为rem的http是半双工模拟的双工信道， 存在性能上的问题。 我们可以使用websocket作为更加高效而稳定的双工信道。 
+
+!!! tips "rem默认release中不包含websocket信道， 需要自行编译"
+	可参考[编译文档](#build)
+	
+	`sh build.sh -t ws` 
+
+![](assets/Pasted%20image%2020250615145049.png)
+**配置nginx**
+
+我们通过nginx反向代理管理相关的rem的实际服务。
+
+```
+server {
+    listen 8080;
+
+    # 匹配所有路径，全部代理到 WebSocket
+    location / {
+        proxy_pass http://127.0.0.1:12355;  # 后端 WebSocket 服务地址
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+
+        # 长连接超时设置
+        proxy_read_timeout 3600s;
+        proxy_send_timeout 3600s;
+    }
+}
+```
+
+!!! tips "cloudflare默认的代理端口"
+	- 80
+	- 443
+	- 8080
+	- 8443
+	- ...
+
+**客户端连接**
+
+客户端修改host为域名，port为nginx上设置的端口
+
+![](assets/Pasted%20image%2020250615150938.png)
+
+!!! danger "国内云服务器注意备案问题"
+	国内云服务商会检测cloudflare的入站流量。 强制要求域名备案
+	![](assets/Pasted%20image%2020250615152542.png)
+#### 内网代理出网
+
+#### 白名单HOST出网
+
+#### 特定业务出网
 ## Clash订阅
 
 默认情况下, 会自动自动打开clash订阅服务。 
