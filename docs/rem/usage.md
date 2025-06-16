@@ -420,7 +420,7 @@ rem 的桥接通过 -d/--destination 实现
 !!! tips "rem默认release中不包含websocket信道， 需要自行编译"
 	可参考[编译文档](#build)
 	
-	`sh build.sh -t ws` 
+	`sh build.sh -t websocket` 
 
 ![](assets/Pasted%20image%2020250615145049.png)
 **配置nginx**
@@ -518,39 +518,98 @@ proxy-groups:
 可以通过`-sub http://0.0.0.0:12345/abcd` 指定clash订阅链接
 
 可以通过 `--no-sub` 关闭clash订阅
-## Build 
-
-自动发布的release中, 默认仅支持 tcp/udp的transport和socks4/socks5, http/https, port forward 的应用层协议。 
-
-因此虽然实现了很多协议， 但是其他协议需要手动启用.
-
-rem 提供了自动编译指定协议, 以及固定配置的编译脚本。
-
-https://github.com/chainreactors/rem-community/blob/master/build.sh
-
-参数: 
-
-- -o 指定架构 , `-o linux/amd64`
-- -t 指定传输层协议, `-t "tcp,udp,icmp"`
-- -a 指定应用层协议, `-a "socks,http,trojan,shadowsocks"`
-
-某些情况下, 我们希望预配置rem参数, 可以通过以下参数实现, 与rem原命令行一致
-
-当前支持
-
-- -m 
-- -c 
-- -r
-- -l 
-
-example:
-
-`sh build.sh -o "windows/amd64" -t "tcp,udp"`
-
-```
-sh build.sh -c [rem_link] 
-```
-
-```
-sh build.sh -t icmp -a socks5
-```
+## Build  
+  
+rem 提供了灵活的构建系统，支持多种构建模式和目标平台。  
+  
+### 快速开始  
+  
+```bash  
+# 编译默认版本（基础模块，多平台）  
+./build.sh  
+  
+# 编译完整版本（包含所有模块，多平台）  
+./build.sh --full  
+  
+# 编译自定义平台版本  
+./build.sh --full -o "windows/amd64,linux/amd64,darwin/amd64"  
+```  
+  
+### 构建参数  
+  
+#### 基础参数  
+- `-m MOD`: 设置默认模式  
+- `-c CONSOLE`: 设置默认控制台地址  
+- `-l LOCAL`: 设置默认本地地址  
+- `-r REMOTE`: 设置默认远程地址  
+- `-o OSARCH`: 指定目标平台，格式：`os/arch`，多个平台用逗号分隔（默认：`windows/amd64,windows/386,linux/amd64,linux/arm64,darwin/amd64,darwin/arm64`）  
+- `-a APPLICATION`: 指定应用模块，多个模块用逗号分隔  
+- `-t TRANSPORT`: 指定传输模块，多个模块用逗号分隔  
+- `-g`: 只生成配置文件，不进行编译  
+- `--full`: 使用完整模块配置  
+- `-buildmode MODE`: 指定构建模式  
+- `-h, --help`: 显示帮助信息  
+  
+#### 构建模式  
+- `exe`: 默认可执行文件（使用 gox 进行交叉编译，CGO_ENABLED=0）  
+- `c-shared`: 动态链接库（.dll/.so，CGO_ENABLED=1）  
+- `c-archive`: 静态链接库（.a，CGO_ENABLED=1）  
+  
+### 模块配置  
+  
+#### 默认模块  
+- **应用模块**: `http,raw,socks,portforward`  
+- **传输模块**: `tcp,udp`  
+  
+#### 完整模块（--full）  
+- **应用模块**: `http,raw,socks,portforward,shadowsocks,trojan`  
+- **传输模块**: `tcp,udp,websocket,unix,icmp,http,memory`  
+  
+### 使用场景  
+  
+#### 默认模式  
+  
+```bash  
+# 编译多平台版本用于开发调试  
+./build.sh  
+  
+# 只生成配置文件，检查模块配置  
+./build.sh --full -g  
+```  
+  
+#### 完整模式  
+  
+```bash  
+# 编译生产版本（完整功能，默认多平台）  
+./build.sh --full  
+  
+# 编译自定义平台生产版本  
+./build.sh --full -o "windows/amd64,linux/amd64,darwin/amd64"  
+```  
+  
+#### 自定义模块  
+  
+```bash  
+# 只编译 HTTP 和 SOCKS 代理功能  
+./build.sh -a "http,socks" -t "tcp,websocket"  
+  
+# 编译特定平台的自定义版本  
+./build.sh -a "http,socks" -t "tcp,udp" -o "linux/amd64"  
+```  
+  
+#### 库文件编译  
+  
+```bash  
+# 编译动态链接库  
+./build.sh --full -buildmode c-shared -o "windows/amd64,linux/amd64"  
+# 输出: dist/lib/rem_community_windows_amd64.dll, dist/lib/rem_community_linux_amd64.so  
+  
+# 编译静态链接库  
+./build.sh --full -buildmode c-archive -o "windows/amd64,linux/amd64"  
+# 输出: dist/lib/librem_community_windows_amd64.a, dist/lib/librem_community_linux_amd64.a  
+  
+# 编译本地平台库文件  
+./build.sh --full -buildmode c-shared  
+# 输出: dist/lib/rem_community_<local_os>_<local_arch>.<ext>  
+```  
+  

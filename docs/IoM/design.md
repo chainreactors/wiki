@@ -98,6 +98,12 @@ Internal of Malice(恶联网) 力图实现一套 post-exploit 基础设施, 在�
 
 但也发现了有几个实现非常成熟的, 从架构与设计上都非常优雅的框架. 也就是在背景中提到过的 sliver, havoc, mythic. 这三个框架的架构完全不同, 各有各的优缺点. 其中 sliver 是最年轻的框架, 其架构也是最符合现代设计理念的 C2 框架.
 
+核心的理念：
+
+- 彻底的解耦， implant在编译器可组装可动态加载
+- 穷尽极限的可拓展性， 将代码封装成高度模板化的，在client/server/implant都能快速添加新的功能，以及通过lua插件实现的动态拓展
+- OPSEC优先， 虽然开源与OPSEC冲突， 但是我们做了充分的OPSEC准备， 基于我们的高度解耦与可拓展性， 所有的功能都可以快速转换为OPSEC版本
+
 ### 通讯设计
 
 sliver 的 implant/client/server 都通过 go 实现, 并使用 grpc 作为其通讯协议.
