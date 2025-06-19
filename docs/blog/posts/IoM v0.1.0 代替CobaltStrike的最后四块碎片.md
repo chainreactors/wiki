@@ -197,7 +197,7 @@ AI给IoM的开发提供了非常巨大的帮助， 有不少模块的原型都�
 
 并且在设计早期， 我们就幻想过如何将AI应用到C2中， 之前一直没有特别好的方案， 而现在我们有了全新的工具和思路。
 
-刚才提到过我们的GUI基于vscode插件实现，而AI编程也很难离得开vscode， 如cursot、cline，trae，windsurf 等工具都离不开vscode。可以说vscode 大概率是未来AI编程的试验中心。 **IoM GUI在这个AI 驱动的自动化渗透领域中有先天的优势。** 
+刚才提到过我们的GUI基于vscode插件实现，而AI编程也很难离得开vscode， 如cursor、cline，trae，windsurf 等工具都离不开vscode。可以说vscode 大概率是未来AI编程的试验中心。 **IoM GUI在这个AI 驱动的自动化渗透领域中有先天的优势。**
 
 而这段时间内，出现了MCP协议， 作为AI与传统工具的桥梁， 让我们可以更快的打通其间的壁垒， 让我们不再需要自行实现一个agent框架，直接将知识和能力都暴露给AI， 让AI根据需求自行调用。 
 
