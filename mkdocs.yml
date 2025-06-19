@@ -106,6 +106,14 @@ nav:
             - build: IoM/manual/implant/build.md
             - modules: IoM/manual/implant/modules.md
             - malefic-win-kit: IoM/manual/implant/win_kit.md
+      - Changelog:
+        - index: IoM/changelog.md
+        - v0.0.2: blog/2024/09/23/IoM_v0.0.2/
+        - v0.0.3: blog/2024/11/20/IoM_v0.0.3/
+        - v0.0.4: blog/2025/01/02/IoM_v0.0.4/
+        - v0.1.0: blog/2025/04/14/IoM_v0.1.0/
+
+
   - gogo:
       - index: gogo/index.md
       - 入门: gogo/start.md
