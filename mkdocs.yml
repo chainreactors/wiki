@@ -3,7 +3,7 @@ site_description: chainreactors wiki
 site_author: M09ic
 site_url: https://wiki.chainreactors.red/wiki/
 repo_url: https://github.com/chainreactors/
-copyright: Copyright &copy; 2023 ChainReactors
+copyright: Copyright &copy; 2025 ChainReactors
 
 extra:
   social:
@@ -107,6 +107,7 @@ nav:
             - modules: IoM/manual/implant/modules.md
             - malefic-win-kit: IoM/manual/implant/win_kit.md
       - Changelog:
+        - v0.0.1: blog/2024/08/16/IoM_introduce/
         - v0.0.2: blog/2024/09/23/IoM_v0.0.2/
         - v0.0.3: blog/2024/11/20/IoM_v0.0.3/
         - v0.0.4: blog/2025/01/02/IoM_v0.0.4/

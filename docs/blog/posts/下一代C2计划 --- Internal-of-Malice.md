@@ -1,6 +1,7 @@
 ---
 date:
   created: 2024-08-16
+slug: IoM_introduce
 ---
 
 这里可以找到IoM的全部信息 https://chainreactors.github.io/wiki/IoM/
