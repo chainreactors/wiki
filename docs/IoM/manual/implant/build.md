@@ -32,7 +32,7 @@ git clone --recurse-submodules https://github.com/chainreactors/malefic
 ```
 
 !!! important "注意 clone 子项目"
-	需要添加`--recurse-submodules`递归克隆子项目. 如果已经 clone 也不必担心,`git submodule update --init` 即可
+	需要添加`--recurse-submodules`递归克隆子项目. 如果已经 clone 也不必担心,`git submodule update --init --recursive` 即可
 
 ### 下载 resources
 
@@ -49,13 +49,9 @@ community 的 resources 随着版本发布时的 release 发布: https://github.
 ## Docker 编译(推荐)
 
 !!! info "docker 自动化编译"
-	rust 很复杂，不通过交叉编译的方式几乎无法实现所有架构的适配，所以我们参考了[cross-rs/cross](https://github.com/cross-rs/cross)的方案，但是cross需要主机存在一个rust开发环境，并且导入了用户名等信息，编译环境不够干净，这并不完美的符合我们的需求：
-	
-	    1. cross需要宿主机存在一个rust开发环境，并会导入主机的一些信息(用户名等)，编译环境不够干净，当然这可以通过虚拟机、github action等方式解决
-	    2. cross对很多操作进行了封装，不够灵活，比如一些动态的变量引入、一些复杂的操作无法方便的实现
-	
-	    因此，我们参考了cross创建了用于维护malefic(即implant)编译的镜像仓库[chainreactors/cross-rust](https://github.com/chainreactors/cross-rust).
-	    这个项目暂时提供了一些主流架构的编译环境。
+	由于rust需要通过交叉编译实现所有架构的适配，cross[cross-rs/cross](https://github.com/cross-rs/cross)非常强大，但是它会导入一些用户名等信息作为映射，并且空间占用没有做到最小化: 
+	    因此，我们参考了cross的代码创建了用于维护malefic(即implant)编译的镜像仓库[chainreactors/cross-rust](https://github.com/chainreactors/cross-rust).
+	    这个项目暂时提供了一些主流架构的编译环境的Dockerfile。
 
 使用前需要先安装 docker
 
@@ -66,13 +62,11 @@ community 的 resources 随着版本发布时的 release 发布: https://github.
 可参考[官网介绍](https://www.docker.com/)
 
 ```bash
+# 国外安装请使用
 curl -fsSL https://get.docker.com | sudo bash -s docker
+# 国内安装请使用
+curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 ```
-
-??? info "国内安装 docker"
-	```bash
-	curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-	```
 
 目前已经支持的镜像:
 
@@ -86,9 +80,10 @@ curl -fsSL https://get.docker.com | sudo bash -s docker
 - ghcr.io/chainreactors/i686-unknown-linux-gnu:nightly-2023-09-18-latest
 - ghcr.io/chainreactors/x86_64-apple-darwin:nightly-2023-09-18-latest
 - ghcr.io/chainreactors/aarch64-apple-darwin:nightly-2023-09-18-latest
+- ...
 
-!!! tips "如果不了解原理, 请选择对应target的镜像"
-	ghcr.io/chainreactors/malefic-builder:v0.0.4 (包含x86_64/i686的windows-gnu、linux-musl以及x86_64/aarch64的darwin的target). 如果了解rust的编译操作, 可以使用这个镜像实现大多数编译场景
+!!! tips "镜像使用注意"
+	ghcr.io/chainreactors/malefic-builder:latest是一个包含了win/linux/mac常用target的镜像. 如果了解rust的编译操作, 可以使用这个镜像实现大多数编译。(具体target有i686-pc-windows-gnu,x86_64-pc-windows-gnu,x86_64-unknown-linux-musl,i686-unknown-linux-musl,x86_64-apple-darwin,aarch64-apple-darwin)
 
 ### 编译
 
@@ -100,10 +95,10 @@ curl -fsSL https://get.docker.com | sudo bash -s docker
 你可以通过一行命令执行 build
 ```bash
 # cd /user/path/malefic/
-docker run -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/malefic-builder:v0.0.4 make beacon target_triple="x86_64-unknown-linux-musl"
+docker run -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/malefic-builder:latest sh -c "malefic-mutant generate beacon && malefic-mutant build malefic --target x86_64-unknown-linux-musl"
 
-# 如果不想每次都下载依赖, 可以使用
-docker run -v "$(pwd):/root/src" -v "$(pwd)/cache/registry:/root/cargo/registry" -v "$(pwd)/cache/git:/root/cargo/git" --rm -it ghcr.io/chainreactors/malefic-builder:v0.0.4 make beacon target_triple="x86_64-unknown-linux-musl"
+# 如果不想每次都下载依赖, 可以把依赖进行本地的缓存，
+docker run -v "$(pwd):/root/src" -v "$(pwd)/cache/registry:/root/cargo/registry" -v "$(pwd)/cache/git:/root/cargo/git" --rm -it ghcr.io/chainreactors/malefic-builder:latest sh -c "malefic-mutant generate beacon && malefic-mutant build malefic --target x86_64-unknown-linux-musl"
 ```
 
 ## Github Action编译 (推荐)
@@ -340,7 +335,7 @@ malefic_mutant generate modules "execute_powershell execute_assembly"
 编译 modules
 
 ```bash
-cargo build --release --features "execute_powershell execute_assembly" -p malefic-modules --target x86_64-pc-windows-gnu
+malefic_mutant build modules --target x86_64-pc-windows-gnu
 ```
 
 !!! info "当前支持的 modules"
