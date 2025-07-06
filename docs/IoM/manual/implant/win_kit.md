@@ -1,5 +1,5 @@
 ---
-title: Internal of Malice · implant_win_kit
+title: Internet of Malice · implant_win_kit
 ---
 
 

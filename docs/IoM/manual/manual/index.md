@@ -1,5 +1,5 @@
 ---
-title: Internal of Malice · manual
+title: Internet of Malice · manual
 ---
 
 ## menu

@@ -1,5 +1,5 @@
 ---
-title: Internal of Malice ·  安装部署手册
+title: Internet of Malice ·  安装部署手册
 ---
 
 ## 安装

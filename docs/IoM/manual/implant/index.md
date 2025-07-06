@@ -1,5 +1,5 @@
 ---
-title: Internal of Malice · implant
+title: Internet of Malice · implant
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-title: Internal of Malice · 快速上手
+title: Internet of Malice · 快速上手
 ---
 
 IoM 是包含了一系列仓库的复杂工具链, 我们正在全力简化其使用上的困难。
