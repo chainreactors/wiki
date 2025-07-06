@@ -135,3 +135,9 @@ malice-network的[issues](https://github.com/chainreactors/malice-network/issues
 >
 
 
+**5. 数据收集与隐私声明**
+
+> 为了合规性要求，工具在运行过程中将遵循最小必要原则收集以下数据：
+> 
+> - **基础连接数据**：发起连接的源IP地址以及自动编译的implant元数据
+>     
