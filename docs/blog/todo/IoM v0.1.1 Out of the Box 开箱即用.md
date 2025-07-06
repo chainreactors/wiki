@@ -36,7 +36,10 @@
 
 我们发现了mal-community因为实现的过于匆忙， 导致bug较多，用户体验极差，实际使用者也寥寥无几。 为了弥补这一点， 我们决定在client中维护一个内置的mal 插件工具集， 这个工具集将被良好的维护以及持久更新， 但只会添加必要的功能，已防止client二进制文件体积膨胀。 
 
+![](Pasted%20image%2020250707015950.png)
+#### rem 
 
+原本的rem相关功能有很大一部分位于 mal-community的community-proxy下, 造成了极强的割裂感。 而现在我们将rem也移动到了embed mal中
 
 ### 证书管理
 
@@ -56,7 +59,7 @@
 
 ![](Pasted%20image%2020250630162746.png)
 
-### implant 其他更新
+### 其他更新
 
 
 - 新增swtich internal module
@@ -64,6 +67,8 @@
 - 修复darwin 编译报错
 - 特定操作系统下，随即数生成器失效的bug
 -  fix XOR cryptor not work
+- artifact download 支持十数种不同的格式
+- 
 
 
 ## End

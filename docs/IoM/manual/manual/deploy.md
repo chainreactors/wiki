@@ -19,15 +19,17 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 	- `ghcr.io`
 	- `docker.com`
 
-!!! important "配置代理"
-	对于国内服务器访问 github 容易超时且速度较慢, 建议配置环境变量中的 proxy
+!!! important "网络问题"
+	iom 项目 releases 中的文件仍然需要从 github 下载, 国内服务器访问 github 容易超时, 建议配置环境变量中的 proxy, 再执行上述操作
+	
+	可以映射本机的代理端口到 vps: ssh -R 1080:127.0.0.1:1080 root@vps.ip
+	
 	```
-	ssh -R 1080:127.0.0.1:1080 root@ip  , tricks: 可以映射本机的代理端口到vps
 	export http_proxy="http://127.0.0.1:1080"
 	export https_proxy="http://127.0.0.1:1080"
 	```
 
-
+	如果你的当前用户不是 root, 可以使用 sudo -E bash install.sh, 以保持环境变量生效
 
 运行脚本时，将通过交互命令行提供以下信息：
 
