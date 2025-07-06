@@ -6,7 +6,7 @@ slug: IoM_introduce
 
 这里可以找到IoM的全部信息 https://chainreactors.github.io/wiki/IoM/
 
-Internal of Malice(恶联网) 力图实现一套post-exploit基础设施, 在兼容CS,MSF,Sliver生态的同时, 提供更高的拓展性与隐蔽性, 并提供一套工程化的解决方案.
+Internet of Malice(恶联网) 力图实现一套post-exploit基础设施, 在兼容CS,MSF,Sliver生态的同时, 提供更高的拓展性与隐蔽性, 并提供一套工程化的解决方案.
 
 <!-- more -->
 ## 背景
@@ -133,7 +133,7 @@ IoM只是redboot计划的三个支线之一, 也是第一个发布的支线.  �
 ### Thread1 IoM
 [IoM](IoM) https://chainreactors.github.io/wiki/IoM/
 
-IoM(`Internal of Malice`) 的定位是下一代C2框架, 同样以高度模块化与可拓展性为核心设计理念. 基于这个理念去实现插件化的OPSEC, 插件化的社区生态, 插件化的一切.
+IoM(`Internet of Malice`) 的定位是下一代C2框架, 同样以高度模块化与可拓展性为核心设计理念. 基于这个理念去实现插件化的OPSEC, 插件化的社区生态, 插件化的一切.
 
 更重要的是, IoM将结合C2与webshell, 将同一套插件化的基建共享给完全不同的后渗透场景. 
 

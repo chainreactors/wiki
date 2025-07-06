@@ -1,5 +1,5 @@
 ---
-title: Internal of Malice · implant 编译
+title: Internet of Malice · implant 编译
 ---
 
 # Build

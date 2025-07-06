@@ -357,7 +357,7 @@ implant需要自行实现，我让ai生成了一段简单的代码
 
 ## 嵌入到rust implant中
 
-如果了解我们在开发的另一个项目 下一代进攻性基础设施---Internal of Malice 应该早已看到IoM的tunnel/proxy 相关功能都交由rem实现。 
+如果了解我们在开发的另一个项目 下一代进攻性基础设施---Internet of Malice 应该早已看到IoM的tunnel/proxy 相关功能都交由rem实现。 
 
 而rem是基于golang开发的， golang在这一块的生态完整度远超rust。 那么，该如何打通rem与IoM的交互呢？
 

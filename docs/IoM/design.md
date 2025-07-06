@@ -1,5 +1,5 @@
 ---
-title: Internal of Malice · 设计目标
+title: Internet of Malice · 设计目标
 ---
 
 *IoM的设计比其他工具更为复杂, 每个功能的设计都会编写独立的设计细节问题, 本文只提供设计目标与设计理念说明.*
@@ -58,7 +58,7 @@ nighthawk 与 cobaltstrike 都是闭源的工具, 他们虽然提供了各种接
 
 **进攻是最好的防御.**
 
-Internal of Malice(恶联网) 力图实现一套 post-exploit 基础设施, 在兼容 CS,MSF,Sliver 生态的同时, 提供更高的拓展性与隐蔽性, 并提供一套工程化的解决方案.
+Internet of Malice(恶联网) 力图实现一套 post-exploit 基础设施, 在兼容 CS,MSF,Sliver 生态的同时, 提供更高的拓展性与隐蔽性, 并提供一套工程化的解决方案.
 
 组件(WIP 为目前尚未实现的部分):
 

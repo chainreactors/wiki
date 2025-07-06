@@ -1,5 +1,5 @@
 ---
-title: Internal of Malice · 路线图
+title: Internet of Malice · 路线图
 ---
 
 ## 整体方向
