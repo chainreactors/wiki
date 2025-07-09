@@ -2,7 +2,7 @@
 title: Internet of Malice ·  安装部署手册
 ---
 
-## 安装
+## 安装部署
 
 一键安装脚本:
 
@@ -64,7 +64,6 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 		- `ghcr.io/chainreactors/aarch64-apple-darwin:nightly-2023-09-18-latest`
 	5. 配置并启动 Malice-Network 服务（基于 `systemd`）。
 
-## 部署
 
 
 
