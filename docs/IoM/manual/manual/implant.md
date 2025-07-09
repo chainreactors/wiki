@@ -1,4 +1,89 @@
 ## implant
+### info
+show session info
+
+**Description**
+
+Displays the specified session info.
+
+```
+info
+```
+
+### init
+init session
+
+```
+init
+```
+
+### ping
+get bind implant response
+
+```
+ping
+```
+
+### polling
+polling task status
+
+```
+polling [flags]
+```
+
+**Options**
+
+```
+      --interval int   interval (default 1)
+```
+
+### recover
+recover session
+
+```
+recover
+```
+
+### sleep
+change implant sleep config
+
+```
+sleep [interval/second] [flags]
+```
+
+**Options**
+
+```
+      --jitter float   jitter
+```
+
+### suicide
+kill implant
+
+```
+suicide
+```
+
+### switch
+switch session
+
+```
+switch
+```
+
+### wait
+wait for task to finish
+
+```
+wait [task_id1] [task_id2] [flags]
+```
+
+**Options**
+
+```
+      --interval int   interval (default 1)
+```
+
 ### cancel_task
 Cancel a task by task_id
 
@@ -1433,6 +1518,36 @@ Run a program as a different user:
       --username string   Username to run as
 ```
 
+### request
+Send HTTP request
+
+**Description**
+
+Send HTTP request to specified URL
+
+```
+request [url] [flags]
+```
+
+**Examples**
+
+~~~
+request http://example.com
+
+request -X POST -d "data" http://example.com
+
+request -H "Host: example.com" -H "User-Agent: custom" http://example.com
+~~~
+
+**Options**
+
+```
+  -d, --body string          request body
+  -H, --header stringArray   HTTP header (can be used multiple times)
+  -X, --method string        HTTP method (default "GET")
+  -t, --timeout int          request timeout in seconds (default 30)
+```
+
 ## file
 ### download
 Download file
@@ -1695,4 +1810,144 @@ Upload file to pipe:
 **SEE ALSO**
 
 * [pipe](#pipe)	 - Manage named pipes
+
+## pivot
+### portfwd
+Forward local port to remote target
+
+**Description**
+
+Forward local port to remote target through the implant
+
+```
+portfwd [pipeline] [flags]
+```
+
+**Examples**
+
+Forward local port to remote target:
+~~~
+forward pipeline1 --port 8080 --target 192.168.1.1:80
+~~~
+
+**Options**
+
+```
+  -p, --port string     Local port to listen on
+  -t, --target string   Remote target address (host:port)
+```
+
+### portfwd_local
+Forward local port to remote target
+
+```
+portfwd_local [pipeline] [agent] [flags]
+```
+
+**Options**
+
+```
+  -l, --local string   Local address to connect to (host:port)
+  -p, --port string    Local port to listen on
+```
+
+### proxy
+Create a proxy through the implant
+
+**Description**
+
+Create a proxy server through the implant with optional authentication
+
+```
+proxy [pipeline] [flags]
+```
+
+**Examples**
+
+Create a proxy server:
+~~~
+proxy pipeline1 --port 8080
+~~~
+
+**Options**
+
+```
+      --password string   Password for authentication (default "maliceofinternal")
+  -p, --port string       Local port to listen on
+      --protocol string   Inbound protocol (default "socks5")
+  -u, --username string   Username for authentication (default "maliceofinternal")
+```
+
+### rem_dial
+Run rem on the implant
+
+```
+rem_dial [pipeline] [args]
+```
+
+### reverse
+Reverse port forward from remote to local
+
+**Description**
+
+Create a reverse port forward from remote target to local through the implant
+
+```
+reverse [pipeline] [flags]
+```
+
+**Examples**
+
+Create reverse port forward:
+~~~
+reverse pipeline1 --port 12345
+~~~
+
+**Options**
+
+```
+      --password string   Password for authentication (default "maliceofinternal")
+  -p, --port string       Local port to listen on
+      --protocol string   Inbound protocol (default "socks5")
+  -u, --username string   Username for authentication (default "maliceofinternal")
+```
+
+### rportfwd
+Remote port forward through the implant
+
+**Description**
+
+Create a remote port forward through the implant to connect back to a local port
+
+```
+rportfwd [pipeline] [flags]
+```
+
+**Examples**
+
+Create remote port forward:
+~~~
+rportforward pipeline1 --port 8080 --remote 192.168.1.1:80
+~~~
+
+**Options**
+
+```
+  -p, --port string     Local port to listen on
+  -r, --remote string   implant's address to connect to (host:port)
+```
+
+### rportfwd_local
+Remote port forward through the implant to client
+
+```
+rportfwd_local [pipeline] [agent] [flags]
+```
+
+**Options**
+
+```
+  -p, --port string     Local port to listen on
+  -r, --remote string   implant's internal address to connect to (host:port)
+```
 
