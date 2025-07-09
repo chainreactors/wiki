@@ -418,24 +418,28 @@ Options:
 basic:  
   name: "malefic"  
   targets:  
-    - "127.0.0.1:5001"  
-  protocol: "tcp"  
-  tls: false  
-  proxy:  
+    - "127.0.0.1:8080"  
+  protocol: "http"  
+  tls:  
+    enable: true                    # 启用TLS  
+    version: "auto"                 # TLS版本: "auto", "1.2", "1.3"  
+    sni: "localhost"                # 服务器名称指示（SNI）  
+    skip_verification: true  
+  proxy:   
   interval: 5  
   jitter: 0.2  
-  ca:  
   encryption: aes  
   key: maliceofinternal  
   rem:  
     link:  
   http:  
     method: "POST"  
-    path: "/pulse"  
+    path: "/jquery.js"  
     host: "127.0.0.1"  
     version: "1.1"  
     headers:  
-      User-Agent: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0"
+      User-Agent: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0"  
+      Content-Type: "application/octet-stream"
 ```
 #### build 
 
@@ -444,55 +448,57 @@ mutant build 使用的配置
 !!! important "ollvm相关配置只支持在IoM提供的malefic-builder中使用"
 
 ```yaml
-build:
-  zigbuild: false
-  ollvm:
-    enable: false
-    bcfobf: false # Bogus Control Flow Obfuscation
-    splitobf: false # Split Control Flow Obfuscation
-    subobf: false # Instruction Substitution Obfuscation
-    fco: false # Function CallSite  Obfuscation
-    constenc: false # Constant Encryption Obfuscation
-```
-
-#### metadata
-
-基于resources实现的二进制文件基本信息配置
-    
-```yaml
-metadata:  
-  remap_path: "C:/Windows/Users/"  
-  icon: ""  
-  compile_time: "24 Jun 2015 18:03:01"  
-  file_version: ""  
-  product_version: ""  
-  company_name: ""  
-  product_name: ""  
-  original_filename: "normal.exe"  
-  file_description: "normal"  
-  internal_name: ""  
-  require_admin: false  # whether to require admin privilege  
-  require_uac: false    # whether to require uac privilege
+build:  
+  zigbuild: false  
+  remap: false # Force refresh remap-path-prefix configuration even if it already exists  
+  ollvm:  
+    enable: false  
+    bcfobf: false # Bogus Control Flow Obfuscation  
+    splitobf: false # Split Control Flow Obfuscation  
+    subobf: false # Instruction Substitution Obfuscation  
+    fco: false # Function CallSite  Obfuscation  
+    constenc: false # Constant Encryption Obfuscation  
+  metadata:  
+    remap_path: "C:/Windows/Users/"  
+    icon: ""  
+    compile_time: "24 Jun 2015 18:03:01"  
+    file_version: ""  
+    product_version: ""  
+    company_name: ""  
+    product_name: ""  
+    original_filename: "normal.exe"  
+    file_description: "normal"  
+    internal_name: ""  
+    require_admin: false  # whether to require admin privilege  
+    require_uac: false    # whether to require uac privilege
 ```
 
 #### implants
 关于implant功能性配置
 
 ```yaml
-implants:  
-  runtime: tokio          # async runtime: smol/tokio/async-std  
-  mod: beacon             # malefic mod: beacon/bind  
-  register_info: true     # whether collect sysinfo when register  
-  hot_load: true          # enable hot load module  
-  modules:                # module when malefic compile  
-    - "full"  
-  enable_3rd: false       # enable 3rd module  
-  3rd_modules:            # 3rd module when malefic compile  
-    - "full"  
-  autorun: ""             # autorun config filename  
-  pack:                   # pack  
-#    - src: "1.docx"  
-#      dst: "1.docs"
+implants:
+  runtime: tokio          # async runtime: smol/tokio/async-std
+  mod: beacon             # malefic mod: beacon/bind
+  register_info: true     # whether collect sysinfo when register
+  hot_load: true          # enable hot load module
+  modules:                # module when malefic compile
+    - "full"
+  enable_3rd: false       # enable 3rd module
+  3rd_modules:            # 3rd module when malefic compile
+    #    - curl
+    #    - rem_static
+    - full
+
+  autorun: ""             # autorun config filename
+  pack:                   # pack
+  #    - src: "1.docx"
+  #      dst: "1.docs"
+  flags:
+    start: 0x41
+    end: 0x42
+    magic: "beautiful"
+    artifact_id: 0x1
 ```
 
 #### autorun

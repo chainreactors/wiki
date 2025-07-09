@@ -26,10 +26,27 @@ exit client
 exit
 ```
 
+### license
+show server license info
+
+**Description**
+
+show server license info
+
+```
+license
+```
+
+**Examples**
+
+~~~
+license
+~~~
+
 ### login
 Login to server
 
-![login](/IoM/assets/login.gif)
+![login](/wiki/IoM/assets/login.gif)
 
 ```
 login
@@ -530,7 +547,7 @@ extension remove credman
 ### armory
 Automatically download and install extensions/aliases
 
-![armory](/IoM/assets/armory.gif)
+![armory](/wiki/IoM/assets/armory.gif)
 
 **Description**
 
@@ -677,7 +694,17 @@ mal [flags]
 Install a mal manifest
 
 ```
-mal install [mal_file]
+mal install [mal_file] [flags]
+```
+
+**Options**
+
+```
+      --ignore-cache     ignore cache
+      --insecure         insecure
+      --proxy string     proxy
+      --timeout string   timeout
+      --version string   mal version to install (default "latest")
 ```
 
 **SEE ALSO**
@@ -729,72 +756,6 @@ mal remove [mal]
 * [mal](#mal)	 - mal commands
 
 ## listener
-### bind
-Register a new bind pipeline and start it
-
-```
-bind [flags]
-```
-
-**Examples**
-
-
-new bind pipeline
-~~~
-bind listener
-~~~
-
-
-**Options**
-
-```
-      --listener string   listener id
-```
-
-### http
-Register a new HTTP pipeline and start it
-
-**Description**
-
-Register a new HTTP pipeline with the specified listener.
-
-```
-http [flags]
-```
-
-**Examples**
-
-~~~
-// Register an HTTP pipeline with the default settings
-http --listener http_default
-
-// Register an HTTP pipeline with custom headers and error page
-http --name http_test --listener http_default --host 192.168.0.43 --port 8080 --headers "Content-Type=text/html" --error-page /path/to/error.html
-
-// Register an HTTP pipeline with TLS enabled
-http --listener http_default --tls --cert_path /path/to/cert --key_path /path/to/key
-~~~
-
-**Options**
-
-```
-      --beacon-pipeline string   beacon pipeline id
-      --cert string              tls cert path
-      --encryption-enable        whether to enable encryption
-      --encryption-key string    encryption key
-      --encryption-type string   encryption type
-      --error-page string        Path to custom error page file
-      --headers stringToString   HTTP response headers (key=value) (default [])
-      --host string              pipeline host, the default value is **0.0.0.0** (default "0.0.0.0")
-      --ip string                external ip (default "ip")
-      --key string               tls key path
-  -l, --listener string          listener id
-      --parser string            pipeline parser (default "default")
-  -p, --port uint32              pipeline port, random port is selected from the range **10000-15000** 
-      --target strings           build target
-  -t, --tls                      enable tls
-```
-
 ### job
 List jobs in server
 
@@ -841,7 +802,7 @@ pipeline
 * [pipeline delete](#pipeline-delete)	 - Delete a pipeline
 * [pipeline list](#pipeline-list)	 - List pipelines in listener
 * [pipeline start](#pipeline-start)	 - Start a TCP pipeline
-* [pipeline stop](#pipeline-stop)	 - Stop a TCP pipeline
+* [pipeline stop](#pipeline-stop)	 - Stop pipeline
 
 #### pipeline delete
 Delete a pipeline
@@ -886,7 +847,7 @@ Start a TCP pipeline
 Start a TCP pipeline with the specified name and listener ID
 
 ```
-pipeline start
+pipeline start [flags]
 ```
 
 **Examples**
@@ -895,16 +856,22 @@ pipeline start
 tcp start tcp_test
 ~~~
 
+**Options**
+
+```
+      --cert-name string   certificate name
+```
+
 **SEE ALSO**
 
 * [pipeline](#pipeline)	 - manage pipeline
 
 #### pipeline stop
-Stop a TCP pipeline
+Stop pipeline
 
 **Description**
 
-Stop a TCP pipeline with the specified name and listener ID
+Stop pipeline with the specified name and listener ID
 
 ```
 pipeline stop
@@ -920,181 +887,6 @@ pipeline stop tcp_test
 
 * [pipeline](#pipeline)	 - manage pipeline
 
-### rem
-```
-rem
-```
-
-**Examples**
-
-~~~
-rem
-~~~
-
-**SEE ALSO**
-
-* [rem delete](#rem-delete)	 - Delete a REM
-* [rem list](#rem-list)	 - List REMs in listener
-* [rem new](#rem-new)	 - Register a new REM and start it
-* [rem start](#rem-start)	 - Start a REM
-* [rem stop](#rem-stop)	 - Stop a REM
-
-#### rem delete
-Delete a REM
-
-```
-rem delete
-```
-
-**Examples**
-
-~~~
-rem delete rem_test
-~~~
-
-**SEE ALSO**
-
-* [rem](#rem)	 - 
-
-#### rem list
-List REMs in listener
-
-**Description**
-
-Use a table to list REMs along with their corresponding listeners
-
-```
-rem list [listener]
-```
-
-**Examples**
-
-~~~
-rem
-~~~
-
-**SEE ALSO**
-
-* [rem](#rem)	 - 
-
-#### rem new
-Register a new REM and start it
-
-**Description**
-
-Register a new REM with the specified listener.
-
-```
-rem new [name] [flags]
-```
-
-**Examples**
-
-~~~
-// Register a REM with the default settings
-rem new --listener listener_id
-
-// Register a REM with a custom name and console URL
-rem new --name rem_test --listener listener_id -c tcp://127.0.0.1:19966
-~~~
-
-**Options**
-
-```
-  -c, --console string    REM console URL (default "tcp://0.0.0.0")
-  -l, --listener string   listener id
-```
-
-**SEE ALSO**
-
-* [rem](#rem)	 - 
-
-#### rem start
-Start a REM
-
-**Description**
-
-Start a REM with the specified name
-
-```
-rem start
-```
-
-**Examples**
-
-~~~
-rem start rem_test
-~~~
-
-**SEE ALSO**
-
-* [rem](#rem)	 - 
-
-#### rem stop
-Stop a REM
-
-**Description**
-
-Stop a REM with the specified name
-
-```
-rem stop
-```
-
-**Examples**
-
-~~~
-rem stop rem_test
-~~~
-
-**SEE ALSO**
-
-* [rem](#rem)	 - 
-
-### tcp
-Register a new TCP pipeline and start it
-
-![tcp](/IoM/assets/tcp.gif)
-
-**Description**
-
-Register a new TCP pipeline with the specified listener.
-
-```
-tcp [flags]
-```
-
-**Examples**
-
-~~~
-// Register a TCP pipeline with the default settings
-tcp --listener tcp_default
-
-// Register a TCP pipeline with a custom name, host, and port
-tcp --name tcp_test --listener tcp_default --host 192.168.0.43 --port 5003
-
-// Register a TCP pipeline with TLS enabled and specify certificate and key paths
-tcp --listener tcp_default --tls --cert_path /path/to/cert --key_path /path/to/key
-~~~
-
-**Options**
-
-```
-      --beacon-pipeline string   beacon pipeline id
-      --cert string              tls cert path
-      --encryption-enable        whether to enable encryption
-      --encryption-key string    encryption key
-      --encryption-type string   encryption type
-      --host string              pipeline host, the default value is **0.0.0.0** (default "0.0.0.0")
-      --ip string                external ip (default "ip")
-      --key string               tls key path
-  -l, --listener string          listener id
-      --parser string            pipeline parser (default "default")
-  -p, --port uint32              pipeline port, random port is selected from the range **10000-15000** 
-      --target strings           build target
-  -t, --tls                      enable tls
-```
-
 ## generator
 ### artifact
 artifact manage
@@ -1108,6 +900,7 @@ Manage build output files on the server. Use the **list** command to view all av
 * [artifact delete](#artifact-delete)	 - Delete a artifact file in the server
 * [artifact download](#artifact-download)	 - Download a build output file from the server
 * [artifact list](#artifact-list)	 - list build output file in server
+* [artifact show](#artifact-show)	 - show artifact info and profile
 * [artifact upload](#artifact-upload)	 - Upload a build output file to the server
 
 #### artifact delete
@@ -1156,15 +949,15 @@ artifact download [flags]
 // Download a artifact to specific path
 	artifact download artifact_name -o /path/to/output
 
-// Download a shellcode artifact by enabling the 'srdi' flag
-	artifact download artifact_name -s
+// Download an artifact in a specific format (e.g.raw, bin, golang source, C source, etc.)
+  	artifact download artifact_name --format raw
 
 
 **Options**
 
 ```
+  -f, --format string   the format of the artifact (default "executable")
   -o, --output string   output path
-  -s, --srdi            Set to true to download shellcode.
 ```
 
 **SEE ALSO**
@@ -1192,6 +985,31 @@ artifact list
 
 // Navigate the artifact table and press enter to download a specific artifact
 ~~~
+
+**SEE ALSO**
+
+* [artifact](#artifact)	 - artifact manage
+
+#### artifact show
+show artifact info and profile
+
+```
+artifact show [flags]
+```
+
+**Examples**
+
+~~~
+artifact show artifact_name
+
+artifact show artifact_name --profile
+~~~
+
+**Options**
+
+```
+      --profile   show profile
+```
 
 **SEE ALSO**
 
@@ -1226,9 +1044,8 @@ artifact upload /path/to/artifact --type DLL
 **Options**
 
 ```
-  -n, --name string    alias name
-  -s, --stage string   Set stage
-  -t, --type string    Set type
+  -n, --name string   alias name
+  -t, --type string   Set type
 ```
 
 **SEE ALSO**
@@ -1241,14 +1058,14 @@ build
 **SEE ALSO**
 
 * [build beacon](#build-beacon)	 - Build a beacon
-* [build bind](#build-bind)	 - Build a bind payload
 * [build log](#build-log)	 - Show build log
 * [build modules](#build-modules)	 - Compile specified modules into DLLs
-* [build prelude](#build-prelude)	 - Build a prelude payload
 * [build pulse](#build-pulse)	 - stage 0 shellcode generate
 
 #### build beacon
 Build a beacon
+
+![build beacon](/wiki/IoM/assets/build_beacon.png)
 
 **Description**
 
@@ -1268,64 +1085,31 @@ build beacon --target x86_64-unknown-linux-musl --profile beacon_profile
 // Build a beacon using additional modules
 build beacon --target x86_64-pc-windows-msvc --profile beacon_profile --modules full
 
-// Build a beacon using SRDI technology
-build beacon --target x86_64-pc-windows-msvc --profile beacon_profile --srdi
+// Build a beacon with rem
+build beacon --rem --target x86_64-pc-windows-msvc --profile beacon_profile
 
+// Build a beacon by saas
+build beacon --target x86_64-pc-windows-msvc --profile beacon_profile --source saas
 ~~~
 
 **Options**
 
 ```
-  -a, --address string    implant address
-      --ca string         custom ca file
-      --interval int      interval /second (default -1)
-      --jitter float      jitter (default -1)
-  -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
-      --profile string    profile name
-      --srdi              enable srdi (default true)
-      --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
-```
-
-**SEE ALSO**
-
-* [build](#build)	 - build
-
-#### build bind
-Build a bind payload
-
-**Description**
-
-Generate a bind payload that connects a client to the server.
-
-```
-build bind [flags]
-```
-
-**Examples**
-
-~~~
-// Build a bind payload
-build bind --target x86_64-pc-windows-msvc --profile bind_profile
-
-// Build a bind payload with additional modules
-build bind --target x86_64-unknown-linux-musl --profile bind_profile --modules base,sys_full
-
-// Build a bind payload with SRDI technology
-build bind --target x86_64-pc-windows-msvc --profile bind_profile --srdi
-
-~~~
-
-**Options**
-
-```
-  -a, --address string    implant address
-      --ca string         custom ca file
-      --interval int      interval /second (default -1)
-      --jitter float      jitter (default -1)
-  -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
-      --profile string    profile name
-      --srdi              enable srdi (default true)
-      --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
+      --address string        implant address target
+      --interval int          interval /second (default -1)
+      --jitter float          jitter (default -1)
+  -m, --modules string        Set modules e.g.: execute_exe,execute_dll
+      --owner string          github owner
+      --profile string        profile name
+      --proxy string          Overwrite proxy
+      --relink uint32         relink pulse id
+      --rem                   static link to rem
+      --remove                remove workflow
+      --repo string           github repo
+      --source string         build source, docker, action, saas
+      --target string         build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
+      --token string          github token
+      --workflowFile string   github workflow file
 ```
 
 **SEE ALSO**
@@ -1347,7 +1131,7 @@ build log [flags]
 
 
 ~~~
-build log builder_name --limit 70
+build log artifact_name --limit 70
 ~~~
 
 
@@ -1385,64 +1169,26 @@ build modules --target x86_64-unknown-linux-musl --profile module_profile --modu
 // Compile specific modules into DLLs
 build modules --target x86_64-pc-windows-msvc --profile module_profile --modules base,execute_dll
 
-// Compile modules with srdi
-build modules --target x86_64-pc-windows-msvc --profile module_profile --srdi
+// Compile third party module(curl, rem)
+build modules --3rd rem --target x86_64-pc-windows-msvc --profile module_profile
+
+// Compile module by saas
+build modules --target x86_64-pc-windows-msvc --profile module_profile --source saas
 ~~~
 
 **Options**
 
 ```
-  -a, --address string    implant address
-      --ca string         custom ca file
-      --interval int      interval /second (default -1)
-      --jitter float      jitter (default -1)
-  -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
-      --profile string    profile name
-      --srdi              enable srdi (default true)
-      --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
-```
-
-**SEE ALSO**
-
-* [build](#build)	 - build
-
-#### build prelude
-Build a prelude payload
-
-**Description**
-
-Generate a prelude payload as part of a multi-stage deployment.
-	
-
-```
-build prelude [flags]
-```
-
-**Examples**
-
-~~~
-	// Build a prelude payload
-	build prelude --target x86_64-unknown-linux-musl --profile prelude_profile --autorun /path/to/autorun.yaml
-	
-	// Build a prelude payload with additional modules
-	build prelude --target x86_64-pc-windows-msvc --profile prelude_profile --autorun /path/to/autorun.yaml --modules base,sys_full
-	
-	// Build a prelude payload with SRDI technology
-	build prelude --target x86_64-pc-windows-msvc --profile prelude_profile --autorun /path/to/autorun.yaml --srdi
-	~~~
-
-**Options**
-
-```
-  -a, --address string    implant address
-      --autorun string    set autorun.yaml
-      --ca string         custom ca file
-      --interval int      interval /second (default -1)
-      --jitter float      jitter (default -1)
-  -m, --modules strings   Set modules e.g.: execute_exe,execute_dll
-      --profile string    profile name
-      --srdi              enable srdi (default true)
-      --target string     build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
+      --3rd string            build 3rd-party modules
+  -m, --modules string        Set modules e.g.: execute_exe,execute_dll
+      --owner string          github owner
+      --profile string        profile name
+      --remove                remove workflow
+      --repo string           github repo
+      --source string         build source, docker, action, saas
+      --target string         build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
+      --token string          github token
+      --workflowFile string   github workflow file
 ```
 
 **SEE ALSO**
@@ -1451,6 +1197,8 @@ build prelude [flags]
 
 #### build pulse
 stage 0 shellcode generate
+
+![build pulse](/wiki/IoM/assets/build_pulse.png)
 
 **Description**
 
@@ -1468,12 +1216,6 @@ build pulse [flags]
 // Build a pulse payload
 build pulse --target x86_64-unknown-linux-musl --profile pulse_profile
 
-// Build a pulse payload with additional modules
-build pulse --target x86_64-pc-windows-msvc --profile pulse_profile --modules base,sys_full
-	
-// Build a pulse payload with SRDI technology
-build pulse --target x86_64-pc-windows-msvc --profile pulse_profile --srdi
-
 // Build a pulse payload by specifying artifact
 build pulse --target x86_64-pc-windows-msvc --profile pulse_profile --artifact-id 1
 ~~~
@@ -1482,11 +1224,16 @@ build pulse --target x86_64-pc-windows-msvc --profile pulse_profile --artifact-i
 **Options**
 
 ```
-  -a, --address string       implant address
-      --artifact-id uint32   load remote shellcode build-id
-      --profile string       profile name
-      --srdi string          enable srdi
-      --target string        build target
+      --address string        implant address target
+      --artifact-id uint32    load remote shellcode build-id
+      --owner string          github owner
+      --profile string        profile name
+      --remove                remove workflow
+      --repo string           github repo
+      --source string         build source, docker, action, saas
+      --target string         build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
+      --token string          github token
+      --workflowFile string   github workflow file
 ```
 
 **SEE ALSO**
@@ -1518,7 +1265,7 @@ profile delete
 
 
 ~~~
-profile delete --name profile_name
+profile delete profile_name
 ~~~
 
 
@@ -1570,15 +1317,15 @@ profile load /path/to/config.yaml --name my_profile --modules base,sys_full --pi
 profile load /path/to/config.yaml --name my_profile --interval 10 --jitter 0.3 --pipeline pipeline_name
 
 // Create a profile for pulse
-profile load /path/to/config.yaml --name my_profile --pipeline pipeline_name --pulse-pipeline pulse_pipeline_name
+profile load /path/to/config.yaml --name my_profile --pipeline pipeline_name
 ~~~
 
 **Options**
 
 ```
-  -n, --name string             Overwrite profile name
-  -p, --pipeline string         Overwrite profile basic pipeline_id
-      --pulse-pipeline string   Overwrite profile pulse pipeline_id
+  -n, --name string       Overwrite profile name
+  -p, --pipeline string   Overwrite profile basic pipeline_id
+      --rem string        rem pipeline id
 ```
 
 **SEE ALSO**
@@ -1603,9 +1350,9 @@ profile new --name my_profile --pipeline default_tcp
 **Options**
 
 ```
-  -n, --name string             Overwrite profile name
-  -p, --pipeline string         Overwrite profile basic pipeline_id
-      --pulse-pipeline string   Overwrite profile pulse pipeline_id
+  -n, --name string       Overwrite profile name
+  -p, --pipeline string   Overwrite profile basic pipeline_id
+      --rem string        rem pipeline id
 ```
 
 **SEE ALSO**
