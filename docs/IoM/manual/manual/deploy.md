@@ -40,7 +40,7 @@ server:
 		url:
   github:           # github action build 配置
     repo: malefic  
-    workflow: generate.yml  
+    workflow: generate.yaml  
     owner:  
     token:  
   
@@ -67,9 +67,6 @@ listeners:          # listener 配置, 可独立生效
       enable: true  
       tls:          # tls配置, 按照配置生成证书或者使用已有的证书文件
         enable: true  
-        name: default
-        # 开启自签名
-	  	auto_cert: true
         # 自签名证书
         CN: "test"  
         O: "Sharp Depth"  
@@ -77,7 +74,6 @@ listeners:          # listener 配置, 可独立生效
         L: "Houston"  
         OU: "Persistent Housework, Limited"  
         ST: "State of Texas"  
-        validity: "365"
         # 自定义证书  
         cert_file: ""  
         key_file: ""  
@@ -97,9 +93,6 @@ listeners:          # listener 配置, 可独立生效
       parser: malefic  # auto/malefic/pulse
       tls:  
         enable: tls  
-        name: default
-        # 开启自签名
-	  	auto_cert: true
         # 填写如下选项会进行替换 
         CN: "test"  
         O: "Sharp Depth"  
@@ -107,7 +100,6 @@ listeners:          # listener 配置, 可独立生效
         L: "Houston"  
         OU: "Persistent Housework, Limited"  
         ST: "State of Texas"  
-        validity: "365"
     	#   
         cert_file: ""  
         key_file: ""  
@@ -171,14 +163,12 @@ tcp 是目前支持了最多特性的 pipeline.
       enable: true        # pipeline是否开启
       tls:                # tls配置项,留空则自动生成
         enable: false
-        name: default
         CN: "test"
         O: "Sharp Depth"
         C: "US"
         L: "Houston"
         OU: "Persistent Housework, Limited"
         ST: "State of Texas"
-        validity: "365"
 		cert_file: ""
 		key_file: ""
 		ca_file: ""
@@ -312,7 +302,6 @@ listeners:
         L: "Houston"
         OU: "Persistent Housework, Limited"
         ST: "State of Texas"
-        validity: "365"
       encryption:
         enable: false
         type: aes-cfb
