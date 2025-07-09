@@ -14,10 +14,10 @@ slug: IoM_v0.1.1
 
 从v0.1.1开始， IoM的implant编译部分不再具有任何门槛， 只需要允许单个二进制文件即可使用， 不再需要依赖docker，以及安装脚本
 
-
+---
 ## 新特性
 
-### saas build & auto build
+### build 开箱即用
 
 我们也进行了大量的测试和实战， 接收到了一定的反馈。目前IoM最大的上手难度还是rust编译部分。即使我们提供了一行命令即可试用的docker自动化编译以及github action自动化编译， 比起Cobaltstrike这样的通过patch生成beacon还是不够直接。
 
@@ -26,7 +26,7 @@ slug: IoM_v0.1.1
 !!! danger "使用自动化编译服务即视为同意[用户协议](https://wiki.chainreactors.red/IoM/#_4)"
 
 
-```
+```yaml
 saas:  
   enable: true  
   url: http://build.chainreactors.red  
@@ -55,20 +55,7 @@ listeners:
 
 我们极大的简化了原本`安装docker/github action -> new profile -> build` 的流程， 现在只需要运行server的二进制文件， 即可直接使用
 
-### profile/build/artifact 命令组重构
-
-- artifact download 支持--format, 支持十数种不同的格式
-- artifact自动挂载到website, 通过自定义密钥映射目录
-- 新增artifact show 命令， 展示artifact 基本信息
-- 简化client build 命令组
-- build module 新增--3rd， 允许编译3rd modules
-- build beacon 新增 --rem， 静态链接rem
-- build beacon 实装 --proxy命令
-- build beacon 新增 --tls 命令， 开启tls
-- ......
-
-profile/build/artifact 经过多次优化用户体验，并结合自动化编译， 现在已经能让完全不懂的用户也能做到开箱即用。 
-### embed mal
+### mal 开箱即用
 
 
 我们发现了mal-community因为实现的过于匆忙， 导致bug较多，用户体验极差，实际使用者也寥寥无几。 并且需要通过mal install进行手动安装。 而v0.1.1 中， 我们将最常用的插件嵌入到client中，实现**开箱即用**。
@@ -76,7 +63,7 @@ profile/build/artifact 经过多次优化用户体验，并结合自动化编译
 
  我们在client中维护一个内置的mal 插件工具集， 这个工具集将被良好的维护以及持久更新， 但只会添加必要的功能，已防止client二进制文件体积过度膨胀。 
 
-![](Pasted%20image%2020250710001021.png)
+![](assets/Pasted%20image%2020250710001021.png)
 
 ### rem 开箱即用
 
@@ -99,6 +86,20 @@ rem_community socks5 rem_pipeline
 ```
 build beacon --profile beacon_profile --target x86_64-pc-windows-gnu --rem
 ```
+### profile/build/artifact 命令组重构
+
+- artifact download 支持--format, 支持十数种不同的格式
+- artifact自动挂载到website, 通过自定义密钥映射目录
+- 新增artifact show 命令， 展示artifact 基本信息
+- 简化client build 命令组
+- build module 新增--3rd， 允许编译3rd modules
+- build beacon 新增 --rem， 静态链接rem
+- build beacon 实装 --proxy命令
+- build beacon 新增 --tls 命令， 开启tls
+- ......
+
+profile/build/artifact 经过多次优化用户体验，并结合自动化编译， 现在已经能让完全不懂的用户也能做到开箱即用。 
+
 ### 证书管理
 
 目前IoM的tls相关功能被使用较少， 主要原因是tls使用较为复杂， 需要手动申请证书，通过多个flag进行配置。 为此， 我们优化了这个流程， 大大简化了证书自动申请， 证书配置，自签名证书相关操作。
@@ -130,17 +131,23 @@ implant上的transport进行了完全的重构， 从接口到实现都与之前
 
 在此之前，一个端口只支持一种加密方式，一种协议，tls开/关。 而新增， 可以同时配置多种协议， 多种加密方式，TLS自动识别。 
 
-也就是说， 之前需要6个端口实现的工作， 现在通过多路复用技术在一个端口中实现。
+也就是说， **之前需要6个端口实现的工作， 现在通过多路复用在一个端口中实现。**
 
 配置对比， 左边是新版的， 配置参数已经极大简化
 
-![](Pasted%20image%2020250710002022.png)
+![](assets/Pasted%20image%2020250710002022.png)
+
+
+并且artifact与website有了类似CobaltStrike的web delivery 的联动
+
+![](assets/Pasted%20image%2020250710022726.png)
+
 
 ### implant anti sandbox
 
 我们实现一组简单的反沙箱的检测机制，技术来自 https://github.com/ayoubfaouzi/al-khaser 。 我们使用rust进行了简单的修改与实现。 这个检测机制非常简单， 实际上也不具备对抗效果。 目的是提供反沙箱的相关接口， 以供后续定制化开发
 
-![](Pasted%20image%2020250630162746.png)
+![](assets/Pasted%20image%2020250630162746.png)
 
 ### 其他更新
 
@@ -157,5 +164,5 @@ implant上的transport进行了完全的重构， 从接口到实现都与之前
 
 ## End
 
-从v0.1.1 开始， 我们可以丢掉安装脚本， 只需要server和client两个二进制文件， 即可在任意位置使用IoM，不再有复杂的环境安装，rust编译操作。 对绝大多数轻度用户不会带来任何的负担， **能做到接近CobaltStrike/vshell级别的开箱即用**。 
+从v0.1.1 开始， 我们可以丢掉安装脚本， 丢掉编译环境， 只需要server和client两个二进制文件， 即可在任意位置使用IoM，不再有复杂的环境安装，rust编译操作。 对绝大多数轻度用户不会带来任何的负担， **能做到接近CobaltStrike/vshell级别的开箱即用**。 
 
