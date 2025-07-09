@@ -84,7 +84,6 @@ nav:
         - index: IoM/manual/usage/index.md
         - REM: IoM/manual/usage/rem.md
         - build&artifact&pipeline: IoM/manual/usage/build.md
-        - cert: IoM/manual/usage/cert.md
         - mal: IoM/manual/mal/quickstart.md
         - advance:
             - DumpLSASS: IoM/manual/usage/DumpLSASS.md
