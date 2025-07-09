@@ -128,7 +128,7 @@ cargo build --release -p malefic
 
 debug 模式下的日志。 可以看到IoM的implant基于通过rem的构建的传输层进行通讯
 
-![](76cd7db07e9cb196183a759c85ae396.png)
+![](/IoM/assets/76cd7db07e9cb196183a759c85ae396.png)
 
 
 这样一来， rem支持的所有传输层，加密，伪装混淆都能复用到implant中， 实现流量侧的任意伪装。

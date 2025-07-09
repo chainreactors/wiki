@@ -83,8 +83,9 @@ nav:
       - Usage: 
         - index: IoM/manual/usage/index.md
         - REM: IoM/manual/usage/rem.md
-        - build & artifact: IoM/manual/usage/build.md
+        - build&artifact&pipeline: IoM/manual/usage/build.md
         - cert: IoM/manual/usage/cert.md
+        - mal: IoM/manual/mal/quickstart.md
         - advance:
             - DumpLSASS: IoM/manual/usage/DumpLSASS.md
             - DomainFronting: IoM/manual/usage/DomainFronting.md
@@ -99,7 +100,7 @@ nav:
         #   - 二次开发: IoM/manual/manual/develop.md
         - mals插件生态:
             - index: IoM/manual/mal/index.md
-            - quickstart: IoM/manual/mal/quickstart.md
+            - embed: IoM/manual/mal/embed.md
             - lua:
                 - builtin: IoM/manual/mal/builtin.md
                 - beacon: IoM/manual/mal/beacon.md
