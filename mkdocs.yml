@@ -82,10 +82,12 @@ nav:
       - RoadMap: IoM/roadmap.md
       - Usage: 
         - index: IoM/manual/usage/index.md
-        - DumpLSASS: IoM/manual/usage/DumpLSASS.md
         - REM: IoM/manual/usage/rem.md
-        - build: IoM/manual/usage/build.md
+        - build & artifact: IoM/manual/usage/build.md
         - cert: IoM/manual/usage/cert.md
+        - advance:
+            - DumpLSASS: IoM/manual/usage/DumpLSASS.md
+            - DomainFronting: IoM/manual/usage/DomainFronting.md
       - Manual:
         - index: IoM/manual/index.md
         - client/server:
