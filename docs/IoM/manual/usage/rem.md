@@ -1,5 +1,5 @@
 
-## 嵌入到rust implant中
+## 使用rem实现网络相关功能
 
 在IoM的v0.1.0中集成了一系列rem相关的功能. IoM通过三种方式打通implant与rem的交互。
 
@@ -25,37 +25,17 @@ execute_shellcode rem.exe -- -c [rem_link] ...
 	- 与pipeline交互有延迟， 需要等待30-60秒才能将新的pivoting数据同步
 	- 只支持windows
 
-### 方法2 动态加载dll
+### 方法2 动态加载 module
 
 将rem打包成dll, 基于Cgo与FFI实现跨语言调用
 
 对于使用者来说， 不需要关注这些细节， 相关代码已经在[IoM的插件仓库](https://github.com/chainreactors/mal-community/blob/master/community-proxy/modules/rem.lua) 中完成了对应的封装。
 
-implant 编译时需要打开3rd以及rem相关feature， 可以在config.yaml中配置。
+上线后，在IoM命令行中执行以下代码即可安装并使用rem。
 
-```yaml
-implants:  
-  ......
-  enable_3rd: true       # enable 3rd module  
-  3rd_modules:            # 3rd module when malefic compile  
-    - rem_dial  
-    - rem_reflection
-```
+!!! tips "rem_community已在v0.1.1打包到client"
 
-执行malefic-mutant生成对应代码
-```
-malefic-mutant generate beacon
-```
-
-然后再执行编译任务。 
-
-对于自动化编译来说， 只需要修改对应的config即可自动执行mutant。
-
-上线后，在IoM命令行中执行以下代码即可安装并使用rem
 ```sh
-# 安装对应的插件
-mal install community-proxy
-
 # 加载rem dll
 rem_community load 
 
@@ -65,7 +45,7 @@ rem_community socks5 rem_pipeline
 
 !!! example "优点"
 	- 相比`execute-exe/execute-shellcode`好的地方在于， 不会有新进程fork， 一切都在当前进程中完成。 
-	- 能实时同步pivoting并进行后续管理
+	- 联动IoM rem pipeline，能实时同步pivoting并进行后续管理
 
 !!! danger "缺点"
 	- 需要反射加载dll, 可能会留下EDR的部分暴露面
@@ -75,26 +55,22 @@ rem_community socks5 rem_pipeline
 
 方法1和2都是解决上线后进一步搭建proxy/tunnel，本方法直接支持rem信道上线以及所有的rem提供的proxy/tunnel功能。
 
-#### proxy/tunnel
-
-与方法2类似， 只需要将rem_reflection修改为rem_static
 
 ```yaml
 implants:  
   ......
   enable_3rd: true       # enable 3rd module  
   3rd_modules:            # 3rd module when malefic compile  
-    - rem_dial  
-    - rem_static
+    - rem
 ```
 
 ```sh
 malefic-mutant generate beacon
 ```
 
-同样的，如果是自动化编译会自动执行这行命令， 手动编译才需要手动执行。 
+!!! danger "windows 仅x86_64-pc-windows-gnu支持, linux 均支持 "
 
-上线后，与rem_reflection不同的是, 我们不再需要安装插件包。 可以直接使用client自带的命令组
+静态链接的beacon体积会膨胀不少， 但是可以直接使用rem
 
 ![](/blog/assets/Pasted%20image%2020250412001458.png)
 
@@ -109,11 +85,21 @@ reverse [rem_defualt]
 rem_dial [rem_default] -- -c ...
 ```
 
+!!! example "优点"
+	- 支持windows/linux
+	- 联动IoM rem pipeline
+	- 能复用rem的信道实现上线
+	- 只在本进程中执行， 不会fork新进程
+	
+!!! danger "缺点"
+	- 体积会膨胀， 大概在10M左右， upx后3-4M
+	- 静态链接库不再支持ollvm, 带来一定的静态特征
 
-#### rem信道上线
+## rem信道上线
 
+基于静态链接的rem有一个独一无二的优势。 可以直接通过rem构建的内存中的虚拟信道上线。 实现**malefic over rem**
 
-只需要修改implant 的`config.yaml`
+需要修改implant 的`config.yaml`
 
 ```yaml
 basic:  
@@ -140,15 +126,9 @@ malefic-mutant generate beacon
 cargo build --release -p malefic
 ```
 
+debug 模式下的日志。 可以看到IoM的implant基于通过rem的构建的传输层进行通讯
 
-!!! example "优点"
-	- 支持通过rem信道上线
-	- 不需要额外安装插件包
-	- 只在本进程中执行， 不会fork新进程
-	- 能实时同步pivoting并进行后续管理
-	- 支持window和linux
+![](76cd7db07e9cb196183a759c85ae396.png)
 
 
-!!! dnager "缺点"
-	- 静态连接会让体积变大很多
-	- 静态链接库不再支持ollvm, 带来一定的静态特征
+这样一来， rem支持的所有传输层，加密，伪装混淆都能复用到implant中， 实现流量侧的任意伪装。

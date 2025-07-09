@@ -1,15 +1,14 @@
-##  使用SaaS编译
+## 编译配置
+###  使用SaaS编译
 
 **v0.1.1 加入了SaaS编译 这是IoM实现"开箱即用"目标的重要一步。SaaS编译服务托管在我们的服务器上，为用户提供最基础的自动化编译服务，极大简化了IoM的使用门槛。**
 
-### 特性
 
 - **零环境配置**：无需安装Docker、GitHub Action或其他编译环境
 - **自动注册**：如果token为null，会自动向服务器注册获取token，对用户完全无感
 - **即时可用**：运行server后等待几分钟即可自动生成对应的implant
 - **安全可控**：如有安全顾虑，可手动关闭此功能，使用私有化编译方案
 
-### 使用方法
 
 **默认启用**：v0.1.1版本开始，默认情况下server会使用云编译服务生成implant。
 
@@ -20,7 +19,6 @@ saas:
   enable: false  
 ```
 
-### 安全考虑
 
 !!! danger "安全警告"
 	使用默认提供的云编译服务视为同意用户协议
@@ -31,38 +29,20 @@ saas:
 	2. 使用Docker或GitHub Action进行私有化编译
 	3. 自行搭建编译环境
 
-### 简化流程
-
 SaaS编译极大简化了原本复杂的编译流程，无需配置docker/githuba acticon即可进行编译。为了简化clinet编译流程，我们将原先的docker、github action编译命令与SaaS编译统一到了build命令中，通过 `--source` 控制使用不同的编译方式。
 
-**编译beacon**
 
-基于docker
 
 ```bash
-build beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl --source docker
+build beacon --profile beacon_profile --target x86_64-pc-windows-gnu --source saas
 ```
 
-基于action
+![image-20250709194852166](/IoM/assets/build_saas.png)
 
-```bash
-build beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl --source action
-```
-
-基于SaaS
-
-```bash
-build beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl --source saas
-```
-
-自动寻找可用编译方式
-
-```bash
-build beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl
-```
+!!! tips "如果不指定 `--source` 将自动寻找可用编译方式"
 
 
-## 使用github action
+### 使用github action
 
 **v0.0.4 开始推荐更加轻量的github action编译， 对服务器的配置无要求，也不需要安装docker**
 
@@ -95,35 +75,13 @@ service malice-network restart
 
 使用 client 自动编译:
 
-**新建profile**
-
-```
-profile new --basic-pipeline tcp_default --name beacon_profile_name_1
-```
 
 **编译beacon**
 
-基于docker
-```bash
-build beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl
-```
-
 基于github action
 ```bash
-action beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl
+action beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl --source action
 ```
-
-
-![build_and_download_beacon.png](/IoM/assets/build_and_download_beacon.png)
-
-**下载编译结果**
-```
-artifact list
-# 或可执行下载命令
-artifact download [UNABLE_POOl] 
-```
-
-![](/IoM/assets/aa8ef0f33fc8e19ea7bcb9cfb3b094e.png)
 
 
 !!! tips "多按 Tab, 大部分输入都可以通过 tab 自动补全"
@@ -138,7 +96,7 @@ artifact download [UNABLE_POOl]
     
     编译完整说明手册[implant 手册](/IoM/manual/implant/build)
 
-## 使用docker (对服务器性能有要求)
+### 使用docker (对服务器性能有要求)
 
 如果已经配置了github action, 可以忽略docker相关。
 
@@ -163,3 +121,94 @@ artifact download [UNABLE_POOl]
 	
 	相比IoM目前提供的参数选项， 手动编译具有更高的细粒度，但只推荐对rust开发熟悉的使用
 
+
+``` bash
+build beacon --profile beacon_profile --target x86_64-pc-windows-gnu --source docker
+```
+
+![image-20250709215135306](/IoM/assets/build_docker.png)
+
+
+
+## 编译
+
+目前我们精简了build命令，并支持三种编译方式，分别为docker、action和SaaS编译。本文将主要举例如何在IoM环境下进行编译。
+
+### 编译beacon
+
+``` bash
+build beacon --profile beacon_profile --target x86_64-unknown-linux-musl
+```
+
+![image-20250709172432445](../../../IoM/assets/build_beacon.png)
+
+也可以使用 `--rem` ，将beacon静态链接至rem。
+
+```bash
+build beacon --profile beacon_profile --target x86_64-unknown-linux-musl --rem
+```
+
+![image-20250709173705716](../../../IoM/assets/build_beacon_rem.png)
+
+![image-20250709174110225](/IoM/assets/rem_beacon.png)
+
+
+### 编译module
+
+目前我们支持编译IoM的插件和第三方插件，使用时必须带上 `--modules` 或 `--3rd` ，来确认所需要编译的插件，否则将无法编译。用法如下：
+
+
+```bash
+build modules --modules execute_exe,execute_dll --profile module_profile --target x86_64-pc-windows-gnu 
+```
+
+![image-20250709184032052](/IoM/assets/build_IoM_Module.png)
+
+通过artifact name加载modules（name可通过tab补全）。
+
+```bash
+load_module --artifact artifact-name
+```
+
+![image-20250709185034428](/IoM/assets/load_IoM_module.png)
+
+#### 编译 3rd modul
+
+目前仅支持rem和curl。
+
+```bash
+build modules --3rd rem --profile module_profile --target x86_64-pc-windows-gnu
+```
+
+![image-20250709185630326](/IoM/assets/build_3rd_modules.png)
+
+同上，通过artifact name加载modules。
+
+![image-20250709185836589](/IoM/assets/load_module_tab.png)
+
+![image-20250709190034865](/IoM/assets/load_rem_modules.png)
+
+
+
+### 编译pulse
+
+```bash
+build pulse --profile pulse_profile --target x86_64-pc-windows-gnu 
+```
+
+![image-20250709192315948](/IoM/assets/build_pulse.png)
+
+指定beacon进行编译。
+
+```bash
+build pulse --profile pulse_profile --target x86_64-pc-windows-gnu --artifact-id 5
+```
+
+![image-20250709202400960](/IoM/assets/build_pulse_artifactid.png)
+
+
+
+
+## artifact 
+
+todo

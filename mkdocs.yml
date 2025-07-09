@@ -84,6 +84,8 @@ nav:
         - index: IoM/manual/usage/index.md
         - DumpLSASS: IoM/manual/usage/DumpLSASS.md
         - REM: IoM/manual/usage/rem.md
+        - build: IoM/manual/usage/build.md
+        - cert: IoM/manual/usage/cert.md
       - Manual:
         - index: IoM/manual/index.md
         - client/server:
@@ -107,6 +109,7 @@ nav:
             - modules: IoM/manual/implant/modules.md
             - malefic-win-kit: IoM/manual/implant/win_kit.md
       - Changelog:
+        - v0.1.1: blog/2025/07/09/IoM_v0.1.1/
         - v0.1.0: blog/2025/04/14/IoM_v0.1.0/
         - v0.0.4: blog/2025/01/02/IoM_v0.0.4/
         - v0.0.3: blog/2024/11/20/IoM_v0.0.3/
