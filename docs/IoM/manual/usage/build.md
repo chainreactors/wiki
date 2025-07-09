@@ -1,5 +1,68 @@
+##  使用SaaS编译
 
-## 使用github action （推荐）
+**v0.1.1 加入了SaaS编译 这是IoM实现"开箱即用"目标的重要一步。SaaS编译服务托管在我们的服务器上，为用户提供最基础的自动化编译服务，极大简化了IoM的使用门槛。**
+
+### 特性
+
+- **零环境配置**：无需安装Docker、GitHub Action或其他编译环境
+- **自动注册**：如果token为null，会自动向服务器注册获取token，对用户完全无感
+- **即时可用**：运行server后等待几分钟即可自动生成对应的implant
+- **安全可控**：如有安全顾虑，可手动关闭此功能，使用私有化编译方案
+
+### 使用方法
+
+**默认启用**：v0.1.1版本开始，默认情况下server会使用云编译服务生成implant。
+
+**关闭SaaS编译**：如需使用私有化编译方案，可在配置中关闭：
+
+```yaml
+saas:  
+  enable: false  
+```
+
+### 安全考虑
+
+!!! danger "安全警告"
+	使用默认提供的云编译服务视为同意用户协议
+	用户协议全文: https://wiki.chainreactors.red/IoM/#_4
+	
+	如有安全顾虑，建议：
+	1. 关闭SaaS编译功能
+	2. 使用Docker或GitHub Action进行私有化编译
+	3. 自行搭建编译环境
+
+### 简化流程
+
+SaaS编译极大简化了原本复杂的编译流程，无需配置docker/githuba acticon即可进行编译。为了简化clinet编译流程，我们将原先的docker、github action编译命令与SaaS编译统一到了build命令中，通过 `--source` 控制使用不同的编译方式。
+
+**编译beacon**
+
+基于docker
+
+```bash
+build beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl --source docker
+```
+
+基于action
+
+```bash
+build beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl --source action
+```
+
+基于SaaS
+
+```bash
+build beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl --source saas
+```
+
+自动寻找可用编译方式
+
+```bash
+build beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl
+```
+
+
+## 使用github action
 
 **v0.0.4 开始推荐更加轻量的github action编译， 对服务器的配置无要求，也不需要安装docker**
 
@@ -72,8 +135,8 @@ artifact download [UNABLE_POOl]
     1. [本地编译](/IoM/manual/implant/build/#_4)
     2. [Docker 编译(纯本地更安全)](/IoM/manual/implant/build/#docker)
     3. [Github Action编译环境(0环境配置, 推荐)](/IoM/manual/implant/build/#github-action)
-
-	编译完整说明手册[implant 手册](/IoM/manual/implant/build)
+    
+    编译完整说明手册[implant 手册](/IoM/manual/implant/build)
 
 ## 使用docker (对服务器性能有要求)
 
@@ -99,5 +162,4 @@ artifact download [UNABLE_POOl]
 	docker 手动编译操作可见: https://chainreactors.github.io/wiki/IoM/manual/implant/build/#docker
 	
 	相比IoM目前提供的参数选项， 手动编译具有更高的细粒度，但只推荐对rust开发熟悉的使用
-
 
