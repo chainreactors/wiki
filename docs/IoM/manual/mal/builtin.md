@@ -81,8 +81,8 @@ download artifact with special build id
 
 **Arguments**
 
-- `$1` [number] - 
-- `$2` [boolean] - 
+- `$1` [string] - 
+- `$2` [string] - 
 
 ### exe2shellcode
 
@@ -102,17 +102,6 @@ get artifact with session self
 
 - `sess` [Session] -  session
 - `format` [string] -  only support shellcode
-
-### malefic_srdi
-
-malefic srdi
-
-**Arguments**
-
-- `$1` [string] - 
-- `$2` [number] - 
-- `$3` [string] - 
-- `$4` [any] - 
 
 ### search_artifact
 
@@ -198,15 +187,8 @@ upload local bin to server build
 - `$1` [string] - 
 - `$2` [string] - 
 - `$3` [string] - 
-- `$4` [string] - 
 
 ## basic
-
-### action_run
-
-**Arguments**
-
-- `$1` [string] 
 
 ### active
 
@@ -354,8 +336,28 @@ bdata(active())
 - `$1` [Session] 
 - `$2` [string] 
 
+### console
+
+
 ### credentials
 
+
+### curl
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `url` [string] -  target url
+- `method` [string] -  HTTP method
+- `timeout` [number] -  request timeout in seconds
+- `body` [table] -  request body
+- `headers` [any] -  request headers
+
+**Example**
+
+```
+curl(active(),"http://example.com","GET",30,nil,nil)
+```
 
 ### data
 
@@ -373,6 +375,13 @@ data(active())
 
 ### downloads
 
+
+### execute
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
 
 ### execute_addon
 
@@ -482,6 +491,9 @@ format_path("C:\\Windows\\System32\\calc.exe")
 **Arguments**
 
 - `$1` [Session] 
+
+### listeners
+
 
 ### load_addon
 
@@ -680,6 +692,9 @@ pipe_close(active(), "pipe_name")
 - `$2` [string] 
 - `$3` [string] 
 
+### pipelines
+
+
 ### pivots
 
 
@@ -726,6 +741,9 @@ pipe_close(active(), "pipe_name")
 **Arguments**
 
 - `$1` [string] 
+
+### sessions
+
 
 ### shellsplit
 
@@ -882,6 +900,12 @@ pipe_close(active(), "pipe_name")
 
 ### type_completer
 
+
+### values_completer
+
+**Arguments**
+
+- `$1` [table<string>] - 
 
 ### website_completer
 
@@ -1053,14 +1077,15 @@ dllspawn(active(),"example.dll",{},true,60,"","",new_sacrifice(1234,false,true,t
 
 ### exec
 
-Execute commands
+Execute cmd with powershell
 
-Exec implant local executable file
+equal: powershell.exe -ExecutionPolicy Bypass -w hidden -nop "[cmdline]"
 
 **Arguments**
 
 - `sessions` [Session] - 
 - `cmd` [string] - 
+- `realtime` [boolean] - 
 - `output` [boolean] - 
 
 **Example**
@@ -1740,20 +1765,6 @@ suicide(active())
 
 ## listener
 
-### rem
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `pipeline` [string] -  pipeline name
-- `args` [table<string>] -  command args
-
-**Example**
-
-```
-rem(active(),"pipeline1",{"-p","1080"})
-```
-
 ### webcontent_add
 
 **Arguments**
@@ -1803,6 +1814,24 @@ rem(active(),"pipeline1",{"-p","1080"})
 
 - `$1` [string] - 
 
+## pivot
+
+### rem_dial
+
+Run rem on the implant
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `pipeline` [string] -  pipeline name
+- `args` [table<string>] -  command args
+
+**Example**
+
+```
+rem_dial(active(),"pipeline1",{"-p","1080"})
+```
+
 ## sys
 
 ### bypass
@@ -1819,27 +1848,6 @@ Bypass AMSI and ETW
 
 ```
 bypass(active(), true, true)
-```
-
-### curl
-
-Send HTTP request
-
-Send HTTP request to specified URL
-
-**Arguments**
-
-- `session` [Session] -  special session
-- `url` [string] -  target url
-- `method` [string] -  HTTP method
-- `timeout` [number] -  request timeout in seconds
-- `body` [table] -  request body
-- `headers` [any] -  request headers
-
-**Example**
-
-```
-curl(active(),"http://example.com","GET",30,nil,nil)
 ```
 
 ### env
@@ -2035,6 +2043,20 @@ Retrieve the value associated with a specific registry key.
 reg_query(active(),"HKEY_LOCAL_MACHINE","SOFTWARE\Example","TestKey")
 ```
 
+### rev2self
+
+Revert to the original token
+
+**Arguments**
+
+- `session` [Session] -  special session
+
+**Example**
+
+```
+rev2self(active())
+```
+
 ### runas
 
 Run a program as another user
@@ -2047,7 +2069,8 @@ Run a program as another user
 - `password` [string] - 
 - `program` [string] - 
 - `args` [string] - 
-- `show` [number] - 
+- `use profile` [boolean] - 
+- `use env` [boolean] - 
 - `netonly` [boolean] - 
 
 **Example**

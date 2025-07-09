@@ -13,6 +13,13 @@ cancel_task <task_id>
 ~~~
 
 
+### fetch_task
+Fetch the details of a task
+
+```
+fetch_task
+```
+
 ### files
 List all downloaded files.
 
@@ -87,27 +94,26 @@ load_module [module_file] [flags]
 load module from malefic-modules
 before loading, you can list the current modules: 
 ~~~
-execute_addon、clear ...
+execute_addon,exec ...
 ~~~
 then you can load module
 ~~~
-load_module <module_file.dll>
+load_module --path <module_file.dll>
 ~~~
 you can see more modules loaded by list_module
 ~~~
-execute_addon、clear 、ps、powerpic...
+execute_addon,clear,ps,powershell...
 ~~~
 
 
 **Options**
 
 ```
-      --build string      build resource,eg: docker/action
-  -b, --bundle string     bundle name
-      --modules strings   modules list,eg: basic,extend
+      --3rd string        build 3rd-party modules
+      --artifact string   exist module artifact
+      --bundle string     bundle name
+      --modules string    modules list,eg: basic,extend
       --path string       module path
-      --profile string    build profile
-      --target string     module target
 ```
 
 ### refresh_module
@@ -177,7 +183,7 @@ list_addon [addon]
 ### load_addon
 Load an addon
 
-![load_addon](/IoM/assets/load_addon.gif)
+![load_addon](/wiki/IoM/assets/load_addon.gif)
 
 **Description**
 
@@ -269,34 +275,28 @@ dllspawn example.dll
   -t, --timeout uint32      timeout, in seconds (default 60)
 ```
 
-### exec
+### execute
 Execute commands
 
 **Description**
 
-Exec implant local executable file
+Exec local executable file, without output
 
 ```
-exec [cmdline] [flags]
+execute [cmdline]
 ```
 
 **Examples**
 
 Execute the executable file without any '-' arguments.
 ~~~
-exec whoami
+execute whoami
 ~~~
-Execute the executable file with '-' arguments, you need add "--" before the arguments
+execute the executable file with '-' arguments, you need add "--" before the arguments
 ~~~
-exec gogo.exe -- -i 127.0.0.1 -p http
+execute gogo.exe -- -i 127.0.0.1 -p http
 ~~~
 
-
-**Options**
-
-```
-  -q, --quiet   disable output
-```
 
 ### execute_assembly
 Loads and executes a .NET assembly in implant process (Windows Only)
@@ -321,10 +321,13 @@ execute-assembly potato.exe "whoami"
 **Options**
 
 ```
+      --amsi           bypass AMSI
   -a, --argue string   spoofing process arguments, eg: notepad.exe 
   -b, --block_dll      block not microsoft dll injection
+      --bypass-all     bypass AMSI,ETW,WLDP
       --etw            disable ETW
   -p, --ppid uint32    spoofing parent processes, (0 means injection into ourselves)
+      --wldp           bypass WLDP
 ```
 
 ### execute_dll
@@ -372,7 +375,7 @@ execute_dll example.dll -e entrypoint -- arg1 arg2
 ### execute_exe
 Executes the given PE in the sacrifice process
 
-![execute_exe](/IoM/assets/execute_exe.gif)
+![execute_exe](/wiki/IoM/assets/execute_exe.gif)
 
 **Description**
 
@@ -678,6 +681,29 @@ powershell dir
 ```
   -q, --quiet   disable output
 ```
+
+### run
+run commands
+
+**Description**
+
+Exec local executable file, return output
+
+```
+run [cmdline]
+```
+
+**Examples**
+
+Execute the executable file without any '-' arguments.
+~~~
+run whoami
+~~~
+run the executable file with '-' arguments, you need add "--" before the arguments
+~~~
+run gogo.exe -- -i 127.0.0.1 -p http
+~~~
+
 
 ### shell
 Execute cmd
@@ -1366,18 +1392,32 @@ List available privileges:
   sys privs
   ~~~
 
+### rev2self
+Revert to the original token
+
+```
+rev2self
+```
+
+**Examples**
+
+Revert to the original token:
+  ~~~
+  sys rev2self
+  ~~~
+
 ### runas
 Run a program as another user
 
 ```
-runas --username [username] --domain [domain] --password [password] --program [program] --args [args] --show [show] --netonly [flags]
+runas --username [username] --domain [domain] --password [password] --program [program] --args [args] --use-profile --use-env --netonly [flags]
 ```
 
 **Examples**
 
 Run a program as a different user:
   ~~~
-  sys runas --username admin --domain EXAMPLE --password admin123 --program /path/to/program --args "arg1 arg2"
+  sys runas --username admin --domain EXAMPLE --password admin123 --program /path/to/program --args "arg1 arg2" --use-profile --use-env
   ~~~
 
 **Options**
@@ -1387,8 +1427,9 @@ Run a program as a different user:
       --domain string     Domain of the user
       --netonly           Use network credentials only
       --password string   User password
-      --program string    Path to the program to execute
-      --show int32        Window display mode (1: default) (default 1)
+      --path string       Path to the program to execute
+      --use-env           Use user environment
+      --use-profile       Load user profile
       --username string   Username to run as
 ```
 

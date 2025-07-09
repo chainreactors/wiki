@@ -56,20 +56,6 @@
 - `$1` [context] 
 - `$2` [Event] 
 
-### BuildLog
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [Builder] 
-
-### BuildModules
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [Generate] 
-
 ### Bypass
 
 **Arguments**
@@ -147,6 +133,13 @@
 - `$1` [context] 
 - `$2` [Artifact] 
 
+### DeleteCertificate
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Cert] 
+
 ### DeleteProfile
 
 **Arguments**
@@ -167,6 +160,13 @@
 
 - `$1` [context] 
 - `$2` [Artifact] 
+
+### DownloadCertificate
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Cert] 
 
 ### EXE2Shellcode
 
@@ -266,19 +266,19 @@
 - `$1` [context] 
 - `$2` [ExecuteBinary] 
 
+### GetAllCertificates
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Empty] 
+
 ### GetAllTaskContent
 
 **Arguments**
 
 - `$1` [context] 
 - `$2` [Task] 
-
-### GetArtifactsByProfile
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [Profile] 
 
 ### GetBasic
 
@@ -330,6 +330,13 @@
 - `$2` [Empty] 
 
 ### GetJobs
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Empty] 
+
+### GetLicenseInfo
 
 **Arguments**
 
@@ -427,7 +434,7 @@
 - `$1` [context] 
 - `$2` [Request] 
 
-### ListBuilder
+### ListArtifact
 
 **Arguments**
 
@@ -469,13 +476,6 @@
 - `$1` [context] 
 - `$2` [LoadModule] 
 
-### LoadRem
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [Request] 
-
 ### LoginClient
 
 **Arguments**
@@ -489,13 +489,6 @@
 
 - `$1` [context] 
 - `$2` [Request] 
-
-### MaleficSRDI
-
-**Arguments**
-
-- `$1` [context] 
-- `$2` [Builder] 
 
 ### Mkdir
 
@@ -651,6 +644,13 @@
 - `$1` [context] 
 - `$2` [Request] 
 
+### Rev2Self
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Request] 
+
 ### Rm
 
 **Arguments**
@@ -749,6 +749,13 @@
 - `$1` [context] 
 - `$2` [Request] 
 
+### Switch
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Switch] 
+
 ### Sync
 
 **Arguments**
@@ -812,12 +819,19 @@
 - `$1` [context] 
 - `$2` [Request] 
 
+### UpdateCertificate
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [TLS] 
+
 ### UpdateGithubConfig
 
 **Arguments**
 
 - `$1` [context] 
-- `$2` [GithubWorkflowRequest] 
+- `$2` [GithubWorkflowConfig] 
 
 ### UpdateNotifyConfig
 
