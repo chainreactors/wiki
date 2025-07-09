@@ -82,9 +82,11 @@ nav:
       - RoadMap: IoM/roadmap.md
       - Usage: 
         - index: IoM/manual/usage/index.md
-        - REM: IoM/manual/usage/rem.md
+        - deploy: IoM/manual/usage/deploy.md
         - build&artifact&pipeline: IoM/manual/usage/build.md
+        - embed: IoM/manual/usage/embed_mal.md
         - mal: IoM/manual/mal/quickstart.md
+        - REM: IoM/manual/usage/rem.md
         - advance:
             - DumpLSASS: IoM/manual/usage/DumpLSASS.md
             - DomainFronting: IoM/manual/usage/DomainFronting.md
