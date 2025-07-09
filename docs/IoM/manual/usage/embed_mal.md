@@ -5,19 +5,14 @@
 
 ## 用法示例
 
-我们目前包含了一些常见功能：
+我们目前包含了一些常见功能(全部功能请见文末)：
 
-- **凭据获取**
-  - logonpasswords - 提取登录密码
-  - hashdump - 转储系统哈希
-
-- **网络工具**
-  - curl - HTTP请求工具
-
-- **系统信息**
-  - ipconfig - 网络配置信息
-  - systeminfo - 系统详细信息
-
+- logonpasswords - 提取登录密码
+- hashdump - 转储系统哈希
+- curl - HTTP请求工具
+- ipconfig - 网络配置信息
+- systeminfo - 系统详细信息
+- ...
 
 ### logonpassowrds
 embed通过内置mimikatz实现了logonpassowrds
