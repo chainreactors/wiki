@@ -5,79 +5,31 @@
 本文将会介绍如何给pipeline配置证书。
 ## 独立部署listener
 
-从项目设计开始，我们就将listener和server解耦，可以独立部署listener，只需将config.yaml中的 `listener-only` 设置为true, 就可以listener形式启动：
-```yaml 
-listener-only: true 
-server:  
-	# existing config
-listeners:  
-  name: listener  
-  auth: listener.auth  
-  enable: true  
-  ip: 127.0.0.1  
-  auto_build:  
-    enable: true  
-    build_pulse: true  
-    target:  
-      - x86_64-pc-windows-gnu  
-    pipeline:  
-      - tcp  
-      - http  
-  tcp:  
-    - name: tcp  
-      enable: true  
-      port: 5001  
-      host: 0.0.0.0  
-      protocol: tcp  
-      parser: auto  
-      tls:  
-        enable: true  
-      encryption:  
-        - enable: true  
-          type: aes  
-          key: maliceofinternal  
-        - enable: true  
-          type: xor  
-          key: maliceofinternal  
-  
-  http:  
-    - name: http  
-      enable: true  
-      host: 0.0.0.0  
-      port: 8080  
-      parser: auto  
-      tls:  
-        enable: true  
-      encryption:  
-        - enable: true  
-          type: aes  
-          key: maliceofinternal  
-        - enable: true  
-          type: xor  
-          key: maliceofinternal  
-      error_page: ""  
-  bind:  
-    - name: bind_pipeline  
-      enable: false  
-      encryption:  
-        enable: true  
-        type: aes  
-        key: maliceofinternal  
-  website:  
-    - name: default-website  
-      port: 80  
-      root: "/"  
-      enable: true  
-  
-  rem:  
-    -  
-      name: rem_default  
-      enable: true  
-      console:
+从项目设计开始，我们就将listener和server解耦，可以通过启动命令独立部署listener。
+```bash
+./malice-network --listener-only
 ```
-![image-2025071020442294](/IoM/assets/listener_start.png)
+
+![image-20250710233407269](/IoM/assets/listener_start.png)
 
 ## 通过config配置证书
+目前config.yaml主要由TLS的相关配置来控制证书。具体TLS配置如下:
+```yaml
+tls:  
+  enable: true                    # 启用TLS加密传输
+  # 自签名证书配置
+  CN: "test"                      # 证书通用名称(Common Name)，通常为域名或IP地址
+  O: "Sharp Depth"                # 证书组织名称(Organization)
+  C: "US"                         # 证书国家代码(Country)，使用ISO 3166-1标准
+  L: "Houston"                    # 证书地区/城市名称(Locality)
+  OU: "Persistent Housework, Limited"  # 证书组织单位名称(Organizational Unit)
+  ST: "State of Texas"            # 证书州/省名称(State/Province)
+
+  # 导入证书配置
+  cert_file: path\to\cert         # 证书文件路径，支持PEM格式的证书文件
+  key_file: path\to\key           # 私钥文件路径，支持PEM格式的私钥文件
+  ca_file: path\to\ca             # CA证书文件路径(可选)，用于验证客户端证书的CA证书
+```
 
 #### 自签名证书：
 
