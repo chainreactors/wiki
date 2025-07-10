@@ -282,7 +282,7 @@ cert delete cert-name
 cert update cert-name  --cert /path/to/cert --key /path/to/key --ca-cert /path/to/ca
 ```
 
-![image-20250709213311044](../cert_update.png)
+![image-20250709213311044](/IoM/assets/cert_update.png)
 
 
 
@@ -292,14 +292,14 @@ cert update cert-name  --cert /path/to/cert --key /path/to/key --ca-cert /path/t
 pipeline start pipeline-name --cert-name cert-name
 ```
 
-![image-20250709213539835](../cert_pipeline_start.png)
+![image-20250709213539835](/IoM/assets/cert_pipeline_start.png)
 
 
 
 ## artifact
 
 在artifact build 完毕后会有如下日志
-![img_1.png](../aritfact_build.png)
+![img_1.png](/IoM/assets/aritfact_build.png)
 
 现在你可以通过`artifact download`命令获取shellcode,
 `artifact download <ArtifactName> --format <format>`
@@ -328,7 +328,7 @@ vbapplication
 powershell-remote *
 curl-remote *
 ```
-![img_6.png](../support_formats.png)
+![img_6.png](/IoM/assets/support_formats.png)
 
 
 另外, 目前我们支持了powershell-remote和curl-remote两种新格式的用法,方便一键上线等操作,通过前文日志读者可以观察到我们将artifact及其对应的format映射到了website端:
@@ -336,4 +336,4 @@ curl-remote *
 ```
 artifact download <ArtifactName> --format powershell-remote`
 ```
-![img_8.png](../powershell-remote.png)
+![img_8.png](/IoM/assets/powershell-remote.png)
