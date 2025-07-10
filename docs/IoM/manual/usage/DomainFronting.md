@@ -1,9 +1,9 @@
-# 使用Cloudflare隐藏你的IOM!
+# 使用Cloudflare进行CDN前置
 
-由于IOM内置了HTTP/HTTPS通信,所以你可以使用CDN、云函数等来隐藏你的IOM服务.
-
+IOM内置了HTTPS, 所以你可以使用CDN、云函数等来隐藏IOM服务
 
 一些你必须满足的前提条件:
+
 1. 一台具备公网IP的服务器, 用于部署/转发IOM服务端的端口
 2. 一个Cloudflare账户, 用于解析域名
 3. 一个域名，可以托管到Cloudflare
