@@ -15,15 +15,15 @@
 **关闭SaaS编译**：如需使用私有化编译方案，可在配置中关闭：
 
 ```yaml
-saas:  
-  enable: false  
+saas:
+	enable: false  
 ```
 
 
 !!! danger "安全警告"
-	使用默认提供的云编译服务视为同意用户协议
-	用户协议全文: https://wiki.chainreactors.red/IoM/#_4
-	
+使用默认提供的云编译服务视为同意用户协议
+用户协议全文: https://wiki.chainreactors.red/IoM/#_4
+
 	如有安全顾虑，建议：
 	1. 关闭SaaS编译功能
 	2. 使用Docker或GitHub Action进行私有化编译
@@ -46,7 +46,7 @@ build beacon --profile beacon_profile --target x86_64-pc-windows-gnu --source sa
 
 **v0.0.4 开始推荐更加轻量的github action编译， 对服务器的配置无要求，也不需要安装docker**
 
-新建github token: https://github.com/settings/tokens/new 
+新建github token: https://github.com/settings/tokens/new
 
 ![](assets/Pasted%20image%2020250103134903.png)
 
@@ -56,11 +56,11 @@ fork 或者push到自己的malefic仓库
 修改 /opt/IoM/malice-network/config.yaml
 
 ```yaml
-github:  
-  repo: malefic  
-  workflow: generate.yaml  
-  owner: your_name
-  token: your_token
+github:
+	repo: malefic
+	workflow: generate.yaml
+	owner: your_name
+	token: your_token
 ```
 
 修改 config 后重启服务
@@ -88,8 +88,8 @@ action beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl
 
 
 ??? info "(非必要)其他编译方式"
-	我们提供了如下几种方式进行编译：
-	
+我们提供了如下几种方式进行编译：
+
     1. [本地编译](/IoM/manual/implant/build/#_4)
     2. [Docker 编译(纯本地更安全)](/IoM/manual/implant/build/#docker)
     3. [Github Action编译环境(0环境配置, 推荐)](/IoM/manual/implant/build/#github-action)
@@ -101,8 +101,8 @@ action beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl
 如果已经配置了github action, 可以忽略docker相关。
 
 !!! important "服务器性能要求"
-	自动化编译服务用到了 docker, 且 rust 生成的中间文件体积较大, 对 CPU 消耗较高.
-	
+自动化编译服务用到了 docker, 且 rust 生成的中间文件体积较大, 对 CPU 消耗较高.
+
 	因此 IoM 要搭建自动化编译的服务端对性能有一定要求.
 	
 	我们推荐在至少2核4G或以上的机器运行, 并保留至少 20G 的空间.
@@ -117,8 +117,8 @@ action beacon --profile beacon_profile_name_1 --target x86_64-unknown-linux-musl
 
 
 ??? "基于docker的手动编译(非必要)"
-	docker 手动编译操作可见: https://chainreactors.github.io/wiki/IoM/manual/implant/build/#docker
-	
+docker 手动编译操作可见: https://chainreactors.github.io/wiki/IoM/manual/implant/build/#docker
+
 	相比IoM目前提供的参数选项， 手动编译具有更高的细粒度，但只推荐对rust开发熟悉的使用
 
 
@@ -140,7 +140,7 @@ build beacon --profile beacon_profile --target x86_64-pc-windows-gnu --source do
 build beacon --profile beacon_profile --target x86_64-unknown-linux-musl
 ```
 
-![image-20250709172432445](../../../IoM/assets/build_beacon.png)
+![image-20250709172432445](../build_beacon.png)
 
 也可以使用 `--rem` ，将beacon静态链接至rem。
 
@@ -148,7 +148,7 @@ build beacon --profile beacon_profile --target x86_64-unknown-linux-musl
 build beacon --profile beacon_profile --target x86_64-unknown-linux-musl --rem
 ```
 
-![image-20250709173705716](../../../IoM/assets/build_beacon_rem.png)
+![image-20250709173705716](../build_beacon_rem.png)
 
 ![image-20250709174110225](/IoM/assets/rem_beacon.png)
 
@@ -238,7 +238,7 @@ build pulse --profile pulse_profile --target x86_64-pc-windows-gnu --artifact-id
 
 ### client 管理证书
 
- **显示证书**
+**显示证书**
 
 ```
 cert
@@ -274,7 +274,7 @@ cert download cert-name —o file-path
 cert delete cert-name
 ```
 
-![image-20250709211525047](../../../IoM/assets/cert_delete.png)
+![image-20250709211525047](/IoM/assets/cert_delete.png)
 
 **更新证书**
 
@@ -282,7 +282,7 @@ cert delete cert-name
 cert update cert-name  --cert /path/to/cert --key /path/to/key --ca-cert /path/to/ca
 ```
 
-![image-20250709213311044](../../../IoM/assets/cert_update.png)
+![image-20250709213311044](../cert_update.png)
 
 
 
@@ -292,10 +292,48 @@ cert update cert-name  --cert /path/to/cert --key /path/to/key --ca-cert /path/t
 pipeline start pipeline-name --cert-name cert-name
 ```
 
-![image-20250709213539835](/IoM/assets/cert_pipeline_start.png)
+![image-20250709213539835](../cert_pipeline_start.png)
 
 
 
-## artifact 
+## artifact
 
-todo
+在artifact build 完毕后会有如下日志
+![img_1.png](../aritfact_build.png)
+
+现在你可以通过`artifact download`命令获取shellcode,
+`artifact download <ArtifactName> --format <format>`
+
+format格式目前有:
+```angular2html
+executable
+raw
+c
+csharp
+java
+golang
+python
+perl
+ruby
+bash
+powershell
+hex-oneline
+hex-multiline
+num
+dword
+js_be
+js_le
+vbscript
+vbapplication
+powershell-remote *
+curl-remote *
+```
+![img_6.png](../support_formats.png)
+
+
+另外, 目前我们支持了powershell-remote和curl-remote两种新格式的用法,方便一键上线等操作,通过前文日志读者可以观察到我们将artifact及其对应的format映射到了website端:
+当你调用powershell-remote时, 会输出对应的一键上线命令。
+```
+artifact download <ArtifactName> --format powershell-remote`
+```
+![img_8.png](../powershell-remote.png)
