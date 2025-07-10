@@ -16,7 +16,7 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
     - `docker.com`
 
 !!! important "网络问题"
-iom 项目 releases 中的文件仍然需要从 github 下载, 国内服务器访问 github 容易超时, 建议配置环境变量中的 proxy, 再执行上述操作
+    iom 项目 releases 中的文件仍然需要从 github 下载, 国内服务器访问 github 容易超时, 建议配置环境变量中的 proxy, 再执行上述操作
 
 	可以映射本机的代理端口到 vps: ssh -R 1080:127.0.0.1:1080 root@vps.ip
 	
