@@ -1,4 +1,5 @@
 
+
 在v0.1.1我们添加了证书管理功能，能够通过命令行显示证书列表，生成证书，删除证书，更新证书。你也可以给pipeline指定证书，重新启动pipeline，使用tls功能。目前我们支持自签名证书和用户自行导入证书。
 
 并且在v0.1.1开始，TLS 成为implant的默认选项， 将于cert管理功能深度联动。
@@ -12,7 +13,8 @@
 
 ![image-20250710233407269](/IoM/assets/listener_start.png)
 
-## 通过config配置证书
+## 证书管理
+### 通过config配置证书
 目前config.yaml主要由TLS的相关配置来控制证书。具体TLS配置如下:
 ```yaml
 tls:  
