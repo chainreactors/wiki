@@ -87,8 +87,8 @@ nav:
         - build&artifact: IoM/manual/usage/build.md
         - embed: IoM/manual/usage/embed_mal.md
         - mal: IoM/manual/mal/quickstart.md
-        - REM: IoM/manual/usage/rem.md
         - advance:
+            - REM: IoM/manual/usage/rem.md
             - DumpLSASS: IoM/manual/usage/DumpLSASS.md
             - DomainFronting: IoM/manual/usage/DomainFronting.md
       - Manual:
