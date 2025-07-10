@@ -1906,16 +1906,16 @@ build beacon [flags]
 
 ~~~
 // Build a beacon
-build beacon --target x86_64-unknown-linux-musl --profile beacon_profile
+build beacon --target x86_64-unknown-linux-musl --profile tcp_deafult
 
 // Build a beacon using additional modules
-build beacon --target x86_64-pc-windows-msvc --profile beacon_profile --modules full
+build beacon --target x86_64-pc-windows-msvc --profile tcp_deafult --modules full
 
 // Build a beacon with rem
-build beacon --rem --target x86_64-pc-windows-msvc --profile beacon_profile
+build beacon --rem --target x86_64-pc-windows-msvc --profile tcp_deafult
 
 // Build a beacon by saas
-build beacon --target x86_64-pc-windows-msvc --profile beacon_profile --source saas
+build beacon --target x86_64-pc-windows-msvc --profile tcp_deafult --source saas
 ~~~
 
 **Options**

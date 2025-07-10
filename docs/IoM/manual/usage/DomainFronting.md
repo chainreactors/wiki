@@ -11,21 +11,21 @@ IOM内置了HTTPS, 所以你可以使用CDN、云函数等来隐藏IOM服务
 
 ## 绑定域名&IP
 首先绑定一个到你公网服务器的A记录，并确保开启了代理状态，参考下图
-![img_13.png](../../assets/advance/usage/domain_front/bind_host_ip.png)
+![img_13.png](/IoM/assets/advance/usage/domain_front/bind_host_ip.png)
 
 ## 申请cloudflare证书
 需要绑定cloudflare下发的证书才能cdn的生效，申请后的证书存储到本地
-![img_14.png](../../assets/advance/usage/domain_front/save_cert_key.png)
+![img_14.png](/IoM/assets/advance/usage/domain_front/save_cert_key.png)
 
 ## 关闭缓存状态
-![img_2.png](../../assets/advance/usage/domain_front/close_cache.png)
+![img_2.png](/IoM/assets/advance/usage/domain_front/close_cache.png)
 
 ## 配置ssl/tls加密模式
 
 请将ssl/tls加密模式设置为完全(请勿使用灵活)
-![img_1.png](../../assets/advance/usage/domain_front/set_encrypt.png)
+![img_1.png](/IoM/assets/advance/usage/domain_front/set_encrypt.png)
 
-![img.png](../../assets/advance/usage/domain_front/set_encrypt_2.png)
+![img.png](/IoM/assets/advance/usage/domain_front/set_encrypt_2.png)
 
 ## 服务器 部署&配置
 
@@ -52,7 +52,7 @@ IOM内置了HTTPS, 所以你可以使用CDN、云函数等来隐藏IOM服务
       key_file: cert/a.key
 ```
 然后启动server: 
-![img_9.png](../../assets/advance/usage/domain_front/start_server.png)
+![img_9.png](/IoM/assets/advance/usage/domain_front/start_server.png)
 
 ## 编译&测试
 
@@ -61,12 +61,12 @@ IOM内置了HTTPS, 所以你可以使用CDN、云函数等来隐藏IOM服务
 
 server端:
 
-![img_6.png](../../assets/advance/usage/domain_front/server_log.png)
+![img_6.png](/IoM/assets/advance/usage/domain_front/server_log.png)
 
 Client端:
 
-![img_8.png](../../assets/advance/usage/domain_front/client_log.png)
+![img_8.png](/IoM/assets/advance/usage/domain_front/client_log.png)
 
 Malefic:
 
-![img_10.png](../../assets/advance/usage/domain_front/malefic_log.png)
+![img_10.png](/IoM/assets/advance/usage/domain_front/malefic_log.png)

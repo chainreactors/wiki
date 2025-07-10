@@ -93,7 +93,7 @@ rem_community socks5 rem_pipeline
 **用法2 通过静态链接.a 编译implant**
 
 ```
-build beacon --profile beacon_profile --target x86_64-pc-windows-gnu --rem
+build beacon --profile tcp_deafult --target x86_64-pc-windows-gnu --rem
 ```
 ### profile/build/artifact 命令组重构
 
