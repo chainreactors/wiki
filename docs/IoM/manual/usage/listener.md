@@ -118,10 +118,10 @@ cert self_signed
 ![image-20250709210707269](/IoM/assets/generate_self_cert.png)
 
 **添加导入证书**
- ```bash
+```bash
 cert import --cert /path/to/cert --key /path/to/key --ca-cert /path/to/ca
 ```
- 
+
  ![image-20250709211824315](/IoM/assets/cert_imported.png)
  
  如果不确认证书信息，可以list证书，来确认是否是需要的证书。
@@ -129,6 +129,7 @@ cert import --cert /path/to/cert --key /path/to/key --ca-cert /path/to/ca
 ```bash
 cert
 ```
+
 
 ![image-20250709211525047](/IoM/assets/cert_list.png)
 
@@ -141,3 +142,80 @@ pipeline start tcp --cert-name cert-name
 
 ![image-20250709213539835](/IoM/assets/cert_pipeline_start.png)
 
+## 新建pipeline
+
+若需要新建pipeline负责通信，可以通过以下命令来新建对应的pipeline。
+### 新建tcp
+
+```bash
+tcp --listener listener --host 127.0.0.1 --port 5015
+```
+
+![image-20250711183324324](/IoM/assets/tcp_new.png)
+### 新建tcp并开启tls
+
+```bash
+tcp --listener listener --host 127.0.0.1 --port 5015 --tls --cert-name cert-name
+```
+
+![image-20250712012328952](/IoM/assets/tcp_new_tls.png)
+
+### 新建http
+```bash
+http --listener listener --host 127.0.0.1 --port 8083
+```
+
+![image-20250712005024285](/IoM/assets/http_new.png)
+
+```bash
+http --listener listener --host 192.168.110.72 --port 8083 --tls --cert-name DETERMINED_NIECE
+```
+
+![image-20250712012622744](/IoM/assets/http_new_tls.png)
+
+### 新建rem
+```bash
+rem new rem_test --listener listener  -c tcp://127.0.0.1:19966
+```
+
+![image-20250712010224957](/IoM/assets/rem_new.png)
+
+### 新建website
+```bash
+website web-test --listener listener --port 5080 --root /web
+```
+
+![image-20250712011724926](/IoM/assets/website_new.png)
+
+```bash
+website web-test --listener listener --port 5080 --root /web --tls --cert-name GOOD_BEETLE
+```
+
+![image-20250712012826116](/IoM/assets/web_new_tls.png)
+### 在对应website上传文件
+```bash
+website add /path/to/file --website web-test --path /path
+```
+
+![image-20250712015526853](/IoM/assets/web-content-add.png)
+
+## 停止pipeline
+如果需要停止某个pipline，可以通过以下指令：
+### 停止tcp、http
+```bash
+pipline stop pipeline—name
+```
+
+![image-20250712020527853](/IoM/assets/tcp_stop.png)
+### 停止website
+```bash
+website stop website-name
+```
+
+![image-20250712021822753](/IoM/assets/website_stop.png)
+### 停止rem
+```bash
+rem stop rem-name
+```
+
+![image-20250712022129250](/IoM/assets/rem_stop.png)
