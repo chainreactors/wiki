@@ -83,7 +83,7 @@ nav:
       - Usage: 
         - index: IoM/manual/usage/index.md
         - deploy: IoM/manual/usage/deploy.md
-        - pipeline: IoM/manual/usage/pipeline.md
+        - listener: IoM/manual/usage/listener.md
         - build&artifact: IoM/manual/usage/build.md
         - embed: IoM/manual/usage/embed_mal.md
         - mal: IoM/manual/mal/quickstart.md
