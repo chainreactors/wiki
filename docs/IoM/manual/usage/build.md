@@ -254,6 +254,9 @@ curl-remote *
 
 ![img_6.png](/IoM/assets/support_formats.png)
 
+因此，你可以调用`artifact download SLOW_ESTIMATE --format raw`来获得一个shellcode, 直接用于执行
+![img_6.png](/IoM/assets/raw_shellcode.png)
+
 另外, 目前我们支持了powershell-remote和curl-remote两种新格式的用法,方便一键上线等操作,通过前文日志读者可以观察到我们将artifact及其对应的format映射到了website端:
 当你调用powershell-remote时, 会输出对应的一键上线命令。
 
