@@ -56,8 +56,12 @@ IOM内置了HTTPS, 所以你可以使用CDN、云函数等来隐藏IOM服务
 
 ## 编译&测试
 
-配置域名后编译malefic上线即可,部分日志截图参考如下:
+根据上述步骤配置域名后，编译malefic上线即可
+```
+build beacon --profile http_default --address demo.cdn.com --target x86_64-pc-windows-gnu
+```
 
+部分日志截图参考如下:
 
 server端:
 
