@@ -86,9 +86,10 @@ nav:
         - listener: IoM/manual/usage/listener.md
         - build&artifact: IoM/manual/usage/build.md
         - embed: IoM/manual/usage/embed_mal.md
-        - mal: IoM/manual/mal/quickstart.md
+        - proxy: IoM/manual/usage/proxy.md
         - advance:
-            - REM: IoM/manual/usage/rem.md
+            - mal: IoM/manual/mal/quickstart.md
+           
             - DumpLSASS: IoM/manual/usage/DumpLSASS.md
             - DomainFronting: IoM/manual/usage/DomainFronting.md
       - Manual:
