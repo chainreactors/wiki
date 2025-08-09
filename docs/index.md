@@ -12,7 +12,7 @@
 
 为了达成我们的终极目标. 我们的蓝图从ASM拓展到了C2框架+流量控制工件+ASM框架三个部分.  这三个领域将覆盖攻击模拟流程中的Pre-Exploit <--> Post-Exploit
 
-目前我们的计划中有三条链式反应的链路, 分别对应了后渗透[IoM](IoM), 前渗透/信息收集([mapping](mapping)), 以及打通IoM与mapping的流量工具[rem](rem)
+目前我们的计划中有三条链式反应的链路, 分别对应了后渗透[IoM](IoM), 前渗透/信息收集([mapping](mapping)), 以及打通IoM与mapping的流量工具[proxy](proxy.md)
 
 ### Chain1 IoM (已发布)
 
