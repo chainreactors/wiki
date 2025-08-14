@@ -54,27 +54,27 @@ mal lua中同样支持lua标准库, 相关文档可以查阅 lua5.1文档.
 
 当前添加的拓展库
 
-- [argparse](https://github.com/vadv/gopher-lua-libs/tree/master/argparse/) argparse CLI parsing [https://github.com/luarocks/argparse](https://github.com/luarocks/argparse)
-- [base64](https://github.com/vadv/gopher-lua-libs/tree/master/base64/) [encoding/base64](https://pkg.go.dev/encoding/base64) api
-- [cmd](https://github.com/vadv/gopher-lua-libs/tree/master/cmd/) cmd port
-- [db](https://github.com/vadv/gopher-lua-libs/tree/master/db/) access to databases
-- [filepath](https://github.com/vadv/gopher-lua-libs/tree/master/filepath/) path.filepath port
-- [goos](https://github.com/vadv/gopher-lua-libs/tree/master/goos/) os port
-- [humanize](https://github.com/vadv/gopher-lua-libs/tree/master/humanize/) humanize [github.com/dustin/go-humanize](https://github.com/dustin/go-humanize) port
-- [inspect](https://github.com/vadv/gopher-lua-libs/tree/master/inspect/) pretty print [github.com/kikito/inspect.lua](https://github.com/kikito/inspect.lua)
-- [ioutil](https://github.com/vadv/gopher-lua-libs/tree/master/ioutil/) io/ioutil port
-- [json](https://github.com/vadv/gopher-lua-libs/tree/master/json/) json implementation
-- [log](https://github.com/vadv/gopher-lua-libs/tree/master/log/) log port
-- [plugin](https://github.com/vadv/gopher-lua-libs/tree/master/plugin/) run lua code in lua code
-- [regexp](https://github.com/vadv/gopher-lua-libs/tree/master/regexp/) regexp port
-- [shellescape](https://github.com/vadv/gopher-lua-libs/tree/master/shellescape/) shellescape [https://github.com/alessio/shellescape](https://github.com/alessio/shellescape) port
-- [stats](https://github.com/vadv/gopher-lua-libs/tree/master/stats/) stats [https://github.com/montanaflynn/stats](https://github.com/montanaflynn/stats) port
-- [storage](https://github.com/vadv/gopher-lua-libs/tree/master/storage/) package for store persist data and share values between lua states
-- [strings](https://github.com/vadv/gopher-lua-libs/tree/master/strings/) strings port (utf supported)
-- [tcp](https://github.com/vadv/gopher-lua-libs/tree/master/tcp/) raw tcp client lib
-- [template](https://github.com/vadv/gopher-lua-libs/tree/master/template/) template engines
-- [time](https://github.com/vadv/gopher-lua-libs/tree/master/time/) time port
-- [yaml](https://github.com/vadv/gopher-lua-libs/tree/master/yaml/) [gopkg.in/yaml.v2](https://gopkg.in/yaml.v2) port
+- [argparse](https://github.com/vadv/gopher-lua-libs/tree/master/argparse/) argparse CLI parsing [https://github.com/luarocks/argparse](https://github.com/luarocks/argparse)
+- [base64](https://github.com/vadv/gopher-lua-libs/tree/master/base64/) [encoding/base64](https://pkg.go.dev/encoding/base64) api
+- [cmd](https://github.com/vadv/gopher-lua-libs/tree/master/cmd/) cmd port
+- [db](https://github.com/vadv/gopher-lua-libs/tree/master/db/) access to databases
+- [filepath](https://github.com/vadv/gopher-lua-libs/tree/master/filepath/) path.filepath port
+- [goos](https://github.com/vadv/gopher-lua-libs/tree/master/goos/) os port
+- [humanize](https://github.com/vadv/gopher-lua-libs/tree/master/humanize/) humanize [github.com/dustin/go-humanize](https://github.com/dustin/go-humanize) port
+- [inspect](https://github.com/vadv/gopher-lua-libs/tree/master/inspect/) pretty print [github.com/kikito/inspect.lua](https://github.com/kikito/inspect.lua)
+- [ioutil](https://github.com/vadv/gopher-lua-libs/tree/master/ioutil/) io/ioutil port
+- [json](https://github.com/vadv/gopher-lua-libs/tree/master/json/) json implementation
+- [log](https://github.com/vadv/gopher-lua-libs/tree/master/log/) log port
+- [plugin](https://github.com/vadv/gopher-lua-libs/tree/master/plugin/) run lua code in lua code
+- [regexp](https://github.com/vadv/gopher-lua-libs/tree/master/regexp/) regexp port
+- [shellescape](https://github.com/vadv/gopher-lua-libs/tree/master/shellescape/) shellescape [https://github.com/alessio/shellescape](https://github.com/alessio/shellescape) port
+- [stats](https://github.com/vadv/gopher-lua-libs/tree/master/stats/) stats [https://github.com/montanaflynn/stats](https://github.com/montanaflynn/stats) port
+- [storage](https://github.com/vadv/gopher-lua-libs/tree/master/storage/) package for store persist data and share values between lua states
+- [strings](https://github.com/vadv/gopher-lua-libs/tree/master/strings/) strings port (utf supported)
+- [tcp](https://github.com/vadv/gopher-lua-libs/tree/master/tcp/) raw tcp client lib
+- [template](https://github.com/vadv/gopher-lua-libs/tree/master/template/) template engines
+- [time](https://github.com/vadv/gopher-lua-libs/tree/master/time/) time port
+- [yaml](https://github.com/vadv/gopher-lua-libs/tree/master/yaml/) [gopkg.in/yaml.v2](https://gopkg.in/yaml.v2) port
 - [http](https://github.com/cjoudrey/gluahttp) http
 - [crypto](https://github.com/tengattack/gluacrypto)  hash(md5, sha1,sha256, HMAC...), base64, aes 
 
