@@ -203,8 +203,11 @@ Flag format:
 ```
 
 需要注意如下几点:
+
 1. `"net:user:add"`中的`:`表示层级以方便命令分组. 在这个例子中表示将会注册一级命令net, 然后注册二级命令user和三级命令add, 因此调用格式为`net user add ...`
+
 2. `run_add_net_user(cmd)`中的`cmd`为内置的command对象同client中的原生command, 因此可以很方便的注册、获取参数，适用于命令的参数多、需要精确控制的场景 , 如：`cmd_add_net_user:Flags():String("username", "", "the username to add")`与`cmd:Flags():GetString("username")`分别用于注册和获取username参数，此命令的tui用法为: `net user add --username <admin_demo> --password <password_demo>`
+
 3. 你可以在`run_dump_wifi`中看到除了`cmd`也另外内置了`args`, `args`是一个table,用于方便参数较少的情况可以类比cs的cna中的语法, 当你在tui终端输入`wifi dump MyWiFi`时 `args`为`{"MyWiFi"}`，那么args[1] (注意lua的索引从1开始)也就对应了`MyWiFi`
 
 当然你也可以让这个命令更加丰富， 让插件更加的。
