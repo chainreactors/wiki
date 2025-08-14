@@ -89,7 +89,6 @@ nav:
         - proxy: IoM/manual/usage/proxy.md
         - advance:
             - mal: IoM/manual/mal/quickstart.md
-           
             - DumpLSASS: IoM/manual/usage/DumpLSASS.md
             - DomainFronting: IoM/manual/usage/DomainFronting.md
       - Manual:
