@@ -1,20 +1,98 @@
 
 
-在v0.1.1我们添加了证书管理功能，能够通过命令行显示证书列表，生成证书，删除证书，更新证书。你也可以给pipeline指定证书，重新启动pipeline，使用tls功能。目前我们支持自签名证书和用户自行导入证书。
 
-并且在v0.1.1开始，TLS 成为implant的默认选项， 将于cert管理功能深度联动。
-本文将会介绍如何给pipeline配置证书。
-## 独立部署listener
+!!! tips "在v0.1.1开始，TLS 成为implant的默认选项， 将于cert管理功能深度联动"
+	在v0.1.1我们添加了证书管理功能，能够通过命令行显示证书列表，生成证书，删除证书，更新证书。你也可以给pipeline指定证书，重新启动pipeline，使用tls功能。目前我们支持自签名证书和用户自行导入证书。
 
-从项目设计开始，我们就将listener和server解耦，可以通过启动命令独立部署listener。
+
+
+# pipeline 管理
+
+pipeline 负责与implant的通讯，可以与server分离部署， 也可以同时部署。
+
+当前支持多种信道， 以及基于rem实现的拓展信道。 
+- 基本信道
+	- tcp
+	- http
+- rem: 支持rem支持的所有信道 https://wiki.chainreactors.red/rem/ 
+	- udp
+	- http
+	- tcp
+	- tls
+	- smb
+	- unix
+	- websocket
+	- icmp
+	- ...
+- bind, 用于正向连接
+- website, 用于分发artifact与挂载文件
+
+## 基本用法
+### 新建tcp
+
 ```bash
-./malice-network --listener-only
+tcp --listener listener --host 127.0.0.1 --port 5015
 ```
 
-![image-20250710233407269](/IoM/assets/listener_start.png)
+![image-20250711183324324](/IoM/assets/tcp_new.png)
+#### 新建tcp并开启tls
 
-## 证书管理
-### 通过config配置证书
+!!! tips "其他pipeline打开tls方式相同"
+
+```bash
+tcp --listener listener --host 127.0.0.1 --port 5015 --tls --cert-name cert-name
+```
+
+![image-20250712012328952](/IoM/assets/tcp_new_tls.png)
+
+### 新建http
+```bash
+http --listener listener --host 127.0.0.1 --port 8083
+```
+
+![image-20250712005024285](/IoM/assets/http_new.png)
+
+```bash
+http --listener listener --host 192.168.110.72 --port 8083 --tls --cert-name DETERMINED_NIECE
+```
+
+![image-20250712012622744](/IoM/assets/http_new_tls.png)
+
+### 新建rem
+```bash
+rem new rem_test --listener listener  -c tcp://127.0.0.1:19966
+```
+
+![image-20250712010224957](/IoM/assets/rem_new.png)
+
+### 新建website
+```bash
+website web-test --listener listener --port 5080 --root /web
+```
+
+![image-20250712011724926](/IoM/assets/website_new.png)
+
+```bash
+website web-test --listener listener --port 5080 --root /web --tls --cert-name GOOD_BEETLE
+```
+
+![image-20250712012826116](/IoM/assets/web_new_tls.png)
+#### 在对应website上传文件
+```bash
+website add /path/to/file --website web-test --path /path
+```
+
+![image-20250712015526853](/IoM/assets/web-content-add.png)
+
+## 高级功能
+### 证书管理
+当前证书管理支持通过多种方式配置证书。
+
+- 随机生成自签名证书
+- 指定参数生成自签名证书
+- 导入已有证书
+- ACME自动签名
+#### 通过config配置证书
 目前config.yaml主要由TLS的相关配置来控制证书。具体TLS配置如下:
 ```yaml
 tls:  
@@ -81,7 +159,7 @@ tcp:
 	    type: xor
 		key: maliceofinternal
 ```
-#### 导入证书
+#### 导入已有证书
 
 导入证书配置如下：
 ```yaml
@@ -106,7 +184,7 @@ tcp:
         key: maliceofinternal
 ```
 
-### client配置证书
+#### client配置证书
 启动listener之后，可以给已有的pipeline使用新的证书，使用新的证书前，需要保证服务器已经存储了需要的证书。
 
 **添加自签名证书**
@@ -133,7 +211,7 @@ cert
 
 ![image-20250709211525047](/IoM/assets/cert_list.png)
 
-### 使用指定证书启动pipeline
+#### 使用指定证书启动pipeline
 当服务器已存储所需证书后，可以通过以下命令，将pipeline使用新的证书配置启动。
 
 ```bash
@@ -142,80 +220,16 @@ pipeline start tcp --cert-name cert-name
 
 ![image-20250709213539835](/IoM/assets/cert_pipeline_start.png)
 
-## 新建pipeline
+### Parser
+### Encryption
+### Secure
 
-若需要新建pipeline负责通信，可以通过以下命令来新建对应的pipeline。
-### 新建tcp
+## 独立部署listener
 
+从项目设计开始，我们就将listener和server解耦，可以通过启动命令独立部署listener。
 ```bash
-tcp --listener listener --host 127.0.0.1 --port 5015
+./malice-network --listener-only
 ```
 
-![image-20250711183324324](/IoM/assets/tcp_new.png)
-### 新建tcp并开启tls
+![image-20250710233407269](/IoM/assets/listener_start.png)
 
-```bash
-tcp --listener listener --host 127.0.0.1 --port 5015 --tls --cert-name cert-name
-```
-
-![image-20250712012328952](/IoM/assets/tcp_new_tls.png)
-
-### 新建http
-```bash
-http --listener listener --host 127.0.0.1 --port 8083
-```
-
-![image-20250712005024285](/IoM/assets/http_new.png)
-
-```bash
-http --listener listener --host 192.168.110.72 --port 8083 --tls --cert-name DETERMINED_NIECE
-```
-
-![image-20250712012622744](/IoM/assets/http_new_tls.png)
-
-### 新建rem
-```bash
-rem new rem_test --listener listener  -c tcp://127.0.0.1:19966
-```
-
-![image-20250712010224957](/IoM/assets/rem_new.png)
-
-### 新建website
-```bash
-website web-test --listener listener --port 5080 --root /web
-```
-
-![image-20250712011724926](/IoM/assets/website_new.png)
-
-```bash
-website web-test --listener listener --port 5080 --root /web --tls --cert-name GOOD_BEETLE
-```
-
-![image-20250712012826116](/IoM/assets/web_new_tls.png)
-### 在对应website上传文件
-```bash
-website add /path/to/file --website web-test --path /path
-```
-
-![image-20250712015526853](/IoM/assets/web-content-add.png)
-
-## 停止pipeline
-如果需要停止某个pipline，可以通过以下指令：
-### 停止tcp、http
-```bash
-pipline stop pipeline—name
-```
-
-![image-20250712020527853](/IoM/assets/tcp_stop.png)
-### 停止website
-```bash
-website stop website-name
-```
-
-![image-20250712021822753](/IoM/assets/website_stop.png)
-### 停止rem
-```bash
-rem stop rem-name
-```
-
-![image-20250712022129250](/IoM/assets/rem_stop.png)
