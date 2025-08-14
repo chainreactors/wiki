@@ -134,87 +134,102 @@ mal load hello
 
 通过command函数， 可以将lua的函数注册到IoM client的命令中。
 
-以`net_user_add`与`wifi_dump`的bof为例:
+如下将举一些常见的例子:
+1. 命令注册
 
 ```lua
--- add_net_user
-local function run_add_net_user(cmd)
-	local username = cmd:Flags():GetString("username") -- 获取username参数
-	local password = cmd:Flags():GetString("password") -- 获取password参数
-	if username == "" then
-		error("username is required")
-	end
-	if password == "" then
-		error("password is required")
-	end
-	local packed_args = bof_pack("ZZ", username, password)
-	local session = active()
-	local arch = session.Os.Arch
-	if not isadmin(session) then
-		error("You need to be an admin to run this command")
-	end
-	local bof_file = bof_path("add_net_user", arch)
-	return bof(session, script_resource(bof_file), packed_args, true)
+-- print hello world
+local function hello()
+	print("hello world")
 end
 
-local cmd_add_net_user = command("net:user:add", run_add_net_user, "Add a new user account <username> <password>", "T1136.001")
-cmd_add_net_user:Flags():String("username", "", "the username to add") -- 注册username参数
-cmd_add_net_user:Flags():String("password", "", "the password to set") -- 注册password参数
-
-opsec("net:user:add", 9.0)
-
--- dump_wifi
-local function run_dump_wifi(args, cmd)
-	local profilename = ""
-
-	-- Check if using positional arguments first
-	if args and #args == 1 and args[1] ~= "" then
-		-- Positional argument format: dump_wifi profilename
-		profilename = args[1]
-	else
-		-- Flag format: dump_wifi --profilename profilename
-		profilename = cmd:Flags():GetString("profilename")
-	end
-
-	if profilename == "" then
-		error("profilename is required")
-	end
-
-	local packed_args = bof_pack("Z", profilename)
-	local session = active()
-	local arch = session.Os.Arch
-	local bof_file = bof_path("dump_wifi", arch)
-	return bof(session, script_resource(bof_file), packed_args, true)
-end
-
-local cmd_dump_wifi = command("wifi:dump", run_dump_wifi, "Dump WiFi profile credentials <profilename>", "T1555.004")
-cmd_dump_wifi:Flags():String("profilename", "", "WiFi profile name to dump")
-opsec("wifi:dump", 9.0)
-
-help("dump_wifi", [[
-Positional arguments format:
-  wifi dump "My WiFi Network"
-  wifi dump MyWiFi
-
-Flag format:
-  wifi dump --profilename "My WiFi Network"
-  wifi dump --profilename MyWiFi
-]])
+command("hello", hello, "print hello world", "T1000")
 ```
+这段代码将通过command函数注册一个"hello"命令, 当在client中输入hello时, 将会调用hello函数, 打印hello world.
+第一个参数表示命令的名字, 第二个参数表示命令的函数, 第三个参数表示命令的帮助信息(short help), 第四个参数表示命令的TTP编号.
 
-需要注意如下几点:
+2. 多级命令注册
+```lua
+local function hello()
+	print("hello world")
+end
 
-1. `"net:user:add"`中的`:`表示层级以方便命令分组. 在这个例子中表示将会注册一级命令net, 然后注册二级命令user和三级命令add, 因此调用格式为`net user add ...`
+command("hello:hello1:hello2", hello, "print hello world", "T1000")
+```
+当你在tui中输入hello world时, 将会调用hello函数, 打印hello world.
+此时hello为一级命令, hello1为二级命令, hello2为三级命令. 方便对命令进行规划分组等
 
-2. `run_add_net_user(cmd)`中的`cmd`为内置的command对象同client中的原生command, 因此可以很方便的注册、获取参数，适用于命令的参数多、需要精确控制的场景 , 如：`cmd_add_net_user:Flags():String("username", "", "the username to add")`与`cmd:Flags():GetString("username")`分别用于注册和获取username参数，此命令的tui用法为: `net user add --username <admin_demo> --password <password_demo>`
+3.args 用法
 
-3. 你可以在`run_dump_wifi`中看到除了`cmd`也另外内置了`args`, `args`是一个table,用于方便参数较少的情况可以类比cs的cna中的语法, 当你在tui终端输入`wifi dump MyWiFi`时 `args`为`{"MyWiFi"}`，那么args[1] (注意lua的索引从1开始)也就对应了`MyWiFi`
+```lua
+local function print_args(args)
+	print(args[1])
+	print(args[2])
+end
+
+command("hello", print_args, "print args", "T1000")
+```
+当你在tui中输入`hello arg1 arg2`时, 将会调用print_args函数, 打印arg1和arg2. 注意lua的索引从1开始. 
+
+4. arg_\<number\>用法
+
+```lua
+local function print_args(arg_1, arg_2, arg_3)
+	print(arg_1)
+	print(arg_2)
+	print(arg_3)
+end
+
+command("hello", print_args, "print args", "T1000")
+```
+当你在tui中输入`hello arg1 arg2 arg3`时, 将会调用print_args函数, 打印arg1, arg2, arg3. arg_\<number\>的索引从1开始.
+此用法适用于参数较少的场景, 例如命令行参数较少, 方便快速调用等.
+
+5. flags 用法
+
+```lua
+local function print_flags(cmd)
+	local name = cmd:Flags():GetString("name")
+	print(name)
+end
+
+local cmd = command("hello", print_flags, "print flags", "T1000")
+cmd:Flags():String("name", "", "the name to print")
+```
+当你在tui中输入`hello --name flag1`时, 将会调用print_flags函数, 打印flag1.
+
+此用法适用于对命令行参数过多、参数严格精确控制的场景
+
+6. flag_\<name\>用法
+
+```
+local function print_flags(flag_name)
+    local name = flag_name
+    print(name)
+end
+
+local cmd = command("hello", print_flags, "print flags", "T1000")
+```
+flag_\<name\>的格式会自动注册为flag, 当你在tui中输入`hello --name flag1`时, 将会调用print_flags函数, 打印flag1.
+当你的参数较少时, 可以使用此用法, 代码会更加简洁.
+
+7. cmdline用法
+
+```lua
+local function print_cmdline(cmdline)
+	print(cmdline)
+end
+
+command("hello", print_cmdline, "print cmdline", "T1000")
+```
+cmdline会自动将命令行中所有的参数以空格分隔拼接为一个字符串传入, 例如你在tui中输入`hello arg1 arg2 arg3`时, 将会调用print_cmdline函数, 打印`arg1 arg2 arg3`.
+
 
 当然你也可以让这个命令更加丰富， 让插件更加的。
 
-- `help("net:user:add", "...")` , 添加long helper
-- `example("net:user:add", "...")` 添加命令行exmaple
-- `opsec("net:user:add", 9.8)` , 添加OPSEC 评分
+- `help("hello", "a description for this command")` , 添加long helper
+- `example("hello", "a example for this command")` 添加命令行exmaple
+- `opsec("hello", 9.8)` , 添加OPSEC 评分
 
 
 添加compleler 自动补全,  我们提供了多组场景的自动补全参数
@@ -222,8 +237,6 @@ Flag format:
 示例:
 
 ```lua
-...
-...
 
 local rem_socks_cmd = command("rem_community:socks5", run_socks5, "serving socks5 with rem", "T1090")
 
@@ -301,7 +314,7 @@ end
 
 mals允许用户自行实现的插件作为类库，成为其他库的依赖。 
 
-只需要将lib设置为ture
+首先, 需要将lib设置为ture
 ```yaml
 name: community-lib
 type: lua
@@ -312,58 +325,23 @@ lib: true
 depend_module: 
 ```
 
-按照lua lib的写法实现即可在其他库中引用
-
+你的lib需参考如下写法
 ```lua
-local time = require("time")
-require("lib.lib")
--- require("modules.noconsolation")
--- require("modules.bofnet")
+-- community-lib/main.lua
+
 local lib = {}
 
-function lib.sharpblock(exe_path, exe_args)
-    local rpc = require("rpc")
-    local session = active()
-    local sharpblock_file = "SharpBlock/SharpBlock_Like0x.exe"
-    local randomname = random_string(16)
-    local fullpipename = "\\\\.\\pipe\\" .. randomname
-    local sharpblock_args = {
-        "-e", fullpipename, "-s", "c:\\windows\\system32\\notepad.exe",
-        "--disable-bypass-cmdline", "--disable-bypass-amsi",
-        "--disable-bypass-etw", "-a", ""
-    }
-    if type(exe_args) == "table" then
-        sharpblock_args[#sharpblock_args] = table.concat(exe_args, " ")
-    elseif type(exe_args) == "string" then
-        sharpblock_args[#sharpblock_args] = exe_args
-    end
-    print(sharpblock_args)
-    print("Pipe Name" .. fullpipename)
-    local task = rpc.ExecuteAssembly(session:Context(),
-                                     ProtobufMessage.New(
-                                         "modulepb.ExecuteBinary", {
-            Name = "SharpBlock_Like0x.exe",
-            Arch = 1,
-            Bin = read_resource(sharpblock_file),
-            Type = "execute_assembly",
-            Args = sharpblock_args,
-            Timeout = 600
-        }))
-    time.sleep(4)
-    local hack_browser_data_content = read(exe_path)
-    hack_browser_data_content = base64_encode(hack_browser_data_content)
-    print(#hack_browser_data_content)
-    pipe_upload_raw(session, fullpipename, hack_browser_data_content)
-    for i = 1, 5 do
-        time.sleep(0.1)
-        pipe_upload_raw(session, fullpipename, "ok")
-    end
+function lib.demo()
+    print("this is a lib demo")
 end
 
 return lib
 ```
 
+当你需要在其他插件中使用这个库时, 需要通过require等调用
 ```lua
+-- community-other/main.lua
+
 local clib = require("common-lib")
-clib.sharpblock(...,...)
+clib.demo()
 ```
