@@ -134,42 +134,84 @@ mal load hello
 
 通过command函数， 可以将lua的函数注册到IoM client的命令中。
 
-以一个简单的bof为例:
+以`net_user_add`与`wifi_dump`的bof为例:
 
 ```lua
--- netUserAdd
-
-local function parse_netuseradd_bof(args)
-    local size = #args
-    if size < 2 then
-        error(">=2 arguments are allowed")
-    end
-    local username = args[1]
-    local password = args[2]
-    return bof_pack("ZZ", username, password)
+-- add_net_user
+local function run_add_net_user(cmd)
+	local username = cmd:Flags():GetString("username") -- 获取username参数
+	local password = cmd:Flags():GetString("password") -- 获取password参数
+	if username == "" then
+		error("username is required")
+	end
+	if password == "" then
+		error("password is required")
+	end
+	local packed_args = bof_pack("ZZ", username, password)
+	local session = active()
+	local arch = session.Os.Arch
+	if not isadmin(session) then
+		error("You need to be an admin to run this command")
+	end
+	local bof_file = bof_path("add_net_user", arch)
+	return bof(session, script_resource(bof_file), packed_args, true)
 end
 
-local function run_netuseradd_bof(args)
-    args = parse_netuseradd_bof(args)
-    local session = active()
-    local arch = session.Os.Arch
-    if not isadmin(session) then
-        error("You need to be an admin to run this command")
-    end
-    local bof_file = bof_path("NetUserAdd", arch)
-    return bof(session, script_resource(bof_file), args, true)
+local cmd_add_net_user = command("net:user:add", run_add_net_user, "Add a new user account <username> <password>", "T1136.001")
+cmd_add_net_user:Flags():String("username", "", "the username to add") -- 注册username参数
+cmd_add_net_user:Flags():String("password", "", "the password to set") -- 注册password参数
+
+opsec("net:user:add", 9.0)
+
+-- dump_wifi
+local function run_dump_wifi(args, cmd)
+	local profilename = ""
+
+	-- Check if using positional arguments first
+	if args and #args == 1 and args[1] ~= "" then
+		-- Positional argument format: dump_wifi profilename
+		profilename = args[1]
+	else
+		-- Flag format: dump_wifi --profilename profilename
+		profilename = cmd:Flags():GetString("profilename")
+	end
+
+	if profilename == "" then
+		error("profilename is required")
+	end
+
+	local packed_args = bof_pack("Z", profilename)
+	local session = active()
+	local arch = session.Os.Arch
+	local bof_file = bof_path("dump_wifi", arch)
+	return bof(session, script_resource(bof_file), packed_args, true)
 end
 
-command("common:netuseradd_bof", run_netuseradd_bof, "netuseradd_bof <username> <password>", "T1136")
+local cmd_dump_wifi = command("wifi:dump", run_dump_wifi, "Dump WiFi profile credentials <profilename>", "T1555.004")
+cmd_dump_wifi:Flags():String("profilename", "", "WiFi profile name to dump")
+opsec("wifi:dump", 9.0)
+
+help("dump_wifi", [[
+Positional arguments format:
+  wifi dump "My WiFi Network"
+  wifi dump MyWiFi
+
+Flag format:
+  wifi dump --profilename "My WiFi Network"
+  wifi dump --profilename MyWiFi
+]])
 ```
 
-需要注意的是 `"common:netuseradd_bof"`中的`:`表示命令层级. 在这个例子中表示将会注册上级命令common, 然后注册子命令netuseradd_bof。
+需要注意如下几点:
+1. `"net:user:add"`中的`:`表示层级以方便命令分组. 在这个例子中表示将会注册一级命令net, 然后注册二级命令user和三级命令add, 因此调用格式为`net user add ...`
+2. `run_add_net_user(cmd)`中的`cmd`为内置的command对象同client中的原生command, 因此可以很方便的注册、获取参数，适用于命令的参数多、需要精确控制的场景 , 如：`cmd_add_net_user:Flags():String("username", "", "the username to add")`与`cmd:Flags():GetString("username")`分别用于注册和获取username参数，此命令的tui用法为: `net user add --username <admin_demo> --password <password_demo>`
+3. 你可以在`run_dump_wifi`中看到除了`cmd`也另外内置了`args`, `args`是一个table,用于方便参数较少的情况可以类比cs的cna中的语法, 当你在tui终端输入`wifi dump MyWiFi`时 `args`为`{"MyWiFi"}`，那么args[1] (注意lua的索引从1开始)也就对应了`MyWiFi`
 
-这个是添加一个命令最小示例。当然也支持让这个命令更加丰富， 就像是原生的命令一样。
+当然你也可以让这个命令更加丰富， 让插件更加的。
 
-- `help("common:netuseradd_bof", "...")` , 添加long helper
-- `example("common:netuseradd_bof", "...")` 添加命令行exmaple
-- `opsec("common:netuseradd_bof", 9.8)` , 添加OPSEC 评分
+- `help("net:user:add", "...")` , 添加long helper
+- `example("net:user:add", "...")` 添加命令行exmaple
+- `opsec("net:user:add", 9.8)` , 添加OPSEC 评分
 
 
 添加compleler 自动补全,  我们提供了多组场景的自动补全参数
@@ -239,16 +281,16 @@ local msg = ProtobufMessage.New("modulepb.ExecuteBinary", {
 ```
 
 ### 调用rpc命令
-
+	
 ```lua
 function load_rem()
-    local rpc = require("rpc")
+	 local rpc = require("rpc")
 
-    local task = rpc.LoadRem(active():Context(), ProtobufMessage.New("modulepb.Request", {
-        Name = "load_rem",
-        Bin = read_resource("chainreactors/rem.dll"),
-    }))
-    wait(task)
+	 local task = rpc.LoadRem(active():Context(), ProtobufMessage.New("modulepb.Request", {
+	 	 Name = "load_rem",
+	 	 Bin = read_resource("chainreactors/rem.dll"),
+	 }))
+	 wait(task)
 end
 ```
 
