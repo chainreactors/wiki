@@ -57,8 +57,23 @@ mal load hello
 通过command函数， 可以将lua的函数注册到IoM client的命令中。
 
 如下将举一些常见的例子:
-1. 命令注册
+### 命令注册
 
+通过command函数可以将Lua函数注册为IoM客户端命令。
+
+#### 基本语法
+```lua
+command(name, function, help, ttp)
+```
+
+- name: 命令名称，支持多级命令（用:分隔）
+- function: 执行函数
+- help: 命令帮助信息
+- ttp: MITRE ATT&CK TTP编号
+
+#### 基础用法
+
+1. 简单命令注册
 ```lua
 -- print hello world
 local function hello()
@@ -67,8 +82,7 @@ end
 
 command("hello", hello, "print hello world", "T1000")
 ```
-这段代码将通过command函数注册一个"hello"命令, 当在client中输入hello时, 将会调用hello函数, 打印hello world.
-第一个参数表示命令的名字, 第二个参数表示命令的函数, 第三个参数表示命令的帮助信息(short help), 第四个参数表示命令的TTP编号.
+在客户端执行hello命令时，将调用hello函数并输出"hello world"。
 
 2. 多级命令注册
 ```lua
@@ -78,9 +92,13 @@ end
 
 command("hello:hello1:hello2", hello, "print hello world", "T1000")
 ```
-当你在tui中输入hello world时, 将会调用hello函数, 打印hello world.
-此时hello为一级命令, hello1为二级命令, hello2为三级命令. 方便对命令进行规划分组等
+执行hello hello1 hello2命令时，将调用hello函数。此结构便于命令的层级管理和分组组织：
 
+- hello: 一级命令
+- hello1: 二级命令
+- hello2: 三级命令
+
+#### 参数处理
 3.args 用法
 
 ```lua
@@ -91,7 +109,7 @@ end
 
 command("hello", print_args, "print args", "T1000")
 ```
-当你在tui中输入`hello arg1 arg2`时, 将会调用print_args函数, 打印arg1和arg2. 注意lua的索引从1开始. 
+执行`hello arg1 arg2`时，将调用print_args函数，输出arg1和arg2。注意Lua数组索引从1开始。 
 
 4. arg_\<number\>用法
 
@@ -104,10 +122,9 @@ end
 
 command("hello", print_args, "print args", "T1000")
 ```
-当你在tui中输入`hello arg1 arg2 arg3`时, 将会调用print_args函数, 打印arg1, arg2, arg3. arg_\<number\>的索引从1开始.
-此用法适用于参数较少的场景, 例如命令行参数较少, 方便快速调用等.
+执行hello arg1 arg2 arg3时，将调用print_args函数，分别输出三个参数。此方式适用于参数数量固定且较少的场景。
 
-5. flags 用法
+5. flags标志参数用法
 
 ```lua
 local function print_flags(cmd)
@@ -118,11 +135,9 @@ end
 local cmd = command("hello", print_flags, "print flags", "T1000")
 cmd:Flags():String("name", "", "the name to print")
 ```
-当你在tui中输入`hello --name flag1`时, 将会调用print_flags函数, 打印flag1.
+执行hello --name flag1时，将调用print_flags函数，输出flag1。此方式适用于参数较多或需要精确控制的场景。
 
-此用法适用于对命令行参数过多、参数严格精确控制的场景
-
-6. flag_\<name\>用法
+6. flag_\<name\>自动注册用法
 
 ```
 local function print_flags(flag_name)
@@ -132,8 +147,7 @@ end
 
 local cmd = command("hello", print_flags, "print flags", "T1000")
 ```
-flag_\<name\>的格式会自动注册为flag, 当你在tui中输入`hello --name flag1`时, 将会调用print_flags函数, 打印flag1.
-当你的参数较少时, 可以使用此用法, 代码会更加简洁.
+使用flag_<name>格式的参数会自动注册为标志参数。执行hello --name flag1时，将调用print_flags函数，输出flag1。此方式代码更简洁，适用于参数较少的场景。
 
 7. cmdline用法
 
@@ -144,8 +158,7 @@ end
 
 command("hello", print_cmdline, "print cmdline", "T1000")
 ```
-cmdline会自动将命令行中所有的参数以空格分隔拼接为一个字符串传入, 例如你在tui中输入`hello arg1 arg2 arg3`时, 将会调用print_cmdline函数, 打印`arg1 arg2 arg3`.
-
+cmdline参数会将所有命令行参数以空格分隔拼接为字符串。执行hello arg1 arg2 arg3时，将输出arg1 arg2 arg3。
 
 当然你也可以让这个命令更加丰富， 让插件更加的。
 
