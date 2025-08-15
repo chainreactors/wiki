@@ -1,7 +1,8 @@
 ---
 title: Internet of Malice · index
 ---
-## overview 
+
+## Overview 
 
 Internet of Malice(恶联网) 力图实现一套开源 Offensive 基础设施, 兼容CS,MSF,Sliver生态, 提供更高的拓展性与隐蔽性, 并提供完整的工程化解决方案。 IoM将作为进攻性基础设施实现， 而不仅仅是一个C2工具， 你能在这里找到先进的设计理念、工程化实现、插件生态以及能用于Real World的解决方案。
 
@@ -35,8 +36,15 @@ v0.1.1极大简化了IoM的上手难度，大幅度提升了用户体验。我�
     - 热插拔, implant的所有模块都可以动态载入, 不需要重新编译, 不需要重启进程
     - 插件化, client,server,implant都将保留大量插件接口, 致力于实现cobaltstrike同样的自由度
 
+## Introduce
 
-### 架构/architecture
+[IoM架构与设计](/IoM/design/)
+
+## 快速入门
+
+[快速开始，开箱即用](/IoM/quickstart/)
+
+## 架构/architecture
 
 IoM将由一系列仓库组成
 
