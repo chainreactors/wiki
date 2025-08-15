@@ -72,7 +72,7 @@ command(name, function, help, ttp)
 
 ### 基础用法
 
-1. 简单命令注册
+#### 简单命令注册
 ```lua
 -- print hello world
 local function hello()
@@ -83,20 +83,28 @@ command("hello", hello, "print hello world", "T1000")
 ```
 在客户端执行hello命令时，将调用hello函数并输出"hello world"。
 
-2. 多级命令注册
+#### 多级命令注册
+
+在复杂场景中， 例如mimikatz 拥有多个常见用法 logonpasswords  tickets   。 我们需要其注册为mimikatz的子命令。 
+
 ```lua
-local function hello()
-	print("hello world")
+local function logonpasswords()
+	...
 end
 
-command("hello:hello1:hello2", hello, "print hello world", "T1000")
+local function tickets()
+	...
+end
+
+command("mimikatz:logonpasswords", logonpasswords, "logonpasswords", "T1000")
+command("mimikatz:tickets", logonpasswords, "logonpasswords", "T1000")
 ```
-执行`hello hello1 hello2`命令时，将调用hello函数。此结构便于命令的层级管理和分组组织: 
 
-  - hello: 一级命令
-  - hello1: 二级命令
-  - hello2: 三级命令
+`:` 表示子命令的分隔符， 可以添加任意层级的子命令
 
+```lua
+command("mimikatz:common:hello", hello, "print hello world", "T1000")
+```
 ### 参数处理
 
 在命令行程序中，通常将命令行的输入分为:

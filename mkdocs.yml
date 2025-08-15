@@ -82,13 +82,13 @@ nav:
       - RoadMap: IoM/roadmap.md
       - Usage: 
         - index: IoM/manual/usage/index.md
-        - deploy: IoM/manual/usage/deploy.md
+        - 部署: IoM/manual/usage/deploy.md
         - listener: IoM/manual/usage/listener.md
         - build&artifact: IoM/manual/usage/build.md
-        - embed: IoM/manual/usage/embed_mal.md
-        - proxy: IoM/manual/usage/proxy.md
-        - advance:
-            - mal: IoM/manual/mal/quickstart.md
+        - 内置插件: IoM/manual/usage/embed_mal.md
+        - 代理/隧道: IoM/manual/usage/proxy.md
+        - 高级用法:
+            - mal快速入门: IoM/manual/mal/quickstart.md
             - DumpLSASS: IoM/manual/usage/DumpLSASS.md
             - DomainFronting: IoM/manual/usage/DomainFronting.md
       - Manual:
