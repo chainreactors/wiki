@@ -91,11 +91,11 @@ end
 
 command("hello:hello1:hello2", hello, "print hello world", "T1000")
 ```
-执行hello hello1 hello2命令时，将调用hello函数。此结构便于命令的层级管理和分组组织: 
+执行`hello hello1 hello2`命令时，将调用hello函数。此结构便于命令的层级管理和分组组织: 
 
-- hello: 一级命令
-- hello1: 二级命令
-- hello2: 三级命令
+  - hello: 一级命令
+  - hello1: 二级命令
+  - hello2: 三级命令
 
 ### 参数处理
 
