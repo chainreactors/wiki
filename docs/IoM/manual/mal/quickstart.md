@@ -52,26 +52,25 @@ mal load hello
 	```
 
 
-### register command
+## 注册命令
 
 通过command函数， 可以将lua的函数注册到IoM client的命令中。
 
 如下将举一些常见的例子:
-### 命令注册
 
-通过command函数可以将Lua函数注册为IoM客户端命令。
-
-#### 基本语法
+### 基本语法
 ```lua
 command(name, function, help, ttp)
 ```
 
 - name: 命令名称，支持多级命令（用:分隔）
-- function: 执行函数
+- function: 执行的lua函数
 - help: 命令帮助信息
 - ttp: MITRE ATT&CK TTP编号
 
-#### 基础用法
+详细文档请见：https://wiki.chainreactors.red/IoM/manual/mal/builtin/#command
+
+### 基础用法
 
 1. 简单命令注册
 ```lua
@@ -98,8 +97,18 @@ command("hello:hello1:hello2", hello, "print hello world", "T1000")
 - hello1: 二级命令
 - hello2: 三级命令
 
-#### 参数处理
-3.args 用法
+### 参数处理
+
+在命令行程序中，通常将命令行的输入分为:
+
+- args, `hello arg1 arg2`, 
+- flags, POSIX中分为 long|short flag . `hello -s` 和`hello --long`
+- cmdline, 表示完整的命令行字符串
+
+在IoM中还有一类特殊的用法。 我们可以直接传入[cobra](https://cobra.dev/)(一个被广泛使用的命令行库)的cmd 对象对象。 用来手动解析flag和arg。
+
+通过这些方式，IoM mal提供了接近golang原生的命令行控制能力， 包括注册、解析甚至自动补全的能力。 
+#### args 
 
 ```lua
 local function print_args(args)
@@ -111,7 +120,7 @@ command("hello", print_args, "print args", "T1000")
 ```
 执行`hello arg1 arg2`时，将调用print_args函数，输出arg1和arg2。注意Lua数组索引从1开始。 
 
-4. arg_\<number\>用法
+**`arg_<number>`**
 
 ```lua
 local function print_args(arg_1, arg_2, arg_3)
@@ -124,7 +133,7 @@ command("hello", print_args, "print args", "T1000")
 ```
 执行hello arg1 arg2 arg3时，将调用print_args函数，分别输出三个参数。此方式适用于参数数量固定且较少的场景。
 
-5. flags标志参数用法
+#### flags
 
 ```lua
 local function print_flags(cmd)
@@ -137,7 +146,7 @@ cmd:Flags():String("name", "", "the name to print")
 ```
 执行hello --name flag1时，将调用print_flags函数，输出flag1。此方式适用于参数较多或需要精确控制的场景。
 
-6. flag_\<name\>自动注册用法
+ **`flag_<name>`自动注册**
 
 ```
 local function print_flags(flag_name)
@@ -147,9 +156,9 @@ end
 
 local cmd = command("hello", print_flags, "print flags", "T1000")
 ```
-使用flag_<name>格式的参数会自动注册为标志参数。执行hello --name flag1时，将调用print_flags函数，输出flag1。此方式代码更简洁，适用于参数较少的场景。
+使用`flag_<name>`格式的参数会自动注册为标志参数。执行hello --name flag1时，将调用print_flags函数，输出flag1。此方式代码更简洁，适用于参数较少的场景。
 
-7. cmdline用法
+#### cmdline
 
 ```lua
 local function print_cmdline(cmdline)
@@ -160,11 +169,15 @@ command("hello", print_cmdline, "print cmdline", "T1000")
 ```
 cmdline参数会将所有命令行参数以空格分隔拼接为字符串。执行hello arg1 arg2 arg3时，将输出arg1 arg2 arg3。
 
-当然你也可以让这个命令更加丰富， 让插件更加的。
+#### cmd
 
-- `help("hello", "a description for this command")` , 添加long helper
-- `example("hello", "a example for this command")` 添加命令行exmaple
-- `opsec("hello", 9.8)` , 添加OPSEC 评分
+#### 辅助函数
+
+当然你也可以让这个命令更加丰富。
+
+- [help](/IoM/manual/mal/builtin/#help), `help("hello", "a description for this command")` , 添加long helper
+- [example](/IoM/manual/mal/builtin/#example), `example("hello", "a example for this command")` 添加命令行exmaple
+- [opsec](/IoM/manual/mal/builtin/#opsec), `opsec("hello", 9.8)` , 添加OPSEC 评分
 
 
 添加compleler 自动补全,  我们提供了多组场景的自动补全参数
