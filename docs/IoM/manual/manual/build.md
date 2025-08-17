@@ -141,10 +141,10 @@ build beacon --profile tcp_default --target x86_64-pc-windows-gnu --source docke
 ![image-20250710185555673](/IoM/assets/profile_list.png)
 
 在gui上，可以在artifact页面查看profile列表:
-![image-20250817182427224752](/IoM/assets/assets/usage/build/profile_list_gui.png)
+![image-20250817182427224752](/IoM/assets/usage/build/profile_list_gui.png)
 
 也可以点击profile的name，查看profile内容：
-![image-20250817182527224752](/IoM/assets/assets/usage/build/profile_detail.png)
+![image-20250817182527224752](/IoM/assets/usage/build/profile_detail.png)
 如果需要建立新的profile，可以使用以下命令:
 
 ```bash
@@ -157,10 +157,10 @@ profile new --name test --pipeline tcp
 profile load path/to/config.yaml --name test --pipeline tcp
 ```
 
-![image-20250817183127224752](/IoM/assets/assets/usage/build/profile_load.png)
+![image-20250817183127224752](/IoM/assets/usage/build/profile_load.png)
 
 在 gui 中添加 profile 时，用户若未选择文件则创建新的 profile；若选择了已有的 profile 文件，则加载该 profile:
-![image-20250817182727224752](/IoM/assets/assets/usage/build/profile_new.png)
+![image-20250817182727224752](/IoM/assets/usage/build/profile_new.png)
 
 ### 编译beacon
 
@@ -170,7 +170,7 @@ build beacon --profile tcp_default --target x86_64-unknown-linux-musl
 
 ![image-20250709172432445](/IoM/assets/build_beacon.png)
 
-![image-20250817183527224752](/IoM/assets/assets/usage/build/build_beacon_gui.png)
+![image-20250817183527224752](/IoM/assets/usage/build/build_beacon_gui.png)
 也可以使用 `--rem` ，将beacon静态链接至rem。
 
 ```bash
@@ -181,7 +181,7 @@ build beacon --profile tcp_default --target x86_64-unknown-linux-musl --rem
 
 ![image-20250709174110225](/IoM/assets/rem_beacon.png)
 
-![image-20250817183627224752](/IoM/assets/assets/usage/build/build_beacon_rem_gui.png)
+![image-20250817183627224752](/IoM/assets/usage/build/build_beacon_rem_gui.png)
 
 ### 编译module
 
@@ -194,7 +194,7 @@ build modules --modules execute_exe,execute_dll --profile tcp_default --target x
 
 ![image-20250709184032052](/IoM/assets/build_IoM_Module.png)
 
-![image-20250817183827224752](/IoM/assets/assets/usage/build/build_modules_gui.png)
+![image-20250817183827224752](/IoM/assets/usage/build/build_modules_gui.png)
 
 通过artifact name加载modules（name可通过tab补全）。
 
@@ -214,7 +214,7 @@ build modules --3rd rem --profile tcp_default --target x86_64-pc-windows-gnu
 
 ![image-20250709185630326](/IoM/assets/build_3rd_modules.png)
 
-![image-20250817183927224752](/IoM/assets/assets/usage/build/build_3rd_gui.png)
+![image-20250817183927224752](/IoM/assets/usage/build/build_3rd_gui.png)
 同上，通过artifact name加载modules。
 
 ![image-20250709185836589](/IoM/assets/load_module_tab.png)
@@ -229,7 +229,7 @@ build pulse --profile tcp_default --target x86_64-pc-windows-gnu
 
 ![image-20250709192315948](/IoM/assets/build_pulse.png)
 
-![image-20250817184327224752](/IoM/assets/assets/usage/build/build_pulse_gui.png)
+![image-20250817184327224752](/IoM/assets/usage/build/build_pulse_gui.png)
 
 指定beacon进行编译。
 
@@ -239,7 +239,7 @@ build pulse --profile tcp_default --target x86_64-pc-windows-gnu --artifact-id 5
 
 ![image-20250709202400960](/IoM/assets/build_pulse_artifactid.png)
 
-![image-20250817184427224752](/IoM/assets/assets/usage/build/build_pulse_artifactID_gui.png)
+![image-20250817184427224752](/IoM/assets/usage/build/build_pulse_artifactID_gui.png)
 ### 编译prelude
 prelude目前需要配置autorun.yaml来使用，profile中implants下的autorun需要指定为autorun.yaml：
 
@@ -283,9 +283,9 @@ resources文件夹中需要包含autorun.yaml中所列到的所有文件。
 build prelude  --profile prelude-profile  --target x86_64-pc-windows-gnu --autorun path/to/dir.zip
 ```
 
-![image-20250817185927224752](/IoM/assets/assets/usage/build/build_prelude.png)
+![image-20250817185927224752](/IoM/assets/usage/build/build_prelude.png)
 
-![image-20250817185927224752](/IoM/assets/assets/usage/build/build_prelude_gui.png)
+![image-20250817185927224752](/IoM/assets/usage/build/build_prelude_gui.png)
 
 ### 查看build log
 
@@ -295,11 +295,11 @@ build prelude  --profile prelude-profile  --target x86_64-pc-windows-gnu --autor
 build log artifact_name
 ```
 
-![image-20250817192027224752](/IoM/assets/assets/usage/build/build_log.png)
+![image-20250817192027224752](/IoM/assets/usage/build/build_log.png)
 
 在gui中，可以右击对应artifact行，点击Show Artifact Log, 可以查看log。
 
-![image-20250817192327224752](/IoM/assets/assets/usage/build/build_log_gui.png)
+![image-20250817192327224752](/IoM/assets/usage/build/build_log_gui.png)
 
 ## artifact
 
@@ -357,7 +357,7 @@ artifact list
 ![img_8.png](/IoM/assets/artifact_list.png)
 
 gui则是在artifact页面上点击对应的artifact行上的download按钮，即可下载artifact源文件到指定路径。
-![image-20250817190327224752](/IoM/assets/assets/usage/build/artifact_download.png)
+![image-20250817190327224752](/IoM/assets/usage/build/artifact_download.png)
 ## 编译配置
 
 目前IoM支持三种编译平台，分别为docker、action和SaaS编译，build命令下使用 `--source` 来控制编译方式，若未指定 `--source`， 则会通过docker > action > SaaS的优先级，来选择可用的编译平台来编译。
@@ -490,6 +490,6 @@ build beacon --profile tcp_default --target x86_64-pc-windows-gnu --source docke
 
 在gui上，可以在build表格中，通过下拉框选择需要使用的编译平台：
 
-![image-20250817192127224752](/IoM/assets/assets/usage/build/build_source.png)
+![image-20250817192127224752](/IoM/assets/usage/build/build_source.png)
 
 

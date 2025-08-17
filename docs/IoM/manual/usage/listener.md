@@ -303,10 +303,13 @@ pipeline start tcp --cert-name cert-name
 ```
 - **`headers`**：  
     可以定义多个 HTTP 响应头，例如伪装成 Nginx/Apache，或者返回自定义的 Content-Type。
+
 - **`error_page`**：  
     指定一个文件路径作为错误页面，返回时可替代默认的错误内容。
+
 - **`body_prefix` / `body_suffix`**：  
     在 HTTP 响应体的最前/最后拼接额外内容，用于混淆流量或伪装网页。
+    
 ### 独立部署listener
 
 从项目设计开始，我们就将listener和server解耦，可以通过启动命令独立部署listener。
