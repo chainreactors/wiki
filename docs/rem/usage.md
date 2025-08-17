@@ -110,7 +110,7 @@ user 位于外网, 通过 socks5 服务即可访问 client 所在的网络.
 ![image-20241216183149941](assets/image-20241216183149941.png)
 
 !!! tips "工作模式"
-	`-m` 表示工作模式, 请见 [文档:传输层](##transport)
+	`-m` 表示工作模式, 请见 [文档:传输层](#transport)
 	
 	`-m reverse` 表示 inbound 位于 server 端
 	
