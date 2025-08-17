@@ -152,7 +152,7 @@ website add /path/to/file --website web-test --path /path
 
 在gui上，需要先在website界面上，点击new website按钮，在website新建按钮中输入对应信息，来新建website pipeline。
 
-![image-20250817173027224752](/IoM/assets/assets/usage/listener/website_new_gui.png)
+![image-20250817173027224752](/IoM/assets/usage/listener/website_new_gui.png)
 
 随后在对应website pipeline的点击add content按钮，填写需要的website content后添加:
 
