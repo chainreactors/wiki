@@ -85,8 +85,8 @@ nav:
       - Guideline: 
         - index: IoM/manual/usage/index.md
         - 部署: IoM/manual/usage/deploy.md
-        - listener: IoM/manual/usage/listener.md
-        - build&artifact: IoM/manual/usage/build.md
+        - Listener: IoM/manual/usage/listener.md
+        - Payload: IoM/manual/usage/build.md
         - 内置插件: IoM/manual/usage/embed_mal.md
         - 代理/隧道: IoM/manual/usage/proxy.md
         - 高级用法:
