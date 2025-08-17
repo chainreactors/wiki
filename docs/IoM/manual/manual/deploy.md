@@ -230,7 +230,7 @@ IoM 允许将一些文件挂载 web 服务上
 
 **Malice-Network** 服务器是能与控制 `Implant` 并与 **Malice-Network** 客户端交互的主机。服务器还存储了部分 **Malice-Network** 收集的数据，并管理日志记录。
 
-需要提前获取对应的配置文件: https://github.com/chainreactors/malice-network/blob/master/server/listener.yaml ,并放到`malice-network`所在目录下
+需要提前获取对应的配置文件: https://github.com/chainreactors/malice-network/blob/master/server/config.yaml ,并放到`malice-network`所在目录下
 
 最简启动
 
