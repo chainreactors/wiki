@@ -129,10 +129,6 @@ IoM还支持了第三方消息通知，目前支持了telegram，钉钉，飞书
 
 执行命令后，客户端会自动使用新的客户配置文件与服务器连接，并将用户配置文件移动至客户端的用户配置文件夹 (Windows 下为 `C:\Users\user\.config\malice\configs`, Linux 为 `/home/[username]/.config/malice/configs`，MacOS  为 `/Users/[username]/.config/malice/configs`）
 
-客户端登录成功后会输出以下信息：
-
-![](/IoM/assets/NI55beE9Bo6ad5xtT3lcMuvunAd.png)
-
 下次登录后，客户端会自动显示在用户配置文件夹下所有的用户配置，根据需求，选择对应的用户进行选择。
 
 ```
@@ -161,3 +157,4 @@ gui目前以vscode插件形式生成，需要配置vscode使用，在[github rel
 
 ![image-20250817195039835](/IoM/assets/usage/deploy/gui_add_auth.png)
 
+!!! tips "更具体的部署文档在[deploy](/IoM/manual/manual/deploy)中说明"
