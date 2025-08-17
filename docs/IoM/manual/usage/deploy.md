@@ -2,7 +2,7 @@
 
 !!! tips "安装脚本并非必须, 若非有本地编译需求, 可以参考quickstart开箱即用"
 
-#### 使用安装脚本安装:
+#### 在linux上使用安装脚本安装:
 
 ```
 curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/install.sh" | sudo bash
@@ -56,39 +56,44 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 5. 配置并启动 Malice-Network 服务（基于 `systemd`）。
 
 #### 下载release部署
-也可以根据自身服务器需求，[下载对应的server release](https://github.com/chainreactors/malice-network/releases/latest)。
-![image-20250817144939835](/IoM/assets/deploy/github_release.png)
+
+如果在windows或者macos系统上部署server，则前往IoM仓库[下载对应的server release](https://github.com/chainreactors/malice-network/releases/latest)。
+
+![image-20250817220924324](/IoM/assets/usage/deploy/github_release.png)
+
 其中IoM为client端，malice_network为server端。
-下载完成后，可以使用以下命令启动
+
+下载完成后，可以使用以下命令启动服务端。
+
 ```bash
 ./malice-network
 ```
-也可以通过使用`-i` 让server以指定ip启动，使listener和client能访问到server。
+
+如果需要server以指定ip启动，则使用`-i` 参数来指定ip。
+
 ```
 ./malice-network -i 123.123.123.123
 ```
-#### server配置修改
+
+#### 常用配置修改
 config.yaml是server端的配置文件，其中包含了一些server以及 `listener` 可选的配置。
 若需要修改配置，需要提前到 https://github.com/chainreactors/malice-network/blob/master/server/config.yaml 下载config.yaml，并放到server端可执行文件的同级目录下。
-以下是一些常用config.yaml的配置示例。
-##### server base配置
+
+在config.yaml中可以通过server下的 `ip` 字段来修改server指定的外网ip。
+
 ```yaml
 server:
-  enable: true        # 是否以server形式启动
-  grpc_port: 5004     # grpc服务器监听端口(grpc服务器与listener和client通信)
-  grpc_host: 0.0.0.0  # grpc服务器监听host
-  ip: 127.0.0.1       # 服务器的外网ip和用于编译implant的时需要填写"回连IP"之类的默认配置
-  audit: 1            # 审计日志级别，0为关闭审计，1为基础信息审计，2为全部信息审计
-  encryption_key: maliceofinternal  # server和client的aes算法的加密密钥
+  ip: 127.0.0.1
 ```
 
-##### 与listener通信的数据包大小配置
+当在传输大文件时或者网络环境较差时，可以通过修改config下的 `packet_length` 字段来调整server与listener之间的通信数据包大小。
+
 ```yaml
-  config:
-    packet_length: 10485760   # 与listener之间通信的数据包大小
+config:
+  packet_length: 10485760   # 10M
 ```
 
-##### 第三方消息通知配置
+IoM还支持了第三方消息通知，目前支持了telegram，钉钉，飞书和微信等第三方软件。可以在config.yaml中的 `notify` 字段来配置。
 ```yaml
   notify:
     enable: false 
@@ -113,26 +118,10 @@ server:
       channel:        # 推送渠道，可选: wechat, email, telegram 等
 ```
 
-##### 用于编译 implant 的 GitHub Actions 配置
-```yaml
-  github: 
-    repo: malefic              # 对应github仓库名
-    workflow: generate.yaml    # 对应github action file
-    owner:                     # 对应github仓库拥有者账号
-    token:                     # 对应github token
-```
-
-##### 用于implant的SaaS服务器配置
-```yaml
-  saas: 
-    enable: true
-    url: https://build.chainreactors.red   # saas服务url
-    token:                                 # saas服务token(community token会在saas服务允许,并在server启动后自动生成)
-```
-
+关于listener和编译的配置在[listener](/IoM/manual/usage/listener)和[build](/IoM/manual/usage/build)中说明。
 ### 启动客户端
 
-将生成的用户配置文件, 默认为 `admin_[server_ip].auth` 复制到 `Malice-Network` 客户端的所在位置。使用新的用户配置文件时，可以使用以下指令启动客户端：
+服务端启动后会生成两个配置文件, 分别为`listener.auth` 和`admin_[server_ip].auth`，将生成的用户配置文件, 默认为 `admin_[server_ip].auth` 复制到 `Malice-Network` 客户端的所在位置。使用新的用户配置文件时，可以使用以下指令启动客户端：
 
 ```powershell
 .\iom login [admin_ip.auth]
@@ -152,39 +141,23 @@ server:
 
 ![](/IoM/assets/EEgKb86iwop9xaxBUt8cHZG9n8f.png)
 
-每个client下拥有独立的profile配置，每次client启动都会读取对应的用户配置。如果在多用户情况下需要进行私有配置，可以在client的用户配置文件下的malice.yaml进行修改。
-
-```
-resources: ""                             
-tmp: ""
-aliases: []								# sliver aliases本地加载列表
-extensions:[]							# sliver extensions本地加载列表
-mals: []								# mals本地加载列表
-settings:
-  max_server_log_size: 10				# 每个session在iom保存的最大日志个数
-  github_repo: ""						# malefic的仓库名
-  github_owner: ""						# github用户名
-  github_token: ""						# github的token
-  github_workflow_file: generate.yaml	# workflow的配置文件名（默认为generate.yaml
-```
-
 ### gui 配置
 
 gui目前以vscode插件形式生成，需要配置vscode使用，在[github release中下载](https://github.com/chainreactors/malice-network/releases/latest/download/iom.vsix)。
 
 在vscode的extensions界面选择install from VSIX将gui插件安装：
 
-![image-20250817194939835](/IoM/assets/deploy/gui_install.png)
+![image-20250817194939835](/IoM/assets/usage/deploy/gui_install.png)
 
 安装完成后，在vscode设置中搜索iom
 
 需要配置默认凭证名和iom的client路径：
 
-![image-20250817194339835](/IoM/assets/deploy/gui_setting.png)
+![image-20250817194339835](/IoM/assets/usage/deploy/gui_setting.png)
 
 !!! tips "默认凭证名只是命令行中使用的默认凭证名，在后续的client登录中还是要先添加对应的登录凭证，然后才能使用。"
 
 设置完成后，在左侧凭证列表点击添加按钮，将server生成的auth文件加入，然后点击auth文件，即可与server连接，使用gui界面。
 
-![image-20250817195039835](/IoM/assets/deploy/gui_add_auth.png)
+![image-20250817195039835](/IoM/assets/usage/deploy/gui_add_auth.png)
 
