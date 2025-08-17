@@ -174,17 +174,17 @@ gui目前以vscode插件形式生成，需要配置vscode使用，在[github rel
 
 在vscode的extensions界面选择install from VSIX将gui插件安装：
 
-![image-20250817193639835](/IoM/assets/deploy/gui_install.png)
+![image-20250817194939835](/IoM/assets/deploy/gui_install.png)
 
 安装完成后，在vscode设置中搜索iom
 
 需要配置默认凭证名和iom的client路径：
 
-![image-20250817193639835](/IoM/assets/deploy/gui_setting.png)
+![image-20250817194339835](/IoM/assets/deploy/gui_setting.png)
 
 !!! tips "默认凭证名只是命令行中使用的默认凭证名，在后续的client登录中还是要先添加对应的登录凭证，然后才能使用。"
 
 设置完成后，在左侧凭证列表点击添加按钮，将server生成的auth文件加入，然后点击auth文件，即可与server连接，使用gui界面。
 
-![image-20250817193639835](/IoM/assets/deploy/gui_add_auth.png)
+![image-20250817195039835](/IoM/assets/deploy/gui_add_auth.png)
 
