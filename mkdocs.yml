@@ -90,8 +90,8 @@ nav:
         - 内置插件: IoM/manual/usage/embed_mal.md
         - 代理/隧道: IoM/manual/usage/proxy.md
         - 高级用法:
-            - DumpLSASS: IoM/manual/usage/DumpLSASS.md
-            - DomainFronting: IoM/manual/usage/DomainFronting.md
+            - DumpLSASS: IoM/manual/usage/advance/DumpLSASS.md
+            - DomainFronting: IoM/manual/usage/advance/DomainFronting.md
         - DevelopGuide:
             - index: IoM/manual/usage/develop/index.md
             - mal快速入门: IoM/manual/mal/quickstart.md
