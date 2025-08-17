@@ -34,12 +34,13 @@ plugins:
   - blog:
       blog_toc: true
 markdown_extensions:
-  - markdown.extensions.admonition
-  - markdown.extensions.attr_list
-  - markdown.extensions.def_list
-  - markdown.extensions.footnotes
-  - markdown.extensions.meta
-  - markdown.extensions.toc:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - meta
+  - toc:
       permalink: true
   - pymdownx.arithmatex
   - pymdownx.betterem:
@@ -67,7 +68,8 @@ markdown_extensions:
   - pymdownx.snippets:
       check_paths: true
   - pymdownx.superfences
-  - pymdownx.tabbed
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.tilde
@@ -80,7 +82,7 @@ nav:
       - Quickstart: IoM/quickstart.md
       - Concept: IoM/concept.md
       - RoadMap: IoM/roadmap.md
-      - Usage: 
+      - Guideline: 
         - index: IoM/manual/usage/index.md
         - 部署: IoM/manual/usage/deploy.md
         - listener: IoM/manual/usage/listener.md
@@ -91,6 +93,12 @@ nav:
             - mal快速入门: IoM/manual/mal/quickstart.md
             - DumpLSASS: IoM/manual/usage/DumpLSASS.md
             - DomainFronting: IoM/manual/usage/DomainFronting.md
+        - DevelopGuide:
+            - index: IoM/manual/usage/develop/index.md
+            - Server开发: IoM/manual/usage/develop/server.md
+            - Client开发: IoM/manual/usage/develop/client.md
+            - Implant开发: IoM/manual/usage/develop/implant.md
+
       - Manual:
         - index: IoM/manual/index.md
         - client/server:
@@ -99,7 +107,6 @@ nav:
             - client usage: IoM/manual/manual/client.md
             - implant usage: IoM/manual/manual/implant.md
             - GUI(内测): IoM/manual/manual/GUI.md
-        #   - 二次开发: IoM/manual/manual/develop.md
         - mals插件生态:
             - index: IoM/manual/mal/index.md
             - embed: IoM/manual/mal/embed.md
