@@ -2,8 +2,10 @@
 在IoM中，implant的相关特性是由编译使用的profile决定的。在编译之前首先要准备好需要的profile。
 ## profile 准备
 
-目前在pipeline启动时会自动生成一份能和该pipeline通信的profile。自定义profile需要先下载 https://github.com/chainreactors/malefic/blob/master/config.yaml 。
+!!! tips 
+	目前在pipeline启动时，服务端会自动生成一份能和该pipeline通信的profile。
 
+自定义profile需要先下载 https://github.com/chainreactors/malefic/blob/master/config.yaml 。
 profile的配置结构主要分为大部分：
 
 - **basic**：用于连接的参数配置
@@ -11,7 +13,6 @@ profile的配置结构主要分为大部分：
 - **build**：构建时的编译及混淆选项
     
 - **implants**：implant 的功能性配置
-
 ### basic
 `basic` 部分主要用于连接参数配置，包括 **目标地址、协议、加密、代理、心跳、HTTP 伪装头** 等。
 #### 目标与协议
@@ -21,7 +22,6 @@ basic:
   targets:
     - "127.0.0.1:8080"
   protocol: "http"          
-
 ```
 
 - `targets` 支持列表，可配置多个目标地址。
@@ -136,25 +136,30 @@ implants:
 ```
 ???note 
 	有关implant配置的更多信息，请参阅 [implants](/IoM/manual/implant/build#implants)。
-### 上传profile
-准备好pipeline后，可以使用 `profile load` 命令，将您修改后的profile上传到服务端。添加profile时，需要指定一个pipeline，以保证编译出来的implant能和pipeline通信:
+### 新建profile
+您也可以使用 `profile new` 新建一个默认的profile，在IoM中，profile是与pipeline绑定的，在编译前，profile中的 `basic` 的 `target` 、 `protocol` 和 `tls` 配置会自动使用pipeline的配置。
+
 ```bash
-profile load path/to/config.yaml --name test --pipeline tcp
+profile new --name new-profile --pipeline tcp
+```
+### 上传profile
+当您需要上传您的自定义profile，可以使用 `profile load` 命令，将您修改后的profile上传到服务端。添加profile时，需要指定一个pipeline，以保证编译出来的implant能和pipeline通信:
+```bash
+profile load config.yaml --name test --pipeline tcp
 ```
 
 ![image-20250817183127224752](/IoM/assets/usage/build/profile_load.png)
 
-在 gui 中添加 profile 时，您需要在artifacts页面上，点击add profile，选择已有的 profile 文件进行记载。
+在 gui 中添加 profile 时，您需要在artifacts页面上，点击add profile，您可以选择已有的 profile 文件进行加载，也可以直接新建一个默认的profile。
 ![image-20250817182727224752](/IoM/assets/usage/build/profile_new.png)
+
+您已可以点击profile名，查看profile的具体内容。在查看profile的界面，点击edit，即可编辑profile。
+![image-20250819182727224752](/IoM/assets/usage/build/profile_detail.png)
+![image-20250819010527224752](/IoM/assets/usage/build/profile_edit.png)
 ## 编译
 
 准备好profile后，您可以在client端使用build命令进行编译，目前build命令支持编译beacon、pulse、prelude和modules。
-
-- **Beacon**: 功能完整的主Implant，支持beacon模式 
-- **Pulse**: 轻量级上线马，仅4KB大小，类似CS的artifact  
-- **Prelude**: 多段上线的中间阶段，支持权限维持等
-- **Modules**：modules是malefic的各种功能模块，方便malefic动态加载
-### 通用编译选项
+### 编译命令
 
 ```bash
 build beacon --profile tcp_default --target x86_64-unknown-linux-musl --source saas
@@ -170,8 +175,10 @@ build beacon --profile tcp_default --target x86_64-unknown-linux-musl --source s
 !!! tip "target与source说明"
     target架构列表详见 [build](/IoM/manual/implant/build)
     source信息详见 [build](/IoM/manual/manual/build)
-#### beacon 选项
+#### 编译beacon
 
+ **beacon** 是功能完整的主 Implant，运行在 beacon 模式下。
+ 
 最简命令示例
 ```bash
 build beacon --target x86_64-pc-windows-gnu --profile tcp_default
@@ -198,7 +205,9 @@ build beacon --profile tcp_default --target x86_64-unknown-linux-musl --rem
 
 在gui上，您需要在artifacts页面，在对应的profile行上点击build，选择beacon后，根据需求，在对应配置行上填入信息，进行编译。
 ![image-20250817183527224752](/IoM/assets/usage/build/build_beacon_gui.png)
-#### pulse选项
+#### 编译pulse
+
+**pulse** 是一个轻量级的上线马，体积只有 4KB，功能类似于 CS 的 artifact。
 
 最简命令示例
 ```bash
@@ -219,6 +228,8 @@ build pulse --profile tcp_default --target x86_64-pc-windows-gnu --artifact-id 3
 
 #### prelude选项
 
+**prelude** 是上线流程的中间 Implant，支持权限维持等功能。
+
 编译prelude时，需要使用 `--autorun` 指定包含autorun.yaml和resources文件夹的zip压缩包路径。
 详细的zip压缩格式在[build](/IoM/manual/manual/build)中说明。
 编译命令如下：
@@ -234,6 +245,8 @@ build prelude  --profile prelude-profile  --target x86_64-pc-windows-gnu --autor
 ![image-20250817185927224752](/IoM/assets/usage/build/build_prelude_gui.png)
 
 #### modules选项
+
+**modules** 是 Malefic 的功能模块集合，便于在运行时按需动态加载。
 
 当您需要编译modules时，可以通过 `--modules` 来指定需要的modules进行编译。
 ```bash
