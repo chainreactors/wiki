@@ -199,7 +199,7 @@ website add /path/to/file --website web-test --path /path
 ```
 
 当您没有证书时，只需要将config.yaml中需要对应pipeline的tls的 `enable` 设为true，即可使用随即生成自签名证书。
-若您已经有证书，并希望pipeline使用该证书，则可以将证书路径填入tls配置中，以下时示例config：
+若您已经有证书，并希望pipeline使用该证书，则可以将证书路径填入tls配置中，以下是示例config：
 ```yaml
   tcp:
   - name: tcp               
