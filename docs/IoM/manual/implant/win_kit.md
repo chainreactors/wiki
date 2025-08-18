@@ -428,6 +428,298 @@ BeaconCleanupProcess
 当然， 由于 `CET` 的出现， 这项技术的检测也有了解法， 但攻防的长河总是漫漫
 
 
+## 使用手册及开发规范
+### 开发手册
+
+#### BeaconGate
+
+`malefic-win-kit` 中用到的 `api` 几乎都是通过一套自行实现的底层 `api` 接口来实现的， 可以简单理解为我们为 `windows` 原生 `api` 写了大量的 `wrapper`， 调用都是通过 `wrapper` 来实现的， 因此我们的开发也将围绕这部分展开:
+
+##### Step 1: 类型/函数声明
+
+我们可以注意到代码仓库中有一个 `types` 的 `crate`, 因此声明部分由此而来, 我们可以简要将类型分为几种， 由于 `rust` 语言的特性， 因此我们为传统的 `c` 类型提供了大量的宏来使得 `rust` 与 `c` 的声明等价， 例如:
+
+###### 结构体
+
+```rust
+STRUCT!{struct IMAGE_TLS_DIRECTORY32 {
+    StartAddressOfRawData: u32,
+    EndAddressOfRawData: u32,
+    AddressOfIndex: u32,
+    AddressOfCallBacks: u32,
+    SizeOfZeroFill: u32,
+    Characteristics: u32,
+}}
+```
+
+其中， 由于 `rust` 并不支持例如 `c` 类语言按位数分成员的功能， 因此需要另一个特殊的宏 `BITFIELD!` 来辅助完成这个目的:
+
+```rust
+BITFIELD!{
+    IMAGE_TLS_DIRECTORY64 Characteristics: u32 [
+        Reserved0 set_Reserved0[0..20],
+        Alignment set_Alignment[20..24],
+        Reserved1 set_Reserved1[24..32],
+    ]
+}
+```
+
+###### 枚举
+
+```rust
+ENUM!{
+    enum LDR_DDAG_STATE {
+    LdrModulesMerged = -5i32 as u32,
+    LdrModulesInitError = -4i32 as u32,
+    LdrModulesSnapError = -3i32 as u32,
+    LdrModulesUnloaded = -2i32 as u32,
+    LdrModulesUnloading = -1i32 as u32,
+    LdrModulesPlaceHolder = 0,
+    LdrModulesMapping = 1,
+    LdrModulesMapped = 2,
+    LdrModulesWaitingForDependencies = 3,
+    LdrModulesSnapping = 4,
+    LdrModulesSnapped = 5,
+    LdrModulesCondensed = 6,
+    LdrModulesReadyToInit = 7,
+    LdrModulesInitializing = 8,
+    LdrModulesReadyToRun = 9,
+    }
+}
+
+```
+
+###### 联合体
+
+```rust
+UNION2!{
+    union LDR_DDAG_NODE_u {
+        Dependencies: LDRP_CSLIST,
+        RemovalLink: SINGLE_LIST_ENTRY,
+    }
+}
+
+```
+
+
+###### 函数
+
+而函数就简单的多了， 与 `rust` 语法无异，例如:
+
+```rust
+pub type DllMain = unsafe extern "system" fn(
+    *mut core::ffi::c_void,
+    u32,
+    *mut core::ffi::c_void
+) -> i32;
+```
+
+#####  Step 2: `MALEFIC` 函数定义
+
+在声明了我们所需的内容后， 接下来就要进行底层 `API` 的定义了
+
+此时我们将目光移向 `apis` 这一 `crate`
+
+为便于代码编写， 我们也提供了大量的宏来减少工作量
+
+为了达成添加一个新 `api` 的目的， 我们需要在三个地方添加代码
+
+* DynamicApis
+* RashoGateApis (极度不推荐)
+* Core/**
+
+接下来我们将以引入 `NtFreeVirtualMemory` 为例
+
+###### 1. 引入原始API
+如果需要使用 `syscall`， 则需要在 `RashGateApis` 处添加， 添加方式也很简单:
+
+```rust
+create_syscall_function!(ZW_CLOSE_VX, "ZwClose");
+```
+
+前面为全局指针名， 后面为添加的函数名
+
+如无需或不存在 `syscall`， 则只需添加在 `DynamicApis` 即可，由于所需的 `api` 可能位于多个 `dll` 中， 因此需要区分在哪个 `dll` 中， 方式如下:
+
+```rust
+// ntdll
+create_nt_function!(NT_FREE_VIRTUAL_MEMORY, NtFreeVirtualMemory, "NtFreeVirtualMemory");
+
+// kernel32
+create_k32_function!(TLS_ALLOC, TlsAlloc, "TlsAlloc");
+
+// advapi32
+create_advapi32_function!(REG_OPEN_KEY_EX_A, RegOpenKeyExA, "RegOpenKeyExA");
+```
+
+第一个同样为全局指针名， 第二个为我们之前在 `types` 中添加的函数签名， 第三个为原始函数名
+
+
+###### 2. 创建Wrapper
+
+完成到这一步， 意味着我们已经将所需的 `api` 成功引入到底层系统了， 下面只需要添加一个 `wrapper` 即可，
+
+我们的 `wrapper` 位于 `apis/Core/**` 中， 下面进行一个最复杂情况的举例:
+
+```rust
+FUNC! {
+    fn MNtFreeVirtualMemory(handle: *const core::ffi::c_void, 
+                            ptr: *mut *mut core::ffi::c_void, 
+                            size: *mut usize) -> i32 {
+        #[cfg(feature = "NORMAL")]
+        {
+            return windows_sys::Wdk::Storage::FileSystem::NtFreeVirtualMemory(
+                handle as _,
+                ptr,
+                size,
+                windows_sys::Win32::System::Memory::MEM_RELEASE
+            );
+        }
+        #[cfg(feature = "DYNAMIC")]
+        #[cfg(not(feature = "SYSCALLS"))]
+        {
+            match crate::apis::DynamicApis::NT_FREE_VIRTUAL_MEMORY.as_ref() {
+                Some(nfvm) => {
+                    #[cfg(all(feature = "StackSpoofer", target_arch = "x86_64"))]
+                    {
+                        return crate::call_spoofed_function!(
+                            *nfvm, 
+                            handle, 
+                            ptr, 
+                            size, 
+                            MEM_RELEASE
+                        ) as i32;
+                    }
+                    #[cfg(any(target_arch = "x86", not(feature = "StackSpoofer")))]
+                    {
+                        return nfvm(handle as _, ptr, size, MEM_RELEASE);
+                    }
+                },
+                None => {
+                    MAIEFIC_NT_FAILED_CODE
+                }
+            }
+        }
+        #[cfg(feature = "SYSCALLS")]
+        {
+            match crate::apis::RashoGateApis::
+                ZW_FREE_VIRTUAL_MEMORY_VX.as_ref() {
+                Some(vx) => {
+                    crate::rashoCall!(
+                        vx, handle, ptr, 0, size, MEM_RELEASE) as i32
+                },
+                None => {
+                    MAIEFIC_NT_FAILED_CODE
+                }
+            }
+        }
+     }
+}
+```
+
+一般而言， 应该是用不到 `NORMAL` 以及 `SYSCALL` 这两个 `feature` 的， 因此可以不添加这一部分， 只关注 `DYNAMIC` 即可
+
+`NORMAL` 意味着使用系统原本的 `API`， 而 `SYSCALL` 非常拙劣且十分有限， 不建议使用
+
+现在我们将 `DYNAMIC` 写法摘出来进行进一步解释:
+
+```rust
+    fn MNtFreeVirtualMemory(
+        handle: *const core::ffi::c_void, 
+        ptr: *mut *mut core::ffi::c_void, 
+        size: *mut usize
+    ) -> i32 {
+        // 使用 DYNAMIC且没使用SYSCALL时
+        #[cfg(feature = "DYNAMIC")]
+        #[cfg(not(feature = "SYSCALLS"))]
+        {
+            // 首先获取我们的全局指针
+            match crate::apis::DynamicApis::NT_FREE_VIRTUAL_MEMORY.as_ref() {
+                Some(nfvm) => {
+                    // 如果开启了堆栈混淆且为64位程序时
+                    #[cfg(all(feature = "StackSpoofer", target_arch = "x86_64"))]
+                    {
+                        // 通过堆栈混淆进行调用
+                        return crate::call_spoofed_function!(
+                            *nfvm, // 函数地址
+                            handle,
+                            ptr, 
+                            size, 
+                            MEM_RELEASE
+                        ) as i32;
+                    }
+                    // 未开堆栈混淆或32位时， 使用动态api调用
+                    #[cfg(any(target_arch = "x86", not(feature = "StackSpoofer")))]
+                    {
+                        return nfvm(handle as _, ptr, size, MEM_RELEASE);
+                    }
+                },
+                None => {
+                    MAIEFIC_NT_FAILED_CODE
+                }
+            }
+        }
+    }
+```
+
+
+##### Step3: 添加到BOF中
+
+现在我们有了我们新增加的 `MFunc` 了， 接下来要做的事情就简单很多了， 我们只需关注一个文件即可:
+
+* bof/beacon_apis
+
+接下来我们只需在 `INTERNEL_FUNCS` 这一全局变量中增加我们的 `api` 即可， 如
+
+```rust
+m.insert(obfstr!("NtFreeVirtualMemory").to_string(), NtFreeVirtualMemory as usize);
+```
+
+enjoy it :)
+
+#### 在其他地方使用 `MALEFIC` 函数
+
+##### 源码编译使用
+
+如果想在例如 `malefic-helper` 中使用我们的 `MaleficApi`， 只需将使用系统 `api` 替换为 `M*` 即可
+
+##### 导出使用
+
+而如果需要导出到 `DLL` 中， 则需要进一步转化为 `FFI` 接口， 我们还是以 `NtFreeVirtualMemory` 函数举例:
+
+在 `winkit` 中 `ffi/mod.rs` 中创建 `ffi` 函数:
+
+```rust
+#[no_mangle]
+pub unsafe extern "C" fn MNtFreeVirtualMemory(
+        handle: *const core::ffi::c_void, 
+        ptr: *mut *mut core::ffi::c_void, 
+        size: *mut usize
+    ) -> i32 {
+        crate::apis::xxxx::MNtFreeVirtualMemory(handle, ptr, size) // xxxx:: 为crate位置
+}
+```
+
+并在 `helper` 的接口文件 `malefic-helper\src\win\kit\mod.rs` 中引入声明:
+
+```rust
+
+#[cfg(target_os = "windows")]
+#[cfg(feature = "prebuild")]
+#[link(name = "malefic_win_kit", kind = "static")]
+extern "C" {
+        ...
+        fn MNtFreeVirtualMemory(
+                handle: *const core::ffi::c_void, 
+                ptr: *mut *mut core::ffi::c_void, 
+                size: *mut usize
+        ) -> i32;
+        ...
+}
+```
+
+之后正常使用即可 :)
+
 
 ## Ref
 
