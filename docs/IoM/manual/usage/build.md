@@ -226,7 +226,7 @@ build pulse --profile tcp_default --target x86_64-pc-windows-gnu --artifact-id 3
 
 ![image-20250817184427224752](/IoM/assets/usage/build/build_pulse_artifactID_gui.png)
 
-#### prelude选项
+#### 编译prelude
 
 **prelude** 是上线流程的中间 Implant，支持权限维持等功能。
 
@@ -244,7 +244,7 @@ build prelude  --profile prelude-profile  --target x86_64-pc-windows-gnu --autor
 
 ![image-20250817185927224752](/IoM/assets/usage/build/build_prelude_gui.png)
 
-#### modules选项
+#### 编译modules
 
 **modules** 是 Malefic 的功能模块集合，便于在运行时按需动态加载。
 
