@@ -116,8 +116,11 @@ targets:
 **字段说明：**
 
 - **address**: 目标服务器的 IP 地址和端口
+
 - **method**: HTTP 请求方法，推荐使用 `POST`（数据量大）或 `GET`（更隐蔽）
+
 - **path**: 请求路径，可模拟合法 Web 资源路径如 `/api/v1/data`、`/jquery.min.js`
+
 - **headers**: 自定义 HTTP 头，User-Agent 应匹配目标环境的常见浏览器
 
 #### HTTPS (TLS) 连接配置
@@ -139,10 +142,15 @@ targets:
 ```
 
 **TLS 字段说明：**
+
 - **enable**: 启用 TLS/SSL 加密传输
+
 - **sni**: 用于 TLS 握手的服务器名称，支持域名前置等技术
+
 - **skip_verification**: 
+
   - `false`: 验证服务器证书（推荐，更可信）
+
   - `true`: 跳过验证（适用于自签名证书）
 
 #### mTLS（双向认证）配置
@@ -245,9 +253,13 @@ targets:
 ```
 
 **多服务器轮换逻辑：**
+
 1. 按照配置顺序依次尝试连接
+
 2. 单个服务器失败时，根据 `server_retry` 设置重试
+
 3. 所有服务器都失败时，如果启用了 DGA，将生成新的域名重试
+
 4. 达到 `global_retry` 限制后停止重试
 
 ---
@@ -267,7 +279,9 @@ artifact_id: 0                   # 目标 Artifact ID
 ```
 
 **字段说明：**
+
 - **flags**: 用于在内存中定位和验证载荷数据的边界标记
+
 - **artifact_id**: 指定从服务器拉取的编译产物 ID，`0` 表示拉取默认或最新版本
 
 ### 2. 通信配置
@@ -302,7 +316,9 @@ tcp: {}
 ```
 
 **协议选择建议：**
+
 - **HTTP**: 更好的流量伪装，适合大多数网络环境
+
 - **TCP**: 更直接的连接方式，延迟更低但更容易被检测
 
 ---
@@ -319,8 +335,11 @@ build:
 ```
 
 **字段说明：**
+
 - **zigbuild**: 使用 Zig 作为 C/C++ 编译器，提供更好的交叉编译支持
+
 - **remap**: 编译时重映射源文件路径，清除构建环境信息
+
 - **toolchain**: 指定 Rust 工具链版本，确保编译环境一致性
 
 ### 2. OLLVM 混淆配置
@@ -337,10 +356,15 @@ build:
 ```
 
 **混淆技术说明：**
+
 - **bcfobf**: 插入无用的控制流分支，增加反编译难度
+
 - **splitobf**: 将基本块拆分并重排，破坏原始程序结构
+
 - **subobf**: 用等价但复杂的指令序列替换简单指令
+
 - **fco**: 隐藏真实的函数调用关系
+
 - **constenc**: 运行时解密字符串常量
 
 !!! warning "性能影响"
@@ -392,9 +416,13 @@ original_filename: "firefox.exe"
 ```
 
 **权限配置说明：**
+
 - **require_admin + require_uac = false**: asInvoker（推荐，最低暴露）
+
 - **require_admin = false, require_uac = true**: highestAvailable
+
 - **require_admin = true**: requireAdministrator（强制管理员权限）
+
 
 ##  implants配置解释
 
@@ -409,9 +437,13 @@ implants:
 ```
 
 **字段解释：**
+
 - **runtime**: 异步运行时框架，可选 `smol`/`tokio`/`async-std`。`tokio` 是最成熟的选择，性能和生态最好。
+
 - **mod**: 植入体工作模式，`beacon`（回连模式）或 `bind`（监听模式）。`beacon` 适合穿透防火墙。
+
 - **register_info**: 是否在首次连接时收集目标系统信息（OS版本、硬件等），便于后续决策但会增加初始流量。
+
 - **hot_load**: 是否支持运行时动态加载新模块，提升灵活性但略增复杂度。
 
 ### 2. 模块管理配置
@@ -427,8 +459,11 @@ implants:
 ```
 
 **字段解释：**
-- **modules**: 编译时静态链接的内置模块列表。`nano` 是轻量级基础模块。
+
+- **modules**: 编译时静态链接的内置模块列表。`nano` 是轻量级基础模块。还有全部常见功能的full、支持基础操作的base等
+
 - **enable_3rd**: 是否启用第三方模块支持，`false` 时忽略 `3rd_modules`。
+
 - **3rd_modules**: 第三方模块列表，`full` 表示包含所有可用模块；具体模块如 `curl`（HTTP客户端）、`rem_static`（静态REM协议）。
 
 ### 3. 文件打包与标识配置
@@ -446,11 +481,17 @@ implants:
 ```
 
 **字段解释：**
+
 - **autorun**: 自动执行脚本的配置文件名，留空则无自动执行。
+
 - **pack**: 将外部文件打包到植入体中，`src` 是源文件，`dst` 是植入体内路径。
+
 - **flags**: 植入体标识配置
+
   - **start/end**: 数据段标记字节，用于定位植入体数据边界
+
   - **magic**: 魔术字符串，用于验证植入体完整性
+
   - **artifact_id**: 构建产物唯一标识，便于管理多个变种
 
 ### 4. 反检测与对抗配置
@@ -467,11 +508,17 @@ implants:
 ```
 
 **字段解释：**
+
 - **sandbox**: 反沙箱检测，检测动态分析环境并退出或改变行为
+
 - **vm**: 反虚拟机检测，识别 VMware/VirtualBox 等虚拟化环境
+
 - **debug**: 反调试检测，阻止调试器附加或检测调试状态
+
 - **disasm**: 反反汇编，增加静态分析难度
+
 - **emulator**: 反模拟器，检测 QEMU 等模拟环境
+
 - **forensic**: 反取证，对抗内存取证和磁盘分析
 
 ### 5. API 调用策略配置
@@ -496,10 +543,15 @@ implants:
 ```
 
 **字段解释：**
+
 - **level**: API 调用层级，`sys_apis`（系统API）或 `nt_apis`（内核API）。`nt_apis` 更底层，bypass 能力更强。
+
 - **priority**: API 调用优先级策略
+
   - **normal**: 直接调用 Windows API，最简单但最容易被 hook
+
   - **dynamic**: 动态解析API，`user_defined_dynamic` 表示自定义动态加载方式，增强隐蔽性
+
   - **syscalls**: 直接系统调用，`inline_syscall` 内联汇编调用，bypass 能力最强但兼容性要求高
 
 ### 6. 内存分配与执行配置
@@ -522,14 +574,23 @@ implants:
 ```
 
 **字段解释：**
+
 - **alloctor**: 内存分配器选择
+
   - **inprocess**: 进程内分配，可选 `VirtualAlloc`/`HeapAlloc`/`NtAllocateVirtualMemory` 等
+
   - **crossprocess**: 跨进程分配，用于注入等场景
+
 - **sleep_mask**: 休眠时加密内存，防止内存扫描检测
+
 - **stack_spool**: 栈欺骗，伪造调用栈以绕过基于调用栈的检测
+
 - **sacrifice_process**: 使用牺牲进程执行危险操作，保护主进程
+
 - **fork_and_run**: 是否使用 fork 模式执行任务
+
 - **hook_exit**: 钩子退出函数，确保清理工作完成
+
 - **thread_stack_spoofer**: 线程栈欺骗，进一步增强隐蔽性
 
 ### 7. PE 文件签名修改配置
@@ -543,8 +604,12 @@ implants:
 ```
 
 **字段解释：**
+
 - **feature**: 是否启用 PE 签名修改功能
+
 - **modify**: 具体修改内容
+
   - **magic**: 修改 PE 魔术字节，干扰静态检测
+  
   - **signature**: 修改 PE 签名标识，破坏原始签名但可能绕过某些检测
 
