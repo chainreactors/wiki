@@ -43,6 +43,7 @@ basic:
 - **jitter**: 抖动范围 (0.0-1.0)，避免规律性流量特征被检测
 
 **常见 schedule 配置示例：**
+
 ```yaml
 schedule: "*/30 * * * * * *"   # 每30秒
 schedule: "0 */5 * * * * *"    # 每5分钟整点
@@ -205,7 +206,9 @@ targets:
 ```
 
 **REM 协议说明：**
+
 - REM 是 IoM 的自定义协议，支持更灵活的流量伪装
+
 - `link` 格式：`protocol://[auth@]host:port[?params]`
 
 #### 多服务器配置
@@ -367,9 +370,6 @@ build:
 
 - **constenc**: 运行时解密字符串常量
 
-!!! warning "性能影响"
-    启用混淆会显著增加编译时间和二进制体积，同时可能影响运行时性能。建议先进行小规模测试。
-
 ### 3. 二进制元数据配置
 
 ```yaml
@@ -389,41 +389,6 @@ build:
     require_uac: false                   # 需要 UAC 提权
 ```
 
-**元数据伪装策略：**
-
-1. **系统文件伪装**：
-```yaml
-company_name: "Microsoft Corporation"
-product_name: "Windows Update"
-file_description: "Windows Update Service"
-original_filename: "WindowsUpdate.exe"
-```
-
-2. **第三方软件伪装**：
-```yaml
-company_name: "Adobe Inc."
-product_name: "Adobe Acrobat Reader"
-file_description: "Adobe Acrobat Reader DC"
-original_filename: "AcroRd32.exe"
-```
-
-3. **开源软件伪装**：
-```yaml
-company_name: "The Mozilla Foundation"
-product_name: "Firefox"
-file_description: "Firefox Web Browser"
-original_filename: "firefox.exe"
-```
-
-**权限配置说明：**
-
-- **require_admin + require_uac = false**: asInvoker（推荐，最低暴露）
-
-- **require_admin = false, require_uac = true**: highestAvailable
-
-- **require_admin = true**: requireAdministrator（强制管理员权限）
-
-
 ##  implants配置解释
 
 ### 1. 基础运行时配置
@@ -440,9 +405,9 @@ implants:
 
 - **runtime**: 异步运行时框架，可选 `smol`/`tokio`/`async-std`。`tokio` 是最成熟的选择，性能和生态最好。
 
-- **mod**: 植入体工作模式，`beacon`（回连模式）或 `bind`（监听模式）。`beacon` 适合穿透防火墙。
+- **mod**: 植入体工作模式，`beacon`（回连模式）或 `bind`（监听模式）。
 
-- **register_info**: 是否在首次连接时收集目标系统信息（OS版本、硬件等），便于后续决策但会增加初始流量。
+- **register_info**: 是否在首次连接时收集目标系统信息（OS版本、硬件等）。
 
 - **hot_load**: 是否支持运行时动态加载新模块，提升灵活性但略增复杂度。
 
@@ -610,6 +575,6 @@ implants:
 - **modify**: 具体修改内容
 
   - **magic**: 修改 PE 魔术字节，干扰静态检测
-  
+
   - **signature**: 修改 PE 签名标识，破坏原始签名但可能绕过某些检测
 
