@@ -2,8 +2,7 @@
 在IoM中，implant的相关特性是由编译使用的profile决定的。在编译之前首先要准备好需要的profile。
 ## profile 准备
 
-!!! tips 
-	目前在pipeline启动时，服务端会自动生成一份能和该pipeline通信的profile。
+!!! tips "目前在pipeline启动时，服务端会自动生成能和该pipeline通信的profile"
 
 自定义profile需要先下载 https://github.com/chainreactors/malefic/blob/master/config.yaml 。
 profile的配置结构主要分为大部分：
@@ -58,8 +57,8 @@ basic:
 
 #### Encryption
 当通信的pipeline配置了 `Encryption` 信息，profile也需要同步设置  `encryption` 和 `key` 字段 ，两者内容和需要保持一致。
-!!!tips 
-	 关于pipeline的Encryption信息，请参阅[Encryption](/IoM/manual/manual/listener#encryption)。
+
+!!! tips "关于pipeline的Encryption信息，请参阅[Encryption](/IoM/manual/manual/listener#encryption)"
 
 ```yaml
 basic:
@@ -67,8 +66,8 @@ basic:
   key: maliceofinternal
 ```
 
-???note
-	 有关basic配置的更多信息，请参阅 [basic](/IoM/manual/implant/build#basic)。
+???note "有关basic配置的更多信息，请参阅 [basic](/IoM/manual/implant/build#basic)"
+
 ### build
 
  `build` 主要控制 **构建方式、混淆参数、PE 文件元信息** 等。
@@ -134,8 +133,9 @@ implants:
 implants:
   autorun: "autorun.yaml"
 ```
-???note 
-	有关implant配置的更多信息，请参阅 [implants](/IoM/manual/implant/build#implants)。
+
+??? note "有关implant配置的更多信息，请参阅 [implants](/IoM/manual/implant/build#implants)"
+
 ### 新建profile
 您也可以使用 `profile new` 新建一个默认的profile，在IoM中，profile是与pipeline绑定的，在编译前，profile中的 `basic` 的 `target` 、 `protocol` 和 `tls` 配置会自动使用pipeline的配置。
 
@@ -286,8 +286,7 @@ artifact list
 ```bash
 artifact download artifact-name --format raw
 ```
-???note
-	更多的format格式， 请参阅[build](/IoM/manual/manual/build)。
+??? note "更多的format格式， 请参阅[build](/IoM/manual/manual/build)"
 
 在gui上，您需要在artifact页面上点击对应的artifact行上的download按钮，即可下载artifact源文件到指定路径。
 ![image-20250817190327224752](/IoM/assets/usage/build/artifact_download.png)

@@ -1,6 +1,6 @@
 ## Server部署
 
-!!! tips "安装脚本并非必须, 若非有本地编译需求, 可以参考quickstart开箱即用"
+!!! important "安装脚本并非必须, 若非有本地编译需求, 可以参考[quickstart开箱即用](/IoM/quickstart)"
 
 #### 在linux上使用安装脚本安装:
 

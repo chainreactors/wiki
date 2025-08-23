@@ -40,7 +40,18 @@ listeners:
 .\malice-network listener del [listener_name]
 ```
 
-## autobuild 配置
+
+### 独立部署listener
+
+从项目设计开始，我们就将listener和server解耦，可以通过启动命令独立部署listener。
+```bash
+./malice-network --listener-only
+```
+
+![image-20250710233407269](/IoM/assets/listener_start.png)
+
+
+### autobuild 配置
 目前启动一个listener时，可以通过autobuild的配置，来控制是否编译与当前listener通信的implant。
 
 如果需要编译pulse artifact，将auitobuild的 `build_pulse` 设为true。
@@ -63,8 +74,8 @@ listeners:
 ```
 
 !!!tips "autobuild的编译平台优先级为docker > github action > saas，若使用saas编译，需确保服务端的config.yaml配置了saas，并且服务端未启动docker，也没有在config.yaml中配置github仓库信息。"
-## pipeline 配置
-### tcp
+### pipeline 配置
+#### tcp
 
 当您需要启动一个新的tcp pipeline的时候，可以在config.yaml中的对应listener下增加一个tcp配置。
 
@@ -91,7 +102,7 @@ tcp --listener listener --host 127.0.0.1 --port 5015
 
 ![image-20250817171922624](/IoM/assets/usage/listener/tcp_new_gui.png)
 
-### http
+#### http
 
 当您需要启动一个新的http pipeline的时候，可以在config.yaml中的对应listener下增加一个http配置。
 
@@ -117,7 +128,7 @@ http --listener listener --host 127.0.0.1 --port 8083
 在gui中，可以在listener界面中点击new pipeline，选择pipeline type为http后添加。
 ![image-2025081725224752](/IoM/assets/usage/listener/http_new_gui.png)
 
-### website
+#### website
 
 当您需要启动一个新的website pipeline的时候，并将一些文件挂载website pipeline 服务上时，可以在config.yaml中的对应listener下增加一个website 配置。
 
@@ -158,7 +169,20 @@ website add /path/to/file --website web-test --path /path
 
 ![image-20250817173427224752](/IoM/assets/usage/listener/webcontent_add_gui.png)
 
-### bind (Unstable)
+#### rem 
+
+当您需要启动一个新的rem pipeline的时候， 可以在config.yaml中的对应listener下增加一个rem配置。
+
+```yaml
+  rem:                     
+    - name: rem_default              # rem 名字
+      enable: true                   # rem 是否开启
+      console: tcp://0.0.0.0:12345   # rem 控制台监听地址和连接协议
+```
+
+!!! tips "rem相关操作请见[proxy](/IoM/manual/usage/proxy/)"
+
+#### bind (Unstable)
 
 当您需要启动一个新的bind pipeline的时候， 可以在config.yaml中的对应listener下增加一个bind配置。
 
@@ -169,16 +193,6 @@ website add /path/to/file --website web-test --path /path
       enable: true                  # bind 是否开启
 ```
 
-### rem (Unstable)
-
-当您需要启动一个新的rem pipeline的时候， 可以在config.yaml中的对应listener下增加一个rem配置。
-
-```yaml
-  rem:                     
-    - name: rem_default              # rem 名字
-      enable: true                   # rem 是否开启
-      console: tcp://0.0.0.0:12345   # rem 控制台监听地址和连接协议
-```
 
 ## 高级功能
 ### pipeline的tls配置
@@ -310,12 +324,3 @@ pipeline start tcp --cert-name cert-name
 - **`body_prefix` / `body_suffix`**：  
     在 HTTP 响应体的最前/最后拼接额外内容，用于混淆流量或伪装网页。
     
-### 独立部署listener
-
-从项目设计开始，我们就将listener和server解耦，可以通过启动命令独立部署listener。
-```bash
-./malice-network --listener-only
-```
-
-![image-20250710233407269](/IoM/assets/listener_start.png)
-
