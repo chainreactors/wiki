@@ -199,7 +199,35 @@ bof dir.x64.o "str:C:\\Program Files"
 - bin: 以base64编码后的bytes数组
 
 
-#### BOF 开发
+
+## OPSEC
+### Syscall
+
+虽然是老生常态的技术， 但作为基建设计的框架怎么会少的了它呢 :)
+
+在 `Syscall` 漫长的发展过程中， 出现了多种门技术， 在权衡了多个技术后
+
+我们最终选用通过地址排序计算 `Syscall Num` 并辅以随机 `Syscall` 地址作为我们默认的 `syscall` 调用
+
+但实际上为了规避调用检测， 最好用的还是动态获取 + 堆栈混淆 （目前默认采用）
+当然， 这里的动态获取函数的唯一目的就是减少导入表特征 :)
+
+### THREAD TACK SPOOFING
+
+在漫长的攻防旅程中， 堆栈劫持是一个非常精美的点子， 精美到让我完全放弃使用 `syscall` 来进行底层 `API` 的构建
+
+该技术的核心思想在于， 程序在创建每一个函数栈帧时， 都会将其返回地址压入栈中， 从在函数上下文结束后返回到正确的位置， 而这样也可以方便的进行 `unwind`， 即调用堆栈的分析和检测， 因此， 如果我们在调用点处替换返回地址为我们提前预设好的返回地址， 并相对应的创建假的栈帧， 那么在真正调用时， 在 `trace stack` 时， 我们的栈帧就是非常干净非常完美的
+
+我们将所有底层 `API` 都进行了默认的堆栈混淆， 通过伪造栈帧来达到所有调用点均是来自于某个随机的系统函数， 而非在某个私有内存中 :)
+
+并且由于我们 `implant` 本体本身会有很多合法的函数调用行为， 辅以 `kit` 中各类功能模块干净的栈帧，我们的行为就会更趋近于合法程序
+
+当然， 由于 `CET` 的出现， 这项技术的检测也有了解法， 但攻防的长河总是漫漫
+
+
+## 开发手册/SDK
+
+### BOF 开发
 
 为减少使用人员的开发成本， 本 `Implant` 的 `BOF` 开发标准与 `CS` 工具相同，可参照 `CS` 的开发模版进行开发，
 
@@ -403,43 +431,27 @@ BeaconCleanupProcess
 
 !!! danger
 	请在编写 `BOF` 时请在本地进行充分测试, BOF导致的panic会导致进程退出
-## OPSEC
-### Syscall
 
-虽然是老生常态的技术， 但作为基建设计的框架怎么会少的了它呢 :)
+### BeaconGate 
 
-在 `Syscall` 漫长的发展过程中， 出现了多种门技术， 在权衡了多个技术后
+!!! important "商业版专属"
+	非商业版本只允许使用预定义预编译的功能， 但是无法深度定制细节。 
 
-我们最终选用通过地址排序计算 `Syscall Num` 并辅以随机 `Syscall` 地址作为我们默认的 `syscall` 调用
+`malefic-win-kit`  中用到的 `系统api` 都经过了win-kit的BeaconGate底座重载， 并提供了多种方式对外暴露。包括：
+- native syscall
+- dynamic syscall
+- indirect syscall
+- stask spoofer
 
-但实际上为了规避调用检测， 最好用的还是动态获取 + 堆栈混淆 （目前默认采用）
-当然， 这里的动态获取函数的唯一目的就是减少导入表特征 :)
+可以简单理解为我们为 `windows` 原生 `api` 写了大量的 `wrapper`， 调用都是通过 `wrapper` 来实现的。
 
-### THREAD TACK SPOOFING
+#### 类型声明/函数定义
 
-在漫长的攻防旅程中， 堆栈劫持是一个非常精美的点子， 精美到让我完全放弃使用 `syscall` 来进行底层 `API` 的构建
+windows系统中有大量预定义的常量，我们需要在rust中定义C语言兼容的常量。我们提供了一组rust 宏实现相关常量/枚举值/结构体的定义。
 
-该技术的核心思想在于， 程序在创建每一个函数栈帧时， 都会将其返回地址压入栈中， 从在函数上下文结束后返回到正确的位置， 而这样也可以方便的进行 `unwind`， 即调用堆栈的分析和检测， 因此， 如果我们在调用点处替换返回地址为我们提前预设好的返回地址， 并相对应的创建假的栈帧， 那么在真正调用时， 在 `trace stack` 时， 我们的栈帧就是非常干净非常完美的
+代码仓库中有一个 `types` 的 `crate`, 因此声明部分由此而来, 我们可以简要将类型分为几种， 由于 `rust` 语言的特性， 提供了多个的宏实现 `rust` 与 `c` 的等价声明。
 
-我们将所有底层 `API` 都进行了默认的堆栈混淆， 通过伪造栈帧来达到所有调用点均是来自于某个随机的系统函数， 而非在某个私有内存中 :)
-
-并且由于我们 `implant` 本体本身会有很多合法的函数调用行为， 辅以 `kit` 中各类功能模块干净的栈帧，我们的行为就会更趋近于合法程序
-
-当然， 由于 `CET` 的出现， 这项技术的检测也有了解法， 但攻防的长河总是漫漫
-
-
-## 使用手册及开发规范
-### 开发手册
-
-#### BeaconGate
-
-`malefic-win-kit` 中用到的 `api` 几乎都是通过一套自行实现的底层 `api` 接口来实现的， 可以简单理解为我们为 `windows` 原生 `api` 写了大量的 `wrapper`， 调用都是通过 `wrapper` 来实现的， 因此我们的开发也将围绕这部分展开:
-
-##### Step 1: 类型/函数声明
-
-我们可以注意到代码仓库中有一个 `types` 的 `crate`, 因此声明部分由此而来, 我们可以简要将类型分为几种， 由于 `rust` 语言的特性， 因此我们为传统的 `c` 类型提供了大量的宏来使得 `rust` 与 `c` 的声明等价， 例如:
-
-###### 结构体
+##### 结构体
 
 ```rust
 STRUCT!{struct IMAGE_TLS_DIRECTORY32 {
@@ -464,7 +476,7 @@ BITFIELD!{
 }
 ```
 
-###### 枚举
+##### 枚举
 
 ```rust
 ENUM!{
@@ -489,7 +501,7 @@ ENUM!{
 
 ```
 
-###### 联合体
+##### 联合体
 
 ```rust
 UNION2!{
@@ -502,7 +514,7 @@ UNION2!{
 ```
 
 
-###### 函数
+##### 函数
 
 而函数就简单的多了， 与 `rust` 语法无异，例如:
 
@@ -514,9 +526,9 @@ pub type DllMain = unsafe extern "system" fn(
 ) -> i32;
 ```
 
-#####  Step 2: `MALEFIC` 函数定义
+####  `MALEFIC` 函数封装
 
-在声明了我们所需的内容后， 接下来就要进行底层 `API` 的定义了
+在声明了我们所需的内容后， 接下来就要进行底层 `API` 的包装（wrapper）了。
 
 此时我们将目光移向 `apis` 这一 `crate`
 
@@ -525,21 +537,24 @@ pub type DllMain = unsafe extern "system" fn(
 为了达成添加一个新 `api` 的目的， 我们需要在三个地方添加代码
 
 * DynamicApis
-* RashoGateApis (极度不推荐)
+* RashoGateApis (indirect syscall现在被EDR严格查杀， 不推荐)
 * Core/**
 
-接下来我们将以引入 `NtFreeVirtualMemory` 为例
+**以引入 `NtFreeVirtualMemory` 为例**
 
-###### 1. 引入原始API
-如果需要使用 `syscall`， 则需要在 `RashGateApis` 处添加， 添加方式也很简单:
+##### 1. 引入原始API
 
-```rust
-create_syscall_function!(ZW_CLOSE_VX, "ZwClose");
-```
 
-前面为全局指针名， 后面为添加的函数名
+??? tips "添加RashoGateApis(已经不推荐)"
+	如果需要使用 `syscall`， 则需要在 `RashoGateApis` 处添加， 添加方式也很简单:
+	
+	```rust
+	create_syscall_function!(ZW_CLOSE_VX, "ZwClose");
+	```
+	
+	前面为全局指针名， 后面为添加的函数名
 
-如无需或不存在 `syscall`， 则只需添加在 `DynamicApis` 即可，由于所需的 `api` 可能位于多个 `dll` 中， 因此需要区分在哪个 `dll` 中， 方式如下:
+添加`DynamicApis` ，由于所需的 `api` 可能位于多个 `dll` 中， 因此需要区分在哪个 `dll` 中， 方式如下:
 
 ```rust
 // ntdll
@@ -554,8 +569,7 @@ create_advapi32_function!(REG_OPEN_KEY_EX_A, RegOpenKeyExA, "RegOpenKeyExA");
 
 第一个同样为全局指针名， 第二个为我们之前在 `types` 中添加的函数签名， 第三个为原始函数名
 
-
-###### 2. 创建Wrapper
+##### 2. 创建Wrapper
 
 完成到这一步， 意味着我们已经将所需的 `api` 成功引入到底层系统了， 下面只需要添加一个 `wrapper` 即可，
 
@@ -566,15 +580,6 @@ FUNC! {
     fn MNtFreeVirtualMemory(handle: *const core::ffi::c_void, 
                             ptr: *mut *mut core::ffi::c_void, 
                             size: *mut usize) -> i32 {
-        #[cfg(feature = "NORMAL")]
-        {
-            return windows_sys::Wdk::Storage::FileSystem::NtFreeVirtualMemory(
-                handle as _,
-                ptr,
-                size,
-                windows_sys::Win32::System::Memory::MEM_RELEASE
-            );
-        }
         #[cfg(feature = "DYNAMIC")]
         #[cfg(not(feature = "SYSCALLS"))]
         {
@@ -600,24 +605,70 @@ FUNC! {
                 }
             }
         }
-        #[cfg(feature = "SYSCALLS")]
-        {
-            match crate::apis::RashoGateApis::
-                ZW_FREE_VIRTUAL_MEMORY_VX.as_ref() {
-                Some(vx) => {
-                    crate::rashoCall!(
-                        vx, handle, ptr, 0, size, MEM_RELEASE) as i32
-                },
-                None => {
-                    MAIEFIC_NT_FAILED_CODE
-                }
-            }
-        }
      }
 }
 ```
 
-一般而言， 应该是用不到 `NORMAL` 以及 `SYSCALL` 这两个 `feature` 的， 因此可以不添加这一部分， 只关注 `DYNAMIC` 即可
+
+
+??? tips "normal 和 syscall feature"
+	对于当前EDR对抗来说， 已经较少用到 `NORMAL` 以及 `SYSCALL` 这两个 `feature` 的，但我们还是保留了相关的写法。
+	
+	```
+	FUNC! {
+	    fn MNtFreeVirtualMemory(handle: *const core::ffi::c_void, 
+	                            ptr: *mut *mut core::ffi::c_void, 
+	                            size: *mut usize) -> i32 {
+	        #[cfg(feature = "NORMAL")]
+	        {
+	            return windows_sys::Wdk::Storage::FileSystem::NtFreeVirtualMemory(
+	                handle as _,
+	                ptr,
+	                size,
+	                windows_sys::Win32::System::Memory::MEM_RELEASE
+	            );
+	        }
+	        #[cfg(feature = "DYNAMIC")]
+	        #[cfg(not(feature = "SYSCALLS"))]
+	        {
+	            match crate::apis::DynamicApis::NT_FREE_VIRTUAL_MEMORY.as_ref() {
+	                Some(nfvm) => {
+	                    #[cfg(all(feature = "StackSpoofer", target_arch = "x86_64"))]
+	                    {
+	                        return crate::call_spoofed_function!(
+	                            *nfvm, 
+	                            handle, 
+	                            ptr, 
+	                            size, 
+	                            MEM_RELEASE
+	                        ) as i32;
+	                    }
+	                    #[cfg(any(target_arch = "x86", not(feature = "StackSpoofer")))]
+	                    {
+	                        return nfvm(handle as _, ptr, size, MEM_RELEASE);
+	                    }
+	                },
+	                None => {
+	                    MAIEFIC_NT_FAILED_CODE
+	                }
+	            }
+	        }
+	        #[cfg(feature = "SYSCALLS")]
+	        {
+	            match crate::apis::RashoGateApis::
+	                ZW_FREE_VIRTUAL_MEMORY_VX.as_ref() {
+	                Some(vx) => {
+	                    crate::rashoCall!(
+	                        vx, handle, ptr, 0, size, MEM_RELEASE) as i32
+	                },
+	                None => {
+	                    MAIEFIC_NT_FAILED_CODE
+	                }
+	            }
+	        }
+	     }
+	}
+	```
 
 `NORMAL` 意味着使用系统原本的 `API`， 而 `SYSCALL` 非常拙劣且十分有限， 不建议使用
 
@@ -663,7 +714,7 @@ FUNC! {
 ```
 
 
-##### Step3: 添加到BOF中
+#### 添加到BOF中
 
 现在我们有了我们新增加的 `MFunc` 了， 接下来要做的事情就简单很多了， 我们只需关注一个文件即可:
 
