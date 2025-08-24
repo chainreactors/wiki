@@ -30,7 +30,7 @@ basic:
 !!!tip "`targets` 和 `protocol` 必须与 listener 中 pipeline 的通信配置一致"  
 	由于 Implant 与 listener 的 pipeline 直接通信，因此 Implant 中的 `targets` 与 `protocol` 配置需要与 pipeline 保持一致。
 	  
-	有关 pipeline 的 TCP 与 HTTP 配置，请参见 [pipeline](/IoM/manual/usage/listener#pipeline-%E9%85%8D%E7%BD%AE)。
+	有关 pipeline 的 TCP 与 HTTP 配置，请参见 [pipeline](/IoM/manual/usage/listener/#pipeline-%E9%85%8D%E7%BD%AE)。
 #### REM 信道上线
 REM 是 IoM 的自定义协议，支持更灵活的流量伪装，其中`link` 格式为`protocol://[auth@]host:port[?params]`
 ```yaml
@@ -55,7 +55,7 @@ targets:
 
 !!!tip
 	 您可以在listener的config.yaml中找到tls配置，来确定是否需要打开tls配置。
-	 listener的pipeline的tls配置可以在[pipeline_tls](/IoM/manual/usage/listener#pipeline的tls配置)查阅。
+	 listener的pipeline的tls配置可以在[pipeline_tls](/IoM/manual/usage/listener/#pipeline%E7%9A%84tls%E9%85%8D%E7%BD%AE)查阅。
 
 #### HTTP 请求伪装
 当通信协议为http时，您可以配置 HTTP 请求的路径、方法与 Header 信息：
@@ -81,7 +81,7 @@ basic:
 当通信的pipeline配置了 `Encryption` 信息，profile也需要同步设置  `encryption` 和 `key` 字段 ，两者内容和需要保持一致。
 
 !!! tip 
-	关于pipeline的Encryption信息，请参阅[Encryption](/IoM/manual/usage/listener#encryption)
+	关于pipeline的Encryption信息，请参阅[Encryption](/IoM/manual/usage/listener/#encryption)
 
 ```yaml
 basic:
@@ -90,7 +90,7 @@ basic:
 ```
 
 !!!tip
-	 有关basic配置的更多信息，请参阅 [basic](/IoM/manual/usage/implant_config#basic)。
+	 有关basic配置的更多信息，请参阅 [basic](/IoM/manual/usage/implant_config/#basic)
 ### build
 
  `build` 主要控制 **构建方式、混淆参数、PE 文件元信息** 等。
@@ -122,7 +122,7 @@ build:
 - **metadata.require_admin**：是否要求管理员权限。
 
 !!!tip
-	  `build` 部分的ollvm混淆拥有多种设置，也设置更多的自定义元信息字段。有关更多build的配置信息，请参阅 [build](/IoM/manual/usage/implant_config#build)。
+	  `build` 部分的ollvm混淆拥有多种设置，也设置更多的自定义元信息字段。有关更多build的配置信息，请参阅 [build](/IoM/manual/usage/implant_config/#build)。
 ### implants
 
 implant的功能性配置，决定 **运行时行为** 和 **模块加载策略**。
@@ -151,14 +151,14 @@ implants:
     - "rem"
 ```
 
-在编译prelude和beacon类型的implant时，`autorun` 字段用于指定 implant 上线时自动执行的配置文件 autorun.yaml，详细的autorun在 [autorun](/IoM/manual/implant/build#autorun)中有说明。
+在编译prelude和beacon类型的implant时，`autorun` 字段用于指定 implant 上线时自动执行的配置文件 autorun.yaml，详细的autorun在 [autorun](/IoM/manual/implant/build/#autorun)中有说明。
 ```yaml
 implants:
   autorun: "autorun.yaml"
 ```
 
 !!!tip
-	有关implant配置的更多信息，请参阅 [implants](/IoM/manual/usage/implant_config#implants)。
+	有关implant配置的更多信息，请参阅 [implants](/IoM/manual/usage/implant_config/#implants)。
 ### 新建profile
 您也可以使用 `profile new` 新建一个默认的profile，在IoM中，profile是与pipeline绑定的，在编译前，profile中的 `basic` 的 `target` 、 `protocol` 和 `tls` 配置会自动使用pipeline的配置。
 
@@ -182,6 +182,10 @@ profile load config.yaml --name test --pipeline tcp
 ## 编译
 
 准备好profile后，您可以在client端使用build命令进行编译，目前build命令支持编译beacon、pulse、prelude和modules。
+
+!!!tip "implant介绍"
+	 有关implant的简单介绍可以查看[implant架构](/IoM/concept/#implant)
+
 ### 编译命令
 
 ```bash
@@ -224,7 +228,7 @@ build beacon --profile tcp_default --target x86_64-unknown-linux-musl --rem
 ```
 
 !!!tip "build beacon 命令"
-	  更多有关 `build beacon` 命令的编译选项，请参阅 [build beacon](/IoM/manual/manual/client#build-beacon)。	
+	  更多有关 `build beacon` 命令的编译选项，请参阅 [build beacon](/IoM/manual/manual/client/#build-beacon)。	
 
 在gui上，您需要在artifacts页面，在对应的profile行上点击build，选择beacon后，根据需求，在对应配置行上填入信息，进行编译。
 ![image-20250817183527224752](/IoM/assets/usage/build/build_beacon_gui.png)
@@ -243,7 +247,7 @@ build pulse --profile tcp_default --target x86_64-pc-windows-gnu --artifact-id 3
 ```
 
 !!!tip "build pulse 命令"
-	 更多有关 `build pulse` 命令的编译选项，请参阅 [build pulse](/IoM/manual/manual/client#build-pulse)。
+	 更多有关 `build pulse` 命令的编译选项，请参阅 [build pulse](/IoM/manual/manual/client/#build-pulse)。
 
 在gui上，您需要在选择pulse后，填入artifact-id后进行编译。
 
@@ -261,7 +265,7 @@ build prelude  --profile prelude-profile  --target x86_64-pc-windows-gnu --autor
 ```
 
 !!!tip "build prelude 命令"
-	 更多有关 `build prelude` 命令的编译选项，请参阅 [build prelude](/IoM/manual/manual/client#build-prelude)。
+	 更多有关 `build prelude` 命令的编译选项，请参阅 [build prelude](/IoM/manual/manual/client/#build-prelude)。
 
 在gui上，您需要在选择prelude后，填入zip文件路径后进行编译。
 
@@ -282,7 +286,7 @@ build modules --3rd rem --profile tcp_default --target x86_64-pc-windows-gnu
 ```
 
 !!!tip "build modules 命令"
-	 更多有关 `build modules` 命令的编译选项，请参阅 [build modules](/IoM/manual/manual/client#build-modules) 。	
+	 更多有关 `build modules` 命令的编译选项，请参阅 [build modules](/IoM/manual/manual/client/#build-modules) 。	
 
 在gui上，您需要在选择modules后，在对应的插件行上填入需要的插件，然后进行编译。
 
