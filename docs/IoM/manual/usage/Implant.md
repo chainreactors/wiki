@@ -167,7 +167,7 @@ fetch_task
 
 在gui上，您需要右击对应的session行，选择show tasks按钮，即可在右侧显示tasks列表。
 
-![image-20250822201337224752](/IoM/assets/usage/implant/show-task-gui.png.png)
+![image-20250822201337224752](/IoM/assets/usage/implant/show-task-gui.png)
 
 ![image-202508222013337984752](/IoM/assets/usage/implant/tasks-gui.png)
 
