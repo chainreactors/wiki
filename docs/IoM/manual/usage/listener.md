@@ -179,9 +179,12 @@ website add /path/to/file --website web-test --path /path
       enable: true                   # rem 是否开启
       console: tcp://0.0.0.0:12345   # rem 控制台监听地址和连接协议
 ```
+这个pipeline可以给普通的==rem==二进制文件直接使用， 也可以让client与implant连接。
+不再需要下载独立的==rem==程序， IoM的server就可以当作==rem==的服务端， 并提供了更多的管理功能。
 
-!!! tips "rem相关操作请见[proxy](/IoM/manual/usage/proxy/)"
-
+!!!tip "rem指南" 
+	在 IoM 中，绝大部分网络相关功能都基于 **rem** 实现。因此，在使用这些功能前，建议先阅读 [rem](/rem) 文档，以便更好地熟悉其用法。  
+    关于在 implant 中如何使用 **rem**，可参考 [rem_usage](/IoM/manual/usage/proxy)。
 #### bind (Unstable)
 
 当您需要启动一个新的bind pipeline的时候， 可以在config.yaml中的对应listener下增加一个bind配置。
@@ -192,8 +195,7 @@ website add /path/to/file --website web-test --path /path
       name: bind_default            # bind 名字
       enable: true                  # bind 是否开启
 ```
-
-
+  
 ## 高级功能
 ### pipeline的tls配置
 
@@ -245,7 +247,7 @@ gui则是在certificates界面点击Generate Self-signed Certificate按钮后，
 若您需要服务端存储您的已有证书，可以用该命令将证书上传至服务端。
 
 ```bash
-cert import --cert /path/to/cert --key /path/to/key --ca-cert /path/to/ca
+cert import --cert cert.crt --key key.crt--ca-cert ca.crt
 ```
 
  ![image-20250709211824315](/IoM/assets/cert_imported.png)
@@ -259,7 +261,9 @@ pipeline start tcp --cert-name cert-name
 
 ![image-20250709213539835](/IoM/assets/cert_pipeline_start.png)
 
-具体tls配置可以在[listener](/IoM/manual/manual/listener)查看。
+!!!tip "tls指南" 
+	当您打开tls配置时，您需要确保Implant的tls配置也打开，implant的tls配置请在[implant_tls](/IoM/manual/usage/implant_config# 6. 目标服务器配置)参阅。
+	listener上的tls具体配置可以在[listener](/IoM/manual/manual/listener)查看。
 ### Parser
 
 当您需要使用pipline和pulse类型的implant通信时，需要修改 `parser` 字段，设置为pulse即可。以下是pulse配置示例:
@@ -294,7 +298,9 @@ pipeline start tcp --cert-name cert-name
           key: maliceofinternal      # 密钥 (implant 需一致)
 ```
 
-具体Encryption配置可以在[listener](/IoM/manual/manual/listener)查看。
+!!!tip "encryption指南" 
+	具体Encryption配置可以在[listener](/IoM/manual/manual/listener)查看。
+	如何在Implant上配置对应的Encryption，请在[Implant](/IoM/manual/usage/Implant_config#4. 通信加密配置)查看。
 ### http自定义响应内容
 
 当您需要对http pipeline自定义配置对应的响应内容,可以在config.yaml中配置。
