@@ -1,3 +1,16 @@
+Listener 是 **IoM 中的分布式监听服务**，负责与 Implant 建立和维持实际的通信。
+
+- **分布式部署**：可以部署在任意服务器上，而不是和IoM Server绑定。
+    
+- **与 Server 解耦**：通过 gRPC Stream 与 Server 全双工通信，实现独立运行和故障隔离。
+    
+- **多形态支持**：可根据需要伪装或隐藏通信方式。
+    
+- **实时交互**：保持 Implant 与 Server 的实时双向通信。
+
+!!! tip
+	具体架构在[listener架构](/IoM/concept#Listener)查看
+
 
 ## listener 配置
 listener目前有两种方式控制，config.yaml和root命令行。config.yaml能够配置更多的listener相关信息，root命令行只能负责listener的新增、删除和展示。
@@ -73,8 +86,17 @@ listeners:
       - http
 ```
 
-!!!tips "autobuild的编译平台优先级为docker > github action > saas，若使用saas编译，需确保服务端的config.yaml配置了saas，并且服务端未启动docker，也没有在config.yaml中配置github仓库信息。"
+!!!tip
+	autobuild的编译平台优先级为docker > github action > saas，若使用saas编译，需确保服务端的config.yaml配置了saas，并且服务端未启动docker，也没有在config.yaml中配置github仓库信息。
 ### pipeline 配置
+
+pipeline是数据管道，Listener与Implant/WebShell交互的具体实现。
+
+**概念说明**: Pipeline相当于传统C2框架中的Listener概念，但IoM进一步细分了其实现。每个Listener可以运行多个Pipeline，Pipeline负责与Implant的具体交互。
+
+!!! tip
+	具体架构在[pipeline](/IoM/concept#Pipeline)查看
+
 #### tcp
 
 当您需要启动一个新的tcp pipeline的时候，可以在config.yaml中的对应listener下增加一个tcp配置。
@@ -128,6 +150,8 @@ http --listener listener --host 127.0.0.1 --port 8083
 在gui中，可以在listener界面中点击new pipeline，选择pipeline type为http后添加。
 ![image-2025081725224752](/IoM/assets/usage/listener/http_new_gui.png)
 
+!!! tip 
+	 pipeline是和implant相互通信的，所以两者配置需要一直，implant的tcp和http配置在[basic通信协议](/IoM/manual/usage/implant_config# 3. 协议配置)查看。
 #### website
 
 当您需要启动一个新的website pipeline的时候，并将一些文件挂载website pipeline 服务上时，可以在config.yaml中的对应listener下增加一个website 配置。
@@ -281,7 +305,8 @@ pipeline start tcp --cert-name cert-name
         key: maliceofinternal
 ```
 
-具体Parser配置可以在[listener](/IoM/manual/manual/listener)查看。
+!!! tip "parser指南"
+	具体Parser配置可以在[listener](/IoM/manual/manual/listener)查看。
 ### Encryption
 若您需要添加pipeline和implant的通信加密时，在config.yaml下对应的pipeline下添加新的encryption字段，即可配置加密协议。
 
