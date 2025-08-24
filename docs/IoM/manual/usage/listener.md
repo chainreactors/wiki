@@ -99,7 +99,7 @@ pipeline是数据管道，Listener与Implant/WebShell交互的具体实现。
 
 #### tcp
 
-当您需要启动一个新的tcp pipeline的时候，可以在config.yaml中的对应listener下增加一个tcp配置。
+当需要启动一个新的tcp pipeline的时候，可以在config.yaml中的对应listener下增加一个tcp配置。
 
 ```yaml
   tcp:
