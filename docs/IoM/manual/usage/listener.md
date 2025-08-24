@@ -157,7 +157,7 @@ http --listener listener --host 127.0.0.1 --port 8083
 ![image-2025081725224752](/IoM/assets/usage/listener/http_new_gui.png)
 
 !!! tip 
-	 pipeline是和implant相互通信的，所以两者配置需要相互匹配，implant的tcp和http配置在[basic通信协议](/IoM/manual/usage/implant_config/#6-%E7%9B%AE%E6%A0%87%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE)查看。
+	 pipeline是和implant相互通信的，所以两者配置需要相互匹配，implant的tcp和http配置在[target配置](/IoM/manual/usage/implant_config/#6-%E7%9B%AE%E6%A0%87%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE)查看。
 #### website
 
 当您需要启动一个新的website pipeline的时候，并将一些文件挂载website pipeline 服务上时，可以在config.yaml中的对应listener下增加一个website 配置。
