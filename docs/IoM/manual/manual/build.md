@@ -275,7 +275,7 @@ autorun.yaml的示例config为：
 在编译prelude时，需要使用 `--autorun` 带上autorun.zip的文件路径，将autorun.zip上传至服务
 器。autorun.zip的文件目录如下：
 
-![image-20250817185627224752](/IoM/assets/assets/usage/build/autorun_zip.png)
+![image-20250817185627224752](/IoM/assets/usage/build/autorun_zip.png)
 
 resources文件夹中需要包含autorun.yaml中所列到的所有文件。
 编译命令如下：
