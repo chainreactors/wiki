@@ -87,7 +87,7 @@ nav:
         - index: IoM/guideline/index.md
         - 安装部署: IoM/guideline/deploy.md
         - Listener: IoM/guideline/listener.md
-        - Payload: IoM/guideline/build.md
+        - Payload: IoM/guideline/payload.md
         - 后渗透基本操作: IoM/guideline/post_exploitation.md
         - 内置插件: IoM/guideline/embed_mal.md
         - 代理/隧道: IoM/guideline/proxy.md
