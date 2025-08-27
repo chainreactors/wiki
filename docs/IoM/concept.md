@@ -7,7 +7,7 @@ title: Internet of Malice · 核心概念
 IoM采用高度解耦的分布式架构，本文档介绍各个核心组件的概念和作用。
 
 !!! tip "与开发者指南的关系"
-    本文档介绍概念和架构，具体开发实践请参考[开发者贡献指南](/IoM/manual/usage/develop/index/)
+    本文档介绍概念和架构，具体开发实践请参考[开发者贡献指南](/IoM/guideline/develop/index/)
 
 ## Server
 
@@ -41,7 +41,7 @@ IoM采用高度解耦的分布式架构，本文档介绍各个核心组件的�
     v0.0.2后Server与Listener使用同一个二进制文件，通过不同配置启动不同模式。
 
 !!! tip "开发指南"
-    Server开发详见[Server开发指南](/IoM/manual/usage/develop/server/)
+    Server开发详见[Server开发指南](/IoM/guideline/develop/server/)
 
 ### Session
 
@@ -97,7 +97,7 @@ IoM支持多种格式的无文件执行：
 上诉拓展能力能满足绝大部分场景。
 
 !!! tip "开发指南"
-    Implant开发详见[Implant开发指南](/IoM/manual/usage/develop/implant/)
+    Implant开发详见[Implant开发指南](/IoM/guideline/develop/implant/)
 
 ## Client
 
@@ -121,7 +121,7 @@ IoM支持多种格式的无文件执行：
 
 
 !!! tip "开发指南"
-    Client开发详见[Client开发指南](/IoM/manual/usage/develop/client/)
+    Client开发详见[Client开发指南](/IoM/guideline/develop/client/)
 
 
 ## 通讯
@@ -190,7 +190,7 @@ graph LR
 - **Cryptor**: 加密解密器
 
 !!! tip "开发指南"
-    Listener开发详见[Server开发指南](/IoM/manual/usage/develop/server/#listener开发)
+    Listener开发详见[Server开发指南](/IoM/guideline/develop/server/#listener开发)
 
 ### Pipeline
 

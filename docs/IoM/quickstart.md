@@ -26,7 +26,7 @@ IoM 的 server 与 client 都是通过 golang 编写的, 打包成二进制文�
 ** v0.1.1新特征: **开箱即用** 默认情况下, server会使用云编译对应的implant**
 
 !!! danger "安全警告, 使用默认提供的云编译视为同意用户协议"
-	用户协议全文: https://wiki.chainreactors.red/IoM/#_4
+	用户协议全文: https://wiki.chainreactors.red/IoM/#%E7%94%A8%E6%88%B7%E5%8D%8F%E8%AE%AE
 	
 	可以通过config中设置关闭此功能, 使用docker/github action私有化编译过程
 	```
@@ -35,7 +35,7 @@ IoM 的 server 与 client 都是通过 golang 编写的, 打包成二进制文�
 	```
 
 ??? info "(非必要) 自行编译 client 与 server"
-	如需自定编译可参照: ([自行编译说明](IoM/deploy/#_6))
+	如需自定编译可参照: ([自行编译说明](/IoM/guideline/develop/))
 
 
 ??? info "(非必要)自定义 malefic-network 的 config"
@@ -47,7 +47,7 @@ IoM 的 server 与 client 都是通过 golang 编写的, 打包成二进制文�
 
 
 ??? info "(非必要)独立运行 listener"
-	[listener 文档](/IoM/manual/manual/deploy/#listener)
+	[listener 文档](/IoM/guideline/listener/#独立部署listener)
 	
 	从 v0.0.2 开始, 我们合并了 listener 与 server 两个二进制文件到`malice-network`
 	需要在 [这里获取`listener.yaml`配置文件](https://github.com/chainreactors/malice-network/blob/master/server/listener.yaml)示例
