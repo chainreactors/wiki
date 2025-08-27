@@ -9,9 +9,9 @@ profile的配置结构主要分为大部分：
 
 - **basic**：用于连接的参数配置
      
-- **build**：构建时的编译及混淆选项
-    
 - **implants**：implant 的功能性配置
+	
+- **build**：构建时的编译及混淆选项
 ### basic
 `basic` 部分主要用于连接参数配置，包括 **目标地址、协议、加密、代理、心跳、HTTP 伪装头** 等。
 #### 目标与协议
@@ -91,39 +91,8 @@ basic:
   key: maliceofinternal
 ```
 
-!!!tip "有关basic配置的更多信息，请参阅 [basic](/IoM/guideline/implant_config/#basic)"
-### build
+!!!tip "有关basic配置的更多信息，请参阅 [basic](/IoM/manual/implant/build/#42-basic-%E5%9F%BA%E7%A1%80%E9%80%9A%E4%BF%A1%E9%85%8D%E7%BD%AE)"
 
- `build` 主要控制 **构建方式、混淆参数、PE 文件元信息** 等。
-
-这是一个最小的build部分示例：
-```yaml
-build:
-  zigbuild: true                   
-  remap: false
-  ollvm:
-    enable: false                   
-  metadata:
-    original_filename: "normal.exe"
-    file_description: "normal"
-    require_admin: true            
-```
-在这个例子中，`build` 配置包含以下字段：
-
-- **zigbuild**：是否启用 Zig 编译器来构建 payload。
-    
-- **remap**：是否刷新路径映射。
-    
-- **ollvm.enable**：是否启用 OLLVM 混淆。
-    
-- **metadata.original_filename**：生成的可执行文件原始文件名。
-    
-- **metadata.file_description**：文件描述信息。
-    
-- **metadata.require_admin**：是否要求管理员权限。
-
-!!!tip
-	  `build` 部分的ollvm混淆拥有多种设置，也设置更多的自定义元信息字段。有关更多build的配置信息，请参阅 [build](/IoM/guideline/implant_config/#build)。
 ### implants
 
 implant的功能性配置，决定 **运行时行为** 和 **模块加载策略**。
@@ -158,7 +127,40 @@ implants:
   autorun: "autorun.yaml"
 ```
 
-!!!tip "有关implant配置的更多信息，请参阅 [implants](/IoM/guideline/implant_config/#implants)"
+!!!tip "有关implant配置的更多信息，请参阅 [implants](/IoM/manual/implant/build/#43-implants-%E6%A4%8D%E5%85%A5%E4%BD%93%E9%AB%98%E7%BA%A7%E9%85%8D%E7%BD%AE)"
+### build
+
+ `build` 主要控制 **构建方式、混淆参数、PE 文件元信息** 等。
+
+这是一个最小的build部分示例：
+```yaml
+build:
+  zigbuild: true                   
+  remap: false
+  ollvm:
+    enable: false                   
+  metadata:
+    original_filename: "normal.exe"
+    file_description: "normal"
+    require_admin: true            
+```
+在这个例子中，`build` 配置包含以下字段：
+
+- **zigbuild**：是否启用 Zig 编译器来构建 payload。
+    
+- **remap**：是否刷新路径映射。
+    
+- **ollvm.enable**：是否启用 OLLVM 混淆。
+    
+- **metadata.original_filename**：生成的可执行文件原始文件名。
+    
+- **metadata.file_description**：文件描述信息。
+    
+- **metadata.require_admin**：是否要求管理员权限。
+
+!!!tip
+	  `build` 部分的ollvm混淆拥有多种设置，也设置更多的自定义元信息字段。有关更多build的配置信息，请参阅 [build](/IoM/manual/implant/build/#44-build-%E7%BC%96%E8%AF%91%E6%9E%84%E5%BB%BA%E9%85%8D%E7%BD%AE)。
+
 ### 新建profile
 您也可以使用 `profile new` 新建一个默认的profile，在IoM中，profile是与pipeline绑定的，在编译前，profile中的 `basic` 的 `target` 、 `protocol` 和 `tls` 配置会自动使用pipeline的配置。
 

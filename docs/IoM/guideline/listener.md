@@ -157,7 +157,7 @@ http --listener listener --host 127.0.0.1 --port 8083
 ![image-2025081725224752](/IoM/assets/usage/listener/http_new_gui.png)
 
 !!! tip 
-	 pipeline是和implant相互通信的，所以两者配置需要相互匹配，implant的tcp和http配置在[target配置](/IoM/guideline/implant_config/#6-%E7%9B%AE%E6%A0%87%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE)查看。
+	 pipeline是和implant相互通信的，所以两者配置需要相互匹配，implant的tcp和http配置在[target配置](/IoM/manual/implant/build/#426-%E7%9B%AE%E6%A0%87%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE)查看。
 #### website
 
 当您需要启动一个新的website pipeline的时候，并将一些文件挂载website pipeline 服务上时，可以在config.yaml中的对应listener下增加一个website 配置。
@@ -296,7 +296,7 @@ pipeline start tcp --cert-name cert-name
 ![image-20250709213539835](/IoM/assets/cert_pipeline_start.png)
 
 !!!tip "tls指南" 
-	当您打开tls配置时，您需要确保Implant的tls配置也打开，implant的tls配置请在[implant_tls](/IoM/guideline/implant_config/#6-%E7%9B%AE%E6%A0%87%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE)参阅。
+	当您打开tls配置时，您需要确保Implant的tls配置也打开，implant的tls配置请在[implant_tls](/IoM/manual/implant/build/#426-%E7%9B%AE%E6%A0%87%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE)参阅。
 	listener上的tls具体配置可以在[listener](/IoM/manual/manual/listener)查看。
 ### Parser
 
@@ -335,7 +335,7 @@ pipeline start tcp --cert-name cert-name
 
 !!!tip "encryption指南" 
 	具体Encryption配置可以在[listener](/IoM/manual/manual/listener)查看。
-	如何在Implant上配置对应的Encryption，请在[Implant](/IoM/guideline/Implant_config/#4-%E9%80%9A%E4%BF%A1%E5%8A%A0%E5%AF%86%E9%85%8D%E7%BD%AE)查看。
+	如何在Implant上配置对应的Encryption，请在[Encryption](/IoM/manual/implant/build/#423-%E9%80%9A%E4%BF%A1%E5%8A%A0%E5%AF%86%E9%85%8D%E7%BD%AE)查看。
 ### http自定义响应内容
 
 当您需要对http pipeline自定义配置对应的响应内容,可以在config.yaml中配置。
