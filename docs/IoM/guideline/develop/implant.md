@@ -7,7 +7,7 @@ title: IoM Implant 开发指南
 本指南介绍如何为IoM的Implant组件进行开发和贡献。Implant是基于Rust的跨平台植入物。
 
 !!! info "回到总览"
-    返回[开发者贡献指南](index.md) | 查看[Server开发指南](server.md) | 查看[Client开发指南](client.md)
+    返回[开发者贡献指南](index.md) | 查看[Server开发指南](server.md) | 查看[Client开发指南](IoM/guideline/develop/client.md)
 
 ## 环境配置
 
@@ -369,8 +369,8 @@ cargo build -r --features "example,your_module"
 - [Implant构建文档](/IoM/manual/implant/build/) - 详细编译指南
 - [Module文档](/IoM/manual/implant/modules/) - 所有可用模块
 - [Mutant文档](/IoM/manual/implant/mutant/) - 配置工具详解
-- [Server开发指南](server) - 服务端开发
-- [Client开发指南](client) - 客户端开发
+- [Server开发指南](server.md) - 服务端开发
+- [Client开发指南](IoM/guideline/develop/client.md) - 客户端开发
 
 ---
 

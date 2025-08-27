@@ -32,17 +32,20 @@ basic:
 	  
 	有关 pipeline 的 TCP 与 HTTP 配置，请参见 [pipeline](/IoM/manual/usage/listener/#pipeline-%E9%85%8D%E7%BD%AE)。
 #### REM 信道上线
+
 REM 是 IoM 基于[rem](/rem)自定义协议，支持更灵活的流量伪装，其中`link` 格式为`[transport]://[key]:@[host]:[port]?wrapper=[]&tls=[bool]&tlsintls=[bool]&compress=[bool]`, 详细参数请阅读[rem参数解释](https://wiki.chainreactors.red/rem/usage/#console)
+
 ```yaml
 targets: 
   - address: "127.0.0.1:34996" # REM 服务器地址 
+    protocol: "rem" 
+    rem: link: "tcp://username:password@127.0.0.1:34996?wrapper=demo123"
     rem: 
       link: "tcp://username:password@127.0.0.1:34996?wrapper=ls..."
 ```
 
-!!!tip
-	 IoM 中的大多数网络功能均依赖 **rem** 实现。为了更高效地使用这些功能，建议在操作前先查阅 [rem](/rem) 文档。
-	 
+!!!tip "IoM 中的大多数网络功能均依赖 **rem** 实现。为了更高效地使用这些功能，建议在操作前先查阅 [rem](/rem) 文档"
+
 #### TLS加密
 当通信的pipeline开启了tls，需要在profile中开启 `tls` 配置：
 ```yaml
@@ -80,8 +83,7 @@ basic:
 #### Encryption
 当通信的pipeline配置了 `Encryption` 信息，profile也需要同步设置  `encryption` 和 `key` 字段 ，两者内容和需要保持一致。
 
-!!! tip 
-	关于pipeline的Encryption信息，请参阅[Encryption](/IoM/manual/usage/listener/#encryption)
+!!! tip "关于pipeline的Encryption信息，请参阅[Encryption](/IoM/manual/usage/listener/#encryption)"
 
 ```yaml
 basic:
@@ -89,8 +91,7 @@ basic:
   key: maliceofinternal
 ```
 
-!!!tip
-	 有关basic配置的更多信息，请参阅 [basic](/IoM/manual/usage/implant_config/#basic)
+!!!tip "有关basic配置的更多信息，请参阅 [basic](/IoM/manual/usage/implant_config/#basic)"
 ### build
 
  `build` 主要控制 **构建方式、混淆参数、PE 文件元信息** 等。
@@ -157,8 +158,7 @@ implants:
   autorun: "autorun.yaml"
 ```
 
-!!!tip
-	有关implant配置的更多信息，请参阅 [implants](/IoM/manual/usage/implant_config/#implants)。
+!!!tip "有关implant配置的更多信息，请参阅 [implants](/IoM/manual/usage/implant_config/#implants)"
 ### 新建profile
 您也可以使用 `profile new` 新建一个默认的profile，在IoM中，profile是与pipeline绑定的，在编译前，profile中的 `basic` 的 `target` 、 `protocol` 和 `tls` 配置会自动使用pipeline的配置。
 
@@ -183,8 +183,7 @@ profile load config.yaml --name test --pipeline tcp
 
 准备好profile后，您可以在client端使用build命令进行编译，目前build命令支持编译beacon、pulse、prelude和modules。
 
-!!!tip "implant介绍"
-	 有关implant的简单介绍可以查看[implant架构](/IoM/concept/#implant)
+!!!tip "有关implant的简单介绍可以查看[implant架构](/IoM/concept/#implant)"
 
 ### 编译命令
 
@@ -227,8 +226,8 @@ build beacon --profile tcp_default --target x86_64-unknown-linux-musl --interval
 build beacon --profile tcp_default --target x86_64-unknown-linux-musl --rem
 ```
 
-!!!tip "build beacon 命令"
-	  更多有关 `build beacon` 命令的编译选项，请参阅 [build beacon](/IoM/manual/manual/client/#build-beacon)。	
+!!!tip "更多有关 `build beacon` 命令的编译选项，请参阅 [build beacon](/IoM/manual/manual/client/#build-beacon)"
+
 
 在gui上，您需要在artifacts页面，在对应的profile行上点击build，选择beacon后，根据需求，在对应配置行上填入信息，进行编译。
 ![image-20250817183527224752](/IoM/assets/usage/build/build_beacon_gui.png)
@@ -246,8 +245,7 @@ build pulse --profile tcp_default --target x86_64-pc-windows-gnu
 build pulse --profile tcp_default --target x86_64-pc-windows-gnu --artifact-id 3
 ```
 
-!!!tip "build pulse 命令"
-	 更多有关 `build pulse` 命令的编译选项，请参阅 [build pulse](/IoM/manual/manual/client/#build-pulse)。
+!!!tip "更多有关 `build pulse` 命令的编译选项，请参阅 [build pulse](/IoM/manual/manual/client/#build-pulse)"
 
 在gui上，您需要在选择pulse后，填入artifact-id后进行编译。
 
@@ -264,8 +262,7 @@ build pulse --profile tcp_default --target x86_64-pc-windows-gnu --artifact-id 3
 build prelude  --profile prelude-profile  --target x86_64-pc-windows-gnu --autorun autorun.zip
 ```
 
-!!!tip "build prelude 命令"
-	 更多有关 `build prelude` 命令的编译选项，请参阅 [build prelude](/IoM/manual/manual/client/#build-prelude)。
+!!!tip "更多有关 `build prelude` 命令的编译选项，请参阅 [build prelude](/IoM/manual/manual/client/#build-prelude)"
 
 在gui上，您需要在选择prelude后，填入zip文件路径后进行编译。
 
@@ -285,8 +282,7 @@ build modules --modules execute_exe,execute_dll --profile tcp_default --target x
 build modules --3rd rem --profile tcp_default --target x86_64-pc-windows-gnu
 ```
 
-!!!tip "build modules 命令"
-	 更多有关 `build modules` 命令的编译选项，请参阅 [build modules](/IoM/manual/manual/client/#build-modules) 。	
+!!!tip "更多有关 `build modules` 命令的编译选项，请参阅 [build modules](/IoM/manual/manual/client/#build-modules)"
 
 在gui上，您需要在选择modules后，在对应的插件行上填入需要的插件，然后进行编译。
 
@@ -313,8 +309,7 @@ artifact list
 ```bash
 artifact download artifact-name --format raw
 ```
-!!!tip
-	更多的format格式， 请参阅[build](/IoM/manual/manual/build)。
+!!!tip "更多的format格式， 请参阅[build](/IoM/manual/manual/build)"
 
 在gui上，您需要在artifact页面上点击对应的artifact行上的download按钮，即可下载artifact源文件到指定路径。
 ![image-20250817190327224752](/IoM/assets/usage/build/artifact_download.png)

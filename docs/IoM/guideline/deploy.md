@@ -8,7 +8,7 @@
 curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/install.sh" | sudo bash
 ```
 
-确保 **IOM** 所在系统符合以下条件：
+确保 **IoM** 所在系统符合以下条件：
 
 - **操作系统**：Linux 推荐使用 Ubuntu、Debian 或 CentOS, (后续会适配 mac 与 windows)
 - **权限**：需要以 `root` 用户或通过 `sudo` 运行安装脚本。
@@ -118,8 +118,8 @@ IoM还支持了第三方消息通知，目前支持了telegram，钉钉，飞书
       channel:        # 推送渠道，可选: wechat, email, telegram 等
 ```
 
-关于listener和编译的配置在[listener](/IoM/manual/usage/listener)和[build](/IoM/manual/usage/build)中说明。
-### 启动客户端
+关于listener和编译的配置在[listener](IoM/guideline/listener.md)和[payload](payload.md)中说明。
+## 启动客户端
 
 服务端启动后会生成两个配置文件, 分别为`listener.auth` 和`admin_[server_ip].auth`，将生成的用户配置文件, 默认为 `admin_[server_ip].auth` 复制到 `Malice-Network` 客户端的所在位置。使用新的用户配置文件时，可以使用以下指令启动客户端：
 
@@ -137,24 +137,45 @@ IoM还支持了第三方消息通知，目前支持了telegram，钉钉，飞书
 
 ![](/IoM/assets/EEgKb86iwop9xaxBUt8cHZG9n8f.png)
 
-### gui 配置
+## 安装gui 
 
-gui目前以vscode插件形式生成，需要配置vscode使用，在[github release中下载](https://github.com/chainreactors/malice-network/releases/latest/download/iom.vsix)。
+### 下载文件
+从 [malice-network仓库](https://github.com/chainreactors/malice-network/releases/tag/nightly) 中的release中下载对应的vscode插件`iom.vsix` 以及client文件
 
-在vscode的extensions界面选择install from VSIX将gui插件安装：
+![](/IoM/assets/Pasted%20image%2020250220013427.png)
 
-![image-20250817194939835](/IoM/assets/usage/deploy/gui_install.png)
+### 从文件安装vscode插件
 
-安装完成后，在vscode设置中搜索iom
+打开extension或ctrl+sheft+x 并单击如图所示
 
-需要配置默认凭证名和iom的client路径：
+![](/IoM/assets/Pasted%20image%2020250220013640.png)
 
-![image-20250817194339835](/IoM/assets/usage/deploy/gui_setting.png)
+### 配置VSCODE插件
 
-!!! tips "默认凭证名只是命令行中使用的默认凭证名，在后续的client登录中还是要先添加对应的登录凭证，然后才能使用。"
+IoM: Executable Path 填入从release下载的iom二进制程序
 
-设置完成后，在左侧凭证列表点击添加按钮，将server生成的auth文件加入，然后点击auth文件，即可与server连接，使用gui界面。
+![](/IoM/assets/Pasted%20image%2020250220014015.png)
 
-![image-20250817195039835](/IoM/assets/usage/deploy/gui_add_auth.png)
+### 打开IoM 插件
+
+IoM需要 malice-network生成的.auth凭证, 所以在这一步之前请先自行搭建好server
+
+可以参考[quickstart文档](/IoM/quickstart/#server)快速搭建server
+
+安装server的命令需要修改为:
+```bash
+curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/install.sh" -o install.sh
+bash install.sh
+```
+
+![](/IoM/assets/Pasted%20image%2020250220014242.png)
+
+如果已经通过client连接过server， 则会直接显示历史连接过的auth文件. 单击即可进入到交互界面. 
+
+!!! important "请注意server版本,client版本,gui版本一致"
+
+![](/IoM/assets/Pasted%20image%2020250220013750.png)
+
+
 
 !!! tips "更具体的部署文档在[deploy](/IoM/manual/manual/deploy)中说明"

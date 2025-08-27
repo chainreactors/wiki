@@ -7,7 +7,7 @@ title: IoM Server 开发指南
 本指南介绍如何为IoM的Server组件进行开发和贡献。Server是IoM的核心数据处理和交互服务。
 
 !!! info "回到总览"
-    返回[开发者贡献指南](index.md) | 查看[Client开发指南](client.md) | 查看[Implant开发指南](implant.md)
+    返回[开发者贡献指南](index.md) | 查看[Client开发指南](IoM/guideline/develop/client.md) | 查看[Implant开发指南](IoM/guideline/develop/implant.md)
 
 ## 环境配置
 
@@ -259,8 +259,8 @@ Listener与Server是解耦的，可以独立部署。开发新的Listener类型�
 
 - [IoM设计文档](/IoM/design/) - 了解整体架构
 - [Proto仓库](https://github.com/chainreactors/proto) - 协议定义
-- [Client开发指南](client.md) - 客户端开发
-- [Implant开发指南](implant.md) - 植入物开发
+- [Client开发指南](IoM/guideline/develop/client.md) - 客户端开发
+- [Implant开发指南](IoM/guideline/develop/implant.md) - 植入物开发
 
 ---
 

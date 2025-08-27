@@ -7,7 +7,7 @@ title: IoM Client 开发指南
 本指南介绍如何为IoM的Client组件进行开发和贡献。Client是用户与IoM系统交互的主要界面。
 
 !!! info "回到总览"
-    返回[开发者贡献指南](index.md) | 查看[Server开发指南](server.md) | 查看[Implant开发指南](implant.md)
+    返回[开发者贡献指南](index.md) | 查看[Server开发指南](server.md) | 查看[Implant开发指南](IoM/guideline/develop/implant.md)
 
 ## 环境配置
 
@@ -344,7 +344,7 @@ IoM兼容sliver的Armory生态，支持：
 - [IoM设计文档](/IoM/design/) - 了解整体架构
 - [Mal插件文档](/IoM/manual/mal/) - 插件开发详细指南
 - [Server开发指南](server.md) - 服务端开发
-- [Implant开发指南](implant.md) - 植入物开发
+- [Implant开发指南](IoM/guideline/develop/implant.md) - 植入物开发
 - [Armory生态](https://github.com/sliverarmory/armory) - Sliver插件生态
 
 ---
