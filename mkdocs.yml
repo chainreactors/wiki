@@ -84,23 +84,22 @@ nav:
       - Concept: IoM/concept.md
       - RoadMap: IoM/roadmap.md
       - Guideline: 
-        - index: IoM/manual/usage/index.md
-        - 部署: IoM/manual/usage/deploy.md
-        - Listener: IoM/manual/usage/listener.md
-        - Payload: IoM/manual/usage/build.md
-        - 内置插件: IoM/manual/usage/embed_mal.md
-        - 代理/隧道: IoM/manual/usage/proxy.md
-        - Implant配置: IoM/manual/usage/implant_config.md
+        - index: IoM/guideline/index.md
+        - 安装部署: IoM/guideline/deploy.md
+        - Listener: IoM/guideline/listener.md
+        - Payload: IoM/guideline/build.md
+        - 后渗透基本操作: IoM/guideline/post_exploitation.md
+        - 内置插件: IoM/guideline/embed_mal.md
+        - 代理/隧道: IoM/guideline/proxy.md
         - 高级用法:
-            - DumpLSASS: IoM/manual/usage/advance/DumpLSASS.md
-            - DomainFronting: IoM/manual/usage/advance/DomainFronting.md
+            - DumpLSASS: IoM/guideline/advance/DumpLSASS.md
+            - DomainFronting: IoM/guideline/advance/DomainFronting.md
         - DevelopGuide:
-            - index: IoM/manual/usage/develop/index.md
+            - index: IoM/guideline/develop/index.md
             - mal快速入门: IoM/manual/mal/quickstart.md
-            - Server开发: IoM/manual/usage/develop/server.md
-            - Client开发: IoM/manual/usage/develop/client.md
-            - Implant开发: IoM/manual/usage/develop/implant.md
-
+            - Server开发: IoM/guideline/develop/server.md
+            - Client开发: IoM/guideline/develop/client.md
+            - Implant开发: IoM/guideline/develop/implant.md
       - Manual:
         - index: IoM/manual/index.md
         - client/server:
@@ -108,7 +107,6 @@ nav:
             - install&deploy: IoM/manual/manual/deploy.md
             - client usage: IoM/manual/manual/client.md
             - implant usage: IoM/manual/manual/implant.md
-            - GUI(内测): IoM/manual/manual/GUI.md
         - mals插件生态:
             - index: IoM/manual/mal/index.md
             - embed: IoM/manual/mal/embed.md

@@ -218,7 +218,7 @@ website add /path/to/file --website web-test --path /path
 
 !!!tip "rem指南" 
 	在 IoM 中，绝大部分网络相关功能都基于 **rem** 实现。因此，在使用这些功能前，建议先阅读 [rem](/rem) 文档，以便更好地熟悉其用法。  
-    关于在 implant 中如何使用 **rem**，可参考 [rem_usage](/IoM/manual/usage/proxy)。
+    关于在 implant 中如何使用 **rem**，可参考 [rem_usage](proxy.md)。
 #### bind (Unstable)
 
 当您需要启动一个新的bind pipeline的时候， 可以在config.yaml中的对应listener下增加一个bind配置。
