@@ -105,7 +105,6 @@ nav:
         - client/server:
             - index: IoM/manual/manual/index.md
             - install&deploy: IoM/manual/manual/deploy.md
-            - GUI: IoM/manual/manual/GUI.md
             - listener: IoM/manual/manual/listener.md
             - build: IoM/manual/manual/build.md
             - client usage: IoM/manual/manual/client.md
