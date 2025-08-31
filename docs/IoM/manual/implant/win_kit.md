@@ -573,42 +573,7 @@ create_advapi32_function!(REG_OPEN_KEY_EX_A, RegOpenKeyExA, "RegOpenKeyExA");
 
 完成到这一步， 意味着我们已经将所需的 `api` 成功引入到底层系统了， 下面只需要添加一个 `wrapper` 即可，
 
-我们的 `wrapper` 位于 `apis/Core/**` 中， 下面进行一个最复杂情况的举例:
-
-```rust
-FUNC! {
-    fn MNtFreeVirtualMemory(handle: *const core::ffi::c_void, 
-                            ptr: *mut *mut core::ffi::c_void, 
-                            size: *mut usize) -> i32 {
-        #[cfg(feature = "DYNAMIC")]
-        #[cfg(not(feature = "SYSCALLS"))]
-        {
-            match crate::apis::DynamicApis::NT_FREE_VIRTUAL_MEMORY.as_ref() {
-                Some(nfvm) => {
-                    #[cfg(all(feature = "StackSpoofer", target_arch = "x86_64"))]
-                    {
-                        return crate::call_spoofed_function!(
-                            *nfvm, 
-                            handle, 
-                            ptr, 
-                            size, 
-                            MEM_RELEASE
-                        ) as i32;
-                    }
-                    #[cfg(any(target_arch = "x86", not(feature = "StackSpoofer")))]
-                    {
-                        return nfvm(handle as _, ptr, size, MEM_RELEASE);
-                    }
-                },
-                None => {
-                    MAIEFIC_NT_FAILED_CODE
-                }
-            }
-        }
-     }
-}
-```
-
+我们的 `wrapper` 位于 `apis/Core/**` 中， 下面为如何定义进行说明:
 
 
 ??? tips "normal 和 syscall feature"
