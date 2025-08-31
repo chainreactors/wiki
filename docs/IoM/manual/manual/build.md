@@ -69,7 +69,11 @@ github:
 service malice-network restart
 ```
 
+或重启malice-network
 
+```bash
+./malice-network
+```
 
 在 v0.0.4 下，我们引入了 github action 来编译 implant，避免因为 rust 复杂的编译方案而需要准备 docker 环境来编译。现在你只需准备好 malefic 仓库和对应的 token（需要 workflow 和 package 权限），并且在 sever 或者 client 端配置（[详见配置说明](IoM/manual/manual/deploy)），即可使用命令行进行 github action 编译。
 
@@ -115,9 +119,11 @@ build beacon --profile tcp_default --target x86_64-unknown-linux-musl --source a
 
 安装脚本中已经自动化配置了IoM必备的所有环境，可以在client直接操作
 
+若没有使用安装脚本，则需要手动安装镜像  `ghcr.io/chainreactors/malefic-builder:latest` ，这个镜像包含了win/linux/mac常用target。
 
 ??? "基于docker的手动编译(非必要)"
-	docker 手动编译操作可见: https://chainreactors.github.io/wiki/IoM/manual/implant/build/#docker
+	docker 手动编译操作可见: https://chainreactors.github.io/wiki/IoM/manual/implant/build/#%21-docker-%E7%BC%96%E8%AF%91%E6%8E%A8%E8%8D%90
+
 	
 	相比IoM目前提供的参数选项， 手动编译具有更高的细粒度，但只推荐对rust开发熟悉的使用
 
