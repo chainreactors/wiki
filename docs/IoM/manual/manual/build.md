@@ -53,7 +53,7 @@ build beacon --profile tcp_default --target x86_64-pc-windows-gnu --source saas
 
 fork 或者push到自己的malefic仓库
 
-修改 /opt/IoM/malice-network/config.yaml
+修改 /opt/IoM/malice-network/config.yaml(即服务端config.yaml)
 
 ```yaml
 github:  
@@ -80,7 +80,7 @@ service malice-network restart
 
 基于github action
 ```bash
-action beacon --profile tcp_default --target x86_64-unknown-linux-musl --source action
+build beacon --profile tcp_default --target x86_64-unknown-linux-musl --source action
 ```
 
 
