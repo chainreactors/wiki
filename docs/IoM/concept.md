@@ -7,19 +7,21 @@ title: Internet of Malice · 核心概念
 IoM采用高度解耦的分布式架构，本文档介绍各个核心组件的概念和作用。
 
 !!! tip "与开发者指南的关系"
-    本文档介绍概念和架构，具体开发实践请参考[开发者贡献指南](/IoM/guideline/develop/index/)
+    本文档介绍概念和架构，具体开发实践请参考[开发者贡献指南](/IoM/guideline/develop/)
 
 ## Server
 
 数据处理和状态管理的核心组件。
 
 **核心职责**:
+
 - 所有数据的中央管理和持久化
 - 提供gRPC服务供Client和Listener调用
 - 状态集合管理和事件分发
 - 任务调度和结果处理
 
 **架构特点**:
+
 - Client/Listener中只保留只读副本
 - 内存中保留当前存活的数据
 - 历史数据保存在数据库中
@@ -70,11 +72,13 @@ Session是Server中最复杂的数据结构，负责管理单个Implant的完整
 https://github.com/chainreactors/malefic/
 
 **主要类型**:
+
 - **Malefic**: 功能完整的主Implant，支持Beacon/Bind模式
 - **Pulse**: 轻量级上线马，仅4KB大小，类似CS的artifact  
 - **Prelude**: 多段上线的中间阶段，支持权限维持等
 
 **核心特性**:
+
 - 基于Rust实现，跨平台支持
 - 模块化设计，动态加载功能
 - 多种通讯模式(Beacon/Bind)
@@ -104,6 +108,7 @@ IoM支持多种格式的无文件执行：
 用户交互界面，负责命令输入和结果展示。
 
 **架构特性**:
+
 - 通过gRPC与Server通讯
 - 支持CLI和GUI两种模式
 - 高度可扩展的插件系统
@@ -132,6 +137,7 @@ C2的本质就是安全的通讯与命令下发。我们需要将Client/Server/L
 Spite是整个IoM通讯的最小单元，是server/listener <--> implant之间进行数据交换的载体。
 
 **核心特性**:
+
 - 基于Protobuf实现，高效序列化
 - 统一的数据交换格式
 - 支持任务状态管理
@@ -156,6 +162,7 @@ message Spite {
 ```
 
 **使用场景**:
+
 - Client通过RPC调用生成Spite
 - Server将Spite转发给对应Listener  
 - Listener通过Parser和Cryptor处理Spite
@@ -177,12 +184,14 @@ graph LR
 ```
 
 **核心特性**:
+
 - **分布式部署**: 可在任意服务器上部署
 - **完全解耦**: 与Server独立，故障隔离
 - **多形态支持**: 支持各种伪装和隐蔽形式
 - **实时通讯**: 通过gRPC Stream与Server双向通讯
 
 **内部架构**:
+
 - **Listener核心**: 管理Pipeline和与Server交互
 - **Pipeline**: 具体的数据管道实现
 - **Forwarder**: 数据转发组件
@@ -197,6 +206,7 @@ graph LR
 数据管道，Listener与Implant/WebShell交互的具体实现。
 
 **概念说明**:
+
 Pipeline相当于传统C2框架中的Listener概念，但IoM进一步细分了其实现。每个Listener可以运行多个Pipeline，Pipeline负责与Implant的具体交互。
 
 **主要类型**:
@@ -211,6 +221,7 @@ Pipeline相当于传统C2框架中的Listener概念，但IoM进一步细分了�
 | **REM** | 流量代理和转发服务 | 🛠️ 计划中 |
 
 **交互模式**:
+
 - **Beacon模式**: 解析心跳包并返回任务数据
 - **Bind模式**: 主动向目标发起连接  
 - **Website模式**: 提供HTTP服务分发文件
@@ -240,6 +251,7 @@ type PacketParser interface {
 ```
 
 **核心功能**:
+
 - **Parse**: 二进制数据 → Spites映射
 - **Marshal**: Spites → 二进制数据映射  
 - **ReadHeader/PeekHeader**: 协议识别和header解析
@@ -247,19 +259,20 @@ type PacketParser interface {
 **默认协议栈**:
 ```mermaid
 graph TD
-    subgraph "默认通讯协议"
-        TLS["TLS层"]
-        subgraph "自定义加密"
-            Encryption["Encryption Layer"]
-            subgraph "内部结构"
-                Header["Protocol Header"]
-                Proto["Protobuf Data"]
+    subgraph 通讯协议
+        TLS[TLS层]
+        subgraph 自定义加密
+            Encryption[对称加密层]
+            subgraph 内部结构
+                Header[协议头]
+                Secure[密码学安全加密] --> Proto[Protobuf数据]
             end
         end
     end
 ```
 
 **扩展能力**:
+
 - 自定义传输协议格式
 - 接入第三方C2框架
 - 作为其他C2的external listener
@@ -279,11 +292,13 @@ type Cryptor interface {
 ```
 
 **特性**:
+
 - 直接作用于连接流(与REM相同设计)
 - 支持流式加密算法
 - 对全包进行加密解密
 
 **当前实现**:
+
 - **XOR**: 简单异或加密
 - **AES-CFB**: AES CFB模式
 
