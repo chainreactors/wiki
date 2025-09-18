@@ -115,7 +115,7 @@ profile/build/artifact 经过多次优化用户体验，并结合自动化编译
 
 如果不指定特定的字段， 自签名证书将通过随机值填充， 尽可能减少特殊相关特征。 
 
-![image-20250709210707269](/IoM/assets/generate_self_cert.png)
+![image-20250709210707269](../../IoM/assets/generate_self_cert.png)
 
 
 ### 重构transport/pipeline

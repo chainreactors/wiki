@@ -46,7 +46,7 @@ license
 ### login
 Login to server
 
-![login](/IoM/assets/login.gif)
+![login](../../assets/login.gif)
 
 ```
 login
@@ -566,7 +566,7 @@ extension remove credman
 ### armory
 Automatically download and install extensions/aliases
 
-![armory](/IoM/assets/armory.gif)
+![armory](../../assets/armory.gif)
 
 **Description**
 
@@ -1293,7 +1293,7 @@ pipeline stop tcp_test
 ### website
 Register a new website
 
-![website](/IoM/assets/website.gif)
+![website](../../assets/website.gif)
 
 **Description**
 
@@ -1469,7 +1469,7 @@ website start web_test
 #### website stop
 Stop a website
 
-![website stop](/IoM/assets/website_stop.png)
+![website stop](../../assets/website_stop.png)
 
 **Description**
 
@@ -1650,7 +1650,7 @@ rem
 #### rem new
 Register a new REM and start it
 
-![rem new](/IoM/assets/rem_new.png)
+![rem new](../../assets/rem_new.png)
 
 **Description**
 
@@ -1705,7 +1705,7 @@ rem start rem_test
 #### rem stop
 Stop a REM
 
-![rem stop](/IoM/assets/rem_stop.png)
+![rem stop](../../assets/rem_stop.png)
 
 **Description**
 
@@ -1728,7 +1728,7 @@ rem stop rem_test
 ### tcp
 Register a new TCP pipeline and start it
 
-![tcp](/IoM/assets/tcp.gif)
+![tcp](../../assets/tcp.gif)
 
 **Description**
 
@@ -1849,7 +1849,7 @@ artifact download [flags]
 #### artifact list
 list build output file in server
 
-![artifact list](/IoM/assets/artifact_list.png)
+![artifact list](../../assets/artifact_list.png)
 
 **Description**
 
@@ -1963,7 +1963,7 @@ build
 #### build beacon
 Build a beacon
 
-![build beacon](/IoM/assets/build_beacon.png)
+![build beacon](../../assets/build_beacon.png)
 
 **Description**
 
@@ -2215,7 +2215,7 @@ build prelude --target x86_64-pc-windows-gnu --profile tcp_default --autorun /pa
 #### build pulse
 stage 0 shellcode generate
 
-![build pulse](/IoM/assets/build_pulse.png)
+![build pulse](../../assets/build_pulse.png)
 
 **Description**
 
@@ -2301,7 +2301,7 @@ profile delete profile_name
 #### profile list
 List all compile profile
 
-![profile list](/IoM/assets/profile_list.png)
+![profile list](../../assets/profile_list.png)
 
 ```
 profile list
@@ -2356,7 +2356,7 @@ profile load /path/to/profile.zip --name my_profile --pipeline pipeline_name
 #### profile new
 Create new compile profile with default profile
 
-![profile new](/IoM/assets/profile_new.png)
+![profile new](../../assets/profile_new.png)
 
 ```
 profile new [flags]

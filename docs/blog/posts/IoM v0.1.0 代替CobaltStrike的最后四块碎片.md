@@ -28,23 +28,23 @@ GUI 使用说明见 https://chainreactors.github.io/wiki/IoM/manual/manual/GUI/
 
 showcase
 
-![session](/IoM/assets/session_gui.jpg)
+![session](../../IoM/assets/session_gui.jpg)
 
-![pipeline](/IoM/assets/pipeline_gui.png)
+![pipeline](../../IoM/assets/pipeline_gui.png)
 
-![website](/IoM/assets/website_gui.png)
+![website](../../IoM/assets/website_gui.png)
 
-![artifact](/IoM/assets/artifact_gui.png)
+![artifact](../../IoM/assets/artifact_gui.png)
 
-![third party](/IoM/assets/third_party_gui.png)
+![third party](../../IoM/assets/third_party_gui.png)
 
-![use session](/IoM/assets/use_session_gui.png)
+![use session](../../IoM/assets/use_session_gui.png)
 
-![task](/IoM/assets/task_gui.png)
+![task](../../IoM/assets/task_gui.png)
 
-![netstat](/IoM/assets/netstat_gui.png)
+![netstat](../../IoM/assets/netstat_gui.png)
 
-![services](/IoM/assets/services_gui.png)
+![services](../../IoM/assets/services_gui.png)
 
 ### Mals 插件生态
 

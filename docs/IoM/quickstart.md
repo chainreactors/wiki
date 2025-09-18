@@ -58,7 +58,7 @@ IoM 的 server 与 client 都是通过 golang 编写的, 打包成二进制文�
 	./malice-network -c listener.yaml
 	```
 	
-	![](/IoM/assets/image_20240903010041.png)
+	![](assets/image_20240903010041.png)
 	
 	可以看到, 启动了独立的 listener, 并与 server 建立了连接.
 
@@ -102,6 +102,6 @@ session
 	
 	[implant 命令手册](/IoM/manual/manual/implant/)
 
-![](/IoM/assets/Pasted%20image%2020250424154703.png)
+![](assets/Pasted image 20250424154703.png)
 
 **Enjoy IoM**

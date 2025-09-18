@@ -9,6 +9,129 @@ IoM采用高度解耦的分布式架构，本文档介绍各个核心组件的�
 !!! tip "与开发者指南的关系"
     本文档介绍概念和架构，具体开发实践请参考[开发者贡献指南](/IoM/guideline/develop/)
 
+## 相关项目
+
+IoM作为完整的进攻性基础设施，由多个相互协作的项目组成。
+
+### 核心项目
+
+- **[malice-network](https://github.com/chainreactors/malice-network)**: Server/Client/Listener核心框架
+- **[malefic](https://github.com/chainreactors/malefic)**: Rust实现的跨平台Implant
+- **[proto](https://github.com/chainreactors/proto)**: gRPC通讯协议定义
+
+### 插件生态
+
+- **[mals](https://github.com/chainreactors/mals)**: 官方插件仓库和索引
+- **[mal-community](https://github.com/chainreactors/mal-community)**: 社区插件合集
+
+
+## IoM 核心组件
+
+IoM采用高度解耦的分布式架构，由以下核心组件协同工作：
+
+```mermaid
+graph TB
+    subgraph "用户层"
+        Client["Client<br/>用户交互界面"]
+        Mal["Mal插件<br/>Lua脚本扩展"]
+    end
+    
+    subgraph "控制层"
+        Server["Server<br/>核心数据处理"]
+        EventBus["事件总线<br/>状态同步"]
+    end
+    
+    subgraph "网络层"
+        Listener["Listener<br/>分布式监听"]
+        Pipeline["Pipeline<br/>数据管道"]
+        Parser["Parser<br/>协议解析"]
+        Cryptor["Cryptor<br/>流式加密"]
+    end
+    
+    subgraph "执行层"
+        Implant["Implant<br/>目标执行"]
+        Module["Module<br/>功能模块"]
+        Addon["Addon<br/>二进制缓存"]
+    end
+    
+    subgraph "生态层"
+        BOF["BOF<br/>CobaltStrike兼容"]
+        Armory["Armory<br/>Sliver生态"]
+        Kit["Kit<br/>OPSEC工具包"]
+    end
+    
+    %% 核心通信流
+    Client -.->|gRPC| Server
+    Server -.->|gRPC Stream| Listener
+    Listener -.->|TCP/HTTP| Implant
+    
+    %% 内部关联
+    Server --> EventBus
+    Listener --> Pipeline
+    Pipeline --> Parser
+    Pipeline --> Cryptor
+    Implant --> Module
+    Implant --> Addon
+    
+    %% 插件扩展
+    Client --> Mal
+    Implant --> BOF
+    Client --> Armory
+    Implant --> Kit
+    
+    %% 状态同步
+    Server -.->|事件广播| Client
+    Server -.->|状态同步| Listener
+    
+    classDef clientStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef serverStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef networkStyle fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    classDef implantStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef ecosystemStyle fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    
+    class Client,Mal clientStyle
+    class Server,EventBus serverStyle
+    class Listener,Pipeline,Parser,Cryptor networkStyle
+    class Implant,Module,Addon implantStyle
+    class BOF,Armory,Kit ecosystemStyle
+```
+
+
+## 通讯流程
+
+IoM的数据流转遵循严格的路径，确保安全和可控性。
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Server
+    participant L as Listener
+    participant I as Implant
+    
+    Note over C,I: 1. 初始化连接
+    C->>S: gRPC连接建立
+    L->>S: gRPC Stream连接
+    I->>L: TCP/HTTP Beacon连接
+    
+    Note over C,I: 2. 命令下发
+    C->>S: 发送命令请求
+    S->>S: 生成Spite消息
+    S->>L: 转发Spite (gRPC Stream)
+    L->>L: Parser解析 + Cryptor加密
+    L->>I: 发送加密数据包
+    
+    Note over C,I: 3. 结果返回
+    I->>L: 返回执行结果
+    L->>L: Cryptor解密 + Parser解析
+    L->>S: 回传Spite (gRPC Stream)
+    S->>S: 更新Session状态
+    S->>C: 返回结果 (事件系统)
+    
+    Note over C,I: 4. 状态同步
+    S->>C: 广播状态更新事件
+    S->>L: 同步Session状态
+```
+
 ## Server
 
 数据处理和状态管理的核心组件。
@@ -100,8 +223,10 @@ IoM支持多种格式的无文件执行：
 | **bof** | Beacon Object File | 轻量级功能扩展 |
 上诉拓展能力能满足绝大部分场景。
 
-!!! tip "开发指南"
-    Implant开发详见[Implant开发指南](/IoM/guideline/develop/implant/)
+!!! tip "详细文档"
+    - Implant开发详见[Implant开发指南](/IoM/guideline/develop/implant/)
+    - 编译配置参考[Implant构建指南](/IoM/manual/implant/build/)
+    - 模块开发参考[Module开发文档](/IoM/manual/implant/modules/)
 
 ## Client
 
@@ -113,20 +238,11 @@ IoM支持多种格式的无文件执行：
 - 支持CLI和GUI两种模式
 - 高度可扩展的插件系统
 
-### **插件生态**
 
-| 插件类型          | 用途         | 兼容性      |
-| ------------- | ---------- | -------- |
-| **Mal插件**     | Lua脚本扩展    | IoM原生    |
-| **Module**    | 动态模块加载     | IoM原生    |
-| **Addon**     | 二进制程序缓存    | IoM原生    |
-| **Alias**     | CLR/UDRL管理 | Sliver兼容 |
-| **Extension** | BOF管理      | Sliver兼容 |
-| **Armory**    | 插件包管理      | Sliver兼容 |
-
-
-!!! tip "开发指南"
-    Client开发详见[Client开发指南](/IoM/guideline/develop/client/)
+!!! tip "详细文档"
+    - Client开发详见[Client开发指南](/IoM/guideline/develop/client/)
+    - 使用手册参考[Client使用指南](/IoM/manual/manual/client/)
+    - Mal插件开发参考[Mal插件文档](/IoM/manual/mal/)
 
 
 ## 通讯
@@ -183,6 +299,80 @@ graph LR
 	MSF["MSF\n监听在本机"] --> Cobaltstrike["Cobaltstrike\n监听在Server"] --> IoM["IoM\n分布式监听"]
 ```
 
+**Listener内部架构**:
+
+```mermaid
+graph TB
+    subgraph "Listener实例"
+        subgraph "核心组件"
+            Core[Listener核心<br/>管理与调度]
+            RPC[gRPC Client<br/>与Server通讯]
+        end
+        
+        subgraph "Pipeline管理"
+            TCP[TCP Pipeline<br/>TCP/TLS监听]
+            HTTP[HTTP Pipeline<br/>HTTP/HTTPS服务]
+            Bind[Bind Pipeline<br/>主动连接]
+            Website[Website Pipeline<br/>文件托管]
+            Pulse[Pulse Pipeline<br/>轻量级上线]
+        end
+        
+        subgraph "数据处理层"
+            Parser[Parser<br/>协议解析器]
+            Cryptor[Cryptor<br/>加密解密器]
+            Forwarder[Forwarder<br/>数据转发]
+        end
+        
+        subgraph "连接层"
+            Conn1[连接1]
+            Conn2[连接2]
+            ConnN[连接N...]
+        end
+        
+        Core --> RPC
+        Core --> TCP
+        Core --> HTTP
+        Core --> Bind
+        Core --> Website
+        Core --> Pulse
+        
+        TCP --> Parser
+        HTTP --> Parser
+        Bind --> Parser
+        Website --> Parser
+        Pulse --> Parser
+        
+        Parser --> Cryptor
+        Cryptor --> Forwarder
+        
+        Forwarder --> Conn1
+        Forwarder --> Conn2
+        Forwarder --> ConnN
+    end
+    
+    subgraph "外部连接"
+        Server[Server<br/>gRPC Stream]
+        Implant1[Implant A]
+        Implant2[Implant B]
+        ImplantN[Implant N]
+    end
+    
+    RPC -.->|双向流| Server
+    Conn1 -.->|加密通讯| Implant1
+    Conn2 -.->|加密通讯| Implant2
+    ConnN -.->|加密通讯| ImplantN
+    
+    classDef coreStyle fill:#e3f2fd
+    classDef pipelineStyle fill:#e8f5e8
+    classDef dataStyle fill:#fff3e0
+    classDef connStyle fill:#f1f8e9
+    
+    class Core,RPC coreStyle
+    class TCP,HTTP,Bind,Website,Pulse pipelineStyle
+    class Parser,Cryptor,Forwarder dataStyle
+    class Conn1,Conn2,ConnN connStyle
+```
+
 **核心特性**:
 
 - **分布式部署**: 可在任意服务器上部署
@@ -211,14 +401,14 @@ Pipeline相当于传统C2框架中的Listener概念，但IoM进一步细分了�
 
 **主要类型**:
 
-| 类型 | 用途 | 状态 |
-|------|------|------|
-| **TCP/TLS** | 监听TCP端口，默认配置 | ✅ 稳定 |
-| **HTTP/HTTPS** | HTTP协议通讯 | 🛠️ 开发中 |
-| **Bind** | 主动连接bind模式Implant | ✅ 稳定 |
-| **Pulse** | 轻量级Pulse专用管道 | ✅ 稳定 |
-| **Website** | 静态文件托管(类似CS的host) | ✅ 稳定 |
-| **REM** | 流量代理和转发服务 | 🛠️ 计划中 |
+| 类型             | 用途                | 状态      |
+| -------------- | ----------------- | ------- |
+| **TCP/TLS**    | 监听TCP端口，默认配置      | ✅ 稳定    |
+| **HTTP/HTTPS** | HTTP协议通讯          | 🛠️ 开发中 |
+| **Bind**       | 主动连接bind模式Implant | ✅ 稳定    |
+| **Pulse**      | 轻量级Pulse专用管道      | ✅ 稳定    |
+| **Website**    | 静态文件托管(类似CS的host) | ✅ 稳定    |
+| **REM**        | 流量代理和转发服务         | 🛠️ 计划中 |
 
 **交互模式**:
 
@@ -304,8 +494,129 @@ type Cryptor interface {
 
 
 !!! important "组件解耦"
-    Parser、Pipeline、Cryptor三者完全解耦，可以任意组合使用，提供极大的灵活性。 
+    Parser、Pipeline、Cryptor三者完全解耦，可以任意组合使用，提供极大的灵活性。
 
+## Task
+
+IoM中的任务管理基于Task和Job两个核心概念，实现了灵活的异步任务调度和管理。
+
+### Task
+
+Task是IoM中最小的执行单元，每个用户操作都会生成一个Task。
+
+**核心特性**:
+
+- **唯一标识**: 每个Task有唯一的task_id
+- **状态管理**: 支持pending、running、completed、failed等状态
+- **异步执行**: 支持长时间运行的任务
+- **结果缓存**: 任务结果可以被缓存和查询
+
+**生命周期**:
+
+1. **创建**: Client发送命令时创建Task
+2. **分发**: Server将Task转发给对应的Listener
+3. **执行**: Implant接收并执行Task
+4. **返回**: 执行结果通过相同路径返回
+5. **完成**: Task状态更新为完成或失败
+
+
+## REM网络工具包
+
+REM(Request Enhancement Module)是IoM的网络工具包，提供强大的流量代理和隧道能力。
+
+**核心功能**:
+
+- **正反向代理**: 支持HTTP/HTTPS/SOCKS代理
+- **端口转发**: TCP/UDP端口转发和映射
+- **流量隧道**: 基于多种协议的隧道通讯
+- **LOLC2支持**: Living off the Land C2技术支持
+- **流量混淆**: 多种流量伪装和加密方案
+
+**与IoM集成**:
+
+- 可作为独立服务部署
+- 与Listener深度集成
+- 支持级联部署
+- 提供统一的配置管理
+
+!!! tip "详细文档"
+    REM的完整功能参考[REM文档](/rem/)和[代理配置指南](/IoM/guideline/proxy/)
+
+## 
+## 拓展能力
+
+IoM的拓展能力是其核心中的核心，支持在多个维度进行功能扩展，构建了完整的可拓展生态系统。
+
+```mermaid
+block-beta
+    columns 8
+    
+    block:ClientExt:8
+        ClientTitle["🔧 Client 拓展维度<br/>&nbsp;<br/>&nbsp;"]
+        Command["Command开发<br/>&nbsp;<br/>cobra命令+RPC<br/>&nbsp;<br/>&nbsp;"]
+        MalPlugin["Mal插件系统<br/>&nbsp;<br/>Lua/Go脚本<br/>&nbsp;<br/>&nbsp;"]
+        Armory["Armory兼容<br/>&nbsp;<br/>Sliver生态<br/>&nbsp;<br/>&nbsp;"]
+        SDK["多语言SDK<br/>&nbsp;<br/>gRPC+Protobuf<br/>&nbsp;<br/>&nbsp;"]
+        space:3
+    end
+    
+    block:ServerExt:8
+        ServerTitle["⚙️ Server 拓展维度<br/>&nbsp;<br/>&nbsp;"]
+        Proto["Proto协议扩展<br/>&nbsp;<br/>Request/Response<br/>&nbsp;<br/>&nbsp;"]
+        RPC["RPC服务扩展<br/>&nbsp;<br/>gRPC接口<br/>&nbsp;<br/>&nbsp;"]
+        Parser["Parser扩展<br/>&nbsp;<br/>自定义协议解析<br/>&nbsp;<br/>&nbsp;"]
+        Pipeline["Pipeline扩展<br/>&nbsp;<br/>自定义传输协议<br/>&nbsp;<br/>&nbsp;"]
+        space:3
+    end
+    
+    block:ImplantExt:8
+        ImplantTitle["🚀 Implant 拓展维度<br/>&nbsp;<br/>&nbsp;"]
+        Module["Module系统<br/>&nbsp;<br/>Rust FFI<br/>&nbsp;<br/>&nbsp;"]
+        Features["Features编译<br/>&nbsp;<br/>自由组装<br/>&nbsp;<br/>&nbsp;"]
+        Addon["Addon管理<br/>&nbsp;<br/>内存缓存<br/>&nbsp;<br/>&nbsp;"]
+        Exec["执行引擎<br/>&nbsp;<br/>多种加载<br/>&nbsp;<br/>&nbsp;"]
+        Kit["Kit工具包<br/>&nbsp;<br/>OPSEC对抗<br/>&nbsp;<br/>&nbsp;"]
+        Loader["Loader扩展<br/>&nbsp;<br/>自定义加载器<br/>&nbsp;<br/>&nbsp;"]
+        space:1
+    end
+    
+    block:CompatExt:8
+        CompatTitle["🔄 生态兼容维度<br/>&nbsp;<br/>&nbsp;"]
+        BOF["BOF兼容<br/>&nbsp;<br/>CobaltStrike<br/>&nbsp;<br/>&nbsp;"]
+        Assembly["Assembly兼容<br/>&nbsp;<br/>CLR程序<br/>&nbsp;<br/>&nbsp;"]
+        Powershell["PowerShell兼容<br/>&nbsp;<br/>Unmanaged<br/>&nbsp;<br/>&nbsp;"]
+        SliverCompat["Sliver兼容<br/>&nbsp;<br/>Alias/Extension<br/>&nbsp;<br/>&nbsp;"]
+        PE["PE兼容<br/>&nbsp;<br/>反射加载/SRDI<br/>&nbsp;<br/>&nbsp;"]
+        DLL["DLL兼容<br/>&nbsp;<br/>UDRL/sideload<br/>&nbsp;<br/>&nbsp;"]
+        space:1
+    end
+    
+    block:PluginPacks:8
+        PackTitle["📦 专业插件包<br/>&nbsp;<br/>&nbsp;"]
+        LibPack["lib包<br/>&nbsp;<br/>加载器<br/>&nbsp;<br/>&nbsp;"]
+        CommonPack["common包<br/>&nbsp;<br/>扫描工具<br/>&nbsp;<br/>&nbsp;"]
+        StealPack["steal包<br/>&nbsp;<br/>凭证提取<br/>&nbsp;<br/>&nbsp;"]
+        ElevatePack["elevate包<br/>&nbsp;<br/>提权工具<br/>&nbsp;<br/>&nbsp;"]
+        PersistPack["persistence包<br/>&nbsp;<br/>权限维持<br/>&nbsp;<br/>&nbsp;"]
+        MovePack["move包<br/>&nbsp;<br/>横向移动<br/>&nbsp;<br/>&nbsp;"]
+        ProxyPack["proxy包<br/>&nbsp;<br/>代理隧道<br/>&nbsp;<br/>&nbsp;"]
+        DomainPack["domain包<br/>&nbsp;<br/>域渗透<br/>&nbsp;<br/>&nbsp;"]
+    end
+    
+    classDef titleStyle fill:#1976d2,color:#fff,stroke:#0d47a1,stroke-width:3px,font-weight:bold,font-size:18px
+    classDef clientStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,font-size:15px
+    classDef serverStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,font-size:15px
+    classDef implantStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px,font-size:15px
+    classDef compatStyle fill:#e8f5e8,stroke:#388e3c,stroke-width:2px,font-size:15px
+    classDef pluginStyle fill:#fce4ec,stroke:#c2185b,stroke-width:2px,font-size:15px
+    
+    class ClientTitle,ServerTitle,ImplantTitle,CompatTitle,PackTitle titleStyle
+    class Command,MalPlugin,Armory,SDK clientStyle
+    class Proto,RPC,Parser,Pipeline serverStyle
+    class Module,Features,Addon,Exec,Kit,Loader implantStyle
+    class BOF,Assembly,Powershell,SliverCompat,PE,DLL compatStyle
+    class LibPack,CommonPack,StealPack,ElevatePack,PersistPack,MovePack,ProxyPack,DomainPack pluginStyle
+```
 
 ## OPSEC模型
 
@@ -350,3 +661,30 @@ IoM设计了基于四个维度的OPSEC评估模型，参考CVSS评分标准。
 - 立足点丢失风险
 - 长期潜伏影响
 - 整体行动暴露
+
+!!! tip "详细文档"
+    OPSEC最佳实践参考[高级用法文档](/IoM/guideline/advance/)
+
+## 插件生态与兼容性
+
+IoM构建了完整的插件生态系统，既支持原生插件开发，又兼容主流C2框架的插件生态。
+
+### 插件类型
+
+| 插件类型          | 用途         | 兼容性      | 特性 |
+| ------------- | ---------- | -------- | ---- |
+| **Mal插件**     | Lua脚本扩展    | IoM原生    | 动态脚本、丰富API |
+| **Module**    | 动态模块加载     | IoM原生    | Rust FFI、热插拔 |
+| **Addon**     | 二进制程序缓存    | IoM原生    | 内存缓存、避免重传 |
+| **BOF** | Beacon Object File | CobaltStrike兼容 | 轻量级功能扩展 |
+| **Assembly** | CLR程序执行 | CobaltStrike兼容 | bypass AMSI/ETW |
+| **PowerShell** | Unmanaged执行 | CobaltStrike兼容 | 绕过限制策略 |
+| **Alias**     | CLR/UDRL管理 | Sliver兼容 | 命令别名和预设 |
+| **Extension** | BOF管理      | Sliver兼容 | 插件管理 |
+| **Armory**    | 插件包管理      | Sliver兼容 | 一键安装管理 |
+
+!!! tip "详细文档"
+    - 插件开发参考[Mal插件文档](/IoM/manual/mal/)
+    - 兼容性配置参考[内置插件文档](/IoM/guideline/embed_mal/)
+
+

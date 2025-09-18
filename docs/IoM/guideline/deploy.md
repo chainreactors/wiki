@@ -59,7 +59,7 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 
 如果在windows或者macos系统上部署server，则前往IoM仓库[下载对应的server release](https://github.com/chainreactors/malice-network/releases/latest)。
 
-![image-20250817220924324](/IoM/assets/usage/deploy/github_release.png)
+![image-20250817220924324](../assets/usage/deploy/github_release.png)
 
 其中IoM为client端，malice_network为server端。
 
@@ -135,26 +135,26 @@ IoM还支持了第三方消息通知，目前支持了telegram，钉钉，飞书
 ./iom
 ```
 
-![](/IoM/assets/EEgKb86iwop9xaxBUt8cHZG9n8f.png)
+![](../assets/EEgKb86iwop9xaxBUt8cHZG9n8f.png)
 
 ## 安装gui 
 
 ### 下载文件
 从 [malice-network仓库](https://github.com/chainreactors/malice-network/releases/tag/nightly) 中的release中下载对应的vscode插件`iom.vsix` 以及client文件
 
-![](/IoM/assets/Pasted%20image%2020250220013427.png)
+![](../assets/Pasted image 20250220013427.png)
 
 ### 从文件安装vscode插件
 
 打开extension或ctrl+sheft+x 并单击如图所示
 
-![](/IoM/assets/Pasted%20image%2020250220013640.png)
+![](../assets/Pasted image 20250220013640.png)
 
 ### 配置VSCODE插件
 
 IoM: Executable Path 填入从release下载的iom二进制程序
 
-![](/IoM/assets/Pasted%20image%2020250220014015.png)
+![](../assets/Pasted image 20250220014015.png)
 
 ### 打开IoM 插件
 
@@ -168,13 +168,13 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 bash install.sh
 ```
 
-![](/IoM/assets/Pasted%20image%2020250220014242.png)
+![](../assets/Pasted image 20250220014242.png)
 
 如果已经通过client连接过server， 则会直接显示历史连接过的auth文件. 单击即可进入到交互界面. 
 
 !!! important "请注意server版本,client版本,gui版本一致"
 
-![](/IoM/assets/Pasted%20image%2020250220013750.png)
+![](../assets/Pasted image 20250220013750.png)
 
 
 
