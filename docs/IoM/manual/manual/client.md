@@ -46,7 +46,7 @@ license
 ### login
 Login to server
 
-![login](/wiki/IoM/assets/login.gif)
+![login](/IoM/assets/login.gif)
 
 ```
 login
@@ -157,12 +157,16 @@ session
 
 // List all sessions, including those that have been disconnected
 session -a
+
+// List all sessions, and shown in static table for mcp server
+session -a --static
 ~~~
 
 **Options**
 
 ```
-  -a, --all   show all sessions
+  -a, --all      show all sessions
+      --static   show all sessions in static table
 ```
 
 **SEE ALSO**
@@ -276,6 +280,15 @@ use
 use [session]
 ```
 
+**Examples**
+
+
+~~~
+// use session
+use 08d6c05a21512a79a1dfeb9d2a8f262f
+~~~
+
+
 ### alias
 manage aliases
 
@@ -386,7 +399,13 @@ List all aliases
 See Docs at https://sliver.sh/docs?name=Aliases%20and%20Extensions
 
 ```
-alias list
+alias list [flags]
+```
+
+**Options**
+
+```
+      --static   show all alias in static table
 ```
 
 **SEE ALSO**
@@ -547,7 +566,7 @@ extension remove credman
 ### armory
 Automatically download and install extensions/aliases
 
-![armory](/wiki/IoM/assets/armory.gif)
+![armory](/IoM/assets/armory.gif)
 
 **Description**
 
@@ -564,6 +583,7 @@ armory [flags]
   -c, --ignore-cache     ignore metadata cache, force refresh
   -I, --insecure         skip tls certificate validation
   -p, --proxy string     specify a proxy url (e.g. http://localhost:8080)
+      --static           show all armory in static table
   -t, --timeout string   download timeout
 ```
 
@@ -620,7 +640,13 @@ Search for armory packages
 See Docs at https://sliver.sh/docs?name=Armory
 
 ```
-armory search [armory]
+armory search [armory] [flags]
+```
+
+**Options**
+
+```
+      --static   show searched armory in static table
 ```
 
 **Options inherited from parent commands**
@@ -679,6 +705,7 @@ mal [flags]
       --ignore-cache     ignore cache
       --insecure         insecure
       --proxy string     proxy
+      --static           show all mal in static table
       --timeout string   timeout
 ```
 
@@ -689,6 +716,7 @@ mal [flags]
 * [mal load](#mal-load)	 - Load a mal manifest
 * [mal refresh](#mal-refresh)	 - Refresh mal manifests
 * [mal remove](#mal-remove)	 - Remove a mal manifest
+* [mal update](#mal-update)	 - Update a mal or all mals
 
 #### mal install
 Install a mal manifest
@@ -749,6 +777,27 @@ Remove a mal manifest
 
 ```
 mal remove [mal]
+```
+
+**SEE ALSO**
+
+* [mal](#mal)	 - mal commands
+
+#### mal update
+Update a mal or all mals
+
+```
+mal update [flags]
+```
+
+**Options**
+
+```
+  -a, --all              update all mal
+      --ignore-cache     ignore cache
+      --insecure         insecure
+      --proxy string     proxy
+      --timeout string   timeout
 ```
 
 **SEE ALSO**
@@ -827,6 +876,10 @@ config notify update [flags]
       --dingtalk-token string     dingtalk token
       --lark-enable               enable lark
       --lark-webhook-url string   lark webhook url
+      --pushplus-channel string   pushplus channel (default "wechat")
+      --pushplus-enable           enable pushplus
+      --pushplus-token string     pushplus token
+      --pushplus-topic string     pushplus topic
       --serverchan-enable         enable serverchan
       --serverchan-url string     serverchan url
       --telegram-chat-id int      telegram chat id
@@ -981,8 +1034,6 @@ cert
 
 #### cert delete
 ```
-
-![cert delete](/wiki/IoM/assets/cert_delete.png)
 cert delete
 ```
 
@@ -999,8 +1050,6 @@ cert delete cert-name
 
 #### cert download
 download a cert
-
-![cert download](/wiki/IoM/assets/cert_download.png)
 
 ```
 cert download [flags]
@@ -1084,8 +1133,6 @@ cert selfSign --CN commonName --O "Example Organization" --C US --L "San Francis
 
 #### cert update
 update a cert
-
-![cert update](/wiki/IoM/assets/cert_update.png)
 
 ```
 cert update [flags]
@@ -1246,7 +1293,7 @@ pipeline stop tcp_test
 ### website
 Register a new website
 
-![website](/wiki/IoM/assets/website.gif)
+![website](/IoM/assets/website.gif)
 
 **Description**
 
@@ -1272,10 +1319,8 @@ website web_test --listener tcp_default --root /webtest --tls --cert /path/to/ce
 **Options**
 
 ```
-      --acme               auto cert by let's encrypt
       --cert string        tls cert path
       --cert-name string   certificate name
-      --domain string      auto cert domain
       --host string        pipeline host, the default value is **0.0.0.0** (default "0.0.0.0")
       --ip string          external ip (default "ip")
       --key string         tls key path
@@ -1401,7 +1446,7 @@ Start a website
 Start a website with the specified name
 
 ```
-website start [name]
+website start [name] [flags]
 ```
 
 **Examples**
@@ -1411,12 +1456,20 @@ website start [name]
 website start web_test 
 ~~~
 
+**Options**
+
+```
+      --cert-name string   certificate name
+```
+
 **SEE ALSO**
 
 * [website](#website)	 - Register a new website
 
 #### website stop
 Stop a website
+
+![website stop](/IoM/assets/website_stop.png)
 
 **Description**
 
@@ -1521,10 +1574,8 @@ http --listener http_default --tls --cert_path /path/to/cert --key_path /path/to
 **Options**
 
 ```
-      --acme                     auto cert by let's encrypt
       --cert string              tls cert path
       --cert-name string         certificate name
-      --domain string            auto cert domain
       --encryption-key string    encryption key
       --encryption-type string   encryption type
       --error-page string        Path to custom error page file
@@ -1535,6 +1586,7 @@ http --listener http_default --tls --cert_path /path/to/cert --key_path /path/to
   -l, --listener string          listener id
       --parser string            pipeline parser (default "default")
   -p, --port uint32              pipeline port, random port is selected from the range **10000-15000** 
+      --secure                   enable secure mode
   -t, --tls                      enable tls
 ```
 
@@ -1598,6 +1650,8 @@ rem
 #### rem new
 Register a new REM and start it
 
+![rem new](/IoM/assets/rem_new.png)
+
 **Description**
 
 Register a new REM with the specified listener.
@@ -1613,7 +1667,7 @@ rem new [name] [flags]
 rem new --listener listener_id
 
 // Register a REM with a custom name and console URL
-rem new --name rem_test --listener listener_id -c tcp://127.0.0.1:19966
+rem new rem_test --listener listener_id -c tcp://127.0.0.1:19966
 ~~~
 
 **Options**
@@ -1651,6 +1705,8 @@ rem start rem_test
 #### rem stop
 Stop a REM
 
+![rem stop](/IoM/assets/rem_stop.png)
+
 **Description**
 
 Stop a REM with the specified name
@@ -1672,7 +1728,7 @@ rem stop rem_test
 ### tcp
 Register a new TCP pipeline and start it
 
-![tcp](/wiki/IoM/assets/tcp.gif)
+![tcp](/IoM/assets/tcp.gif)
 
 **Description**
 
@@ -1698,10 +1754,8 @@ tcp --listener tcp_default --tls --cert_path /path/to/cert --key_path /path/to/k
 **Options**
 
 ```
-      --acme                     auto cert by let's encrypt
       --cert string              tls cert path
       --cert-name string         certificate name
-      --domain string            auto cert domain
       --encryption-key string    encryption key
       --encryption-type string   encryption type
       --host string              pipeline host, the default value is **0.0.0.0** (default "0.0.0.0")
@@ -1710,6 +1764,7 @@ tcp --listener tcp_default --tls --cert_path /path/to/cert --key_path /path/to/k
   -l, --listener string          listener id
       --parser string            pipeline parser (default "default")
   -p, --port uint32              pipeline port, random port is selected from the range **10000-15000** 
+      --secure                   enable secure mode
   -t, --tls                      enable tls
 ```
 
@@ -1782,6 +1837,7 @@ artifact download [flags]
 **Options**
 
 ```
+      --RDI string      RDI type
   -f, --format string   the format of the artifact (default "executable")
   -o, --output string   output path
 ```
@@ -1793,6 +1849,8 @@ artifact download [flags]
 #### artifact list
 list build output file in server
 
+![artifact list](/IoM/assets/artifact_list.png)
+
 **Description**
 
 Retrieve a list of all build output files currently stored on the server.
@@ -1800,7 +1858,7 @@ Retrieve a list of all build output files currently stored on the server.
 This command fetches metadata about artifacts, such as their names, IDs, and associated build configurations. The artifacts are displayed in a table format for easy navigation.
 
 ```
-artifact list
+artifact list [flags]
 ```
 
 **Examples**
@@ -1811,6 +1869,12 @@ artifact list
 
 // Navigate the artifact table and press enter to download a specific artifact
 ~~~
+
+**Options**
+
+```
+      --static   show all artifact in static table
+```
 
 **SEE ALSO**
 
@@ -1870,8 +1934,9 @@ artifact upload /path/to/artifact --type DLL
 **Options**
 
 ```
-  -n, --name string   alias name
-  -t, --type string   Set type
+  -n, --name string     alias name
+      --target string   rust target
+  -t, --type string     Set type
 ```
 
 **SEE ALSO**
@@ -1881,17 +1946,24 @@ artifact upload /path/to/artifact --type DLL
 ### build
 build
 
+**Options**
+
+```
+      --auto-download   auto download artifact
+```
+
 **SEE ALSO**
 
 * [build beacon](#build-beacon)	 - Build a beacon
 * [build log](#build-log)	 - Show build log
 * [build modules](#build-modules)	 - Compile specified modules into DLLs
+* [build prelude](#build-prelude)	 - Build a prelude payload
 * [build pulse](#build-pulse)	 - stage 0 shellcode generate
 
 #### build beacon
 Build a beacon
 
-![build beacon](/wiki/IoM/assets/build_beacon.png)
+![build beacon](/IoM/assets/build_beacon.png)
 
 **Description**
 
@@ -1906,36 +1978,94 @@ build beacon [flags]
 
 ~~~
 // Build a beacon
-build beacon --target x86_64-unknown-linux-musl --profile tcp_deafult
+build beacon --addresses "https://127.0.0.1:443" --target x86_64-pc-windows-gnu --source docker
 
-// Build a beacon using additional modules
-build beacon --target x86_64-pc-windows-msvc --profile tcp_deafult --modules full
+// Specify a module
+build beacon --addresses "https://127.0.0.1:443,https://10.0.0.1:443" --target x86_64-pc-windows-gnu --modules nano --source docker
 
-// Build a beacon with rem
-build beacon --rem --target x86_64-pc-windows-msvc --profile tcp_deafult
+// Build a beacon with a profile
+build beacon --profile tcp_default --target x86_64-pc-windows-gnu
 
 // Build a beacon by saas
-build beacon --target x86_64-pc-windows-msvc --profile tcp_deafult --source saas
+build beacon --profile tcp_default --target x86_64-pc-windows-gnu --source saas
+
+// Build by GithubAction
+build beacon --profile tcp_default --target x86_64-pc-windows-gnu --source saas
 ~~~
 
 **Options**
 
 ```
-      --address string        implant address target
-      --interval int          interval /second (default -1)
-      --jitter float          jitter (default -1)
-  -m, --modules string        Set modules e.g.: execute_exe,execute_dll
-      --owner string          github owner
-      --profile string        profile name
-      --proxy string          Overwrite proxy
-      --relink uint32         relink pulse id
-      --rem                   static link to rem
-      --remove                remove workflow
-      --repo string           github repo
-      --source string         build source, docker, action, saas
-      --target string         build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
-      --token string          github token
-      --workflowFile string   github workflow file
+      --3rd string                      Third party modules for modules command
+      --3rd-modules string              Override 3rd party modules
+      --addresses string                Target addresses (comma-separated)
+      --anti-debug                      Enable anti-debug detection
+      --anti-disasm                     Enable anti-disassembly detection
+      --anti-emulator                   Enable anti-emulator detection
+      --anti-sandbox                    Enable anti-sandbox detection
+      --anti-vm                         Enable anti-VM detection
+      --artifact-id uint32              Artifact ID for pulse builds
+      --auto-download                   Auto download artifact after build
+      --autorun string                  Override autorun configuration file
+      --autorun-file string             AutoRun configuration file path
+      --company-name string             Override company name
+      --compile-time string             Override compile time
+      --cron string                     Override cron expression (e.g., '*/5 * * * * * *' for every 5 seconds)
+      --dga-enable                      Enable Domain Generation Algorithm
+      --dga-interval-hours int          Override DGA generation interval in hours (default -1)
+      --dga-key string                  Override DGA key
+      --enable-3rd                      Enable 3rd party modules
+      --encryption string               Override encryption type (aes, xor, etc.)
+      --file-description string         Override file description
+      --file-version string             Override file version
+      --github-owner string             github owner
+      --github-remove                   remove workflow
+      --github-repo string              github repo
+      --github-token string             github token
+      --github-workflowFile string      github workflow file
+      --global-retry int                Override global retry count (default -1)
+      --guardrail-domains string        Override domain whitelist (comma-separated)
+      --guardrail-enable                Enable environment guardrail checks
+      --guardrail-ip-addresses string   Override IP address whitelist (comma-separated)
+      --guardrail-require-all           Require all guardrail conditions (AND mode) or any condition (OR mode) (default true)
+      --guardrail-server-names string   Override server name whitelist (comma-separated)
+      --guardrail-usernames string      Override username whitelist (comma-separated)
+      --icon string                     Override executable icon file
+      --init-retry int                  Override initial retry count (default -1)
+      --internal-name string            Override internal name
+      --interval int                    Legacy interval override (use --cron instead) (default -1)
+      --jitter float                    Override jitter value (0.0-1.0) (default -1)
+      --key string                      Override encryption key
+      --mod string                      Override implant mode (beacon, bind)
+      --modules string                  Override modules (comma-separated, e.g., 'full,execute_exe')
+      --name string                     Override profile name
+      --original-filename string        Override original filename
+      --pack-dst strings                Destination paths for packed files (comma-separated)
+      --pack-src strings                Source files to pack (comma-separated)
+      --product-name string             Override product name
+      --product-version string          Override product version
+      --profile string                  profile name
+      --proxy string                    Legacy proxy override (use --proxy-url instead)
+      --proxy-url string                Override proxy URL
+      --proxy-use-env                   Use environment proxy settings
+      --pulse-encryption string         Override pulse encryption type
+      --pulse-key string                Override pulse encryption key
+      --pulse-protocol string           Override pulse protocol (http, tcp, etc.)
+      --pulse-target string             Override pulse target address
+      --relink uint32                   Relink beacon ID
+      --rem                             Legacy REM static link flag
+      --rem-link string                 REM link configuration
+      --remap-path                      Enable path remapping
+      --require-admin                   Require administrator privileges
+      --require-uac                     Require UAC elevation
+      --runtime string                  Override runtime (tokio, smol, async-std)
+      --secure-enable                   Enable secure communication
+      --secure-private-key string       Override private key for secure communication
+      --secure-public-key string        Override public key for secure communication
+      --server-retry int                Override server retry count (default -1)
+      --source string                   build source, docker, action, saas
+      --target string                   build target, specify the target arch and platform, such as  **x86_64-pc-windows-gnu**.
+      --user-agent string               HTTP User-Agent string
 ```
 
 **SEE ALSO**
@@ -1967,6 +2097,12 @@ build log artifact_name --limit 70
       --limit int   limit of rows (default 50)
 ```
 
+**Options inherited from parent commands**
+
+```
+      --auto-download   auto download artifact
+```
+
 **SEE ALSO**
 
 * [build](#build)	 - build
@@ -1987,34 +2123,89 @@ build modules [flags]
 
 ~~~
 // Compile all modules for the Windows platform
-build modules --target x86_64-unknown-linux-musl --profile module_profile
+build modules --target x86_64-pc-windows-gnu --profile tcp_default
 
 // Compile a predefined feature set of modules (nano)
-build modules --target x86_64-unknown-linux-musl --profile module_profile --modules nano
+build modules --target x86_64-pc-windows-gnu --profile tcp_default --modules nano
 
 // Compile specific modules into DLLs
-build modules --target x86_64-pc-windows-msvc --profile module_profile --modules base,execute_dll
+build modules --target x86_64-pc-windows-gnu --profile tcp_default --modules base,execute_dll
 
 // Compile third party module(curl, rem)
-build modules --3rd rem --target x86_64-pc-windows-msvc --profile module_profile
+build modules --3rd rem --target x86_64-pc-windows-gnu --profile tcp_default
 
 // Compile module by saas
-build modules --target x86_64-pc-windows-msvc --profile module_profile --source saas
+build modules --target x86_64-pc-windows-gnu --profile tcp_default --source saas
 ~~~
 
 **Options**
 
 ```
-      --3rd string            build 3rd-party modules
-  -m, --modules string        Set modules e.g.: execute_exe,execute_dll
-      --owner string          github owner
-      --profile string        profile name
-      --remove                remove workflow
-      --repo string           github repo
-      --source string         build source, docker, action, saas
-      --target string         build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
-      --token string          github token
-      --workflowFile string   github workflow file
+      --3rd-modules string           Override 3rd party modules
+      --github-owner string          github owner
+      --github-remove                remove workflow
+      --github-repo string           github repo
+      --github-token string          github token
+      --github-workflowFile string   github workflow file
+      --modules string               Override modules (comma-separated, e.g., 'full,execute_exe')
+      --profile string               profile name
+      --source string                build source, docker, action, saas
+      --target string                build target, specify the target arch and platform, such as  **x86_64-pc-windows-gnu**.
+```
+
+**Options inherited from parent commands**
+
+```
+      --auto-download   auto download artifact
+```
+
+**SEE ALSO**
+
+* [build](#build)	 - build
+
+#### build prelude
+Build a prelude payload
+
+**Description**
+
+Generate a prelude payload as part of a multi-stage deployment.
+	
+
+```
+build prelude [flags]
+```
+
+**Examples**
+
+~~~
+// Build a prelude payload
+build prelude --target x86_64-pc-windows-gnu --profile tcp_default --autorun /path/to/autorun.yaml
+	
+// Build a prelude payload with additional modules
+build prelude --target x86_64-pc-windows-gnu --profile tcp_default --autorun /path/to/autorun.yaml --modules base,sys_full
+	
+// Build a prelude payload by saas
+build prelude --target x86_64-pc-windows-gnu --profile tcp_default --autorun /path/to/autorun.yaml --source saas
+~~~
+
+**Options**
+
+```
+      --autorun string               auto run zip path
+      --github-owner string          github owner
+      --github-remove                remove workflow
+      --github-repo string           github repo
+      --github-token string          github token
+      --github-workflowFile string   github workflow file
+      --profile string               profile name
+      --source string                build source, docker, action, saas
+      --target string                build target, specify the target arch and platform, such as  **x86_64-pc-windows-gnu**.
+```
+
+**Options inherited from parent commands**
+
+```
+      --auto-download   auto download artifact
 ```
 
 **SEE ALSO**
@@ -2024,7 +2215,7 @@ build modules --target x86_64-pc-windows-msvc --profile module_profile --source 
 #### build pulse
 stage 0 shellcode generate
 
-![build pulse](/wiki/IoM/assets/build_pulse.png)
+![build pulse](/IoM/assets/build_pulse.png)
 
 **Description**
 
@@ -2040,26 +2231,34 @@ build pulse [flags]
 
 ~~~
 // Build a pulse payload
-build pulse --target x86_64-unknown-linux-musl --profile pulse_profile
+build pulse --target x86_64-pc-windows-gnu --profile tcp_default
 
 // Build a pulse payload by specifying artifact
-build pulse --target x86_64-pc-windows-msvc --profile pulse_profile --artifact-id 1
+build pulse --target x86_64-pc-windows-gnu --profile tcp_default --artifact-id 1
 ~~~
 
 
 **Options**
 
 ```
-      --address string        implant address target
-      --artifact-id uint32    load remote shellcode build-id
-      --owner string          github owner
-      --profile string        profile name
-      --remove                remove workflow
-      --repo string           github repo
-      --source string         build source, docker, action, saas
-      --target string         build target, specify the target arch and platform, such as  **x86_64-pc-windows-msvc**.
-      --token string          github token
-      --workflowFile string   github workflow file
+      --address string               Only support single address
+      --beacon_artifact_id uint32    beacon's artifact_id
+      --github-owner string          github owner
+      --github-remove                remove workflow
+      --github-repo string           github repo
+      --github-token string          github token
+      --github-workflowFile string   github workflow file
+      --path string                   (default "/pulse")
+      --profile string               profile name
+      --source string                build source, docker, action, saas
+      --target string                build target, specify the target arch and platform, such as  **x86_64-pc-windows-gnu**.
+      --user-agent string            HTTP User-Agent string
+```
+
+**Options inherited from parent commands**
+
+```
+      --auto-download   auto download artifact
 ```
 
 **SEE ALSO**
@@ -2102,6 +2301,8 @@ profile delete profile_name
 #### profile list
 List all compile profile
 
+![profile list](/IoM/assets/profile_list.png)
+
 ```
 profile list
 ```
@@ -2136,14 +2337,8 @@ profile load [flags]
 // Create a new profile using network configuration in pipeline
 profile load /path/to/config.yaml --name my_profile --pipeline pipeline_name
 
-// Create a profile with specific modules
-profile load /path/to/config.yaml --name my_profile --modules base,sys_full --pipeline pipeline_name
-
-// Create a profile with custom interval and jitter
-profile load /path/to/config.yaml --name my_profile --interval 10 --jitter 0.3 --pipeline pipeline_name
-
-// Create a profile for pulse
-profile load /path/to/config.yaml --name my_profile --pipeline pipeline_name
+// Create a new profile with external file
+profile load /path/to/profile.zip --name my_profile --pipeline pipeline_name
 ~~~
 
 **Options**
@@ -2160,6 +2355,8 @@ profile load /path/to/config.yaml --name my_profile --pipeline pipeline_name
 
 #### profile new
 Create new compile profile with default profile
+
+![profile new](/IoM/assets/profile_new.png)
 
 ```
 profile new [flags]
