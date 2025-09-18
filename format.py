@@ -42,7 +42,7 @@ def insert_images_to_markdown(markdown_file_path, assets_dir, output_file_path):
                     if os.path.exists(image_path):
                         # Insert an empty line before the image
                         new_content.append("")
-                        markdown_image = f"\n![{title}]({f'/wiki/IoM/assets/{image_name}.{ext}'})\n"
+                        markdown_image = f"\n![{title}]({f'/IoM/assets/{image_name}.{ext}'})\n"
                         new_content.append(markdown_image)  # Insert the image
                         image_found = True
                         break

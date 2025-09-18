@@ -48,7 +48,7 @@ recover
 change implant sleep config
 
 ```
-sleep [interval/second] [flags]
+sleep [expression] [flags]
 ```
 
 **Options**
@@ -67,22 +67,28 @@ suicide
 ### switch
 switch session
 
+**Description**
+
+Switch session to other pipeline connection
+
 ```
-switch
+switch [pipeline name]
 ```
 
 ### wait
 wait for task to finish
 
 ```
-wait [task_id1] [task_id2] [flags]
+wait
 ```
 
-**Options**
+**Examples**
 
-```
-      --interval int   interval (default 1)
-```
+Wait task content.
+~~~
+wait 59
+~~~
+
 
 ### cancel_task
 Cancel a task by task_id
@@ -141,6 +147,10 @@ query_task <task_id>
 
 
 ### tasks
+List tasks
+
+**Description**
+
 List tasks
 
 ```
@@ -251,6 +261,7 @@ execute_addon gogo -- -i 127.0.0.1 -p http
       --arch string      architecture x64,x86
   -a, --argue string     spoofing process arguments, eg: notepad.exe 
   -b, --block_dll        block not microsoft dll injection
+      --delay uint32     delay before execution in milliseconds (default 1)
       --etw              disable ETW
   -p, --ppid uint32      spoofing parent processes, (0 means injection into ourselves)
   -n, --process string   custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
@@ -268,7 +279,7 @@ list_addon [addon]
 ### load_addon
 Load an addon
 
-![load_addon](/wiki/IoM/assets/load_addon.gif)
+![load_addon](/IoM/assets/load_addon.gif)
 
 **Description**
 
@@ -352,6 +363,7 @@ dllspawn example.dll
   -a, --argue string        spoofing process arguments, eg: notepad.exe 
       --binPath string      custom process path
   -b, --block_dll           block not microsoft dll injection
+      --delay uint32        delay before execution in milliseconds (default 1)
   -e, --entrypoint string   custom entrypoint
       --etw                 disable ETW
   -p, --ppid uint32         spoofing parent processes, (0 means injection into ourselves)
@@ -449,6 +461,7 @@ execute_dll example.dll -e entrypoint -- arg1 arg2
   -a, --argue string        spoofing process arguments, eg: notepad.exe 
       --binPath string      custom process path
   -b, --block_dll           block not microsoft dll injection
+      --delay uint32        delay before execution in milliseconds (default 1)
   -e, --entrypoint string   custom entrypoint
       --etw                 disable ETW
   -p, --ppid uint32         spoofing parent processes, (0 means injection into ourselves)
@@ -460,7 +473,7 @@ execute_dll example.dll -e entrypoint -- arg1 arg2
 ### execute_exe
 Executes the given PE in the sacrifice process
 
-![execute_exe](/wiki/IoM/assets/execute_exe.gif)
+![execute_exe](/IoM/assets/execute_exe.gif)
 
 **Description**
 
@@ -484,6 +497,7 @@ execute_exe gogo.exe -- -i 123.123.123.123 -p top2
       --arch string      architecture x64,x86
   -a, --argue string     spoofing process arguments, eg: notepad.exe 
   -b, --block_dll        block not microsoft dll injection
+      --delay uint32     delay before execution in milliseconds (default 1)
       --etw              disable ETW
   -p, --ppid uint32      spoofing parent processes, (0 means injection into ourselves)
   -n, --process string   custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
@@ -521,7 +535,6 @@ execute_local local_exe --ppid 1234 --block_dll --etw --argue "argue"
   -o, --output           disable output
   -p, --ppid uint32      spoofing parent processes, (0 means injection into ourselves)
   -n, --process string   custom process path
-  -q, --quiet            disable output
 ```
 
 ### execute_shellcode
@@ -551,6 +564,7 @@ execute_shellcode example.bin
       --arch string      architecture x64,x86
   -a, --argue string     spoofing process arguments, eg: notepad.exe 
   -b, --block_dll        block not microsoft dll injection
+      --delay uint32     delay before execution in milliseconds (default 1)
       --etw              disable ETW
   -p, --ppid uint32      spoofing parent processes, (0 means injection into ourselves)
   -n, --process string   custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
@@ -624,6 +638,7 @@ inline_dll example.dll -e RunFunction -- arg1 arg2
 
 ```
       --arch string         architecture x64,x86
+      --delay uint32        delay before execution in milliseconds (default 1)
   -e, --entrypoint string   entrypoint
   -n, --process string      custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
   -q, --quiet               disable output
@@ -660,6 +675,7 @@ inline_exe hackbrowserdata.exe -- -h
 
 ```
       --arch string      architecture x64,x86
+      --delay uint32     delay before execution in milliseconds (default 1)
   -n, --process string   custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
   -q, --quiet            disable output
   -t, --timeout uint32   timeout, in seconds (default 60)
@@ -675,7 +691,7 @@ Execute inline PE on implant process, support spoofing process arguments
 
 
 ```
-inline_local [local_exe]
+inline_local [local_exe] [flags]
 ```
 
 **Examples**
@@ -684,6 +700,17 @@ inline_local [local_exe]
 ~~~
 inline_local whoami
 ~~~
+
+**Options**
+
+```
+  -a, --argue string     spoofing process arguments, eg: notepad.exe 
+  -b, --block_dll        block not microsoft dll injection
+      --etw              disable ETW
+  -o, --output           disable output
+  -p, --ppid uint32      spoofing parent processes, (0 means injection into ourselves)
+  -n, --process string   custom process path
+```
 
 ### inline_shellcode
 Executes the given inline shellcode in the implant process
@@ -713,6 +740,7 @@ inline_shellcode example.bin
 
 ```
       --arch string      architecture x64,x86
+      --delay uint32     delay before execution in milliseconds (default 1)
   -n, --process string   custom process path (default "C:\\\\Windows\\\\System32\\\\notepad.exe")
   -q, --quiet            disable output
   -t, --timeout uint32   timeout, in seconds (default 60)
@@ -1557,7 +1585,7 @@ Download file
 download file in implant
 
 ```
-download [implant_file]
+download [implant_file] [flags]
 ```
 
 **Examples**
@@ -1565,6 +1593,12 @@ download [implant_file]
 ~~~
 download ./file.txt
 ~~~
+
+**Options**
+
+```
+  -r, --dir   download dir
+```
 
 ### upload
 Upload file
