@@ -288,10 +288,10 @@ rem在 IoM 中一类扩展型 pipeline，它和 `tcp`、`http` 不同，是一�
 tcp --listener listener --host 127.0.0.1 --port 5015
 ```
 
-![image-20250711183324324](/IoM/assets/tcp_new.png)
+![image-20250711183324324](../../assets/tcp_new.png)
 
 gui:
-![image-20250817171922624](/IoM/assets/usage/listener/tcp_new_gui.png)
+![image-20250817171922624](../../assets/usage/listener/tcp_new_gui.png)
 #### 新建tcp并开启tls
 
 !!! tips "其他pipeline打开tls方式相同"
@@ -300,59 +300,59 @@ gui:
 tcp --listener listener --host 127.0.0.1 --port 5015 --tls --cert-name cert-name
 ```
 
-![image-20250712012328952](/IoM/assets/tcp_new_tls.png)
+![image-20250712012328952](../../assets/tcp_new_tls.png)
 
 gui:
-![image-2025081717222984](/IoM/assets/usage/listener/tcp_new_tls_gui.png)
+![image-2025081717222984](../../assets/usage/listener/tcp_new_tls_gui.png)
 ### 新建http
 ```bash
 http --listener listener --host 127.0.0.1 --port 8083
 ```
 
-![image-20250712005024285](/IoM/assets/http_new.png)
+![image-20250712005024285](../../assets/http_new.png)
 
 gui:
-![image-2025081725224752](/IoM/assets/usage/listener/http_new_gui.png)
+![image-2025081725224752](../../assets/usage/listener/http_new_gui.png)
 #### 新建http并开启tls
 ```bash
 http --listener listener --host 192.168.110.72 --port 8083 --tls --cert-name DETERMINED_NIECE
 ```
 
-![image-20250712012622744](/IoM/assets/http_new_tls.png)
+![image-20250712012622744](../../assets/http_new_tls.png)
 gui:
-![image-2025081727224752](/IoM/assets/usage/listener/http_new_tls_gui.png)
+![image-2025081727224752](../../assets/usage/listener/http_new_tls_gui.png)
 
 ### 新建rem
 ```bash
 rem new rem_test --listener listener  -c tcp://127.0.0.1:19966
 ```
 
-![image-20250712010224957](/IoM/assets/rem_new.png)
+![image-20250712010224957](../../assets/rem_new.png)
 
 ### 新建website
 ```bash
 website web-test --listener listener --port 5080 --root /web
 ```
 
-![image-20250712011724926](/IoM/assets/website_new.png)
+![image-20250712011724926](../../assets/website_new.png)
 gui:
-![image-20250817173027224752](/IoM/assets/usage/listener/website_new_gui.png)
+![image-20250817173027224752](../../assets/usage/listener/website_new_gui.png)
 ###  新建website并开启tls
 ```bash
 website web-test --listener listener --port 5080 --root /web --tls --cert-name GOOD_BEETLE
 ```
 
-![image-20250712012826116](/IoM/assets/web_new_tls.png)
+![image-20250712012826116](../../assets/web_new_tls.png)
 gui:
-![image-20250817173227224752](/IoM/assets/usage/listener/website_new_tls_gui.png)
+![image-20250817173227224752](../../assets/usage/listener/website_new_tls_gui.png)
 ### 在对应website上传文件
 ```bash
 website add /path/to/file --website web-test --path /path
 ```
 
-![image-20250712015526853](/IoM/assets/web-content-add.png)
+![image-20250712015526853](../../assets/web-content-add.png)
 gui:
-![image-20250817173427224752](/IoM/assets/usage/listener/webcontent_add_gui.png)
+![image-20250817173427224752](../../assets/usage/listener/webcontent_add_gui.png)
 ## 高级功能
 ### 证书管理
 当前证书管理支持通过多种方式配置证书。
@@ -461,18 +461,18 @@ tcp:
 cert self_signed
 ```
 
-![image-20250709210707269](/IoM/assets/generate_self_cert.png)
+![image-20250709210707269](../../assets/generate_self_cert.png)
 
 gui:
-![image-20250817173627224752](/IoM/assets/usage/listener/selfcert_add_gui.png)
+![image-20250817173627224752](../../assets/usage/listener/selfcert_add_gui.png)
 **添加导入证书**
 ```bash
 cert import --cert /path/to/cert --key /path/to/key --ca-cert /path/to/ca
 ```
 
- ![image-20250709211824315](/IoM/assets/cert_imported.png)
+ ![image-20250709211824315](../../assets/cert_imported.png)
  gui:
- ![image-20250817173827224752](/IoM/assets/usage/listener/inportedCert_gui.png)
+ ![image-20250817173827224752](../../assets/usage/listener/inportedCert_gui.png)
  如果不确认证书信息，可以list证书，来确认是否是需要的证书。
 
 ```bash
@@ -480,9 +480,9 @@ cert
 ```
 
 
-![image-20250709211525047](/IoM/assets/cert_list.png)
+![image-20250709211525047](../../assets/cert_list.png)
 gui:
-![image-20250817173927574752](/IoM/assets/usage/listener/cert_gui.png)
+![image-20250817173927574752](../../assets/usage/listener/cert_gui.png)
 #### 使用指定证书启动pipeline
 当服务器已存储所需证书后，可以通过以下命令，将pipeline使用新的证书配置启动。
 
@@ -490,7 +490,7 @@ gui:
 pipeline start tcp --cert-name cert-name
 ```
 
-![image-20250709213539835](/IoM/assets/cert_pipeline_start.png)
+![image-20250709213539835](../../assets/cert_pipeline_start.png)
 
 ### Parser
 parser 协议用来区分对应的 implant 类型，pulse 与 malefic 目前的传输协议略有不同，所以parser当前可设置值为auto/malefic/pulse，如果为auto，则会自动区分pulse和malefic的传输协议。当需要配置一个 pulse 时，需要单独的 parser 配置。以下是pulse配置示例:
@@ -570,4 +570,4 @@ http pipeline可以自定义配置对应的响应内容,可以在config.yaml中�
 ./malice-network --listener-only
 ```
 
-![image-20250710233407269](/IoM/assets/listener_start.png)
+![image-20250710233407269](../../assets/listener_start.png)

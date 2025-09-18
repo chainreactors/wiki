@@ -40,7 +40,7 @@ linux: `~/.config/malice/mals/hello`
 mal load hello
 ```
 
-![](/IoM/assets/Pasted%20image%2020250115001838.png)
+![](../../assets/Pasted image 20250115001838.png)
 
 !!! important "分发插件"
 	[社区仓库](https://github.com/chainreactors/mal-community) 中的插件都通过zip包分发. 

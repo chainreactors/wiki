@@ -61,7 +61,7 @@ listeners:
 ./malice-network --listener-only
 ```
 
-![image-20250710233407269](/IoM/assets/listener_start.png)
+![image-20250710233407269](../assets/listener_start.png)
 
 
 ### autobuild 配置
@@ -118,14 +118,14 @@ pipeline是数据管道，Listener与Implant/WebShell交互的具体实现。
 tcp --listener listener --host 127.0.0.1 --port 5015
 ```
 
-![image-20250711183324324](/IoM/assets/tcp_new.png)
+![image-20250711183324324](../assets/tcp_new.png)
 
 !!!tip "tcp命令"
 	关于tcp命令的更多使用方法，请查阅[tcp](/IoM/manual/manual/client/#tcp)
 
 在gui中，可以在listener界面中点击new pipeline，选择pipeline type为tcp后添加。
 
-![image-20250817171922624](/IoM/assets/usage/listener/tcp_new_gui.png)
+![image-20250817171922624](../assets/usage/listener/tcp_new_gui.png)
 
 #### http
 
@@ -148,13 +148,13 @@ tcp --listener listener --host 127.0.0.1 --port 5015
 http --listener listener --host 127.0.0.1 --port 8083
 ```
 
-![image-20250712005024285](/IoM/assets/http_new.png)
+![image-20250712005024285](../assets/http_new.png)
 
 !!!tip "http命令"
 	关于http命令的更多使用方法，请查阅[http](/IoM/manual/manual/client/#http)
 
 在gui中，可以在listener界面中点击new pipeline，选择pipeline type为http后添加。
-![image-2025081725224752](/IoM/assets/usage/listener/http_new_gui.png)
+![image-2025081725224752](../assets/usage/listener/http_new_gui.png)
 
 !!! tip 
 	 pipeline是和implant相互通信的，所以两者配置需要相互匹配，implant的tcp和http配置在[target配置](/IoM/manual/implant/build/#426-%E7%9B%AE%E6%A0%87%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE)查看。
@@ -182,14 +182,14 @@ http --listener listener --host 127.0.0.1 --port 8083
 website web-test --listener listener --port 5080 --root /web
 ```
 
-![image-20250712011724926](/IoM/assets/website_new.png)
+![image-20250712011724926](../assets/website_new.png)
 
 然后再在对应website上传文件
 ```bash
 website add /path/to/file --website web-test --path /path
 ```
 
-![image-20250712015526853](/IoM/assets/web-content-add.png)
+![image-20250712015526853](../assets/web-content-add.png)
 
 !!!tip "website命令"
 	关于website命令的更多使用方法，请查阅[website](/IoM/manual/manual/client/#website)
@@ -197,11 +197,11 @@ website add /path/to/file --website web-test --path /path
 
 在gui上，需要先在website界面上，点击new website按钮，在website新建按钮中输入对应信息，来新建website pipeline。
 
-![image-20250817173027224752](/IoM/assets/usage/listener/website_new_gui.png)
+![image-20250817173027224752](../assets/usage/listener/website_new_gui.png)
 
 随后在对应website pipeline的点击add content按钮，填写需要的website content后添加:
 
-![image-20250817173427224752](/IoM/assets/usage/listener/webcontent_add_gui.png)
+![image-20250817173427224752](../assets/usage/listener/webcontent_add_gui.png)
 
 #### rem 
 
@@ -272,11 +272,11 @@ website add /path/to/file --website web-test --path /path
 cert self_signed
 ```
 
-![image-20250709210707269](/IoM/assets/generate_self_cert.png)
+![image-20250709210707269](../assets/generate_self_cert.png)
 
 gui则是在certificates界面点击Generate Self-signed Certificate按钮后，服务端会生成自签名证书。
 
-![image-20250817173627224752](/IoM/assets/usage/listener/selfcert_add_gui.png)
+![image-20250817173627224752](../assets/usage/listener/selfcert_add_gui.png)
 
 若您需要服务端存储您的已有证书，可以用该命令将证书上传至服务端。
 
@@ -284,16 +284,16 @@ gui则是在certificates界面点击Generate Self-signed Certificate按钮后，
 cert import --cert cert.crt --key key.crt--ca-cert ca.crt
 ```
 
- ![image-20250709211824315](/IoM/assets/cert_imported.png)
+ ![image-20250709211824315](../assets/cert_imported.png)
 gui则是在certificates界面点击Imported Certificate按钮后，证书上传至服务端。
- ![image-20250817173827224752](/IoM/assets/usage/listener/inportedCert_gui.png)
+ ![image-20250817173827224752](../assets/usage/listener/inportedCert_gui.png)
 当服务器已存储所需证书后，可以通过以下命令，将pipeline使用新的证书配置启动。
 
 ```bash
 pipeline start tcp --cert-name cert-name
 ```
 
-![image-20250709213539835](/IoM/assets/cert_pipeline_start.png)
+![image-20250709213539835](../assets/cert_pipeline_start.png)
 
 !!!tip "tls指南" 
 	当您打开tls配置时，您需要确保Implant的tls配置也打开，implant的tls配置请在[implant_tls](/IoM/manual/implant/build/#426-%E7%9B%AE%E6%A0%87%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE)参阅。

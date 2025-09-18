@@ -173,14 +173,14 @@ profile new --name new-profile --pipeline tcp
 profile load config.yaml --name test --pipeline tcp
 ```
 
-![image-20250817183127224752](/IoM/assets/usage/build/profile_load.png)
+![image-20250817183127224752](../assets/usage/build/profile_load.png)
 
 在 gui 中添加 profile 时，您需要在artifacts页面上，点击add profile，您可以选择已有的 profile 文件进行加载，也可以直接新建一个默认的profile。
-![image-20250817182727224752](/IoM/assets/usage/build/profile_new.png)
+![image-20250817182727224752](../assets/usage/build/profile_new.png)
 
 您已可以点击profile名，查看profile的具体内容。在查看profile的界面，点击edit，即可编辑profile。
-![image-20250819182727224752](/IoM/assets/usage/build/profile_detail.png)
-![image-20250819010527224752](/IoM/assets/usage/build/profile_edit.png)
+![image-20250819182727224752](../assets/usage/build/profile_detail.png)
+![image-20250819010527224752](../assets/usage/build/profile_edit.png)
 ## 编译
 
 准备好profile后，您可以在client端使用build命令进行编译，目前build命令支持编译beacon、pulse、prelude和modules。
@@ -232,7 +232,7 @@ build beacon --profile tcp_default --target x86_64-unknown-linux-musl --rem
 
 
 在gui上，您需要在artifacts页面，在对应的profile行上点击build，选择beacon后，根据需求，在对应配置行上填入信息，进行编译。
-![image-20250817183527224752](/IoM/assets/usage/build/build_beacon_gui.png)
+![image-20250817183527224752](../assets/usage/build/build_beacon_gui.png)
 #### 编译pulse
 
 **pulse** 是一个轻量级的上线马，体积只有 4KB，功能类似于 CS 的 artifact。
@@ -251,7 +251,7 @@ build pulse --profile tcp_default --target x86_64-pc-windows-gnu --artifact-id 3
 
 在gui上，您需要在选择pulse后，填入artifact-id后进行编译。
 
-![image-20250817184427224752](/IoM/assets/usage/build/build_pulse_artifactID_gui.png)
+![image-20250817184427224752](../assets/usage/build/build_pulse_artifactID_gui.png)
 
 #### 编译prelude
 
@@ -268,7 +268,7 @@ build prelude  --profile prelude-profile  --target x86_64-pc-windows-gnu --autor
 
 在gui上，您需要在选择prelude后，填入zip文件路径后进行编译。
 
-![image-20250817185927224752](/IoM/assets/usage/build/build_prelude_gui.png)
+![image-20250817185927224752](../assets/usage/build/build_prelude_gui.png)
 
 #### 编译modules
 
@@ -288,9 +288,9 @@ build modules --3rd rem --profile tcp_default --target x86_64-pc-windows-gnu
 
 在gui上，您需要在选择modules后，在对应的插件行上填入需要的插件，然后进行编译。
 
-![image-20250817183827224752](/IoM/assets/usage/build/build_modules_gui.png)
+![image-20250817183827224752](../assets/usage/build/build_modules_gui.png)
 
-![image-20250817183927224752](/IoM/assets/usage/build/build_3rd_gui.png)
+![image-20250817183927224752](../assets/usage/build/build_3rd_gui.png)
 
 ### artifact 
 
@@ -300,7 +300,7 @@ build modules --3rd rem --profile tcp_default --target x86_64-pc-windows-gnu
 artifact list
 ```
 
-![img_8.png](/IoM/assets/artifact_list.png)
+![img_8.png](../assets/artifact_list.png)
 
 在artifact表格中选中对应artifact，即可将artifact源文件下载到client端。
 
@@ -314,7 +314,7 @@ artifact download artifact-name --format raw
 !!!tip "更多的format格式， 请参阅[build](/IoM/manual/manual/build)"
 
 在gui上，您需要在artifact页面上点击对应的artifact行上的download按钮，即可下载artifact源文件到指定路径。
-![image-20250817190327224752](/IoM/assets/usage/build/artifact_download.png)
+![image-20250817190327224752](../assets/usage/build/artifact_download.png)
 
 当artifact编译失败时，可以通过以下命令来查看log(目前支持查看docker，后续会加上saas）：
 
@@ -322,8 +322,8 @@ artifact download artifact-name --format raw
 build log artifact_name
 ```
 
-![image-20250817192027224752](/IoM/assets/usage/build/build_log.png)
+![image-20250817192027224752](../assets/usage/build/build_log.png)
 
 在gui中，可以右击对应artifact行，点击Show Artifact Log, 可以查看log。
 
-![image-20250817192327224752](/IoM/assets/usage/build/build_log_gui.png)
+![image-20250817192327224752](../assets/usage/build/build_log_gui.png)

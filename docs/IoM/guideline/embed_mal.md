@@ -1,7 +1,7 @@
 ## embed mal
 
 在 IoM 的 v0.1.1 中集成了一系列内置的 embed 功能:
-![mal_intl_help.png](../../assets/embed/usage/mal_intl_help.png)
+![mal_intl_help.png](../assets/embed/usage/mal_intl_help.png)
 
 可以在[embed 的详细文档](/IoM/manual/mal/embed)中找到所有的相关命令
 
@@ -18,11 +18,11 @@ askcreds [-p prompt] [-n note] [-t wait_time]
 - --wait_time: password to dump credentials for (default:  30 )
 
 
-![img.png](../../assets/embed/usage/askcreds_tui.png)
+![img.png](../assets/embed/usage/askcreds_tui.png)
 
 windows会弹出如下窗口
 
-![img_1.png](../../assets/embed/usage/askcreds_windows.png)
+![img_1.png](../assets/embed/usage/askcreds_windows.png)
 
 ### autologon
 
@@ -32,7 +32,7 @@ autologon 用于获取 Windows 自动登录的凭据
 autologon
 ```
 
-![img_1.png](../../assets/embed/usage/autologon_tui.png)
+![img_1.png](../assets/embed/usage/autologon_tui.png)
 
 ### credman
 
@@ -42,7 +42,7 @@ credman 用于获取 Windows Credential Manager 中的凭据
 credman
 ```
 
-![img_2.png](../../assets/embed/usage/credman_tui.png)
+![img_2.png](../assets/embed/usage/credman_tui.png)
 
 ### curl
 curl 用于发送 HTTP 请求, 支持 GET/POST/PUT/PATCH/DELETE的常见方法，以及自定义 header/useragent
@@ -62,7 +62,7 @@ Flags如下
 - --port: target port (default:  0 )
 - --useragent: custom user agent (default: ``)
 
-![img_2.png](../../assets/embed/usage/curl_tui.png)
+![img_2.png](../assets/embed/usage/curl_tui.png)
 
 ### dir
 dir 用于列出目录下的文件
@@ -74,7 +74,7 @@ Flags如下：
 - --path: directory path to list (default:  `` )
 - --subdirs: include subdirectories (optional) (default:  false )
 
-![img_2.png](../../assets/embed/usage/dir_tui.png)
+![img_2.png](../assets/embed/usage/dir_tui.png)
 
 ### dump_sam
 
@@ -85,13 +85,13 @@ dump_sam --location [location]
 Flags如下：
 - --location: folder to save (optional) (default:  C:\Windows\Temp\ )
 
-![img_2.png](../../assets/embed/usage/dump_sam.png)
+![img_2.png](../assets/embed/usage/dump_sam.png)
 
 ### enum
 
 enum 用于枚举常见的信息, 包括 arp, dc, dns, dotnet_process, drives, files, localcert, localsessions 等
 
-![img_3.png](../../assets/embed/usage/enum_help.png)
+![img_3.png](../assets/embed/usage/enum_help.png)
 
 全部用法如下:
 
@@ -106,7 +106,7 @@ enum localcert # 枚举本地证书
 enum localsessions # 枚举本地会话
 ```
 
-![img_3.png](../../assets/embed/usage/enum_tui_part.png)
+![img_3.png](../assets/embed/usage/enum_tui_part.png)
 
 ### exclusion
 
@@ -121,7 +121,7 @@ exclusion enum # 枚举排除项
 - --data 表示路径/进程/扩展名
 - --type 表示排除项的类型, 可以是 path/process/extension
 
-![img_3.png](../../assets/embed/usage/exclusion_tui.png)
+![img_3.png](../assets/embed/usage/exclusion_tui.png)
 
 ### hashdump
 
@@ -129,7 +129,7 @@ hashdump 用于提取Windows本地用户的NTLM密码哈希
 ```
 hashdump
 ```
-![img_5.png](../../assets/embed/usage/hashdump_tui.png)
+![img_5.png](../assets/embed/usage/hashdump_tui.png)
 
 ### ipconfig
 
@@ -137,7 +137,7 @@ ipconfig 用于显示网络配置
 ```
 ipconfig
 ```
-![img_7.png](../../assets/embed/usage/ipconfig_tui.png)
+![img_7.png](../assets/embed/usage/ipconfig_tui.png)
 
 ### kill_defender
 
@@ -148,7 +148,7 @@ kill_defender --action [action]
 Flags如下：
 - --action 表示动作, 可以是 kill/check
 
-![img_5.png](../../assets/embed/usage/kill_defender_tui.png)
+![img_5.png](../assets/embed/usage/kill_defender_tui.png)
 
 ### klist
 klist 用于与缓存的 Kerberos 票据交互
@@ -178,14 +178,14 @@ Flags如下：
 ### logonpassowrds
 
 embed 通过内置 mimikatz 实现了 logonpassowrds
-![img_4.png](../../assets/embed/usage/mimikatz_logonpasswords.png)
+![img_4.png](../assets/embed/usage/mimikatz_logonpasswords.png)
 
 同时对该命令添加了解析，会在抓取的同时存储到 context/credential 中
-![img_3.png](../../assets/embed/usage/context_credential.png)
+![img_3.png](../assets/embed/usage/context_credential.png)
 
 如果你需要一个 opsec 更高的办法,可以尝试 nanodump
 
-![img_10.png](../../assets/embed/usage/nanodump.png)
+![img_10.png](../assets/embed/usage/nanodump.png)
 
 ### memoryinfo
 
@@ -222,7 +222,7 @@ mimikatz "privilege::debug" "token::elevate" "lsadump::sam"
 
 (注意exit退出已经默认添加到结尾, 不需要手动添加, 上述命令等价于`mimikatz "privilege::debug" "token::elevate" "lsadump::sam" "exit"`
 
-![img_8.png](../../assets/embed/usage/mimikatz_tui.png)
+![img_8.png](../assets/embed/usage/mimikatz_tui.png)
 
 ### nanodump
 
@@ -245,14 +245,14 @@ net user add --username [username] --password [password]
 net user enum # 枚举用户
 ```
 
-![img.png](../../assets/embed/usage/net_user_add.png)
+![img.png](../assets/embed/usage/net_user_add.png)
 
 net user query 可以查询用户信息
 ```
 net user query --username [username] --domain [domain](optional)
 ```
 
-![img.png](../../assets/embed/usage/net_user_query.png)
+![img.png](../assets/embed/usage/net_user_query.png)
 
 ### nslookup
 
@@ -268,7 +268,7 @@ Flags如下：
 - --server 表示 DNS 服务器
 - --record-type 表示记录类型(A, NS, CNAME, MX, AAAA, etc.)
 
-![img.png](../../assets/embed/usage/nslookup_tui.png)
+![img.png](../assets/embed/usage/nslookup_tui.png)
 
 
 ### pingscan
@@ -281,7 +281,7 @@ pingscan --target [target]
 Flags如下：
 - --target 表示目标主机(可以参考的格式有 192.168.1.1, 192.168.1.1-192.168.1.255, 192.168.1.0/24)
 
-![img.png](../../assets/embed/usage/pingscan_tui.png)
+![img.png](../assets/embed/usage/pingscan_tui.png)
 
 ### port scan
 
@@ -295,7 +295,7 @@ Flags如下：
 - --target 表示目标主机(可以参考的格式有 192.168.1.1, 192.168.1.1-192.168.1.255, 192.168.1.0/24)
 - --ports 表示目标端口(可以参考的格式有 80,443,8080 或 1-1000)
 
-![img.png](../../assets/embed/usage/port_scan_tui.png)
+![img.png](../assets/embed/usage/port_scan_tui.png)
 
 ### readfile
 
@@ -316,7 +316,7 @@ route 用于输出路由表
 route print
 ```
 
-![img.png](../../assets/embed/usage/route_print_tui.png)
+![img.png](../assets/embed/usage/route_print_tui.png)
 
 ### screenshot
 screenshot 用于截屏
@@ -328,7 +328,7 @@ screenshot --filename [filename]
 Flags如下：
 - --filename 表示截屏文件名(默认为 screenshot.jpg)
 
-![img.png](../../assets/embed/usage/screenshot_tui.png)
+![img.png](../assets/embed/usage/screenshot_tui.png)
 
 ### systeminfo
 
@@ -338,7 +338,7 @@ systeminfo 用于输出系统信息
 systeminfo
 ```
 
-![img.png](../../assets/embed/usage/systeminfo_tui.png)
+![img.png](../assets/embed/usage/systeminfo_tui.png)
 
 ### wifi
 
@@ -352,9 +352,9 @@ wifi dump --profilename [profilename] # 导出WiFi详细配置
 Flags如下：
 - --profilename 表示 WiFi 名称
 
-![img.png](../../assets/embed/usage/wifi_enum_tui.png)
+![img.png](../assets/embed/usage/wifi_enum_tui.png)
 
-![img.png](../../assets/embed/usage/wifi_dump.png)
+![img.png](../assets/embed/usage/wifi_dump.png)
 
 ### load_prebuild
 
@@ -369,4 +369,4 @@ Flags如下：
 
 如果编译的 nano 的 implant， 可以便捷热加载对应的功能
 
-![](/IoM/assets/Pasted%20image%2020250710034218.png)
+![](../assets/Pasted image 20250710034218.png)

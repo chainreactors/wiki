@@ -33,6 +33,23 @@ plugins:
   - search
   - blog:
       blog_toc: true
+  - print-site:
+      exclude:
+        - blog/*
+        - gogo/*
+        - spray/*
+        - rem/*
+        - zombie/*
+        - libs/*
+        - mapping/*
+        - IoM/roadmap.md
+        - index.md
+      print_page_title: "IoM Wiki"
+      print_page_basename: IoM_wiki
+      add_table_of_contents: true
+      add_print_site_banner: true
+    #   add_to_navigation: true
+      enabled: false
 markdown_extensions:
   - admonition
   - attr_list
