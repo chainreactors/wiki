@@ -9,7 +9,7 @@ IoM 是包含了一系列仓库的复杂工具链, 我们正在全力简化其�
 
 ## 安装部署server
 
-IoM 的 server 与 client 都是通过 golang 编写的, 打包成二进制文件后不需要任何的依赖环境, 直接运行即可.
+IoM 的 [server](/IoM/concept/#server) 与 [client](/IoM/concept/#client) 都是通过 golang 编写的, 打包成二进制文件后不需要任何的依赖环境, 直接运行即可.
 
 **v0.1.1 版本开始, 可以不再依赖任何外部环境, 提供了最基础的自动编译服务**
 
@@ -23,7 +23,7 @@ IoM 的 server 与 client 都是通过 golang 编写的, 打包成二进制文�
 ./malice-network -i [ip]
 ```
 
-** v0.1.1新特征: **开箱即用** 默认情况下, server会使用云编译对应的implant**
+** v0.1.1新特征: **开箱即用** 默认情况下, server会使用云编译对应的[implant](/IoM/concept/#implant)**
 
 !!! danger "安全警告, 使用默认提供的云编译视为同意用户协议"
 	用户协议全文: https://wiki.chainreactors.red/IoM/#%E7%94%A8%E6%88%B7%E5%8D%8F%E8%AE%AE
@@ -34,19 +34,19 @@ IoM 的 server 与 client 都是通过 golang 编写的, 打包成二进制文�
 	  enable: false  
 	```
 
-??? info "(非必要) 自行编译 client 与 server"
+??? info "(非必要) 自行编译 [client](/IoM/concept/#client) 与 server"
 	如需自定编译可参照: ([自行编译说明](/IoM/guideline/develop/))
 
 
 ??? info "(非必要)自定义 malefic-network 的 config"
-	在使用 client 自动编译时, 会自动指定 pipeline 的 address, 如果需要自定义, 可以通过--address 修改.
+	在使用 client 自动编译时, 会自动指定 [pipeline](/IoM/concept/#pipeline) 的 address, 如果需要自定义, 可以通过--address 修改.
 	
 	安装脚本自动使用的 config 为: https://github.com/chainreactors/malice-network/blob/master/server/config.yaml
 	
 	malefic 的 config.yaml [详细配置说明](/implant/mutant)
 
 
-??? info "(非必要)独立运行 listener"
+??? info "(非必要)独立运行 [listener](/IoM/concept/#listener)"
 	[listener 文档](/IoM/guideline/listener/#独立部署listener)
 	
 	从 v0.0.2 开始, 我们合并了 listener 与 server 两个二进制文件到`malice-network`
@@ -82,14 +82,14 @@ IoM 的 server 与 client 都是通过 golang 编写的, 打包成二进制文�
 
 ### 下载implant
 
-下载自动编译好的beacon 或pluse
+下载自动编译好的beacon 或pulse
 
 ![](assets/Pasted%20image%2020250707014651.png)
 
-此exe即为implant, 可通过-f指定不同的输出格式。
+此exe即为[implant](/IoM/concept/#implant), 可通过-f指定不同的输出格式。
 ## 操作 implant
 
-目标上线后选择合适的 session 进行操作
+目标上线后选择合适的 [session](/IoM/concept/#session) 进行操作
 
 ```
 session
