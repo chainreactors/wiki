@@ -1,17 +1,88 @@
+在IoM中，malefic(即implant)的相关特性是通过编译命令中的`profile`与`build`相关指令来控制。
 
-在IoM中，implant的相关特性是由编译使用的profile决定的。在编译之前首先要准备好需要的profile。
-## profile 准备
+## 通过暴露的参数执行编译
 
-!!! info "目前在pipeline启动时，服务端会自动生成能和该pipeline通信的profile"
+目前beacon信道支持方式主要为tcp(tcp+tls)、http(https)、rem.
+你可以通过如下的指令来快速编译一个所需的beacon.
 
-自定义profile需要先下载 https://github.com/chainreactors/malefic/blob/master/config.yaml 。
+对于常规的http/tcp相关信道，你可以使用如下命令来进行构建
+```
+build beacon --addresses "http://127.0.0.1:8080" --target x86_64-pc-windows-gnu # http
+
+build beacon --addresses "https://primary.example.com:443,https://second.example.com:443" --target x86_64-pc-windows-gnu # https
+
+build beacon --addresses "tcp://127.0.0.1:5001" --target x86_64-pc-windows-gnu # tcp
+
+build beacon --addresses "tcp+tls://127.0.0.1:5001" --target x86_64-pc-windows-gnu # tcp with tls
+```
+
+对于rem信道，需要指定两个参数，一个为rem的link地址，一个为rem转发到的实际后端地址.
+
+```
+build beacon --addresses "tcp://127.0.0.1:5001" --rem "tcp://nonenonenonenone:@123.123.123.123:12345?wrapper=ls..." --target x86_64-pc-windows-gnu
+```
+
+![img.png](/IoM/assets/usage/build/build_beacon_with_rem.png)
+
+当你拥有多种模式的构建方式配置(docker、saas、action)时, 你可以通过`source`来明确的指定使用哪一种,默认的source优先级为"docker > saas > github action"
+```
+build beacon --addresses "http://127.0.0.1:8080" --target x86_64-pc-windows-gnu --source docker
+```
+
+
+## 通过profile进行编译
+
+由于功能特性的复杂，直接暴露的参数并不能完美的控制并发挥Implant的真正实力. profile会支持你做更细化的控制.
+
+!!! info "目前在pipeline启动时，服务端会自动生成基于该pipeline定制的profile，可直接用于autobuild以及手动编译"
+
+### 使用pipeline的默认profile
+
+服务端启动后，会基于 **config.yaml** 中的pipeline配置生成默认的profile，profileName格式为`[pipelineName]_default`
+
+![img.png](/IoM/assets/usage/build/pipeline_default_profile.png)
+
+通过profile构建所需要的beacon
+```
+build beacon --profile tcp_default --target x86_64-pc-windows-gnu
+```
+
+根据创建的profile动态修改一些特性，比如：设置初始化的module为`base,extend`
+```
+build beacon --profile tcp_default  --target x86_64-pc-windows-gnu --modules "base,extend"
+```
+
+### 使用手动定制的profile
+
+#### profile new
+
+创建一个基于5001的profile
+```
+profile new --name tcp_profile_demo --pipeline tcp_5001 
+```
+
+创建一个基于rem-pipeline信道的profile, 并执行对应的编译
+```angular2html
+profile new --name rem_profile_demo --pipeline tcp_5001 --rem rem_default
+
+build beacon --profile rem_profile_demo --target x86_64-pc-windows-gnu
+```
+
+#### profile load
+
+`profile load`可以加载原生的配置文件用于复杂的定制化需求. 
+
+- 自定义profile需要先下载一个可以修改的模板 https://github.com/chainreactors/malefic/blob/master/config.yaml 
 profile的配置结构主要分为大部分：
 
-- **basic**：用于连接的参数配置
+- **basic**：beacon相关配置
+
+- **pulse**：pulse相关配置
      
-- **implants**：implant 的功能性配置
+- **implants**：module、3rd、运行时等的相关配置
 	
-- **build**：构建时的编译及混淆选项
+- **build**：ollvm等控制项
+
 ### basic
 `basic` 部分主要用于连接参数配置，包括 **目标地址、协议、加密、代理、心跳、HTTP 伪装头** 等。
 #### 目标与协议
