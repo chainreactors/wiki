@@ -260,6 +260,79 @@ mal lua中同样支持lua标准库, 相关文档可以查阅 lua5.1文档.
 local crypto = require("crypto")
 ```
 
+## 插件架构
+
+### 插件组成
+
+每个Mal插件由以下部分组成：
+
+| 组件 | 说明 | 必需 |
+|------|------|------|
+| **mal.yaml** | 插件元数据配置 | ✅ |
+| **entry脚本** | Lua入口文件 | ✅ |
+| **资源文件** | 二进制/配置文件 | ❌ |
+| **依赖库** | 其他Mal库 | ❌ |
+
+### 插件目录结构
+
+mal-community仓库中的插件遵循统一的目录结构，以community-elevate和community-domain为例：
+
+```
+community-elevate/          # 提权工具包
+├── mal.yaml               # 插件配置文件
+├── main.lua              # 入口脚本
+├── resources/            # 资源文件目录
+│   ├── windows/         # Windows平台资源
+│   │   ├── x64/        # 64位程序
+│   │   └── x86/        # 32位程序
+│   └── linux/          # Linux平台资源
+└── lib/                 # 依赖库文件
+    └── utils.lua       # 工具函数
+
+community-domain/          # 域渗透工具包
+├── mal.yaml              # 插件配置文件
+├── main.lua             # 入口脚本
+├── modules/             # 功能模块
+│   ├── kerberos.lua    # Kerberos相关
+│   ├── ldap.lua        # LDAP查询
+│   └── dcsync.lua      # DCSync功能
+├── resources/           # 资源文件
+│   └── tools/          # 工具二进制
+└── config/             # 配置文件
+    └── targets.yaml    # 目标配置
+```
+
+典型的mal.yaml配置示例：
+
+```yaml
+name: community-elevate
+type: lua
+author: chainreactors
+version: v1.0.0
+entry: main.lua
+description: Windows/Linux提权工具集合
+depend_module:
+  - lib
+  - common
+resources:
+  - resources/
+tags:
+  - elevate
+  - privilege
+  - windows
+  - linux
+```
+
+### API分层
+
+Mal提供三层API体系，满足不同复杂度的需求：
+
+| API层 | 用途 | 特点 | 适用场景 |
+|-------|------|------|----------|
+| **Builtin** | 核心功能 | 简单直观 | 常规操作 |
+| **Beacon** | CS兼容 | AggressorScript风格 | CS迁移 |
+| **RPC** | 完整功能 | 原始gRPC | 高级操作 |
+
 ## 高级用法
 
 ### beacon package

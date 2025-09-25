@@ -9,6 +9,10 @@ IoM 是包含了一系列仓库的复杂工具链, 我们正在全力简化其�
 
 ## 安装部署server
 
+!!! info "Server是IoM的核心控制组件，负责数据处理、状态管理和任务调度"
+
+!!! info "Client是用户交互界面，通过gRPC与Server通信，用于命令输入和结果展示"
+
 IoM 的 [server](/IoM/concept/#server) 与 [client](/IoM/concept/#client) 都是通过 golang 编写的, 打包成二进制文件后不需要任何的依赖环境, 直接运行即可.
 
 **v0.1.1 版本开始, 可以不再依赖任何外部环境, 提供了最基础的自动编译服务**
@@ -22,6 +26,8 @@ IoM 的 [server](/IoM/concept/#server) 与 [client](/IoM/concept/#client) 都是
 ```sh
 ./malice-network -i [ip]
 ```
+
+!!! tip "Implant是在目标系统中执行的核心组件，负责接收命令并执行具体操作"
 
 ** v0.1.1新特征: **开箱即用** 默认情况下, server会使用云编译对应的[implant](/IoM/concept/#implant)**
 
@@ -39,6 +45,8 @@ IoM 的 [server](/IoM/concept/#server) 与 [client](/IoM/concept/#client) 都是
 
 
 ??? info "(非必要)自定义 malefic-network 的 config"
+	!!! tip "Pipeline是数据管道，负责Listener与Implant之间的具体通信实现（如TCP、HTTP等）"
+
 	在使用 client 自动编译时, 会自动指定 [pipeline](/IoM/concept/#pipeline) 的 address, 如果需要自定义, 可以通过--address 修改.
 	
 	安装脚本自动使用的 config 为: https://github.com/chainreactors/malice-network/blob/master/server/config.yaml
@@ -47,6 +55,7 @@ IoM 的 [server](/IoM/concept/#server) 与 [client](/IoM/concept/#client) 都是
 
 
 ??? info "(非必要)独立运行 [listener](/IoM/concept/#listener)"
+	!!! tip "Listener是分布式监听服务，负责与Implant的实际通信，可独立部署在任意服务器上"
 	[listener 文档](/IoM/guideline/listener/#独立部署listener)
 	
 	从 v0.0.2 开始, 我们合并了 listener 与 server 两个二进制文件到`malice-network`
@@ -88,6 +97,8 @@ IoM 的 [server](/IoM/concept/#server) 与 [client](/IoM/concept/#client) 都是
 
 此exe即为[implant](/IoM/concept/#implant), 可通过-f指定不同的输出格式。
 ## 操作 implant
+
+!!! tip "Session是Implant会话的状态管理结构，保存单个Implant的完整信息和生命周期"
 
 目标上线后选择合适的 [session](/IoM/concept/#session) 进行操作
 
