@@ -9,10 +9,6 @@ IoM采用高度解耦的分布式架构，本文档介绍各个核心组件的�
 !!! tip "与开发者指南的关系"
     本文档介绍概念和架构，具体开发实践请参考[开发者贡献指南](/IoM/guideline/develop/)
 
-## IoM 总体架构
-
-IoM采用高度模块化和解耦的分布式架构设计，形成了完整的攻击性基础设施技术栈。
-
 ## 相关项目
 
 IoM作为完整的进攻性基础设施，由多个相互协作的项目组成。
@@ -546,81 +542,154 @@ REM(Request Enhancement Module)是IoM的网络工具包，提供强大的流量�
 !!! tip "详细文档"
     REM的完整功能参考[REM文档](/rem/)和[代理配置指南](/IoM/guideline/proxy/)
 
-## 
-## 拓展能力
+
+
+## 插件生态与兼容性
+
+IoM构建了完整的插件生态系统，既支持原生插件开发，又兼容主流C2框架的插件生态。
+
+### 拓展能力
 
 IoM的拓展能力是其核心中的核心，支持在多个维度进行功能扩展，构建了完整的可拓展生态系统。
 
+| 拓展维度           | 扩展类型         | 描述                 | 文档链接                                                    |
+| -------------- | ------------ | ------------------ | ------------------------------------------------------- |
+| **🔧 Client**  | Command开发    | 添加自定义命令            | [Client开发指南](/IoM/guideline/develop/client/)            |
+|                | Mal插件系统      | Lua脚本扩展            | [Mal插件文档](/IoM/manual/mal/)                             |
+|                | Armory兼容     | Sliver生态支持         | [内置插件文档](/IoM/guideline/embed_mal/)                     |
+|                | 多语言SDK       | 第三方客户端开发           | [proto仓库](https://github.com/chainreactors/proto)       |
+| **⚙️ Server**  | Proto协议扩展    | 自定义消息类型            | [proto定义](https://github.com/chainreactors/proto)       |
+|                | RPC服务扩展      | 添加新的RPC接口          | [Server开发指南](/IoM/guideline/develop/server/)            |
+|                | Parser扩展     | 自定义协议解析            | [Server开发指南](/IoM/guideline/develop/server/#listener开发) |
+|                | Pipeline扩展   | 自定义传输通道            | [Server开发指南](/IoM/guideline/develop/server/#listener开发) |
+| **🚀 Implant** | Module系统     | 动态功能模块             | [Module开发文档](/IoM/manual/implant/modules/)              |
+|                | Features编译   | 编译时功能选择            | [Implant构建指南](/IoM/manual/implant/build/)               |
+|                | Addon管理      | 二进制内存缓存            | [Implant开发指南](/IoM/guideline/develop/implant/)          |
+|                | 执行引擎         | 多种加载方式             | [Implant使用手册](/IoM/manual/implant/)                     |
+|                | Kit工具包       | OPSEC对抗工具          | [高级用法文档](/IoM/guideline/advance/)                       |
+|                | Loader扩展     | 自定义加载器             | [Implant开发指南](/IoM/guideline/develop/implant/)          |
+| **🔄 生态兼容**    | BOF兼容        | CobaltStrike BOF支持 | [内置插件文档](/IoM/guideline/embed_mal/)                     |
+|                | Assembly兼容   | CLR程序执行            | [Implant使用手册](/IoM/manual/implant/)                     |
+|                | PowerShell兼容 | Unmanaged执行        | [Implant使用手册](/IoM/manual/implant/)                     |
+|                | Sliver兼容     | Alias/Extension支持  | [内置插件文档](/IoM/guideline/embed_mal/)                     |
+|                | PE兼容         | 反射加载/SRDI          | [Implant使用手册](/IoM/manual/implant/)                     |
+|                | DLL兼容        | UDRL/sideload      | [Implant使用手册](/IoM/manual/implant/)                     |
+| **📦 插件包**     | lib包         | 基础加载器              | [community-lib](https://github.com/chainreactors/mal-community/tree/master/community-lib)         |
+|                | common包      | 通用扫描工具             | [community-common](https://github.com/chainreactors/mal-community/tree/master/community-common)         |
+|                | steal包       | 凭证提取工具             | [community-steal](https://github.com/chainreactors/mal-community/tree/master/community-steal)         |
+|                | elevate包     | 提权工具               | [community-elevate](https://github.com/chainreactors/mal-community/tree/master/community-elevate)         |
+|                | persistence包 | 权限维持               | [community-persistence](https://github.com/chainreactors/mal-community/tree/master/community-persistence)         |
+|                | move包        | 横向移动               | [community-move](https://github.com/chainreactors/mal-community/tree/master/community-move)         |
+|                | proxy包       | 代理隧道               | [community-proxy](https://github.com/chainreactors/mal-community/tree/master/community-proxy)                         |
+|                | domain包      | 域渗透                | [community-domain](https://github.com/chainreactors/mal-community/tree/master/community-domain)         |
+
+
+### Mal插件系统
+
+Mal是IoM的核心插件系统，提供了强大而灵活的扩展能力。
+
+#### 概念定义
+
+Mal（Malice Lua）是基于Lua 5.1和gopher-lua实现的插件框架，为IoM提供了：
+
+- **脚本化扩展**: 使用Lua编写自定义功能
+- **命令注册**: 动态添加Client命令
+- **API集成**: 完整的gRPC和内置API访问
+- **生态兼容**: 支持CobaltStrike AggressorScript风格API
+
+#### 架构设计
+
 ```mermaid
-block-beta
-    columns 8
-    
-    block:ClientExt:8
-        ClientTitle["🔧 Client 拓展维度<br/>&nbsp;<br/>&nbsp;"]
-        Command["Command开发<br/>&nbsp;<br/>cobra命令+RPC<br/>&nbsp;<br/>&nbsp;"]
-        MalPlugin["Mal插件系统<br/>&nbsp;<br/>Lua/Go脚本<br/>&nbsp;<br/>&nbsp;"]
-        Armory["Armory兼容<br/>&nbsp;<br/>Sliver生态<br/>&nbsp;<br/>&nbsp;"]
-        SDK["多语言SDK<br/>&nbsp;<br/>gRPC+Protobuf<br/>&nbsp;<br/>&nbsp;"]
-        space:3
+graph TB
+    subgraph "Mal插件架构"
+        subgraph "插件层"
+            Plugin["Mal插件<br/>(.lua + mal.yaml)"]
+            Library["Mal库<br/>可复用模块"]
+            Community["社区插件<br/>mal-community"]
+        end
+
+        subgraph "运行时"
+            VMPool["VM实例池<br/>并发管理"]
+            subgraph "VM实例"
+                LuaVM1["Lua VM 1"]
+                LuaVM2["Lua VM 2"]
+                LuaVMN["Lua VM N"]
+            end
+            Registry["命令注册<br/>Cobra集成"]
+            Protobuf["Protobuf<br/>消息处理"]
+        end
+
+        subgraph "API层"
+            Builtin["Builtin API<br/>核心功能"]
+            RPC["RPC API<br/>gRPC调用"]
+            Beacon["Beacon API<br/>CS兼容层"]
+        end
+
+        subgraph "扩展库"
+            StdLib["Lua标准库<br/>package/table/io等"]
+            ExtLib["扩展库<br/>json/yaml/http等"]
+            Storage["持久存储<br/>跨插件共享"]
+        end
     end
-    
-    block:ServerExt:8
-        ServerTitle["⚙️ Server 拓展维度<br/>&nbsp;<br/>&nbsp;"]
-        Proto["Proto协议扩展<br/>&nbsp;<br/>Request/Response<br/>&nbsp;<br/>&nbsp;"]
-        RPC["RPC服务扩展<br/>&nbsp;<br/>gRPC接口<br/>&nbsp;<br/>&nbsp;"]
-        Parser["Parser扩展<br/>&nbsp;<br/>自定义协议解析<br/>&nbsp;<br/>&nbsp;"]
-        Pipeline["Pipeline扩展<br/>&nbsp;<br/>自定义传输协议<br/>&nbsp;<br/>&nbsp;"]
-        space:3
-    end
-    
-    block:ImplantExt:8
-        ImplantTitle["🚀 Implant 拓展维度<br/>&nbsp;<br/>&nbsp;"]
-        Module["Module系统<br/>&nbsp;<br/>Rust FFI<br/>&nbsp;<br/>&nbsp;"]
-        Features["Features编译<br/>&nbsp;<br/>自由组装<br/>&nbsp;<br/>&nbsp;"]
-        Addon["Addon管理<br/>&nbsp;<br/>内存缓存<br/>&nbsp;<br/>&nbsp;"]
-        Exec["执行引擎<br/>&nbsp;<br/>多种加载<br/>&nbsp;<br/>&nbsp;"]
-        Kit["Kit工具包<br/>&nbsp;<br/>OPSEC对抗<br/>&nbsp;<br/>&nbsp;"]
-        Loader["Loader扩展<br/>&nbsp;<br/>自定义加载器<br/>&nbsp;<br/>&nbsp;"]
-        space:1
-    end
-    
-    block:CompatExt:8
-        CompatTitle["🔄 生态兼容维度<br/>&nbsp;<br/>&nbsp;"]
-        BOF["BOF兼容<br/>&nbsp;<br/>CobaltStrike<br/>&nbsp;<br/>&nbsp;"]
-        Assembly["Assembly兼容<br/>&nbsp;<br/>CLR程序<br/>&nbsp;<br/>&nbsp;"]
-        Powershell["PowerShell兼容<br/>&nbsp;<br/>Unmanaged<br/>&nbsp;<br/>&nbsp;"]
-        SliverCompat["Sliver兼容<br/>&nbsp;<br/>Alias/Extension<br/>&nbsp;<br/>&nbsp;"]
-        PE["PE兼容<br/>&nbsp;<br/>反射加载/SRDI<br/>&nbsp;<br/>&nbsp;"]
-        DLL["DLL兼容<br/>&nbsp;<br/>UDRL/sideload<br/>&nbsp;<br/>&nbsp;"]
-        space:1
-    end
-    
-    block:PluginPacks:8
-        PackTitle["📦 专业插件包<br/>&nbsp;<br/>&nbsp;"]
-        LibPack["lib包<br/>&nbsp;<br/>加载器<br/>&nbsp;<br/>&nbsp;"]
-        CommonPack["common包<br/>&nbsp;<br/>扫描工具<br/>&nbsp;<br/>&nbsp;"]
-        StealPack["steal包<br/>&nbsp;<br/>凭证提取<br/>&nbsp;<br/>&nbsp;"]
-        ElevatePack["elevate包<br/>&nbsp;<br/>提权工具<br/>&nbsp;<br/>&nbsp;"]
-        PersistPack["persistence包<br/>&nbsp;<br/>权限维持<br/>&nbsp;<br/>&nbsp;"]
-        MovePack["move包<br/>&nbsp;<br/>横向移动<br/>&nbsp;<br/>&nbsp;"]
-        ProxyPack["proxy包<br/>&nbsp;<br/>代理隧道<br/>&nbsp;<br/>&nbsp;"]
-        DomainPack["domain包<br/>&nbsp;<br/>域渗透<br/>&nbsp;<br/>&nbsp;"]
-    end
-    
-    classDef titleStyle fill:#1976d2,color:#fff,stroke:#0d47a1,stroke-width:3px,font-weight:bold,font-size:18px
-    classDef clientStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,font-size:15px
-    classDef serverStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,font-size:15px
-    classDef implantStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px,font-size:15px
-    classDef compatStyle fill:#e8f5e8,stroke:#388e3c,stroke-width:2px,font-size:15px
-    classDef pluginStyle fill:#fce4ec,stroke:#c2185b,stroke-width:2px,font-size:15px
-    
-    class ClientTitle,ServerTitle,ImplantTitle,CompatTitle,PackTitle titleStyle
-    class Command,MalPlugin,Armory,SDK clientStyle
-    class Proto,RPC,Parser,Pipeline serverStyle
-    class Module,Features,Addon,Exec,Kit,Loader implantStyle
-    class BOF,Assembly,Powershell,SliverCompat,PE,DLL compatStyle
-    class LibPack,CommonPack,StealPack,ElevatePack,PersistPack,MovePack,ProxyPack,DomainPack pluginStyle
+
+    %% 插件加载流程
+    Community --> Plugin
+    Plugin --> VMPool
+    Library --> VMPool
+
+    %% VM池管理
+    VMPool ==> LuaVM1
+    VMPool ==> LuaVM2
+    VMPool ==> LuaVMN
+
+    %% VM与API连接
+    LuaVM1 -.-> Builtin
+    LuaVM1 -.-> RPC
+    LuaVM1 -.-> Beacon
+
+    %% API内部关系
+    Beacon --> RPC
+    RPC --> Protobuf
+    Builtin --> Registry
+
+    %% VM与扩展库连接
+    LuaVM1 -.-> StdLib
+    LuaVM1 -.-> ExtLib
+    ExtLib --> Storage
+
+    classDef pluginStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef apiStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef runtimeStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef vmStyle fill:#e1f5fe,stroke:#0288d1,stroke-width:1px
+    classDef extStyle fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+
+    class Plugin,Library,Community pluginStyle
+    class Builtin,RPC,Beacon apiStyle
+    class VMPool,Registry,Protobuf runtimeStyle
+    class LuaVM1,LuaVM2,LuaVMN vmStyle
+    class StdLib,ExtLib,Storage extStyle
 ```
+
+
+
+### Implant Loader支持
+
+| 插件类型          | 用途         | 兼容性      | 特性 |
+| ------------- | ---------- | -------- | ---- |
+| **Mal插件**     | Lua脚本扩展    | IoM原生    | 动态脚本、丰富API |
+| **Module**    | 动态模块加载     | IoM原生    | Rust FFI、热插拔 |
+| **Addon**     | 二进制程序缓存    | IoM原生    | 内存缓存、避免重传 |
+| **BOF** | Beacon Object File | CobaltStrike兼容 | 轻量级功能扩展 |
+| **Assembly** | CLR程序执行 | CobaltStrike兼容 | bypass AMSI/ETW |
+| **PowerShell** | Unmanaged执行 | CobaltStrike兼容 | 绕过限制策略 |
+| **Alias**     | CLR/UDRL管理 | Sliver兼容 | 命令别名和预设 |
+| **Extension** | BOF管理      | Sliver兼容 | 插件管理 |
+| **Armory**    | 插件包管理      | Sliver兼容 | 一键安装管理 |
+
+!!! tip "详细文档"
+    - 插件开发参考[Mal插件文档](/IoM/manual/mal/)
+    - 兼容性配置参考[内置插件文档](/IoM/guideline/embed_mal/)
+
 
 ## OPSEC模型
 
@@ -668,27 +737,3 @@ IoM设计了基于四个维度的OPSEC评估模型，参考CVSS评分标准。
 
 !!! tip "详细文档"
     OPSEC最佳实践参考[高级用法文档](/IoM/guideline/advance/)
-
-## 插件生态与兼容性
-
-IoM构建了完整的插件生态系统，既支持原生插件开发，又兼容主流C2框架的插件生态。
-
-### 插件类型
-
-| 插件类型          | 用途         | 兼容性      | 特性 |
-| ------------- | ---------- | -------- | ---- |
-| **Mal插件**     | Lua脚本扩展    | IoM原生    | 动态脚本、丰富API |
-| **Module**    | 动态模块加载     | IoM原生    | Rust FFI、热插拔 |
-| **Addon**     | 二进制程序缓存    | IoM原生    | 内存缓存、避免重传 |
-| **BOF** | Beacon Object File | CobaltStrike兼容 | 轻量级功能扩展 |
-| **Assembly** | CLR程序执行 | CobaltStrike兼容 | bypass AMSI/ETW |
-| **PowerShell** | Unmanaged执行 | CobaltStrike兼容 | 绕过限制策略 |
-| **Alias**     | CLR/UDRL管理 | Sliver兼容 | 命令别名和预设 |
-| **Extension** | BOF管理      | Sliver兼容 | 插件管理 |
-| **Armory**    | 插件包管理      | Sliver兼容 | 一键安装管理 |
-
-!!! tip "详细文档"
-    - 插件开发参考[Mal插件文档](/IoM/manual/mal/)
-    - 兼容性配置参考[内置插件文档](/IoM/guideline/embed_mal/)
-
-
