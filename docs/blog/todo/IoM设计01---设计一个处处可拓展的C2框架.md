@@ -50,7 +50,7 @@ sliver则通过在官方统一维护了[armory武器库](https://github.com/sliv
 
 在前人的工作上改进IoM的插件生态设计. 我们计划在多个维度提供不同领域的拓展能力. 
 
-我们在[IoM的设计文档中提到过插件相关设计目标](https://chainreactors.github.io/wiki/IoM/design/#_8) 
+我们在[IoM的设计文档中提到过插件相关设计目标](https://chainreactors.github.io/wiki/IoM/design/#拓展能力) 
 
 ### mals
 

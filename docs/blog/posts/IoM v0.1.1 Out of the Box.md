@@ -30,7 +30,7 @@ slug: IoM_v0.1.1
 
 因此将给**所有用户提供最基础版本的自动化编译**， 这个编译服务托管在服务器上， **如果有安全上顾虑， 可以手动关闭这个功能。** 
 
-!!! danger "使用自动化编译服务即视为同意[用户协议](https://wiki.chainreactors.red/IoM/#_4)"
+!!! danger "使用自动化编译服务即视为同意[用户协议](https://wiki.chainreactors.red/IoM/#用户协议)"
 
 !!! danger "在提供自动化编译的同时, 也添加了malefic.yar"
 	任何防护设备的厂家可以通过我们的malefic.yar 检测通过自动化服务编译的二进制文件

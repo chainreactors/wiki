@@ -21,7 +21,7 @@ title: gogo · 设计
 
 网段探测, 端口发现, 指纹识别与poc验证实际上是一条流水线上的工作, 逻辑上前后连续一致, 不会带来多大的性能负担.而各种服务的弱口令则引入了不一致性, 需要新增很多配置参数, 引入很多库, 引入各种各样的代码.因此, 弱口令爆破这一块, 将由独立的工具实现.
 
-如果想深入了解gogo, 需要理解gogo面临的问题, 以及gogo的设计理念与解决方案, 也就是[设计](/gogo/design)与[细节](/gogo/detail)两章.也许能理解到为何gogo是为红队而设计的.这个世界不需要更多的缝合怪, 我们关注的重点应该是对细节打磨与对功能的再创新.
+如果想深入了解gogo, 需要理解gogo面临的问题, 以及gogo的设计理念与解决方案, 也就是[设计](/gogo/design)与[细节](/gogo/concept)两章.也许能理解到为何gogo是为红队而设计的.这个世界不需要更多的缝合怪, 我们关注的重点应该是对细节打磨与对功能的再创新.
 
 本文将描述gogo需要解决的问题, 以及解决的方案.
 
@@ -327,7 +327,7 @@ gogo的指纹与漏洞都将完全以dsl的方式实现, 即通过yaml配置。
 
 gogo重写了nuclei关于http与network两个模块的dsl引擎, 在兼容nucleiyaml大部分规则的同时, 去掉了大量不必要的功能, 并添加了一些新的功能更.详情请见[拓展nucleipoc](/gogo/extension/#poc)
 
-**目前gogo支持的所有漏洞: https://chainreactors.github.io/wiki/gogo/detail/#_6**
+**目前gogo支持的所有漏洞: https://chainreactors.github.io/wiki/gogo/concept/#漏洞探测**
 
 比起一些项目直接调用nuclei包, gogo的这种方式去掉了所有的依赖, 并最大程度的实现了nuclei的引擎, 缺点是dsl引擎的版本将会略微落后于nuclei本体。考虑到gogo的使用场景, 这种落后并不影响功能, 因此是可以接受的代价。
 
