@@ -27,7 +27,7 @@
 
 ### 使用示例
 
-![](Pasted%20image%2020251102194513.png)
+![](/IoM/assets/Pasted%20image%2020251102194513.png)
 
 
 
@@ -45,7 +45,7 @@
   }
 }
 ```
-![](Pasted%20image%2020251102194506.png)
+![](/IoM/assets/Pasted%20image%2020251102194506.png)
 
 
 ### 使用场景
