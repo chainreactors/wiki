@@ -139,6 +139,13 @@ nav:
             - build: IoM/manual/implant/build.md
             - modules: IoM/manual/implant/modules.md
             - malefic-win-kit: IoM/manual/implant/win_kit.md
+        - integrate:
+            - index: IoM/manual/integrate/index.md
+            - SDK:
+                - index: IoM/manual/integrate/sdk/index.md
+                - Python: IoM/manual/integrate/sdk/python.md
+            - FFI: IoM/manual/integrate/ffi.md
+            - AI Integration: IoM/manual/integrate/ai.md
       - Changelog:
         - v0.1.1: blog/2025/07/09/IoM_v0.1.1/
         - v0.1.0: blog/2025/04/14/IoM_v0.1.0/
