@@ -26,13 +26,10 @@ rem 可以让工件们不落地, 可以让 mapping 从 EASM 接入到内网, 可
 ### release
 
 
-community: https://github.com/chainreactors/rem-community  
+rem : https://github.com/chainreactors/rem
 
-**community 在主体功能上与professional完全一致, 仅在对抗上有区别**
 
-professional: https://github.com/chainreactors/rem/ (不对外开放，接受定制化开发)
-
-professinal feature:
+高级特性 :
 
 !!! example "Features."
 
