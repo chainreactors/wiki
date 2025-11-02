@@ -74,7 +74,7 @@ community版本的resources随着malefic发布时的 release 发布: https://git
 
 resources下载解压后，目录结构如下:
 
-![](/IoM/assets/Pasted%20image%2020241122223133.png)
+![](../../assets/Pasted image 20241122223133.png)
 
 ---
 
@@ -146,7 +146,7 @@ docker run -v "$(pwd):/root/src" -v "$(pwd)/cache/registry:/root/cargo/registry"
 
 首先, 你需要git clone一份malefic源码，并push到一份到你的仓库(建议设置私人仓库)，并开启github action功能，参考下图:
 
-![](/IoM/assets/enable-github-action.png)
+![](../../assets/enable-github-action.png)
 
 然后, 在本地安装[gh cli](https://docs.github.com/zh/github-cli/github-cli/quickstart)工具，通过设置`GH_TOKEN`环境变量或`gh auth login`登录你的github账号，然后执行如下命令即可编译.
 
@@ -182,7 +182,7 @@ gh workflow run generate.yaml -f package="modules" -f malefic_modules_features="
 编译完成后你可以通过`gh run list --workflow=generate.yaml -R <username/malefic>`查看编译结果，
 通过`gh run download <run_id> -R <username/malefic>`下载对应的二进制文件.
 
-![](/IoM/assets/gh-run-list-download.png)
+![](../../assets/gh-run-list-download.png)
 
 ### 2.3 本机编译
 
@@ -278,7 +278,7 @@ sudo apt install -y openssl libssl-dev libudev-dev cmake llvm clang musl-tools b
 	
 	用法参考下图:
 	
-	![switch mingw](/IoM/assets/switch-mingw-in-powershell.png)
+	![switch mingw](../../assets/switch-mingw-in-powershell.png)
 
 #### 编译步骤
 
@@ -400,7 +400,7 @@ malefic_mutant build modules --target x86_64-pc-windows-gnu
 
 ## 第三部分：Mutant 工具
 
-malefic 在v0.0.3中解耦为多个组件并新增了大量组件，可预见的将会有更多组件和模块出现在项目中， 因此配置生成/管理工具刻不容缓， 之前的 config 已经无法满足当前的需求， 我们新增了 malefic-mutant 代替原有的malefic-config。
+malefic 在v0.0.3中解耦为多个组件并新增了大量组件，可预见的将会有更多组件和模块出现在项目中， 因此配置生成/管理工具刻不容缓， 之前的 config 已经无法满足当前的需求， 我们新增了 malefic-mutant 代替原有的malefic-config
 
 在设计中， mutant 的定位相当于 MSF venom， 可以动态解析和更改配置以动态生成代码， 也可以通过需求动态生成 shellcode 的 raw 文件.
 
