@@ -44,7 +44,7 @@ zombie是gogo设计之初就诞生的一个计划, 中间写了好几版(早期�
 
 `hashcat --stdout -r /usr/share/hashcat/rules/rockyou-30000.rule word.txt >wordlist.txt`
 
-这个规则库不止一次给我带来惊喜.  相信你也值得有用. (这个规则库已经在zombie中实现, 见: https://chainreactors.github.io/wiki/zombie/start/#_2)
+这个规则库不止一次给我带来惊喜.  相信你也值得有用. (这个规则库已经在zombie中实现, 见: https://chainreactors.github.io/wiki/zombie/start/#密码生成器)
 
 而问题在于hashcat的rulebase竟然没有其他语言的实现, 于是我手搓了一个简单的dsl---[words](https://github.com/chainreactors/words), 实现了hashcat的rule与mask的大部分功能. 
 

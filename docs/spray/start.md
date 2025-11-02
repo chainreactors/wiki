@@ -306,7 +306,7 @@ spray -u http://example.com -w '/{?0u#2}/{?01}' -d word0.txt -d word1.txt
 
 ### 基于规则的字典生成
 
-words 生成器的详细使用参见[words 文档](chainreactors.github.io/wiki/libs/words/#_3)
+words 生成器的详细使用参见[words 文档](https://chainreactors.github.io/wiki/libs/words/#rule)
 
 当前内置的 spray 规则如下:
 
@@ -523,7 +523,7 @@ spray 默认输出到终端的格式是 human-like 文本. 并默认开启的 **
 - `stat`/`status`, 状态码
 - `spend`, 耗费的时间, 单位毫秒
 - `extract` 提取的结果
-- `frame` 指纹, 默认开启[被动指纹识别](https://chainreactors.github.io/wiki/gogo/design/#_12),
+- `frame` 指纹, 默认开启[被动指纹识别](https://chainreactors.github.io/wiki/gogo/design/#指纹识别),
 - `cpe` , `cpe:2.3:a:microsoft:windows_10:1909:*:*:*:*:*:*:*****`
 - `wfn` , `wfn:[part="a", vendor="microsoft", product="windows_10", version="1909"]`
 - `uri`, `cpe:/a:microsoft:windows_10:1909`
@@ -712,7 +712,7 @@ crawl 是基于linkfinder正则的大量优化后的插件, 比原生的linkfind
 ### active
 **仅brute可用**
 
-- `--active` 可以开启类似[gogo 的主动指纹识别](/gogo/extension/#_2), 并且添加`append`主动指纹字典
+- `--active` 可以开启类似[gogo 的主动指纹识别](/gogo/extension/#拓展指纹), 并且添加`append`主动指纹字典
 
 ### bak
 **仅brute可用**
@@ -732,7 +732,7 @@ crawl 是基于linkfinder正则的大量优化后的插件, 比原生的linkfind
 
 ### 自定义智能过滤
 
-智能过滤的逻辑很难用几行文字描述, 可以见[智能过滤逻辑](/spray/detail/#_1)
+智能过滤的逻辑很难用几行文字描述, 可以见[智能过滤逻辑](/spray/concept/#智能过滤)
 
 可以通过控制状态码列表自定义一部分的智能过滤逻辑.
 
@@ -768,7 +768,7 @@ expr 语法和 xray/github action 中差不多, spray 中绝大多数情况也�
 spray -u http://example.com -d word1.txt --match 'current.Body not contains "公益"'
 ```
 
-这里的 current 关键字表示当前的请求的 baseline. `current.Body`即为 baseline 结构体中的 Body 字段, baseline 结构体可以见 https://chainreactors.github.io/wiki/spray/detail/#baseline .
+这里的 current 关键字表示当前的请求的 baseline. `current.Body`即为 baseline 结构体中的 Body 字段, baseline 结构体可以见 https://chainreactors.github.io/wiki/spray/concept/#baseline .
 
 spray 获取的 baseline 也会被注册到将本语言中. `index` 表示 `index_baseline`, `random` 表示 `random_baseline`, `403bl` 表示如果第一个获取的状态码为 403 的请求. 如果之前没有 403, 则所有字段为空.
 
@@ -902,7 +902,7 @@ spray 并不鼓励使用递归, 因为 spray 的定位是批量从反代/cdn 中
 
 #### append-rule
 
-`--append-rule` 提供了在发现有效目录时的进一步基于规则的字典生成器. 其中规则的语法与[字典生成器](#_6)的规则用法一致
+`--append-rule` 提供了在发现有效目录时的进一步基于规则的字典生成器. 其中规则的语法与[字典生成器](#字典生成)的规则用法一致
 
 在 spray 中的用法:
 

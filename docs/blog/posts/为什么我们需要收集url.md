@@ -113,7 +113,7 @@ feroxbuster则通过page similarity(网页相似度)实现了一定程度的自�
 
 我们将这一套经验自动化, 写成了下一代目录fuzz工具 --- [spray](https://github.com/chainreactors/spray) 
 
-限于篇幅, 运作机制不在这里缀述. 可以参见wiki中的细节一章: https://chainreactors.github.io/wiki/spray/detail/#_2 . 
+限于篇幅, 运作机制不在这里缀述. 可以参见wiki中的细节一章: https://chainreactors.github.io/wiki/spray/design/#智能化 . 
 
 示例:
 

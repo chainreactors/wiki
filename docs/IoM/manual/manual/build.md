@@ -22,7 +22,7 @@ saas:
 
 !!! danger "安全警告"
 	使用默认提供的云编译服务视为同意用户协议
-	用户协议全文: https://wiki.chainreactors.red/IoM/#_4
+	用户协议全文: https://wiki.chainreactors.red/IoM/#用户协议
 	
 	如有安全顾虑，建议：
 	1. 关闭SaaS编译功能
@@ -93,10 +93,10 @@ build beacon --profile tcp_default --target x86_64-unknown-linux-musl --source a
 
 ??? info "(非必要)其他编译方式"
 	我们提供了如下几种方式进行编译：
-	
-    1. [本地编译](/IoM/manual/implant/build/#_4)
-    2. [Docker 编译(纯本地更安全)](/IoM/manual/implant/build/#docker)
-    3. [Github Action编译环境(0环境配置, 推荐)](/IoM/manual/implant/build/#github-action)
+
+    1. [本地编译](/IoM/manual/implant/build/#23-本机编译)
+    2. [Docker 编译(纯本地更安全)](/IoM/manual/implant/build/#21-docker-编译推荐)
+    3. [Github Action编译环境(0环境配置, 推荐)](/IoM/manual/implant/build/#22-github-action编译)
     
     编译完整说明手册[implant 手册](/IoM/manual/implant/build)
 
