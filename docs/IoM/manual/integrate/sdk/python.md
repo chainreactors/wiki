@@ -2,17 +2,16 @@
 
 IoM Python SDK 是一个现代异步客户端库，用于与 Malice Network C2 框架进行交互。
 
-> 完整文档和示例请参考：[Python SDK](https://github.com/chainreactors/malice-network/tree/master/sdk/python)
+> 完整文档和示例请参考：[Python SDK](https://github.com/chainreactors/IoM-python)
 
 ## 快速开始
 
 ### 安装
 
 ```bash
-git clone https://github.com/chainreactors/malice-network.git
-cd malice-network/sdk/python
+git clone https://github.com/chainreactors/IoM-python.git
+cd IoM-python
 pip install -e .
-python generate.py
 ```
 
 ### 最小示例
@@ -209,7 +208,7 @@ except MaliceError as e:
 
 ## 相关资源
 
-- [Python SDK 源码](https://github.com/chainreactors/malice-network/tree/master/sdk/python)
-- [示例代码](https://github.com/chainreactors/malice-network/tree/master/sdk/python/examples)
+- [Python SDK 源码](https://github.com/chainreactors/IoM-python)
+- [示例代码](https://github.com/chainreactors/IoM-python/tree/master/examples)
 - [IoM 核心概念](/IoM/concept/)
 - [Proto 协议定义](https://github.com/chainreactors/proto)
