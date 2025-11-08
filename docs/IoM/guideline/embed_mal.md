@@ -173,7 +173,7 @@ Flags如下：
 - --hostname 表示查询的主机名
 - --domain 表示查询的域名
 
-![img_5.png](ldapsearch_tui.png)
+![img.png](../assets/embed/usage/domain/ldapsearch.png)
 
 ### logonpassowrds
 
@@ -194,7 +194,7 @@ memoryinfo 用于获取系统内存信息
 memoryinfo
 ```
 
-![img_5.png](img_5.png)
+![img.png](../assets/embed/usage/common/memoryinfo.png)
 
 ### memoryreader
 
@@ -209,7 +209,7 @@ Flags如下：
 - --pattern 表示内存模式
 - --output-size 表示输出大小
 
-![img_7.png](img_7.png)
+![img_1.png](common/memoryreader.png)
 
 ### mimikatz
 
@@ -217,7 +217,7 @@ mimikatz 用于执行 mimikatz 命令, 用法与单行的mimikatz一致。
 
 ```
 mimikatz [command1] [command2] ...
-mimikatz "privilege::debug" "token::elevate" "lsadump::sam" 
+mimikatz "privilege::debug" "token::elevate" "lsadump::sam"
 ```
 
 (注意exit退出已经默认添加到结尾, 不需要手动添加, 上述命令等价于`mimikatz "privilege::debug" "token::elevate" "lsadump::sam" "exit"`
@@ -235,7 +235,7 @@ Flags如下：
 
 ![img_9.png](../../assets/embed/usage/nanodump_tui.png)
 
-### net 
+### net
 
 net 用于执行 net 命令, 用法与单行的 net 一致。
 
@@ -306,7 +306,7 @@ readfile --filepath [filepath]
 Flags如下：
 - --filepath 表示目标文件路径
 
-![img.png](readfile_tui.png)
+![img.png](common/readfile.png)
 
 ### route
 
@@ -355,6 +355,8 @@ Flags如下：
 ![img.png](../assets/embed/usage/wifi_enum_tui.png)
 
 ![img.png](../assets/embed/usage/wifi_dump.png)
+
+###
 
 ### load_prebuild
 
