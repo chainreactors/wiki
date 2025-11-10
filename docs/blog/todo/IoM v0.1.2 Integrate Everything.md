@@ -97,7 +97,9 @@ malefic-mutant tool strip -i malefic.exe -o malefic_stripped.exe
 
 #### malefic profiles
 
-由于malefic支持的功能越来越强大，如多种协议的支持，prelude的前置支持，我们把一些常见场景的配置文件公开到了 [IoM-profiles](https://github.com/chainreactors/IoM-profiles) 中作为参考。
+由于malefic支持的功能越来越强大，如多种协议的支持，prelude的前置支持...
+
+我们把一些常见场景的配置文件公开到了 [IoM-profiles](https://github.com/chainreactors/IoM-profiles) 中作为参考。
 
 #### Sleep与DGA
 
@@ -152,7 +154,7 @@ guardrail:
 
 交互式shell通过pty实现, 对应的指令为`interactive`.
 
-![img.png](IoM/assets/usage/implant/interactive-shell.png)
+![img.png](/IoM/assets/usage/implant/interactive-shell.png)
 
 
 ## End
