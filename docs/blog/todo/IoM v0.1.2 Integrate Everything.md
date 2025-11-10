@@ -71,14 +71,6 @@ https://github.com/chainreactors/malice-network/issues/45
 
 每个版本都能接收到使用过于繁琐复杂的反馈。我们在每个版本都尽力简化使用流程与用户体验。
 
-
-
-
-
-#### 自动化编译优化
-
-todo
-
 #### 插件优化
 
 https://github.com/chainreactors/malice-network/issues/65
@@ -105,6 +97,7 @@ malefic-mutant tool strip -i malefic.exe -o malefic_stripped.exe
 
 #### malefic profiles
 
+由于malefic支持的功能越来越强大，如多种协议的支持，prelude的前置支持，我们把一些常见场景的配置文件公开到了 [IoM-profiles](https://github.com/chainreactors/IoM-profiles) 中作为参考。
 
 #### Sleep与DGA
 
@@ -157,7 +150,9 @@ guardrail:
 
 #### Pty
 
-（待补充文档）
+交互式shell通过pty实现, 对应的指令为`interactive`.
+
+![img.png](IoM/assets/usage/implant/interactive-shell.png)
 
 
 ## End
