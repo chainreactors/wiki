@@ -141,6 +141,11 @@ malefic-mutant tool strip -i malefic.exe -o malefic_stripped.exe
 
 https://github.com/chainreactors/IoM-profiles/tree/master/prelude-persist
 
+```
+build prelude --autorun /path/2/IoM-profiles/prelude-persist.zip --target x86_64-pc-windows-gnu
+```
+
+![img.png](/IoM/assets/usage/build/prelude-persist-build.png)
 
 我们把一些常见场景的配置文件公开到了 [IoM-profiles](https://github.com/chainreactors/IoM-profiles) 中作为参考。
 
