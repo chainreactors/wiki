@@ -24,7 +24,7 @@ CobaltStrike最大的护城河是丝滑的GUI客户端， 稳定的beacon，以�
 
 ### GUI 客户端
 
-GUI 使用说明见 https://chainreactors.github.io/wiki/IoM/manual/manual/GUI/
+GUI 使用说明见 https://wiki.chainreactors.red/IoM/guideline/deploy/#%E5%AE%89%E8%A3%85gui
 
 showcase
 
