@@ -20,27 +20,31 @@ IoM 提供多种语言的 SDK，将 gRPC 能力封装为对应语言的原生 AP
 
 ### TypeScript SDK
 
-**状态：** 🛠️ 规划中
+共享的 gRPC 客户端库，用于 VSCode 扩展和 Web 应用开发。
 
-TypeScript SDK 将提供与 Python SDK 相同的功能和 API 设计。
-
-**预期特性：**
+**特性：**
 - 完整的 TypeScript 类型定义
-- Promise/async-await 支持
-- 自动 gRPC 方法转发
-- 会话管理和任务执行
+- 回调式 API
+- 支持 mTLS 认证
+- 适用于 VSCode 扩展和 Next.js 应用
+
+**状态：** ✅ 稳定
+
+[查看 TypeScript SDK 文档 →](typescript.md)
 
 ### Go SDK
 
-**状态：** 🛠️ 规划中
+官方 Golang SDK，提供高性能的原生 Go API。
 
-Go SDK 将提供高性能的原生 Go API。
-
-**预期特性：**
+**特性：**
 - 原生 Go 接口
 - 并发安全
-- 完整的错误处理
-- 类型安全
+- 事件流和观察者模式
+- 完整的会话和任务管理
+
+**状态：** ✅ 稳定
+
+[查看 Go SDK 文档 →](go.md)
 
 ## 核心概念
 
@@ -63,7 +67,9 @@ Go SDK 将提供高性能的原生 Go API。
 
 ## 相关资源
 
-- [Python SDK 源码](https://github.com/chainreactors/malice-network/tree/master/sdk/python)
+- [Python SDK 源码](https://github.com/chainreactors/IoM-python)
+- [Go SDK 源码](https://github.com/chainreactors/IoM-go)
+- [TypeScript SDK 源码](https://github.com/chainreactors/IoM-typescript)
 - [Proto 协议定义](https://github.com/chainreactors/proto)
 - [IoM 核心概念](/IoM/concept/)
 - [AI 集成文档](../ai.md)

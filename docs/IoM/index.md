@@ -40,39 +40,47 @@ v0.1.1极大简化了IoM的上手难度，大幅度提升了用户体验。我�
 
 [IoM架构与设计](/IoM/design/)
 
+[IoM基本概念](/IoM/concept)
+
 ## 快速入门
 
 [快速开始，开箱即用](/IoM/quickstart/)
 
 ## 架构/architecture
 
-IoM将由一系列仓库组成
-
-- **WIP** 🛠️ 表示将会实现; 
+- **WIP** 🛠️ 表示将会实现;
 - **Private** 🔒 表示已实现但不完善还需要调整因暂未公开, 但在发布计划中
 - **Professional** 👤 表示需要额外审核的用户可访问
-
 
 !!! important "文档中能见到的没有添加 🛠️, 🔒 ,  👤 标记的内容为已经开源的"
 	实际上server, client, listener, implant均已完全开源, 只有implant的一部分组件因为对抗的原因不能完全开源, 以lib的方式提供. 不影响编译, 使用, 二开.
 
-**主体框架**
+可以在 https://github.com/chainreactors/project-IoM 看到所有IoM 相关项目的索引。 
 
-* server+client+listener: https://github.com/chainreactors/malice-network
-* implant: https://github.com/chainreactors/malefic
-* 通讯协议(protobuf): https://github.com/chainreactors/proto
-* 插件仓库 : [mals](https://github.com/chainreactors/mals)
-	* 社区版默认插件包: [mal-community](https://github.com/chainreactors/mal-community)
-* 流量与代理: https://github.com/chainreactors/rem-community 
-
-**kits**
-是一些专注于opsec与edr对抗的插件包或各类小组件, 作为IoM的附加能力
-
-* malefic-win-kit , windows端工具包, 包含headlessPE, sleepmask, 进程注入, 进程镂空等等关于opsec的模块, 可以被implant热加载 (👤)
-* malefic-linux-kit (🛠️)
-* malefic-*os-kit (🛠️)
-* malefic-android-kit (🛠️)
-* mice (🔒), 持久性后门
+project-IoM/
+├── [malice-network](https://github.com/chainreactors/malice-network) - C2服务端和客户端
+├── implant/
+│   ├── [malefic](https://github.com/chainreactors/malefic) - 主植入体
+│   ├── [malefic-srid](https://github.com/chainreactors/malefic-srdi) - SRDI实现
+│   ├── [malefic-3rd-template](https://github.com/chainreactors/malefic-3rd-template) - 第三方模块模板
+│   └── [cross-rust](https://github.com/chainreactors/cross-rust) - 交叉编译Docker镜像
+├── third/
+│   └── [rem](https://github.com/chainreactors/rem) - 全场景代理工具
+├── [proto](https://github.com/chainreactors/proto) - 协议定义(protobuf)
+├── mals/
+│   ├── [mals](https://github.com/chainreactors/mals) - 插件框架
+│   ├── [mal-community](https://github.com/chainreactors/mal-community) - 社区插件
+│   └── [mal-intl](https://github.com/chainreactors/mal-intl) - community版本内置插件
+├── sdk/
+│   ├── [IoM-go](https://github.com/chainreactors/IoM-go) - Go SDK
+│   ├── [IoM-python](https://github.com/chainreactors/IoM-python) - Python SDK
+│   └── [IoM-typescript](https://github.com/chainreactors/IoM-typescript) - TypeScript SDK
+└── kits/
+    ├── malefic-win-kit - Windows端工具包 (👤)
+    ├── malefic-linux-kit - Linux端工具包 (🛠️)
+    ├── malefic-*os-kit - 其他OS工具包 (🛠️)
+    ├── malefic-android-kit - Android端工具包 (🛠️)
+    └── mice - 持久性后门 (🔒)
 
 ## 更新日志
 
@@ -82,6 +90,7 @@ IoM将由一系列仓库组成
 - [v0.0.4 Bootstrapping](/blog/2025/01/02/IoM_v0.0.4/)
 - [v0.1.0 代替CobaltStrike的最后四块碎片](/blog/2025/04/14/IoM_v0.1.0/)
 - [v0.1.1 Out of the Box 开箱即用](/blog/2025/07/09/IoM_v0.1.1/)
+- [v0.1.2 Integrate  Everything](/2025/11/10/IoM_v0.1.2/)
 
 **Advanced Posts:**
 
