@@ -8,7 +8,7 @@ slug: IoM_v0.1.2
 
 离上次更新又过去了四个月。 IoM 在快速演进中。 我们再一次对implant 到 server的全方面优化。 
 
-我们近期的工作主要在 AI、三语言SDK、saas使用体验优化、以及GUI相关（gui不在本次更新中发布，预计11月底发布新的vscode插件/webui），以及大量的用户体验改进与bug修复。
+我们近期的工作主要在 AI、三语言SDK、saas使用体验优化、以及web GUI相关（gui不在本次更新中发布，预计11月底发布新的vscode插件/webui），以及大量的用户体验改进与bug修复。
 
 v0.1.2 提供了各种层面的互操作能力， 包括
 
@@ -17,25 +17,12 @@ v0.1.2 提供了各种层面的互操作能力， 包括
 - 通过golang/typescript/python SDK实现的grpc client 调用teamserver上的rpc
 - 通过implant module template实现基于rust编写module并且动态加载
 
-这将是未来IoM最大的优势，允许被继承到任意的组件中， 也允许任意集成三分组件。 
+目前的IoM的组件越来越复杂， 我们提供了一个统一的导航项目方便找到IoM的各种组件。  https://github.com/chainreactors/project-IoM
+
+这将是未来IoM最大的优势，允许被继承到任意的组件中， 也允许任意集成三方组件。我们计划成为开放的基础设施， 更希望与AI深度绑定。  
+
 
 ## Integrate
-### FFI integrated --- 任意语言的implant
-
-为了让IoM的能力能够被更多语言和场景使用，我们将Windows端的核心攻击能力封装为[Malefic-Win-Kit](../manual/implant/win_kit.md) DLL。通过标准C ABI接口，支持PE执行、反射加载、代码注入、BOF、EDR绕过等功能的多语言调用。这使得安全研究人员可以使用Python、Go、C#等熟悉的语言快速构建自定义工具，而无需深入Rust底层实现。
-
-```python
-# Python调用示例 - 在牺牲进程中执行PE
-import ctypes
-dll = ctypes.CDLL("malefic_win_kit.dll")
-result = dll.RunPE("C:\\Windows\\System32\\notepad.exe", pe_data, len(pe_data), b"--help", 0, True, False)
-```
-
-支持语言: C, Go, Rust, Python, C#
-
-**相关文档:**
-- [FFI集成指南](../manual/integrate/ffi.md) - 多语言调用方式与API说明
-- [Win-Kit完整文档](../manual/implant/win_kit.md) - 所有可用功能与参数详解
 
 ### MCP --- 与AI集成
 
@@ -54,6 +41,24 @@ result = dll.RunPE("C:\\Windows\\System32\\notepad.exe", pe_data, len(pe_data), 
 **相关文档:**
 - [AI集成完整指南](../manual/integrate/ai.md) - MCP服务器配置、客户端对接与使用场景
 
+### FFI integrated --- 任意语言的implant
+
+为了让IoM的能力能够被更多语言和场景使用，我们将Windows端的核心攻击能力封装为[Malefic-Win-Kit](../manual/implant/win_kit.md) DLL。通过标准C ABI接口，支持PE执行、反射加载、代码注入、BOF、EDR绕过等功能的多语言调用。这使得安全研究人员可以使用Python、Go、C#等熟悉的语言快速构建自定义工具，而无需深入Rust底层实现。
+
+```python
+# Python调用示例 - 在牺牲进程中执行PE
+import ctypes
+dll = ctypes.CDLL("malefic_win_kit.dll")
+result = dll.RunPE("C:\\Windows\\System32\\notepad.exe", pe_data, len(pe_data), b"--help", 0, True, False)
+```
+
+支持语言: C, Go, Rust, Python, C#
+
+**相关文档:**
+- [FFI集成指南](../manual/integrate/ffi.md) - 多语言调用方式与API说明
+- [Win-Kit完整文档](../manual/implant/win_kit.md) - 所有可用功能与参数详解
+
+
 ### SDK ---  client的多语言SDK
 
 为了让IoM能够被更广泛的场景集成，我们提供了[三语言SDK](../manual/integrate/sdk/index.md)（Python/Go/TypeScript），将数百个gRPC方法封装为符合各语言习惯的原生API。
@@ -68,13 +73,15 @@ result = dll.RunPE("C:\\Windows\\System32\\notepad.exe", pe_data, len(pe_data), 
 
 为了保持implant主体的最小化依赖和灵活性，我们将所有需要第三方依赖的功能模块独立为3rd module。本次更新提供了[第三方模块开发模板](https://github.com/chainreactors/malefic-3rd-template)，支持通过Cargo features选择性构建和动态加载。开发者可以基于模板快速开发自定义模块，编译为DLL后通过`load_module`命令热加载到implant中，无需重新编译主体。这种设计既保证了implant的轻量化，又提供了无限的扩展可能。
 
+在3rdmodule中， 我们没有束缚， 不需要考虑依赖， 可以放心大胆的引入各种rust库， 实现各种各样的功能。 在AI coding的加持下，我们可以复用rust丰富的 offensive infra的生态。 
+
 **相关文档:**
 - [3rd模块开发模板](https://github.com/chainreactors/malefic-3rd-template) - 模块开发框架、示例代码与构建指南
 - [内置3rd模块集合](https://github.com/chainreactors/malefic/tree/master/malefic-3rd) - Community版本公开的3rd模块源码  
 
 ## Changelog
 
-大量新功能、用户体验优化、bug修复
+大量新功能、用户体验优化、bug修复。 
 
 ### Client/Server
 
@@ -118,7 +125,7 @@ https://github.com/chainreactors/malice-network/issues/65
 ### Implant
 #### mutant 大量新功能
 
-malefic-mutant新增SRDI转换、签名伪造、二进制剥离、格式转换、运行时补丁等功能，成为功能完整的二进制处理工具链。
+malefic-mutant新增SRDI转换、签名伪造、二进制剥离、格式转换、运行时补丁等功能，成为功能完整的二进制处理工具链。我们的mutant越来越接近msfvenom。
 
 ```bash
 # SRDI转换 - PE转shellcode
@@ -215,4 +222,5 @@ v0.1.2 是一个承前启后的版本， 这个版本之后， 我们将全力�
 
 - 我们可以快速使用 IoM提供的各种组件基于AI coding 快速在1小时内编写全新的implant；
 - 可以基于AI几分钟内编写新的功能性插件； 
-- 可以直接被AI操作用来进行自动化后渗透
+- 可以直接被agent操作用来进行自动化后渗透；
+- 发布webui以及插件的自动UI渲染
