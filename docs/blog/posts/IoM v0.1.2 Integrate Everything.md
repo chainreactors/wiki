@@ -27,7 +27,7 @@ v0.1.2 提供了各种层面的互操作能力， 包括
 ### MCP --- 与AI集成
 
 
-通过[Model Context Protocol](/IoM/manual/integrate/ai.md)集成，IoM支持AI代理直接操作的C2框架。AI可以通过自然语言理解渗透测试需求，自动调用IoM的所有客户端功能，实现智能化的渗透测试和自动化响应。支持Claude Desktop等MCP客户端，只需简单配置即可让AI成为你的渗透测试助手。
+通过[Model Context Protocol](/IoM/manual/integrate/ai)集成，IoM支持AI代理直接操作的C2框架。AI可以通过自然语言理解渗透测试需求，自动调用IoM的所有客户端功能，实现智能化的渗透测试和自动化响应。支持Claude Desktop等MCP客户端，只需简单配置即可让AI成为你的渗透测试助手。
 
 ```bash
 # 启动MCP服务器
@@ -39,11 +39,11 @@ v0.1.2 提供了各种层面的互操作能力， 包括
 ![MCP集成示例](/IoM/assets/Pasted image 20251102194513.png)
 
 **相关文档:**
-- [AI集成完整指南](/IoM/manual/integrate/ai.md) - MCP服务器配置、客户端对接与使用场景
+- [AI集成完整指南](/IoM/manual/integrate/ai) - MCP服务器配置、客户端对接与使用场景
 
 ### FFI integrated --- 任意语言的implant
 
-为了让IoM的能力能够被更多语言和场景使用，我们将Windows端的核心攻击能力封装为[Malefic-Win-Kit](/IoM/manual/implant/win_kit.md) DLL。通过标准C ABI接口，支持PE执行、反射加载、代码注入、BOF、EDR绕过等功能的多语言调用。这使得安全研究人员可以使用Python、Go、C#等熟悉的语言快速构建自定义工具，而无需深入Rust底层实现。
+为了让IoM的能力能够被更多语言和场景使用，我们将Windows端的核心攻击能力封装为[Malefic-Win-Kit](/IoM/manual/implant/win_kit) DLL。通过标准C ABI接口，支持PE执行、反射加载、代码注入、BOF、EDR绕过等功能的多语言调用。这使得安全研究人员可以使用Python、Go、C#等熟悉的语言快速构建自定义工具，而无需深入Rust底层实现。
 
 ```python
 # Python调用示例 - 在牺牲进程中执行PE
@@ -55,16 +55,16 @@ result = dll.RunPE("C:\\Windows\\System32\\notepad.exe", pe_data, len(pe_data), 
 支持语言: C, Go, Rust, Python, C#
 
 **相关文档:**
-- [FFI集成指南](/IoM/manual/integrate/ffi.md) - 多语言调用方式与API说明
-- [Win-Kit完整文档](/IoM/manual/implant/win_kit.md) - 所有可用功能与参数详解
+- [FFI集成指南](/IoM/manual/integrate/ffi) - 多语言调用方式与API说明
+- [Win-Kit完整文档](/IoM/manual/implant/win_kit) - 所有可用功能与参数详解
 
 
 ### SDK ---  client的多语言SDK
 
-为了让IoM能够被更广泛的场景集成，我们提供了[三语言SDK](/IoM/manual/integrate/sdk/index.md)（Python/Go/TypeScript），将数百个gRPC方法封装为符合各语言习惯的原生API。
+为了让IoM能够被更广泛的场景集成，我们提供了[三语言SDK](/IoM/manual/integrate/sdk/index)（Python/Go/TypeScript），将数百个gRPC方法封装为符合各语言习惯的原生API。
 
 - [Go SDK](https://github.com/chainreactors/IoM-go)提供事件钩子和任务回调机制，适合构建高性能工具；从malice-network的client中剥离出来的， 相对使用时间最长， bug相对较少的SDK
-- [Python SDK](/IoM/manual/integrate/sdk/python.md) （Unstable） 提供完整的async/await支持和类型提示，适合自动化脚本和AI集成；
+- [Python SDK](/IoM/manual/integrate/sdk/python) （Unstable） 提供完整的async/await支持和类型提示，适合自动化脚本和AI集成；
 - [TypeScript SDK](https://github.com/chainreactors/IoM-typescript) （Unstable）为VSCode扩展和Web UI提供类型安全的客户端，正在快速迭代中
 
 我们计划在v0.2.0 之前三语言的SDK达到可用状态， 并且每个SDK都会有一些落地常见。 例如webui， cli， IoM agent等。
@@ -138,7 +138,7 @@ malefic-mutant tool sigforge copy -s legitimate.exe -t malefic.exe -o malefic_si
 malefic-mutant tool strip -i malefic.exe -o malefic_stripped.exe
 ```
 
-参考: [Mutant文档](/IoM/manual/mutant/malefic_mutant.md) | [构建文档](/IoM/manual/implant/build.md)
+参考: [Mutant文档](/IoM/manual/mutant/malefic_mutant) | [构建文档](/IoM/manual/implant/build)
 
 #### malefic profiles
 
@@ -177,7 +177,7 @@ dga:
 sleep(active(), 10)  -- 设置为10秒
 ```
 
-参考: [构建文档](/IoM/manual/implant/build.md#sleep配置) | [Beacon文档](/IoM/manual/mal/beacon.md)
+参考: [构建文档](/IoM/manual/implant/build#sleep配置) | [Beacon文档](/IoM/manual/mal/beacon)
 
 #### Guardrail
 
@@ -203,7 +203,7 @@ guardrail:
     - "192.168.20.*"
 ```
 
-参考: [Guardrail文档](/IoM/guideline/advance/Guardrail.md)
+参考: [Guardrail文档](/IoM/guideline/advance/Guardrail)
 
 #### Pty
 
