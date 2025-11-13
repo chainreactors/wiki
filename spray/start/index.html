@@ -1,0 +1,5861 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="chainreactors wiki">
+      
+      
+        <meta name="author" content="M09ic">
+      
+      
+        <link rel="canonical" href="https://wiki.chainreactors.red/wiki/spray/start/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../design/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>spray · 入门 - ChainReactor Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-DCRVR86FG2"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-DCRVR86FG2",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-DCRVR86FG2",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#feature" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ChainReactor Wiki" class="md-header__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ChainReactor Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              spray · 入门
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  导航
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../IoM/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  IoM
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../gogo/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  gogo
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  spray
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../zombie/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  zombie
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../rem/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  rem
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../libs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  libs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mapping/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Preview
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../blog/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ChainReactor Wiki" class="md-nav__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ChainReactor Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    导航
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../IoM/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IoM
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    IoM
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concept
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RoadMap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../IoM/guideline/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guideline
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guideline
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/guideline/deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安装部署
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/guideline/listener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Listener
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/guideline/payload/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payload
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/guideline/post_exploitation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后渗透基本操作
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/guideline/embed_mal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内置插件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/guideline/proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    代理/隧道
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6_8" id="__nav_2_6_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高级用法
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    高级用法
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/guideline/advance/DumpLSASS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DumpLSASS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/guideline/advance/DomainFronting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DomainFronting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/guideline/advance/Multi-Server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MultiServer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/guideline/advance/Guardrail/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guardrail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../IoM/guideline/develop/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DevelopGuide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6_9" id="__nav_2_6_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    DevelopGuide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/mal/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mal快速入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/guideline/develop/server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Server开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/guideline/develop/client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Client开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/guideline/develop/implant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implant开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../IoM/manual/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manual
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Manual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../IoM/manual/manual/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    client/server
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_2" id="__nav_2_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    client/server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/manual/deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install&deploy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/manual/listener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    listener
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/manual/build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/manual/client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    client usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/manual/implant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    implant usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../IoM/manual/mal/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mals插件生态
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_3" id="__nav_2_7_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mals插件生态
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/mal/embed/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    embed
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7_3_3" id="__nav_2_7_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lua
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_7_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    lua
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/mal/builtin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    builtin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/mal/beacon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    beacon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/mal/rpc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rpc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7_4" id="__nav_2_7_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mutant
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mutant
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/mutant/malefic_mutant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../IoM/manual/implant/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    implant
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_5" id="__nav_2_7_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    implant
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/implant/build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/implant/modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/implant/win_kit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    malefic-win-kit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../IoM/manual/integrate/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    integrate
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_6" id="__nav_2_7_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    integrate
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_6_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../IoM/manual/integrate/sdk/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_6_2" id="__nav_2_7_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_7_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    SDK
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/integrate/sdk/go/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Golang
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/integrate/sdk/python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python(Untable)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/integrate/sdk/typescript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typescript(Unstable)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/integrate/ffi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FFI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IoM/manual/integrate/ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Changelog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/2025/11/10/IoM_v0.1.2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/2025/07/09/IoM_v0.1.1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/2025/04/14/IoM_v0.1.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/2025/01/02/IoM_v0.0.4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/2024/11/20/IoM_v0.0.3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/2024/09/23/IoM_v0.0.2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/2024/08/16/IoM_introduce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../gogo/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    gogo
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    gogo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gogo/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gogo/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gogo/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    细节
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gogo/extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拓展
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gogo/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    spray
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    spray
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        QuickStart
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="QuickStart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#基本信息探测" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本信息探测
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#爆破模式" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        爆破模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#字典生成" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        字典生成
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="字典生成">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#内置字典" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        内置字典
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#基于掩码的字典生成" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基于掩码的字典生成
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基于掩码的字典生成">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#语法基本介绍" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        语法基本介绍
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#基于规则的字典生成" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基于规则的字典生成
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#预配置的便捷用法" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        预配置的便捷用法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Input
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Input">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#速率限制" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        速率限制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#爆破方式" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        爆破方式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        client
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#请求自定义" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        请求自定义
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#输出流" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        输出流
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#输出到文件" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        输出到文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extract提取器" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        extract/提取器
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#拓展插件" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        拓展插件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="拓展插件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#finger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        finger
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        recon
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crawl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        crawl
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#active" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        active
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bak
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        common
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advance-feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advance Feature
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advance Feature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#自定义智能过滤" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        自定义智能过滤
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#自定义表达式过滤" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        自定义表达式过滤
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="自定义表达式过滤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#custom-match" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        custom match
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        custom filter
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#手动配置过滤器" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手动配置过滤器
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unique-过滤器" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        unique 过滤器
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#断点续传" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        断点续传
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#递归" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        递归
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#轻量级递归" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        轻量级递归
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="轻量级递归">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#append" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        append
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#append-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        append-rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#todo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TODO
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    细节
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../zombie/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    zombie
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    zombie
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zombie/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zombie/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zombie/extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拓展
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../rem/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rem
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    rem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rem/usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rem/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概念
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rem/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rem/changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../libs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    libs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    libs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../libs/neutron/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    neutron
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    neutron
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../libs/neutron/update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    update
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../libs/words/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    words
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    words
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../libs/fingers/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    fingers
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_4" id="__nav_7_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    fingers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../libs/fingers/rule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../libs/fingers/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../libs/proxyclient/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    proxyclient
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_5" id="__nav_7_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    proxyclient
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../libs/proxyclient/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preview
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preview
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mapping/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mapping
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mapping
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mapping/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../blog/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9" id="__nav_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>入门</h1>
+
+<h2 id="feature">Feature<a class="headerlink" href="#feature" title="Permanent link">&para;</a></h2>
+<div class="admonition example">
+<p class="admonition-title">Features.</p>
+<ul>
+<li>超强的性能, 在本地测试极限性能的场景下, 能超过 ffuf 与 feroxbruster 的性能 50%以上.</li>
+<li>基于掩码的字典生成</li>
+<li>基于规则的字典生成</li>
+<li>动态智能过滤</li>
+<li>全量 gogo 的指纹识别</li>
+<li>自定义信息提取, 如 ip,js, title, hash 以及自定义的正则表达式</li>
+<li>自定义无效页面过滤策略</li>
+<li>自定义输出格式 * _nix 的命令行设计, 轻松与其他工具联动</li>
+<li>多角度的自动被 ban,被 waf 判断</li>
+<li>断点续传</li>
+<li>通用文件, 备份文件, 单个文件备份, 爬虫, 主动指纹识别的完美结合</li>
+</ul>
+</div>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<p><code>spray -h</code></p>
+<p>完整的参数说明</p>
+<div class="highlight"><pre><span></span><code>Usage:
+    ./spray
+
+Input Options:
+      --resume=                     File, resume filename
+  -c, --config=                     File, config filename
+  -u, --url=                        Strings, input baseurl, e.g.: http://google.com
+  -l, --list=                       File, input filename
+  -p, --port=                       String, input port range, e.g.: 80,8080-8090,db
+  -i, --cidr=                       String, input cidr, e.g.: 1.1.1.1/24
+      --raw=                        File, input raw request filename
+  -d, --dict=                       Files, Multi,dict files, e.g.: -d 1.txt -d 2.txt
+  -D, --default                     Bool, use default dictionary
+  -w, --word=                       String, word generate dsl, e.g.: -w test{?ld#4}
+  -r, --rules=                      Files, rule files, e.g.: -r rule1.txt -r rule2.txt
+      --append-rule=                Files, when found valid path , use append rule generator new word with current path
+      --filter-rule=                String, filter rule, e.g.: --rule-filter &#39;&gt;8 &lt;4&#39;
+      --append=                     Files, when found valid path , use append file new word with current path
+      --offset=                     Int, wordlist offset
+      --limit=                      Int, wordlist limit, start with offset. e.g.: --offset 1000 --limit 100
+
+Function Options:
+  -e, --extension=                  String, add extensions (separated by commas), e.g.: -e jsp,jspx
+      --force-extension             Bool, force add extensions
+      --exclude-extension=          String, exclude extensions (separated by commas), e.g.: --exclude-extension jsp,jspx
+      --remove-extension=           String, remove extensions (separated by commas), e.g.: --remove-extension jsp,jspx
+  -U, --uppercase                   Bool, upper wordlist, e.g.: --uppercase
+  -L, --lowercase                   Bool, lower wordlist, e.g.: --lowercase
+      --prefix=                     Strings, add prefix, e.g.: --prefix aaa --prefix bbb
+      --suffix=                     Strings, add suffix, e.g.: --suffix aaa --suffix bbb
+      --replace=                    Strings, replace string, e.g.: --replace aaa:bbb --replace ccc:ddd
+      --skip=                       String, skip word when generate. rule, e.g.: --skip aaa
+
+Output Options:
+      --match=                      String, custom match function, e.g.: --match &#39;current.Status != 200&#39;&#39;
+      --filter=                     String, custom filter function, e.g.: --filter &#39;current.Body contains &quot;hello&quot;&#39;
+      --fuzzy                       String, open fuzzy output
+  -f, --file=                       String, output filename
+      --dump-file=                  String, dump all request, and write to filename
+      --dump                        Bool, dump all request
+      --auto-file                   Bool, auto generator output and fuzzy filename
+  -F, --format=                     String, output format, e.g.: --format 1.json
+  -j, --json                        Bool, output json
+  -O, --file-output                 String, file output format, json/csv
+  -o, --probe=                      String, output format
+  -q, --quiet                       Bool, Quiet
+      --no-color                    Bool, no color
+      --no-bar                      Bool, No progress bar
+      --no-stat                     Bool, No stat file output
+
+Plugin Options:
+  -a, --advance                     Bool, enable all plugin
+      --extract=                    Strings, extract response, e.g.: --extract js --extract ip --extract version:(.*?)
+      --extract-config=             String, extract config filename
+      --active                      Bool, enable active finger path
+      --recon                       Bool, enable recon
+      --bak                         Bool, enable bak found
+      --common                      Bool, enable common file found
+      --crawl                       Bool, enable crawl
+      --crawl-depth=                Int, crawl depth (default: 3)
+
+Finger Options:
+      --finger                      Bool, enable active finger detect
+      --update                      Bool, update finger database
+      --finger-path=                String, 3rd finger config path (default: fingers)
+      --finger-engine=              String, custom finger engine, e.g. --finger-engine ehole,goby (default: all)
+
+Request Options:
+  -x, --method=                     String, request method, e.g.: --method POST (default: GET)
+      --header=                     Strings, custom headers, e.g.: --headers &#39;Auth: example_auth&#39;
+      --user-agent=                 String, custom user-agent, e.g.: --user-agent Custom
+      --random-agent                Bool, use random with default user-agent
+      --cookie=                     Strings, custom cookie
+      --read-all                    Bool, read all response body
+      --max-length=                 Int, max response body length (kb), -1 read-all, 0 not read body, default 100k, e.g. --max-length 1000 (default: 100)
+
+Modify Options:
+      --rate-limit=                 Int, request rate limit (rate/s), e.g.: --rate-limit 100 (default: 0)
+      --force                       Bool, skip error break
+      --no-scope                    Bool, no scope
+      --scope=                      String, custom scope, e.g.: --scope *.example.com
+      --recursive=                  String,custom recursive rule, e.g.: --recursive current.IsDir() (default: current.IsDir())
+      --depth=                      Int, recursive depth (default: 0)
+      --index=                      String, custom index path (default: /)
+      --random=                     String, custom random path
+      --check-period=               Int, check period when request (default: 200)
+      --error-period=               Int, check period when error (default: 10)
+      --error-threshold=            Int, break when the error exceeds the threshold (default: 20)
+      --black-status=               Strings (comma split),custom black status (default: 400,410)
+      --white-status=               Strings (comma split), custom white status (default: 200)
+      --fuzzy-status=               Strings (comma split), custom fuzzy status (default: 500,501,502,503,301,302)
+      --unique-status=              Strings (comma split), custom unique status (default: 403,200,404)
+      --unique                      Bool, unique response
+      --retry=                      Int, retry count (default: 0)
+      --sim-distance=
+
+Miscellaneous Options:
+  -m, --mod=[path|host]             String, path/host spray (default: path)
+  -C, --client=[fast|standard|auto] String, Client type (default: auto)
+      --deadline=                   Int, deadline (seconds) (default: 999999)
+  -T, --timeout=                    Int, timeout with request (seconds) (default: 5)
+  -P, --pool=                       Int, Pool size (default: 5)
+  -t, --thread=                     Int, number of threads per pool (default: 20)
+      --debug                       Bool, output debug info
+      --version                     Bool, show version
+  -v                                Bool, log verbose level ,default 0, level1: -v level2 -vv
+      --proxy=                      String, proxy address, e.g.: --proxy socks5://127.0.0.1:1080
+      --init                        Bool, init config file
+      --print                       Bool, print preset all preset config
+
+Help Options:
+  -h, --help                        Show this help message
+</code></pre></div>
+<h2 id="quickstart">QuickStart<a class="headerlink" href="#quickstart" title="Permanent link">&para;</a></h2>
+<p>当前有两种运行模式, 爆破模式和基本模式.  这两种模式会自动切换, 不需要用户手动指定。 </p>
+<p><em>所有需要基线进行智能过滤的功能都会打开爆破模式, 不需要上下文的功能会使用基本信息收集模式</em> </p>
+<h3 id="基本信息探测">基本信息探测<a class="headerlink" href="#基本信息探测" title="Permanent link">&para;</a></h3>
+<p>指定url进行探测</p>
+<div class="highlight"><pre><span></span><code>spray -u http://example.com -u http://test.com
+</code></pre></div>
+<p>通过文件批量指定url</p>
+<div class="highlight"><pre><span></span><code>spray -l 1.txt
+</code></pre></div>
+<p>最大能力的信息收集, 打开全部指纹引擎, 打开全部配置的extractor</p>
+<div class="highlight"><pre><span></span><code>spray -l 1.txt --finger --recon
+</code></pre></div>
+<p>端口扫描与网段扫描</p>
+<p>可以实现类似gogo的配置, 但是是只能用来识别http协议</p>
+<div class="highlight"><pre><span></span><code>spray -i 1.1.1.1/24 -p top2
+</code></pre></div>
+<p>域名+端口的探测</p>
+<div class="highlight"><pre><span></span><code>spray -u example.com -p top2
+</code></pre></div>
+<h3 id="爆破模式">爆破模式<a class="headerlink" href="#爆破模式" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">注意</p>
+<p>基本信息探测中的用法都可以在爆破模式中使用, 但请注意爆破模式会消耗更多的资源</p>
+</div>
+<p>基本使用, <strong>从字典中读取目录进行爆破</strong></p>
+<div class="highlight"><pre><span></span><code>spray -u http://example.com -d wordlist1.txt -d wordlist2.txt
+</code></pre></div>
+<p><strong>通过掩码生成字典进行爆破</strong></p>
+<div class="highlight"><pre><span></span><code>spray -u http://example.com -w &quot;/aaa/bbb{?l#4}/ccc&quot;
+</code></pre></div>
+<p><strong>通过规则生成字典爆破</strong>. 规则文件格式参考 hashcat 的字典生成规则</p>
+<div class="highlight"><pre><span></span><code>spray -u http://example.com -r rule.txt -d 1.txt
+</code></pre></div>
+<p><strong>批量爆破</strong></p>
+<div class="highlight"><pre><span></span><code>spray -l url.txt -r rule.txt -d 1.txt
+</code></pre></div>
+<p><strong>断点续传</strong></p>
+<div class="highlight"><pre><span></span><code>spray --resume stat.json
+</code></pre></div>
+<p><strong>host爆破</strong></p>
+<div class="highlight"><pre><span></span><code>spray -m host -u http://123.123.123.123 -w &quot;{?0}.example.com&quot; -d 1.txt
+</code></pre></div>
+<p>1.txt:</p>
+<div class="highlight"><pre><span></span><code>aaa
+bbb
+ccc
+...
+</code></pre></div>
+<h2 id="字典生成">字典生成<a class="headerlink" href="#字典生成" title="Permanent link">&para;</a></h2>
+<h3 id="内置字典">内置字典<a class="headerlink" href="#内置字典" title="Permanent link">&para;</a></h3>
+<p>在v1.1.0中, spray新加入了内置字典相关功能. </p>
+<p>内置字典的配置位于 <a href="https://github.com/chainreactors/templates/tree/master/spray/dict">https://github.com/chainreactors/templates/tree/master/spray/dict</a></p>
+<p><em>(原先的common已经从<code>common.yaml</code>中迁移到dict中)</em></p>
+<p>可以使用<code>--print</code>看到当前所有当前内置的配置. </p>
+<p><img alt="" src="../assets/image_20240829143848.png" /></p>
+<div class="admonition warn">
+<p class="admonition-title">注意内置字典名字</p>
+<p>使用内置字典时, 不可以带后缀名用来与用户自定义字典区分. 例如dict目录下配置为<code>js.txt</code>, 在使用时请使用<code>-d js</code></p>
+</div>
+<p>可以同时使用多个内置字典与外部字典组合例如: </p>
+<p><code>spray -u http://example.txt -d js -d k8s -d custom.txt</code></p>
+<h3 id="基于掩码的字典生成">基于掩码的字典生成<a class="headerlink" href="#基于掩码的字典生成" title="Permanent link">&para;</a></h3>
+<p>为了实现这个功能, 编写了一门名为 mask 的模板语言. 代码位于: <a href="https://github.com/chainreactors/words/tree/master/mask">mask</a>.</p>
+<p><strong>简单使用:</strong> </p>
+<p><code>spray -u http://example.com -w '/{?l#3}/{?ud#3}</code></p>
+<p>含义为, <code>/全部三位小写字母/全部三位大写字母+数字</code>组成的字典.</p>
+<h4 id="语法基本介绍">语法基本介绍<a class="headerlink" href="#语法基本介绍" title="Permanent link">&para;</a></h4>
+<p>所有的 mask 生成器都需要通过<code>{}</code>包裹, 并且括号内的第一个字符必须为<code>?</code>, <code>$</code>其中之一.</p>
+<p><code>#</code>后的数字表示重复次数, 可留空, 例如<code>{?lu}</code> , 表示"全部小写字母+全部大写字母"组成的字典.</p>
+<ul>
+<li><code>?</code> 表示普通的笛卡尔积. 例如<code>{?l#3}</code>表示生成三位小写字母的所有可能组合</li>
+<li><code>$</code> 表示贪婪模式, 例如<code>{$l#3}</code>表示 3 位小写字母的所有可能组合+2 位小写字母的所有可能组合+1 位小写字母的所有可能组合</li>
+</ul>
+<p>掩码的定义参考了 hashcat, 但是并不完全相同. 目前可用的关键字如下表:</p>
+<div class="highlight"><pre><span></span><code>&quot;l&quot;: Lowercase,  // 26个小写字母
+&quot;u&quot;: Uppercase,  // 26个大写字母
+&quot;w&quot;: Letter,     // 52大写+小写字母
+&quot;d&quot;: Digit, // 数字0-9
+&quot;h&quot;: LowercaseHex, // 小写hex字符, 0-9 + a-f
+&quot;H&quot;: UppercaseHex, // 大写hex字符, 0-9 + A-F
+&quot;x&quot;: Hex,          // 大写+小写hex字符, 0-9 + a-f + A-F
+&quot;p&quot;: Punctuation,  // 特殊字符 !\&quot;#$%&amp;&#39;()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~
+&quot;P&quot;: Printable,    // 可见的ascii字符
+&quot;s&quot;: Whitespace,   // 空字符 \t\n\r\x0b\x0c
+</code></pre></div>
+<p>支持通过数字表示命令行输入的字典序号, 例如</p>
+<div class="highlight"><pre><span></span><code>spray -u http://example.com -w &#39;/{?0u#2}/{?01}&#39; -d word0.txt -d word1.txt
+</code></pre></div>
+<p>这里配置了两个掩码生成器</p>
+<ul>
+<li>第一个: <code>{?0u#2}</code>表示 word0.txt 的所有内容+所有大写字母笛卡尔积两次</li>
+<li>第二个: <code>{?01}</code> 表示 word0.txt + word1.txt 的所有内容.</li>
+</ul>
+<p>可以配置任意多个掩码生成器, 不同掩码生成器之间会进行笛卡尔积, 所以请注意字典大小.</p>
+<div class="admonition important">
+<p class="admonition-title"><code>-d</code>与基于掩码的生成器交互作用</p>
+<p>在使用<code>-d</code> 指定字典(不管是内置字典还是自定义字典) 都会将这个字典注册到掩码的数字中. 就像上文中出现的<code>{?01}</code>, 会按次序解析为word0.txt + word1.txt</p>
+</div>
+<p><strong>关于mask更多高级功能请见: <a href="https://chainreactors.github.io/wiki/libs/words/#20240521-updatec">https://chainreactors.github.io/wiki/libs/words/#20240521-updatec</a></strong></p>
+<h3 id="基于规则的字典生成">基于规则的字典生成<a class="headerlink" href="#基于规则的字典生成" title="Permanent link">&para;</a></h3>
+<p>words 生成器的详细使用参见<a href="https://chainreactors.github.io/wiki/libs/words/#rule">words 文档</a></p>
+<p>当前内置的 spray 规则如下:</p>
+<ul>
+<li><strong>自动生成权限绕过</strong> <a href="https://github.com/chainreactors/gogo-templates/blob/master/rule/authbypass.rule">点击查看规则</a></li>
+<li><strong>自动生成文件/目录备份</strong> <a href="https://github.com/chainreactors/gogo-templates/blob/master/rule/filebak.txt">点击查看规则</a></li>
+</ul>
+<p><strong>简单使用</strong></p>
+<div class="highlight"><pre><span></span><code>spray -u http://example.com -d word.txt -r rule.txt
+</code></pre></div>
+<p>这行命令表示, 将<code>word.txt</code>中每一行都作为基础值与规则库<code>rule.txt</code>进行 rule 模板语言处理过后的笛卡尔积. 最终的字典总数量为 <code>word行数 * rule行数</code>.</p>
+<p><strong>rule过滤器</strong></p>
+<div class="highlight"><pre><span></span><code>spray -u http://example.com -d word.txt --rule-filter &quot;&gt;15&quot;
+</code></pre></div>
+<p>这行命令表示, 指定字典, 并过滤掉长度大于 15 的字典.</p>
+<h3 id="预配置的便捷用法">预配置的便捷用法<a class="headerlink" href="#预配置的便捷用法" title="Permanent link">&para;</a></h3>
+<p>在使用基于掩码或基于规则的字段生成器时, 需要大量的手动配置和测试. 这很麻烦, 所以spray提供了一些预设快速实现一些常用配置. </p>
+<p>所有的预设实际上都是通过预先配置的<a href="https://github.com/chainreactors/words">words</a> 实现.</p>
+<p>通过words的掩码配置实现的: </p>
+<ol>
+<li><code>--suffix</code> 在字典后面添加后缀, 可添加多个, 与原有的字典组成笛卡尔积</li>
+<li><code>--prefix</code> 在字典前面添加前缀, 可添加多个, 与原有的字典组成笛卡尔积</li>
+<li><code>-e</code>/<code>--extension</code> 添加拓展名, 逗号分割</li>
+</ol>
+<p>通过words的function实现的: </p>
+<ol>
+<li><code>-L</code>/<code>--lowercase</code> 将字典中的所有字母转换为小写</li>
+<li><code>-U</code>/<code>--uppercase</code> 将字典中的所有字母转换为大写</li>
+<li><code>--replace</code> 替换字典中的字符, 例如<code>--replace aaa=bbb</code> 将字典中的 a 替换为 b, 可以添加多个<code>--replace</code></li>
+<li><code>--remove-extension</code> 删除字典中的文件扩展名, 逗号分割</li>
+<li><code>--exclude-extension</code> 排除字典中的文件扩展名, 逗号分割</li>
+<li><code>--skip</code> 跳过存在指定关键字的字典</li>
+<li><code>force-extension</code> 强制添加后缀名, 不论是否已经存在</li>
+</ol>
+<p><strong>字典生成器的优先级</strong></p>
+<pre class="mermaid"><code>flowchart TD
+    A(将 `-w` 与 `-d` 解析成 words 表达式) --&gt; B(基于掩码的函数装饰器)
+    B --&gt; C(基于掩码的字典生成器)
+    C --&gt; D(基于规则的字典生成器)
+    D --&gt; E(基于规则的过滤器)
+    E --&gt; F(words装饰器)
+    F --&gt; G(送入到 channel 中)</code></pre>
+<h2 id="input">Input<a class="headerlink" href="#input" title="Permanent link">&para;</a></h2>
+<p>支持三种不同类型的输入:</p>
+<ul>
+<li><code>-u</code>/<code>--url</code> , 从命令行中添加 url 作为任务.</li>
+<li><code>-l</code>/<code>--list</code> , 从文件中选择多个 url 作为任务. 将会自动开启并发模式, 支持多个任务同时进行, 并每个任务都有自己的 keep-alive 的连接池</li>
+<li><code>-c/--cidr</code> 输入指定网段, 例如 <code>spray -c 1.1.1.1/24</code></li>
+<li><code>-p/--port</code> 指定多个端口, 规则与 gogo 一致, 例如<code>spray -u http://example -p top2</code></li>
+<li><code>--default</code> 启用默认字典, 字典来自 <a href="https://github.com/maurosoria/dirsearch/blob/master/db/dicc.txt">dirsearch</a></li>
+<li><code>--resume</code> , 选择 stat 文件断点续传</li>
+</ul>
+<p>并且还有一些参数可以控制任务.</p>
+<ul>
+<li><code>--offset</code> , 字典偏移</li>
+<li><code>--limit</code>, 限制的字典数量</li>
+<li><code>--deadline</code> 所有任务的最大时间限制, 超时了会保存当前进度的 stat 文件后退出</li>
+<li><code>--force</code> 忽略掉被 ban 或被 waf 的判断, 强制跑完所有字典</li>
+</ul>
+<h3 id="速率限制">速率限制<a class="headerlink" href="#速率限制" title="Permanent link">&para;</a></h3>
+<p>合理的速率配置能让 spray 的性能大大提升.</p>
+<ul>
+<li>通过 <code>-p</code>/<code>--pool</code> 配置并行的任务数, 每个 url 都会分配到一个独立的 pool.</li>
+<li>通过<code>-t</code>/ <code>--thread</code> 每个 pool 的并发数, 需要注意的是, thread 与每秒实际发包速率无关</li>
+<li>通过<code>--rate-limit</code> 配置每个 pool 的每秒发包上限速度.</li>
+<li>通过<code>--timeout</code> 配置每个请求的超时时间, 如果目标的 waf 会通过 drop packet 的方式响应, 适当调低 timeout 可以加快爆破速度.</li>
+</ul>
+<h3 id="爆破方式">爆破方式<a class="headerlink" href="#爆破方式" title="Permanent link">&para;</a></h3>
+<p>通过<code>-m</code> 指定爆破方式, 默认为 path, 当前支持<code>path</code>, <code>host</code>两种模式</p>
+<p><strong>path</strong></p>
+<p>path 模式, 字典将会拼接到输入的 url 之后</p>
+<p><strong>host</strong></p>
+<p>host 模式, 字典将会替换 header 中的 host 字段</p>
+<h3 id="client">client<a class="headerlink" href="#client" title="Permanent link">&para;</a></h3>
+<p>当前 spray 采用了 net/http 与 fasthttp 作为备选的 client, 后续还将兼容支持 http2/http3 的 client.</p>
+<p>因为 fasthttp 指定 host 时会进行一次 dns 解析, 导致出现报错, 因此, 在 path 爆破时将使用 fasthttp. 在 host 爆破时将使用 net/http.</p>
+<p>fasthttp 的性能远高于 net/http, 因此不建议手动修改配置. 如果有相关的特殊需求, 可以通过<code>-c</code>/<code>--client</code> <code>auto</code>/<code>standard</code>/<code>fast</code>进行修改. 默认为 auto.</p>
+<div class="admonition info">
+<p class="admonition-title">使用 fasthttp 需要注意</p>
+<p>如果目标使用了<code>chunked</code>, 那么 fasthttp 很可能无法正确获取解码后的 body, 需要使用<code>-c standard</code>切换成 go 自带的<code>net/http</code> . 我原本以为能找到一个 header 去在 client 关闭 chunk, 似乎并没有对应的方法.</p>
+</div>
+<h3 id="请求自定义">请求自定义<a class="headerlink" href="#请求自定义" title="Permanent link">&para;</a></h3>
+<p><code>--header "HEADER: aaa"</code> 可添加自定义的 header 头, 可添加多个<code>--header</code>来添加多个 header</p>
+<p><code>--cookie "Session: sess"</code> 可添加自定义的 cookie, 可添加多个<code>--cookie</code>来添加多个 cookie</p>
+<p><code>--user-agent "Spray0.1.0"</code> 可添加指定的 UA</p>
+<p><code>--random-agent</code> 打开自动随机 UA 替换</p>
+<p><code>--raw file</code> 类似 sqlmap 的<code>-r</code>参数 , 选择纯文本的请求模板, 后续的请求都会使用这个模板构造, todo</p>
+<h2 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h2>
+<p>spray 默认输出到终端的格式是 human-like 文本. 并默认开启的 <strong>title 获取</strong> 与 <strong>被动指纹识别</strong> 功能.</p>
+<details class="info">
+<summary>命令行输出案例</summary>
+<p><code>spray --no-bar -u http:/example.com  -w '/{?l}' -a --extract url</code>
+<div class="highlight"><pre><span></span><code>[*] Parsed 26 words by /{?l} , 2023-01-04 11:16.30
+[*] Loaded 1 urls from cmd , 2023-01-04 11:16.30
+[*] Loaded 0 dictionaries and 0 decorators , 2023-01-04 11:16.30
+[+] [baseline.index] http:/example.com/ - 200 - 6326 - 70ms [解决方案，一查就有] [nginx]   , 2023-01-04 11:16.30
+[+] [baseline.random] http:/example.com/PgtrqWohCJJLckw - 404 - 169 - 30ms [404 Not Found] [nginx]   , 2023-01-04 11:16.30
+[+] http:/example.com/static/js/chunk-libs.89fc8520.js - 200 - 0 - 116ms [nginx]
+[+] http:/example.com/static/js/chunk-elementUI.80b6d1d0.js - 200 - 0 - 153ms [nginx]
+[+] http:/example.com/static/js/app.72fc17fc.js - 200 - 68582 - 170ms [nginx] [ url:17 items ][ crawl:109 items ]
+  url:
+        http://www.w3.org/2000/svg
+        https://github.com/PanJiaChen/vue-admin-template/
+        https://panjiachen.github.io/vue-element-admin-site/#/
+  crawl:
+        https://github.com/PanJiaChen/vue-admin-template/
+        https://panjiachen.github.io/vue-element-admin-site/#/
+        https://beian.miit.gov.cn
+        /uploadFile/uploadFile
+        /userInfo/userInfo
+        /userAccount/userAccount
+        /userDocument/userDocument
+        /userMake/userMake
+        /userVip/userVip
+        /userInvite/userInvite
+        /userCollection/userCollection
+        /demand-form/demand-form
+        /login
+        /dashboard
+        /login?redirect=
+        /home
+        /userMake
+        /pay
+        /pay/success
+        /paySuccess
+        /pay/success
+        /PaySuccess
+        /wxLogin
+        /404
+        /prod-api/api
+[+] http:/example.com/prod-api/api - 404 - 124 - 35ms [{\&quot;timestamp\&quot;:] [focus:springboot]  [nginx] [ crawl:/api ]
+  crawl:
+        /api
+[*] [stat] http:/example.com took 0 s, request total: 125, finish: 26/26, found: 4, check: 0, failed: 0 , 2023-01-04 11:16.30
+[*] [stat] http:/example.com 404: 120, 200: 3, , 2023-01-04 11:16.30
+</code></pre></div></p>
+</details>
+<p>默认将会输出进度条, 但是进度条在 windows 的各种 terminal 下会有些输出 bug. 可以通过<code>--no-bar</code>单独关闭进度条.</p>
+<p>默认的命令行输出是带颜色的, 可以通过<code>--no-color</code> 关闭着色.</p>
+<p>如果需要将 spray 的结果传递给其他工具, 需要关闭各种日志输出, 着色, 进度条等无用输出. 可以添加<code>-q</code>/<code>--quiet</code>关闭非必要输出.</p>
+<p>如果需要查看所有细节, 可以添加<code>--debug</code>. 不论结果是否有效, 输出每个响应的细节</p>
+<h3 id="输出流">输出流<a class="headerlink" href="#输出流" title="Permanent link">&para;</a></h3>
+<p>除了默认配置下最直观的命令行输出, spray 支持一个自由的输出流配置.</p>
+<ul>
+<li><code>-f/--file</code> 默认输出流, 指定有效结果的输出文件</li>
+<li><code>--dump-file</code> 全部请求的输出流, 指定每个发出的包与响应结果的输出文件</li>
+</ul>
+<p>默认情况下, 被智能过滤中的模糊过滤掉的输出不会输出到命令行或者文件. 但模糊过滤的结果存在漏报/误报的可能, 因此很多时候还需要进行二次处理.</p>
+<p>一些便捷化的参数:</p>
+<ul>
+<li><code>--fuzzy</code> 打开命令行的模糊过滤结果输出.</li>
+<li><code>--auto-file</code> 自动根据任务指定文件名</li>
+<li><code>--dump</code>自动指定 dump 文件的文件名</li>
+<li><code>--no-stat</code> 将不会自动创建<code>.stat</code> 文件</li>
+<li><code>-j</code>/<code>--json</code> 标准输出中的输出格式启用json格式</li>
+</ul>
+<h3 id="probe">Probe<a class="headerlink" href="#probe" title="Permanent link">&para;</a></h3>
+<p>默认的 baseline 中还有许多数据默认状态下不会输出, 可以通过<code>--probe</code>参数去自定义想要输出的内容.</p>
+<p>当前支持的 probe 有</p>
+<ul>
+<li><code>url</code></li>
+<li><code>host</code></li>
+<li><code>title</code></li>
+<li><code>redirect</code></li>
+<li><code>md5</code>, body 的 MD5</li>
+<li><code>simhash</code>, body 的 simhash</li>
+<li><code>mmh3</code>, body 的 mmh3</li>
+<li><code>stat</code>/<code>status</code>, 状态码</li>
+<li><code>spend</code>, 耗费的时间, 单位毫秒</li>
+<li><code>extract</code> 提取的结果</li>
+<li><code>frame</code> 指纹, 默认开启<a href="https://chainreactors.github.io/wiki/gogo/design/#指纹识别">被动指纹识别</a>,</li>
+<li><code>cpe</code> , <code>cpe:2.3:a:microsoft:windows_10:1909:*:*:*:*:*:*:*****</code></li>
+<li><code>wfn</code> , <code>wfn:[part="a", vendor="microsoft", product="windows_10", version="1909"]</code></li>
+<li><code>uri</code>, <code>cpe:/a:microsoft:windows_10:1909</code></li>
+</ul>
+<p>通过<code>spray -o url,host,title,md5,frame</code> 即可自由组合 probe 控制输出内容</p>
+<h3 id="输出到文件">输出到文件<a class="headerlink" href="#输出到文件" title="Permanent link">&para;</a></h3>
+<p>使用<code>-f</code> 指定输出文件名</p>
+<p>使用<code>-O json</code> (默认)或<code>-O csv</code> 指定文件输出格式.</p>
+<p>默认输出到文件的格式为 json</p>
+<details class="info">
+<summary>json 输出格式案例</summary>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://example/static/js/app.72fc17fc.js&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;//static/js/app.72fc17fc.js&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;host&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;body_length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">68582</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;header_length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;spend&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">405</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;frameworks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nginx&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="s2">&quot;other&quot;</span>
+<span class="w">            </span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;extracts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;url&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;extract_result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="s2">&quot;http://www.w3.org/2000/svg&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;https://github.com/PanJiaChen/vue-admin-template/&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;http://www.w3.org/2000/svg&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;https://beian.miit.gov.cn&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="p">]</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;crawl&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;extract_result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="s2">&quot;https://github.com/PanJiaChen/vue-admin-template/&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;https://panjiachen.github.io/vue-element-admin-site/#/&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;https://beian.miit.gov.cn&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/uploadFile/uploadFile&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/userInfo/userInfo&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/userAccount/userAccount&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/userDocument/userDocument&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/userMake/userMake&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/userVip/userVip&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/userInvite/userInvite&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/userCollection/userCollection&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/demand-form/demand-form&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;valid&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;fuzzy&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;depth&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hashes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;body-md5&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;d7190390f194cd8a09cbdf132ee0bb6e&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;header-md5&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;19bf7ec8a759066bdf8bbc1a90804244&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;raw-md5&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8c00b45ac0c33c51074270a47620318d&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;body-simhash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;af63bd4c8601b7ae&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;header-simhash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9833941ee6ab8d6d&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;raw-simhash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;af63bd4c8601b7ae&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;body-mmh3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2409784245&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+<p>除了<code>-f</code> 指定的文件名外, 还会根据任务类型生成<code>***.stat</code>的进度文件, 用来保存任务的状态与进度信息. 可以通过这个文件判断目标大致的状况.</p>
+<details class="info">
+<summary>stat 输出案例</summary>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://101.132.126.181/&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;counts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;200&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;404&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">104</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;failed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;req_total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">109</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;check&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;found&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;filtered&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;fuzzy&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;wafed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;end&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;offset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;start_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1672802906</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;end_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1672802907</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;word_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;word&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/{?l}&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dictionaries&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;rule_files&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;rule_filter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+<p>spray 区分了不同类型的输出, 只有通过所有过滤器的结果才会输出到<code>-f</code>指定的文件中.</p>
+<h3 id="extract提取器">extract/提取器<a class="headerlink" href="#extract提取器" title="Permanent link">&para;</a></h3>
+<p>spray 有一个类似 gogo 的 extract 的功能. 用来从网页中提取特定数据.</p>
+<p>可以通过<code>--extract regexp</code>, 自定义正则表达式去提取数据. <code>--extract</code> 可以添加多个.</p>
+<p>extract 也存在一些常用的预设, <code>--extract ip</code></p>
+<ul>
+<li>url</li>
+<li>ip</li>
+<li>mail</li>
+<li>idcard</li>
+<li>phone</li>
+<li>header</li>
+<li>body</li>
+<li>cookie</li>
+<li>response</li>
+</ul>
+<h2 id="config">Config<a class="headerlink" href="#config" title="Permanent link">&para;</a></h2>
+<p>spray的在高级用法下配置较为复杂, 现在提供了config文件可以将一些常用参数固定下来. </p>
+<p>spray执行时会自动寻找当前目录下的<code>config.yaml</code>文件, 如果不存在则不会启用</p>
+<p>生成初始配置, 默认位于当前目录下</p>
+<p><code>spray --init</code></p>
+<p>手动执行config文件</p>
+<p><code>spray -c custom.yaml</code> </p>
+<h2 id="拓展插件">拓展插件<a class="headerlink" href="#拓展插件" title="Permanent link">&para;</a></h2>
+<div class="admonition important">
+<p class="admonition-title">启用全部插件</p>
+</div>
+<p><code>-a</code>/ <code>advance</code> 将同时上述开启所有功能, 并且功能之间还会交叉组合出一些惊喜.</p>
+<h3 id="finger">finger<a class="headerlink" href="#finger" title="Permanent link">&para;</a></h3>
+<p><strong>check/brute通用</strong></p>
+<p><code>--finger</code> 打开全部的指纹引擎</p>
+<p>打开则调用 <a href="https://github.com/chainreactors/fingers">https://github.com/chainreactors/fingers</a> 的全量指纹库进行识别, 不打开则默认只调用fingers原生指纹库</p>
+<h3 id="recon">recon<a class="headerlink" href="#recon" title="Permanent link">&para;</a></h3>
+<p><strong>check/brute通用</strong></p>
+<p><code>--recon</code> 打开敏感信息提取</p>
+<p>提取规则库位于: <a href="https://github.com/chainreactors/templates/blob/master/extract.yaml">https://github.com/chainreactors/templates/blob/master/extract.yaml</a></p>
+<p>包含了优化后的jsfinder引擎, 配合目录爆破和crawl, 可以达到意想不到的效果</p>
+<h3 id="crawl">crawl<a class="headerlink" href="#crawl" title="Permanent link">&para;</a></h3>
+<p><strong>仅brute可用</strong></p>
+<p>crawl 是基于linkfinder正则的大量优化后的插件, 比原生的linkfinder强数倍, 并且能递归作用.</p>
+<p>如果你正在使用linkfinder, 强烈推荐使用crawl代替linkfinder.</p>
+<ul>
+<li><code>--crawl</code> 可以开启爬虫. 限定爬虫的深度为 3, 且只能作用于当前作用域, 需要更加自由配置的爬虫配置请使用那几个 headless 爬虫. 默认情况下爬虫只爬取自身作用域</li>
+<li><code>--scope *.example.com</code> 将允许爬虫爬到指定作用域</li>
+<li><code>--no-scope</code> 取消所有作用域限制</li>
+<li><code>--read-all</code> 默认情况下如果爬虫爬到的某些文件过大, 将只读取前 16k 数据, 导致爬虫失效. 可以添加该参数解除响应大小的限制</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">在基本信息探测时使用爬虫</p>
+<p>--crawl 是无法在基本信息探测时使用, 因为需要基准值去过滤爬虫的结果. 但是可以只对当前页面做信息收集. 
+<code>--extract url,js</code> 即可打开爬虫对应的提取器, 收集url但不进行递归爬取</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">注意</p>
+<p>crawl 的结果没有像 jsfinder 中一样拼接上 baseurl, 因为从 js 中提取出来的结果通常不是最终的结果, 直接去访问大概率是 404. 为了防止造成混淆, spray 的 crawl 结果将保持原样输出. 但在爬虫递归时, 还是会尝试拼接上 baseurl 进行探测. 爬虫递归时会进行自动去重判断.</p>
+</div>
+<h3 id="active">active<a class="headerlink" href="#active" title="Permanent link">&para;</a></h3>
+<p><strong>仅brute可用</strong></p>
+<ul>
+<li><code>--active</code> 可以开启类似<a href="/gogo/extension/#拓展指纹">gogo 的主动指纹识别</a>, 并且添加<code>append</code>主动指纹字典</li>
+</ul>
+<h3 id="bak">bak<a class="headerlink" href="#bak" title="Permanent link">&para;</a></h3>
+<p><strong>仅brute可用</strong></p>
+<ul>
+<li><code>--bak</code> 会构造一个备份文件字典, 包含<a href="https://github.com/musana/fuzzuli">fuzzuli</a>中的 regular 规则, 自动构造备份文件字典,  并且添加<code>append</code>备份文件字典</li>
+</ul>
+<h3 id="common">common<a class="headerlink" href="#common" title="Permanent link">&para;</a></h3>
+<p><strong>仅brute可用</strong></p>
+<ul>
+<li><code>--common</code> 一些 web 的常见<a href="https://github.com/chainreactors/templates/blob/master/spray/dict/common.txt">通用文件字典</a>与<a href="https://github.com/chainreactors/templates/blob/master/spray/dict/log.txt">通用日志文件字典</a>, 并将这两个字典加到<code>append</code></li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">如果启用了仅brute可用的插件, 会自动转为brute模式</p>
+</div>
+<p>有任何类似的通用 fuzz 手法, 欢迎提供 issue.</p>
+<h2 id="advance-feature">Advance Feature<a class="headerlink" href="#advance-feature" title="Permanent link">&para;</a></h2>
+<h3 id="自定义智能过滤">自定义智能过滤<a class="headerlink" href="#自定义智能过滤" title="Permanent link">&para;</a></h3>
+<p>智能过滤的逻辑很难用几行文字描述, 可以见<a href="/spray/concept/#智能过滤">智能过滤逻辑</a></p>
+<p>可以通过控制状态码列表自定义一部分的智能过滤逻辑.</p>
+<ul>
+<li><code>--black-status</code> 这个列表内的状态码将被直接过滤, 默认 400, 410</li>
+<li><code>--white-status</code> 这个列表内的状态码将进入到标准的智能过滤逻辑, 默认 200</li>
+<li><code>--fuzzy-status</code>这个列表内的状态码才有资格进入到模糊过滤的逻辑, 默认 403, 404, 500, 501, 502, 503</li>
+<li><code>--waf-status</code> 这个列表的状态码与<code>black-status</code>类似, 但会标记为被 waf, 默认 493, 418</li>
+</ul>
+<p>直接使用例如<code>--black-status 1020</code>将会覆盖原有的值, 可以使用<code>--black-status +1020</code>在原有的基础上新增, 或<code>--black-status !1024</code> 在原有的基础上去除.</p>
+<div class="admonition info">
+<p class="admonition-title">fuzzy all</p>
+<p><code>--fuzzy-status</code>参数存在特例<code>--fuzzy-status all</code> 启用所有状态码的 fuzzy 过滤, 用来应对一些特殊场景</p>
+</div>
+<h3 id="自定义表达式过滤">自定义表达式过滤<a class="headerlink" href="#自定义表达式过滤" title="Permanent link">&para;</a></h3>
+<p>智能过滤能最大程度保留 spray 内置的过滤策略. 但某些情况下, spray 内置的策略也不能满足需求, 就可以使用自定义过滤器代替 spray 内置的策略.</p>
+<p>某些情况可能非常离谱, 比如 not found 页面返回 200, 并且每次 body 相似度都不高. 这种情况下, 就可以使用自定义过滤功能.</p>
+<p><strong>spray 中使用了 <a href="https://github.com/antonmedv/expr">expr</a> 作为表达式语言</strong>, 应该是市面上公开的性能最强的脚本语言了.</p>
+<p>expr 的语法介绍: <a href="https://expr.medv.io/docs/Language-Definition">https://expr.medv.io/docs/Language-Definition</a></p>
+<p>expr 语法和 xray/github action 中差不多, spray 中绝大多数情况也用不到高级功能. 只需要了解最简单的等于/包含之类判断即可.</p>
+<h4 id="custom-match">custom match<a class="headerlink" href="#custom-match" title="Permanent link">&para;</a></h4>
+<p>我们可以使用--match 定义我们需要的过滤规则, --match 自定义的过滤函数将会替换掉默认的智能过滤. 也就是说, 开启了--match, 智能过滤就自动关闭了, 如果不想关闭智能过滤, 也提供了其他解决办法.</p>
+<p>下面是一个简单的例子, 假设某个网站所有的 404 页面都指向公益页面, 我们想去掉所有的带"公益"字样的页面:</p>
+<div class="highlight"><pre><span></span><code>spray -u http://example.com -d word1.txt --match &#39;current.Body not contains &quot;公益&quot;&#39;
+</code></pre></div>
+<p>这里的 current 关键字表示当前的请求的 baseline. <code>current.Body</code>即为 baseline 结构体中的 Body 字段, baseline 结构体可以见 <a href="https://chainreactors.github.io/wiki/spray/concept/#baseline">https://chainreactors.github.io/wiki/spray/concept/#baseline</a> .</p>
+<p>spray 获取的 baseline 也会被注册到将本语言中. <code>index</code> 表示 <code>index_baseline</code>, <code>random</code> 表示 <code>random_baseline</code>, <code>403bl</code> 表示如果第一个获取的状态码为 403 的请求. 如果之前没有 403, 则所有字段为空.</p>
+<h4 id="custom-filter">custom filter<a class="headerlink" href="#custom-filter" title="Permanent link">&para;</a></h4>
+<p>如果匹配的结果依旧不满意, 可以加上<code>--filter</code> 对 match 的结果进行二次过滤, <code>--filter</code>的规则与 <code>--match</code> 一致.</p>
+<p>如果没有自定义<code>--match</code> , <code>--filter</code>将会对智能过滤的结果进行二次过滤.</p>
+<p>某个网站存在通配符目录下返回 405, 且 405 中存在一定的随机值, 智能过滤的规则被打破, 出现了几千个 405 状态码的有效结果. 这个时候就可以使用<code>--filter</code>去二次过滤智能过滤的结果.</p>
+<div class="highlight"><pre><span></span><code>spray -u http://example.com -d word1.txt --filter &#39;current.Status != 405&#39;
+</code></pre></div>
+<div class="admonition danger">
+<p class="admonition-title">--match 会覆盖智能过滤</p>
+<p><code>--match</code>与默认的智能过滤处于同一个阶段, 如果手动指定了<code>--match</code>则会关闭智能过滤采用用户指定的规则.
+<code>--filter</code> 可以与智能过滤同时生效, <code>--match</code>/智能过滤 后的结果将会送入<code>--filter</code> 中进行二次过滤</p>
+</div>
+<pre class="mermaid"><code>flowchart TD
+    A(precompare, 过滤掉一定无用的数据) --&gt; B(智能过滤/custom match)
+    B --&gt; C(custom filter)</code></pre>
+<h3 id="手动配置过滤器">手动配置过滤器<a class="headerlink" href="#手动配置过滤器" title="Permanent link">&para;</a></h3>
+<p>假设一个功能为 api 的站点， 他通过全局的错误处理将返回值统一改成 200/405.</p>
+<p>在 spray 中, 200 是白名单状态码, 会跳过 precompare, 直接到智能过滤的第二步, 开始内容的匹配. 如果内存中存在例如时间戳之类的随机数, 还会到第三步模糊过滤.</p>
+<p>而 405 状态码则输出没有任何配置的状态码, 返回结果大概率会能到模糊过滤中, 如果 405 与 200 差异较小. 这种情况下就需要手动修改过滤规则了.</p>
+<p>spray 中修改过滤规则有很多中方式, 以这个例子进行简单介绍不同方式之间的差异.</p>
+<p><strong>方法 1: 添加参数<code>--black-status 405</code></strong></p>
+<p>这种方式较为暴力, 会在 precompare 阶段直接过滤掉, 跳过后续的阶段.</p>
+<p>建议明确知道 405 状态码为无效页面的情况下使用. 果 405 页面的依旧有可能存在有价值的信息, 则不推荐使用这种方式.</p>
+<p><strong>方法 2: 添加参数<code>--fuzzy-status 405</code></strong></p>
+<p>405 配置到 fuzzy-status 状态码列表中, 每次遇到 405 请求, 都会与 405baseline 进行对比.</p>
+<p>这种方法是比较推荐的, 它只会微调智能过滤的逻辑, 随机目录的 405 状态码将会加入到基线中, 如果其他请求也遇到了几乎相同的 405 页面, 则可以认为是无效数据过滤掉.</p>
+<p>可以保留智能过滤的全部功能, 并且不会有额外的性能损耗.</p>
+<p><strong>方法 3: 使用表达式匹配<code>--match 'current.Status != 405'</code></strong></p>
+<p>这个表达式表示, 所有状态码不等于 405 的页面都会输出. 有些类似方法 1 中的 black-status, 但是方法 1 并不会对其他智能过滤的规则做出修改.</p>
+<p>--match 将会重载默认的智能过滤的全部逻辑. 也就是说, 智能过滤的 123 阶段都会跳过, 取而代之的是这个表达式.</p>
+<p>表达式的性能并不好, 并且配置起来也较为麻烦, 不推荐使用.</p>
+<p><strong>方法 4: 使用表达式过滤<code>--filter 'current.Status == 405'</code></strong></p>
+<p>filter 一般来说是比 match 的更高优先级的选择.</p>
+<p>--filter 与--match 的区别在于, --filter 作用于 compare(包括智能过滤与 match 表达式过滤)的下一阶段. 通过 compare 结果将会由--filter 进行二次过滤.</p>
+<p>意味着, 如果仅设置了--filter, 那么智能过滤依旧生效, 并且可以过滤掉状态码为 405 的请求.</p>
+<h3 id="unique-过滤器">unique 过滤器<a class="headerlink" href="#unique-过滤器" title="Permanent link">&para;</a></h3>
+<p>配置这些复杂的过滤方式或多或少存在一些障碍. 有些网站的特例甚至多到一时半会没办法编写出合适的过滤策略.</p>
+<p>为此添加了一种新的过滤器. 由 host+状态码+重定向 url+content-type+title+length 舍去个位与十位组成的 CRChash, 实现了一个简易的尽可能覆盖大多数场景的通用过滤器.</p>
+<div class="highlight"><pre><span></span><code>func UniqueHash(bl *Baseline) uint16 {
+    return CRC16Hash([]byte(bl.Host + strconv.Itoa(bl.Status) + bl.RedirectURL + bl.ContentType + bl.Title + strconv.Itoa(bl.BodyLength/100*100)))
+}
+</code></pre></div>
+<p><code>spray -u http://example -d 1.txt --unique</code></p>
+<p>当然便捷的过滤器也会带来一些副作用, 因此所有被 unique 过滤的结果都会进入到 fuzzy 输出流中.</p>
+<p>也可以通过<code>--unique-status 200</code> 指定特定状态码才启用 unique 过滤器</p>
+<h3 id="断点续传">断点续传<a class="headerlink" href="#断点续传" title="Permanent link">&para;</a></h3>
+<p>spray 支持断点续传, 可以通过<code>--resume</code>参数指定断点文件. 通过断点文件中记录的数据恢复进度.</p>
+<p>为了更好的支持断点续传, spray 监听了 ctrl+c 信号, 如果通过 ctrl+c 取消任务, 所有任务(包括已完成与没完成)的数据都会保存到 stat 结尾的文件中.</p>
+<p>所以建议非必要情况不要使用 kill -9 结束 spray 进程.</p>
+<p>另外, 如果使用<code>--resume</code>依旧没有完成任务, 只要是正常的退出信号, 都会重写当前的 stat 文件, 以更新进度到当前扫描, 随时可以再次读取 stat 文件继续扫描任务.</p>
+<p>断点续传支持比命令行更自由的字典配置. 每个任务都可以拥有独立的-w/-r/-d 配置. 因此某些特殊情况下要进行批量操作, 可以通过脚本去构造对应的 stat 文件, 实现更加自由的任务配置.</p>
+<h3 id="递归">递归<a class="headerlink" href="#递归" title="Permanent link">&para;</a></h3>
+<p>spray 并不鼓励使用递归, 因为 spray 的定位是批量从反代/cdn 中发现隐形资产. 不管是因为批量, 还是因为反代/cdn, 绝大多数的情况都用不到递归. 建议使用轻量级递归代替递归</p>
+<p>但为了兼容某些极为罕见的情况, spray 依旧保留了递归的功能.</p>
+<p>默认递归为关闭状态, 可以使用<code>--depth 2</code>选择递归深度开启递归模式.</p>
+<p>默认的递归规则为<code>current.IsDir()</code>, 即所有的目录(结尾为/的结果)都会被递归.</p>
+<p>也可以通过<code>--recursive</code>手动选择递归规则, 规则与<code>filter/match</code>相同的 expr 表达式 . 例如<code>--recursive current.IsDir() &amp;&amp; current.Status == 403</code>表示, 递归所有状态码为 403 的有效目录.</p>
+<h3 id="轻量级递归">轻量级递归<a class="headerlink" href="#轻量级递归" title="Permanent link">&para;</a></h3>
+<p>很多时候扫到了有效目录, 但如何进一步深入呢? 最简单的办法就是全量字典递归, 但实际上这样做效率低, 准确率也低.</p>
+<p>正确的做法是根据场景选择合适的字典生成方式. 例如如果爆破到了新的目录, 则自动爆破备份文件, 爆破到了新的 api 则自动测试权限绕过.</p>
+<div class="admonition important">
+<p class="admonition-title">轻量级递归与递归的区别</p>
+<p>递归将会创建一个新的pool, 会尝试重新获取基准值, 并使用<code>-d</code>/<code>-w</code> 生成的字典进行爆破
+轻量级递归还是在当前上下文, 基准值不会发生改变. 只会使用<code>--append</code> 与<code>--append-rule</code>的规则进行进一步爆破</p>
+</div>
+<h4 id="append">append<a class="headerlink" href="#append" title="Permanent link">&para;</a></h4>
+<p>通过<code>--append</code> 命令可追加轻量级递归的字典, 如果发现了有效目录, 则会自动使用该字典(而非完整的字典进行递归爆破). </p>
+<p><code>spray -u http://example.com --append append.txt --append --custom.txt</code></p>
+<p>也可以使用内置的目录字典</p>
+<p><code>spray -u http://example.com --append common --append iis</code></p>
+<h4 id="append-rule">append-rule<a class="headerlink" href="#append-rule" title="Permanent link">&para;</a></h4>
+<p><code>--append-rule</code> 提供了在发现有效目录时的进一步基于规则的字典生成器. 其中规则的语法与<a href="#字典生成">字典生成器</a>的规则用法一致</p>
+<p>在 spray 中的用法:</p>
+<ul>
+<li>自动生成权限绕过字典(主要关于java). <code>--append-rule authbypass</code></li>
+<li>自动生成使用后缀进行权限绕过的字典. <code>--append-rule extbypass</code></li>
+<li>根据有效 url 自动生成备份文件字典. <code>--append-rule filebak</code></li>
+<li>更对此类规则欢迎提供需求和建议</li>
+</ul>
+<p>例如发现<code>index.php</code>存在, 就会根据 rule 与<code>baseurl</code> 生成如<code>~index.php</code>,<code>.index.php</code>, <code>index.php.bak</code>等字典加入到队列中.</p>
+<p>效果如下:
+<img alt="" src="../assets/image_20240826024605.png" /></p>
+<div class="admonition tips">
+<p class="admonition-title">common与bak插件实际上使用了轻量级递归</p>
+<p>common与bak均会使用内置的字典与规则进行轻量级递归</p>
+</div>
+<h2 id="todo">TODO<a class="headerlink" href="#todo" title="Permanent link">&para;</a></h2>
+<ol class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> 模糊判断</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> 断点续传</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> 简易爬虫</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> 支持 http2</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> auto-tune, 自动调整并发数量</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> 可自定义的递归配置</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> 参考<a href="https://github.com/musana/fuzzuli">fuzzuli</a>, 实现备份文件字典生成器</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> 支持 socks/http 代理, 不建议使用, 优先级较低. 代理下的 keep-alive 会有严重的性能下降</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 云函数化, chainreactors 工具链的通用分布式解决方案.</li>
+</ol>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 ChainReactors
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/chainreactors" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "toc.integrate", "toc.follo", "navigation.top", "header.autohide", "search.share", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
