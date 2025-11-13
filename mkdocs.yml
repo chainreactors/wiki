@@ -147,10 +147,13 @@ nav:
             - index: IoM/manual/integrate/index.md
             - SDK:
                 - index: IoM/manual/integrate/sdk/index.md
-                - Python: IoM/manual/integrate/sdk/python.md
+                - Golang: IoM/manual/integrate/sdk/go.md
+                - Python(Untable): IoM/manual/integrate/sdk/python.md
+                - Typescript(Unstable): IoM/manual/integrate/sdk/typescript.md
             - FFI: IoM/manual/integrate/ffi.md
             - AI Integration: IoM/manual/integrate/ai.md
       - Changelog:
+        - v0.1.2: blog/2025/11/10/IoM_v0.1.2/
         - v0.1.1: blog/2025/07/09/IoM_v0.1.1/
         - v0.1.0: blog/2025/04/14/IoM_v0.1.0/
         - v0.0.4: blog/2025/01/02/IoM_v0.0.4/
