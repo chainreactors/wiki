@@ -4,7 +4,7 @@ Malefic-Win-Kit 是一个多语言 Windows 攻击基础设施，将复杂的底�
 
 **一次编写，随处使用。可以用任意语言编写一个功能完善的implant **
 
-> 完整文档和示例请参考：[FFI Examples](https://github.com/chainreactors/implant/tree/master/examples/ffi)
+> 完整文档和示例请参考：[FFI Examples](https://github.com/chainreactors/malefic/tree/master/examples/ffi)
 
 ### Features
 
@@ -89,25 +89,25 @@ print(output.decode())
 dll.SafeFreePipeData(result.data)
 ```
 
-任何支持 FFI 的语言都可以使用。详细说明请参考：[Language Support](https://github.com/chainreactors/implant/tree/master/examples/ffi#language-support)
+任何支持 FFI 的语言都可以使用。详细说明请参考：[Language Support](https://github.com/chainreactors/malefic/tree/master/examples/ffi#language-support)
 
 项目提供了以下语言的示例：
 
 | 语言 | 示例目录 | 文档 |
 |------|---------|------|
-| **C** | [c/](https://github.com/chainreactors/implant/tree/master/examples/ffi/c) | [README](https://github.com/chainreactors/implant/blob/master/examples/ffi/c/README.md) |
-| **Go** | [go/](https://github.com/chainreactors/implant/tree/master/examples/ffi/go) | [README](https://github.com/chainreactors/implant/blob/master/examples/ffi/go/README.md) |
-| **Rust** | [rust/](https://github.com/chainreactors/implant/tree/master/examples/ffi/rust) | [README](https://github.com/chainreactors/implant/blob/master/examples/ffi/rust/README.md) |
-| **Python** | [python/](https://github.com/chainreactors/implant/tree/master/examples/ffi/python) | [README](https://github.com/chainreactors/implant/blob/master/examples/ffi/python/README.md) |
-| **C#** | [csharp/](https://github.com/chainreactors/implant/tree/master/examples/ffi/csharp) | [README](https://github.com/chainreactors/implant/blob/master/examples/ffi/csharp/README.md) |
+| **C** | [c/](https://github.com/chainreactors/malefic/tree/master/examples/ffi/c) | [README](https://github.com/chainreactors/malefic/blob/master/examples/ffi/c/README.md) |
+| **Go** | [go/](https://github.com/chainreactors/malefic/tree/master/examples/ffi/go) | [README](https://github.com/chainreactors/malefic/blob/master/examples/ffi/go/README.md) |
+| **Rust** | [rust/](https://github.com/chainreactors/malefic/tree/master/examples/ffi/rust) | [README](https://github.com/chainreactors/malefic/blob/master/examples/ffi/rust/README.md) |
+| **Python** | [python/](https://github.com/chainreactors/malefic/tree/master/examples/ffi/python) | [README](https://github.com/chainreactors/malefic/blob/master/examples/ffi/python/README.md) |
+| **C#** | [csharp/](https://github.com/chainreactors/malefic/tree/master/examples/ffi/csharp) | [README](https://github.com/chainreactors/malefic/blob/master/examples/ffi/csharp/README.md) |
 
 
 ## API 参考
 
 完整的 API 列表和详细说明请参考：
 
-- [API Reference](https://github.com/chainreactors/implant/tree/master/examples/ffi#api-reference) - 完整 API 文档
-- [malefic-win-kit.h](https://github.com/chainreactors/implant/blob/master/examples/ffi/malefic-win-kit.h) - C 头文件
+- [API Reference](https://github.com/chainreactors/malefic/tree/master/examples/ffi#api-reference) - 完整 API 文档
+- [malefic-win-kit.h](https://github.com/chainreactors/malefic/blob/master/examples/ffi/malefic-win-kit.h) - C 头文件
 
 
 
