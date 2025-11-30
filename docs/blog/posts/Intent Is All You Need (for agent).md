@@ -3,57 +3,57 @@ date:
   created: 2025-12-01
 slug: intent_is_all_you_need
 ---
-![](Pasted%20image%2020251201022349.png)
+![](/blog/assets/Pasted%20image%2020251201022349.png)
 
-![](Pasted%20image%2020251201022424.png)
+![](/blog/assets/Pasted%20image%2020251201022424.png)
 
-![](Pasted%20image%2020251201022437.png)
+![](/blog/assets/Pasted%20image%2020251201022437.png)
 
 AI 时代符合第一性原理的设计理念胜过复杂的 Agent 工程。
 
-![](Pasted%20image%2020251201022445.png)
+![](/blog/assets/Pasted%20image%2020251201022445.png)
 
-![](幻灯片5.png)
+![](/blog/assets/幻灯片5.png)
 
-![](Pasted%20image%2020251201022913.png)
+![](/blog/assets/Pasted%20image%2020251201022913.png)
 
-![](幻灯片6.png)
+![](/blog/assets/幻灯片6.png)
 
 我们让 AI 准确完整表达意图，然后高效执行，数十倍提升工具调用效率。
 
-![](幻灯片7.png)
+![](/blog/assets/幻灯片7.png)
 
-![](幻灯片8.png)
+![](/blog/assets/幻灯片8.png)
 
-![](幻灯片9.png)
+![](/blog/assets/幻灯片9.png)
 
-![](幻灯片10.png)
+![](/blog/assets/幻灯片10.png)
 
 我们让工具适应 AI，做 AI 友好的基础设施。
 
-![](幻灯片11.png)
+![](/blog/assets/幻灯片11.png)
 
-![](幻灯片12.png)
+![](/blog/assets/幻灯片12.png)
 
-![](幻灯片13.png)
+![](/blog/assets/幻灯片13.png)
 
-![](幻灯片14.png)
+![](/blog/assets/幻灯片14.png)
 
 我们开发完只测试了一个题目就下场正式比赛了，整场比赛使用kimi k2 为主的情况下只消耗了价值1k多人民币的Token。
 
-![](Pasted%20image%2020251201022745.png)
+![](/blog/assets/Pasted%20image%2020251201022745.png)
 
-![](幻灯片16.png)
+![](/blog/assets/幻灯片16.png)
 
 模型工程 attention is all you need，那么agent工程就是intent is all you need。 
 
-![](幻灯片17.png)
+![](/blog/assets/幻灯片17.png)
 
 我们认为所有繁复的当前的agent工程都是中间阶段。
 
 事实也证明，我们不需要任何知识库，扫描器，sop，复杂工程的agent，也能达到甚至超过很多投入了我们数百倍工作量。
 
-![](幻灯片18.png)
+![](/blog/assets/幻灯片18.png)
 
 通用超级agent正在诞生，我们需要做的是实现Intent Runtime，让超级agent贯彻人类的意图。
 
