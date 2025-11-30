@@ -3,8 +3,10 @@ date:
   created: 2025-12-01
 slug: intent_is_all_you_need
 ---
+
 ![](/blog/assets/Pasted%20image%2020251201022349.png)
 
+<!-- more -->
 ![](/blog/assets/Pasted%20image%2020251201022424.png)
 
 ![](/blog/assets/Pasted%20image%2020251201022437.png)
