@@ -3,64 +3,63 @@ date:
   created: 2025-12-01
 slug: intent_is_all_you_need
 ---
+![](Pasted%20image%2020251201022349.png)
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tysF1y9eiadVtKYJb2hDTiaMXEY5QHJCC0Gz2CGRqSqHWjBt4HCRX5MMg/640?wx_fmt=png&from=appmsg)
+![](Pasted%20image%2020251201022424.png)
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tt2iaDrmvRRVzhicHF0uGicgwDloWG4EicvdxYibcVtPfVVnuLyIVnz4hXTQ/640?wx_fmt=png&from=appmsg)
-
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tam7uGpiavWvmDUtlInkSrGVgic16NmhnQ28dos0oOagULjVUhcQ3szfA/640?wx_fmt=png&from=appmsg)
+![](Pasted%20image%2020251201022437.png)
 
 AI 时代符合第一性原理的设计理念胜过复杂的 Agent 工程。
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5t2mzh26dqiaAeDTBLKeCrUdyGm2LvyJibFW5DoT7icfE4mHXYxVDPuy2aQ/640?wx_fmt=png&from=appmsg)
+![](Pasted%20image%2020251201022445.png)
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tCu66gVDBz6ibuRC2iaPhr0noq2cyc8oOxTibwAJt3Kcgr514Zibuibza01Q/640?wx_fmt=png&from=appmsg)
+![](幻灯片5.png)
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tJibWzy652rw6GwL23GiaG1VtzAJeSibcZD3VibUw5Xic4lUlic3Fz8AZ3v2A/640?wx_fmt=png&from=appmsg)
+![](Pasted%20image%2020251201022913.png)
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tmarngFjF0O3c3kI9uQw6Bj50uIoicfysIF8ibOutt8N1OR51Ge1gOicug/640?wx_fmt=png&from=appmsg)
+![](幻灯片6.png)
 
 我们让 AI 准确完整表达意图，然后高效执行，数十倍提升工具调用效率。
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5teHhqgypV5FDOgBhJbOWHVuYQz1H0Pg8y5QAUewY4BWGI4UnIChh5xQ/640?wx_fmt=png&from=appmsg)
+![](幻灯片7.png)
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tW4zZVtiarK3Se5nBlBr6byiaYH73VUyGss75HvVLLysZ6ric3VUqiaiaibuQ/640?wx_fmt=png&from=appmsg)
+![](幻灯片8.png)
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tsRZic1nuy1xBbTT0cxN1cYeC8wTvNCfqpNiaQJMAZKlo0yujq0nzFmBg/640?wx_fmt=png&from=appmsg)
+![](幻灯片9.png)
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tAVbrFyYGpiamiahibqdZcdX7MwlPM3UiacdmlNjOg2tqQaIb4gZym21Z6g/640?wx_fmt=png&from=appmsg)
+![](幻灯片10.png)
 
 我们让工具适应 AI，做 AI 友好的基础设施。
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tWAnAXWSgAk89Wic0yibRXnZGuMkdnoPPMDc7oMzC4AztzTF16UerGN7A/640?wx_fmt=png&from=appmsg)
+![](幻灯片11.png)
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tEic9GcYC7icYuSY9r32nR7J6es5xiateCNcbA5jYsrSaKwMbHq82hDFgw/640?wx_fmt=png&from=appmsg)
+![](幻灯片12.png)
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tg3NovgaMcwn6mMI0BNxh50BBCLFUOpPQY9w3nuQ1490icLjFmaKP68w/640?wx_fmt=png&from=appmsg)
+![](幻灯片13.png)
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5t6WXs0LIMVIjmmzDkXPRhum1UdjjwicJ3WHPvcDsldOV0xa6juypez2Q/640?wx_fmt=png&from=appmsg)
+![](幻灯片14.png)
 
 我们开发完只测试了一个题目就下场正式比赛了，整场比赛使用kimi k2 为主的情况下只消耗了价值1k多人民币的Token。
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tk6s4TYfYmNfY9XVhB9emq3D0uHiaAcDOkXFSjombRkltHKagM60K7qA/640?wx_fmt=png&from=appmsg)
+![](Pasted%20image%2020251201022745.png)
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tt5tGdW0gT74vW1cVFXRUgq0y6SwRlGH9WxlUMbGOsDicW0GnLRn6oog/640?wx_fmt=png&from=appmsg)
+![](幻灯片16.png)
 
 模型工程 attention is all you need，那么agent工程就是intent is all you need。 
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tS4Lbic1GFrcATmSqA5o3PHdeoxia0ibrDYmoEjQ92Vtdsmw91QGKs4fYw/640?wx_fmt=png&from=appmsg)
+![](幻灯片17.png)
 
 我们认为所有繁复的当前的agent工程都是中间阶段。
 
 事实也证明，我们不需要任何知识库，扫描器，sop，复杂工程的agent，也能达到甚至超过很多投入了我们数百倍工作量。
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tb9R95QIlgPibhHHA3J9691Nz2TUTla8ZvSdmvDfBQVRXYoaKkibiaIt6w/640?wx_fmt=png&from=appmsg)
+![](幻灯片18.png)
 
 通用超级agent正在诞生，我们需要做的是实现Intent Runtime，让超级agent贯彻人类的意图。
 
 我们认为意图工程的终极形态是出现AI Native Programming Language. 专家可以通过形式化的自然语言充分表达意图，通过Runtime执行ANPL中的意图。 
 
-![](https://mmbiz.qpic.cn/mmbiz_png/ptKvZj38nicYz1FB2h0spVNecxiaaksB5tPVicdys4pnPGbiaJNj6eSq1bPjQmm7fGHXGe3NJ3xA5icNKaTOkay103A/640?wx_fmt=png&from=appmsg)
+![](Pasted%20image%2020251201022851.png)
 
 ## 答疑
 
