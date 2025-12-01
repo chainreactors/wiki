@@ -4,7 +4,7 @@ date:
 slug: intent_is_all_you_need
 ---
 
-![](/blog/assets/Pasted%20image%2020251201022349.png)
+![](/blog/assets/Pasted%20image%2020251201125840.png)
 
 <!-- more -->
 ![](/blog/assets/Pasted%20image%2020251201022424.png)
