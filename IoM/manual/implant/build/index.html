@@ -1,0 +1,6395 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="chainreactors wiki">
+      
+      
+        <meta name="author" content="M09ic">
+      
+      
+        <link rel="canonical" href="https://wiki.chainreactors.red/wiki/IoM/manual/implant/build/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../modules/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>IoM Implant 编译与配置手册 - ChainReactor Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-DCRVR86FG2"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-DCRVR86FG2",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-DCRVR86FG2",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#iom-implant-编译与配置完整手册" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="ChainReactor Wiki" class="md-header__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ChainReactor Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              IoM Implant 编译与配置手册
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  导航
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  IoM
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../gogo/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  gogo
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../spray/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  spray
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../zombie/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  zombie
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../rem/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  rem
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../libs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  libs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../mapping/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Preview
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../blog/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="ChainReactor Wiki" class="md-nav__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ChainReactor Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    导航
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IoM
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    IoM
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concept
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RoadMap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../guideline/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guideline
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6" id="__nav_2_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guideline
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安装部署
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/listener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Listener
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/payload/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payload
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/post_exploitation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后渗透基本操作
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/embed_mal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内置插件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    代理/隧道
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6_8" id="__nav_2_6_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高级用法
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    高级用法
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/advance/DumpLSASS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DumpLSASS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/advance/DomainFronting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DomainFronting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/advance/Multi-Server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MultiServer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/advance/Guardrail/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guardrail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../guideline/develop/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DevelopGuide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6_9" id="__nav_2_6_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    DevelopGuide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mal快速入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/develop/server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Server开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/develop/client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Client开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/develop/implant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implant开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manual
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7" id="__nav_2_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Manual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../manual/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    client/server
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_2" id="__nav_2_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    client/server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install&deploy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/listener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    listener
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    client usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/implant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    implant usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mal/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mals插件生态
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_3" id="__nav_2_7_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mals插件生态
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/embed/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    embed
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7_3_3" id="__nav_2_7_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lua
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_7_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    lua
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/builtin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    builtin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/beacon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    beacon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/rpc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rpc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7_4" id="__nav_2_7_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mutant
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mutant
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mutant/malefic_mutant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    implant
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_5" id="__nav_2_7_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    implant
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#目录" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目录
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#快速开始" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        快速开始
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="快速开始">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#快速编译你的第一个maleficbeacon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        快速编译你的第一个malefic(beacon)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#第一部分编译环境与架构支持" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一部分：编译环境与架构支持
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一部分：编译环境与架构支持">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-支持的架构" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 支持的架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-基础环境配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 基础环境配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 基础环境配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#git-clone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Git Clone
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#下载-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下载 resources
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#第二部分编译方法" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二部分：编译方法
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二部分：编译方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-docker-编译推荐" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Docker 编译（推荐）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Docker 编译（推荐）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker Install
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#支持的镜像" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        支持的镜像
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#编译命令" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        编译命令
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-github-action编译" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Github Action编译
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Github Action编译">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#编译命令_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        编译命令
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-本机编译" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 本机编译
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 本机编译">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#安装rust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安装rust
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#安装-toolchain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安装 toolchain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#环境配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        环境配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#编译步骤" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        编译步骤
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#第三部分mutant-工具" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三部分：Mutant 工具
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三部分：Mutant 工具">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-installbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Install/Build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Config
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-generate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 generate
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 generate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beacon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        beacon
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="beacon">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beacon-prelude" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        beacon prelude
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pulse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pulse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prelude" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        prelude
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bind-unstable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bind (Unstable)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 build
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4 build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#malefic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        malefic
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 tool
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5 tool">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#srdi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SRDI
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#第四部分植入体配置详解" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第四部分：植入体配置详解
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第四部分：植入体配置详解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-配置文件概述" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 配置文件概述
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-basic-基础通信配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 basic - 基础通信配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 basic - 基础通信配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#421-基本标识与网络配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.1 基本标识与网络配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#422-时序控制配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.2 时序控制配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#423-通信加密配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.3 通信加密配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#424-安全通信配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.4 安全通信配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#425-dga域名生成算法配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.5 DGA（域名生成算法）配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#426-目标服务器配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.6 目标服务器配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2.6 目标服务器配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#http-连接配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTP 连接配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#带域名的https连接配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        带域名的HTTPS连接配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mtls双向认证配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mTLS（双向认证）配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tcp-连接配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TCP 连接配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tcp-tls-配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TCP + TLS 配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rem-协议配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        REM 协议配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#多服务器配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多服务器配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-implants-植入体高级配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 implants - 植入体高级配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 implants - 植入体高级配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#431-基础运行时配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.1 基础运行时配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#432-模块管理配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.2 模块管理配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#433-文件打包与标识配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.3 文件打包与标识配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#434-反检测与对抗配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.4 反检测与对抗配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#435-api-调用策略配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.5 API 调用策略配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#436-内存分配与执行配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.6 内存分配与执行配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#437-pe-文件签名修改配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.7 PE 文件签名修改配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-build-编译构建配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 build - 编译构建配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 build - 编译构建配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#441-编译工具链配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.1 编译工具链配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#442-ollvm-混淆配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.2 OLLVM 混淆配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#443-二进制元数据配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.3 二进制元数据配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-pulse配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 pulse配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-autorun配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 autorun配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../win_kit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    malefic-win-kit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../integrate/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    integrate
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_6" id="__nav_2_7_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    integrate
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_6_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../integrate/sdk/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_6_2" id="__nav_2_7_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_7_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    SDK
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrate/sdk/go/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Golang
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrate/sdk/python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python(Untable)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrate/sdk/typescript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typescript(Unstable)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrate/ffi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FFI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrate/ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Changelog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2025/11/10/IoM_v0.1.2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2025/07/09/IoM_v0.1.1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2025/04/14/IoM_v0.1.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2025/01/02/IoM_v0.0.4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2024/11/20/IoM_v0.0.3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2024/09/23/IoM_v0.0.2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2024/08/16/IoM_introduce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../gogo/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    gogo
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    gogo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    细节
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拓展
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../spray/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    spray
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    spray
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    细节
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../zombie/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    zombie
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    zombie
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../zombie/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../zombie/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../zombie/extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拓展
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../rem/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rem
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    rem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概念
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    libs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    libs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/neutron/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    neutron
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    neutron
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/neutron/update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    update
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/words/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    words
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    words
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/fingers/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    fingers
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_4" id="__nav_7_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    fingers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/fingers/rule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/fingers/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/proxyclient/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    proxyclient
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_5" id="__nav_7_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    proxyclient
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/proxyclient/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preview
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preview
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../mapping/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mapping
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mapping
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mapping/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../blog/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9" id="__nav_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="iom-implant-编译与配置完整手册">IoM Implant 编译与配置完整手册<a class="headerlink" href="#iom-implant-编译与配置完整手册" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>本手册涵盖 IoM 植入体的完整编译流程和详细配置说明，适用于从入门到高级的所有使用场景。</p>
+</blockquote>
+<h2 id="目录">目录<a class="headerlink" href="#目录" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="#快速开始">快速开始</a></li>
+<li><a href="#第一部分编译环境与架构支持">第一部分：编译环境与架构支持</a></li>
+<li><a href="#第二部分编译方法">第二部分：编译方法</a></li>
+<li><a href="#第三部分mutant-工具">第三部分：Mutant 工具</a></li>
+<li><a href="#第四部分植入体配置详解">第四部分：植入体配置详解</a></li>
+</ul>
+<hr />
+<h2 id="快速开始">快速开始<a class="headerlink" href="#快速开始" title="Permanent link">&para;</a></h2>
+<h3 id="快速编译你的第一个maleficbeacon">快速编译你的第一个malefic(beacon)<a class="headerlink" href="#快速编译你的第一个maleficbeacon" title="Permanent link">&para;</a></h3>
+<p>如果你是第一次使用 IoM，推荐使用 Docker 编译方式：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Clone 源码（包含子模块）</span>
+git<span class="w"> </span>clone<span class="w"> </span>--recurse-submodules<span class="w"> </span>https://github.com/chainreactors/malefic
+
+<span class="c1"># 2. Docker 编译</span>
+docker<span class="w"> </span>run<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">:/root/src&quot;</span><span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>ghcr.io/chainreactors/malefic-builder:latest<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;malefic-mutant generate beacon &amp;&amp; malefic-mutant build malefic --target x86_64-pc-windows-gnu&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="第一部分编译环境与架构支持">第一部分：编译环境与架构支持<a class="headerlink" href="#第一部分编译环境与架构支持" title="Permanent link">&para;</a></h2>
+<h3 id="11-支持的架构">1.1 支持的架构<a class="headerlink" href="#11-支持的架构" title="Permanent link">&para;</a></h3>
+<p>malefic 理论上支持 rust 能编译的几乎所有平台，包括各种冷门架构的 IoT 设备, Android 系统, iOS 系统等等 (有相关需求可以联系我们定制化适配)，当前支持的架构可参考<a href="https://github.com/chainreactors/cross-rust">cross-rust</a></p>
+<p><strong>经过测试的 target：</strong></p>
+<ul>
+<li>x86_64-apple-darwin</li>
+<li>aarch64-apple-darwin</li>
+<li>x86_64-unknown-linux-musl</li>
+<li>i686-unknown-linux-musl</li>
+<li>x86_64-pc-windows-msvc</li>
+<li>i686-pc-windows-msvc</li>
+<li>x86_64-pc-windows-gnu</li>
+<li>i686-pc-windows-gnu</li>
+<li>armv7-unknown-linux-musleabihf</li>
+<li>armv7-unknown-linux-musleabi</li>
+</ul>
+<h3 id="12-基础环境配置">1.2 基础环境配置<a class="headerlink" href="#12-基础环境配置" title="Permanent link">&para;</a></h3>
+<h4 id="git-clone">Git Clone<a class="headerlink" href="#git-clone" title="Permanent link">&para;</a></h4>
+<p>因为 malefic 需要用到代码生成, 并鼓励用户修改代码, 因此我们没有将代码打包到 docker 中.</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>--recurse-submodules<span class="w"> </span>https://github.com/chainreactors/malefic
+</code></pre></div>
+<div class="admonition important">
+<p class="admonition-title">注意 clone 子项目</p>
+<p>需要添加<code>--recurse-submodules</code>递归克隆子项目. 如果已经 clone 也不必担心,<code>git submodule update --init --recursive</code> 即可</p>
+</div>
+<h4 id="下载-resources">下载 resources<a class="headerlink" href="#下载-resources" title="Permanent link">&para;</a></h4>
+<div class="admonition tips">
+<p class="admonition-title">在一键安装时使用install.sh会自动下载resources</p>
+</div>
+<p><a href="https://github.com/chainreactors/malefic/releases/latest">resources.zip</a>, 包含了编译需要用到的预编译好的malefic-win-kit、rem等库文件.</p>
+<p>community版本的resources随着malefic发布时的 release 发布: <a href="https://github.com/chainreactors/malefic/releases/latest">https://github.com/chainreactors/malefic/releases/latest</a> </p>
+<p>resources下载解压后，目录结构如下:</p>
+<p><img alt="" src="../../../assets/Pasted%20image%2020241122223133.png" /></p>
+<hr />
+<h2 id="第二部分编译方法">第二部分：编译方法<a class="headerlink" href="#第二部分编译方法" title="Permanent link">&para;</a></h2>
+<h3 id="21-docker-编译推荐">2.1 Docker 编译（推荐）<a class="headerlink" href="#21-docker-编译推荐" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">docker交叉编译镜像</p>
+<p><a href="https://github.com/cross-rs/cross">cross-rs/cross</a>非常强大，它解决了Rust的编译环境安装复杂的一大难题，但是它会导入一些用户目录信息等，我们参考了cross的代码创建了用于维护malefic(即implant)编译的镜像仓库<a href="https://github.com/chainreactors/cross-rust">chainreactors/cross-rust</a>.
+    这个项目暂时提供了一些主流架构的编译环境的Dockerfile。</p>
+</div>
+<p>同标题所讲，使用该编译方法需要需要先安装Docker.</p>
+<h4 id="docker-install">Docker Install<a class="headerlink" href="#docker-install" title="Permanent link">&para;</a></h4>
+<p>可参考<a href="https://www.docker.com/">官网介绍</a></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 国外安装请使用</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://get.docker.com<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>bash<span class="w"> </span>-s<span class="w"> </span>docker
+<span class="c1"># 国内安装请使用</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://get.docker.com<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash<span class="w"> </span>-s<span class="w"> </span>docker<span class="w"> </span>--mirror<span class="w"> </span>Aliyun
+</code></pre></div>
+<h4 id="支持的镜像">支持的镜像<a class="headerlink" href="#支持的镜像" title="Permanent link">&para;</a></h4>
+<p>目前已经支持的镜像:</p>
+<ul>
+<li>ghcr.io/chainreactors/x86_64-pc-windows-msvc:nightly-2023-09-18-latest</li>
+<li>ghcr.io/chainreactors/i686-pc-windows-msvc:nightly-2023-09-18-latest</li>
+<li>ghcr.io/chainreactors/i686-pc-windows-gnu:nightly-2023-09-18-latest</li>
+<li>ghcr.io/chainreactors/x86_64-pc-windows-gnu:nightly-2023-09-18-latest</li>
+<li>ghcr.io/chainreactors/x86_64-unknown-linux-musl:nightly-2023-09-18-latest</li>
+<li>ghcr.io/chainreactors/i686-unknown-linux-musl:nightly-2023-09-18-latest</li>
+<li>ghcr.io/chainreactors/x86_64-unknown-linux-gnu:nightly-2023-09-18-latest</li>
+<li>ghcr.io/chainreactors/i686-unknown-linux-gnu:nightly-2023-09-18-latest</li>
+<li>ghcr.io/chainreactors/x86_64-apple-darwin:nightly-2023-09-18-latest</li>
+<li>ghcr.io/chainreactors/aarch64-apple-darwin:nightly-2023-09-18-latest</li>
+<li>...</li>
+</ul>
+<div class="admonition tips">
+<p class="admonition-title">镜像使用注意</p>
+<p>ghcr.io/chainreactors/malefic-builder:latest是一个包含了win/linux/mac常用target的镜像. 如果了解rust的编译操作, 可以使用这个镜像实现大多数编译。(具体target有i686-pc-windows-gnu,x86_64-pc-windows-gnu,x86_64-unknown-linux-musl,i686-unknown-linux-musl,x86_64-apple-darwin,aarch64-apple-darwin)</p>
+</div>
+<h4 id="编译命令">编译命令<a class="headerlink" href="#编译命令" title="Permanent link">&para;</a></h4>
+<div class="admonition important">
+<p class="admonition-title">请注意已完成了基础环境配置</p>
+<p>使用<code>install.sh</code> 安装的会自动配置对应的基础环境. 如果是手动配置请检查<a href="#12-基础环境配置">基础环境配置</a></p>
+</div>
+<p>以<code>x86_64-unknown-linux-musl</code>举例, <strong>在 malefic 的代码根目录下执行</strong></p>
+<p>你可以通过一行命令执行 build
+<div class="highlight"><pre><span></span><code><span class="c1"># cd /user/path/malefic/</span>
+docker<span class="w"> </span>run<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">:/root/src&quot;</span><span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>ghcr.io/chainreactors/malefic-builder:latest<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;malefic-mutant generate beacon &amp;&amp; malefic-mutant build malefic --target x86_64-unknown-linux-musl&quot;</span>
+
+<span class="c1"># 如果不想每次都下载依赖, 可以把依赖进行本地的缓存，</span>
+docker<span class="w"> </span>run<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">:/root/src&quot;</span><span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/cache/registry:/root/cargo/registry&quot;</span><span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/cache/git:/root/cargo/git&quot;</span><span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>ghcr.io/chainreactors/malefic-builder:latest<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;malefic-mutant generate beacon &amp;&amp; malefic-mutant build malefic --target x86_64-unknown-linux-musl&quot;</span>
+</code></pre></div></p>
+<p>在 docker 中编译通过 volume 映射源码，编译完成会在<code>./target/&lt;target_triple&gt;/release/</code>目录下生成对应的二进制文件。</p>
+<h3 id="22-github-action编译">2.2 Github Action编译<a class="headerlink" href="#22-github-action编译" title="Permanent link">&para;</a></h3>
+<p>我们在Github Action中也基于测试通过的镜像做了适配。</p>
+<p>目前client+server已经内置了Github action编译的命令，你可通过在client端调用<code>action build --help</code>查看详细用法。 </p>
+<p>接下来叙述如何手动通过gh编译。</p>
+<p>首先, 你需要git clone一份malefic源码，并push到一份到你的仓库(建议设置私人仓库)，并开启github action功能，参考下图:</p>
+<p><img alt="" src="../../../assets/enable-github-action.png" /></p>
+<p>然后, 在本地安装<a href="https://docs.github.com/zh/github-cli/github-cli/quickstart">gh cli</a>工具，通过设置<code>GH_TOKEN</code>环境变量或<code>gh auth login</code>登录你的github账号，然后执行如下命令即可编译.</p>
+<p>注意: windows用户如果没有base64等函数，建议通过git-bash.exe执行.</p>
+<h4 id="编译命令_1">编译命令<a class="headerlink" href="#编译命令_1" title="Permanent link">&para;</a></h4>
+<ol>
+<li>
+<p><strong>编译beacon</strong>
+<div class="highlight"><pre><span></span><code>gh workflow run generate.yaml -f package=&quot;beacon&quot; -f malefic_config_yaml=$(base64 -w 0 &lt;/path/to/malefic_src/config.yaml&gt;) -f remark=&quot;write somthing..&quot; -f targets=&quot;x86_64-pc-windows-gnu&quot; -R &lt;username/malefic&gt;
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>编译bind</strong>
+<div class="highlight"><pre><span></span><code>gh workflow run generate.yaml -f package=&quot;beacon&quot; -f malefic_config_yaml=$(base64 -w 0 &lt;/path/to/malefic_src/config.yaml&gt;) -f remark=&quot;write somthing..&quot; -f targets=&quot;x86_64-pc-windows-gnu&quot; -R &lt;username/malefic&gt;
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>编译 pulse</strong>
+<div class="highlight"><pre><span></span><code>gh workflow run generate.yaml -f package=&quot;pulse&quot; -f malefic_config_yaml=$(base64 -w 0 &lt;/path/to/malefic_src/config.yaml&gt;) -f remark=&quot;write somthing..&quot; -f targets=&quot;x86_64-pc-windows-gnu&quot; -R &lt;username/malefic&gt;
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>编译prelude</strong>
+<div class="highlight"><pre><span></span><code>gh workflow run generate.yaml -f package=&quot;prelude&quot; -f autorun_yaml=$(base64 -w 0 &lt;/path/to/malefic_src/autorun.yaml&gt;) -f malefic_config_yaml=$(base64 -w 0 &lt;/path/to/malefic_src/config.yaml&gt;) -f remark=&quot;write somthing..&quot; -f targets=&quot;x86_64-pc-windows-gnu&quot; -R &lt;username/malefic&gt;
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>编译modules</strong>
+<div class="highlight"><pre><span></span><code>gh workflow run generate.yaml -f package=&quot;modules&quot; -f malefic_modules_features=&quot;execute_powershell execute_assembl...&quot; -f remark=&quot;write somthing..&quot; -f targets=&quot;x86_64-pc-windows-gnu&quot; -R &lt;username/malefic&gt;
+</code></pre></div></p>
+</li>
+</ol>
+<p>编译完成后你可以通过<code>gh run list --workflow=generate.yaml -R &lt;username/malefic&gt;</code>查看编译结果，
+通过<code>gh run download &lt;run_id&gt; -R &lt;username/malefic&gt;</code>下载对应的二进制文件.</p>
+<p><img alt="" src="../../../assets/gh-run-list-download.png" /></p>
+<h3 id="23-本机编译">2.3 本机编译<a class="headerlink" href="#23-本机编译" title="Permanent link">&para;</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">由于本地环境的编译更为复杂, 只建议有rust使用经验的用户采用</p>
+<p>本机编译时交叉编译配置或者不同的target都可能有不同的环境依赖. 例如编译gnu相关需要依赖特定版本的gcc, 编译musl或者darwin也需要安装对应的环境。这些基础环境配置我们在docker里解决了一遍， <strong>对于没有相关经验的使用者会非常劝退</strong>。</p>
+<p>如果没有丰富的rust使用经验， 建议使用我们提前准备的docker/github aciton进行编译</p>
+</div>
+<h4 id="安装rust">安装rust<a class="headerlink" href="#安装rust" title="Permanent link">&para;</a></h4>
+<p><strong>linux安装 rust</strong></p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://sh.rustup.rs<span class="w"> </span>-sSf<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+</code></pre></div>
+<p><strong>windows安装rust</strong>
+三种方式选择一种即可:</p>
+<ol>
+<li>直接下载安装程序: 
+<a href="https://www.rust-lang.org/tools/install">https://www.rust-lang.org/tools/install</a> 或使用包管理工具下载</li>
+<li>scoop install
+<div class="highlight"><pre><span></span><code>scoop<span class="w"> </span>install<span class="w"> </span>rustup
+</code></pre></div></li>
+<li>winget install
+<div class="highlight"><pre><span></span><code>winget<span class="w"> </span>install<span class="w"> </span>rustup
+</code></pre></div></li>
+</ol>
+<h4 id="安装-toolchain">安装 toolchain<a class="headerlink" href="#安装-toolchain" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>rustup<span class="w"> </span>default<span class="w"> </span>nightly-2023-09-18
+</code></pre></div>
+<h4 id="环境配置">环境配置<a class="headerlink" href="#环境配置" title="Permanent link">&para;</a></h4>
+<div class="admonition tips">
+<p class="admonition-title">交叉编译小技巧</p>
+<p>使用手动交叉编译也可以使用<a href="https://github.com/rust-cross/cargo-zigbuild">zigbuild</a>可以免去坑非常多的环境配置问题</p>
+<div class="highlight"><pre><span></span><code>pip install cargo-zigbuild
+</code></pre></div>
+<p>编译命令如下，以malefic beacon为例:</p>
+<div class="highlight"><pre><span></span><code>cargo zigbuild --release -p malefic --target x86_64-pc-windows-gnu
+cargo zigbuild --release -p malefic --target x86_64-unknown-linux-musl
+</code></pre></div>
+</div>
+<p><strong>linux环境配置</strong></p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>openssl<span class="w"> </span>libssl-dev<span class="w"> </span>libudev-dev<span class="w"> </span>cmake<span class="w"> </span>llvm<span class="w"> </span>clang<span class="w"> </span>musl-tools<span class="w"> </span>build-essential
+</code></pre></div>
+<p><strong>windows环境配置</strong></p>
+<details>
+<summary>windows 配置msvc环境(使用x86_64-pc-windows-msvc必须)</summary>
+<p>请参考: <a href="https://rust-lang.github.io/rustup/installation/windows-msvc.html">https://rust-lang.github.io/rustup/installation/windows-msvc.html</a></p>
+</details>
+<details>
+<summary>windows 配置 gnu 环境(如果使用x86_64-pc-windows-gnu必须)</summary>
+<p>本地手动编译时，我们推荐 windows 用户使用<a href="https://www.msys2.org/">msys2</a>管理 GNU 工具链环境, 可通过官网二进制文件直接安装。</p>
+<p>在 msys2 的 terminal 执行如下安装可以保证 64、32 位 GNU 工具链的正常编译</p>
+<div class="highlight"><pre><span></span><code>pacman -Syy # 更新包列表
+pacman -S --needed mingw-w64-x86_64-gcc
+pacman -S --needed mingw-w64-i686-gcc
+</code></pre></div>
+<p>你可以把 msys64 添加到环境变量中， 或通过<code>notepad $PROFILE</code>将如下内容添加到 powershell 配置中，实现在 powershell 中快速切换<code>mingw64/32</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="k">function</span> <span class="n">mg</span> <span class="p">{</span>
+    <span class="k">param</span> <span class="p">(</span>
+        <span class="p">[</span><span class="k">ValidateSet</span><span class="p">(</span><span class="s2">&quot;32&quot;</span><span class="p">,</span> <span class="s2">&quot;64&quot;</span><span class="p">)]</span>
+        <span class="no">[string]</span><span class="nv">$arch</span> <span class="p">=</span> <span class="s2">&quot;64&quot;</span>
+    <span class="p">)</span>
+
+    <span class="nv">$basePath</span> <span class="p">=</span> <span class="s2">&quot;D:\msys64\mingw&quot;</span> <span class="c"># 此处是你的msys2安装路径</span>
+    <span class="nv">$env:PATH</span> <span class="p">=</span> <span class="s2">&quot;${basePath}${arch}\bin;&quot;</span> <span class="p">+</span> <span class="nv">$env:PATH</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Switched to mingw${arch} (bit) toolchain&quot;</span>
+<span class="p">}</span>
+<span class="n">mg</span> <span class="n">64</span>
+</code></pre></div>
+<p>用法参考下图:</p>
+<p><img alt="switch mingw" src="../../../assets/switch-mingw-in-powershell.png" /></p>
+</details>
+<h4 id="编译步骤">编译步骤<a class="headerlink" href="#编译步骤" title="Permanent link">&para;</a></h4>
+<div class="admonition important">
+<p class="admonition-title">本机安装请注意<a href="#下载-resources">下载resources</a>并解压到指定目录</p>
+</div>
+<p>此部分也可以使用make命令进行编译, 与前文Makefile一致</p>
+<p><strong>编译 malefic</strong></p>
+<p>项目的配置(.cargo/config.toml、cargo.toml、Makefile)中提供了一些预设和编译优化选项. 熟悉 rust 的使用者也可以手动编译，malefic 目前使用的 rust 版本是<code>nightly-2023-09-18</code>.</p>
+<p>在进行手动编译前， 请更改 <code>beacon/bind</code> 对应的配置项, 关于配置项， 请参考 <a href="#第四部分植入体配置详解">配置说明</a></p>
+<p>添加对应的目标编译架构,以<code>x86_64-pc-windows-gnu</code>为例</p>
+<div class="highlight"><pre><span></span><code>rustup<span class="w"> </span>target<span class="w"> </span>add<span class="w"> </span>x86_64-pc-windows-gnu
+</code></pre></div>
+<p><strong>生成配置与代码</strong></p>
+<p>编译mutant, 或从malefic release中下载编译好的mutant,<a href="#第三部分mutant-工具">mutant 完整文档</a></p>
+<div class="highlight"><pre><span></span><code>cargo<span class="w"> </span>build<span class="w"> </span>--release<span class="w"> </span>-p<span class="w"> </span>malefic-mutant
+</code></pre></div>
+<p>通过 mutant 生成对应的配置</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 生成 beacon 编译所需的配置和代码</span>
+./target/release/malefic-mutant<span class="w"> </span>generate<span class="w"> </span>beacon
+<span class="c1"># 生成 bind 编译所需的配置和代码</span>
+./target/release/malefic-mutant<span class="w"> </span>generate<span class="w"> </span><span class="nb">bind</span>
+</code></pre></div>
+<p>指定 <code>target</code> 编译</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># mg 64</span>
+cargo<span class="w"> </span>build<span class="w"> </span>--release<span class="w"> </span>-p<span class="w"> </span>malefic<span class="w"> </span>--target<span class="w"> </span>x86_64-pc-windows-gnu
+<span class="c1"># mg 32</span>
+cargo<span class="w"> </span>build<span class="w"> </span>--release<span class="w"> </span>-p<span class="w"> </span>malefic<span class="w"> </span>--target<span class="w"> </span>i686-pc-windows-gnu
+
+<span class="c1"># 如果你需要编译win7的target,请使用如下命令</span>
+cargo<span class="w"> </span>+nightly<span class="w"> </span>build<span class="w"> </span>--release<span class="w"> </span>-p<span class="w"> </span>malefic<span class="w"> </span>--target<span class="w"> </span>x86_64-win7-windows-msvc<span class="w"> </span>-Z<span class="w"> </span>build-std<span class="o">=</span>std,panic_abort
+</code></pre></div>
+<p><strong>编译 malefic-prelude</strong></p>
+<p>生成配置</p>
+<div class="highlight"><pre><span></span><code>malefic-mutant<span class="w"> </span>generate<span class="w"> </span>prelude<span class="w"> </span>autorun.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>cargo<span class="w"> </span>build<span class="w"> </span>--release<span class="w"> </span>-p<span class="w"> </span>malefic-prelude<span class="w"> </span>--target<span class="w"> </span>x86_64-pc-windows-gnu
+</code></pre></div>
+<p><strong>编译 malefic-pulse</strong></p>
+<p>在进行手动编译前， 请更改 <code>pulse</code> 对应的配置项, 关于配置项， 请参考 <a href="#pulse配置">pulse 配置说明</a></p>
+<div class="highlight"><pre><span></span><code>malefic-mutant<span class="w"> </span>generate<span class="w"> </span>pulse
+</code></pre></div>
+<p>指定 <code>target</code> 编译</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># mg 64</span>
+cargo<span class="w"> </span>build<span class="w"> </span>-p<span class="w"> </span>malefic-pulse<span class="w"> </span>--target<span class="w"> </span>x86_64-pc-windows-gnu
+<span class="c1"># mg 32</span>
+cargo<span class="w"> </span>build<span class="w"> </span>-p<span class="w"> </span>malefic-pulse<span class="w"> </span>--target<span class="w"> </span>i686-pc-windows-gnu
+</code></pre></div>
+<p>生成对应的 <code>malefic-pulse.exe</code> 文件后，您可以使用 <code>objcopy</code> 来进行 <code>shellcode</code> 的转化</p>
+<div class="highlight"><pre><span></span><code>objcopy<span class="w"> </span>-O<span class="w"> </span>binary<span class="w"> </span>malefic-pulse.exe<span class="w"> </span>malefic-pulse.bin
+</code></pre></div>
+<p><strong>编译独立 modules</strong></p>
+<p>malefic 的 windows 平台目前支持动态加载 module, 因此可以编译单个或者一组 module, 然后通过<code>load_module</code>给已上线的 implant 添加新的功能.</p>
+<p>相关命令如下:</p>
+<p>生成对应配置</p>
+<div class="highlight"><pre><span></span><code>malefic_mutant<span class="w"> </span>generate<span class="w"> </span>modules<span class="w"> </span><span class="s2">&quot;execute_powershell execute_assembly&quot;</span>
+</code></pre></div>
+<p>编译 modules</p>
+<div class="highlight"><pre><span></span><code>malefic_mutant<span class="w"> </span>build<span class="w"> </span>modules<span class="w"> </span>--target<span class="w"> </span>x86_64-pc-windows-gnu
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">当前支持的 modules</p>
+<p>请见: <a href="https://chainreactors.github.io/wiki/IoM/manual/implant/modules/#modules">https://chainreactors.github.io/wiki/IoM/manual/implant/modules/#modules</a></p>
+</div>
+<p>编译结果为<code>target\[arch]\release\modules.dll</code></p>
+<p>可以使用<code>load_module</code>热加载这个 dll</p>
+<div class="admonition important">
+<p class="admonition-title">module 动态加载目前只支持 windows</p>
+<p>linux 与 mac 在理论上也可以实现, 将会随着对应的kit发布</p>
+</div>
+<p>常见的使用场景:</p>
+<ol>
+<li>编译一个不带任何 modules 的 malefic, 保持静态文件最小特征与最小体积. 通过<code>load_module modules.dll</code> 动态加载模块</li>
+<li>根据场景快速开发 module, 然后动态加载到 malefic 中.</li>
+<li>长时间保持静默的场景可以卸载所有的 modules, 并进入到 sleepmask 的堆加密状态. 等需要操作时重新加载 modules</li>
+</ol>
+<hr />
+<h2 id="第三部分mutant-工具">第三部分：Mutant 工具<a class="headerlink" href="#第三部分mutant-工具" title="Permanent link">&para;</a></h2>
+<p>malefic 在v0.0.3中解耦为多个组件并新增了大量组件，可预见的将会有更多组件和模块出现在项目中， 因此配置生成/管理工具刻不容缓， 之前的 config 已经无法满足当前的需求， 我们新增了 malefic-mutant 代替原有的malefic-config</p>
+<p>在设计中， mutant 的定位相当于 MSF venom， 可以动态解析和更改配置以动态生成代码， 也可以通过需求动态生成 shellcode 的 raw 文件.</p>
+<h3 id="31-installbuild">3.1 Install/Build<a class="headerlink" href="#31-installbuild" title="Permanent link">&para;</a></h3>
+<p>malefic-mutant 会随着每个版本自动编译对应的release. 直接下载即可使用</p>
+<p><a href="https://github.com/chainreactors/malefic/releases/latest">https://github.com/chainreactors/malefic/releases/latest</a></p>
+<p>也支持从源码编译:</p>
+<div class="highlight"><pre><span></span><code>cargo<span class="w"> </span>build<span class="w"> </span>--release<span class="w"> </span>-p<span class="w"> </span>malefic-mutant<span class="w"> </span>
+</code></pre></div>
+<div class="admonition tips">
+<p class="admonition-title">编译环境</p>
+<p>编译环境可以参考build中对应的配置流程</p>
+</div>
+<h3 id="32-config">3.2 Config<a class="headerlink" href="#32-config" title="Permanent link">&para;</a></h3>
+<p>malefic-mutant 目前有三大组件:</p>
+<ul>
+<li>generate： 根据配置动态生成代码</li>
+<li>build：创建可用的 shellcode/PE 文件和编译</li>
+<li>tool: 一些可用的小工具（目前为srdi）</li>
+</ul>
+<p>其中 generate 所依赖的配置均在 malefic/config.yaml 文件中</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>mutant<span class="w"> </span>--help
+Config<span class="w"> </span>malefic<span class="w"> </span>beacon<span class="w"> </span>and<span class="w"> </span>prelude.
+
+Usage:<span class="w"> </span>malefic-mutant.exe<span class="w"> </span>&lt;COMMAND&gt;
+
+Commands:
+<span class="w">  </span>generate<span class="w">  </span>auto<span class="w"> </span>generate<span class="w"> </span>config
+<span class="w">  </span>build<span class="w">     </span>auto<span class="w"> </span>build
+<span class="w">  </span>tool
+<span class="w">  </span><span class="nb">help</span><span class="w">      </span>Print<span class="w"> </span>this<span class="w"> </span>message<span class="w"> </span>or<span class="w"> </span>the<span class="w"> </span><span class="nb">help</span><span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>given<span class="w"> </span>subcommand<span class="o">(</span>s<span class="o">)</span>
+
+Options:
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">  </span>Print<span class="w"> </span><span class="nb">help</span>
+</code></pre></div>
+<p>由于 beacon 是整个功能的结合形态， 因此配置项略微复杂， 这里将其分为三部分来介绍</p>
+<p>配置文件模板: <a href="https://github.com/chainreactors/malefic/blob/master/config.yaml">https://github.com/chainreactors/malefic/blob/master/config.yaml</a></p>
+<h3 id="33-generate">3.3 generate<a class="headerlink" href="#33-generate" title="Permanent link">&para;</a></h3>
+<p>generate是代码, 配置, 编译条件的生成器, 因此需要在源代码目录下使用.</p>
+<p>如果还没有下载对应的源代码, 请先尝试clone malefic.</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>--recurse-submodules<span class="w"> </span>https://github.com/chainreactors/malefic
+</code></pre></div>
+<p>generate 模块将会根据配置动态生成一切所需的代码（pulse, prelude, beacon...）</p>
+<p>在每次修改完implant的<code>config.yaml</code>后， 都需要重新执行 <code>malefic-mutant generate  ...</code> 生成对应的配置</p>
+<h4 id="beacon">beacon<a class="headerlink" href="#beacon" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Usage:<span class="w"> </span>malefic-mutant.exe<span class="w"> </span>generate<span class="w"> </span>beacon<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+
+Options:
+<span class="w">  </span>-v,<span class="w"> </span>--version<span class="w"> </span>&lt;VERSION&gt;<span class="w">  </span>Choice<span class="w"> </span>professional<span class="w"> </span>or<span class="w"> </span>community<span class="w"> </span><span class="o">[</span>default:<span class="w"> </span>community<span class="o">]</span><span class="w"> </span><span class="o">[</span>possible<span class="w"> </span>values:<span class="w"> </span>community,<span class="w"> </span>professional,<span class="w"> </span>inner<span class="o">]</span>
+<span class="w">  </span>-s,<span class="w"> </span>--source<span class="w">             </span><span class="nb">enable</span><span class="w"> </span>build<span class="w"> </span>from<span class="w"> </span><span class="nb">source</span><span class="w"> </span>code
+<span class="w">  </span>-c,<span class="w"> </span>--config<span class="w"> </span>&lt;CONFIG&gt;<span class="w">    </span>Config<span class="w"> </span>file<span class="w"> </span>path<span class="w"> </span><span class="o">[</span>default:<span class="w"> </span>config.yaml<span class="o">]</span>
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">               </span>Print<span class="w"> </span><span class="nb">help</span>
+</code></pre></div>
+<p><strong>使用示例</strong></p>
+<div class="highlight"><pre><span></span><code>malefic-mutant<span class="w"> </span>generate<span class="w"> </span>beacon<span class="w"> </span>
+</code></pre></div>
+<h5 id="beacon-prelude">beacon prelude<a class="headerlink" href="#beacon-prelude" title="Permanent link">&para;</a></h5>
+<p>beacon在v0.1.0中也支持<a href="#autorun">autorun</a>了。 不在需要分阶段上线， 可以通过stageless实现同样的功能。 </p>
+<p>可以在编译时编译到beacon中， 在beacon启动时自动执行预编排的任务。 </p>
+<div class="highlight"><pre><span></span><code><span class="nt">implants</span><span class="p">:</span><span class="w">  </span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">autorun</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;persistence.yaml&quot;</span>
+</code></pre></div>
+<p>persistence.yaml:
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bof</span>
+<span class="w">  </span><span class="nt">body</span><span class="p">:</span><span class="w"> </span><span class="kt">!ExecuteBinary</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">addservice</span>
+<span class="w">    </span><span class="nt">bin</span><span class="p">:</span><span class="w"> </span><span class="kt">!File</span><span class="w"> </span><span class="s">&quot;addservice.o&quot;</span>
+</code></pre></div></p>
+<h4 id="pulse">pulse<a class="headerlink" href="#pulse" title="Permanent link">&para;</a></h4>
+<p>pulse 作为目前的 shellcode 生成器， 由 mutant 通过解析配置来提供生成代码</p>
+<h4 id="prelude">prelude<a class="headerlink" href="#prelude" title="Permanent link">&para;</a></h4>
+<p>prelude 为可选的用于在上线前进行权限维持, 反沙箱, 反调试等功能的中间阶段</p>
+<p><strong>使用说明</strong></p>
+<div class="highlight"><pre><span></span><code>Config<span class="w"> </span>prelude
+
+Usage:<span class="w"> </span>malefic-mutant.exe<span class="w"> </span>generate<span class="w"> </span>prelude<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>&lt;YAML_PATH&gt;
+
+Arguments:
+<span class="w">  </span>&lt;YAML_PATH&gt;
+
+Options:
+<span class="w">  </span>--resources<span class="w"> </span>&lt;RESOURCES&gt;<span class="w">  </span>Custom<span class="w"> </span>resources<span class="w"> </span>dir,<span class="w"> </span>default<span class="w"> </span><span class="s2">&quot;./resources/&quot;</span><span class="w"> </span><span class="o">[</span>default:<span class="w"> </span>resources<span class="o">]</span>
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">                   </span>Print<span class="w"> </span><span class="nb">help</span>
+</code></pre></div>
+<p>这个yaml能被自动打包编译成<code>spite.bin</code></p>
+<div class="highlight"><pre><span></span><code>malefic-mutant<span class="w"> </span>generate<span class="w"> </span>prelude<span class="w"> </span>autorun.yaml
+
+cargo<span class="w"> </span>build<span class="w"> </span>-p<span class="w"> </span>malefic-prelude
+</code></pre></div>
+<p>能生成一个自动按顺序执行autorun.yaml 中配置的二进制程序.</p>
+<h4 id="bind-unstable">bind (Unstable)<a class="headerlink" href="#bind-unstable" title="Permanent link">&para;</a></h4>
+<p>在当前实际对抗中, 受到网络环境的限制, 很少有人使用 bind 类型的 webshell. 但在一些极端场景下, 例如不出网的webshell 中, 又或者长时间流量静默的场景下. bind 也许有用武之地</p>
+<p>bind 作为新增的临时解决方案, 也由 mutant 来进行调配</p>
+<div class="highlight"><pre><span></span><code>Config<span class="w"> </span><span class="nb">bind</span>
+
+Usage:<span class="w"> </span>malefic-mutant.exe<span class="w"> </span>generate<span class="w"> </span><span class="nb">bind</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+
+Options:
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">               </span>Print<span class="w"> </span><span class="nb">help</span>
+</code></pre></div>
+<h3 id="34-build">3.4 build<a class="headerlink" href="#34-build" title="Permanent link">&para;</a></h3>
+<p>在v0.1.0后， 为了方便ollvm的复杂参数配置， 我们添加了mutant build命令组, 用来通过mutant封装复杂编译参数， 减少用户侧的心智负担。</p>
+<p>build 作为二进制文件生成器， 用于生成最终产物</p>
+<div class="highlight"><pre><span></span><code>auto<span class="w"> </span>build
+
+Usage:<span class="w"> </span>malefic-mutant.exe<span class="w"> </span>build<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>&lt;COMMAND&gt;
+
+Commands:
+<span class="w">  </span>malefic<span class="w">  </span>Build<span class="w"> </span>beacon
+<span class="w">  </span>prelude<span class="w">  </span>Build<span class="w"> </span>prelude
+<span class="w">  </span>modules<span class="w">  </span>Build<span class="w"> </span>modules
+<span class="w">  </span>pulse<span class="w">    </span>Build<span class="w"> </span>pulse
+<span class="w">  </span><span class="nb">help</span><span class="w">     </span>Print<span class="w"> </span>this<span class="w"> </span>message<span class="w"> </span>or<span class="w"> </span>the<span class="w"> </span><span class="nb">help</span><span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>given<span class="w"> </span>subcommand<span class="o">(</span>s<span class="o">)</span>
+
+Options:
+<span class="w">  </span>-c,<span class="w"> </span>--config<span class="w"> </span>&lt;CONFIG&gt;<span class="w">  </span>Config<span class="w"> </span>file<span class="w"> </span>path<span class="w"> </span><span class="o">[</span>default:<span class="w"> </span>config.yaml<span class="o">]</span>
+<span class="w">  </span>-t,<span class="w"> </span>--target<span class="w"> </span>&lt;TARGET&gt;<span class="w">  </span><span class="o">[</span>default:<span class="w"> </span>x86_64-pc-windows-gnu<span class="o">]</span>
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">             </span>Print<span class="w"> </span><span class="nb">help</span>
+</code></pre></div>
+<h4 id="malefic">malefic<a class="headerlink" href="#malefic" title="Permanent link">&para;</a></h4>
+<p>编译
+<div class="highlight"><pre><span></span><code>Build<span class="w"> </span>beacon
+
+Usage:<span class="w"> </span>malefic-mutant.exe<span class="w"> </span>build<span class="w"> </span>malefic<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+
+Options:
+<span class="w">  </span>-c,<span class="w"> </span>--config<span class="w"> </span>&lt;CONFIG&gt;<span class="w">  </span>Config<span class="w"> </span>file<span class="w"> </span>path<span class="w"> </span><span class="o">[</span>default:<span class="w"> </span>config.yaml<span class="o">]</span>
+<span class="w">  </span>-t,<span class="w"> </span>--target<span class="w"> </span>&lt;TARGET&gt;<span class="w">  </span><span class="o">[</span>default:<span class="w"> </span>x86_64-pc-windows-gnu<span class="o">]</span>
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">             </span>Print<span class="w"> </span><span class="nb">help</span>
+</code></pre></div></p>
+<p>示例</p>
+<div class="highlight"><pre><span></span><code>malefic-mutant.exe<span class="w"> </span>build<span class="w"> </span>malefic<span class="w"> </span>--target<span class="w"> </span>x86_64-pc-windows-msvc
+</code></pre></div>
+<p><strong>prelude/pulse/modules使用方法类似</strong></p>
+<h3 id="35-tool">3.5 tool<a class="headerlink" href="#35-tool" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Usage:<span class="w"> </span>malefic-mutant.exe<span class="w"> </span>tool<span class="w"> </span>&lt;COMMAND&gt;
+
+Commands:
+<span class="w">  </span>srdi<span class="w">  </span>Generate<span class="w"> </span>SRDI
+<span class="w">  </span><span class="nb">help</span><span class="w">  </span>Print<span class="w"> </span>this<span class="w"> </span>message<span class="w"> </span>or<span class="w"> </span>the<span class="w"> </span><span class="nb">help</span><span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>given<span class="w"> </span>subcommand<span class="o">(</span>s<span class="o">)</span>
+
+Options:
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">  </span>Print<span class="w"> </span><span class="nb">help</span>
+</code></pre></div>
+<h4 id="srdi">SRDI<a class="headerlink" href="#srdi" title="Permanent link">&para;</a></h4>
+<p>作为 PE2SHELLCODE 的常见解决方案， 该模块可以将我们的 prelude / beacon 转化为 shellcode 以供多段加载</p>
+<div class="highlight"><pre><span></span><code>Generate<span class="w"> </span>SRDI
+
+Usage:<span class="w"> </span>malefic-mutant.exe<span class="w"> </span>tool<span class="w"> </span>srdi<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+
+Options:
+<span class="w">  </span>-t,<span class="w"> </span>--type<span class="w"> </span>&lt;TYPE&gt;<span class="w">                    </span>Srdi<span class="w"> </span>type:<span class="w"> </span>link<span class="o">(</span>not<span class="w"> </span>support<span class="w"> </span>TLS<span class="o">)</span>/malefic<span class="o">(</span>support<span class="w"> </span>TLS<span class="o">)</span><span class="w"> </span><span class="o">[</span>default:<span class="w"> </span>malefic<span class="o">]</span>
+<span class="w">  </span>-i,<span class="w"> </span>--input<span class="w"> </span>&lt;INPUT&gt;<span class="w">                  </span>Source<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>path<span class="w"> </span><span class="o">[</span>default:<span class="w"> </span><span class="o">]</span>
+<span class="w">  </span>-p,<span class="w"> </span>--platform<span class="w"> </span>&lt;PLATFORM&gt;<span class="w">            </span>platform,<span class="w"> </span>win<span class="w"> </span><span class="o">[</span>default:<span class="w"> </span>win<span class="o">]</span>
+<span class="w">  </span>-a,<span class="w"> </span>--arch<span class="w"> </span>&lt;ARCH&gt;<span class="w">                    </span>Choice<span class="w"> </span>arch<span class="w"> </span>x86/x64<span class="w"> </span><span class="o">[</span>default:<span class="w"> </span>x64<span class="o">]</span>
+<span class="w">  </span>-o,<span class="w"> </span>--output<span class="w"> </span>&lt;OUTPUT&gt;<span class="w">                </span>Target<span class="w"> </span>shellcode<span class="w"> </span>path<span class="w"> </span><span class="o">[</span>default:<span class="w"> </span>malefic.bin<span class="o">]</span>
+<span class="w">      </span>--function-name<span class="w"> </span>&lt;FUNCTION_NAME&gt;<span class="w">  </span>Function<span class="w"> </span>name<span class="w"> </span><span class="o">[</span>default:<span class="w"> </span><span class="o">]</span>
+<span class="w">      </span>--userdata-path<span class="w"> </span>&lt;USERDATA_PATH&gt;<span class="w">  </span>User<span class="w"> </span>data<span class="w"> </span>path<span class="w"> </span><span class="o">[</span>default:<span class="w"> </span><span class="o">]</span>
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">                           </span>Print<span class="w"> </span><span class="nb">help</span>
+</code></pre></div>
+<p>使用示例：</p>
+<div class="highlight"><pre><span></span><code>malefic-mutant<span class="w"> </span>tool<span class="w"> </span>srdi<span class="w"> </span>-i<span class="w"> </span>./beacon.exe
+
+malefic-mutant<span class="w"> </span>tool<span class="w"> </span>srdi<span class="w"> </span>-i<span class="w"> </span>./beacon.exe<span class="w"> </span>-a<span class="w"> </span>x64<span class="w"> </span>-o<span class="w"> </span>./beacon.bin
+
+malefic-mutant<span class="w"> </span>tool<span class="w"> </span>srdi<span class="w"> </span>-i<span class="w"> </span>./beacon.dll<span class="w">  </span>--function-name<span class="w"> </span><span class="s2">&quot;main&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="第四部分植入体配置详解">第四部分：植入体配置详解<a class="headerlink" href="#第四部分植入体配置详解" title="Permanent link">&para;</a></h2>
+<p>本部分详细介绍IoM植入体的配置选项，涵盖从基础通信设置到高级对抗技术的完整配置指南。</p>
+<h3 id="41-配置文件概述">4.1 配置文件概述<a class="headerlink" href="#41-配置文件概述" title="Permanent link">&para;</a></h3>
+<p>IoM植入体配置主要分为三个部分：</p>
+<ul>
+<li><strong>basic</strong>: 基础通信配置（连接、加密、重试等）</li>
+<li><strong>implants</strong>: 植入体高级配置（模块、对抗、API等） </li>
+<li><strong>build</strong>: 编译构建配置（混淆、元数据、工具链等）</li>
+</ul>
+<h3 id="42-basic-基础通信配置">4.2 basic - 基础通信配置<a class="headerlink" href="#42-basic-基础通信配置" title="Permanent link">&para;</a></h3>
+<h4 id="421-基本标识与网络配置">4.2.1 基本标识与网络配置<a class="headerlink" href="#421-基本标识与网络配置" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nt">basic</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;malefic&quot;</span><span class="w">                    </span><span class="c1"># 植入体标识名称</span>
+<span class="w">  </span><span class="nt">proxy</span><span class="p">:</span><span class="w">                             </span><span class="c1"># 代理配置（可选）</span>
+<span class="w">    </span><span class="nt">use_env_proxy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">             </span><span class="c1"># 是否使用环境变量代理</span>
+<span class="w">    </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://127.0.0.1:8080&quot;</span><span class="w">     </span><span class="c1"># 代理服务器地址</span>
+<span class="w">  </span><span class="nt">init_retry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w">                     </span><span class="c1"># 初始注册最大重试次数</span>
+<span class="w">  </span><span class="nt">server_retry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w">                   </span><span class="c1"># 单服务器每轮最大重试次数  </span>
+<span class="w">  </span><span class="nt">global_retry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000000</span><span class="w">              </span><span class="c1"># 全局累计最大重试次数</span>
+</code></pre></div>
+<p><strong>字段说明：</strong></p>
+<ul>
+<li>
+<p><strong>name</strong>: 植入体的唯一标识符，用于服务端识别和管理</p>
+</li>
+<li>
+<p><strong>proxy</strong>: 代理配置对象，支持灵活的代理设置</p>
+</li>
+<li><strong>use_env_proxy</strong>: 是否自动读取系统环境变量中的代理设置（如 <code>HTTP_PROXY</code>、<code>HTTPS_PROXY</code>）<ul>
+<li><code>true</code>: 优先使用环境变量，如 <code>http_proxy</code>、<code>https_proxy</code> 等</li>
+<li><code>false</code>: 忽略环境变量，使用手动配置</li>
+</ul>
+</li>
+<li><strong>url</strong>: 手动指定代理服务器地址，支持多种协议：<ul>
+<li><code>http://proxy.example.com:8080</code> - HTTP代理</li>
+<li><code>https://proxy.example.com:8080</code> - HTTPS代理  </li>
+<li><code>socks5://proxy.example.com:1080</code> - SOCKS5代理</li>
+</ul>
+</li>
+</ul>
+<p><strong>代理配置示例：</strong></p>
+<ol>
+<li>
+<p><strong>使用环境变量代理（推荐企业环境）</strong>：
+<div class="highlight"><pre><span></span><code><span class="nt">proxy</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">use_env_proxy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">        </span><span class="c1"># 启用环境变量代理</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w">                    </span><span class="c1"># 空值时才使用环境变量</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>手动指定HTTP代理</strong>：
+<div class="highlight"><pre><span></span><code><span class="nt">proxy</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">use_env_proxy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://proxy.company.com:8080&quot;</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>使用认证代理</strong>：
+<div class="highlight"><pre><span></span><code><span class="nt">proxy</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">use_env_proxy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://username:password@proxy.example.com:8080&quot;</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>使用SOCKS5代理</strong>：
+<div class="highlight"><pre><span></span><code><span class="nt">proxy</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">use_env_proxy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;socks5://127.0.0.1:1080&quot;</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>禁用代理</strong>：
+<div class="highlight"><pre><span></span><code><span class="nt">proxy</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">use_env_proxy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">       </span><span class="c1"># 不使用环境变量</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w">                    </span><span class="c1"># 空地址表示直连</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>混合配置（主+备用）</strong>：
+<div class="highlight"><pre><span></span><code><span class="nt">proxy</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">use_env_proxy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">        </span><span class="c1"># 启用环境变量作为备选</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://primary.proxy.com:8080&quot;</span><span class="w">  </span><span class="c1"># 优先使用此代理</span>
+</code></pre></div></p>
+</li>
+</ol>
+<p><strong>优先级规则：</strong>
+- 优先使用 <code>url</code> 配置，如果 <code>url</code> 不为空，直接使用该代理地址
+- 如果 <code>url</code> 为空且 <code>use_env_proxy: true</code>，则使用环境变量（如 <code>HTTP_PROXY</code>、<code>HTTPS_PROXY</code>、<code>ALL_PROXY</code>）
+- 如果都为空，则直接连接目标服务器</p>
+<p><strong>常见环境变量：</strong>
+- <code>HTTP_PROXY</code> - HTTP协议代理
+- <code>HTTPS_PROXY</code> - HTTPS协议代理<br />
+- <code>ALL_PROXY</code> - 所有协议通用代理
+- <code>NO_PROXY</code> - 不使用代理的地址列表</p>
+<h4 id="422-时序控制配置">4.2.2 时序控制配置<a class="headerlink" href="#422-时序控制配置" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;*/5</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&quot;</span><span class="w">      </span><span class="c1"># Cron 表达式：每5秒回连一次</span>
+<span class="w">  </span><span class="nt">jitter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2</span><span class="w">                  </span><span class="c1"># 时间抖动系数（20%随机偏移）</span>
+</code></pre></div>
+<p><strong>字段说明：</strong></p>
+<ul>
+<li><strong>cron</strong>: 使用 Cron 表达式定义回连间隔，格式为 <code>秒 分 时 日 月 周 年</code></li>
+<li><strong>jitter</strong>: 抖动范围 (0.0-1.0)，避免规律性流量特征被检测</li>
+</ul>
+<p><strong>常见 cron 配置示例：</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;*/30</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&quot;</span><span class="w">     </span><span class="c1"># 每30秒</span>
+<span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">*/5</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&quot;</span><span class="w">      </span><span class="c1"># 每5分钟整点</span>
+<span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">0</span><span class="nv"> </span><span class="s">*/2</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&quot;</span><span class="w">      </span><span class="c1"># 每2小时整点</span>
+<span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;*/5</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">9-18</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&quot;</span><span class="w">   </span><span class="c1"># 每天9-18点，每5秒执行一次</span>
+<span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">*/10</span><span class="nv"> </span><span class="s">8-20</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">1-5</span><span class="nv"> </span><span class="s">*&quot;</span><span class="w"> </span><span class="c1"># 工作日8-20点，每10分钟</span>
+<span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;*/15</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">22-6</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&quot;</span><span class="w">   </span><span class="c1"># 夜间22点-次日6点，每15秒</span>
+</code></pre></div>
+<h4 id="423-通信加密配置">4.2.3 通信加密配置<a class="headerlink" href="#423-通信加密配置" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">encryption</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aes</span><span class="w">              </span><span class="c1"># 加密算法选择</span>
+<span class="w">  </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;maliceofinternal&quot;</span><span class="w">      </span><span class="c1"># 加密密钥</span>
+</code></pre></div>
+<p><strong>支持的加密算法：</strong></p>
+<ul>
+<li><strong>aes</strong>: AES 对称加密，平衡安全性和性能</li>
+<li><strong>xor</strong>: XOR 异或加密，最轻量但安全性较低</li>
+<li><strong>chacha20</strong>: ChaCha20 流密码，高安全性</li>
+</ul>
+<h4 id="424-安全通信配置">4.2.4 安全通信配置<a class="headerlink" href="#424-安全通信配置" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">secure</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">                    </span><span class="c1"># 启用高级安全通信</span>
+<span class="w">    </span><span class="nt">private_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w">                  </span><span class="c1"># 植入体私钥</span>
+<span class="w">    </span><span class="nt">public_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w">                   </span><span class="c1"># 服务器公钥</span>
+</code></pre></div>
+<p><strong>字段说明：</strong></p>
+<ul>
+<li><strong>enable</strong>: 是否启用基于公私钥的高级安全通信</li>
+<li><strong>private_key</strong>: 植入体的私钥，用于身份验证和密钥交换</li>
+<li><strong>public_key</strong>: 服务器的公钥，用于验证服务器身份和加密通信</li>
+</ul>
+<h4 id="425-dga域名生成算法配置">4.2.5 DGA（域名生成算法）配置<a class="headerlink" href="#425-dga域名生成算法配置" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">dga</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">                 </span><span class="c1"># 启用 DGA 功能</span>
+<span class="w">    </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;malefic_dga_2024&quot;</span><span class="w">      </span><span class="c1"># DGA 种子密钥</span>
+<span class="w">    </span><span class="nt">interval_hours</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span><span class="w">            </span><span class="c1"># 域名更新间隔（小时）</span>
+</code></pre></div>
+<p><strong>字段说明：</strong></p>
+<ul>
+<li><strong>enable</strong>: 当主服务器不可达时，自动生成备用域名</li>
+<li><strong>key</strong>: 影响域名生成算法的种子，确保 C2 服务器和植入体同步</li>
+<li><strong>interval_hours</strong>: 域名轮换频率，建议 6-24 小时</li>
+</ul>
+<h4 id="426-目标服务器配置">4.2.6 目标服务器配置<a class="headerlink" href="#426-目标服务器配置" title="Permanent link">&para;</a></h4>
+<h5 id="http-连接配置">HTTP 连接配置<a class="headerlink" href="#http-连接配置" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;127.0.0.1:443&quot;</span><span class="w">             </span><span class="c1"># 服务器地址 (IP:端口)</span>
+<span class="w">    </span><span class="nt">http</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;POST&quot;</span><span class="w">                     </span><span class="c1"># HTTP 方法</span>
+<span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="w">                          </span><span class="c1"># 请求路径</span>
+<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.1&quot;</span><span class="w">                     </span><span class="c1"># HTTP 版本</span>
+<span class="w">      </span><span class="nt">headers</span><span class="p">:</span><span class="w">                           </span><span class="c1"># 自定义 HTTP 头</span>
+<span class="w">        </span><span class="nt">User-Agent</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Mozilla/5.0</span><span class="nv"> </span><span class="s">(Windows</span><span class="nv"> </span><span class="s">NT</span><span class="nv"> </span><span class="s">10.0;</span><span class="nv"> </span><span class="s">Win64;</span><span class="nv"> </span><span class="s">x64)</span><span class="nv"> </span><span class="s">AppleWebKit/537.36&quot;</span>
+<span class="w">        </span><span class="nt">Content-Type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;application/octet-stream&quot;</span>
+<span class="w">    </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">                       </span><span class="c1"># 启用 TLS 加密</span>
+<span class="w">      </span><span class="nt">skip_verification</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">            </span><span class="c1"># 跳过证书验证</span>
+</code></pre></div>
+<p><strong>字段说明：</strong></p>
+<ul>
+<li><strong>address</strong>: 目标服务器的 IP 地址和端口</li>
+<li><strong>http</strong>: HTTP 协议配置</li>
+<li><strong>method</strong>: HTTP 请求方法，推荐使用 <code>POST</code>（数据量大）或 <code>GET</code>（更隐蔽）</li>
+<li><strong>path</strong>: 请求路径，可模拟合法 Web 资源路径如 <code>/api/v1/data</code>、<code>/jquery.min.js</code></li>
+<li><strong>version</strong>: HTTP 版本，通常使用 "1.1"</li>
+<li><strong>headers</strong>: 自定义 HTTP 头，User-Agent 应匹配目标环境的常见浏览器</li>
+<li><strong>tls</strong>: TLS/SSL 配置（可选，与http同时使用时表示HTTPS）</li>
+</ul>
+<h5 id="带域名的https连接配置">带域名的HTTPS连接配置<a class="headerlink" href="#带域名的https连接配置" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;default.example.com:443&quot;</span>
+<span class="w">    </span><span class="nt">domain_suffix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;example.com&quot;</span><span class="w">         </span><span class="c1"># DGA域名后缀</span>
+<span class="w">    </span><span class="nt">http</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;POST&quot;</span>
+<span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/&quot;</span>
+<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.1&quot;</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">headers</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">User-Agent</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Mozilla/5.0</span><span class="nv"> </span><span class="s">(Macintosh;</span><span class="nv"> </span><span class="s">Intel</span><span class="nv"> </span><span class="s">Mac</span><span class="nv"> </span><span class="s">OS</span><span class="nv"> </span><span class="s">X</span><span class="nv"> </span><span class="s">10_15_7)&quot;</span>
+<span class="w">        </span><span class="nt">Content-Type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;application/octet-stream&quot;</span>
+<span class="w">    </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">                       </span><span class="c1"># 启用 TLS 加密</span>
+<span class="w">      </span><span class="nt">sni</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;default.example.com&quot;</span><span class="w">         </span><span class="c1"># Server Name Indication</span>
+<span class="w">      </span><span class="nt">skip_verification</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">            </span><span class="c1"># 跳过证书验证</span>
+</code></pre></div>
+<p><strong>字段说明：</strong></p>
+<ul>
+<li><strong>domain_suffix</strong>: DGA域名后缀，当默认服务器无法连接时，使用DGA模式生成新域名</li>
+<li><strong>tls</strong>: TLS/SSL 配置</li>
+<li><strong>enable</strong>: 启用 TLS/SSL 加密传输</li>
+<li><strong>sni</strong>: 用于 TLS 握手的服务器名称，支持域名前置等技术</li>
+<li><strong>skip_verification</strong>: <ul>
+<li><code>false</code>: 验证服务器证书（推荐，更可信）</li>
+<li><code>true</code>: 跳过验证（适用于自签名证书或测试环境）</li>
+</ul>
+</li>
+</ul>
+<h5 id="mtls双向认证配置">mTLS（双向认证）配置<a class="headerlink" href="#mtls双向认证配置" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;secure.example.com:443&quot;</span>
+<span class="w">    </span><span class="nt">http</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;POST&quot;</span>
+<span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/secure-api&quot;</span>
+<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.1&quot;</span>
+<span class="w">      </span><span class="nt">headers</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">User-Agent</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Mozilla/5.0</span><span class="nv"> </span><span class="s">(Macintosh;</span><span class="nv"> </span><span class="s">Intel</span><span class="nv"> </span><span class="s">Mac</span><span class="nv"> </span><span class="s">OS</span><span class="nv"> </span><span class="s">X</span><span class="nv"> </span><span class="s">10_15_7)&quot;</span>
+<span class="w">        </span><span class="nt">Content-Type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;application/octet-stream&quot;</span>
+<span class="w">    </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">sni</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;secure.example.com&quot;</span>
+<span class="w">      </span><span class="nt">skip_verification</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="nt">mtls</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">server_ca</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/ca.crt&quot;</span><span class="w">      </span><span class="c1"># CA 根证书路径</span>
+<span class="w">        </span><span class="nt">client_cert</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/client.crt&quot;</span><span class="w"> </span><span class="c1"># 客户端证书路径  </span>
+<span class="w">        </span><span class="nt">client_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/client.key&quot;</span><span class="w">  </span><span class="c1"># 客户端私钥路径</span>
+</code></pre></div>
+<h5 id="tcp-连接配置">TCP 连接配置<a class="headerlink" href="#tcp-连接配置" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;127.0.0.1:5001&quot;</span><span class="w">            </span><span class="c1"># TCP 服务器地址</span>
+<span class="w">    </span><span class="nt">tcp</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span><span class="w">                              </span><span class="c1"># 原始 TCP 连接</span>
+</code></pre></div>
+<h5 id="tcp-tls-配置">TCP + TLS 配置<a class="headerlink" href="#tcp-tls-配置" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;127.0.0.1:5001&quot;</span>
+<span class="w">    </span><span class="nt">tcp</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">sni</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;cdn.jquery.com&quot;</span>
+<span class="w">      </span><span class="nt">skip_verification</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<h5 id="rem-协议配置">REM 协议配置<a class="headerlink" href="#rem-协议配置" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;127.0.0.1:34996&quot;</span><span class="w">           </span><span class="c1"># REM 服务器地址</span>
+<span class="w">    </span><span class="nt">rem</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">link</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tcp://nonenonenonenone:@127.0.0.1:12345?wrapper=lsJy&quot;</span>
+</code></pre></div>
+<p><strong>REM 协议说明：</strong></p>
+<ul>
+<li>REM 是 IoM 的自定义协议，支持更灵活的流量伪装</li>
+<li><code>link</code> 格式：<code>[transport]://[key]:@[host]:[port]?wrapper=[]&amp;tls=[bool]&amp;tlsintls=[bool]&amp;compress=[bool]</code>，详情请参考<a href="https://wiki.chainreactors.red/rem/usage/#console">REM用法文档</a></li>
+</ul>
+<h5 id="多服务器配置">多服务器配置<a class="headerlink" href="#多服务器配置" title="Permanent link">&para;</a></h5>
+<p>植入体已支持主服务器+多个备用服务器的功能(即多域名/IP的支持)，
+目前轮询顺序按照yaml中的定义顺序，首个配置为主服务器，其他为备份服务器 :</p>
+<div class="admonition tips">
+<p class="admonition-title">多服务器的配置目前仅支持单一协议通信</p>
+<p>目前我们使用feature严格控制文件大小，后续优化后会支持多协议多服务器的配置</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># 主服务器 - HTTP</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;primary.example.com:80&quot;</span>
+<span class="w">    </span><span class="nt">http</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GET&quot;</span>
+<span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/search&quot;</span>
+<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.1&quot;</span>
+<span class="w">      </span><span class="nt">headers</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">User-Agent</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Mozilla/5.0</span><span class="nv"> </span><span class="s">(Windows</span><span class="nv"> </span><span class="s">NT</span><span class="nv"> </span><span class="s">10.0;</span><span class="nv"> </span><span class="s">Win64;</span><span class="nv"> </span><span class="s">x64)&quot;</span>
+
+<span class="w">  </span><span class="c1"># 备用服务器 - HTTPS  </span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;backup.example.com:443&quot;</span>
+<span class="w">    </span><span class="nt">http</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;POST&quot;</span>
+<span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/api/sync&quot;</span>
+<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.1&quot;</span>
+<span class="w">      </span><span class="nt">headers</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">User-Agent</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Mozilla/5.0</span><span class="nv"> </span><span class="s">(Macintosh;</span><span class="nv"> </span><span class="s">Intel</span><span class="nv"> </span><span class="s">Mac</span><span class="nv"> </span><span class="s">OS</span><span class="nv"> </span><span class="s">X</span><span class="nv"> </span><span class="s">10_15_7)&quot;</span>
+<span class="w">        </span><span class="nt">Content-Type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;application/json&quot;</span>
+<span class="w">    </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">sni</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;backup.example.com&quot;</span>
+<span class="w">      </span><span class="nt">skip_verification</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</code></pre></div>
+<p><strong>多服务器轮换逻辑：</strong></p>
+<ol>
+<li>按照配置顺序依次尝试连接</li>
+<li>单个服务器失败时，根据 <code>server_retry</code> 设置重试</li>
+<li>所有服务器都失败时，如果启用了 DGA，将生成新的域名重试</li>
+<li>达到 <code>global_retry</code> 限制后停止重试</li>
+</ol>
+<h3 id="43-implants-植入体高级配置">4.3 implants - 植入体高级配置<a class="headerlink" href="#43-implants-植入体高级配置" title="Permanent link">&para;</a></h3>
+<h4 id="431-基础运行时配置">4.3.1 基础运行时配置<a class="headerlink" href="#431-基础运行时配置" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nt">implants</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">runtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tokio</span><span class="w">          </span><span class="c1"># async runtime: smol/tokio/async-std</span>
+<span class="w">  </span><span class="nt">mod</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">beacon</span><span class="w">             </span><span class="c1"># malefic mod: beacon/bind</span>
+<span class="w">  </span><span class="nt">register_info</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">     </span><span class="c1"># whether collect sysinfo when register</span>
+<span class="w">  </span><span class="nt">hot_load</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">          </span><span class="c1"># enable hot load module</span>
+</code></pre></div>
+<p><strong>字段解释：</strong></p>
+<ul>
+<li><strong>runtime</strong>: 异步运行时框架，可选 <code>smol</code>/<code>tokio</code>/<code>async-std</code>。<code>tokio</code> 是最成熟的选择，性能和生态最好。</li>
+<li><strong>mod</strong>: 植入体工作模式，<code>beacon</code>（回连模式）或 <code>bind</code>（监听模式）。</li>
+<li><strong>register_info</strong>: 是否在首次连接时收集目标系统信息（OS版本、硬件等）。</li>
+<li><strong>hot_load</strong>: 是否支持运行时动态加载新模块，提升灵活性但略增复杂度。</li>
+</ul>
+<h4 id="432-模块管理配置">4.3.2 模块管理配置<a class="headerlink" href="#432-模块管理配置" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">modules</span><span class="p">:</span><span class="w">                </span><span class="c1"># module when malefic compile</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;nano&quot;</span>
+<span class="w">  </span><span class="nt">enable_3rd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">       </span><span class="c1"># enable 3rd module</span>
+<span class="w">  </span><span class="nt">3rd_modules</span><span class="p">:</span><span class="w">            </span><span class="c1"># 3rd module when malefic compile</span>
+<span class="w">    </span><span class="c1">#    - curl</span>
+<span class="w">    </span><span class="c1">#    - rem_static</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">full</span>
+</code></pre></div>
+<p><strong>字段解释：</strong></p>
+<ul>
+<li><strong>modules</strong>: 编译时静态链接的内置模块列表。<code>nano</code> 是轻量级基础模块。还有全部常见功能的full、支持基础操作的base等</li>
+<li><strong>enable_3rd</strong>: 是否启用第三方模块支持，<code>false</code> 时忽略 <code>3rd_modules</code>。</li>
+<li><strong>3rd_modules</strong>: 第三方模块列表，<code>full</code> 表示包含所有可用模块；具体模块如 <code>curl</code>（HTTP客户端）、<code>rem_static</code>（静态REM协议）。</li>
+</ul>
+<h4 id="433-文件打包与标识配置">4.3.3 文件打包与标识配置<a class="headerlink" href="#433-文件打包与标识配置" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">autorun</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w">             </span><span class="c1"># autorun config filename</span>
+<span class="w">  </span><span class="nt">pack</span><span class="p">:</span><span class="w">                   </span><span class="c1"># pack</span>
+<span class="w">  </span><span class="c1">#    - src: &quot;1.docx&quot;</span>
+<span class="w">  </span><span class="c1">#      dst: &quot;1.docs&quot;</span>
+<span class="w">  </span><span class="nt">flags</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0x41</span>
+<span class="w">    </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0x42</span>
+<span class="w">    </span><span class="nt">magic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;beautiful&quot;</span>
+<span class="w">    </span><span class="nt">artifact_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0x1</span>
+</code></pre></div>
+<p><strong>字段解释：</strong></p>
+<ul>
+<li><strong>autorun</strong>: 自动执行脚本的配置文件名，留空则无自动执行。</li>
+<li><strong>pack</strong>: 将外部文件打包到植入体中，<code>src</code> 是源文件，<code>dst</code> 是植入体内路径。</li>
+<li><strong>flags</strong>: 植入体标识配置</li>
+<li><strong>start/end</strong>: 数据段标记字节，用于定位植入体数据边界</li>
+<li><strong>magic</strong>: 魔术字符串，用于验证植入体完整性</li>
+<li><strong>artifact_id</strong>: 构建产物唯一标识，便于管理多个变种</li>
+</ul>
+<h4 id="434-反检测与对抗配置">4.3.4 反检测与对抗配置<a class="headerlink" href="#434-反检测与对抗配置" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="c1"># for professional</span>
+<span class="w">  </span><span class="nt">anti</span><span class="p">:</span><span class="w"> </span><span class="c1"># 反沙箱反调试反编译反取证相关</span>
+<span class="w">    </span><span class="nt">sandbox</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">vm</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">            </span><span class="c1"># enable anti vm</span>
+<span class="w">    </span><span class="c1"># debug: true         # enable anti debug</span>
+<span class="w">    </span><span class="c1"># disasm: true        # enable anti disasm</span>
+<span class="w">    </span><span class="c1"># emulator: true      # enable anti emulator</span>
+<span class="w">    </span><span class="c1"># forensic: true      # enable anti forensic</span>
+</code></pre></div>
+<p><strong>字段解释：</strong></p>
+<ul>
+<li><strong>sandbox</strong>: 反沙箱检测，检测动态分析环境并退出或改变行为</li>
+<li><strong>vm</strong>: 反虚拟机检测，识别 VMware/VirtualBox 等虚拟化环境</li>
+<li><strong>debug</strong>: 反调试检测，阻止调试器附加或检测调试状态</li>
+<li><strong>disasm</strong>: 反反汇编，增加静态分析难度</li>
+<li><strong>emulator</strong>: 反模拟器，检测 QEMU 等模拟环境</li>
+<li><strong>forensic</strong>: 反取证，对抗内存取证和磁盘分析</li>
+</ul>
+<h4 id="435-api-调用策略配置">4.3.5 API 调用策略配置<a class="headerlink" href="#435-api-调用策略配置" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">apis</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># apis_level: &quot;sys_apis&quot;, &quot;nt_apis&quot;</span>
+<span class="w">    </span><span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;nt_apis&quot;</span>
+<span class="w">    </span><span class="c1"># apis_priority: &quot;normal&quot;, &quot;user_defined_dyanmic&quot;, &quot;func_syscall&quot; &quot;syscalls&quot;</span>
+<span class="w">    </span><span class="nt">priority</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">normal</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;normal&quot;</span>
+<span class="w">      </span><span class="nt">dynamic</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="c1"># type: &quot;sys_dynamic&quot;, &quot;user_defined_dynamic&quot;</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;user_defined_dynamic&quot;</span>
+<span class="w">      </span><span class="nt">syscalls</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">        </span><span class="c1"># type: &quot;func_syscall&quot;, &quot;inline_syscall&quot;</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;inline_syscall&quot;</span>
+</code></pre></div>
+<p><strong>字段解释：</strong></p>
+<ul>
+<li><strong>level</strong>: API 调用层级，<code>sys_apis</code>（系统API）或 <code>nt_apis</code>（内核API）。<code>nt_apis</code> 更底层，bypass 能力更强。</li>
+<li><strong>priority</strong>: API 调用优先级策略</li>
+<li><strong>normal</strong>: 直接调用 Windows API，最简单但最容易被 hook</li>
+<li><strong>dynamic</strong>: 动态解析API，<code>user_defined_dynamic</code> 表示自定义动态加载方式，增强隐蔽性</li>
+<li><strong>syscalls</strong>: 直接系统调用，<code>inline_syscall</code> 内联汇编调用，bypass 能力最强但兼容性要求高</li>
+</ul>
+<h4 id="436-内存分配与执行配置">4.3.6 内存分配与执行配置<a class="headerlink" href="#436-内存分配与执行配置" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">alloctor</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># inprocess: &quot;VirtualAlloc&quot;, &quot;VirtualAllocEx&quot;,</span>
+<span class="w">    </span><span class="c1">#            &quot;VirtualAllocExNuma&quot;, &quot;HeapAlloc&quot;,</span>
+<span class="w">    </span><span class="c1">#            &quot;NtMapViewOfSection&quot;, &quot;NtAllocateVirtualMemory&quot;</span>
+<span class="w">    </span><span class="nt">inprocess</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NtAllocateVirtualMemory&quot;</span>
+<span class="w">    </span><span class="c1"># allocter_ex: &quot;VirtualAllocEx&quot;, &quot;NtAllocateVirtualMemory&quot;,</span>
+<span class="w">    </span><span class="c1">#              &quot;VirtualAllocExNuma&quot;, &quot;NtMapViewOfSection&quot;</span>
+<span class="w">    </span><span class="nt">crossprocess</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NtAllocateVirtualMemory&quot;</span>
+<span class="w">  </span><span class="nt">thread_stack_spoofer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<p><strong>字段解释：</strong></p>
+<ul>
+<li><strong>alloctor</strong>: 内存分配器选择</li>
+<li><strong>inprocess</strong>: 进程内分配，可选 <code>VirtualAlloc</code>/<code>HeapAlloc</code>/<code>NtAllocateVirtualMemory</code> 等</li>
+<li><strong>crossprocess</strong>: 跨进程分配，用于注入等场景</li>
+<li><strong>thread_stack_spoofer</strong>: 线程栈欺骗，伪造调用栈以绕过基于调用栈的检测</li>
+</ul>
+<h4 id="437-pe-文件签名修改配置">4.3.7 PE 文件签名修改配置<a class="headerlink" href="#437-pe-文件签名修改配置" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">pe_signature_modify</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">feature</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">modify</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">magic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\x00\x00</span><span class="s">&quot;</span>
+<span class="w">      </span><span class="nt">signature</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\x00\x00</span><span class="s">&quot;</span>
+</code></pre></div>
+<p><strong>字段解释：</strong></p>
+<ul>
+<li><strong>feature</strong>: 是否启用 PE 签名修改功能</li>
+<li><strong>modify</strong>: 具体修改内容</li>
+<li><strong>magic</strong>: 修改 PE 魔术字节，干扰静态检测</li>
+<li><strong>signature</strong>: 修改 PE 签名标识，破坏原始签名但可能绕过某些检测</li>
+</ul>
+<h3 id="44-build-编译构建配置">4.4 build - 编译构建配置<a class="headerlink" href="#44-build-编译构建配置" title="Permanent link">&para;</a></h3>
+<h4 id="441-编译工具链配置">4.4.1 编译工具链配置<a class="headerlink" href="#441-编译工具链配置" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nt">build</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">zigbuild</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">                        </span><span class="c1"># 是否使用 Zig 交叉编译</span>
+<span class="w">  </span><span class="nt">remap</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">                           </span><span class="c1"># 是否启用路径重映射</span>
+<span class="w">  </span><span class="nt">toolchain</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;nightly-2023-09-18&quot;</span><span class="w">       </span><span class="c1"># Rust 工具链版本</span>
+</code></pre></div>
+<p><strong>字段说明：</strong></p>
+<ul>
+<li><strong>zigbuild</strong>: 使用 Zig 作为 C/C++ 编译器，提供更好的交叉编译支持</li>
+<li><strong>remap</strong>: 编译时重映射源文件路径，清除构建环境信息</li>
+<li><strong>toolchain</strong>: 指定 Rust 工具链版本，确保编译环境一致性</li>
+</ul>
+<h4 id="442-ollvm-混淆配置">4.4.2 OLLVM 混淆配置<a class="headerlink" href="#442-ollvm-混淆配置" title="Permanent link">&para;</a></h4>
+<div class="admonition important">
+<p class="admonition-title">ollvm相关配置只支持在IoM提供的malefic-builder中使用</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="nt">build</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">ollvm</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">                        </span><span class="c1"># 总开关</span>
+<span class="w">    </span><span class="nt">bcfobf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">                        </span><span class="c1"># 伪控制流混淆</span>
+<span class="w">    </span><span class="nt">splitobf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">                      </span><span class="c1"># 控制流拆分</span>
+<span class="w">    </span><span class="nt">subobf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">                        </span><span class="c1"># 指令替换混淆</span>
+<span class="w">    </span><span class="nt">fco</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">                           </span><span class="c1"># 函数调用混淆</span>
+<span class="w">    </span><span class="nt">constenc</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">                      </span><span class="c1"># 常量加密</span>
+</code></pre></div>
+<p><strong>混淆技术说明：</strong></p>
+<ul>
+<li><strong>bcfobf</strong>: 插入无用的控制流分支，增加反编译难度</li>
+<li><strong>splitobf</strong>: 将基本块拆分并重排，破坏原始程序结构</li>
+<li><strong>subobf</strong>: 用等价但复杂的指令序列替换简单指令</li>
+<li><strong>fco</strong>: 隐藏真实的函数调用关系</li>
+<li><strong>constenc</strong>: 运行时解密字符串常量</li>
+</ul>
+<h4 id="443-二进制元数据配置">4.4.3 二进制元数据配置<a class="headerlink" href="#443-二进制元数据配置" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nt">build</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">remap_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;C:/Windows/System32/&quot;</span><span class="w">   </span><span class="c1"># 路径重映射</span>
+<span class="w">    </span><span class="nt">icon</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;assets/app.ico&quot;</span><span class="w">               </span><span class="c1"># 程序图标</span>
+<span class="w">    </span><span class="nt">compile_time</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;15</span><span class="nv"> </span><span class="s">Jun</span><span class="nv"> </span><span class="s">2019</span><span class="nv"> </span><span class="s">10:30:00&quot;</span><span class="w"> </span><span class="c1"># 编译时间伪装</span>
+<span class="w">    </span><span class="nt">file_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10.0.19041.1&quot;</span><span class="w">        </span><span class="c1"># 文件版本</span>
+<span class="w">    </span><span class="nt">product_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10.0.19041.1&quot;</span><span class="w">     </span><span class="c1"># 产品版本</span>
+<span class="w">    </span><span class="nt">company_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Microsoft</span><span class="nv"> </span><span class="s">Corporation&quot;</span><span class="w"> </span><span class="c1"># 公司名称</span>
+<span class="w">    </span><span class="nt">product_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Windows</span><span class="nv"> </span><span class="s">Security&quot;</span><span class="w">    </span><span class="c1"># 产品名称</span>
+<span class="w">    </span><span class="nt">original_filename</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;SecurityHealth.exe&quot;</span><span class="w"> </span><span class="c1"># 原始文件名</span>
+<span class="w">    </span><span class="nt">file_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Windows</span><span class="nv"> </span><span class="s">Security</span><span class="nv"> </span><span class="s">Health</span><span class="nv"> </span><span class="s">Service&quot;</span><span class="w"> </span><span class="c1"># 文件描述</span>
+<span class="w">    </span><span class="nt">internal_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;SecurityHealth&quot;</span><span class="w">     </span><span class="c1"># 内部名称</span>
+<span class="w">    </span><span class="nt">require_admin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">                 </span><span class="c1"># 需要管理员权限</span>
+<span class="w">    </span><span class="nt">require_uac</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">                   </span><span class="c1"># 需要 UAC 提权</span>
+</code></pre></div>
+<h3 id="45-pulse配置">4.5 pulse配置<a class="headerlink" href="#45-pulse配置" title="Permanent link">&para;</a></h3>
+<p>Pulse 是 IoM 的轻量级 Stager，负责从服务器下载并执行主要的 Beacon 载荷。</p>
+<p>其所依赖的配置位于 malefic/config.yaml 文件的 pulse 模块</p>
+<div class="highlight"><pre><span></span><code><span class="nt">pulse</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">flags</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0x41</span><span class="w">             </span><span class="c1"># 交互 body 的开始标志</span>
+<span class="w">    </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0x42</span><span class="w">               </span><span class="c1"># 交互 body 的结束标志</span>
+<span class="w">    </span><span class="nt">magic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;beautiful&quot;</span><span class="w">      </span><span class="c1"># 随机校验</span>
+<span class="w">    </span><span class="nt">artifact_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w">          </span><span class="c1"># 用于控制所拉取的阶段</span>
+<span class="w">  </span><span class="nt">encryption</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xor</span><span class="w">           </span><span class="c1"># body 加密方式 (目前为 xor)</span>
+<span class="w">  </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;maliceofinternal&quot;</span><span class="w">   </span><span class="c1"># 加密的 `key` 值</span>
+<span class="w">  </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">127.0.0.1:80</span><span class="w">     </span><span class="c1"># 目标服务器地址  </span>
+<span class="w">  </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http&quot;</span><span class="w">          </span><span class="c1"># 通信协议</span>
+<span class="w">  </span><span class="nt">http</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;POST&quot;</span>
+<span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/pulse&quot;</span>
+<span class="w">    </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;127.0.0.1&quot;</span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.1&quot;</span>
+<span class="w">    </span><span class="nt">headers</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">User-Agent</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Mozilla/5.0</span><span class="nv"> </span><span class="s">(Windows</span><span class="nv"> </span><span class="s">NT</span><span class="nv"> </span><span class="s">6.1;</span><span class="nv"> </span><span class="s">WOW64;</span><span class="nv"> </span><span class="s">rv:40.0)</span><span class="nv"> </span><span class="s">Gecko/20100101</span><span class="nv"> </span><span class="s">Firefox/40.0&quot;</span>
+</code></pre></div>
+<h3 id="46-autorun配置">4.6 autorun配置<a class="headerlink" href="#46-autorun配置" title="Permanent link">&para;</a></h3>
+<p>autorun本质上是将protobuf 转为yaml, 在编译时会重新还原为protobuf并加密保存到二进制文件中。 </p>
+<p>因此具体完整的能力implant的能力， 所有能通过各种插件实现的功能都可以通过autorun实现。</p>
+<p>yaml示例:</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w">  </span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bof</span><span class="w">  </span>
+<span class="w">  </span><span class="nt">body</span><span class="p">:</span><span class="w"> </span><span class="kt">!ExecuteBinary</span><span class="w">  </span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">service</span><span class="w">  </span>
+<span class="w">    </span><span class="nt">bin</span><span class="p">:</span><span class="w"> </span><span class="kt">!File</span><span class="w"> </span><span class="s">&quot;addservice.o&quot;</span>
+<span class="p p-Indicator">-</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">exe</span>
+<span class="w">  </span><span class="nt">body</span><span class="p">:</span><span class="w"> </span><span class="kt">!ExecRequest</span>
+<span class="w">    </span><span class="nt">args</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">net</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">user</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">add</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">....</span>
+</code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 ChainReactors
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/chainreactors" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "toc.integrate", "toc.follo", "navigation.top", "header.autohide", "search.share", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

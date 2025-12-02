@@ -1,0 +1,7554 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="chainreactors wiki">
+      
+      
+        <meta name="author" content="M09ic">
+      
+      
+        <link rel="canonical" href="https://wiki.chainreactors.red/wiki/IoM/manual/manual/client/">
+      
+      
+        <link rel="prev" href="../build/">
+      
+      
+        <link rel="next" href="../implant/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>client usage - ChainReactor Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-DCRVR86FG2"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-DCRVR86FG2",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-DCRVR86FG2",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#generic" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="ChainReactor Wiki" class="md-header__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ChainReactor Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              client usage
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  导航
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  IoM
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../gogo/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  gogo
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../spray/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  spray
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../zombie/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  zombie
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../rem/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  rem
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../libs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  libs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../mapping/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Preview
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../blog/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="ChainReactor Wiki" class="md-nav__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ChainReactor Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    导航
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IoM
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    IoM
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concept
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RoadMap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../guideline/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guideline
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6" id="__nav_2_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guideline
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安装部署
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/listener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Listener
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/payload/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payload
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/post_exploitation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后渗透基本操作
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/embed_mal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内置插件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    代理/隧道
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6_8" id="__nav_2_6_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高级用法
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    高级用法
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/advance/DumpLSASS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DumpLSASS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/advance/DomainFronting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DomainFronting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/advance/Multi-Server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MultiServer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/advance/Guardrail/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guardrail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../guideline/develop/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DevelopGuide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6_9" id="__nav_2_6_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    DevelopGuide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mal快速入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/develop/server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Server开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/develop/client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Client开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/develop/implant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implant开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manual
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7" id="__nav_2_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Manual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    client/server
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_2" id="__nav_2_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    client/server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install&deploy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../listener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    listener
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    client usage
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    client usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#generic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        generic
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="generic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        !
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#broadcast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        broadcast
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        exit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        license
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        login
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pivot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pivot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        version
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        manage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="manage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        background
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        history
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#obverse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        obverse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        session
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="session">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#session-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        session group
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session-newbind" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        session newbind
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        session note
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session-remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        session remove
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        use
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        alias
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="alias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#alias-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        alias install
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alias-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        alias list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alias-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        alias load
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alias-remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        alias remove
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        extension
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="extension">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extension-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        extension install
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extension-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        extension list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extension-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        extension load
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extension-remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        extension remove
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#armory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        armory
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="armory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#armory-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        armory install
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#armory-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        armory search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#armory-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        armory update
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mal
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="mal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mal-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mal install
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mal-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mal list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mal-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mal load
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mal-refresh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mal refresh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mal-remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mal remove
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mal-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mal update
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="config">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#config-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config github
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#config-github-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config github update
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#config-notify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config notify
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#config-notify-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config notify update
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#config-refresh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config refresh
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        context
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="context">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#context-credential" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        context credential
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        context download
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-keylogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        context keylogger
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-port" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        context port
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-screenshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        context screenshot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        context upload
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cert
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="cert">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cert-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cert delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cert-download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cert download
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cert-import" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cert import
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cert-self_signed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cert self_signed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cert-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cert update
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#listener" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        listener
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="listener">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#job" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        job
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listener_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        listener
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pipeline delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pipeline list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pipeline start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pipeline stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#website" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        website
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="website">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#website-add" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        website add
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#website-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        website list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#website-list-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        website list-content
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#website-remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        website remove
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#website-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        website start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#website-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        website stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#website-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        website update
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bind" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bind
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        http
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rem
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="rem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rem-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rem delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rem-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rem list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rem-new" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rem new
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rem-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rem start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rem-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rem stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tcp
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        generator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="generator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#artifact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        artifact
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="artifact">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#artifact-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        artifact delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#artifact-download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        artifact download
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#artifact-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        artifact list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#artifact-show" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        artifact show
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#artifact-upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        artifact upload
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build-beacon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build beacon
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build log
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-prelude" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build prelude
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-pulse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build pulse
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        profile
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="profile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#profile-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        profile delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profile-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        profile list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profile-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        profile load
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profile-new" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        profile new
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#donut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        donut
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../implant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    implant usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mal/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mals插件生态
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_3" id="__nav_2_7_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mals插件生态
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/embed/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    embed
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7_3_3" id="__nav_2_7_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lua
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_7_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    lua
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/builtin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    builtin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/beacon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    beacon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mal/rpc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rpc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7_4" id="__nav_2_7_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mutant
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mutant
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mutant/malefic_mutant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implant/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    implant
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_5" id="__nav_2_7_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    implant
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implant/build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implant/modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implant/win_kit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    malefic-win-kit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../integrate/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    integrate
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_6" id="__nav_2_7_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    integrate
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_6_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../integrate/sdk/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_6_2" id="__nav_2_7_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_7_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    SDK
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrate/sdk/go/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Golang
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrate/sdk/python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python(Untable)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrate/sdk/typescript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typescript(Unstable)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrate/ffi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FFI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrate/ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Changelog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2025/11/10/IoM_v0.1.2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2025/07/09/IoM_v0.1.1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2025/04/14/IoM_v0.1.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2025/01/02/IoM_v0.0.4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2024/11/20/IoM_v0.0.3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2024/09/23/IoM_v0.0.2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2024/08/16/IoM_introduce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../gogo/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    gogo
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    gogo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    细节
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拓展
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../spray/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    spray
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    spray
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    细节
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../zombie/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    zombie
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    zombie
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../zombie/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../zombie/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../zombie/extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拓展
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../rem/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rem
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    rem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概念
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    libs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    libs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/neutron/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    neutron
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    neutron
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/neutron/update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    update
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/words/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    words
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    words
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/fingers/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    fingers
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_4" id="__nav_7_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    fingers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/fingers/rule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/fingers/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/proxyclient/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    proxyclient
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_5" id="__nav_7_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    proxyclient
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/proxyclient/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preview
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preview
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../mapping/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mapping
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mapping
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mapping/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../blog/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9" id="__nav_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>client usage</h1>
+
+<h2 id="generic">generic<a class="headerlink" href="#generic" title="Permanent link">&para;</a></h2>
+<h3 id="_1">!<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<p>Run a command</p>
+<div class="highlight"><pre><span></span><code>! [command]
+</code></pre></div>
+<h3 id="broadcast">broadcast<a class="headerlink" href="#broadcast" title="Permanent link">&para;</a></h3>
+<p>Broadcast a message to all clients</p>
+<div class="highlight"><pre><span></span><code>broadcast [message] [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -n, --notify   notify the message to third-party services
+</code></pre></div>
+<h3 id="exit">exit<a class="headerlink" href="#exit" title="Permanent link">&para;</a></h3>
+<p>exit client</p>
+<div class="highlight"><pre><span></span><code>exit
+</code></pre></div>
+<h3 id="license">license<a class="headerlink" href="#license" title="Permanent link">&para;</a></h3>
+<p>show server license info</p>
+<p><strong>Description</strong></p>
+<p>show server license info</p>
+<div class="highlight"><pre><span></span><code>license
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>license
+</code></pre></div>
+<h3 id="login">login<a class="headerlink" href="#login" title="Permanent link">&para;</a></h3>
+<p>Login to server</p>
+<p><img alt="login" src="../../../assets/login.gif" /></p>
+<div class="highlight"><pre><span></span><code>login
+</code></pre></div>
+<h3 id="pivot">pivot<a class="headerlink" href="#pivot" title="Permanent link">&para;</a></h3>
+<p>List all pivot agents</p>
+<p><strong>Description</strong></p>
+<p>List all active pivot agents with their details</p>
+<div class="highlight"><pre><span></span><code>pivot [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<p>List all pivot agents:
+<div class="highlight"><pre><span></span><code>pivot
+</code></pre></div></p>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -a, --all   list all pivot agents
+</code></pre></div>
+<h3 id="version">version<a class="headerlink" href="#version" title="Permanent link">&para;</a></h3>
+<p>show server version</p>
+<div class="highlight"><pre><span></span><code>version
+</code></pre></div>
+<h2 id="manage">manage<a class="headerlink" href="#manage" title="Permanent link">&para;</a></h2>
+<h3 id="background">background<a class="headerlink" href="#background" title="Permanent link">&para;</a></h3>
+<p>back to root context</p>
+<p><strong>Description</strong></p>
+<p>Exit the current session and return to the root context.</p>
+<div class="highlight"><pre><span></span><code>background
+</code></pre></div>
+<h3 id="history">history<a class="headerlink" href="#history" title="Permanent link">&para;</a></h3>
+<p>show log history</p>
+<p><strong>Description</strong></p>
+<p>Displays the specified number of log lines of the current session.</p>
+<div class="highlight"><pre><span></span><code>history
+</code></pre></div>
+<h3 id="obverse">obverse<a class="headerlink" href="#obverse" title="Permanent link">&para;</a></h3>
+<p>observe manager</p>
+<p><strong>Description</strong></p>
+<p>Control observers to listen session in the background.</p>
+<div class="highlight"><pre><span></span><code>obverse [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// List all observers
+observe -l
+
+// Remove observer
+observe -r
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -l, --list     list all observers
+  -r, --remove   remove observer
+</code></pre></div>
+<h3 id="session">session<a class="headerlink" href="#session" title="Permanent link">&para;</a></h3>
+<p>List and Choice sessions</p>
+<p><strong>Description</strong></p>
+<p>Display a table of active sessions on the server, 
+allowing you to navigate up and down to select a desired session. 
+Press the Enter key to use the selected session. 
+Use the -a or --all option to display all sessions, including those that have been disconnected.</p>
+<div class="highlight"><pre><span></span><code>session [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// List all active sessions
+session
+
+// List all sessions, including those that have been disconnected
+session -a
+
+// List all sessions, and shown in static table for mcp server
+session -a --static
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -a, --all      show all sessions
+      --static   show all sessions in static table
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#session-group">session group</a>    - group session</li>
+<li><a href="#session-newbind">session newbind</a>    - new bind session</li>
+<li><a href="#session-note">session note</a>  - add note to session</li>
+<li><a href="#session-remove">session remove</a>  - remove session</li>
+</ul>
+<h4 id="session-group">session group<a class="headerlink" href="#session-group" title="Permanent link">&para;</a></h4>
+<p>group session</p>
+<p><strong>Description</strong></p>
+<p>Add a session to a group. If the group does not exist, it will be created.
+When using an active session, only provide the group name.</p>
+<div class="highlight"><pre><span></span><code>session group [group] [session]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Add a session to a group
+group newGroup 08d6c05a21512a79a1dfeb9d2a8f262f
+
+// Add a session to a group when using an active session
+group newGroup
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#session">session</a>    - List and Choice sessions</li>
+</ul>
+<h4 id="session-newbind">session newbind<a class="headerlink" href="#session-newbind" title="Permanent link">&para;</a></h4>
+<p>new bind session</p>
+<div class="highlight"><pre><span></span><code>session newbind [session] [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -n, --name string       session name
+      --pipeline string   pipeline id
+  -t, --target string     session target
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#session">session</a>    - List and Choice sessions</li>
+</ul>
+<h4 id="session-note">session note<a class="headerlink" href="#session-note" title="Permanent link">&para;</a></h4>
+<p>add note to session</p>
+<p><strong>Description</strong></p>
+<p>Add a note to a session. If a note already exists, it will be updated. 
+When using an active session, only provide the new note.</p>
+<div class="highlight"><pre><span></span><code>session note [note] [session]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Add a note to specified session
+note newNote 08d6c05a21512a79a1dfeb9d2a8f262f
+
+// Add a note when using an active session
+note newNote
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#session">session</a>    - List and Choice sessions</li>
+</ul>
+<h4 id="session-remove">session remove<a class="headerlink" href="#session-remove" title="Permanent link">&para;</a></h4>
+<p>remove session</p>
+<p><strong>Description</strong></p>
+<p>Remove a specified session.</p>
+<div class="highlight"><pre><span></span><code>session remove [session]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// remove a specified session
+remove 08d6c05a21512a79a1dfeb9d2a8f262f
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#session">session</a>    - List and Choice sessions</li>
+</ul>
+<h3 id="use">use<a class="headerlink" href="#use" title="Permanent link">&para;</a></h3>
+<p>Use session</p>
+<p><strong>Description</strong></p>
+<p>use</p>
+<div class="highlight"><pre><span></span><code>use [session]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// use session
+use 08d6c05a21512a79a1dfeb9d2a8f262f
+</code></pre></div>
+<h3 id="alias">alias<a class="headerlink" href="#alias" title="Permanent link">&para;</a></h3>
+<p>manage aliases</p>
+<p><strong>Description</strong></p>
+<p>Macros are using the sideload or spawndll commands under the hood, depending on the use case. </p>
+<p>For Linux and Mac OS, the sideload command will be used. On Windows, it will depend on whether the macro file is a reflective DLL or not. </p>
+<p>Load a macro: 
+<div class="highlight"><pre><span></span><code>load /tmp/chrome-dump 
+</code></pre></div></p>
+<p>Sliver macros have the following structure (example for the chrome-dump macro): </p>
+<p>chrome-dump 
+* chrome-dump.dll 
+* chrome-dump.so 
+* manifest.json</p>
+<p>It is a directory containing any number of files, with a mandatory manifest.json, that has the following structure: </p>
+<div class="highlight"><pre><span></span><code>{ 
+    &quot;macroName&quot;:&quot;chrome-dump&quot;, // name of the macro, can be anything
+    &quot;macroCommands&quot;:[ 
+        { 
+            &quot;name&quot;:&quot;chrome-dump&quot;, // name of the command available in the sliver client (no space)
+            &quot;entrypoint&quot;:&quot;ChromeDump&quot;, // entrypoint of the shared library to execute
+            &quot;help&quot;:&quot;Dump Google Chrome cookies&quot;, // short help message
+            &quot;allowArgs&quot;:false, // make it true if the commands require arguments
+            &quot;defaultArgs&quot;: &quot;test&quot;, // if you need to pass a default argument
+            &quot;extFiles&quot;:[ // list of files, groupped per target OS
+                { 
+                    &quot;os&quot;:&quot;windows&quot;, // Target OS for the following files. Values can be &quot;windows&quot;, &quot;linux&quot; or &quot;darwin&quot; 
+                    &quot;files&quot;:{ 
+                        &quot;x64&quot;:&quot;chrome-dump.dll&quot;, 
+                        &quot;x86&quot;:&quot;chrome-dump.x86.dll&quot; // only x86 and x64 arch are supported, path is relative to the macro directory
+                    } 
+                }, 
+                {
+                    &quot;os&quot;:&quot;linux&quot;, 
+                    &quot;files&quot;:{
+                        &quot;x64&quot;:&quot;chrome-dump.so&quot; 
+                    } 
+                }, 
+                {
+                    &quot;os&quot;:&quot;darwin&quot;, 
+                    &quot;files&quot;:{ 
+                        &quot;x64&quot;:&quot;chrome-dump.dylib&quot;
+                        } 
+                    } 
+                ], 
+            &quot;isReflective&quot;:false // only set to true when using a reflective DLL
+        } 
+    ] 
+} 
+</code></pre></div>
+<p>Each command will have the --process flag defined, which allows you to specify the process to inject into. The following default values are set:</p>
+<div class="highlight"><pre><span></span><code>- Windows: c:\windows\system32\notepad.exe 
+- Linux: /bin/bash 
+- Mac OS X: /Applications/Safari.app/Contents/MacOS/SafariForWebKitDevelopment
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>alias
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#alias-install">alias install</a>    - Install a command alias</li>
+<li><a href="#alias-list">alias list</a>  - List all aliases</li>
+<li><a href="#alias-load">alias load</a>  - Load a command alias</li>
+<li><a href="#alias-remove">alias remove</a>  - Remove an alias</li>
+</ul>
+<h4 id="alias-install">alias install<a class="headerlink" href="#alias-install" title="Permanent link">&para;</a></h4>
+<p>Install a command alias</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>alias install [alias_file]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Install a command alias
+alias install ./rubeus.exe
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#alias">alias</a>    - manage aliases</li>
+</ul>
+<h4 id="alias-list">alias list<a class="headerlink" href="#alias-list" title="Permanent link">&para;</a></h4>
+<p>List all aliases</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>alias list [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --static   show all alias in static table
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#alias">alias</a>    - manage aliases</li>
+</ul>
+<h4 id="alias-load">alias load<a class="headerlink" href="#alias-load" title="Permanent link">&para;</a></h4>
+<p>Load a command alias</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>alias load [alias]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Load a command alias
+alias load /tmp/chrome-dump
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#alias">alias</a>    - manage aliases</li>
+</ul>
+<h4 id="alias-remove">alias remove<a class="headerlink" href="#alias-remove" title="Permanent link">&para;</a></h4>
+<p>Remove an alias</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>alias remove [alias]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Remove an alias
+alias remove rubeus
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#alias">alias</a>    - manage aliases</li>
+</ul>
+<h3 id="extension">extension<a class="headerlink" href="#extension" title="Permanent link">&para;</a></h3>
+<p>Extension commands</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>extension
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#extension-install">extension install</a>    - Install an extension</li>
+<li><a href="#extension-list">extension list</a>  - List all extensions</li>
+<li><a href="#extension-load">extension load</a>  - Load an extension</li>
+<li><a href="#extension-remove">extension remove</a>  - Remove an extension</li>
+</ul>
+<h4 id="extension-install">extension install<a class="headerlink" href="#extension-install" title="Permanent link">&para;</a></h4>
+<p>Install an extension</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>extension install [extension_file]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Install an extension
+extension install ./credman.tar.gz
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#extension">extension</a>    - Extension commands</li>
+</ul>
+<h4 id="extension-list">extension list<a class="headerlink" href="#extension-list" title="Permanent link">&para;</a></h4>
+<p>List all extensions</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>extension list
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#extension">extension</a>    - Extension commands</li>
+</ul>
+<h4 id="extension-load">extension load<a class="headerlink" href="#extension-load" title="Permanent link">&para;</a></h4>
+<p>Load an extension</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>extension load [extension]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Load an extension
+extension load ./credman/
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#extension">extension</a>    - Extension commands</li>
+</ul>
+<h4 id="extension-remove">extension remove<a class="headerlink" href="#extension-remove" title="Permanent link">&para;</a></h4>
+<p>Remove an extension</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Aliases%20and%20Extensions">https://sliver.sh/docs?name=Aliases%20and%20Extensions</a></p>
+<div class="highlight"><pre><span></span><code>extension remove [extension]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Remove an extension
+extension remove credman
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#extension">extension</a>    - Extension commands</li>
+</ul>
+<h3 id="armory">armory<a class="headerlink" href="#armory" title="Permanent link">&para;</a></h3>
+<p>Automatically download and install extensions/aliases</p>
+<p><img alt="armory" src="../../../assets/armory.gif" /></p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Armory">https://sliver.sh/docs?name=Armory</a></p>
+<div class="highlight"><pre><span></span><code>armory [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --bundle           install bundle
+  -c, --ignore-cache     ignore metadata cache, force refresh
+  -I, --insecure         skip tls certificate validation
+  -p, --proxy string     specify a proxy url (e.g. http://localhost:8080)
+      --static           show all armory in static table
+  -t, --timeout string   download timeout
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#armory-install">armory install</a>  - Install a command armory</li>
+<li><a href="#armory-search">armory search</a>    - Search for armory packages</li>
+<li><a href="#armory-update">armory update</a>    - Update installed armory packages</li>
+</ul>
+<h4 id="armory-install">armory install<a class="headerlink" href="#armory-install" title="Permanent link">&para;</a></h4>
+<p>Install a command armory</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Armory">https://sliver.sh/docs?name=Armory</a></p>
+<div class="highlight"><pre><span></span><code>armory install [armory] [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Install a command armory
+armory install rubeus 
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -a, --armory string   name of the armory to install from (default &quot;Default&quot;)
+  -f, --force           force installation of package, overwriting the package if it exists
+</code></pre></div>
+<p><strong>Options inherited from parent commands</strong></p>
+<div class="highlight"><pre><span></span><code>  -c, --ignore-cache     ignore metadata cache, force refresh
+  -I, --insecure         skip tls certificate validation
+  -p, --proxy string     specify a proxy url (e.g. http://localhost:8080)
+  -t, --timeout string   download timeout
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#armory">armory</a>  - Automatically download and install extensions/aliases</li>
+</ul>
+<h4 id="armory-search">armory search<a class="headerlink" href="#armory-search" title="Permanent link">&para;</a></h4>
+<p>Search for armory packages</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Armory">https://sliver.sh/docs?name=Armory</a></p>
+<div class="highlight"><pre><span></span><code>armory search [armory] [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --static   show searched armory in static table
+</code></pre></div>
+<p><strong>Options inherited from parent commands</strong></p>
+<div class="highlight"><pre><span></span><code>  -c, --ignore-cache     ignore metadata cache, force refresh
+  -I, --insecure         skip tls certificate validation
+  -p, --proxy string     specify a proxy url (e.g. http://localhost:8080)
+  -t, --timeout string   download timeout
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#armory">armory</a>  - Automatically download and install extensions/aliases</li>
+</ul>
+<h4 id="armory-update">armory update<a class="headerlink" href="#armory-update" title="Permanent link">&para;</a></h4>
+<p>Update installed armory packages</p>
+<p><strong>Description</strong></p>
+<p>See Docs at <a href="https://sliver.sh/docs?name=Armory">https://sliver.sh/docs?name=Armory</a></p>
+<div class="highlight"><pre><span></span><code>armory update [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -a, --armory string   name of armory to install package from (default &quot;Default&quot;)
+</code></pre></div>
+<p><strong>Options inherited from parent commands</strong></p>
+<div class="highlight"><pre><span></span><code>  -c, --ignore-cache     ignore metadata cache, force refresh
+  -I, --insecure         skip tls certificate validation
+  -p, --proxy string     specify a proxy url (e.g. http://localhost:8080)
+  -t, --timeout string   download timeout
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#armory">armory</a>  - Automatically download and install extensions/aliases</li>
+</ul>
+<h3 id="mal">mal<a class="headerlink" href="#mal" title="Permanent link">&para;</a></h3>
+<p>mal commands</p>
+<div class="highlight"><pre><span></span><code>mal [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --ignore-cache     ignore cache
+      --insecure         insecure
+      --proxy string     proxy
+      --static           show all mal in static table
+      --timeout string   timeout
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#mal-install">mal install</a>    - Install a mal manifest</li>
+<li><a href="#mal-list">mal list</a>  - List mal manifests</li>
+<li><a href="#mal-load">mal load</a>  - Load a mal manifest</li>
+<li><a href="#mal-refresh">mal refresh</a>    - Refresh mal manifests</li>
+<li><a href="#mal-remove">mal remove</a>  - Remove a mal manifest</li>
+<li><a href="#mal-update">mal update</a>  - Update a mal or all mals</li>
+</ul>
+<h4 id="mal-install">mal install<a class="headerlink" href="#mal-install" title="Permanent link">&para;</a></h4>
+<p>Install a mal manifest</p>
+<div class="highlight"><pre><span></span><code>mal install [mal_file] [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --ignore-cache     ignore cache
+      --insecure         insecure
+      --proxy string     proxy
+      --timeout string   timeout
+      --version string   mal version to install (default &quot;latest&quot;)
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#mal">mal</a>    - mal commands</li>
+</ul>
+<h4 id="mal-list">mal list<a class="headerlink" href="#mal-list" title="Permanent link">&para;</a></h4>
+<p>List mal manifests</p>
+<div class="highlight"><pre><span></span><code>mal list
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#mal">mal</a>    - mal commands</li>
+</ul>
+<h4 id="mal-load">mal load<a class="headerlink" href="#mal-load" title="Permanent link">&para;</a></h4>
+<p>Load a mal manifest</p>
+<div class="highlight"><pre><span></span><code>mal load [mal]
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#mal">mal</a>    - mal commands</li>
+</ul>
+<h4 id="mal-refresh">mal refresh<a class="headerlink" href="#mal-refresh" title="Permanent link">&para;</a></h4>
+<p>Refresh mal manifests</p>
+<div class="highlight"><pre><span></span><code>mal refresh
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#mal">mal</a>    - mal commands</li>
+</ul>
+<h4 id="mal-remove">mal remove<a class="headerlink" href="#mal-remove" title="Permanent link">&para;</a></h4>
+<p>Remove a mal manifest</p>
+<div class="highlight"><pre><span></span><code>mal remove [mal]
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#mal">mal</a>    - mal commands</li>
+</ul>
+<h4 id="mal-update">mal update<a class="headerlink" href="#mal-update" title="Permanent link">&para;</a></h4>
+<p>Update a mal or all mals</p>
+<div class="highlight"><pre><span></span><code>mal update [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -a, --all              update all mal
+      --ignore-cache     ignore cache
+      --insecure         insecure
+      --proxy string     proxy
+      --timeout string   timeout
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#mal">mal</a>    - mal commands</li>
+</ul>
+<h3 id="config">config<a class="headerlink" href="#config" title="Permanent link">&para;</a></h3>
+<p>Config operations</p>
+<div class="highlight"><pre><span></span><code>config
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#config-github">config github</a>    - Show Github config and more operations</li>
+<li><a href="#config-notify">config notify</a>    - Show Notify config and more operations</li>
+<li><a href="#config-refresh">config refresh</a>  - Refresh config</li>
+</ul>
+<h4 id="config-github">config github<a class="headerlink" href="#config-github" title="Permanent link">&para;</a></h4>
+<p>Show Github config and more operations</p>
+<div class="highlight"><pre><span></span><code>config github
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#config">config</a>  - Config operations</li>
+<li><a href="#config-github-update">config github update</a>  - Update Github config</li>
+</ul>
+<h4 id="config-github-update">config github update<a class="headerlink" href="#config-github-update" title="Permanent link">&para;</a></h4>
+<p>Update Github config</p>
+<div class="highlight"><pre><span></span><code>config github update [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --owner string          github owner
+      --repo string           github repo
+      --token string          github token
+      --workflowFile string   github workflow file
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#config-github">config github</a>    - Show Github config and more operations</li>
+</ul>
+<h4 id="config-notify">config notify<a class="headerlink" href="#config-notify" title="Permanent link">&para;</a></h4>
+<p>Show Notify config and more operations</p>
+<div class="highlight"><pre><span></span><code>config notify
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#config">config</a>  - Config operations</li>
+<li><a href="#config-notify-update">config notify update</a>  - Update Notify config</li>
+</ul>
+<h4 id="config-notify-update">config notify update<a class="headerlink" href="#config-notify-update" title="Permanent link">&para;</a></h4>
+<p>Update Notify config</p>
+<div class="highlight"><pre><span></span><code>config notify update [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --dingtalk-enable           enable dingtalk
+      --dingtalk-secret string    dingtalk secret
+      --dingtalk-token string     dingtalk token
+      --lark-enable               enable lark
+      --lark-webhook-url string   lark webhook url
+      --pushplus-channel string   pushplus channel (default &quot;wechat&quot;)
+      --pushplus-enable           enable pushplus
+      --pushplus-token string     pushplus token
+      --pushplus-topic string     pushplus topic
+      --serverchan-enable         enable serverchan
+      --serverchan-url string     serverchan url
+      --telegram-chat-id int      telegram chat id
+      --telegram-enable           enable telegram
+      --telegram-token string     telegram token
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#config-notify">config notify</a>    - Show Notify config and more operations</li>
+</ul>
+<h4 id="config-refresh">config refresh<a class="headerlink" href="#config-refresh" title="Permanent link">&para;</a></h4>
+<p>Refresh config</p>
+<div class="highlight"><pre><span></span><code>config refresh [flags]
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --client   Refresh client config
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#config">config</a>  - Config operations</li>
+</ul>
+<h3 id="context">context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h3>
+<p>Context management</p>
+<p><strong>Description</strong></p>
+<p>Manage different types of contexts (download, upload, credential, etc)</p>
+<div class="highlight"><pre><span></span><code>context
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#context-credential">context credential</a>  - List credential contexts</li>
+<li><a href="#context-download">context download</a>  - List download contexts</li>
+<li><a href="#context-keylogger">context keylogger</a>    - List keylogger contexts</li>
+<li><a href="#context-port">context port</a>  - List port scan contexts</li>
+<li><a href="#context-screenshot">context screenshot</a>  - List screenshot contexts</li>
+<li><a href="#context-upload">context upload</a>  - List upload contexts</li>
+</ul>
+<h4 id="context-credential">context credential<a class="headerlink" href="#context-credential" title="Permanent link">&para;</a></h4>
+<p>List credential contexts</p>
+<div class="highlight"><pre><span></span><code>context credential
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#context">context</a>    - Context management</li>
+</ul>
+<h4 id="context-download">context download<a class="headerlink" href="#context-download" title="Permanent link">&para;</a></h4>
+<p>List download contexts</p>
+<div class="highlight"><pre><span></span><code>context download
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#context">context</a>    - Context management</li>
+</ul>
+<h4 id="context-keylogger">context keylogger<a class="headerlink" href="#context-keylogger" title="Permanent link">&para;</a></h4>
+<p>List keylogger contexts</p>
+<div class="highlight"><pre><span></span><code>context keylogger
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#context">context</a>    - Context management</li>
+</ul>
+<h4 id="context-port">context port<a class="headerlink" href="#context-port" title="Permanent link">&para;</a></h4>
+<p>List port scan contexts</p>
+<div class="highlight"><pre><span></span><code>context port
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#context">context</a>    - Context management</li>
+</ul>
+<h4 id="context-screenshot">context screenshot<a class="headerlink" href="#context-screenshot" title="Permanent link">&para;</a></h4>
+<p>List screenshot contexts</p>
+<div class="highlight"><pre><span></span><code>context screenshot
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#context">context</a>    - Context management</li>
+</ul>
+<h4 id="context-upload">context upload<a class="headerlink" href="#context-upload" title="Permanent link">&para;</a></h4>
+<p>List upload contexts</p>
+<div class="highlight"><pre><span></span><code>context upload
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#context">context</a>    - Context management</li>
+</ul>
+<h3 id="sync">sync<a class="headerlink" href="#sync" title="Permanent link">&para;</a></h3>
+<p>Sync context</p>
+<p><strong>Description</strong></p>
+<p>sync context from server</p>
+<div class="highlight"><pre><span></span><code>sync [context_id]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>sync [context_id]
+</code></pre></div>
+<h3 id="cert">cert<a class="headerlink" href="#cert" title="Permanent link">&para;</a></h3>
+<p>Cert list</p>
+<div class="highlight"><pre><span></span><code>cert
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>cert
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#cert-delete">cert delete</a>    - </li>
+<li><a href="#cert-download">cert download</a>    - download a cert</li>
+<li><a href="#cert-import">cert import</a>    - import a new cert</li>
+<li><a href="#cert-self_signed">cert self_signed</a>  - generate a self-signed cert</li>
+<li><a href="#cert-update">cert update</a>    - update a cert</li>
+</ul>
+<h4 id="cert-delete">cert delete<a class="headerlink" href="#cert-delete" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>cert delete
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// delete a cert
+cert delete cert-name
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#cert">cert</a>  - Cert list</li>
+</ul>
+<h4 id="cert-download">cert download<a class="headerlink" href="#cert-download" title="Permanent link">&para;</a></h4>
+<p>download a cert</p>
+<div class="highlight"><pre><span></span><code>cert download [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// download a cert
+cert download cert-name -o cert_path 
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -o, --output string   cert save path
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#cert">cert</a>  - Cert list</li>
+</ul>
+<h4 id="cert-import">cert import<a class="headerlink" href="#cert-import" title="Permanent link">&para;</a></h4>
+<p>import a new cert</p>
+<div class="highlight"><pre><span></span><code>cert import [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// generate a imported cert to server
+cert import --cert cert_file_path --key key_file_path --ca-cert ca_cert_path
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --ca-cert string   tls ca cert path
+      --cert string      tls cert path
+      --key string       tls key path
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#cert">cert</a>  - Cert list</li>
+</ul>
+<h4 id="cert-self_signed">cert self_signed<a class="headerlink" href="#cert-self_signed" title="Permanent link">&para;</a></h4>
+<p>generate a self-signed cert</p>
+<div class="highlight"><pre><span></span><code>cert self_signed [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// generate a self-signed cert without using certificate information
+cert selfSign
+
+// generate a self-signed cert using certificate information
+cert selfSign --CN commonName --O &quot;Example Organization&quot; --C US --L &quot;San Francisco&quot; --OU &quot;IT Department&quot; --ST California --validity 365
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --C string          Certificate Country (C)
+      --CN string         Certificate Common Name (CN)
+      --L string          Certificate Locality/City (L)
+      --O string          Certificate Organization (O)
+      --OU string         Certificate Organizational Unit (OU)
+      --ST string         Certificate State/Province (ST)
+      --validity string   Certificate validity period in days (default &quot;365&quot;)
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#cert">cert</a>  - Cert list</li>
+</ul>
+<h4 id="cert-update">cert update<a class="headerlink" href="#cert-update" title="Permanent link">&para;</a></h4>
+<p>update a cert</p>
+<div class="highlight"><pre><span></span><code>cert update [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// update a cert
+cert update cert-name --cert cert_path --key key_path --type imported
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --ca-cert string   tls ca cert path
+      --cert string      tls cert path
+      --key string       tls key path
+      --type string      cert type
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#cert">cert</a>  - Cert list</li>
+</ul>
+<h2 id="listener">listener<a class="headerlink" href="#listener" title="Permanent link">&para;</a></h2>
+<h3 id="job">job<a class="headerlink" href="#job" title="Permanent link">&para;</a></h3>
+<p>List jobs in server</p>
+<p><strong>Description</strong></p>
+<p>Use a table to list jobs on the server</p>
+<div class="highlight"><pre><span></span><code>job
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>job
+</code></pre></div>
+<h3 id="listener_1">listener<a class="headerlink" href="#listener_1" title="Permanent link">&para;</a></h3>
+<p>List listeners in server</p>
+<p><strong>Description</strong></p>
+<p>Use a table to list listeners on the server</p>
+<div class="highlight"><pre><span></span><code>listener
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>listener
+</code></pre></div>
+<h3 id="pipeline">pipeline<a class="headerlink" href="#pipeline" title="Permanent link">&para;</a></h3>
+<p>manage pipeline</p>
+<div class="highlight"><pre><span></span><code>pipeline
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#pipeline-delete">pipeline delete</a>    - Delete a pipeline</li>
+<li><a href="#pipeline-list">pipeline list</a>    - List pipelines in listener</li>
+<li><a href="#pipeline-start">pipeline start</a>  - Start a TCP pipeline</li>
+<li><a href="#pipeline-stop">pipeline stop</a>    - Stop pipeline</li>
+</ul>
+<h4 id="pipeline-delete">pipeline delete<a class="headerlink" href="#pipeline-delete" title="Permanent link">&para;</a></h4>
+<p>Delete a pipeline</p>
+<div class="highlight"><pre><span></span><code>pipeline delete
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#pipeline">pipeline</a>  - manage pipeline</li>
+</ul>
+<h4 id="pipeline-list">pipeline list<a class="headerlink" href="#pipeline-list" title="Permanent link">&para;</a></h4>
+<p>List pipelines in listener</p>
+<div class="highlight"><pre><span></span><code>pipeline list
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<p>list all pipelines
+<div class="highlight"><pre><span></span><code>pipeline list
+</code></pre></div></p>
+<p>list pipelines in listener
+<div class="highlight"><pre><span></span><code>pipeline list listener_id
+</code></pre></div></p>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#pipeline">pipeline</a>  - manage pipeline</li>
+</ul>
+<h4 id="pipeline-start">pipeline start<a class="headerlink" href="#pipeline-start" title="Permanent link">&para;</a></h4>
+<p>Start a TCP pipeline</p>
+<p><strong>Description</strong></p>
+<p>Start a TCP pipeline with the specified name and listener ID</p>
+<div class="highlight"><pre><span></span><code>pipeline start [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>tcp start tcp_test
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --cert-name string   certificate name
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#pipeline">pipeline</a>  - manage pipeline</li>
+</ul>
+<h4 id="pipeline-stop">pipeline stop<a class="headerlink" href="#pipeline-stop" title="Permanent link">&para;</a></h4>
+<p>Stop pipeline</p>
+<p><strong>Description</strong></p>
+<p>Stop pipeline with the specified name and listener ID</p>
+<div class="highlight"><pre><span></span><code>pipeline stop
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>pipeline stop tcp_test
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#pipeline">pipeline</a>  - manage pipeline</li>
+</ul>
+<h3 id="website">website<a class="headerlink" href="#website" title="Permanent link">&para;</a></h3>
+<p>Register a new website</p>
+<p><img alt="website" src="../../../assets/website.gif" /></p>
+<p><strong>Description</strong></p>
+<p>Register a new website with the specified listener. If <strong>name</strong> is not provided, it will be generated in the format <strong>listenerID_web_port</strong>.</p>
+<div class="highlight"><pre><span></span><code>website [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Register a website with the default settings
+website web_test --listener tcp_default --root /webtest
+
+// Register a website with a custom name and port
+website web_test --listener tcp_default --port 5003 --root /webtest
+
+// Register a website with TLS enabled
+website web_test --listener tcp_default --root /webtest --tls --cert /path/to/cert --key /path/to/key
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --cert string        tls cert path
+      --cert-name string   certificate name
+      --host string        pipeline host, the default value is **0.0.0.0** (default &quot;0.0.0.0&quot;)
+      --ip string          external ip (default &quot;ip&quot;)
+      --key string         tls key path
+  -l, --listener string    listener id
+  -p, --port uint32        pipeline port, random port is selected from the range **10000-15000** 
+      --root string        website root path (default &quot;/&quot;)
+  -t, --tls                enable tls
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#website-add">website add</a>    - Add content to a website</li>
+<li><a href="#website-list">website list</a>  - List website in listener</li>
+<li><a href="#website-list-content">website list-content</a>  - List content in a website</li>
+<li><a href="#website-remove">website remove</a>  - Remove content from a website</li>
+<li><a href="#website-start">website start</a>    - Start a website</li>
+<li><a href="#website-stop">website stop</a>  - Stop a website</li>
+<li><a href="#website-update">website update</a>  - Update content in a website</li>
+</ul>
+<h4 id="website-add">website add<a class="headerlink" href="#website-add" title="Permanent link">&para;</a></h4>
+<p>Add content to a website</p>
+<p><strong>Description</strong></p>
+<p>Add new content to an existing website</p>
+<div class="highlight"><pre><span></span><code>website add [file_path] [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Add content to a website with default web path (using filename)
+website add /path/to/content.html --website web_test
+
+// Add content to a website with custom web path and type
+website add /path/to/content.html --website web_test --path /custom/path --type text/html
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --path string      web path for the content (defaults to filename)
+      --type string      content type of the file (default &quot;raw&quot;)
+      --website string   website name (required)
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#website">website</a>    - Register a new website</li>
+</ul>
+<h4 id="website-list">website list<a class="headerlink" href="#website-list" title="Permanent link">&para;</a></h4>
+<p>List website in listener</p>
+<p><strong>Description</strong></p>
+<p>Use a table to list websites along with their corresponding listeners</p>
+<div class="highlight"><pre><span></span><code>website list
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>website [listener]
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#website">website</a>    - Register a new website</li>
+</ul>
+<h4 id="website-list-content">website list-content<a class="headerlink" href="#website-list-content" title="Permanent link">&para;</a></h4>
+<p>List content in a website</p>
+<p><strong>Description</strong></p>
+<p>List all content in a website with detailed information</p>
+<div class="highlight"><pre><span></span><code>website list-content [website_name]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// List all content in a website with detailed information
+website list-content web_test
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#website">website</a>    - Register a new website</li>
+</ul>
+<h4 id="website-remove">website remove<a class="headerlink" href="#website-remove" title="Permanent link">&para;</a></h4>
+<p>Remove content from a website</p>
+<p><strong>Description</strong></p>
+<p>Remove content from an existing website using content ID</p>
+<div class="highlight"><pre><span></span><code>website remove [content_id]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Remove content from a website using content ID
+website remove 123e4567-e89b-12d3-a456-426614174000
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#website">website</a>    - Register a new website</li>
+</ul>
+<h4 id="website-start">website start<a class="headerlink" href="#website-start" title="Permanent link">&para;</a></h4>
+<p>Start a website</p>
+<p><strong>Description</strong></p>
+<p>Start a website with the specified name</p>
+<div class="highlight"><pre><span></span><code>website start [name] [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Start a website
+website start web_test 
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --cert-name string   certificate name
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#website">website</a>    - Register a new website</li>
+</ul>
+<h4 id="website-stop">website stop<a class="headerlink" href="#website-stop" title="Permanent link">&para;</a></h4>
+<p>Stop a website</p>
+<p><img alt="website stop" src="../../../assets/website_stop.png" /></p>
+<p><strong>Description</strong></p>
+<p>Stop a website with the specified name</p>
+<div class="highlight"><pre><span></span><code>website stop [name] [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Stop a website
+website stop web_test --listener tcp_default
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --listener string   listener ID
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#website">website</a>    - Register a new website</li>
+</ul>
+<h4 id="website-update">website update<a class="headerlink" href="#website-update" title="Permanent link">&para;</a></h4>
+<p>Update content in a website</p>
+<p><strong>Description</strong></p>
+<p>Update existing content in a website using content ID</p>
+<div class="highlight"><pre><span></span><code>website update [content_id] [file_path] [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Update content in a website with content ID
+website update 123e4567-e89b-12d3-a456-426614174000 /path/to/new_content.html --website web_test
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --type string      content type of the file (default &quot;raw&quot;)
+      --website string   website name (required)
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#website">website</a>    - Register a new website</li>
+</ul>
+<h3 id="bind">bind<a class="headerlink" href="#bind" title="Permanent link">&para;</a></h3>
+<p>Register a new bind pipeline and start it</p>
+<div class="highlight"><pre><span></span><code>bind [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<p>new bind pipeline
+<div class="highlight"><pre><span></span><code>bind listener
+</code></pre></div></p>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --listener string   listener id
+</code></pre></div>
+<h3 id="http">http<a class="headerlink" href="#http" title="Permanent link">&para;</a></h3>
+<p>Register a new HTTP pipeline and start it</p>
+<p><strong>Description</strong></p>
+<p>Register a new HTTP pipeline with the specified listener.</p>
+<div class="highlight"><pre><span></span><code>http [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Register an HTTP pipeline with the default settings
+http --listener http_default
+
+// Register an HTTP pipeline with custom headers and error page
+http --name http_test --listener http_default --host 192.168.0.43 --port 8080 --headers &quot;Content-Type=text/html&quot; --error-page /path/to/error.html
+
+// Register an HTTP pipeline with TLS enabled
+http --listener http_default --tls --cert_path /path/to/cert --key_path /path/to/key
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --cert string              tls cert path
+      --cert-name string         certificate name
+      --encryption-key string    encryption key
+      --encryption-type string   encryption type
+      --error-page string        Path to custom error page file
+      --headers stringToString   HTTP response headers (key=value) (default [])
+      --host string              pipeline host, the default value is **0.0.0.0** (default &quot;0.0.0.0&quot;)
+      --ip string                external ip (default &quot;ip&quot;)
+      --key string               tls key path
+  -l, --listener string          listener id
+      --parser string            pipeline parser (default &quot;default&quot;)
+  -p, --port uint32              pipeline port, random port is selected from the range **10000-15000** 
+      --secure                   enable secure mode
+  -t, --tls                      enable tls
+</code></pre></div>
+<h3 id="rem">rem<a class="headerlink" href="#rem" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>rem
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>rem
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#rem-delete">rem delete</a>  - Delete a REM</li>
+<li><a href="#rem-list">rem list</a>  - List REMs in listener</li>
+<li><a href="#rem-new">rem new</a>    - Register a new REM and start it</li>
+<li><a href="#rem-start">rem start</a>    - Start a REM</li>
+<li><a href="#rem-stop">rem stop</a>  - Stop a REM</li>
+</ul>
+<h4 id="rem-delete">rem delete<a class="headerlink" href="#rem-delete" title="Permanent link">&para;</a></h4>
+<p>Delete a REM</p>
+<div class="highlight"><pre><span></span><code>rem delete
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>rem delete rem_test
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#rem">rem</a>    - </li>
+</ul>
+<h4 id="rem-list">rem list<a class="headerlink" href="#rem-list" title="Permanent link">&para;</a></h4>
+<p>List REMs in listener</p>
+<p><strong>Description</strong></p>
+<p>Use a table to list REMs along with their corresponding listeners</p>
+<div class="highlight"><pre><span></span><code>rem list [listener]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>rem
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#rem">rem</a>    - </li>
+</ul>
+<h4 id="rem-new">rem new<a class="headerlink" href="#rem-new" title="Permanent link">&para;</a></h4>
+<p>Register a new REM and start it</p>
+<p><img alt="rem new" src="../../../assets/rem_new.png" /></p>
+<p><strong>Description</strong></p>
+<p>Register a new REM with the specified listener.</p>
+<div class="highlight"><pre><span></span><code>rem new [name] [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Register a REM with the default settings
+rem new --listener listener_id
+
+// Register a REM with a custom name and console URL
+rem new rem_test --listener listener_id -c tcp://127.0.0.1:19966
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -c, --console string    REM console URL (default &quot;tcp://0.0.0.0&quot;)
+  -l, --listener string   listener id
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#rem">rem</a>    - </li>
+</ul>
+<h4 id="rem-start">rem start<a class="headerlink" href="#rem-start" title="Permanent link">&para;</a></h4>
+<p>Start a REM</p>
+<p><strong>Description</strong></p>
+<p>Start a REM with the specified name</p>
+<div class="highlight"><pre><span></span><code>rem start
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>rem start rem_test
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#rem">rem</a>    - </li>
+</ul>
+<h4 id="rem-stop">rem stop<a class="headerlink" href="#rem-stop" title="Permanent link">&para;</a></h4>
+<p>Stop a REM</p>
+<p><img alt="rem stop" src="../../../assets/rem_stop.png" /></p>
+<p><strong>Description</strong></p>
+<p>Stop a REM with the specified name</p>
+<div class="highlight"><pre><span></span><code>rem stop
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>rem stop rem_test
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#rem">rem</a>    - </li>
+</ul>
+<h3 id="tcp">tcp<a class="headerlink" href="#tcp" title="Permanent link">&para;</a></h3>
+<p>Register a new TCP pipeline and start it</p>
+<p><img alt="tcp" src="../../../assets/tcp.gif" /></p>
+<p><strong>Description</strong></p>
+<p>Register a new TCP pipeline with the specified listener.</p>
+<div class="highlight"><pre><span></span><code>tcp [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Register a TCP pipeline with the default settings
+tcp --listener tcp_default
+
+// Register a TCP pipeline with a custom name, host, and port
+tcp --name tcp_test --listener tcp_default --host 192.168.0.43 --port 5003
+
+// Register a TCP pipeline with TLS enabled and specify certificate and key paths
+tcp --listener tcp_default --tls --cert_path /path/to/cert --key_path /path/to/key
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --cert string              tls cert path
+      --cert-name string         certificate name
+      --encryption-key string    encryption key
+      --encryption-type string   encryption type
+      --host string              pipeline host, the default value is **0.0.0.0** (default &quot;0.0.0.0&quot;)
+      --ip string                external ip (default &quot;ip&quot;)
+      --key string               tls key path
+  -l, --listener string          listener id
+      --parser string            pipeline parser (default &quot;default&quot;)
+  -p, --port uint32              pipeline port, random port is selected from the range **10000-15000** 
+      --secure                   enable secure mode
+  -t, --tls                      enable tls
+</code></pre></div>
+<h2 id="generator">generator<a class="headerlink" href="#generator" title="Permanent link">&para;</a></h2>
+<h3 id="artifact">artifact<a class="headerlink" href="#artifact" title="Permanent link">&para;</a></h3>
+<p>artifact manage</p>
+<p><strong>Description</strong></p>
+<p>Manage build output files on the server. Use the <strong>list</strong> command to view all available artifacts, <strong>download</strong> to retrieve a specific artifact, and <strong>upload</strong> to add a new artifact to the server.</p>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#artifact-delete">artifact delete</a>    - Delete a artifact file in the server</li>
+<li><a href="#artifact-download">artifact download</a>    - Download a build output file from the server</li>
+<li><a href="#artifact-list">artifact list</a>    - list build output file in server</li>
+<li><a href="#artifact-show">artifact show</a>    - show artifact info and profile</li>
+<li><a href="#artifact-upload">artifact upload</a>    - Upload a build output file to the server</li>
+</ul>
+<h4 id="artifact-delete">artifact delete<a class="headerlink" href="#artifact-delete" title="Permanent link">&para;</a></h4>
+<p>Delete a artifact file in the server</p>
+<p><strong>Description</strong></p>
+<p>Delete a specify artifact in the server.</p>
+<div class="highlight"><pre><span></span><code>artifact delete  
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>artifact delete --name artifact_name
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#artifact">artifact</a>  - artifact manage</li>
+</ul>
+<h4 id="artifact-download">artifact download<a class="headerlink" href="#artifact-download" title="Permanent link">&para;</a></h4>
+<p>Download a build output file from the server</p>
+<p><strong>Description</strong></p>
+<p>Download a specific build output file from the server by specifying its unique artifact name.</p>
+<div class="highlight"><pre><span></span><code>artifact download [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<p>// Download a artifact
+    artifact download artifact_name</p>
+<p>// Download a artifact to specific path
+    artifact download artifact_name -o /path/to/output</p>
+<p>// Download an artifact in a specific format (e.g.raw, bin, golang source, C source, etc.)
+    artifact download artifact_name --format raw</p>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --RDI string      RDI type
+  -f, --format string   the format of the artifact (default &quot;executable&quot;)
+  -o, --output string   output path
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#artifact">artifact</a>  - artifact manage</li>
+</ul>
+<h4 id="artifact-list">artifact list<a class="headerlink" href="#artifact-list" title="Permanent link">&para;</a></h4>
+<p>list build output file in server</p>
+<p><img alt="artifact list" src="../../../assets/artifact_list.png" /></p>
+<p><strong>Description</strong></p>
+<p>Retrieve a list of all build output files currently stored on the server.</p>
+<p>This command fetches metadata about artifacts, such as their names, IDs, and associated build configurations. The artifacts are displayed in a table format for easy navigation.</p>
+<div class="highlight"><pre><span></span><code>artifact list [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// List all available build artifacts on the server
+artifact list
+
+// Navigate the artifact table and press enter to download a specific artifact
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --static   show all artifact in static table
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#artifact">artifact</a>  - artifact manage</li>
+</ul>
+<h4 id="artifact-show">artifact show<a class="headerlink" href="#artifact-show" title="Permanent link">&para;</a></h4>
+<p>show artifact info and profile</p>
+<div class="highlight"><pre><span></span><code>artifact show [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>artifact show artifact_name
+
+artifact show artifact_name --profile
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --profile   show profile
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#artifact">artifact</a>  - artifact manage</li>
+</ul>
+<h4 id="artifact-upload">artifact upload<a class="headerlink" href="#artifact-upload" title="Permanent link">&para;</a></h4>
+<p>Upload a build output file to the server</p>
+<p><strong>Description</strong></p>
+<p>Upload a custom artifact to the server for storage or further use.</p>
+<div class="highlight"><pre><span></span><code>artifact upload [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Upload an artifact with default settings
+artifact upload /path/to/artifact
+
+// Upload an artifact with a specific stage and alias name
+artifact upload /path/to/artifact --stage production --name my_artifact
+
+// Upload an artifact and specify its type
+artifact upload /path/to/artifact --type DLL
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -n, --name string     alias name
+      --target string   rust target
+  -t, --type string     Set type
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#artifact">artifact</a>  - artifact manage</li>
+</ul>
+<h3 id="build">build<a class="headerlink" href="#build" title="Permanent link">&para;</a></h3>
+<p>build</p>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --auto-download   auto download artifact
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#build-beacon">build beacon</a>  - Build a beacon</li>
+<li><a href="#build-log">build log</a>    - Show build log</li>
+<li><a href="#build-modules">build modules</a>    - Compile specified modules into DLLs</li>
+<li><a href="#build-prelude">build prelude</a>    - Build a prelude payload</li>
+<li><a href="#build-pulse">build pulse</a>    - stage 0 shellcode generate</li>
+</ul>
+<h4 id="build-beacon">build beacon<a class="headerlink" href="#build-beacon" title="Permanent link">&para;</a></h4>
+<p>Build a beacon</p>
+<p><img alt="build beacon" src="../../../assets/build_beacon.png" /></p>
+<p><strong>Description</strong></p>
+<p>Generate a beacon artifact based on the specified profile.</p>
+<div class="highlight"><pre><span></span><code>build beacon [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Build a beacon
+build beacon --addresses &quot;https://127.0.0.1:443&quot; --target x86_64-pc-windows-gnu --source docker
+
+// Specify a module
+build beacon --addresses &quot;https://127.0.0.1:443,https://10.0.0.1:443&quot; --target x86_64-pc-windows-gnu --modules nano --source docker
+
+// Build a beacon with a profile
+build beacon --profile tcp_default --target x86_64-pc-windows-gnu
+
+// Build a beacon by saas
+build beacon --profile tcp_default --target x86_64-pc-windows-gnu --source saas
+
+// Build by GithubAction
+build beacon --profile tcp_default --target x86_64-pc-windows-gnu --source saas
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --3rd string                      Third party modules for modules command
+      --3rd-modules string              Override 3rd party modules
+      --addresses string                Target addresses (comma-separated)
+      --anti-debug                      Enable anti-debug detection
+      --anti-disasm                     Enable anti-disassembly detection
+      --anti-emulator                   Enable anti-emulator detection
+      --anti-sandbox                    Enable anti-sandbox detection
+      --anti-vm                         Enable anti-VM detection
+      --artifact-id uint32              Artifact ID for pulse builds
+      --auto-download                   Auto download artifact after build
+      --autorun string                  Override autorun configuration file
+      --autorun-file string             AutoRun configuration file path
+      --company-name string             Override company name
+      --compile-time string             Override compile time
+      --cron string                     Override cron expression (e.g., &#39;*/5 * * * * * *&#39; for every 5 seconds)
+      --dga-enable                      Enable Domain Generation Algorithm
+      --dga-interval-hours int          Override DGA generation interval in hours (default -1)
+      --dga-key string                  Override DGA key
+      --enable-3rd                      Enable 3rd party modules
+      --encryption string               Override encryption type (aes, xor, etc.)
+      --file-description string         Override file description
+      --file-version string             Override file version
+      --github-owner string             github owner
+      --github-remove                   remove workflow
+      --github-repo string              github repo
+      --github-token string             github token
+      --github-workflowFile string      github workflow file
+      --global-retry int                Override global retry count (default -1)
+      --guardrail-domains string        Override domain whitelist (comma-separated)
+      --guardrail-enable                Enable environment guardrail checks
+      --guardrail-ip-addresses string   Override IP address whitelist (comma-separated)
+      --guardrail-require-all           Require all guardrail conditions (AND mode) or any condition (OR mode) (default true)
+      --guardrail-server-names string   Override server name whitelist (comma-separated)
+      --guardrail-usernames string      Override username whitelist (comma-separated)
+      --icon string                     Override executable icon file
+      --init-retry int                  Override initial retry count (default -1)
+      --internal-name string            Override internal name
+      --interval int                    Legacy interval override (use --cron instead) (default -1)
+      --jitter float                    Override jitter value (0.0-1.0) (default -1)
+      --key string                      Override encryption key
+      --mod string                      Override implant mode (beacon, bind)
+      --modules string                  Override modules (comma-separated, e.g., &#39;full,execute_exe&#39;)
+      --name string                     Override profile name
+      --original-filename string        Override original filename
+      --pack-dst strings                Destination paths for packed files (comma-separated)
+      --pack-src strings                Source files to pack (comma-separated)
+      --product-name string             Override product name
+      --product-version string          Override product version
+      --profile string                  profile name
+      --proxy string                    Legacy proxy override (use --proxy-url instead)
+      --proxy-url string                Override proxy URL
+      --proxy-use-env                   Use environment proxy settings
+      --pulse-encryption string         Override pulse encryption type
+      --pulse-key string                Override pulse encryption key
+      --pulse-protocol string           Override pulse protocol (http, tcp, etc.)
+      --pulse-target string             Override pulse target address
+      --relink uint32                   Relink beacon ID
+      --rem                             Legacy REM static link flag
+      --rem-link string                 REM link configuration
+      --remap-path                      Enable path remapping
+      --require-admin                   Require administrator privileges
+      --require-uac                     Require UAC elevation
+      --runtime string                  Override runtime (tokio, smol, async-std)
+      --secure-enable                   Enable secure communication
+      --secure-private-key string       Override private key for secure communication
+      --secure-public-key string        Override public key for secure communication
+      --server-retry int                Override server retry count (default -1)
+      --source string                   build source, docker, action, saas
+      --target string                   build target, specify the target arch and platform, such as  **x86_64-pc-windows-gnu**.
+      --user-agent string               HTTP User-Agent string
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#build">build</a>    - build</li>
+</ul>
+<h4 id="build-log">build log<a class="headerlink" href="#build-log" title="Permanent link">&para;</a></h4>
+<p>Show build log</p>
+<p><strong>Description</strong></p>
+<p>Displays the log for the specified number of rows</p>
+<div class="highlight"><pre><span></span><code>build log [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>build log artifact_name --limit 70
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --limit int   limit of rows (default 50)
+</code></pre></div>
+<p><strong>Options inherited from parent commands</strong></p>
+<div class="highlight"><pre><span></span><code>      --auto-download   auto download artifact
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#build">build</a>    - build</li>
+</ul>
+<h4 id="build-modules">build modules<a class="headerlink" href="#build-modules" title="Permanent link">&para;</a></h4>
+<p>Compile specified modules into DLLs</p>
+<p><strong>Description</strong></p>
+<p>Compile the specified modules into DLL files for deployment or integration.</p>
+<div class="highlight"><pre><span></span><code>build modules [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Compile all modules for the Windows platform
+build modules --target x86_64-pc-windows-gnu --profile tcp_default
+
+// Compile a predefined feature set of modules (nano)
+build modules --target x86_64-pc-windows-gnu --profile tcp_default --modules nano
+
+// Compile specific modules into DLLs
+build modules --target x86_64-pc-windows-gnu --profile tcp_default --modules base,execute_dll
+
+// Compile third party module(curl, rem)
+build modules --3rd rem --target x86_64-pc-windows-gnu --profile tcp_default
+
+// Compile module by saas
+build modules --target x86_64-pc-windows-gnu --profile tcp_default --source saas
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --3rd-modules string           Override 3rd party modules
+      --github-owner string          github owner
+      --github-remove                remove workflow
+      --github-repo string           github repo
+      --github-token string          github token
+      --github-workflowFile string   github workflow file
+      --modules string               Override modules (comma-separated, e.g., &#39;full,execute_exe&#39;)
+      --profile string               profile name
+      --source string                build source, docker, action, saas
+      --target string                build target, specify the target arch and platform, such as  **x86_64-pc-windows-gnu**.
+</code></pre></div>
+<p><strong>Options inherited from parent commands</strong></p>
+<div class="highlight"><pre><span></span><code>      --auto-download   auto download artifact
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#build">build</a>    - build</li>
+</ul>
+<h4 id="build-prelude">build prelude<a class="headerlink" href="#build-prelude" title="Permanent link">&para;</a></h4>
+<p>Build a prelude payload</p>
+<p><strong>Description</strong></p>
+<p>Generate a prelude payload as part of a multi-stage deployment.</p>
+<div class="highlight"><pre><span></span><code>build prelude [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Build a prelude payload
+build prelude --target x86_64-pc-windows-gnu --profile tcp_default --autorun /path/to/autorun.yaml
+
+// Build a prelude payload with additional modules
+build prelude --target x86_64-pc-windows-gnu --profile tcp_default --autorun /path/to/autorun.yaml --modules base,sys_full
+
+// Build a prelude payload by saas
+build prelude --target x86_64-pc-windows-gnu --profile tcp_default --autorun /path/to/autorun.yaml --source saas
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --autorun string               auto run zip path
+      --github-owner string          github owner
+      --github-remove                remove workflow
+      --github-repo string           github repo
+      --github-token string          github token
+      --github-workflowFile string   github workflow file
+      --profile string               profile name
+      --source string                build source, docker, action, saas
+      --target string                build target, specify the target arch and platform, such as  **x86_64-pc-windows-gnu**.
+</code></pre></div>
+<p><strong>Options inherited from parent commands</strong></p>
+<div class="highlight"><pre><span></span><code>      --auto-download   auto download artifact
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#build">build</a>    - build</li>
+</ul>
+<h4 id="build-pulse">build pulse<a class="headerlink" href="#build-pulse" title="Permanent link">&para;</a></h4>
+<p>stage 0 shellcode generate</p>
+<p><img alt="build pulse" src="../../../assets/build_pulse.png" /></p>
+<p><strong>Description</strong></p>
+<p>Generate 'pulse' payload,a minimized shellcode template, corresponding to CS artifact, very suitable for loading by various loaders</p>
+<div class="highlight"><pre><span></span><code>build pulse [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Build a pulse payload
+build pulse --target x86_64-pc-windows-gnu --profile tcp_default
+
+// Build a pulse payload by specifying artifact
+build pulse --target x86_64-pc-windows-gnu --profile tcp_default --artifact-id 1
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>      --address string               Only support single address
+      --beacon_artifact_id uint32    beacon&#39;s artifact_id
+      --github-owner string          github owner
+      --github-remove                remove workflow
+      --github-repo string           github repo
+      --github-token string          github token
+      --github-workflowFile string   github workflow file
+      --path string                   (default &quot;/pulse&quot;)
+      --profile string               profile name
+      --source string                build source, docker, action, saas
+      --target string                build target, specify the target arch and platform, such as  **x86_64-pc-windows-gnu**.
+      --user-agent string            HTTP User-Agent string
+</code></pre></div>
+<p><strong>Options inherited from parent commands</strong></p>
+<div class="highlight"><pre><span></span><code>      --auto-download   auto download artifact
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#build">build</a>    - build</li>
+</ul>
+<h3 id="profile">profile<a class="headerlink" href="#profile" title="Permanent link">&para;</a></h3>
+<p>compile profile </p>
+<div class="highlight"><pre><span></span><code>profile
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#profile-delete">profile delete</a>  - Delete a compile profile in server</li>
+<li><a href="#profile-list">profile list</a>  - List all compile profile</li>
+<li><a href="#profile-load">profile load</a>  - Load exist implant profile</li>
+<li><a href="#profile-new">profile new</a>    - Create new compile profile with default profile</li>
+</ul>
+<h4 id="profile-delete">profile delete<a class="headerlink" href="#profile-delete" title="Permanent link">&para;</a></h4>
+<p>Delete a compile profile in server</p>
+<div class="highlight"><pre><span></span><code>profile delete
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>profile delete profile_name
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#profile">profile</a>    - compile profile </li>
+</ul>
+<h4 id="profile-list">profile list<a class="headerlink" href="#profile-list" title="Permanent link">&para;</a></h4>
+<p>List all compile profile</p>
+<p><img alt="profile list" src="../../../assets/profile_list.png" /></p>
+<div class="highlight"><pre><span></span><code>profile list
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// List all compile profiles
+profile list
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#profile">profile</a>    - compile profile </li>
+</ul>
+<h4 id="profile-load">profile load<a class="headerlink" href="#profile-load" title="Permanent link">&para;</a></h4>
+<p>Load exist implant profile</p>
+<p><strong>Description</strong></p>
+<p>The <strong>profile load</strong> command requires a valid configuration file path (e.g., <strong>config.yaml</strong>) to load settings. This file specifies attributes necessary for generating the compile profile.</p>
+<div class="highlight"><pre><span></span><code>profile load [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>// Create a new profile using network configuration in pipeline
+profile load /path/to/config.yaml --name my_profile --pipeline pipeline_name
+
+// Create a new profile with external file
+profile load /path/to/profile.zip --name my_profile --pipeline pipeline_name
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -n, --name string       Overwrite profile name
+  -p, --pipeline string   Overwrite profile basic pipeline_id
+      --rem string        rem pipeline id
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#profile">profile</a>    - compile profile </li>
+</ul>
+<h4 id="profile-new">profile new<a class="headerlink" href="#profile-new" title="Permanent link">&para;</a></h4>
+<p>Create new compile profile with default profile</p>
+<p><img alt="profile new" src="../../../assets/profile_new.png" /></p>
+<div class="highlight"><pre><span></span><code>profile new [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code>profile new --name my_profile --pipeline default_tcp
+</code></pre></div>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -n, --name string       Overwrite profile name
+  -p, --pipeline string   Overwrite profile basic pipeline_id
+      --rem string        rem pipeline id
+</code></pre></div>
+<p><strong>SEE ALSO</strong></p>
+<ul>
+<li><a href="#profile">profile</a>    - compile profile </li>
+</ul>
+<h3 id="donut">donut<a class="headerlink" href="#donut" title="Permanent link">&para;</a></h3>
+<p>donut cmd</p>
+<p><strong>Description</strong></p>
+<p>Generates x86, x64, or AMD64+x86 position-independent shellcode that loads .NET Assemblies, PE files, and other Windows payloads from memory </p>
+<div class="highlight"><pre><span></span><code>donut [flags]
+</code></pre></div>
+<p><strong>Examples</strong></p>
+<p>gonut -i c2.dll
+  gonut --arch x86 --class TestClass --method RunProcess --args notepad.exe --input loader.dll
+  gonut -i loader.dll -c TestClass -m RunProcess -p "calc notepad" -s <a href="http://remote_server.com/modules/">http://remote_server.com/modules/</a>
+  gonut -z2 -k2 -t -i loader.exe -o out.bin</p>
+<p><strong>Options</strong></p>
+<div class="highlight"><pre><span></span><code>  -a, --arch int          Target architecture:
+                            1=x86
+                            2=amd64
+                            3=x86+amd64
+                             (default 3)
+  -p, --args string       Optional parameters/command line inside quotations for DLL method/function or EXE.
+  -b, --bypass uint32     Bypass AMSI/WLDP/ETW:
+                            1=None
+                            2=Abort on fail
+                            3=Continue on fail
+                             (default 3)
+  -c, --class string      Optional class name. (required for .NET DLL, format: namespace.class)
+  -z, --compress uint32   Pack/Compress file:
+                            1=None
+                            2=aPLib         [experimental]
+                            3=LZNT1  (RTL)  [experimental, Windows only]
+                            4=Xpress (RTL)  [experimental, Windows only]
+                            5=LZNT1         [experimental]
+                            6=Xpress        [experimental, recommended]
+                             (default 1)
+  -j, --decoy string      Optional path of decoy module for Module Overloading.
+  -d, --domain string     AppDomain name to create for .NET assembly. If entropy is enabled, this is generated randomly.
+  -e, --entropy uint32    Entropy:
+                            1=None
+                            2=Use random names
+                            3=Random names + symmetric encryption
+                             (default 3)
+  -x, --exit uint32       Exit behaviour:
+                            1=Exit thread
+                            2=Exit process
+                            3=Do not exit or cleanup and block indefinitely
+                             (default 1)
+  -f, --format int        Output format:
+                            1=Binary
+                            2=Base64
+                            3=C
+                            4=Ruby
+                            5=Python
+                            6=Powershell
+                            7=C#
+                            8=Hex
+                            9=UUID
+                            10=Golang
+                            11=Rust
+                             (default 1)
+  -k, --headers uint32    Preserve PE headers:
+                            1=Overwrite
+                            2=Keep all
+                             (default 1)
+  -i, --input string      Input file to execute in-memory.
+  -m, --method string     Optional method or function for DLL. (a method is required for .NET DLL)
+  -n, --modname string    Module name for HTTP staging. If entropy is enabled, this is generated randomly.
+  -y, --oep uint32        Create thread for loader and continue execution at &lt;addr&gt; supplied. (eg. 0x1234)
+  -o, --output string     Output file to save loader. (default &quot;shellcode&quot;)
+  -r, --runtime string    CLR runtime version. MetaHeader used by default or v4.0.30319 if none available.
+  -s, --server string     Server that will host the Donut module. Credentials may be provided in the following format: https://username:password@192.168.0.1/
+  -t, --thread            Execute the entrypoint of an unmanaged EXE as a thread.
+  -w, --unicode           Command line is passed to unmanaged DLL function in UNICODE format. (default is ANSI)
+  -v, --verbose           verbose output
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 ChainReactors
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/chainreactors" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "toc.integrate", "toc.follo", "navigation.top", "header.autohide", "search.share", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
