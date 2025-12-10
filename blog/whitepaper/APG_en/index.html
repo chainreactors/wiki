@@ -1,0 +1,5309 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="chainreactors wiki">
+      
+      
+        <meta name="author" content="M09ic">
+      
+      
+        <link rel="canonical" href="https://wiki.chainreactors.red/wiki/blog/whitepaper/APG_en/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>APG en - ChainReactor Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-DCRVR86FG2"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-DCRVR86FG2",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-DCRVR86FG2",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-the-dilemma-and-breakthrough-in-automated-penetration-testing" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="ChainReactor Wiki" class="md-header__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ChainReactor Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              APG en
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  导航
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../IoM/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  IoM
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../gogo/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  gogo
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../spray/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  spray
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../zombie/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  zombie
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../rem/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  rem
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../libs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  libs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../mapping/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Preview
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="ChainReactor Wiki" class="md-nav__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ChainReactor Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    导航
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IoM
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    IoM
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concept
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RoadMap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/guideline/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guideline
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guideline
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安装部署
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/listener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Listener
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/payload/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payload
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/post_exploitation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后渗透基本操作
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/embed_mal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内置插件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    代理/隧道
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6_8" id="__nav_2_6_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高级用法
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    高级用法
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/advance/DumpLSASS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DumpLSASS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/advance/DomainFronting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DomainFronting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/advance/Multi-Server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MultiServer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/advance/Guardrail/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guardrail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/guideline/develop/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DevelopGuide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6_9" id="__nav_2_6_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    DevelopGuide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/mal/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mal快速入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/develop/server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Server开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/develop/client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Client开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/guideline/develop/implant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implant开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/manual/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manual
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Manual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/manual/manual/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    client/server
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_2" id="__nav_2_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    client/server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/manual/deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install&deploy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/manual/listener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    listener
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/manual/build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/manual/client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    client usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/manual/implant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    implant usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/manual/mal/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mals插件生态
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_3" id="__nav_2_7_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mals插件生态
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/mal/embed/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    embed
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7_3_3" id="__nav_2_7_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lua
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_7_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    lua
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/mal/builtin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    builtin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/mal/beacon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    beacon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/mal/rpc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rpc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7_4" id="__nav_2_7_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mutant
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mutant
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/mutant/malefic_mutant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/manual/implant/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    implant
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_5" id="__nav_2_7_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    implant
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/implant/build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/implant/modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/implant/win_kit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    malefic-win-kit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/manual/integrate/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    integrate
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_6" id="__nav_2_7_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    integrate
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_6_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/manual/integrate/sdk/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_6_2" id="__nav_2_7_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_7_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    SDK
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/integrate/sdk/go/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Golang
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/integrate/sdk/python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python(Untable)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/integrate/sdk/typescript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typescript(Unstable)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/integrate/ffi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FFI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/manual/integrate/ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Changelog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/11/10/IoM_v0.1.2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/07/09/IoM_v0.1.1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/04/14/IoM_v0.1.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/01/02/IoM_v0.0.4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2024/11/20/IoM_v0.0.3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2024/09/23/IoM_v0.0.2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2024/08/16/IoM_introduce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../gogo/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    gogo
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    gogo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gogo/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gogo/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gogo/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    细节
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gogo/extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拓展
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gogo/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../spray/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    spray
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    spray
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../spray/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../spray/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../spray/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    细节
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../spray/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../zombie/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    zombie
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    zombie
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../zombie/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../zombie/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../zombie/extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拓展
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../rem/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rem
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    rem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rem/usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rem/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概念
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rem/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rem/changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../libs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    libs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    libs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../libs/neutron/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    neutron
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    neutron
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../libs/neutron/update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    update
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../libs/words/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    words
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    words
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../libs/fingers/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    fingers
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_4" id="__nav_7_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    fingers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../libs/fingers/rule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../libs/fingers/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../libs/proxyclient/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    proxyclient
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_5" id="__nav_7_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    proxyclient
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../libs/proxyclient/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preview
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preview
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../mapping/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mapping
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mapping
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mapping/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9" id="__nav_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>APG en</h1>
+
+<h2 id="1-the-dilemma-and-breakthrough-in-automated-penetration-testing">1. The Dilemma and Breakthrough in Automated Penetration Testing<a class="headerlink" href="#1-the-dilemma-and-breakthrough-in-automated-penetration-testing" title="Permanent link">&para;</a></h2>
+<h3 id="11-the-problem-linear-workflows-cannot-handle-dynamic-attacks">1.1 The Problem: Linear Workflows Cannot Handle Dynamic Attacks<a class="headerlink" href="#11-the-problem-linear-workflows-cannot-handle-dynamic-attacks" title="Permanent link">&para;</a></h3>
+<p>Most current AI Security Agents operate on a <strong>"Todo-list"</strong> model: breaking a target down into steps 1, 2, and 3, and executing them sequentially. Fundamentally, this is merely an AI-driven SOP (Standard Operating Procedure).</p>
+<p>However, real-world hacker attacks are never linear:</p>
+<ul>
+<li><strong>Uncertainty</strong>: You might plan to scan port 80, only to find solely 443 open, necessitating an immediate strategy shift.</li>
+<li><strong>Trial-and-Error &amp; Backtracking</strong>: If an exploit fails, an expert doesn't simply stop; they backtrack to the previous step to attempt a different payload or switch attack vectors.</li>
+<li><strong>Complex Decision-Making</strong>: The next action is strictly dependent on the specific result of the previous one (e.g., Is the server IIS or Nginx? Was the response a timeout or access denied?).</li>
+</ul>
+<p>When facing such dynamic scenarios, current AI Agents often fail due to rigid adherence to a single path ("tunnel vision") or lose their direction, devolving into stochastic decision-making. <strong>Linear execution logic cannot support graph-like hacker thinking.</strong></p>
+<h3 id="12-the-concept-programmable-and-executable-expert-experience">1.2 The Concept: Programmable and Executable Expert Experience<a class="headerlink" href="#12-the-concept-programmable-and-executable-expert-experience" title="Permanent link">&para;</a></h3>
+<p>We propose a novel paradigm: <strong>Using natural language as a "programming language" to construct attack logic.</strong></p>
+<p>In this paradigm, we no longer write script code; instead, we author "intent." Our core philosophy is: <strong>Experts articulate logic in human language, and AI understands and executes it via semantic capabilities.</strong></p>
+<p>Based on this, we have built two core components:</p>
+<p><strong>1. ATTACK Pattern Graph (APG)</strong>: A <strong>protocol</strong> for describing attack logic. It is essentially a "<strong>representation of expert experience</strong>."</p>
+<ul>
+<li>In an APG, experts do not write code but define <strong>Nodes</strong> (actions) and <strong>Transition Conditions (Edges)</strong> with a <strong>specific structure</strong> using natural language.</li>
+<li><strong>Structured Nodes</strong> represent <strong>concrete actions</strong> (e.g., "Scan," "Exploit"), while Edges represent <strong>decision conditions</strong> (e.g., "If a weak password is found").</li>
+<li>By composing nodes and edges into an execution graph, we achieve the <strong>programming of expert experience</strong>.</li>
+</ul>
+<p><strong>2. APG Runtime</strong>: The <strong>engine</strong> that executes this flowchart. Its role is to control the execution of intent and provide observability and debuggability:</p>
+<ul>
+<li>It loads APG files and handles operations like graph traversal and Prompt Compilation.</li>
+<li>It manages the <strong>Global Context</strong>, ensuring the AI accurately recalls the IP address obtained in Step 1 even at Step 50 of an attack. The Global Context maintains only <strong>facts</strong>; node-internal context is not retained globally.</li>
+<li>It connects underlying AI models with security tools, ensuring the flowchart is executed correctly and stably, while offering <strong>observability and debugging</strong> capabilities.</li>
+</ul>
+<p>Through <strong>APG (Representation of Expert Experience)</strong> and <strong>Runtime (Executor of Attack Experience)</strong>, we realize a next-generation security testing framework that possesses both the logical rigor of human experts and the flexible adaptability of AI.</p>
+<h2 id="2-attack-pattern-graph">2. ATTACK Pattern Graph<a class="headerlink" href="#2-attack-pattern-graph" title="Permanent link">&para;</a></h2>
+<h3 id="21-control-flow-graphs-in-the-ai-era">2.1 Control Flow Graphs in the AI Era<a class="headerlink" href="#21-control-flow-graphs-in-the-ai-era" title="Permanent link">&para;</a></h3>
+<h4 id="211-evolution-from-traditional-cfg-to-apg">2.1.1 Evolution from Traditional CFG to APG<a class="headerlink" href="#211-evolution-from-traditional-cfg-to-apg" title="Permanent link">&para;</a></h4>
+<p>In traditional compilers, the <strong>Control Flow Graph (CFG)</strong> is a fundamental and powerful concept. It represents the execution flow of a program as a graph structure—<strong>nodes are basic blocks</strong> (sequences of instructions executed linearly), and <strong>edges are control flows</strong> (conditional branches, loops, function calls). CFGs rely on the assumption of <strong>deterministic execution</strong>: given the same input and state, the program always traverses the same path and produces the same output. This determinism allows compilers to perform optimizations like constant folding, dead code elimination, loop transformation, and register allocation.</p>
+<p>In the AI era, Large Language Models (LLMs) introduce entirely new possibilities: given the same task description, AI can select different but equally effective execution strategies based on context; complex expert judgments can be expressed via natural language rather than algorithms; and global intent can be understood and maintained without being confined to local variables and stack frames. APG is a novel control flow representation evolved from the CFG against this backdrop.</p>
+<h4 id="212-formal-definition-and-design-principles">2.1.2 Formal Definition and Design Principles<a class="headerlink" href="#212-formal-definition-and-design-principles" title="Permanent link">&para;</a></h4>
+<p>The core design goal of the APG (ATTACK Pattern Graph) is to <strong>explicate domain experts' tacit knowledge into a computable graph structure</strong>. While traditional programming encodes algorithmic processes as instruction sequences, APG encodes expert decision patterns as state-transition graphs: <strong>Nodes in the graph correspond to atomic actions in specific situations, and edges correspond to transition conditions based on situational assessment.</strong></p>
+<p>This design redefines the meaning of control flow graphs at the semantic level. While edges in a traditional CFG represent deterministic jumps (based on Boolean predicates), edges in an APG represent decision logic expressed in natural language, interpreted and executed by AI models at runtime. This mixed semantics allows APG to retain the analyzability of graph structures while maintaining the expressive flexibility of natural language.</p>
+<p><strong>Core Differences from Traditional Attack Modeling</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Dimension</th>
+<th style="text-align: left;">Attack Trees / Kill Chain / ATT&amp;CK</th>
+<th style="text-align: left;">PTES / OWASP</th>
+<th style="text-align: left;">APG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Purpose</strong></td>
+<td style="text-align: left;">Threat Analysis / Knowledge Taxonomy</td>
+<td style="text-align: left;">Testing Standards</td>
+<td style="text-align: left;">AI Executable</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Audience</strong></td>
+<td style="text-align: left;">Human Experts</td>
+<td style="text-align: left;">Human Testers</td>
+<td style="text-align: left;">AI Agents</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Format</strong></td>
+<td style="text-align: left;">Tree/Phase/Matrix/Document</td>
+<td style="text-align: left;">Checklist/Guide</td>
+<td style="text-align: left;">Executable Flow Graph</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Knowledge Type</strong></td>
+<td style="text-align: left;">Descriptive ("What is it")</td>
+<td style="text-align: left;">Normative ("What should be done")</td>
+<td style="text-align: left;">Procedural ("How &amp; When to do")</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Execution Semantics</strong></td>
+<td style="text-align: left;">Non-executable (Requires human interpretation)</td>
+<td style="text-align: left;">Non-executable (Requires human implementation)</td>
+<td style="text-align: left;">Directly executed by Runtime</td>
+</tr>
+</tbody>
+</table>
+<p>Traditional methods are <strong>knowledge representations for human experts</strong>—describing what an attack is or what should be tested, but requiring humans to translate understanding into action. APG is an <strong>operational specification for AI Agents</strong>—it not only describes "what to do" (Nodes) but explicitly encodes "under what circumstances to do it" (Edge conditions), externalizing expert decision logic into a graph structure that AI can execute without human mediation.</p>
+<h4 id="213-windows-post-exploitation-privilege-escalation-apg">2.1.3 Windows Post-Exploitation Privilege Escalation APG<a class="headerlink" href="#213-windows-post-exploitation-privilege-escalation-apg" title="Permanent link">&para;</a></h4>
+<p>To better understand the design and execution of APG, we introduce a recurring real-world case study: <strong>Windows Post-Exploitation Privilege Escalation</strong>. This scenario represents a typical decision flow in the post-exploitation phase, ranging from environmental reconnaissance to ultimately obtaining SYSTEM privileges. The diagram below illustrates the complete APG:</p>
+<pre class="mermaid"><code>graph TB
+    Start["Intent Node: Windows PrivEsc"] --&gt; SysInfo["Op Node: Sys Info Collection&lt;br/&gt;systeminfo/whoami&lt;br/&gt;OS ver/Arch/Patches"]
+
+    SysInfo --&gt; AVEnum["Op Node: AV Enumeration&lt;br/&gt;tasklist/wmic process&lt;br/&gt;Identify AV/EDR"]
+
+    AVEnum --&gt; CheckAV{"Validation Node: AV Type Judgment"}
+
+    CheckAV --&gt;|Defender/None| PrivEnum["Op Node: Priv Enumeration&lt;br/&gt;whoami /all&lt;br/&gt;net user/localgroup"]
+    CheckAV --&gt;|360/Huorong etc.| AVBypass["Op Node: Domestic AV Bypass&lt;br/&gt;Whitelist paths&lt;br/&gt;Memory loading"]
+    CheckAV --&gt;|CrowdStrike/Carbon Black| EDRBypass["Op Node: EDR Bypass&lt;br/&gt;PPID Spoofing&lt;br/&gt;Syscall direct"]
+
+    AVBypass --&gt; PrivEnum
+    EDRBypass --&gt; PrivEnum
+
+    PrivEnum --&gt; CheckPriv{"Validation Node: Current Priv Level"}
+
+    CheckPriv --&gt;|SYSTEM/Admin| Success["Result Node: PrivEsc Complete"]
+    CheckPriv --&gt;|User| PatchCheck["Op Node: Patch Check&lt;br/&gt;systeminfo | findstr KB&lt;br/&gt;wmic qfe list"]
+
+    PatchCheck --&gt; OSVersion{"Validation Node: OS Version Judgment"}
+
+    OSVersion --&gt;|Win7/2008 R2| Win7Exploit["Op Node: Win7 Exploit&lt;br/&gt;MS16-032&lt;br/&gt;MS15-051"]
+    OSVersion --&gt;|Win10 1809-| Win10OldExploit["Op Node: Win10 Old Exploit&lt;br/&gt;CVE-2019-1388&lt;br/&gt;CVE-2019-1405"]
+    OSVersion --&gt;|Win10/11 Latest| ServiceEnum["Op Node: Service Enum&lt;br/&gt;sc query&lt;br/&gt;Check service perms"]
+
+    Win7Exploit --&gt; VerifyPriv["Op Node: Verify Result"]
+    Win10OldExploit --&gt; VerifyPriv
+
+    ServiceEnum --&gt; CheckService{"Validation Node: Service Config Assess"}
+
+    CheckService --&gt;|Weak Service Found| ServiceAbuse["Op Node: Service Abuse&lt;br/&gt;Unquoted Path&lt;br/&gt;Binary Replace&lt;br/&gt;DLL Hijack"]
+    CheckService --&gt;|Config Normal| TaskEnum["Op Node: Task Enum&lt;br/&gt;schtasks /query&lt;br/&gt;Check task perms"]
+
+    ServiceAbuse --&gt; VerifyPriv
+
+    TaskEnum --&gt; CheckTask{"Validation Node: Task Assessment"}
+
+    CheckTask --&gt;|Writable Task Found| TaskAbuse["Op Node: Task Abuse&lt;br/&gt;Replace Script&lt;br/&gt;Modify Path"]
+    CheckTask --&gt;|Config Normal| TokenEnum["Op Node: Token Enum&lt;br/&gt;List High Priv Process&lt;br/&gt;Check SeImpersonate"]
+
+    TaskAbuse --&gt; VerifyPriv
+
+    TokenEnum --&gt; CheckToken{"Validation Node: Token Priv Judgment"}
+
+    CheckToken --&gt;|Has SeImpersonate| PotatoExploit["Op Node: Potato Exploits&lt;br/&gt;JuicyPotato&lt;br/&gt;RoguePotato&lt;br/&gt;PrintSpoofer"]
+    CheckToken --&gt;|No Priv Token| AlwaysInstall["Op Node: Check AlwaysInstallElevated&lt;br/&gt;Reg Query&lt;br/&gt;MSI PrivEsc"]
+
+    PotatoExploit --&gt; VerifyPriv
+
+    AlwaysInstall --&gt; CheckAlways{"Validation Node: MSI Availability"}
+
+    CheckAlways --&gt;|Registry Enabled| MSIExploit["Op Node: MSI Exploit&lt;br/&gt;Generate Malicious MSI&lt;br/&gt;msiexec"]
+    CheckAlways --&gt;|Not Enabled| CredDump["Op Node: Credential Dump&lt;br/&gt;Browser Passwords&lt;br/&gt;Config Files&lt;br/&gt;Registry Creds"]
+
+    MSIExploit --&gt; VerifyPriv
+
+    CredDump --&gt; CheckCred{"Validation Node: Cred Validity"}
+
+    CheckCred --&gt;|Admin Creds Found| RunAsAdmin["Op Node: RunAs Admin&lt;br/&gt;runas&lt;br/&gt;psexec"]
+    CheckCred --&gt;|No Valid Creds| ServiceEnum
+
+    RunAsAdmin --&gt; VerifyPriv
+
+    VerifyPriv --&gt; CheckFinal{"Validation Node: Final Confirmation"}
+
+    CheckFinal --&gt;|SYSTEM Priv| Success
+    CheckFinal --&gt;|Failed| ServiceEnum
+
+    style Start fill:#e3f2fd
+    style CheckAV fill:#fff3e0
+    style CheckPriv fill:#fff3e0
+    style OSVersion fill:#fff3e0
+    style CheckService fill:#fff3e0
+    style CheckTask fill:#fff3e0
+    style CheckToken fill:#fff3e0
+    style CheckAlways fill:#fff3e0
+    style CheckCred fill:#fff3e0
+    style CheckFinal fill:#fff3e0
+    style Success fill:#c8e6c9</code></pre>
+<p>This APG encodes the expert decision logic for Windows privilege escalation, containing a complete branching hierarchy: AV Type → Privilege Level → System Version → Service Config → Scheduled Tasks → Token Privileges → MSI Config → Credential Usage. Each Validation Node selects the corresponding escalation technique based on the specific situation.</p>
+<p>The output of each node serves as input for the next, passed naturally via the Global Context Tree. The Runtime dynamically compiles these natural language descriptions into concrete AI instructions during execution, coordinating with the Global Context to achieve expert-level decision-making. <strong>This case study will be referenced throughout the following sections</strong> to demonstrate APG design, execution, and optimization.</p>
+<h3 id="22-core-components-of-apg">2.2 Core Components of APG<a class="headerlink" href="#22-core-components-of-apg" title="Permanent link">&para;</a></h3>
+<h4 id="221-nodes-semantic-definition-of-computational-units">2.2.1 Nodes: Semantic Definition of Computational Units<a class="headerlink" href="#221-nodes-semantic-definition-of-computational-units" title="Permanent link">&para;</a></h4>
+<p>Formally, an APG node is a tuple <code>N = (T, P, C)</code>, where:</p>
+<ul>
+<li>
+<p><code>T</code> is the Node Type (intent | operation | validation | result)</p>
+</li>
+<li>
+<p><code>P</code> is the Prompt Template, defining the execution semantics of the node</p>
+</li>
+<li>
+<p><code>C</code> represents Context Dependencies, declaring the prerequisite information required for execution</p>
+</li>
+</ul>
+<p>Unlike precise instructions in traditional programs, <strong>APG nodes encapsulate expert behavioral patterns rather than algorithmic steps</strong>. The essence of expert knowledge is situated action—faced with a specific service type, an expert doesn't execute an abstract "scan" algorithm but directly invokes domain tools (e.g., "Use gogo to scan common ports and identify service versions"). APG explicates these implicit operational routines via prompt templates.</p>
+<p>The computational semantics of a node is <strong><code>prompt × context → output</code></strong>: each node receives the Global Context as input and generates structured output by invoking underlying AI capabilities through a specific prompt template. The output includes not only execution results but also path selection recommendations and quality assessment metadata, which update the Global Context and influence subsequent decision-making.</p>
+<p>APG defines four node types, constituting layered execution semantics:</p>
+<ul>
+<li>
+<p><strong>Intent Node</strong>: The unique entry point of the graph, defining the initial state and goal constraints. Formally corresponds to function parameter passing and scope initialization.</p>
+</li>
+<li>
+<p><strong>Operation Node</strong>: The computational unit executing concrete actions. Encodes expert operational paradigms via prompt + few-shot examples.</p>
+</li>
+<li>
+<p><strong>Validation Node</strong>: A decision point for result verification and path selection. Similar to predicate evaluation in conditional branches but uses natural language to express judgment criteria.</p>
+</li>
+<li>
+<p><strong>Result Node</strong>: The unique normal exit of the graph, corresponding to a function return. This node is reached only when the task is successfully completed.</p>
+</li>
+</ul>
+<p>Exceptions (path mismatches, execution failures) are not returned via the Result Node but trigger an exception mechanism (see Section 2.2.4). This ensures clear execution semantics: <strong>reaching a Result Node implies success; triggering an exception implies a need for strategy adjustment or human intervention.</strong></p>
+<h4 id="222-edges-mixed-semantics-of-transition-conditions">2.2.2 Edges: Mixed Semantics of Transition Conditions<a class="headerlink" href="#222-edges-mixed-semantics-of-transition-conditions" title="Permanent link">&para;</a></h4>
+<p>Edges define the control flow topology of the APG. Formally, an edge is a tuple <code>E = (φ, v)</code>, where:</p>
+<ul>
+<li>
+<p><code>φ</code> is the Transition Condition, expressed in natural language.</p>
+</li>
+<li>
+<p><code>v</code> is an optional Validation Function, used for strict constraint checking.</p>
+</li>
+</ul>
+<p>Unlike deterministic jumps based on Boolean predicates in traditional CFGs, <strong>APG edges implement a mixed-semantics transition mechanism</strong>. The primary part of the edge condition uses natural language (e.g., "If database error messages appear in the response"). This aligns with expert cognitive patterns, providing semantic judgment space for the AI model. Simultaneously, for critical hard constraints (e.g., "Target host must respond to ICMP"), programmatically enforceable validation functions ensure path reachability.</p>
+<p><strong>The execution semantics of an edge is compile-time fusion</strong>: Edges are not independent execution steps but are compiled into the prompt during node execution. Specifically, when the Runtime executes node N, it collects all outgoing edges <code>{E₁, E₂, ..., Eₖ}</code> and embeds their conditions <code>{φ₁, φ₂, ..., φₖ}</code> as "downstream path options" into N's execution prompt. While completing the node operation, the AI model selects the matching transition condition based on execution results and context. This design avoids the traditional three-stage separation of "Execute-Evaluate-Jump," achieving semantic fusion of decision and execution.</p>
+<p>The mixed validation mechanism of edge conditions balances flexibility and reliability: natural language conditions offer adaptive judgment, while programmatic validation functions ensure the enforcement of critical constraints.</p>
+<h4 id="223-subgraph-compositional-semantics-and-modular-encapsulation">2.2.3 SubGraph: Compositional Semantics and Modular Encapsulation<a class="headerlink" href="#223-subgraph-compositional-semantics-and-modular-encapsulation" title="Permanent link">&para;</a></h4>
+<p>A SubGraph is the basic unit of composition in APG, a connected subgraph consisting of node sets and edge sets: <code>SG = (N, E, n_entry, n_exit)</code>, where:</p>
+<ul>
+<li>
+<p><code>N</code> is the set of Nodes</p>
+</li>
+<li>
+<p><code>E</code> is the set of Edges</p>
+</li>
+<li>
+<p><code>n_entry</code> is the unique Intent Node (Entry)</p>
+</li>
+<li>
+<p><code>n_exit</code> is the set of Result Nodes (potentially multiple exits)</p>
+</li>
+</ul>
+<p>The design of SubGraphs is inspired by the combinator concept in functional programming, enabling modular encapsulation of expert experience. In cognitive science, expert problem-solving relies on <strong>procedural memory</strong> and <strong>schema activation</strong>—experts rapidly activate corresponding action sequences when facing specific situations. SubGraphs explicate this "Situation → Action Sequence" mapping via graph structures.</p>
+<p><strong>APG is essentially a knowledge representation, not the knowledge itself.</strong> SubGraphs transform tacit expert knowledge into explicit, computable graph structures, realizing three key properties: <strong>Executability</strong> (directly interpretable by Runtime); <strong>Programmability</strong> (supporting version control and progressive optimization).</p>
+<p>SubGraph design follows strict structural constraints. First is the <strong>Single Entry Constraint</strong>: the Intent Node is the sole entry point, ensuring the subgraph is a Directed Acyclic Graph (DAG) with clear initialization semantics. Second is <strong>Control Flow Encapsulation</strong>: all external inputs (user prompts, config parameters, strategy adjustments) must be injected via the Intent Node; internal nodes are not allowed direct human interaction, guaranteeing execution independence. Finally, <strong>Compositional Closure</strong>: SubGraphs can connect via Intent Nodes to form larger composite graphs, but each subgraph maintains independent execution semantics.</p>
+<p>The connection relationships of multiple SubGraph Intent Nodes constitute the <strong>Attack Intent Graph</strong>, representing the complete knowledge topology of a specific domain. This layered composition mechanism resembles modular design in software engineering—each SubGraph is a black box with a defined interface, allowing internal implementation to evolve independently without affecting other modules.</p>
+<h4 id="224-exception-handling-mechanism">2.2.4 Exception Handling Mechanism<a class="headerlink" href="#224-exception-handling-mechanism" title="Permanent link">&para;</a></h4>
+<p>The execution semantics of a SubGraph rely on edge condition matching: after a node executes, the Runtime transitions to an outgoing edge based on the output. However, in real attack scenarios, <strong>Path Exhaustion</strong> frequently occurs—a node executes successfully, but the output satisfies none of the predefined transition conditions. This is not a system error but an inherent feature of exploratory tasks: target defenses may exceed expectations, response patterns may not be covered by the APG, or network environments may change randomly.</p>
+<p>When Path Exhaustion occurs, the node reports an <strong>Exception</strong> to the Runtime via a special return value. An exception is a structured object containing an execution summary, attempted path evaluations, and mismatch diagnostics.</p>
+<p>The Runtime employs a layered exception handling strategy, attempting recovery in priority order:</p>
+<ol>
+<li>
+<p><strong>Local Backtracking</strong>: Backtrack to the nearest Validation Node to re-evaluate path selection based on new information. This is the lowest-cost recovery strategy, suitable for scenarios requiring minor adjustments to judgment conditions.</p>
+</li>
+<li>
+<p><strong>Path Finding</strong>: If backtracking fails, invoke the Builtin Tool's <code>find_alternative_path</code> function to search for reachable alternative paths within the graph topology. The system attempts to find other viable routes to a Result Node from the current state.</p>
+</li>
+<li>
+<p><strong>Dynamic Graph Extension</strong>: If no suitable path is found, the system utilizes graph construction capabilities to dynamically add processing branches, extending the APG's coverage. This allows the APG to learn and adapt to new attack scenarios at runtime.</p>
+</li>
+<li>
+<p><strong>Human-in-the-Loop</strong>: When all automated methods fail, the system falls back to the nearest Intent Node and triggers a human intervention process. Experts can adjust the attack strategy, modify the APG definition, or provide additional context.</p>
+</li>
+</ol>
+<p>This layered strategy implements <strong>progressive degradation</strong>: the system first attempts automated recovery and requests human intervention only after exhausting all automatic options. This design allows APG to handle not only predefined scenarios but also possess a degree of <strong>out-of-distribution generalization</strong>.</p>
+<h3 id="23-runtime-the-execution-engine-of-apg">2.3 Runtime: The Execution Engine of APG<a class="headerlink" href="#23-runtime-the-execution-engine-of-apg" title="Permanent link">&para;</a></h3>
+<h4 id="231-runtime-architecture-and-execution-model">2.3.1 Runtime Architecture and Execution Model<a class="headerlink" href="#231-runtime-architecture-and-execution-model" title="Permanent link">&para;</a></h4>
+<p><strong>Comparison with Existing AI Penetration Testing Tools</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>Dimension</strong></th>
+<th><strong>HexStrike-AI</strong></th>
+<th><strong>CAI</strong></th>
+<th><strong>Strix</strong></th>
+<th><strong>APG Runtime</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Architecture</strong></td>
+<td>Tool Integration</td>
+<td>Planner-Executor</td>
+<td>Multi-Agent</td>
+<td>Graph Interpreter</td>
+</tr>
+<tr>
+<td><strong>Execution Mode</strong></td>
+<td>LLM Autonomous Tool Use</td>
+<td>Linear Task List</td>
+<td>Agent Scheduling</td>
+<td>Graph Traversal + Dynamic Compilation</td>
+</tr>
+<tr>
+<td><strong>Context Mgmt</strong></td>
+<td>Global Tool Visibility</td>
+<td>Planner/Executor Isolation</td>
+<td>Inter-Agent Messaging</td>
+<td>Structured Context Tree</td>
+</tr>
+<tr>
+<td><strong>Expert Knowledge</strong></td>
+<td>Implicit in Model</td>
+<td>Planner Prompts</td>
+<td>Agent Prompts</td>
+<td>APG Graph Structure</td>
+</tr>
+<tr>
+<td><strong>Adaptability</strong></td>
+<td>Implicit Model Inference</td>
+<td>Re-planning (High Cost)</td>
+<td>Coordination Protocol</td>
+<td>Exception-Driven Backtracking + Graph Extension</td>
+</tr>
+</tbody>
+</table>
+<p>The fundamental limitation of existing tools is the <strong>lack of explicit encoding of expert decision logic</strong>: HexStrike-AI relies on the model's implicit reasoning; CAI embeds expert knowledge in Planner prompts; Strix scatters knowledge across multiple Agent prompts. These methods are viable for simple scenarios (single site tests, CTF challenges) but lack systematicity and controllability when facing complex real-world attack chains.</p>
+<p><strong>Runtime Design Positioning</strong></p>
+<p>While APG defines the expert experience flow as a static graph structure, it cannot run directly on an AI model. <strong>The Runtime serves as the interpreter and execution engine</strong>, acting as the intermediary layer between the APG graph definition and underlying AI capabilities. Its core responsibilities include:</p>
+<ol>
+<li>
+<p><strong>Graph Traversal</strong>: Maintains current execution state, deciding the next transition based on node outputs and edge conditions.</p>
+</li>
+<li>
+<p><strong>Prompt Compilation</strong>: Compiles node definitions and context into executable AI prompts.</p>
+</li>
+<li>
+<p><strong>Context Management</strong>: Maintains the global execution context, ensuring information continuity across nodes.</p>
+</li>
+<li>
+<p><strong>Tool Orchestration</strong>: Manages the tool ecosystem, injecting tool capabilities on demand.</p>
+</li>
+</ol>
+<p>代码段</p>
+<div class="highlight"><pre><span></span><code>graph TB
+    subgraph &quot;Intent Layer&quot;
+        APG[APG Definition&lt;br/&gt;YAML/DSL&lt;br/&gt;Describing Expert Experience]
+    end
+
+    subgraph &quot;Execution Layer&quot;
+        Runtime[Runtime Engine&lt;br/&gt;Graph Traversal + Prompt Compilation + Context Mgmt]
+    end
+
+    subgraph &quot;Capability Layer&quot;
+        Agent[General Agent Engineering&lt;br/&gt;pydantic ai / Claude Code&lt;br/&gt;AI Base Capabilities]
+        LLM[Large Language Models]
+    end
+
+    APG --&gt; Runtime
+    Runtime --&gt; Agent
+    Agent --&gt; LLM
+
+    style APG fill:#e3f2fd
+    style Runtime fill:#fff3e0
+    style Agent fill:#e8f5e8
+    style LLM fill:#fce4ec
+</code></pre></div>
+<p><strong>Tech Stack Selection Rationale</strong></p>
+<p>The Runtime implementation uses <strong>lightweight AI base libraries</strong> (e.g., pydantic-ai) rather than high-level Agent frameworks (e.g., LangChain, LlamaIndex). This choice is based on the specificity of APG execution semantics—mixed semantics (structured graph traversal + natural language decision) require precise execution control, whereas the abstraction layers of high-level frameworks might become limiting. Specifically, APG requires triggering prompt compilation at specific graph traversal nodes rather than following a framework's predefined lifecycle; it requires customized global context tree management incompatible with generic framework context models. Furthermore, lightweight libraries minimize dependencies, reduce framework abstraction overhead, and allow direct control over the timing and method of underlying AI calls.</p>
+<h4 id="232-dsl-parser-structured-syntax-definition">2.3.2 DSL Parser: Structured Syntax Definition<a class="headerlink" href="#232-dsl-parser-structured-syntax-definition" title="Permanent link">&para;</a></h4>
+<p>The APG graph structure expresses directed relationships between nodes via tuples <code>(N_source, E_condition, N_target)</code>. To balance engineering feasibility and human readability, we selected <strong>YAML as the Domain-Specific Language (DSL) for APG</strong>. YAML offers:</p>
+<ul>
+<li>
+<p><strong>Human Readability</strong>: Declarative syntax, easy to understand and edit.</p>
+</li>
+<li>
+<p><strong>Structural Integrity</strong>: Native support for nested data structures, capable of fully expressing graph topology.</p>
+</li>
+<li>
+<p><strong>Mature Toolchain</strong>: No need for extra parser development; standard YAML libraries can be used.</p>
+</li>
+<li>
+<p><strong>Lightweight Storage</strong>: Text format, no database dependency, supports version control.</p>
+</li>
+</ul>
+<p>The APG DSL syntax design follows the <strong>Minimally Complete</strong> principle:</p>
+<p><strong>Node Definition Syntax</strong>:</p>
+<p>YAML</p>
+<div class="highlight"><pre><span></span><code>- id: &lt;string&gt;                      # Unique Identifier
+  type: intent|operation|validation|result  # Node Type
+  name: &lt;string&gt;                    # Readable Name
+  prompt: &lt;multiline-string&gt;        # Prompt Template
+  tools: [&lt;tool-id&gt;, ...]           # Callable Tools (Optional)
+  output_schema: &lt;json-schema&gt;      # Output Structure Constraint (Optional)
+</code></pre></div>
+<p><strong>Edge Definition Syntax</strong>:</p>
+<p>YAML</p>
+<div class="highlight"><pre><span></span><code>- from: &lt;node-id&gt;                   # Source Node ID
+  to: &lt;node-id&gt;                     # Target Node ID
+  condition: &lt;natural-language&gt;     # Transition Condition (Natural Language)
+</code></pre></div>
+<p>Edge conditions use natural language (not Boolean expressions) and are dynamically compiled into prompts during Runtime execution, allowing the AI model to make semantic judgments based on context.</p>
+<p>Returning to our Windows Post-Exploitation Privilege Escalation case, the APG YAML representation (core nodes version) is as follows:</p>
+<p>YAML</p>
+<div class="highlight"><pre><span></span><code># Windows Post-Exploitation PrivEsc APG
+name: &quot;windows_privilege_escalation&quot;
+description: &quot;Complete decision flow for Windows system post-exploitation privilege escalation&quot;
+
+nodes:
+  - id: start
+    type: intent
+    name: &quot;Windows PrivEsc&quot;
+    prompt: |
+      You are a senior penetration testing expert with an initial shell on a target Windows system.
+      Mission: Escalate privileges to SYSTEM via reconnaissance, exploit, or misconfiguration abuse.
+
+  - id: sys_info
+    type: operation
+    name: &quot;System Info Collection&quot;
+    prompt: |
+      Collect basic target info:
+      1. systeminfo - OS version, architecture, patch list
+      2. whoami /all - Current user, groups, privileges
+      3. hostname
+      Output: Structured system info
+    tools: [&quot;execute_command&quot;]
+
+  - id: av_enum
+    type: operation
+    name: &quot;AV Enumeration&quot;
+    prompt: |
+      Identify security defenses:
+      1. tasklist | findstr /i &quot;defender 360 huorong kaspersky&quot;
+      2. wmic process get name,executablepath | findstr /i &quot;crowdstrike carbon&quot;
+      3. Get-MpComputerStatus (if PowerShell available)
+      Output: AV type, version, status
+    tools: [&quot;execute_command&quot;]
+
+  - id: check_av
+    type: validation
+    name: &quot;AV Type Judgment&quot;
+    prompt: |
+      Judge defense level based on {av_info}:
+      - Defender/None: Low resistance, standard tools okay
+      - 360/Huorong (Domestic): Medium resistance, whitelist paths or memory loading required
+      - CrowdStrike/Carbon Black: High resistance, EDR bypass required
+
+  # ... [Intermediate nodes omitted for brevity, following the structure of the Mermaid graph] ...
+
+  - id: potato_exploit
+    type: operation
+    name: &quot;Potato Series Exploit&quot;
+    prompt: |
+      Use Potato series exploits:
+      1. Windows Server 2016+: RoguePotato/PrintSpoofer
+      2. Windows 10: JuicyPotato (needs CLSID)
+      3. Execute and get SYSTEM shell
+    tools: [&quot;upload_file&quot;, &quot;execute_command&quot;]
+
+  # ... [More nodes] ...
+
+edges:
+  - from: start
+    to: sys_info
+
+  - from: sys_info
+    to: av_enum
+
+  - from: av_enum
+    to: check_av
+
+  - from: check_av
+    to: priv_enum
+    condition: &quot;If Defender or No AV&quot;
+
+  - from: check_av
+    to: av_bypass_domestic
+    condition: &quot;If 360/Huorong or other domestic AV&quot;
+
+  - from: check_av
+    to: edr_bypass
+    condition: &quot;If CrowdStrike/Carbon Black or other EDR&quot;
+
+  # ... [Edges continue defining the flow] ...
+</code></pre></div>
+<p>When the Runtime loads the YAML, it <strong>constructs a Directed Acyclic Graph (DAG) in memory</strong>: nodes become vertices, and edges become directed connections. When executing a node, the Runtime <strong>compiles the conditions of all outgoing edges from that node into the prompt</strong>, enabling the AI to decide the path based on context and results.</p>
+<h4 id="233-tool-ecosystem">2.3.3 Tool Ecosystem<a class="headerlink" href="#233-tool-ecosystem" title="Permanent link">&para;</a></h4>
+<p>The Tool system adopts a <strong>three-layer architecture</strong>: Builtin Tool (Runtime inherent capabilities), ENV (Isolated Execution Space), and Tool SDK (Function Encapsulation). This layered design ensures core stability, supports flexible domain tool expansion, and guarantees security and controllability via isolation.</p>
+<h5 id="2331-builtin-tool">2.3.3.1 Builtin Tool<a class="headerlink" href="#2331-builtin-tool" title="Permanent link">&para;</a></h5>
+<p>Builtin Tools are <strong>fundamental capabilities intrinsic to the Runtime</strong>, requiring no external dependencies. They primarily include <strong>APG Graph Operations</strong> and <strong>Basic Functions</strong>. Graph operations provide query capabilities (get_neighbors, find_path, find_alternative_path) and construction capabilities (add nodes, modify edge conditions, adjust structure). When an attack path fails, the Runtime can call <code>find_alternative_path</code> or dynamically adjust the APG.</p>
+<p>Basic functions resemble Claude Code's built-in capabilities, including context queries (get_context, query_history), file operations, and process management. These allow nodes to access global context and perform basic system calls without relying on an external ENV. The design principle is <strong>minimal but complete</strong>, containing only essentials for APG execution.</p>
+<h5 id="2332-workspace-execution-environment">2.3.3.2 Workspace: Execution Environment<a class="headerlink" href="#2332-workspace-execution-environment" title="Permanent link">&para;</a></h5>
+<p><strong>Runtime and Tool Isolation Principle</strong></p>
+<p>The Tool system follows the principle of <strong>Execution Environment Isolation</strong>: The Runtime handles graph traversal and scheduling, while Tools execute concrete operations in an isolated sandbox. This brings multiple benefits:</p>
+<ul>
+<li>
+<p><strong>Environment Purity</strong>: Runtime state is unaffected by Tool side effects.</p>
+</li>
+<li>
+<p><strong>Fault Isolation</strong>: Tool crashes do not cause Runtime state loss.</p>
+</li>
+<li>
+<p><strong>Rapid Recovery</strong>: Tool environments can be quickly rebuilt or switched.</p>
+</li>
+<li>
+<p><strong>Concurrency</strong>: Multiple Workspace instances support parallel tool execution.</p>
+</li>
+</ul>
+<p>Implementation-wise, we use <strong>containerization</strong>: Linux images provide standard security tools; Playwright handles web interaction; Terminal exposes Shell interfaces; and Python supports dynamic script execution.</p>
+<h5 id="2333-tool-sdk">2.3.3.3 Tool SDK<a class="headerlink" href="#2333-tool-sdk" title="Permanent link">&para;</a></h5>
+<p>Offensive security relies on numerous specialized tools (sqlmap, nuclei, masscan, etc.). Registering each as an independent MCP/Tool leads to <strong>Context Pollution</strong>: tool documentation crowds out task-relevant information.</p>
+<p>The Tool SDK re-encapsulates all tools (MCP, HTTP, GRPC, Terminal) into a <strong>Python API</strong>.</p>
+<p>We provide an <code>offensive-infra</code> Python package as a unified layer. Tool documentation is stored as files and <strong>dynamically retrieved</strong> by the Runtime based on the node's <code>tool</code> declaration. Only the documentation for tools required by the <em>current</em> node is injected into the prompt. This <strong>maximizes context efficiency</strong>: at any moment, the context contains only the minimal toolset needed.</p>
+<p>By using Python as a DSL to invoke tools, we drastically improve AI tool usage efficiency. A single interaction can orchestrate dozens of tools. We call this Python DSL-driven approach <strong>Meta-tooling</strong>.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Attack Phase</strong></th>
+<th><strong>Tool Name</strong></th>
+<th><strong>ATT&amp;CK Mapping</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pre-Exploit</strong></td>
+<td>gogo</td>
+<td>T1046</td>
+</tr>
+<tr>
+<td></td>
+<td>fingers</td>
+<td>T1592</td>
+</tr>
+<tr>
+<td></td>
+<td>spray</td>
+<td>T1083</td>
+</tr>
+<tr>
+<td><strong>Bridge</strong></td>
+<td>rem</td>
+<td>T1090</td>
+</tr>
+<tr>
+<td></td>
+<td>proxyclient</td>
+<td>T1090.001</td>
+</tr>
+<tr>
+<td><strong>Post-Exploit</strong></td>
+<td>malice-network</td>
+<td>T1071, T1573</td>
+</tr>
+<tr>
+<td></td>
+<td>malefic</td>
+<td>Covers multiple</td>
+</tr>
+</tbody>
+</table>
+<h4 id="234-global-context-management-mechanism">2.3.4 Global Context Management Mechanism<a class="headerlink" href="#234-global-context-management-mechanism" title="Permanent link">&para;</a></h4>
+<p><strong>Context Continuity Challenge</strong></p>
+<p>Underlying Agent Runtimes (e.g., Claude Code) often use complex context management strategies (compression, summarization). However, <strong>APG execution chains may span multiple underlying context compression cycles</strong>. If critical information (OS version, Token privileges) is compressed away, subsequent nodes lose their decision basis.</p>
+<p>To solve this, the Runtime implements an <strong>independent Global Context Management Layer</strong>, ensuring memory continuity across the entire APG flow, independent of the underlying AI runtime.</p>
+<p><strong>Structured Context Design</strong></p>
+<p>Global context uses <strong>structured data</strong> rather than free text. Each node returns output conforming to a predefined schema:</p>
+<p>Python</p>
+<div class="highlight"><pre><span></span><code>NodeOutput = {
+    &quot;summary&quot;: str,          # Execution Summary
+    &quot;branch_decision&quot;: str,  # Path Choice
+    &quot;key_data&quot;: dict,        # Structured info for downstream nodes
+    &quot;metadata&quot;: dict         # Timestamp, NodeID, Quality Score
+}
+</code></pre></div>
+<p><strong>Persistence and Serialization</strong></p>
+<p>The Runtime <strong>serializes each node's output into JSON Lines format</strong>, appending to a file. This forms a <strong>Global Context Tree</strong>. This design enables:</p>
+<ol>
+<li>
+<p><strong>Checkpointing</strong>: Save state at any node; resume after failure.</p>
+</li>
+<li>
+<p><strong>History Tracing</strong>: Audit execution history and AI decisions.</p>
+</li>
+<li>
+<p><strong>Resumable Execution</strong>: Pause and resume long-running tasks.</p>
+</li>
+<li>
+<p><strong>Versioning</strong>: Each execution creates an independent instance file.</p>
+</li>
+</ol>
+<h4 id="235-prompt-compilation-mechanism">2.3.5 Prompt Compilation Mechanism<a class="headerlink" href="#235-prompt-compilation-mechanism" title="Permanent link">&para;</a></h4>
+<p><strong>Compiler-Perspective Prompt Generation</strong></p>
+<p>Prompt Compilation is the Runtime's core responsibility, fusing the static APG definition with the dynamic context to generate executable prompts. This resembles code generation in compilers, but the target is <strong>structured natural language instructions</strong>.</p>
+<p><strong>POML-Based Structured Prompt Templates</strong></p>
+<p>We use <strong>POML (Prompt Orchestration Markup Language)</strong>, an XML-like language for prompt orchestration, providing structured organization, data binding, and separation of content from presentation.</p>
+<p>The Runtime compiles nodes into structured prompts containing:</p>
+<ol>
+<li>
+<p><strong>Role</strong>: AI Identity.</p>
+</li>
+<li>
+<p><strong>Task</strong>: Current node goal.</p>
+</li>
+<li>
+<p><strong>Context</strong>: Data from Global Context Tree.</p>
+</li>
+<li>
+<p><strong>Instructions</strong>: Detailed steps.</p>
+</li>
+<li>
+<p><strong>Constraints</strong>: Downstream branch conditions (compiled from Edges).</p>
+</li>
+<li>
+<p><strong>Output Schema</strong>: Format constraints.</p>
+</li>
+</ol>
+<p><strong>Example Compilation: Potato Exploit Node</strong></p>
+<p>Input 1: APG Node Definition (Abstract)</p>
+<p>Node: potato_exploit. Tools: upload_file, execute_command.</p>
+<p>Input 2: Global Context (Extracted)</p>
+<p>OS: Server 2019. User: IIS APPPOOL. Privs: SeImpersonate. AV: Defender Disabled.</p>
+<p><strong>Output: Compiled Prompt (POML)</strong></p>
+<p>XML</p>
+<div class="highlight"><pre><span></span><code>&lt;poml&gt;
+  &lt;role&gt;
+    You are a senior penetration testing expert...
+  &lt;/role&gt;
+
+  &lt;task&gt;
+    You are at the &#39;potato_exploit&#39; node. Prerequisite &#39;SeImpersonate&#39; confirmed.
+    Task: Select and execute suitable Potato exploit based on system version.
+  &lt;/task&gt;
+
+  &lt;context&gt;
+    ## System Info
+    - OS: Windows Server 2019 Standard (Build 17763)
+    - Architecture: x64
+    ## Privileges
+    - User: IIS APPPOOL\DefaultAppPool
+    - SeImpersonatePrivilege: Enabled
+    ## History
+    - [sys_info] Server 2019...
+    - [av_enum] No AV detected...
+  &lt;/context&gt;
+
+  &lt;instructions&gt;
+    Based on Server 2019 and Token privs:
+    1. Select Variant:
+       - Server 2019 -&gt; Prioritize RoguePotato or PrintSpoofer
+    2. Upload Exploit:
+       - Path: C:\Windows\Tasks\
+    3. Execute:
+       - cmd: PrintSpoofer.exe -i -c cmd
+    4. Verify:
+       - Expect: NT AUTHORITY\SYSTEM
+  &lt;/instructions&gt;
+
+  &lt;branches&gt;
+    Select downstream path based on result:
+    - If SYSTEM acquired -&gt; &#39;verify_priv&#39;
+    - If exploit fails -&gt; &#39;always_install&#39;
+  &lt;/branches&gt;
+
+  &lt;output-format&gt;
+    Return JSON...
+  &lt;/output-format&gt;
+&lt;/poml&gt;
+</code></pre></div>
+<p>This demonstrates how the Runtime fuses <strong>concise node definitions</strong> with <strong>rich global context</strong> into complete instructions. It doesn't blindly try all exploits but performs <strong>precise matching</strong> and <strong>strategy selection</strong> (Runtime Compilation Optimization).</p>
+<h3 id="24-semantic-programs">2.4 Semantic Programs<a class="headerlink" href="#24-semantic-programs" title="Permanent link">&para;</a></h3>
+<p>Based on the core components and execution mechanisms, we formally define APG: <strong>APG is a Domain-Specific Program for AI Execution.</strong> It encodes expert decision knowledge into a computable graph structure interpreted by the Runtime.</p>
+<p><strong>Procedural Characteristics</strong></p>
+<ol>
+<li>
+<p><strong>Deterministic Syntax</strong>: YAML DSL.</p>
+</li>
+<li>
+<p><strong>Execution Semantics</strong>: Runtime graph traversal + compilation.</p>
+</li>
+<li>
+<p><strong>I/O Interfaces</strong>: Intent/Result nodes.</p>
+</li>
+<li>
+<p><strong>Control Flow</strong>: Sequence, Branching, Loops (cycles).</p>
+</li>
+</ol>
+<p><strong>Essential Differences from Traditional Programs</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>Dimension</strong></th>
+<th><strong>Traditional Program</strong></th>
+<th><strong>APG</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Substrate</strong></td>
+<td>CPU Instruction Set</td>
+<td>LLM</td>
+</tr>
+<tr>
+<td><strong>Target</strong></td>
+<td>Machine Code</td>
+<td>Structured Natural Language Prompt</td>
+</tr>
+<tr>
+<td><strong>Control Flow</strong></td>
+<td>Deterministic (Boolean)</td>
+<td>Probabilistic (Natural Language)</td>
+</tr>
+<tr>
+<td><strong>Value</strong></td>
+<td>Algorithmic Efficiency</td>
+<td>Expert Experience Encoding Completeness</td>
+</tr>
+</tbody>
+</table>
+<p>A verified APG (like the Windows PrivEsc example) is akin to a battle-tested open-source library—encapsulating best practices, reusable, and updatable.</p>
+<h2 id="3-summary-and-outlook">3. Summary and Outlook<a class="headerlink" href="#3-summary-and-outlook" title="Permanent link">&para;</a></h2>
+<h3 id="31-research-contributions">3.1 Research Contributions<a class="headerlink" href="#31-research-contributions" title="Permanent link">&para;</a></h3>
+<p>This paper introduces <strong>APG</strong> as a structured intermediate representation for attack patterns in the AI era, validating the hypothesis that <strong>expert security decision logic can be formally expressed and directly interpreted by AI systems.</strong></p>
+<p><strong>Contributions:</strong></p>
+<ol>
+<li>
+<p><strong>Theoretical</strong>: Formal APG framework, mixed semantics execution model (Structured Control Flow + NL Decision).</p>
+</li>
+<li>
+<p><strong>System</strong>: Runtime engine implementation (Traversal, Compiler, Context, Tools).</p>
+</li>
+<li>
+<p><strong>Practical</strong>: Complete engineering path (YAML DSL, POML, RAG-based tools).</p>
+</li>
+</ol>
+<p><strong>APG</strong> defines "What and When" (Pattern). <strong>Runtime</strong> implements "How" (Execution).</p>
+<h3 id="32-limitations-and-future-work">3.2 Limitations and Future Work<a class="headerlink" href="#32-limitations-and-future-work" title="Permanent link">&para;</a></h3>
+<p><strong>Current Limitations</strong>:</p>
+<ul>
+<li>
+<p><strong>Lack of Empirical Validation</strong>: Need large-scale testing in real-world scenarios.</p>
+</li>
+<li>
+<p><strong>Engineering Maturity</strong>: Runtime is currently a prototype; needs optimization and error handling.</p>
+</li>
+</ul>
+<p><strong>Future Directions</strong>:</p>
+<ul>
+<li>
+<p><strong>Intelligence Enhancement</strong>: ML for path exhaustion patterns; auto-generating APG from logs/descriptions.</p>
+</li>
+<li>
+<p><strong>Ecosystem</strong>: APG Marketplace for sharing expert knowledge; Tool SDK expansion; Standardization of DSL.</p>
+</li>
+</ul>
+<h3 id="33-conclusion">3.3 Conclusion<a class="headerlink" href="#33-conclusion" title="Permanent link">&para;</a></h3>
+<p><strong>APG + Runtime constitutes an experimental framework for AI-driven security testing</strong>, primarily validating that <strong>structuring expert decision logic is feasible, and AI execution of this structure is reproducible.</strong></p>
+<p><strong>APG represents a research direction</strong>: shifting from writing precise scripts to describing expert decision patterns and constraints. The exploration of this field has just begun.</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 ChainReactors
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/chainreactors" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "toc.integrate", "toc.follo", "navigation.top", "header.autohide", "search.share", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

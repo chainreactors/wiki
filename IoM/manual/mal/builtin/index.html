@@ -1,0 +1,8684 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="chainreactors wiki">
+      
+      
+        <meta name="author" content="M09ic">
+      
+      
+        <link rel="canonical" href="https://wiki.chainreactors.red/wiki/IoM/manual/mal/builtin/">
+      
+      
+        <link rel="prev" href="../embed/">
+      
+      
+        <link rel="next" href="../beacon/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>builtin - ChainReactor Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-DCRVR86FG2"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-DCRVR86FG2",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-DCRVR86FG2",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#artifact" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="ChainReactor Wiki" class="md-header__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ChainReactor Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              builtin
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  导航
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  IoM
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../gogo/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  gogo
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../spray/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  spray
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../zombie/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  zombie
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../rem/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  rem
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../libs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  libs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../mapping/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Preview
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../blog/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="ChainReactor Wiki" class="md-nav__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ChainReactor Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    导航
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IoM
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    IoM
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concept
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RoadMap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../guideline/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guideline
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6" id="__nav_2_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guideline
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安装部署
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/listener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Listener
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/payload/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payload
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/post_exploitation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后渗透基本操作
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/embed_mal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内置插件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    代理/隧道
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6_8" id="__nav_2_6_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高级用法
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    高级用法
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/advance/DumpLSASS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DumpLSASS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/advance/DomainFronting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DomainFronting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/advance/Multi-Server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MultiServer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/advance/Guardrail/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guardrail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../guideline/develop/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DevelopGuide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6_9" id="__nav_2_6_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    DevelopGuide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mal快速入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/develop/server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Server开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/develop/client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Client开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guideline/develop/implant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implant开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manual
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7" id="__nav_2_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Manual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../manual/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    client/server
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_2" id="__nav_2_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    client/server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install&deploy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/listener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    listener
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    client usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/implant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    implant usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mals插件生态
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_3" id="__nav_2_7_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mals插件生态
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../embed/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    embed
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7_3_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_7_3_3" id="__nav_2_7_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lua
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_7_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_7_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    lua
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    builtin
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    builtin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#artifact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        artifact
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="artifact">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#artifact_payload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        artifact_payload
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#artifact_stager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        artifact_stager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clr2shellcode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        clr2shellcode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete_artifact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delete_artifact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dll2shellcode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dll2shellcode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#donut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        donut
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download_artifact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        download_artifact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exe2shellcode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        exe2shellcode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_artifact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_artifact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search_artifact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        search_artifact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#self_artifact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        self_artifact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#self_payload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        self_payload
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#self_stager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        self_stager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sgn_encode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sgn_encode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srdi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        srdi
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload_artifact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        upload_artifact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        basic
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="basic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#active" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        active
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_credential" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_credential
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_download
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_keylogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_keylogger
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_port" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_port
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_screenshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_screenshot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_upload
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assemblyprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        assemblyprint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#async_run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        async_run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#barch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        barch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bdata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bdata
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        blog
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#broadcast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        broadcast
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#callback_append" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        callback_append
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#callback_bof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        callback_bof
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#callback_context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        callback_context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#callback_discard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        callback_discard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#callback_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        callback_file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#callback_log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        callback_log
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check_module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        check_module
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#console" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        console
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        credentials
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#curl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        curl
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#downloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        downloads
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        execute
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execute_addon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        execute_addon
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#find_global_resource" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        find_global_resource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#find_resource" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        find_resource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#format_path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        format_path
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_sess_dir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_sess_dir
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#global_resource" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        global_resource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        is64
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is_full_path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        is_full_path
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isactive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        isactive
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        isadmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isbeacon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        isbeacon
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyloggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        keyloggers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list_addon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        list_addon
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list_module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        list_module
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listeners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        listeners
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_addon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        load_addon
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        log
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new_64_executable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        new_64_executable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new_86_executable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        new_86_executable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new_binary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        new_binary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new_bypass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        new_bypass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new_bypass_all" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        new_bypass_all
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new_sacrifice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        new_sacrifice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        notify
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pack_binary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pack_binary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pack_bof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pack_bof
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pack_bof_args" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pack_bof_args
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipe_close" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pipe_close
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipe_upload_raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pipe_upload_raw
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pipelines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pivots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pivots
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ports
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#read_global_resource" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        read_global_resource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#read_resource" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        read_resource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reg_list_value" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reg_list_value
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rem_link" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rem_link
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#screenshots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        screenshots
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#script_resource" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        script_resource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sessions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sessions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shellsplit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        shellsplit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taskprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        taskprint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timestamp_format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        timestamp_format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uploadraw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        uploadraw
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uploads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        uploads
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wait" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        wait
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with_context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        with_context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with_value" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        with_value
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with_values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        with_values
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        client
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="client">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#addon_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        addon_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#all_pipeline_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        all_pipeline_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#artifact_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        artifact_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#artifact_name_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        artifact_name_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bind_args_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bind_args_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bind_flags_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bind_flags_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        content_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#help" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        help
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listener_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        listener_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listener_with_pipeline_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        listener_with_pipeline_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        module_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opsec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        opsec
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profile_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        profile_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rem_agent_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rem_agent_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rem_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rem_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        resource_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        session_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sync_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#target_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        target_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        task_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        type_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#values_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        values_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#website_completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        website_completer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        encode
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="encode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arg_hex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        arg_hex
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#base64_decode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        base64_decode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#base64_encode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        base64_encode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file_exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        file_exists
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parse_hex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        parse_hex
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parse_octal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        parse_octal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#random_string" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        random_string
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timestamp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        timestamp
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#execute_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        execute
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="execute">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bof
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dllspawn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dllspawn
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        exec
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execute_assembly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        execute_assembly
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execute_dll" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        execute_dll
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execute_exe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        execute_exe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execute_local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        execute_local
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execute_shellcode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        execute_shellcode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inline_assembly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        inline_assembly
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inline_dll" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        inline_dll
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inline_exe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        inline_exe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inline_local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        inline_local
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inline_shellcode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        inline_shellcode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#powerpick" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        powerpick
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        powershell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        shell
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        file
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cat
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cd
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chmod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        chmod
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        chown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cp
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        download
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ls
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mkdir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mkdir
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mv
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipe_read" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pipe_read
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipe_upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pipe_upload
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pwd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pwd
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        upload
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        implant
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="implant">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cancel_task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cancel_task
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        clear
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list_task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        list_task
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        load_module
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query_task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        query_task
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refresh_module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        refresh_module
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sleep" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sleep
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suicide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        suicide
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#listener" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        listener
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="listener">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#webcontent_add" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        webcontent_add
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#webcontent_remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        webcontent_remove
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#webcontent_update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        webcontent_update
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#website_new" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        website_new
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#website_start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        website_start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#website_stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        website_stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pivot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pivot
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pivot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rem_dial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rem_dial
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sys
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="sys">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bypass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bypass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        env
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#env_set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        env_set
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#env_unset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        env_unset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getsystem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        getsystem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        kill
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#netstat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        netstat
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#privs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        privs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reg_add" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reg_add
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reg_delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reg_delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reg_list_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reg_list_key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reg_query" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reg_query
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rev2self" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rev2self
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        runas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service_create" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        service_create
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service_delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        service_delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        service_list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service_query" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        service_query
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service_start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        service_start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service_stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        service_stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sysinfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sysinfo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taskschd_create" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        taskschd_create
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taskschd_delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        taskschd_delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taskschd_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        taskschd_list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taskschd_query" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        taskschd_query
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taskschd_run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        taskschd_run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taskschd_start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        taskschd_start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taskschd_stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        taskschd_stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#whoami" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        whoami
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wmi_execute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        wmi_execute
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wmi_query" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        wmi_query
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../beacon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    beacon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rpc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rpc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7_4" id="__nav_2_7_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mutant
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mutant
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mutant/malefic_mutant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implant/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    implant
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_5" id="__nav_2_7_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    implant
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implant/build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implant/modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implant/win_kit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    malefic-win-kit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../integrate/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    integrate
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_6" id="__nav_2_7_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    integrate
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_6_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../integrate/sdk/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7_6_2" id="__nav_2_7_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_7_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    SDK
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrate/sdk/go/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Golang
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrate/sdk/python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python(Untable)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrate/sdk/typescript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typescript(Unstable)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrate/ffi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FFI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrate/ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Changelog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2025/11/10/IoM_v0.1.2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2025/07/09/IoM_v0.1.1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2025/04/14/IoM_v0.1.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2025/01/02/IoM_v0.0.4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2024/11/20/IoM_v0.0.3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2024/09/23/IoM_v0.0.2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/2024/08/16/IoM_introduce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../gogo/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    gogo
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    gogo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    细节
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拓展
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../gogo/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../spray/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    spray
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    spray
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    细节
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spray/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../zombie/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    zombie
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    zombie
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../zombie/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../zombie/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../zombie/extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拓展
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../rem/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rem
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    rem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概念
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rem/changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    libs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    libs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/neutron/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    neutron
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    neutron
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/neutron/update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    update
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/words/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    words
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    words
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/fingers/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    fingers
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_4" id="__nav_7_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    fingers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/fingers/rule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/fingers/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../libs/proxyclient/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    proxyclient
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_5" id="__nav_7_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    proxyclient
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../libs/proxyclient/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preview
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preview
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../mapping/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mapping
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mapping
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mapping/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../blog/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9" id="__nav_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>builtin</h1>
+
+<h2 id="artifact">artifact<a class="headerlink" href="#artifact" title="Permanent link">&para;</a></h2>
+<h3 id="artifact_payload">artifact_payload<a class="headerlink" href="#artifact_payload" title="Permanent link">&para;</a></h3>
+<p>get artifact stageless shellcode</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>pipeline</code> [string] -  pipeline id</li>
+<li><code>format</code> [string] -  reserved parameter</li>
+<li><code>os</code> [string] -  os, windows only</li>
+<li><code>arch</code> [string] -  arch, x64/x86</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>artifact_payload(&quot;tcp_default&quot;,&quot;raw&quot;,&quot;windows&quot;,&quot;x64&quot;)
+</code></pre></div>
+<h3 id="artifact_stager">artifact_stager<a class="headerlink" href="#artifact_stager" title="Permanent link">&para;</a></h3>
+<p>get artifact stager shellcode</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>pipeline</code> [string] -  pipeline id</li>
+<li><code>format</code> [string] -  reserved parameter</li>
+<li><code>os</code> [string] -  os, windows only</li>
+<li><code>arch</code> [string] -  arch, x64/x86</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>artifact_stager(&quot;tcp_default&quot;,&quot;raw&quot;,&quot;windows&quot;,&quot;x64&quot;)
+</code></pre></div>
+<h3 id="clr2shellcode">clr2shellcode<a class="headerlink" href="#clr2shellcode" title="Permanent link">&para;</a></h3>
+<p>clr to shellcode with donut</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>file</code> [string] -  path to PE file</li>
+<li><code>arch</code> [string] -  architecture, x86/x64</li>
+<li><code>cmdline</code> [string] -  cmd args</li>
+<li><code>method</code> [string] -  name of method or DLL function to invoke for .NET DLL and unmanaged DLL</li>
+<li><code>classname</code> [string] -  name of class with optional namespace for .NET DLL</li>
+<li><code>appdomain</code> [string] -  name of domain to create for .NET DLL/EXE</li>
+</ul>
+<h3 id="delete_artifact">delete_artifact<a class="headerlink" href="#delete_artifact" title="Permanent link">&para;</a></h3>
+<p>delete artifact with special build name</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] - </li>
+</ul>
+<h3 id="dll2shellcode">dll2shellcode<a class="headerlink" href="#dll2shellcode" title="Permanent link">&para;</a></h3>
+<p>dll to shellcode with donut</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>bin</code> [table] -  dll bin</li>
+<li><code>arch</code> [string] -  architecture, x86/x64</li>
+<li><code>param</code> [string] -  cmd args</li>
+</ul>
+<h3 id="donut">donut<a class="headerlink" href="#donut" title="Permanent link">&para;</a></h3>
+<p>Generates x86, x64, or AMD64+x86 position-independent shellcode that loads .NET Assemblies, PE files, and other Windows payloads from memory and runs them with parameters </p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>file</code> [string] -  path to PE file</li>
+<li><code>arch</code> [string] -  architecture, x86/x64</li>
+<li><code>cmdline</code> [string] -  cmd args</li>
+</ul>
+<h3 id="download_artifact">download_artifact<a class="headerlink" href="#download_artifact" title="Permanent link">&para;</a></h3>
+<p>download artifact with special build id</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] - </li>
+<li><code>$2</code> [string] - </li>
+</ul>
+<h3 id="exe2shellcode">exe2shellcode<a class="headerlink" href="#exe2shellcode" title="Permanent link">&para;</a></h3>
+<p>exe to shellcode with donut</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>bin</code> [table] -  dll bin</li>
+<li><code>arch</code> [string] -  architecture</li>
+<li><code>param</code> [string] -  cmd args</li>
+</ul>
+<h3 id="get_artifact">get_artifact<a class="headerlink" href="#get_artifact" title="Permanent link">&para;</a></h3>
+<p>get artifact with session self</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] -  session</li>
+<li><code>format</code> [string] -  only support shellcode</li>
+</ul>
+<h3 id="search_artifact">search_artifact<a class="headerlink" href="#search_artifact" title="Permanent link">&para;</a></h3>
+<p>search build artifact with arch,os,typ and pipeline id</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>pipeline</code> [string] -  pipeline id</li>
+<li><code>type</code> [string] -  build type, beacon,bind,prelude</li>
+<li><code>format</code> [string] -  only support shellcode</li>
+<li><code>arch</code> [string] -  arch</li>
+<li><code>os</code> [string] -  os</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>search_artifact(&quot;x64&quot;,&quot;windows&quot;,&quot;beacon&quot;,&quot;tcp_default&quot;, true)
+</code></pre></div>
+<h3 id="self_artifact">self_artifact<a class="headerlink" href="#self_artifact" title="Permanent link">&para;</a></h3>
+<p>get artifact with session self</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] -  session</li>
+</ul>
+<h3 id="self_payload">self_payload<a class="headerlink" href="#self_payload" title="Permanent link">&para;</a></h3>
+<p>get self artifact stageless shellcode</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] -  Session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>self_payload(active())
+</code></pre></div>
+<h3 id="self_stager">self_stager<a class="headerlink" href="#self_stager" title="Permanent link">&para;</a></h3>
+<p>get self artifact stager shellcode</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] -  session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>self_payload(active())
+</code></pre></div>
+<h3 id="sgn_encode">sgn_encode<a class="headerlink" href="#sgn_encode" title="Permanent link">&para;</a></h3>
+<p>shellcode encode with sgn</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>bin</code> [table] -  shellcode bin</li>
+<li><code>arch</code> [string] -  architecture, x86/x64</li>
+<li><code>iterations</code> [number] -  sgn iterations</li>
+</ul>
+<h3 id="srdi">srdi<a class="headerlink" href="#srdi" title="Permanent link">&para;</a></h3>
+<p>dll/exe to shellcode with srdi</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>bin</code> [table] -  dll/exe bin</li>
+<li><code>entry</code> [string] -  entry function for dll</li>
+<li><code>arch</code> [string] -  architecture, x86/x64</li>
+<li><code>param</code> [string] -  cmd args</li>
+</ul>
+<h3 id="upload_artifact">upload_artifact<a class="headerlink" href="#upload_artifact" title="Permanent link">&para;</a></h3>
+<p>upload local bin to server build</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] - </li>
+<li><code>$2</code> [string] - </li>
+<li><code>$3</code> [string] - </li>
+</ul>
+<h2 id="basic">basic<a class="headerlink" href="#basic" title="Permanent link">&para;</a></h2>
+<h3 id="active">active<a class="headerlink" href="#active" title="Permanent link">&para;</a></h3>
+<p>get current session</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>active()
+</code></pre></div>
+<h3 id="add_credential">add_credential<a class="headerlink" href="#add_credential" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [Task] </li>
+<li><code>$3</code> [string] </li>
+<li><code>$4</code> [any] </li>
+</ul>
+<h3 id="add_download">add_download<a class="headerlink" href="#add_download" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [Task] </li>
+<li><code>$3</code> [table] </li>
+</ul>
+<h3 id="add_keylogger">add_keylogger<a class="headerlink" href="#add_keylogger" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [Task] </li>
+<li><code>$3</code> [table] </li>
+</ul>
+<h3 id="add_port">add_port<a class="headerlink" href="#add_port" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [Task] </li>
+<li><code>$3</code> [table] </li>
+</ul>
+<h3 id="add_screenshot">add_screenshot<a class="headerlink" href="#add_screenshot" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [Task] </li>
+<li><code>$3</code> [table] </li>
+</ul>
+<h3 id="add_upload">add_upload<a class="headerlink" href="#add_upload" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [Task] </li>
+<li><code>$3</code> [table] </li>
+</ul>
+<h3 id="assemblyprint">assemblyprint<a class="headerlink" href="#assemblyprint" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [TaskContext] </li>
+</ul>
+<h3 id="async_run">async_run<a class="headerlink" href="#async_run" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [any] </li>
+</ul>
+<h3 id="barch">barch<a class="headerlink" href="#barch" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+</ul>
+<h3 id="bdata">bdata<a class="headerlink" href="#bdata" title="Permanent link">&para;</a></h3>
+<p>get session custom data</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>bdata(active())
+</code></pre></div>
+<h3 id="blog">blog<a class="headerlink" href="#blog" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [string] </li>
+</ul>
+<h3 id="broadcast">broadcast<a class="headerlink" href="#broadcast" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] </li>
+</ul>
+<h3 id="callback_append">callback_append<a class="headerlink" href="#callback_append" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] </li>
+</ul>
+<h3 id="callback_bof">callback_bof<a class="headerlink" href="#callback_bof" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+</ul>
+<h3 id="callback_context">callback_context<a class="headerlink" href="#callback_context" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+</ul>
+<h3 id="callback_discard">callback_discard<a class="headerlink" href="#callback_discard" title="Permanent link">&para;</a></h3>
+<h3 id="callback_file">callback_file<a class="headerlink" href="#callback_file" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] </li>
+</ul>
+<h3 id="callback_log">callback_log<a class="headerlink" href="#callback_log" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [boolean] </li>
+</ul>
+<h3 id="check_module">check_module<a class="headerlink" href="#check_module" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [string] </li>
+</ul>
+<h3 id="console">console<a class="headerlink" href="#console" title="Permanent link">&para;</a></h3>
+<h3 id="credentials">credentials<a class="headerlink" href="#credentials" title="Permanent link">&para;</a></h3>
+<h3 id="curl">curl<a class="headerlink" href="#curl" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>url</code> [string] -  target url</li>
+<li><code>method</code> [string] -  HTTP method</li>
+<li><code>timeout</code> [number] -  request timeout in seconds</li>
+<li><code>body</code> [table] -  request body</li>
+<li><code>headers</code> [any] -  request headers</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>curl(active(),&quot;http://example.com&quot;,&quot;GET&quot;,30,nil,nil)
+</code></pre></div>
+<h3 id="data">data<a class="headerlink" href="#data" title="Permanent link">&para;</a></h3>
+<p>get session data</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>data(active())
+</code></pre></div>
+<h3 id="downloads">downloads<a class="headerlink" href="#downloads" title="Permanent link">&para;</a></h3>
+<h3 id="execute">execute<a class="headerlink" href="#execute" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [string] </li>
+</ul>
+<h3 id="execute_addon">execute_addon<a class="headerlink" href="#execute_addon" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [string] </li>
+<li><code>$3</code> [table<string>] </li>
+<li><code>$4</code> [boolean] </li>
+<li><code>$5</code> [number] </li>
+<li><code>$6</code> [string] </li>
+<li><code>$7</code> [string] </li>
+<li><code>$8</code> [SacrificeProcess] </li>
+</ul>
+<h3 id="find_global_resource">find_global_resource<a class="headerlink" href="#find_global_resource" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [string] </li>
+<li><code>$3</code> [string] </li>
+</ul>
+<h3 id="find_resource">find_resource<a class="headerlink" href="#find_resource" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [string] </li>
+<li><code>$3</code> [string] </li>
+</ul>
+<h3 id="format_path">format_path<a class="headerlink" href="#format_path" title="Permanent link">&para;</a></h3>
+<p>format windows path</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>s</code> [string] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>format_path(&quot;C:\\Windows\\System32\\calc.exe&quot;)
+</code></pre></div>
+<h3 id="get">get<a class="headerlink" href="#get" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Task] </li>
+<li><code>$2</code> [number] </li>
+</ul>
+<h3 id="get_sess_dir">get_sess_dir<a class="headerlink" href="#get_sess_dir" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] </li>
+</ul>
+<h3 id="global_resource">global_resource<a class="headerlink" href="#global_resource" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] </li>
+</ul>
+<h3 id="is64">is64<a class="headerlink" href="#is64" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+</ul>
+<h3 id="is_full_path">is_full_path<a class="headerlink" href="#is_full_path" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] </li>
+</ul>
+<h3 id="isactive">isactive<a class="headerlink" href="#isactive" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+</ul>
+<h3 id="isadmin">isadmin<a class="headerlink" href="#isadmin" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+</ul>
+<h3 id="isbeacon">isbeacon<a class="headerlink" href="#isbeacon" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+</ul>
+<h3 id="keyloggers">keyloggers<a class="headerlink" href="#keyloggers" title="Permanent link">&para;</a></h3>
+<h3 id="list_addon">list_addon<a class="headerlink" href="#list_addon" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+</ul>
+<h3 id="list_module">list_module<a class="headerlink" href="#list_module" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+</ul>
+<h3 id="listeners">listeners<a class="headerlink" href="#listeners" title="Permanent link">&para;</a></h3>
+<h3 id="load_addon">load_addon<a class="headerlink" href="#load_addon" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [string] </li>
+<li><code>$3</code> [string] </li>
+<li><code>$4</code> [string] </li>
+</ul>
+<h3 id="log">log<a class="headerlink" href="#log" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [string] </li>
+<li><code>$3</code> [boolean] </li>
+</ul>
+<h3 id="new_64_executable">new_64_executable<a class="headerlink" href="#new_64_executable" title="Permanent link">&para;</a></h3>
+<p>new x64 process execute binary config</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>module</code> [string] - </li>
+<li><code>filename</code> [string] -  path to the binary</li>
+<li><code>argsStr</code> [string] -  command line arguments</li>
+<li><code>sacrifice</code> [SacrificeProcess] -  sacrifice process</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>sac = new_sacrifice(123, false, false, false, &quot;&quot;)
+new_64_exec = new_64_executable(&quot;module&quot;, &quot;filename&quot;, &quot;args&quot;, sac)
+</code></pre></div>
+<h3 id="new_86_executable">new_86_executable<a class="headerlink" href="#new_86_executable" title="Permanent link">&para;</a></h3>
+<p>new x86 process execute binary config</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>module</code> [string] - </li>
+<li><code>filename</code> [string] -  path to the binary</li>
+<li><code>argsStr</code> [string] -  command line arguments</li>
+<li><code>sacrifice</code> [SacrificeProcess] -  sacrifice process</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>sac = new_sacrifice(123, false, false, false, &quot;&quot;)
+new_86_exec = new_86_executable(&quot;module&quot;, &quot;filename&quot;, &quot;args&quot;, sac)
+</code></pre></div>
+<h3 id="new_binary">new_binary<a class="headerlink" href="#new_binary" title="Permanent link">&para;</a></h3>
+<p>new execute binary config</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>module</code> [string] - </li>
+<li><code>filename</code> [string] -  path to the binary</li>
+<li><code>args</code> [table<string>] -  command line arguments</li>
+<li><code>output</code> [boolean] - </li>
+<li><code>timeout</code> [number] - </li>
+<li><code>arch</code> [string] - </li>
+<li><code>process</code> [string] - </li>
+<li><code>sacrifice</code> [SacrificeProcess] -  sacrifice process</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>sac = new_sacrifice(123, false, false, false, &quot;&quot;)
+new_bin = new_binary(&quot;module&quot;, &quot;filename&quot;, &quot;args&quot;, true, 100, &quot;amd64&quot;, &quot;process&quot;, sac)
+</code></pre></div>
+<h3 id="new_bypass">new_bypass<a class="headerlink" href="#new_bypass" title="Permanent link">&para;</a></h3>
+<p>new bypass options</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>bypassAMSI</code> [boolean] - </li>
+<li><code>bypassETW</code> [boolean] - </li>
+<li><code>bypassWLDP</code> [boolean] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>params = new_bypass(true, true, true)
+</code></pre></div>
+<h3 id="new_bypass_all">new_bypass_all<a class="headerlink" href="#new_bypass_all" title="Permanent link">&para;</a></h3>
+<p>new bypass all options</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>params = new_bypass_all()
+</code></pre></div>
+<h3 id="new_sacrifice">new_sacrifice<a class="headerlink" href="#new_sacrifice" title="Permanent link">&para;</a></h3>
+<p>new sacrifice process config</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>ppid</code> [number] -  parent process id</li>
+<li><code>hidden</code> [boolean] - </li>
+<li><code>blockDll</code> [boolean] - </li>
+<li><code>disableETW</code> [boolean] - </li>
+<li><code>argue</code> [string] -  arguments</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>sac = new_sacrifice(123, false, false, false, &quot;&quot;)
+</code></pre></div>
+<h3 id="notify">notify<a class="headerlink" href="#notify" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] </li>
+</ul>
+<h3 id="pack_binary">pack_binary<a class="headerlink" href="#pack_binary" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] </li>
+</ul>
+<h3 id="pack_bof">pack_bof<a class="headerlink" href="#pack_bof" title="Permanent link">&para;</a></h3>
+<p>pack bof single argument</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>format</code> [string] - </li>
+<li><code>arg</code> [string] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>pack_bof(&quot;Z&quot;, &quot;aa&quot;)
+</code></pre></div>
+<h3 id="pack_bof_args">pack_bof_args<a class="headerlink" href="#pack_bof_args" title="Permanent link">&para;</a></h3>
+<p>pack bof arguments</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>format</code> [string] - </li>
+<li><code>args</code> [table<string>] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>pack_bof_args(&quot;ZZ&quot;, {&quot;aa&quot;, &quot;bb&quot;})
+</code></pre></div>
+<h3 id="pipe_close">pipe_close<a class="headerlink" href="#pipe_close" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>name</code> [string] -  name of the pipe</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>pipe_close(active(), &quot;pipe_name&quot;)
+</code></pre></div>
+<h3 id="pipe_upload_raw">pipe_upload_raw<a class="headerlink" href="#pipe_upload_raw" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [string] </li>
+<li><code>$3</code> [string] </li>
+</ul>
+<h3 id="pipelines">pipelines<a class="headerlink" href="#pipelines" title="Permanent link">&para;</a></h3>
+<h3 id="pivots">pivots<a class="headerlink" href="#pivots" title="Permanent link">&para;</a></h3>
+<h3 id="ports">ports<a class="headerlink" href="#ports" title="Permanent link">&para;</a></h3>
+<h3 id="read_global_resource">read_global_resource<a class="headerlink" href="#read_global_resource" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] </li>
+</ul>
+<h3 id="read_resource">read_resource<a class="headerlink" href="#read_resource" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] </li>
+</ul>
+<h3 id="reg_list_value">reg_list_value<a class="headerlink" href="#reg_list_value" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [string] </li>
+<li><code>$3</code> [string] </li>
+</ul>
+<h3 id="rem_link">rem_link<a class="headerlink" href="#rem_link" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] </li>
+</ul>
+<h3 id="run">run<a class="headerlink" href="#run" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [any] </li>
+</ul>
+<h3 id="screenshots">screenshots<a class="headerlink" href="#screenshots" title="Permanent link">&para;</a></h3>
+<h3 id="script_resource">script_resource<a class="headerlink" href="#script_resource" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] </li>
+</ul>
+<h3 id="sessions">sessions<a class="headerlink" href="#sessions" title="Permanent link">&para;</a></h3>
+<h3 id="shellsplit">shellsplit<a class="headerlink" href="#shellsplit" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] </li>
+</ul>
+<h3 id="taskprint">taskprint<a class="headerlink" href="#taskprint" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [TaskContext] </li>
+</ul>
+<h3 id="timestamp_format">timestamp_format<a class="headerlink" href="#timestamp_format" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] </li>
+</ul>
+<h3 id="uploadraw">uploadraw<a class="headerlink" href="#uploadraw" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [string] </li>
+<li><code>$3</code> [string] </li>
+<li><code>$4</code> [string] </li>
+<li><code>$5</code> [boolean] </li>
+</ul>
+<h3 id="uploads">uploads<a class="headerlink" href="#uploads" title="Permanent link">&para;</a></h3>
+<h3 id="wait">wait<a class="headerlink" href="#wait" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Task] </li>
+</ul>
+<h3 id="with_context">with_context<a class="headerlink" href="#with_context" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [string] </li>
+</ul>
+<h3 id="with_value">with_value<a class="headerlink" href="#with_value" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [string] </li>
+<li><code>$3</code> [string] </li>
+</ul>
+<h3 id="with_values">with_values<a class="headerlink" href="#with_values" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [Session] </li>
+<li><code>$2</code> [table<string>] </li>
+</ul>
+<h2 id="client">client<a class="headerlink" href="#client" title="Permanent link">&para;</a></h2>
+<h3 id="addon_completer">addon_completer<a class="headerlink" href="#addon_completer" title="Permanent link">&para;</a></h3>
+<h3 id="all_pipeline_completer">all_pipeline_completer<a class="headerlink" href="#all_pipeline_completer" title="Permanent link">&para;</a></h3>
+<h3 id="artifact_completer">artifact_completer<a class="headerlink" href="#artifact_completer" title="Permanent link">&para;</a></h3>
+<h3 id="artifact_name_completer">artifact_name_completer<a class="headerlink" href="#artifact_name_completer" title="Permanent link">&para;</a></h3>
+<h3 id="bind_args_completer">bind_args_completer<a class="headerlink" href="#bind_args_completer" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [table] - </li>
+<li><code>$2</code> [table] - </li>
+</ul>
+<h3 id="bind_flags_completer">bind_flags_completer<a class="headerlink" href="#bind_flags_completer" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [table] - </li>
+<li><code>$2</code> [any] - </li>
+</ul>
+<h3 id="command">command<a class="headerlink" href="#command" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] - </li>
+<li><code>$2</code> [table] - </li>
+<li><code>$3</code> [string] - </li>
+<li><code>$4</code> [string] - </li>
+</ul>
+<h3 id="content_completer">content_completer<a class="headerlink" href="#content_completer" title="Permanent link">&para;</a></h3>
+<h3 id="example">example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] - </li>
+<li><code>$2</code> [string] - </li>
+</ul>
+<h3 id="help">help<a class="headerlink" href="#help" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] - </li>
+<li><code>$2</code> [string] - </li>
+</ul>
+<h3 id="listener_completer">listener_completer<a class="headerlink" href="#listener_completer" title="Permanent link">&para;</a></h3>
+<h3 id="listener_with_pipeline_completer">listener_with_pipeline_completer<a class="headerlink" href="#listener_with_pipeline_completer" title="Permanent link">&para;</a></h3>
+<h3 id="module_completer">module_completer<a class="headerlink" href="#module_completer" title="Permanent link">&para;</a></h3>
+<h3 id="opsec">opsec<a class="headerlink" href="#opsec" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] - </li>
+<li><code>$2</code> [number] - </li>
+</ul>
+<h3 id="profile_completer">profile_completer<a class="headerlink" href="#profile_completer" title="Permanent link">&para;</a></h3>
+<h3 id="rem_agent_completer">rem_agent_completer<a class="headerlink" href="#rem_agent_completer" title="Permanent link">&para;</a></h3>
+<h3 id="rem_completer">rem_completer<a class="headerlink" href="#rem_completer" title="Permanent link">&para;</a></h3>
+<h3 id="resource_completer">resource_completer<a class="headerlink" href="#resource_completer" title="Permanent link">&para;</a></h3>
+<h3 id="session_completer">session_completer<a class="headerlink" href="#session_completer" title="Permanent link">&para;</a></h3>
+<h3 id="sync_completer">sync_completer<a class="headerlink" href="#sync_completer" title="Permanent link">&para;</a></h3>
+<h3 id="target_completer">target_completer<a class="headerlink" href="#target_completer" title="Permanent link">&para;</a></h3>
+<h3 id="task_completer">task_completer<a class="headerlink" href="#task_completer" title="Permanent link">&para;</a></h3>
+<h3 id="type_completer">type_completer<a class="headerlink" href="#type_completer" title="Permanent link">&para;</a></h3>
+<h3 id="values_completer">values_completer<a class="headerlink" href="#values_completer" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [table<string>] - </li>
+</ul>
+<h3 id="website_completer">website_completer<a class="headerlink" href="#website_completer" title="Permanent link">&para;</a></h3>
+<h2 id="encode">encode<a class="headerlink" href="#encode" title="Permanent link">&para;</a></h2>
+<h3 id="arg_hex">arg_hex<a class="headerlink" href="#arg_hex" title="Permanent link">&para;</a></h3>
+<p>hexlify encode</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>input</code> [string] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>arg_hex(&quot;aa&quot;)
+</code></pre></div>
+<h3 id="base64_decode">base64_decode<a class="headerlink" href="#base64_decode" title="Permanent link">&para;</a></h3>
+<p>base64 decode</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>input</code> [string] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>base64_decode(&quot;aGVsbG8=&quot;)
+</code></pre></div>
+<h3 id="base64_encode">base64_encode<a class="headerlink" href="#base64_encode" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>input</code> [string] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>base64_encode(&quot;hello&quot;)
+</code></pre></div>
+<h3 id="file_exists">file_exists<a class="headerlink" href="#file_exists" title="Permanent link">&para;</a></h3>
+<p>check file exists</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>path</code> [string] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>file_exists(&quot;C:\\Windows\\System32\\calc.exe&quot;)
+</code></pre></div>
+<h3 id="parse_hex">parse_hex<a class="headerlink" href="#parse_hex" title="Permanent link">&para;</a></h3>
+<p>parse hex string to int64</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>hexString</code> [string] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>parse_hex(&quot;0x1f04&quot;)
+</code></pre></div>
+<h3 id="parse_octal">parse_octal<a class="headerlink" href="#parse_octal" title="Permanent link">&para;</a></h3>
+<p>parse octal string to int64</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>octalString</code> [string] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>parse_octal(&quot;0o744&quot;)
+</code></pre></div>
+<h3 id="random_string">random_string<a class="headerlink" href="#random_string" title="Permanent link">&para;</a></h3>
+<p>generate random string</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>length</code> [number] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>random_string(10)
+</code></pre></div>
+<h3 id="timestamp">timestamp<a class="headerlink" href="#timestamp" title="Permanent link">&para;</a></h3>
+<p>Get current timestamp in milliseconds or formatted date string.</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>timestampOrFormatted(), timestampOrFormatted(&quot;01/02 15:04&quot;)
+</code></pre></div>
+<h2 id="execute_1">execute<a class="headerlink" href="#execute_1" title="Permanent link">&para;</a></h2>
+<h3 id="bof">bof<a class="headerlink" href="#bof" title="Permanent link">&para;</a></h3>
+<p>COFF Loader,  executes Bof (Windows Only)</p>
+<p>refactor from <a href="https://github.com/hakaioffsec/coffee">https://github.com/hakaioffsec/coffee</a> ,fix a bundle bugs</p>
+<p>Arguments for the BOF can be passed after the -- delimiter. Each argument must be prefixed with the type of the argument followed by a colon (:). The following types are supported:</p>
+<ul>
+<li>str - A null-terminated string</li>
+<li>wstr - A wide null-terminated string</li>
+<li>int - A signed 32-bit integer</li>
+<li>short - A signed 16-bit integer</li>
+<li>bin - A base64-encoded binary blob</li>
+</ul>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>bofPath</code> [string] -  path to BOF</li>
+<li><code>args</code> [table<string>] -  arguments</li>
+<li><code>output</code> [boolean] -  output</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>bof(active(),&quot;/path/dir.x64.o&quot;,{&quot;/path/to/list&quot;},true)
+</code></pre></div>
+<h3 id="dllspawn">dllspawn<a class="headerlink" href="#dllspawn" title="Permanent link">&para;</a></h3>
+<p>DllSpawn the given DLL in the sacrifice process</p>
+<p>use a custom Headless PE loader to load DLL in the sacrificed process.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>dllPath</code> [string] - </li>
+<li><code>entrypoint</code> [string] - </li>
+<li><code>args</code> [string] - </li>
+<li><code>binPath</code> [string] - </li>
+<li><code>output</code> [boolean] - </li>
+<li><code>timeout</code> [number] - </li>
+<li><code>arch</code> [string] - </li>
+<li><code>process</code> [string] - </li>
+<li><code>sac</code> [SacrificeProcess] -  sacrifice process</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>dllspawn(active(),&quot;example.dll&quot;,{},true,60,&quot;&quot;,&quot;&quot;,new_sacrifice(1234,false,true,true,&quot;&quot;))
+</code></pre></div>
+<h3 id="exec">exec<a class="headerlink" href="#exec" title="Permanent link">&para;</a></h3>
+<p>Execute cmd with powershell</p>
+<p>equal: powershell.exe -ExecutionPolicy Bypass -w hidden -nop "[cmdline]"</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sessions</code> [Session] - </li>
+<li><code>cmd</code> [string] - </li>
+<li><code>realtime</code> [boolean] - </li>
+<li><code>output</code> [boolean] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>exec(active(),`whoami`,true)
+</code></pre></div>
+<h3 id="execute_assembly">execute_assembly<a class="headerlink" href="#execute_assembly" title="Permanent link">&para;</a></h3>
+<p>Loads and executes a .NET assembly in implant process (Windows Only)</p>
+<p>Load CLR assembly in sacrifice process (with donut)</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sessions</code> [Session] - </li>
+<li><code>path</code> [string] - </li>
+<li><code>args</code> [table<string>] - </li>
+<li><code>output</code> [boolean] - </li>
+<li><code>param, bypass amsi,wldp,etw</code> [any] - </li>
+<li><code>sac, sacrifice process</code> [SacrificeProcess] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>execute_assembly(active(),&quot;sharp.exe&quot;,{}, true, new_bypass_all(), new_sacrifice(1234,false,true,true,&quot;&quot;))
+</code></pre></div>
+<h3 id="execute_dll">execute_dll<a class="headerlink" href="#execute_dll" title="Permanent link">&para;</a></h3>
+<p>Executes the given DLL in the sacrifice process</p>
+<p>use a custom Headless PE loader to load DLL in the sacrificed process.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>dllPath</code> [string] - </li>
+<li><code>entrypoint</code> [string] - </li>
+<li><code>args</code> [table<string>] - </li>
+<li><code>binPath</code> [string] - </li>
+<li><code>output</code> [boolean] - </li>
+<li><code>timeout</code> [number] - </li>
+<li><code>arch</code> [string] - </li>
+<li><code>process</code> [string] - </li>
+<li><code>sac</code> [SacrificeProcess] -  sacrifice process</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>execute_dll(active(),&quot;example.dll&quot;,{},true,60,&quot;&quot;,&quot;&quot;,new_sacrifice(1234,false,true,true,&quot;&quot;))
+</code></pre></div>
+<h3 id="execute_exe">execute_exe<a class="headerlink" href="#execute_exe" title="Permanent link">&para;</a></h3>
+<p>Executes the given PE in the sacrifice process</p>
+<p>use a custom Headless PE loader to load EXE in the sacrificed process.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>pePath</code> [string] -  PE file</li>
+<li><code>args</code> [table<string>] -  PE args</li>
+<li><code>output</code> [boolean] - </li>
+<li><code>timeout</code> [number] - </li>
+<li><code>arch</code> [string] - </li>
+<li><code>process</code> [string] - </li>
+<li><code>sac</code> [SacrificeProcess] -  sacrifice process</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>execute_exe(active(),&quot;/path/to/gogo.exe&quot;,{&quot;-i&quot;,&quot;127.0.0.1&quot;},true,60,&quot;&quot;,&quot;&quot;,new_sacrifice(1234,false,true,true,&quot;&quot;))
+</code></pre></div>
+<h3 id="execute_local">execute_local<a class="headerlink" href="#execute_local" title="Permanent link">&para;</a></h3>
+<p>Execute local PE on sacrifice process</p>
+<p>Execute local PE on sacrifice process, support spoofing process arguments, spoofing ppid, block-dll, disable etw</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>args</code> [table<string>] -  arguments</li>
+<li><code>output</code> [boolean] - </li>
+<li><code>process</code> [string] - </li>
+<li><code>sacrifice</code> [SacrificeProcess] -  sacrifice process</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>execute_local(active(),{&quot;-i&quot;,&quot;127.0.0.1&quot;,&quot;-p&quot;,&quot;top2&quot;},true,&quot;gogo.exe&quot;,new_sacrifice(1234,false,true,true,&quot;argue&quot;))
+</code></pre></div>
+<h3 id="execute_shellcode">execute_shellcode<a class="headerlink" href="#execute_shellcode" title="Permanent link">&para;</a></h3>
+<p>Executes the given shellcode in the sacrifice process</p>
+<p>The current shellcode injection method uses APC.</p>
+<p>In the future, configurable shellcode injection settings will be provided, along with Donut, SGN, SRDI, etc.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>shellcodePath</code> [string] -  path to shellcode</li>
+<li><code>args</code> [table<string>] -  arguments</li>
+<li><code>output</code> [boolean] - </li>
+<li><code>timeout</code> [number] - </li>
+<li><code>arch</code> [string] - </li>
+<li><code>process</code> [string] - </li>
+<li><code>sac</code> [SacrificeProcess] -  sacrifice process</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>execute_shellcode(active(), &quot;/path/to/shellcode&quot;, {}, true, 60, &quot;x64&quot;, &quot;&quot;,new_sacrifice(1234,false,true,true)
+</code></pre></div>
+<h3 id="inline_assembly">inline_assembly<a class="headerlink" href="#inline_assembly" title="Permanent link">&para;</a></h3>
+<p>Loads and inline execute a .NET assembly (Windows Only)</p>
+<p>Load CLR assembly in implant process(will not create new process)</p>
+<p>if return 0x80004005, please use --amsi bypass.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sessions</code> [Session] - </li>
+<li><code>path</code> [string] - </li>
+<li><code>args</code> [table<string>] - </li>
+<li><code>output</code> [boolean] - </li>
+<li><code>bypass_params</code> [any] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>inline_assembly(active(),&quot;seatbelt.exe&quot;,{},true,new_bypass_all())
+</code></pre></div>
+<h3 id="inline_dll">inline_dll<a class="headerlink" href="#inline_dll" title="Permanent link">&para;</a></h3>
+<p>Executes the given inline DLL in the current process</p>
+<p>use a custom Headless PE loader to load DLL in the current process.</p>
+<div class="admonition important">
+<p class="admonition-title">"instability warning!!!</p>
+<p>inline execute dll may cause the implant to crash, please use with caution.</p>
+</div>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>path</code> [string] - </li>
+<li><code>entryPoint</code> [string] - </li>
+<li><code>args</code> [table<string>] - </li>
+<li><code>output</code> [boolean] - </li>
+<li><code>timeout</code> [number] - </li>
+<li><code>arch</code> [string] - </li>
+<li><code>process</code> [string] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>inline_dll(active(),&quot;example.dll&quot;,&quot;&quot;,{&quot;arg1&quot;,&quot;arg2&quot;},true,60,&quot;&quot;,&quot;&quot;)
+</code></pre></div>
+<h3 id="inline_exe">inline_exe<a class="headerlink" href="#inline_exe" title="Permanent link">&para;</a></h3>
+<p>Executes the given inline EXE in current process</p>
+<p>use a custom Headless PE loader to load EXE in the current process.</p>
+<div class="admonition important">
+<p class="admonition-title">"instability warning!!!</p>
+<p>inline execute exe may cause the implant to crash, please use with caution.</p>
+<p>if double run same exe, More likely to crash</p>
+</div>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>path</code> [string] -  PE file</li>
+<li><code>args</code> [table<string>] -  PE args</li>
+<li><code>output</code> [boolean] - </li>
+<li><code>timeout</code> [number] - </li>
+<li><code>arch</code> [string] - </li>
+<li><code>process</code> [string] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>inline_exe(active(),&quot;gogo.exe&quot;,{&quot;-i&quot;,&quot;127.0.0.1&quot;},true,60,&quot;&quot;,&quot;&quot;))
+</code></pre></div>
+<h3 id="inline_local">inline_local<a class="headerlink" href="#inline_local" title="Permanent link">&para;</a></h3>
+<p>Execute inline PE on implant process</p>
+<p>Execute inline PE on implant process, support spoofing process arguments</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>args</code> [table<string>] -  arguments</li>
+<li><code>output</code> [boolean] - </li>
+<li><code>process</code> [string] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>inline_local(active(),{&quot;&quot;},true,&quot;whoami&quot;)
+</code></pre></div>
+<h3 id="inline_shellcode">inline_shellcode<a class="headerlink" href="#inline_shellcode" title="Permanent link">&para;</a></h3>
+<p>Executes the given inline shellcode in the implant process</p>
+<p>The current shellcode injection method uses APC.</p>
+<div class="admonition important">
+<p class="admonition-title">"instability warning!!!</p>
+<p>inline execute shellcode may cause the implant to crash, please use with caution.</p>
+</div>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>path</code> [string] - </li>
+<li><code>args</code> [table<string>] - </li>
+<li><code>output</code> [boolean] - </li>
+<li><code>timeout</code> [number] - </li>
+<li><code>arch</code> [string] - </li>
+<li><code>process</code> [string] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>inline_shellcode(active(),&quot;/path/to/shellcode&quot;,{},true,60,&quot;x64&quot;,&quot;&quot;)
+</code></pre></div>
+<h3 id="powerpick">powerpick<a class="headerlink" href="#powerpick" title="Permanent link">&para;</a></h3>
+<p>unmanaged powershell on implant process (Windows Only)</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>path</code> [string] -  powershell script</li>
+<li><code>powershell</code> [table<string>] -  powershell cmdline</li>
+<li><code>param</code> [any] -  bypass amsi,etw,wldp</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>powerpick(active(),&quot;powerview.ps1&quot;,{&quot;&quot;},new_bypass_all()))
+</code></pre></div>
+<h3 id="powershell">powershell<a class="headerlink" href="#powershell" title="Permanent link">&para;</a></h3>
+<p>Execute cmd with powershell</p>
+<p>equal: powershell.exe -ExecutionPolicy Bypass -w hidden -nop "[cmdline]"</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] - </li>
+<li><code>cmd</code> [string] - </li>
+<li><code>output</code> [boolean] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>powershell(active(),&quot;dir&quot;,true))
+</code></pre></div>
+<h3 id="shell">shell<a class="headerlink" href="#shell" title="Permanent link">&para;</a></h3>
+<p>Execute cmd</p>
+<p>equal: exec cmd /c "[cmdline]"</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sessions</code> [Session] - </li>
+<li><code>cmd</code> [string] - </li>
+<li><code>output</code> [boolean] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>shell(active(),&quot;whoami&quot;,true)
+</code></pre></div>
+<h2 id="file">file<a class="headerlink" href="#file" title="Permanent link">&para;</a></h2>
+<h3 id="cat">cat<a class="headerlink" href="#cat" title="Permanent link">&para;</a></h3>
+<p>Print file content</p>
+<p>concatenate and display the contents of file in implant</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>fileName</code> [string] -  file to print</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>cat(active(),&quot;file.txt&quot;)
+</code></pre></div>
+<h3 id="cd">cd<a class="headerlink" href="#cd" title="Permanent link">&para;</a></h3>
+<p>Change directory</p>
+<p>change the shell's current working directory in implant</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>path</code> [string] -  path to change directory</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>cd(active(),&quot;path&quot;)
+</code></pre></div>
+<h3 id="chmod">chmod<a class="headerlink" href="#chmod" title="Permanent link">&para;</a></h3>
+<p>Change file mode</p>
+<p>change the permissions of files and directories in implant</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>path</code> [string] -  file to change mode</li>
+<li><code>mode</code> [string] -  mode to change</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>chmod(active(),&quot;file.txt&quot;,&quot;644&quot;)
+</code></pre></div>
+<h3 id="chown">chown<a class="headerlink" href="#chown" title="Permanent link">&para;</a></h3>
+<p>Change file owner</p>
+<p>change the ownership of a file or directory in implant</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>path</code> [string] -  file to change owner</li>
+<li><code>uid</code> [string] -  user to change</li>
+<li><code>gid</code> [string] -  group to change</li>
+<li><code>recursive</code> [boolean] -  recursive</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>chown(active(),&quot;file.txt&quot;,&quot;username&quot;,&quot;groupname&quot;,true)
+</code></pre></div>
+<h3 id="cp">cp<a class="headerlink" href="#cp" title="Permanent link">&para;</a></h3>
+<p>Copy file</p>
+<p>copy files and directories in implant</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>originPath</code> [string] -  origin path</li>
+<li><code>targetPath</code> [string] -  target path</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>cp(active(),&quot;source&quot;,&quot;target&quot;)
+</code></pre></div>
+<h3 id="download">download<a class="headerlink" href="#download" title="Permanent link">&para;</a></h3>
+<p>Download file</p>
+<p>download file in implant</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>path</code> [string] -  file path</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>download(active(),`file.txt`)
+</code></pre></div>
+<h3 id="ls">ls<a class="headerlink" href="#ls" title="Permanent link">&para;</a></h3>
+<p>List directory</p>
+<p>list directory contents in implant</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>path</code> [string] -  path to list files</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>ls(active(),&quot;/tmp&quot;)
+</code></pre></div>
+<h3 id="mkdir">mkdir<a class="headerlink" href="#mkdir" title="Permanent link">&para;</a></h3>
+<p>Make directory</p>
+<p>make directories in implant</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>path</code> [string] -  dir</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>mkdir(active(),&quot;/tmp&quot;)
+</code></pre></div>
+<h3 id="mv">mv<a class="headerlink" href="#mv" title="Permanent link">&para;</a></h3>
+<p>Move file</p>
+<p>move files and directories in implant</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>sourcePath</code> [string] -  source path</li>
+<li><code>targetPath</code> [string] -  target path</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>mv(active(),&quot;/tmp/file1.txt&quot;,&quot;/tmp/file2.txt&quot;)
+</code></pre></div>
+<h3 id="pipe_read">pipe_read<a class="headerlink" href="#pipe_read" title="Permanent link">&para;</a></h3>
+<p>Read data from a named pipe</p>
+<p>Read data from a specified named pipe.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>name</code> [string] -  name of the pipe</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>pipe_read(active(), &quot;pipe_name&quot;)
+</code></pre></div>
+<h3 id="pipe_upload">pipe_upload<a class="headerlink" href="#pipe_upload" title="Permanent link">&para;</a></h3>
+<p>Upload file to a named pipe</p>
+<p>Upload the content of a specified file to a named pipe.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>pipe</code> [string] -  target pipe</li>
+<li><code>path</code> [string] -  file path to upload</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>pipe_upload(active(), &quot;pipe_name&quot;, &quot;file_path&quot;)
+</code></pre></div>
+<h3 id="pwd">pwd<a class="headerlink" href="#pwd" title="Permanent link">&para;</a></h3>
+<p>Print working directory</p>
+<p>print working directory in implant</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>pwd(active())
+</code></pre></div>
+<h3 id="rm">rm<a class="headerlink" href="#rm" title="Permanent link">&para;</a></h3>
+<p>Remove file</p>
+<p>remove files and directories in implant</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>fileName</code> [string] -  file to remove</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>pwd(active(),&quot;/tmp/file.txt&quot;)
+</code></pre></div>
+<h3 id="upload">upload<a class="headerlink" href="#upload" title="Permanent link">&para;</a></h3>
+<p>Upload file to a named pipe</p>
+<p>Upload the content of a specified file to a named pipe.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>path</code> [string] -  source path</li>
+<li><code>target</code> [string] -  target path</li>
+<li><code>priv</code> [string] - </li>
+<li><code>hidden</code> [boolean] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>upload(active(),&quot;/source/path&quot;,&quot;/target/path&quot;,parse_octal(&quot;644&quot;),false)
+</code></pre></div>
+<h2 id="implant">implant<a class="headerlink" href="#implant" title="Permanent link">&para;</a></h2>
+<h3 id="cancel_task">cancel_task<a class="headerlink" href="#cancel_task" title="Permanent link">&para;</a></h3>
+<p>Cancel a task by task_id</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] - special session</li>
+<li><code>task_id</code> [number] - task id</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>cancel_task &lt;task_id&gt;
+</code></pre></div>
+<h3 id="clear">clear<a class="headerlink" href="#clear" title="Permanent link">&para;</a></h3>
+<p>Clear modules</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>clear(active())
+</code></pre></div>
+<h3 id="list_task">list_task<a class="headerlink" href="#list_task" title="Permanent link">&para;</a></h3>
+<p>List all tasks</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] - special session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>list_task
+</code></pre></div>
+<h3 id="load_module">load_module<a class="headerlink" href="#load_module" title="Permanent link">&para;</a></h3>
+<p>Load module</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>bundle_name</code> [string] -  bundle name</li>
+<li><code>path</code> [string] -  path to the module file</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>load_module(active(),&quot;bundle_name&quot;,&quot;module_file.dll&quot;)
+</code></pre></div>
+<h3 id="query_task">query_task<a class="headerlink" href="#query_task" title="Permanent link">&para;</a></h3>
+<p>Query a task by task_id</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] - special session</li>
+<li><code>task_id</code> [number] - task id</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>query_task &lt;task_id&gt;
+</code></pre></div>
+<h3 id="refresh_module">refresh_module<a class="headerlink" href="#refresh_module" title="Permanent link">&para;</a></h3>
+<p>Refresh module</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>refresh_module(active())
+</code></pre></div>
+<h3 id="sleep">sleep<a class="headerlink" href="#sleep" title="Permanent link">&para;</a></h3>
+<p>change implant sleep config</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] - special session</li>
+<li><code>interval</code> [number] - time interval, in seconds</li>
+<li><code>jitter</code> [number] - jitter, percentage of interval</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>sleep(active(), 10, 0.5)
+</code></pre></div>
+<h3 id="suicide">suicide<a class="headerlink" href="#suicide" title="Permanent link">&para;</a></h3>
+<p>kill implant</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] - special session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>suicide(active())
+</code></pre></div>
+<h2 id="listener">listener<a class="headerlink" href="#listener" title="Permanent link">&para;</a></h2>
+<h3 id="webcontent_add">webcontent_add<a class="headerlink" href="#webcontent_add" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] - </li>
+<li><code>$2</code> [string] - </li>
+<li><code>$3</code> [string] - </li>
+<li><code>$4</code> [string] - </li>
+</ul>
+<h3 id="webcontent_remove">webcontent_remove<a class="headerlink" href="#webcontent_remove" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] - </li>
+</ul>
+<h3 id="webcontent_update">webcontent_update<a class="headerlink" href="#webcontent_update" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] - </li>
+<li><code>$2</code> [string] - </li>
+<li><code>$3</code> [string] - </li>
+<li><code>$4</code> [string] - </li>
+</ul>
+<h3 id="website_new">website_new<a class="headerlink" href="#website_new" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] - </li>
+<li><code>$2</code> [string] - </li>
+<li><code>$3</code> [string] - </li>
+<li><code>$4</code> [number] - </li>
+<li><code>$5</code> [boolean] - </li>
+<li><code>$6</code> [string] - </li>
+<li><code>$7</code> [string] - </li>
+<li><code>$8</code> [string] - </li>
+</ul>
+<h3 id="website_start">website_start<a class="headerlink" href="#website_start" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] - </li>
+</ul>
+<h3 id="website_stop">website_stop<a class="headerlink" href="#website_stop" title="Permanent link">&para;</a></h3>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>$1</code> [string] - </li>
+</ul>
+<h2 id="pivot">pivot<a class="headerlink" href="#pivot" title="Permanent link">&para;</a></h2>
+<h3 id="rem_dial">rem_dial<a class="headerlink" href="#rem_dial" title="Permanent link">&para;</a></h3>
+<p>Run rem on the implant</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>pipeline</code> [string] -  pipeline name</li>
+<li><code>args</code> [table<string>] -  command args</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>rem_dial(active(),&quot;pipeline1&quot;,{&quot;-p&quot;,&quot;1080&quot;})
+</code></pre></div>
+<h2 id="sys">sys<a class="headerlink" href="#sys" title="Permanent link">&para;</a></h2>
+<h3 id="bypass">bypass<a class="headerlink" href="#bypass" title="Permanent link">&para;</a></h3>
+<p>Bypass AMSI and ETW</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] -  special session</li>
+<li><code>bypass_amsi</code> [boolean] -  bypass amsi</li>
+<li><code>bypass_etw</code> [boolean] -  bypass etw</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>bypass(active(), true, true)
+</code></pre></div>
+<h3 id="env">env<a class="headerlink" href="#env" title="Permanent link">&para;</a></h3>
+<p>List environment variables</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] - special session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>env(active())
+</code></pre></div>
+<h3 id="env_set">env_set<a class="headerlink" href="#env_set" title="Permanent link">&para;</a></h3>
+<p>Set environment variable</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] - special session</li>
+<li><code>envName</code> [string] - env name</li>
+<li><code>value</code> [string] - env value</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>env(active(), &quot;name&quot;, &quot;value&quot;)
+</code></pre></div>
+<h3 id="env_unset">env_unset<a class="headerlink" href="#env_unset" title="Permanent link">&para;</a></h3>
+<p>Unset environment variable</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] - special session</li>
+<li><code>envName</code> [string] - env name</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>unsetenv(active(), &quot;envName&quot;)
+</code></pre></div>
+<h3 id="getsystem">getsystem<a class="headerlink" href="#getsystem" title="Permanent link">&para;</a></h3>
+<p>Attempt to elevate privileges</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>getsystem(active())
+</code></pre></div>
+<h3 id="kill">kill<a class="headerlink" href="#kill" title="Permanent link">&para;</a></h3>
+<p>Kill the process by pid</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>pid</code> [string] -  process id</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>kill(active(),pid)
+</code></pre></div>
+<h3 id="netstat">netstat<a class="headerlink" href="#netstat" title="Permanent link">&para;</a></h3>
+<p>List network connections</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] -  special session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>netstat(active)
+</code></pre></div>
+<h3 id="privs">privs<a class="headerlink" href="#privs" title="Permanent link">&para;</a></h3>
+<p>List available privileges</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>privs(active())
+</code></pre></div>
+<h3 id="ps">ps<a class="headerlink" href="#ps" title="Permanent link">&para;</a></h3>
+<p>List processes</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] - special session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>ps(active)
+</code></pre></div>
+<h3 id="reg_add">reg_add<a class="headerlink" href="#reg_add" title="Permanent link">&para;</a></h3>
+<p>Add or modify a registry key</p>
+<p>Add or modify a registry key with specified values. Supported types: REG_SZ, REG_BINARY, REG_DWORD, REG_QWORD</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>hive</code> [string] -  registry hive</li>
+<li><code>path</code> [string] -  registry path</li>
+<li><code>valueName</code> [string] -  value name</li>
+<li><code>valueType</code> [string] -  value type (REG_SZ, REG_BINARY, REG_DWORD, REG_QWORD)</li>
+<li><code>data</code> [string] -  value data</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>reg_add(active(),&quot;HKEY_LOCAL_MACHINE&quot;,&quot;SOFTWARE\Example&quot;,&quot;TestValue&quot;,&quot;REG_DWORD&quot;,&quot;1&quot;)
+</code></pre></div>
+<h3 id="reg_delete">reg_delete<a class="headerlink" href="#reg_delete" title="Permanent link">&para;</a></h3>
+<p>Delete a registry key</p>
+<p>Remove a specific registry key.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>hive</code> [string] -  registry hive</li>
+<li><code>path</code> [string] -  registry path</li>
+<li><code>key</code> [string] -  registry key</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>reg_delete(active(),&quot;HKEY_LOCAL_MACHINE&quot;,&quot;SOFTWARE\Example&quot;,&quot;TestKey&quot;)
+</code></pre></div>
+<h3 id="reg_list_key">reg_list_key<a class="headerlink" href="#reg_list_key" title="Permanent link">&para;</a></h3>
+<p>List subkeys in a registry path</p>
+<p>Retrieve a list of all subkeys under a specified registry path.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>hive</code> [string] -  registry hive</li>
+<li><code>path</code> [string] -  registry path</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>reg_list_key(active(),&quot;HKEY_LOCAL_MACHINE&quot;,&quot;SOFTWARE\Example&quot;)
+</code></pre></div>
+<h3 id="reg_query">reg_query<a class="headerlink" href="#reg_query" title="Permanent link">&para;</a></h3>
+<p>Query a registry key</p>
+<p>Retrieve the value associated with a specific registry key.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>hive</code> [string] -  registry hive</li>
+<li><code>path</code> [string] -  registry path</li>
+<li><code>key</code> [string] -  registry</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>reg_query(active(),&quot;HKEY_LOCAL_MACHINE&quot;,&quot;SOFTWARE\Example&quot;,&quot;TestKey&quot;)
+</code></pre></div>
+<h3 id="rev2self">rev2self<a class="headerlink" href="#rev2self" title="Permanent link">&para;</a></h3>
+<p>Revert to the original token</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>rev2self(active())
+</code></pre></div>
+<h3 id="runas">runas<a class="headerlink" href="#runas" title="Permanent link">&para;</a></h3>
+<p>Run a program as another user</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>username</code> [string] - </li>
+<li><code>domain</code> [string] - </li>
+<li><code>password</code> [string] - </li>
+<li><code>program</code> [string] - </li>
+<li><code>args</code> [string] - </li>
+<li><code>use profile</code> [boolean] - </li>
+<li><code>use env</code> [boolean] - </li>
+<li><code>netonly</code> [boolean] - </li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>runas(active(),&quot;admin&quot;,&quot;EXAMPLE&quot;,&quot;password123&quot;,&quot;/path/to/program&quot;,&quot;arg1 arg2&quot;,0,false)
+</code></pre></div>
+<h3 id="service_create">service_create<a class="headerlink" href="#service_create" title="Permanent link">&para;</a></h3>
+<p>Create a new service</p>
+<p>Create a new service with specified name, display name, executable path, start type, error control, and account name.</p>
+<p>Control the start type and error control by providing appropriate values.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>name</code> [string] -  service name</li>
+<li><code>displayName</code> [string] -  display name</li>
+<li><code>executablePath</code> [string] -  executable path</li>
+<li><code>startType</code> [string] -  start type</li>
+<li><code>errorControl</code> [string] -  error control</li>
+<li><code>accountName</code> [string] -  account name</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>service_create(active(), &quot;service_name&quot;, &quot;display&quot;, &quot;path&quot;, 0, 0, &quot;account&quot;)
+</code></pre></div>
+<h3 id="service_delete">service_delete<a class="headerlink" href="#service_delete" title="Permanent link">&para;</a></h3>
+<p>Delete a specified service</p>
+<p>Delete a service by specifying its name, removing it from the system permanently.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>name</code> [string] -  service name</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>service_delete(active(),&quot;service_name&quot;)
+</code></pre></div>
+<h3 id="service_list">service_list<a class="headerlink" href="#service_list" title="Permanent link">&para;</a></h3>
+<p>List all available services</p>
+<p>Retrieve and display a list of all services available on the system, including their configuration and current status.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>service_list(active())
+</code></pre></div>
+<h3 id="service_query">service_query<a class="headerlink" href="#service_query" title="Permanent link">&para;</a></h3>
+<p>Query the status of a service</p>
+<p>Retrieve the current status and configuration of a specified service.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>name</code> [string] -  service name</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>service_query(active(),&quot;service_name&quot;)
+</code></pre></div>
+<h3 id="service_start">service_start<a class="headerlink" href="#service_start" title="Permanent link">&para;</a></h3>
+<p>Start an existing service</p>
+<p>Start a service by specifying its name.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>name</code> [string] -  service name</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>service_start(active(),&quot;service_name&quot;)
+</code></pre></div>
+<h3 id="service_stop">service_stop<a class="headerlink" href="#service_stop" title="Permanent link">&para;</a></h3>
+<p>Stop a running service</p>
+<p>Stop a service by specifying its name. This command will halt the service's operation.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>name</code> [string] -  service name</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>service_stop(active(),&quot;service_name&quot;)
+</code></pre></div>
+<h3 id="sysinfo">sysinfo<a class="headerlink" href="#sysinfo" title="Permanent link">&para;</a></h3>
+<p>Get basic sys info</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] -  special session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>sysinfo(active)
+</code></pre></div>
+<h3 id="taskschd_create">taskschd_create<a class="headerlink" href="#taskschd_create" title="Permanent link">&para;</a></h3>
+<p>Create a new scheduled task</p>
+<p>Create a new scheduled task with the specified name, executable path, trigger type, and start boundary.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] -  special session</li>
+<li><code>name</code> [string] -  name of the scheduled task</li>
+<li><code>path</code> [string] -  path to the executable for the scheduled task</li>
+<li><code>triggerType</code> [string] -  trigger type for the task</li>
+<li><code>startBoundary</code> [string] -  start boundary for the scheduled task</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>taskschd_create(active(), &quot;task_name&quot;, &quot;process_path&quot;, 1, &quot;2023-10-10T09:00:00&quot;)
+</code></pre></div>
+<h3 id="taskschd_delete">taskschd_delete<a class="headerlink" href="#taskschd_delete" title="Permanent link">&para;</a></h3>
+<p>Delete a scheduled task</p>
+<p>Delete a scheduled task by specifying its name.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>name</code> [string] -  name of the scheduled task</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>taskschd_delete(active(), &quot;task_name&quot;)
+</code></pre></div>
+<h3 id="taskschd_list">taskschd_list<a class="headerlink" href="#taskschd_list" title="Permanent link">&para;</a></h3>
+<p>List all scheduled tasks</p>
+<p>Retrieve a list of all scheduled tasks on the system.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] -  special session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>taskschd_list(active())
+</code></pre></div>
+<h3 id="taskschd_query">taskschd_query<a class="headerlink" href="#taskschd_query" title="Permanent link">&para;</a></h3>
+<p>Query the configuration of a scheduled task</p>
+<p>Retrieve the current configuration, status, and timing information of a specified scheduled task by name.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>name</code> [string] -  name of the scheduled task</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>taskschd_query(active(), &quot;task_name&quot;)
+</code></pre></div>
+<h3 id="taskschd_run">taskschd_run<a class="headerlink" href="#taskschd_run" title="Permanent link">&para;</a></h3>
+<p>Run a scheduled task immediately</p>
+<p>Execute a scheduled task immediately by specifying its name.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>name</code> [string] -  name of the scheduled task</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>taskschd_run(active(), &quot;task_name&quot;)
+</code></pre></div>
+<h3 id="taskschd_start">taskschd_start<a class="headerlink" href="#taskschd_start" title="Permanent link">&para;</a></h3>
+<p>Start a scheduled task</p>
+<p>Start a scheduled task by specifying its name.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>name</code> [string] -  name of the scheduled task</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>taskschd_create(active(), &quot;task_name&quot;)
+</code></pre></div>
+<h3 id="taskschd_stop">taskschd_stop<a class="headerlink" href="#taskschd_stop" title="Permanent link">&para;</a></h3>
+<p>Stop a running scheduled task</p>
+<p>Stop a scheduled task by specifying its name.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>name</code> [string] -  name of the scheduled task</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>taskschd_stop(active(), &quot;task_name&quot;)
+</code></pre></div>
+<h3 id="whoami">whoami<a class="headerlink" href="#whoami" title="Permanent link">&para;</a></h3>
+<p>Print current user</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] -  special session</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>whoami(active())
+</code></pre></div>
+<h3 id="wmi_execute">wmi_execute<a class="headerlink" href="#wmi_execute" title="Permanent link">&para;</a></h3>
+<p>Execute a WMI method</p>
+<p>Executes a specified method within a WMI class, allowing for more complex administrative actions via WMI.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>session</code> [Session] -  special session</li>
+<li><code>namespace</code> [string] -  WMI namespace</li>
+<li><code>className</code> [string] -  WMI class name</li>
+<li><code>methodName</code> [string] -  WMI method name</li>
+<li><code>params</code> [any] -  WMI method parameters</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>wmi_execute(active(), &quot;root\\cimv2&quot;, &quot;Win32_Process&quot;, &quot;Create&quot;, {&quot;CommandLine&quot;:&quot;cmd.exe&quot;})
+</code></pre></div>
+<h3 id="wmi_query">wmi_query<a class="headerlink" href="#wmi_query" title="Permanent link">&para;</a></h3>
+<p>Perform a WMI query</p>
+<p>Executes a WMI query within the specified namespace to retrieve system information or perform administrative actions.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sess</code> [Session] -  special session</li>
+<li><code>namespace</code> [string] -  WMI namespace</li>
+<li><code>args</code> [table<string>] -  WMI query arguments</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>wmi_query(active(), &quot;root\\cimv2&quot;, {&quot;SELECT * FROM Win32_OperatingSystem&quot;})
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 ChainReactors
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/chainreactors" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "toc.integrate", "toc.follo", "navigation.top", "header.autohide", "search.share", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
