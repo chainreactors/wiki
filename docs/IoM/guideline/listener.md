@@ -56,7 +56,8 @@ listeners:
 
 ### 独立部署listener
 
-从项目设计开始，我们就将listener和server解耦，可以通过启动命令独立部署listener。
+从项目设计开始，我们就将listener和server解耦，可以通过启动命令独立部署listener，需要将malice-network、config.yaml和xxx.auth放到独立的机器然后执行--listener-only。
+
 ```bash
 ./malice-network --listener-only
 ```
