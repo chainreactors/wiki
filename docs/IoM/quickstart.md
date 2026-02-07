@@ -19,13 +19,26 @@ IoM 的 [server](/IoM/concept/#server) 与 [client](/IoM/concept/#client) 都是
 
 ### 下载
 
-[下载 server release](https://github.com/chainreactors/malice-network/releases/latest)并运行
+[下载 server release](https://github.com/chainreactors/malice-network/releases/latest)并运行，其中malice_network为Server端，IOM为Client端
 
-### 运行
+**注意**
+1. IoM 项目 releases 中的文件需要从github下载，国内服务器访问github容易超时，建议配置环境变量中的proxy，再执行上述操作。
+2. 可以映射本机的代理端口到vps，命令如下：
+   ssh -p \<服务器端口\> -R 7890:127.0.0.1:7890 -o ServerAliveInterval=60 root@\<服务器地址\>
+   示例：
+   ssh -p 30065 -R 7890:127.0.0.1:7890 -o ServerAliveInterval=60 root@connect.xx.xx.com
+
+### 运行 server
 
 ```sh
-./malice-network -i [ip]
+./malice-network -i [ip] 
 ```
+**该ip需要设置为client可访问到的ip地址，如公网服务器需要设置为公网ip**
+
+!!! tip "
+1.	服务器与客⼾端的默认通过 5004 端⼝进⾏通信，如果需要外⽹访问请确保防⽕墙开启安全规则
+2.	如果需开启额外监听器，如8080、5001等也需要确认防⽕墙规则
+"
 
 !!! tip "Implant是在目标系统中执行的核心组件，负责接收命令并执行具体操作"
 

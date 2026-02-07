@@ -63,13 +63,13 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 
 其中IoM为client端，malice_network为server端。
 
-下载完成后，可以使用以下命令启动服务端。
+下载完成后，可以使用以下命令启动server端。
 
 ```bash
 ./malice-network
 ```
 
-如果需要server以指定ip启动，则使用`-i` 参数来指定ip。
+如果需要server以指定ip启动，则使用`-i` 参数来指定ip，该ip需要设置为client可访问到的ip地址，如公网服务器需要设置为公网ip。
 
 ```
 ./malice-network -i 123.123.123.123
@@ -137,7 +137,8 @@ IoM还支持了第三方消息通知，目前支持了telegram，钉钉，飞书
 
 ![](../assets/EEgKb86iwop9xaxBUt8cHZG9n8f.png)
 
-## 安装gui 
+## 安装vscode gui
+**现已支持浏览器gui以及桌面版gui，如有需要可联系开发人员获取高级版**
 
 ### 下载文件
 从 [malice-network仓库](https://github.com/chainreactors/malice-network/releases/tag/nightly) 中的release中下载对应的vscode插件`iom.vsix` 以及client文件
@@ -146,7 +147,7 @@ IoM还支持了第三方消息通知，目前支持了telegram，钉钉，飞书
 
 ### 从文件安装vscode插件
 
-打开extension或ctrl+sheft+x 并单击如图所示
+打开extension或ctrl+shift+x 并单击如图所示，导入iom.vsix插件
 
 ![](../assets/Pasted image 20250220013640.png)
 
