@@ -118,7 +118,7 @@ IoM还支持了第三方消息通知，目前支持了telegram，钉钉，飞书
       channel:        # 推送渠道，可选: wechat, email, telegram 等
 ```
 
-关于listener和编译的配置在[listener](IoM/guideline/listener.md)和[payload](payload.md)中说明。
+关于listener和编译的配置在[listener](listener.md)和[payload](payload.md)中说明。
 ## 启动客户端
 
 服务端启动后会生成两个配置文件, 分别为`listener.auth` 和`admin_[server_ip].auth`，将生成的用户配置文件, 默认为 `admin_[server_ip].auth` 复制到 `Malice-Network` 客户端的所在位置。使用新的用户配置文件时，可以使用以下指令启动客户端：

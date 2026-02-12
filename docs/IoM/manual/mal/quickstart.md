@@ -387,7 +387,7 @@ local msg = ProtobufMessage.New("modulepb.ExecuteBinary", {
 ```
 
 ### 调用rpc命令
-	
+
 ```lua
 function load_rem()
 	 local rpc = require("rpc")
@@ -398,6 +398,68 @@ function load_rem()
 	 }))
 	 wait(task)
 end
+```
+
+### execute_module 动态执行
+
+`execute_module` 提供了一种更加灵活的方式来执行模块，允许你在运行时动态构造请求。
+
+#### 基本用法
+
+使用 `spite(body)` 函数从 protobuf message 构建 Spite，然后通过 `execute_module` 执行：
+
+```lua
+-- 构建 Request 并执行
+local function run_whoami()
+    local session = active()
+    local req = Request.New({
+        Name = "whoami"
+    })
+    local s = spite(req)
+    return execute_module(session, s, "response")
+end
+```
+
+#### 支持的 body 类型
+
+`spite()` 函数支持多种 protobuf message 类型：
+
+```lua
+-- Request 类型
+local s1 = spite(Request.New({Name = "whoami"}))
+
+-- ExecuteBinary 类型
+local s2 = spite(ExecuteBinary.New({
+    Name = "execute_assembly",
+    Bin = read_resource("example.exe"),
+    Type = "execute_assembly",
+    Args = {"arg1", "arg2"}
+}))
+
+-- 直接传入 Spite（返回自身）
+local s3 = spite(existing_spite)
+```
+
+#### 使用 Callback 处理响应
+
+`execute_module` 支持传入第4个参数作为 callback 函数，用于自定义响应处理逻辑。Callback 接收 `TaskContext` 参数，可以访问任务、会话和响应内容。
+
+```lua
+local function run_whoami2(cmd)
+    local session = active()
+    local s = spite(Request.New({
+        Name = "whoami2"
+    }))
+    -- 传入 callback 处理响应
+    return execute_module(session, s, "response", function(ctx)
+        -- 获取并打印输出
+        local resp = ctx.Spite:GetResponse()
+        print(resp.Output)
+        return ctx
+    end)
+end
+
+command("whoami2", run_whoami2, "Print current user", "T1033")
 ```
 
 ### 注册为库

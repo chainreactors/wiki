@@ -90,7 +90,7 @@ project-IoM/
 - [v0.0.4 Bootstrapping](/blog/2025/01/02/IoM_v0.0.4/)
 - [v0.1.0 代替CobaltStrike的最后四块碎片](/blog/2025/04/14/IoM_v0.1.0/)
 - [v0.1.1 Out of the Box 开箱即用](/blog/2025/07/09/IoM_v0.1.1/)
-- [v0.1.2 Integrate  Everything](/2025/11/10/IoM_v0.1.2/)
+- [v0.1.2 Integrate  Everything](/blog/2025/11/10/IoM_v0.1.2/)
 
 **Advanced Posts:**
 

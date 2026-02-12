@@ -27,7 +27,7 @@
 
 为了达成终极目标，我们的蓝图覆盖了 **Pre-Exploit ↔ Post-Exploit** 全流程，并通过 **AI** 将这些能力整合为智能化作战平台。
 
-目前我们有三条链式反应的链路，分别对应后渗透[IoM](IoM)、前渗透/信息收集([mapping](mapping))、以及打通两者的流量工具[proxy](proxy.md)。这些工具采用统一的DSL设计，让AI能够创造性地组合攻击步骤，并将成功的策略沉淀为可复用的知识资产。
+目前我们有三条链式反应的链路，分别对应后渗透[IoM](/IoM/)、前渗透/信息收集([mapping](/mapping/))、以及打通两者的流量工具[proxy](/IoM/guideline/proxy/)。这些工具采用统一的DSL设计，让AI能够创造性地组合攻击步骤，并将成功的策略沉淀为可复用的知识资产。
 
 ### Chain1 IoM (已发布)
 
@@ -47,7 +47,7 @@ IoM(`Internet of Malice`) 是 **AI原生的下一代C2框架**，以高度模块
 
 ### Chain2 mapping
 
-[mapping](mapping) 是 **AI驱动的攻击面管理引擎**。
+[mapping](/mapping/) 是 **AI驱动的攻击面管理引擎**。
 
 gogo/spray/zombie等工具都是为这个目标设计的Pre-Exploit能力组件。通过极高的拓展性与细粒度实现完全可控的攻击面发现与验证。
 
@@ -110,8 +110,8 @@ _没有添加超链接的为暂未公开的项目_
 
 chainreactor 自研的工具链，每个工具都是AI的"效应器"
 
-- [gogo](gogo/index) - 面向红队的自动化引擎，支持AI动态生成扫描策略
-- [spray](spray/index) - 下一代目录爆破工具，AI可通过字典DSL优化爆破效率
+- [gogo](/gogo/) - 面向红队的自动化引擎，支持AI动态生成扫描策略
+- [spray](/spray/) - 下一代目录爆破工具，AI可通过字典DSL优化爆破效率
 - [urlfounder](https://github.com/chainreactors/urlfounder/) - 被动URL收集工具
 - [zombie](https://github.com/chainreactors/zombie/) - 服务/协议爆破工具，支持AI定制爆破策略DSL
 - searcher - 空间引擎交叉递归爬虫 (Private)

@@ -61,7 +61,7 @@ result = dll.RunPE("C:\\Windows\\System32\\notepad.exe", pe_data, len(pe_data), 
 
 ### SDK ---  client的多语言SDK
 
-为了让IoM能够被更广泛的场景集成，我们提供了[三语言SDK](/IoM/manual/integrate/sdk/index)（Python/Go/TypeScript），将数百个gRPC方法封装为符合各语言习惯的原生API。
+为了让IoM能够被更广泛的场景集成，我们提供了[三语言SDK](/IoM/manual/integrate/sdk/)（Python/Go/TypeScript），将数百个gRPC方法封装为符合各语言习惯的原生API。
 
 - [Go SDK](https://github.com/chainreactors/IoM-go)提供事件钩子和任务回调机制，适合构建高性能工具；从malice-network的client中剥离出来的， 相对使用时间最长， bug相对较少的SDK
 - [Python SDK](/IoM/manual/integrate/sdk/python) （Unstable） 提供完整的async/await支持和类型提示，适合自动化脚本和AI集成；
