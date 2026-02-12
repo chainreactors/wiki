@@ -278,128 +278,147 @@ outbound proxy的flag为`-x` / `--proxy`
 proxyclient的配置请见: https://chainreactors.github.io/wiki/libs/proxyclient/
 ### 多级网络
 
-级联分为多个细分场景， 实际上是极为复杂的。 也收到了较多对级联比较迷惑的反馈。
+多级网络的核心不是“命令很多”，而是先判断**谁能主动访问谁**，再选择对应链路方式。
 
-#### 场景1 桥接
+下面统一使用三个角色：
 
-假设有内网服务器A，内网服务器B ， A与B位于不同的内网中， 有A与B都能访问到的服务器C
+- `C`：公网/边界侧 `rem console`
+- `A`：中间跳板（通常可出网）
+- `B`：更内层主机（通常限制更多）
 
-目的是打通A与B的网络，这个场景有点类似Cobaltstrike的rportfwd_local， 需要将目标服务器的某端口转发到本地。 但是rem可以更进一步， 直接进行代理而不是端口转发。 
+| 场景 | 主动连通关系 | 目标 | 关键参数/方式 |
+| --- | --- | --- | --- |
+| 场景1：桥接 | `A -> C` 且 `B -> C` | 打通 A/B 两个内网 | `-d` + `-a` |
+| 场景2：级联 | `B -> A` 且 `A -> C` | 让 C 侧代理直达 B | A 转发 console 端口 |
+| 场景3：单向级联 | `A -> B` 且 `A -> C` | B 不能回连时完成级联 | B `bind` + A `-f` |
 
-我们通过服务器C作为桥， 打通A与B的内网。
+#### 场景1：桥接（A 与 B 都能连到 C）
 
-
-user -[单向访问]-> console <-[单向访问]- client
-
-rem 的桥接通过 -d/--destination 实现
-
-每个连接对都会有唯一 ID, 也可以使用 alias(通过-a/--alias 自定义)
-
-服务器C 启动 rem
-
+```mermaid
+flowchart LR
+    U[User] --> C[服务器 C<br/>rem console]
+    A[内网 A] --> C
+    B[内网 B] --> C
+    B -. 使用 -d internal 指向 A .-> A
 ```
+
+思路：先让 `A` 注册一个可识别别名，再让 `B` 通过 `-d` 指向该别名建立桥接。
+
+1) 在 `C` 启动 console
+
+```bash
 ./rem
 ```
 
-内网A 连接到 C
+2) 在 `A` 连接 `C` 并设置别名（示例：`internal`）
 
-如果不填 alias,则是自动分配的 ip:port
-
-```
+```bash
 ./rem -c [link] -a internal
 ```
 
-内网B连接到 C
+3) 在 `B` 连接 `C` 并指向 `A`
 
-将会在内网A监听一个 socks5 端口, 通过该端口可以直接访问到 A所在的内网. 
-
-```
-./rem -c [link]  -d internal
-``` 
-
-具体用法与非级联场景完全一致
-
-**将在 A 监听 socks5 端口, 通过该端口可以直接访问到 B 所在的内网.**
-
-```
+```bash
 ./rem -c [link] -d internal
 ```
 
-**将在B 监听socks5端口， 通过该端口可以直接访问到A所在的内网**
+桥接建立后，常见用法：
 
+- 在 `A` 监听 socks5，访问 `B` 内网（默认 `reverse`）
+
+```bash
+./rem -c [link] -d internal
 ```
+
+- 在 `B` 监听 socks5，访问 `A` 内网（`proxy`）
+
+```bash
 ./rem -c [link] -d internal -m proxy
 ```
 
-**将 B 的 12345 端口转发到 A 的随机生成的端口**
-```
+- 将 `B:12345` 转发到 `A` 的随机端口
+
+```bash
 ./rem -c [link] -d internal -l port://:12345
 ```
 
-**将会将 A 的 8888 端口转发到 B 的随机生成的端口**
+- 将 `A:1234` 转发到 `B` 的随机端口
+
+```bash
+./rem -c [link] -d internal -r :1234 -m proxy
 ```
-./rem -c [link]  -d internal -r :1234 -m proxy
+
+#### 场景2：级联（B 能访问 A，A 能访问 C）
+
+```mermaid
+flowchart LR
+    U[User] --> C[服务器 C<br/>rem console]
+    A[服务器 A<br/>中间跳板] --> C
+    B[服务器 B<br/>内层主机] --> A
+    B -. 不能直接访问 .-> C
 ```
-  
-####  场景2 级联
 
-假设有内网服务器A，可出网， 能访问到公网服务器C； 有内网服务器B， 可以访问到内网服务器A，但不出网访问不到公网服务器C
+目标：让 `C` 上暴露的代理能力最终到达更内层 `B`。
 
-如果想搭建一个多级的代理， 让C服务器上搭建的socks5服务能直通最内层的服务器B。 可以按照如下操作
+1) 在 `C` 启动 console
 
-服务器C 启动 rem
-
-```
+```bash
 ./rem
 ```
 
-服务器A上启动端口转发, 将C上的rem console的端口转发到本地的1234端口
+2) 在 `A` 上做端口转发（把 `C` 的 console 端口转发到 `A:1234`）
 
-```
+```bash
 ./rem -c [link] -m proxy -r raw://:34996 -l port://:1234
 ```
 
+3) 在 `B` 上连接 `A` 的转发端口完成级联
 
-在服务器B上搭建级联的反向代理
-
-需要注意的是， rem的console的端口已经被转发到A上， 所以**需要修改address为A上转发后的端口， 其他参数保持不变**
-
-```
+```bash
 ./rem -c tcp://[A ip]:[port]/?wrapper=.......
 ```
 
-!!! danger "场景2仅支持服务器B能访问到服务器A的情况下"
-	如果是服务器A能访问到更内层服务器B， 而B无法访问到位于网络边界的服务器A， 可以使用另一种方式
+!!! warning "关键点"
+    `B` 侧 `-c` 地址不再是 `C`，而是 `A` 上转发后的地址与端口；其余参数（如 key/wrapper）与原链接保持一致。
 
+!!! danger "适用边界"
+    该方案仅适用于 `B -> A` 可达。若只有 `A -> B` 可达，请使用场景3。
 
-#### 场景3 内网单向连通的级联
+#### 场景3：内网单向连通级联（A 能访问 B，B 不能访问 A）
 
-
-假设有内网服务器A，可出网， 能访问到公网服务器C； 有内网服务器B， 可以访问到内网服务器A，但不出网访问不到公网服务器C。 **服务器A能访问到更内层服务器B， 而B无法访问到位于网络边界的服务器A**
-
-!!! tips "此思路也用于复现已存在的跨ACL代理实现级联"
-
-
-服务器C 启动 rem
-
+```mermaid
+flowchart LR
+    U[User] --> C[服务器 C<br/>rem console]
+    A[服务器 A<br/>边界主机] --> C
+    A --> B[服务器 B<br/>内层主机]
+    B -. 无法回连 A .-> A
 ```
+
+目标：在“仅单向可达”的内网中继续完成链路拼接。
+
+1) 在 `C` 启动 console
+
+```bash
 ./rem
 ```
 
-服务器B启动 socks5代理
+2) 在 `B` 启动本地 socks5（`bind` 单机模式）
 
-```
-./rem -m bind  -l socks5://:12345
+```bash
+./rem -m bind -l socks5://:12345
 ```
 
-服务器A通过outbound proxy 实现级联
+3) 在 `A` 连接 `C` 时使用 `-f` 经由 `B` 的 socks5 级联
 
-```
+```bash
 ./rem -c [link] -f socks5://remno1:0onmer@[B]:12345
 ```
 
-!!! danger "服务器A与服务器B的通讯为明文的socks5"
-	可能存在被检测的风险。可以通过rem代替socks作为代理服务器
+!!! tips "跨 ACL 场景"
+    该思路可用于复现已有跨 ACL 的代理链路。
+
+!!! danger "安全提示"
+    `A` 与 `B` 间若直接使用明文 socks5，可能存在被检测风险。可用 rem 再套一层隧道降低暴露面。
 
 ### 特殊场景
 
