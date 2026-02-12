@@ -738,6 +738,7 @@ proxy:
 - `ALL_PROXY` - 所有协议通用代理
 - `NO_PROXY` - 不使用代理的地址列表
 
+<span id="sleep配置"></span>
 #### 4.2.2 时序控制配置
 
 ```yaml
@@ -1168,6 +1169,7 @@ build:
     require_uac: false                   # 需要 UAC 提权
 ```
 
+<span id="pulse配置"></span>
 ### 4.5 pulse配置
 
 Pulse 是 IoM 的轻量级 Stager，负责从服务器下载并执行主要的 Beacon 载荷。
@@ -1194,6 +1196,7 @@ pulse:
       User-Agent: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0"
 ```
 
+<span id="autorun"></span>
 ### 4.6 autorun配置
 
 autorun本质上是将protobuf 转为yaml, 在编译时会重新还原为protobuf并加密保存到二进制文件中。 

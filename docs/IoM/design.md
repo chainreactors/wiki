@@ -197,7 +197,7 @@ message Spite {
 
 要解决这个问题, 只需要把流量相关的功能都拎出来, 与 implant 彻底解耦, implant 端保留了最基本的 tcp 与 tls 信道, 更多的拓展功能将通过`Read`与`Write`接口从第三方工具中获取. 正巧, 原本的工具链中就有一个全能的流量代理工具, 现在它又多了一个用途, 当作 implant 的前置 stage.
 
-IoM 的代理与流量隧道的高级功能均通过[rem](/rem/index)实现.
+IoM 的代理与流量隧道的高级功能均通过[rem](/rem/)实现.
 
 我们将 rem 打包成 dll, 并暴露出 Read 与 Write 接口. 这样上线的不只是 implant, 还能直接打通 implant 端的网络
 
@@ -295,5 +295,4 @@ Mal插件生态将提供
 通过将rpc注册到client端的lua/TCL中函数实现类似CS的agressor_script支持.
 
 并通过mals仓库索引社区中的插件仓库. 
-
 

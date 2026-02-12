@@ -1,7 +1,7 @@
 
 ## Client MCP
 
-我们在 client 提供了一套丰富的 [插件脚本生态---mal](IoM/manual/mal/)，几乎可以调用 IoM 的全部能力。我们基于 mal 解释器和 client 对 AI 封装了一套新的 MCP (Model Context Protocol)，可以让 AI 通过 MCP 完整的使用我们的 client 的所有功能。
+我们在 client 提供了一套丰富的 [插件脚本生态---mal](/IoM/manual/mal/)，几乎可以调用 IoM 的全部能力。我们基于 mal 解释器和 client 对 AI 封装了一套新的 MCP (Model Context Protocol)，可以让 AI 通过 MCP 完整的使用我们的 client 的所有功能。
 
 ### 启动 MCP 服务
 
