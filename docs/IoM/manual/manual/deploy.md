@@ -238,9 +238,20 @@ IoM 允许将一些文件挂载 web 服务上
 ./malice-network
 ```
 
-
-
 如果配置文件非默认的 `config.yaml`, 可以通过 `-c path/any.yaml` 指定
+
+#### Server 启动参数
+
+| 参数 | 说明 |
+|------|------|
+| `-c, --config` | 配置文件路径（默认 `config.yaml`） |
+| `-i, --ip` | 外网 IP 地址，覆盖配置文件中的 ip 字段 |
+| `--server-only` | 仅启动 server，不启动 listener |
+| `--listener-only` | 仅启动 listener，不启动 server |
+| `--daemon` | 以守护进程模式运行 |
+| `--debug` | 开启 debug 日志 |
+| `--opsec` | 启用 OPSEC 模式 |
+| `--quickstart` | 交互式配置向导，引导完成初始配置 |
 
 启动后服务器会输出以下信息, 并生成两个配置文件, 分别为`listener.auth` 和`admin_[server_ip].auth`, 这两个配置文件后续还有用处
 
@@ -383,7 +394,13 @@ settings:
 
 `malice-network` 实际上还存在一个高权限的管理组件. 需要根证书配置才可实现. 这个证书不会生成`.auth`文件, 直接保存在服务端配置和数据库中.
 
-只允许已经启动了`malice-network`的机器上, 继续通过`malice-network user` 或 `malice-network listener` 进行用户管理.
+只允许已经启动了`malice-network`的机器上, 继续通过`malice-network user`、`malice-network listener` 或 `malice-network license` 进行管理。
+
+支持的子命令：
+
+- `malice-network user` — 用户管理（add/del/list）
+- `malice-network listener` — Listener 管理（add/del/list）
+- `malice-network license` — License 管理
 
 ### 认证文件
 

@@ -75,6 +75,19 @@ curl -L "https://raw.githubusercontent.com/chainreactors/malice-network/master/i
 ./malice-network -i 123.123.123.123
 ```
 
+#### Server 启动参数
+
+| 参数 | 说明 |
+|------|------|
+| `-c, --config` | 配置文件路径（默认 `config.yaml`） |
+| `-i, --ip` | 外网 IP 地址，覆盖配置文件中的 ip 字段 |
+| `--server-only` | 仅启动 server，不启动 listener |
+| `--listener-only` | 仅启动 listener，不启动 server |
+| `--daemon` | 以守护进程模式运行 |
+| `--debug` | 开启 debug 日志 |
+| `--opsec` | 启用 OPSEC 模式 |
+| `--quickstart` | 交互式配置向导，引导完成初始配置 |
+
 #### 常用配置修改
 config.yaml是server端的配置文件，其中包含了一些server以及 `listener` 可选的配置。
 若需要修改配置，需要提前到 https://github.com/chainreactors/malice-network/blob/master/server/config.yaml 下载config.yaml，并放到server端可执行文件的同级目录下。

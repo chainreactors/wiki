@@ -140,3 +140,121 @@ debug 模式下的日志。 可以看到IoM的implant基于通过rem的构建的
 
 
 这样一来， rem支持的所有传输层，加密，伪装混淆都能复用到implant中， 实现流量侧的任意伪装。
+
+## Pivot 命令参考
+
+所有 pivot 命令都依赖 rem 模块，使用前请确保已通过上述方法之一加载 rem。
+
+### portfwd（本地端口转发）
+```bash
+portfwd [pipeline] [flags]
+```
+将本地端口的流量通过 implant 转发到远程目标。
+
+**选项:**
+
+| 标志 | 简写 | 类型 | 说明 |
+|------|------|------|------|
+| `--port` | `-p` | string | 本地监听端口（未指定则随机 20000-40000） |
+| `--target` | `-t` | string | 远程目标地址（host:port） |
+
+**示例:**
+```bash
+portfwd rem_default --port 8080 --target 192.168.1.1:80
+```
+
+### rportfwd（远程端口转发）
+```bash
+rportfwd [pipeline] [flags]
+```
+在 implant 端监听端口，将流量转发回本地。
+
+**选项:**
+
+| 标志 | 简写 | 类型 | 说明 |
+|------|------|------|------|
+| `--port` | `-p` | string | 本地监听端口（未指定则随机） |
+| `--remote` | `-r` | string | implant 端连接地址（host:port） |
+
+**示例:**
+```bash
+rportfwd rem_default --port 8080 --remote 10.0.0.1:3389
+```
+
+### portfwd_local（本地端口转发到客户端）
+```bash
+portfwd_local [pipeline] [agent] [flags]
+```
+将本地端口流量通过 implant 转发到客户端本地。
+
+**选项:**
+
+| 标志 | 简写 | 类型 | 说明 |
+|------|------|------|------|
+| `--port` | `-p` | string | 本地监听端口（未指定则随机） |
+| `--local` | `-l` | string | 本地连接地址（host:port） |
+
+### rportfwd_local（远程端口转发到客户端）
+```bash
+rportfwd_local [pipeline] [agent] [flags]
+```
+在 implant 端监听端口，将流量转发到客户端本地。
+
+**选项:**
+
+| 标志 | 简写 | 类型 | 说明 |
+|------|------|------|------|
+| `--port` | `-p` | string | 本地监听端口（未指定则随机） |
+| `--remote` | `-r` | string | implant 内部地址（host:port，必填） |
+
+### proxy（代理服务器）
+```bash
+proxy [pipeline] [flags]
+```
+通过 implant 创建代理服务器，支持 socks5/http 协议和认证。
+
+**选项:**
+
+| 标志 | 简写 | 类型 | 说明 |
+|------|------|------|------|
+| `--port` | `-p` | string | 本地监听端口（未指定则随机） |
+| `--username` | | string | 代理认证用户名 |
+| `--password` | | string | 代理认证密码 |
+| `--protocol` | | string | 代理协议（socks/http） |
+
+**示例:**
+```bash
+proxy rem_default --port 1080
+proxy rem_default --port 1080 --username admin --password pass
+```
+
+### reverse（反向代理）
+```bash
+reverse [pipeline] [flags]
+```
+通过 implant 创建反向代理，implant 主动连接回本地。
+
+**选项:**
+
+| 标志 | 简写 | 类型 | 说明 |
+|------|------|------|------|
+| `--port` | `-p` | string | 监听端口（未指定则随机） |
+| `--username` | | string | 代理认证用户名 |
+| `--password` | | string | 代理认证密码 |
+| `--protocol` | | string | 代理协议 |
+
+**示例:**
+```bash
+reverse rem_default --port 12345
+```
+
+### rem_dial（直接执行 rem 命令）
+```bash
+rem_dial [pipeline] [args]
+```
+在 implant 上直接执行 rem 命令，适用于需要自定义 rem 参数的高级场景。
+
+**示例:**
+```bash
+rem_dial rem_default -- -c tcp://10.0.0.1:8888
+```
