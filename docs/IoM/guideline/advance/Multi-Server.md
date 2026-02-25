@@ -186,6 +186,37 @@ targets:
       skip_verification: true
 ```
 
+## REM 协议
+
+### 基础配置
+
+```yaml
+targets:
+  - address: "127.0.0.1:34996"
+    rem:
+      link: "tcp://username:password@127.0.0.1:34996?wrapper=demo"
+```
+
+### 多服务器配置示例
+
+```yaml
+targets:
+  # Primary
+  - address: "primary.example.com:34996"
+    rem:
+      link: "tcp://user:pass@primary.example.com:34996?wrapper=demo"
+
+  # Secondary
+  - address: "secondary.example.com:34996"
+    rem:
+      link: "tcp://user:pass@secondary.example.com:34996?wrapper=demo"
+```
+
+**配置说明**:
+- REM 协议通过 `link` 字段指定完整的 rem 连接地址
+- link 格式: `[transport]://[key]:@[host]:[port]?wrapper=[]&tls=[bool]`
+- 详细参数请参阅 [rem 文档](/rem/usage/#console)
+
 ## 补充说明
 
 ### 连接顺序
