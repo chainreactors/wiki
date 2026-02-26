@@ -140,6 +140,13 @@
 - `$1` [context] 
 - `$2` [Cert] 
 
+### DeleteContext
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Context] 
+
 ### DeleteProfile
 
 **Arguments**
@@ -168,12 +175,26 @@
 - `$1` [context] 
 - `$2` [Cert] 
 
+### DownloadDir
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [DownloadRequest] 
+
 ### EXE2Shellcode
 
 **Arguments**
 
 - `$1` [context] 
 - `$2` [EXE2Shellcode] 
+
+### EnumDrivers
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Request] 
 
 ### Env
 
@@ -245,6 +266,13 @@
 - `$1` [context] 
 - `$2` [ExecuteBinary] 
 
+### ExecuteModule
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [ExecuteModuleRequest] 
+
 ### ExecutePowerpick
 
 **Arguments**
@@ -266,6 +294,13 @@
 - `$1` [context] 
 - `$2` [ExecuteBinary] 
 
+### FFmpeg
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [FFmpegRequest] 
+
 ### GetAllCertificates
 
 **Arguments**
@@ -279,6 +314,20 @@
 
 - `$1` [context] 
 - `$2` [Task] 
+
+### GetArtifactProfile
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Artifact] 
+
+### GetAudit
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [SessionRequest] 
 
 ### GetBasic
 
@@ -356,6 +405,13 @@
 
 - `$1` [context] 
 - `$2` [Empty] 
+
+### GetProfileByName
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [Profile] 
 
 ### GetProfiles
 
@@ -497,6 +553,27 @@
 - `$1` [context] 
 - `$2` [Request] 
 
+### MutantSigforge
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [MutantSigforgeRequest] 
+
+### MutantSrdi
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [MutantSrdiRequest] 
+
+### MutantStrip
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [MutantStripRequest] 
+
 ### Mv
 
 **Arguments**
@@ -546,6 +623,13 @@
 - `$1` [context] 
 - `$2` [PipeRequest] 
 
+### PipeServer
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [PipeRequest] 
+
 ### PipeUpload
 
 **Arguments**
@@ -573,6 +657,13 @@
 
 - `$1` [context] 
 - `$2` [Request] 
+
+### PtyRequest
+
+**Arguments**
+
+- `$1` [context] 
+- `$2` [PtyRequest] 
 
 ### Pwd
 
@@ -831,7 +922,7 @@
 **Arguments**
 
 - `$1` [context] 
-- `$2` [GithubWorkflowConfig] 
+- `$2` [GithubActionBuildConfig] 
 
 ### UpdateNotifyConfig
 

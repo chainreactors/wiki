@@ -57,6 +57,19 @@ bcurl(active(),"http://example.com")
 
 - `$1` [Session] 
 - `$2` [string] 
+- `$3` [boolean] 
+
+### benum_drivers
+
+**Arguments**
+
+- `session` [Session] -  special session
+
+**Example**
+
+```
+benum_drivers(active())
+```
 
 ### benv
 
@@ -145,6 +158,12 @@ binline_execute(active(),"/path/dir.x64.o","/path/to/list")
 - `$1` [Session] 
 - `$2` [string] 
 
+### blist_devices
+
+**Arguments**
+
+- `$1` [Session] 
+
 ### bls
 
 **Arguments**
@@ -178,6 +197,13 @@ bls(active(),"/tmp")
 **Arguments**
 
 - `$1` [Session] 
+
+### bpipe_read
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
 
 ### bpowerpick
 
@@ -277,12 +303,13 @@ bshell(active(),"whoami",true)
 **Arguments**
 
 - `sess` [Session] - special session
-- `interval` [number] - time interval, in seconds
+- `interval` [string] - time interval, in seconds
+- `jitter` [number] - jitter, percentage of interval
 
 **Example**
 
 ```
-sleep(active(), 10)
+bsleep(active(), 10, 0.5)
 ```
 
 ### bunsetenv

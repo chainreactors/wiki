@@ -1,5 +1,20 @@
 ## artifact
 
+### artifact_bin
+
+get artifact binary content by name
+
+**Arguments**
+
+- `sess` [Session] -  session
+- `name` [string] -  artifact name
+
+**Example**
+
+```
+artifact_bin(active(), "MAGIC_TOOL")
+```
+
 ### artifact_payload
 
 get artifact stageless shellcode
@@ -83,6 +98,7 @@ download artifact with special build id
 
 - `$1` [string] - 
 - `$2` [string] - 
+- `$3` [string] - 
 
 ### exe2shellcode
 
@@ -187,6 +203,7 @@ upload local bin to server build
 - `$1` [string] - 
 - `$2` [string] - 
 - `$3` [string] - 
+- `$4` [string] - 
 
 ## basic
 
@@ -396,6 +413,20 @@ data(active())
 - `$7` [string] 
 - `$8` [SacrificeProcess] 
 
+### execute_module
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `spite` [Spite] -  the spite request to execute
+- `expect` [string] -  expected response type name
+
+**Example**
+
+```
+execute_module(active(), spite, "expect_type")
+```
+
 ### find_global_resource
 
 **Arguments**
@@ -434,12 +465,6 @@ format_path("C:\\Windows\\System32\\calc.exe")
 
 - `$1` [Task] 
 - `$2` [number] 
-
-### get_sess_dir
-
-**Arguments**
-
-- `$1` [string] 
 
 ### global_resource
 
@@ -486,6 +511,18 @@ format_path("C:\\Windows\\System32\\calc.exe")
 
 - `$1` [Session] 
 
+### list_devices
+
+**Arguments**
+
+- `session` [Session] -  special session
+
+**Example**
+
+```
+list_devices
+```
+
 ### list_module
 
 **Arguments**
@@ -511,6 +548,9 @@ format_path("C:\\Windows\\System32\\calc.exe")
 - `$1` [Session] 
 - `$2` [string] 
 - `$3` [boolean] 
+
+### media_contexts
+
 
 ### new_64_executable
 
@@ -713,6 +753,51 @@ pipe_close(active(), "pipe_name")
 
 - `$1` [string] 
 
+### record_audio
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `device_name` [string] -  device name
+- `output` [string] -  output path
+- `time` [string] -  duration
+
+**Example**
+
+```
+record_audio
+```
+
+### record_screen
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `device_name` [string] -  device name
+- `output` [string] -  output path
+- `time` [string] -  duration
+
+**Example**
+
+```
+record_screen
+```
+
+### record_video
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `device_name` [string] -  device name
+- `output` [string] -  output path
+- `time` [string] -  duration
+
+**Example**
+
+```
+record_video
+```
+
 ### reg_list_value
 
 **Arguments**
@@ -751,6 +836,12 @@ pipe_close(active(), "pipe_name")
 
 - `$1` [string] 
 
+### spite
+
+**Arguments**
+
+- `$1` [any] 
+
 ### taskprint
 
 **Arguments**
@@ -762,6 +853,56 @@ pipe_close(active(), "pipe_name")
 **Arguments**
 
 - `$1` [string] 
+
+### ui_group
+
+**Arguments**
+
+- `$1` [table] 
+- `$2` [string] 
+
+### ui_order
+
+**Arguments**
+
+- `$1` [table] 
+- `$2` [number] 
+
+### ui_placeholder
+
+**Arguments**
+
+- `$1` [table] 
+- `$2` [string] 
+
+### ui_range
+
+**Arguments**
+
+- `$1` [table] 
+- `$2` [number] 
+- `$3` [number] 
+
+### ui_required
+
+**Arguments**
+
+- `$1` [table] 
+- `$2` [boolean] 
+
+### ui_set
+
+**Arguments**
+
+- `$1` [table] 
+- `$2` [any] 
+
+### ui_widget
+
+**Arguments**
+
+- `$1` [table] 
+- `$2` [string] 
 
 ### uploadraw
 
@@ -783,6 +924,27 @@ pipe_close(active(), "pipe_name")
 - `$1` [Task] 
 
 ### with_context
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+
+### with_context_id
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+
+### with_context_kind
+
+**Arguments**
+
+- `$1` [Session] 
+- `$2` [string] 
+
+### with_context_name
 
 **Arguments**
 
@@ -1496,11 +1658,26 @@ download file in implant
 
 - `session` [Session] -  special session
 - `path` [string] -  file path
+- `id_dir` [boolean] -  download_dir
 
 **Example**
 
 ```
 download(active(),`file.txt`)
+```
+
+### enum_drivers
+
+Enum Drivers
+
+**Arguments**
+
+- `session` [Session] -  special session
+
+**Example**
+
+```
+enum_drivers(active())
 ```
 
 ### ls
@@ -1570,6 +1747,24 @@ Read data from a specified named pipe.
 
 ```
 pipe_read(active(), "pipe_name")
+```
+
+### pipe_server
+
+Manage pipe server operations
+
+Start, stop, or list pipe servers for receiving data from clients.
+
+**Arguments**
+
+- `session` [Session] -  special session
+- `action` [string] -  pipe server action (start/stop/list/clear/status)
+- `pipe_name` [string] -  name of the pipe (required for start/stop/clear/status)
+
+**Example**
+
+```
+pipe_server(active(), "action", "pipe_name")
 ```
 
 ### pipe_upload
@@ -1740,7 +1935,7 @@ change implant sleep config
 **Arguments**
 
 - `sess` [Session] - special session
-- `interval` [number] - time interval, in seconds
+- `cron` [string] - cron expression
 - `jitter` [number] - jitter, percentage of interval
 
 **Example**
@@ -1797,16 +1992,16 @@ suicide(active())
 - `$2` [string] - 
 - `$3` [string] - 
 - `$4` [number] - 
-- `$5` [boolean] - 
+- `$5` [string] - 
 - `$6` [string] - 
-- `$7` [string] - 
-- `$8` [string] - 
+- `$7` [TLS] - 
 
 ### website_start
 
 **Arguments**
 
 - `$1` [string] - 
+- `$2` [string] - 
 
 ### website_stop
 
@@ -2212,6 +2407,7 @@ Create a new scheduled task with the specified name, executable path, trigger ty
 - `sess` [Session] -  special session
 - `name` [string] -  name of the scheduled task
 - `path` [string] -  path to the executable for the scheduled task
+- `task_folder` [string] -  task folder for the scheduled task
 - `triggerType` [string] -  trigger type for the task
 - `startBoundary` [string] -  start boundary for the scheduled task
 
@@ -2231,6 +2427,7 @@ Delete a scheduled task by specifying its name.
 
 - `session` [Session] -  special session
 - `name` [string] -  name of the scheduled task
+- `task_folder` [string] -  task folder
 
 **Example**
 
@@ -2264,6 +2461,7 @@ Retrieve the current configuration, status, and timing information of a specifie
 
 - `session` [Session] -  special session
 - `name` [string] -  name of the scheduled task
+- `task_folder` [string] -  task folder
 
 **Example**
 
@@ -2281,6 +2479,7 @@ Execute a scheduled task immediately by specifying its name.
 
 - `session` [Session] -  special session
 - `name` [string] -  name of the scheduled task
+- `task_folder` [string] -  task folder
 
 **Example**
 
@@ -2298,6 +2497,7 @@ Start a scheduled task by specifying its name.
 
 - `session` [Session] -  special session
 - `name` [string] -  name of the scheduled task
+- `task_folder` [string] -  task folder
 
 **Example**
 
@@ -2315,6 +2515,7 @@ Stop a scheduled task by specifying its name.
 
 - `session` [Session] -  special session
 - `name` [string] -  name of the scheduled task
+- `task_folder` [string] -  task folder
 
 **Example**
 
