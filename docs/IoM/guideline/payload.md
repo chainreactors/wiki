@@ -121,7 +121,7 @@ implants:
     - "rem"
 ```
 
-在编译prelude和beacon类型的implant时，`autorun` 字段用于指定 implant 上线时自动执行的配置文件 autorun.yaml，详细的autorun在 [autorun](/IoM/manual/implant/build/#autorun)中有说明。
+在编译prelude和beacon类型的implant时，`autorun` 字段用于指定 implant 上线时自动执行的配置文件 autorun.yaml，详细的autorun在 [autorun](/IoM/manual/implant/build/#46-autorun配置)中有说明。
 ```yaml
 implants:
   autorun: "autorun.yaml"
