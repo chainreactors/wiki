@@ -860,9 +860,9 @@ bypass --amsi --etw
 ### env
 List environment variables
 
-```
+~~~
 env
-```
+~~~
 
 **SEE ALSO**
 
@@ -872,15 +872,15 @@ env
 #### env set
 Set environment variable
 
-```
+~~~
 env set [env-key] [env-value]
-```
+~~~
 
 **Examples**
 
 ~~~
-	setenv key1 value1
-	~~~
+setenv key1 value1
+~~~
 
 **SEE ALSO**
 
@@ -889,15 +889,15 @@ env set [env-key] [env-value]
 #### env unset
 Unset environment variable
 
-```
+~~~
 env unset [env-key]
-```
+~~~
 
 **Examples**
 
 ~~~
-	unsetenv key1
-	~~~
+unsetenv key1
+~~~
 
 **SEE ALSO**
 

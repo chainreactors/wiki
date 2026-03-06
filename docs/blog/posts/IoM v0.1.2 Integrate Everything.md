@@ -177,7 +177,7 @@ dga:
 sleep(active(), 10)  -- 设置为10秒
 ```
 
-参考: [构建文档](/IoM/manual/implant/build#sleep配置) | [Beacon文档](/IoM/manual/mal/beacon)
+参考: [构建文档](/IoM/manual/implant/build/#422-时序控制配置) | [Beacon文档](/IoM/manual/mal/beacon)
 
 #### Guardrail
 

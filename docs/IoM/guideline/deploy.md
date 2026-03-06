@@ -174,7 +174,7 @@ IoM: Executable Path 填入从release下载的iom二进制程序
 
 IoM需要 malice-network生成的.auth凭证, 所以在这一步之前请先自行搭建好server
 
-可以参考[quickstart文档](/IoM/quickstart/#server)快速搭建server
+可以参考[quickstart文档](/IoM/quickstart/#安装部署server)快速搭建server
 
 安装server的命令需要修改为:
 ```bash

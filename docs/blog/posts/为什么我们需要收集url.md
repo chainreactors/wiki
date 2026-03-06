@@ -8,7 +8,7 @@ Next Generation HTTP Dir/File Fuzz Tool: https://github.com/chainreactors/spray
 
 Fast passive URL enumeration Tool: https://github.com/chainreactors/urlfounder
 
-## 为什么我们需要收集URL?
+## 为什么我们需要收集URL? { #为什么我们需要收集url_1 }
 
 这个问题似乎在最基础的安全岗面试中都不太可能出现,但如果要彻底理解dir/file fuzz,我们需要先搞清楚这个问题。
 
@@ -158,4 +158,3 @@ github地址: https://github.com/chainreactors/urlfounder
 因为gogo发布时的介绍文章太过生硬, 因此本文尝试对urlfounder与spray采用问答的方式介绍. 实际上没有完全涵盖它们的能力范围, 特别是spray, 涉及了非常多的功能给用户自行探索, 当然也提供了完整的文档以供参考. 
 
 相信两个新的工具能丰富你信息收集的手段.
-
