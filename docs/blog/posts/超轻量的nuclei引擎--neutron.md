@@ -149,6 +149,7 @@ https://github.com/chainreactors/proton  (demo)
 在过去的两年中, gogo的绝大部分能力提升都来自neutron, fingers 以及对应的templates. 均已经在各自库的文章中进行介绍, 这里不想多水一篇文章, 一次性把gogo自身重要的改动一并介绍.
 
 TL;DR
+
 - 支持更多架构与更多操作系统的自动化编译, 提供了windowsxp的release, 以及android, solaris, freebsd等等操作系统的预编译文件
 - 新增与zombie联动的相关功能
 - `--opsec`参数, 所有已知被设备标记的扫描探针都可以添加这个参数关闭. 以及大量关于opsec的改动

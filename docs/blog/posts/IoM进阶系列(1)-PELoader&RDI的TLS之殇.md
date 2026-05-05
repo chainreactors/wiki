@@ -26,6 +26,7 @@ slug: IoM_advanced_TLS
 - [No-Consolation](https://github.com/fortra/No-Consolation): 不支持静态TLS
 
 ![](assets/Pasted%20image%2020241227161625.png)
+
 - [donut](https://github.com/TheWover/donut), 不支持静态TLS， 也意味着所有基于donut构建的C2也都不支持， 包括sliver, xiebroC2, merlin等等。 (顺带一提, 目前大部分C2的pe loader都基于donut构建， donut是个非常强大的项目)
 - [sRDI](https://github.com/monoxgas/sRDI) 不支持静态TLS
 - [link](https://github.com/postrequest/link), link 实现了自己的sRDI, 但是他也不支持T静态TLS, 不能加载自身。 
@@ -38,7 +39,7 @@ slug: IoM_advanced_TLS
 
 可以使用malefic-mutant 将带有TLS的PE文件转为shellcode， 该shellcode能被任意shellcode loader加载。 
 
-```
+```text
 malefic-mutant build srdi -i malefic.exe
 ```
 ![](assets/Pasted%20image%2020241227174327.png)
@@ -826,6 +827,7 @@ pub type LdrpHandleTlsData = unsafe extern "system" fn(
 ```
 
 因此想要解决我们的问题， 有两条路线摆在我们面前:
+
 1. 尝试调用该函数
 2. 尝试实现该函数
 

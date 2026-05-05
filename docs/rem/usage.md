@@ -466,6 +466,7 @@ server {
 ```
 
 !!! tips "cloudflare默认的代理端口"
+	
 	- 80
 	- 443
 	- 8080
@@ -557,6 +558,7 @@ rem 提供了灵活的构建系统，支持多种构建模式和目标平台。
 ### 构建参数  
   
 #### 基础参数  
+
 - `-m MOD`: 设置默认模式  
 - `-c CONSOLE`: 设置默认控制台地址  
 - `-l LOCAL`: 设置默认本地地址  
@@ -570,6 +572,7 @@ rem 提供了灵活的构建系统，支持多种构建模式和目标平台。
 - `-h, --help`: 显示帮助信息  
   
 #### 构建模式  
+
 - `exe`: 默认可执行文件（使用 gox 进行交叉编译，CGO_ENABLED=0）  
 - `c-shared`: 动态链接库（.dll/.so，CGO_ENABLED=1）  
 - `c-archive`: 静态链接库（.a，CGO_ENABLED=1）  
@@ -577,10 +580,12 @@ rem 提供了灵活的构建系统，支持多种构建模式和目标平台。
 ### 模块配置  
   
 #### 默认模块  
+
 - **应用模块**: `http,raw,socks,portforward`  
 - **传输模块**: `tcp,udp`  
   
 #### 完整模块（--full）  
+
 - **应用模块**: `http,raw,socks,portforward,shadowsocks,trojan`  
 - **传输模块**: `tcp,udp,websocket,unix,icmp,http,memory`  
   

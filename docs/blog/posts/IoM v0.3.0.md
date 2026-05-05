@@ -191,7 +191,7 @@ cargo build -p malefic -F professional,prebuild --release      # professional + 
 - 修复近 **200 个 bug**，测试覆盖大幅提升（transport 32 + session 10 + beacon 11 + runtime 44 + 其他）
 - PE loader IFT 边界检查修复、超大任务分片传输、指数退避重连
 
-> 完整技术变更日志详见 [IoM Changelog](../../IoM/changelog.md)
+> 完整技术变更日志详见 [IoM Changelog](../../IoM/getting-started/changelog.md)
 
 ---
 

@@ -27,13 +27,14 @@
 
 为了达成终极目标，我们的蓝图覆盖了 **Pre-Exploit ↔ Post-Exploit** 全流程，并通过 **AI** 将这些能力整合为智能化作战平台。
 
-目前我们有三条链式反应的链路，分别对应后渗透[IoM](/IoM/)、前渗透/信息收集([mapping](/mapping/))、以及打通两者的流量工具[proxy](/IoM/guideline/proxy/)。这些工具采用统一的DSL设计，让AI能够创造性地组合攻击步骤，并将成功的策略沉淀为可复用的知识资产。
+目前我们有三条链式反应的链路，分别对应后渗透[IoM](/IoM/)、前渗透/信息收集([mapping](/mapping/))、以及打通两者的流量工具[proxy](/IoM/user-guide/advanced/proxy/)。这些工具采用统一的DSL设计，让AI能够创造性地组合攻击步骤，并将成功的策略沉淀为可复用的知识资产。
 
 ### Chain1 IoM (已发布)
 
 IoM(`Internet of Malice`) 是 **AI原生的下一代C2框架**，以高度模块化与可拓展性为核心设计理念。
 
 **AI Native设计**：
+
 - **插件化DSL**：AI可通过DSL精确控制implant行为，动态生成攻击策略
 - **SDK生态**：提供Python/JS/Go SDK，让AI能够编程式调用C2能力
 - **知识沉淀**：每次Post-Exploit执行自动归档为GraphRAG可学习的TTP知识
@@ -43,7 +44,7 @@ IoM(`Internet of Malice`) 是 **AI原生的下一代C2框架**，以高度模块
 !!! important "update v0.0.4"
 	已经发布v0.0.4，实现了约sliver的80%、cs的70%功能，也有非常多sliver与cs都没有的功能
 
-目前提供了IoM的[设计文档](/IoM/design)与[用户手册](/IoM/manual)，可以在[这里](https://github.com/chainreactors/malice-network)体验到IoM的v0.1.0
+目前提供了IoM的[设计文档](/IoM/getting-started/design)与[用户手册](/IoM/getting-started)，可以在[这里](https://github.com/chainreactors/malice-network)体验到IoM的v0.1.0
 
 ### Chain2 mapping
 
@@ -52,6 +53,7 @@ IoM(`Internet of Malice`) 是 **AI原生的下一代C2框架**，以高度模块
 gogo/spray/zombie等工具都是为这个目标设计的Pre-Exploit能力组件。通过极高的拓展性与细粒度实现完全可控的攻击面发现与验证。
 
 **AI Native设计**：
+
 - **DSL驱动**：所有工具支持DSL配置，AI可动态生成扫描策略、指纹规则、爆破字典
 - **三阶图谱**：从资产拓扑→攻击面分析→攻击策略图，AI实时计算Attack Path
 - **知识复用**：成功的DSL自动沉淀到GraphRAG，AI持续优化攻击效率
@@ -65,6 +67,7 @@ rem是 **AI可编程的全场景流量/代理工具**。
 能解决绝大多数场景的代理与转发需求，打通mapping与IoM，让mapping能通过rem+IoM接入内网。rem提供了传输层、应用层、加密层、混淆层的拓展接口，可被轻松修改为自定义特征。
 
 **AI Native设计**：
+
 - **隧道配置DSL**：AI可动态生成代理链路配置，适应复杂网络环境
 - **流量特征定制**：AI根据目标环境自动调整流量混淆策略
 - **Pre-Post桥接**：为AI提供统一的流量中转能力，连接侦察与后渗透阶段
@@ -80,6 +83,7 @@ rem是 **AI可编程的全场景流量/代理工具**。
 现在redboot相关的项目逐渐从玩票性质转为了主业。redboot是 **AI原生的一体化进攻性平台** 的 **理想形态**，我们认为这个计划存在商业化的潜力。
 
 如果您有以下需求，欢迎与我们联系：
+
 - **AI驱动的蓝军基础设施建设**
 - **CTEM平台（ASM + BAS）**
 - **红队作战指挥平台**
@@ -100,6 +104,7 @@ rem是 **AI可编程的全场景流量/代理工具**。
 chainreactor 并非在各个领域重新造轮子，而是以 **工件化视角** 定义下一代工具，并通过 **DSL设计** 让AI能够精确控制这些工具。工具链将作为3个Threads的基本粒子赋能各个细分领域。
 
 **核心设计理念**：
+
 - **DSL优先**：所有工具支持DSL配置，AI可动态生成攻击策略
 - **结构化输出**：统一的JSON输出格式，便于AI解析和学习
 - **知识沉淀**：成功的DSL自动归档到GraphRAG，形成可复用的知识资产
