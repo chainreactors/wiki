@@ -6,7 +6,7 @@
 
 通过重构全流程全场景（ASM、C2、Tunnel等）的 **Offensive Infrastructure**，结合先进的 **AI Agent工程**，打造最强大的 **AI Native Offensive Infrastructure** 和 **AI驱动的作战指挥平台**。
 
-我们以统一的设计风格重构各个细分领域的"**allinone**"工具，实现以人为核心、**AI为引擎**的红队工具链与工程化实践。我们将其命名为 **redboot**，通过达到 **临界质量** 以实现工件之间的 **链式反应**，并通过 **AI持续学习** 形成自我进化循环。
+我们以统一的设计风格重构各个细分领域的" **allinone** "工具，实现以人为核心、**AI为引擎** 的红队工具链与工程化实践。我们将其命名为 **redboot** ，通过达到 **临界质量** 以实现工件之间的 **链式反应** 。
 
 ## 通往AI Native Offensive Infrastructure的三阶段演进
 
@@ -15,13 +15,12 @@
 ```
 第一阶段：Offensive Infrastructure（进攻性基础设施）
          ↓ 构建AI可编程的攻击能力体系
-第二阶段：AI Copilot 自动化平台（L2级）
+第二阶段：AI Native Offensive Infra（L2级）
          ↓ 人类主导决策 + AI辅助执行SOP
-第三阶段：AI Native Offensive Infra（L4级）
+第三阶段：AI Copilot Automated Platform（L3级）
          ↓ AI主导决策与执行的自动化攻击模拟平台
+第四阶段：AI Autonomous Offensive System (L4级)
 ```
-
-**核心理念**：工具不仅为人类设计，更是 **为AI设计** —— 通过DSL让AI精确控制工具行为，通过GraphRAG让AI从每次执行中学习，通过Agent让AI从L2辅助执行演进到L4自主主导。
 
 ## Redboot：AI时代的进攻性基础设施
 
@@ -29,7 +28,7 @@
 
 目前我们有三条链式反应的链路，分别对应后渗透[IoM](/IoM/)、前渗透/信息收集([mapping](/mapping/))、以及打通两者的流量工具[proxy](/IoM/user-guide/advanced/proxy/)。这些工具采用统一的DSL设计，让AI能够创造性地组合攻击步骤，并将成功的策略沉淀为可复用的知识资产。
 
-### Chain1 IoM (已发布)
+### Chain1 IoM 
 
 IoM(`Internet of Malice`) 是 **AI原生的下一代C2框架**，以高度模块化与可拓展性为核心设计理念。
 
@@ -48,19 +47,19 @@ IoM(`Internet of Malice`) 是 **AI原生的下一代C2框架**，以高度模块
 
 ### Chain2 mapping
 
-[mapping](/mapping/) 是 **AI驱动的攻击面管理引擎**。
+[mapping](/mapping/) 是 **AI驱动的持续威胁暴露面管理**。
 
 gogo/spray/zombie等工具都是为这个目标设计的Pre-Exploit能力组件。通过极高的拓展性与细粒度实现完全可控的攻击面发现与验证。
 
 **AI Native设计**：
 
-- **DSL驱动**：所有工具支持DSL配置，AI可动态生成扫描策略、指纹规则、爆破字典
 - **三阶图谱**：从资产拓扑→攻击面分析→攻击策略图，AI实时计算Attack Path
 - **知识复用**：成功的DSL自动沉淀到GraphRAG，AI持续优化攻击效率
+- **工具中立**：本身不提供工具， 而是提供teamserver和数据中台， 可以注册任意的工具并且进行编排。 
 
 目前提供了mapping的[设计文档](/mapping/design)，可以看到mapping作为红队向的协作式攻击面引擎的设计理念。
 
-### Chain3 rem (已发布)
+### Chain3 rem 
 
 rem是 **AI可编程的全场景流量/代理工具**。
 
@@ -76,8 +75,6 @@ rem是 **AI可编程的全场景流量/代理工具**。
 
 ---
 
-*目前这三个thread都已经完成了v0.0.1, 将逐步发布.*
-
 ### 商业化计划
 
 现在redboot相关的项目逐渐从玩票性质转为了主业。redboot是 **AI原生的一体化进攻性平台** 的 **理想形态**，我们认为这个计划存在商业化的潜力。
@@ -92,14 +89,7 @@ rem是 **AI可编程的全场景流量/代理工具**。
 ??? mail
 	m09ician@gmail.com
 
-#### 接受定制化和采购的产品
-
-- **morefingers**：额外包含约50000条指纹规则（与fingers自带的有重复），可无缝接入fingers，支持AI动态生成指纹
-- **[IoM](https://chainreactors.github.io/wiki/IoM/)**：AI原生的下一代C2框架，目前发布了v0.0.4，正在快速开发迭代，支持AI编程式调用
-- **[rem](https://chainreactors.github.io/wiki/rem/)**：AI可编程的全场景流量/代理工具，能实现一切代理/流量侧的需求
-- **AI Agent平台**：基于进攻性基础设施的AI作战指挥平台（开发中）
-
-## ToolChain：AI原生的工件体系
+## ToolChain：原子化工件体系
 
 chainreactor 并非在各个领域重新造轮子，而是以 **工件化视角** 定义下一代工具，并通过 **DSL设计** 让AI能够精确控制这些工具。工具链将作为3个Threads的基本粒子赋能各个细分领域。
 
@@ -111,7 +101,7 @@ chainreactor 并非在各个领域重新造轮子，而是以 **工件化视角*
 
 _没有添加超链接的为暂未公开的项目_
 
-### Artifact：AI可编程的攻击工件
+### Artifact：攻击工件
 
 chainreactor 自研的工具链，每个工具都是AI的"效应器"
 
@@ -124,7 +114,7 @@ chainreactor 自研的工具链，每个工具都是AI的"效应器"
 - found - 基于nuclei-templates的配置化敏感信息收集工具 (WIP)
 - meta-matrix - 云函数化框架，为AI提供分布式执行环境 (Private)
 
-### Lib：AI的知识库与能力库
+### Lib：知识库与能力库
 
 基础设施库，为AI提供可复用的能力组件
 
