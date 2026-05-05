@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>InboundSide · Parameter Matrix</title>
+<link rel="stylesheet" href="_shared.css">
+</head>
+<body>
+<div class="stage" style="height:900px;">
+  <div class="grid"></div><div class="scanline"></div>
+  <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+
+  <div class="header">
+    <div class="tag">// 第一章 · INBOUNDSIDE</div>
+    <h1 class="smaller"><span class="accent">-l / -r</span> 替代 <span style="color:#ff4d6d;">-m proxy/reverse</span></h1>
+    <div class="sub">不再区分正向反向  ·  只声明 serve 开在哪端  ·  节点角色由参数组合决定</div>
+  </div>
+  <div class="meta">
+    <div class="v">6</div>
+    <div class="row"><span class="k">组合</span><span>覆盖全部角色</span></div>
+  </div>
+
+  <div class="dtable" style="top:240px; left:80px; width:1440px;">
+    <div class="thead">
+      <div style="width:380px;">// 参数组合</div>
+      <div style="width:200px;">// 节点角色</div>
+      <div style="flex:1;">// 行为</div>
+    </div>
+    <div class="row">
+      <div class="c" style="width:380px;"><span class="ck">-s</span></div>
+      <div class="c" style="width:200px;"><span class="pill">SERVER</span></div>
+      <div class="c" style="flex:1; color:#a8c0d8;">监听,等待连入</div>
+    </div>
+    <div class="row">
+      <div class="c" style="width:380px;"><span class="ck">-c -l</span> socks5://...</div>
+      <div class="c" style="width:200px;"><span class="pill" style="background:rgba(92,255,122,0.14); color:#5cff7a; border-color:rgba(92,255,122,0.35);">CLIENT · LOCAL</span></div>
+      <div class="c" style="flex:1; color:#a8c0d8;">连接,<span class="em">本端</span>开代理 (socks5 在本机)</div>
+    </div>
+    <div class="row">
+      <div class="c" style="width:380px;"><span class="ck">-c -r</span> socks5://...</div>
+      <div class="c" style="width:200px;"><span class="pill" style="background:rgba(255,43,214,0.14); color:#ff2bd6; border-color:rgba(255,43,214,0.35);">CLIENT · REMOTE</span></div>
+      <div class="c" style="flex:1; color:#a8c0d8;">连接,<span class="em">对端</span>开代理 (socks5 在 server)</div>
+    </div>
+    <div class="row">
+      <div class="c" style="width:380px;"><span class="ck">-c -l</span> ... <span class="ck">-r</span> ...</div>
+      <div class="c" style="width:200px;"><span class="pill" style="background:rgba(160,107,255,0.14); color:#a06bff; border-color:rgba(160,107,255,0.35);">DUAL SERVE</span></div>
+      <div class="c" style="flex:1; color:#a8c0d8;">连接,两端各开一个 serve</div>
+    </div>
+    <div class="row">
+      <div class="c" style="width:380px;"><span class="ck">-c -s</span></div>
+      <div class="c" style="width:200px;"><span class="pill" style="background:rgba(255,181,71,0.14); color:#ffb547; border-color:rgba(255,181,71,0.35);">RELAY</span></div>
+      <div class="c" style="flex:1; color:#a8c0d8;">中继节点 · 上下游流量自动桥接 · <span class="em">wrapper 不解密</span></div>
+    </div>
+    <div class="row">
+      <div class="c" style="width:380px;"><span class="ck">-c -s -l</span> socks5://...</div>
+      <div class="c" style="width:200px;"><span class="pill" style="background:rgba(255,77,109,0.14); color:#ff4d6d; border-color:rgba(255,77,109,0.35);">RELAY + SERVE</span></div>
+      <div class="c" style="flex:1; color:#a8c0d8;">中继 + 本端开代理 · <span class="em">同一节点既转发又出口</span></div>
+    </div>
+  </div>
+
+  <!-- Insight card -->
+  <div class="node cyan" style="top:740px; left:80px; width:1440px; padding:18px 28px;">
+    <div class="label" style="letter-spacing:4px;">// DESIGN INSIGHT</div>
+    <div class="desc" style="margin-top:8px; font-size:15px;">
+      v0.2.x 用 <span style="color:#ff4d6d;">-m proxy/reverse</span> 强迫用户思考 "我是正向还是反向"。
+      v0.3.0 把语义从 <span style="color:#ff4d6d;">方向</span> 换成 <span class="em" style="color:#5cff7a;">位置</span>
+      —— <span style="color:#00e5ff;">-l</span> = 本端 serve · <span style="color:#ff2bd6;">-r</span> = 对端 serve ·
+      <span style="color:#ffb547;">-s</span> = 监听。多跳场景下心智负担清零。
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="left"><span class="blink"></span>方向语义 → 位置语义  //  -l / -r / -s 自由组合  //  角色自动推导</div>
+    <div>chainreactor.io / rem / inbound</div>
+  </div>
+</div>
+</body>
+</html>

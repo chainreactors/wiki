@@ -218,6 +218,7 @@ info:
 因此, 如果template payloads中的字段名不为`username` 与`password` ,则要将其改成正确的值.  
 
     http:
+      
       - raw:
           - |
             GET / HTTP/1.1
@@ -228,6 +229,7 @@ info:
             Content-Type: application/x-www-form-urlencoded
     
             fm_usr={{username}}&fm_pwd={{password}}&token={{token}}
+          
           - |
             GET /?p= HTTP/1.1
             Host: {{Hostname}}
@@ -235,8 +237,10 @@ info:
         attack: pitchfork
         payloads:
           username:
+            
             - admin
           password:
+            
             - admin@123
     	...
 

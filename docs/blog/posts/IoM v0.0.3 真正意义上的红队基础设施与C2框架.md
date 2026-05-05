@@ -27,7 +27,7 @@ v0.0.3 最大的改动就是彻底重构了 implant, 现在的 implant 是一个
 #### 架构
 
 项目链接: https://github.com/chainreactors/malefic
-如果对本文提到的概念感到迷惑, 可以在这里了解前置知识: https://chainreactors.github.io/wiki/IoM/concept/
+如果对本文提到的概念感到迷惑, 可以在这里了解前置知识: /IoM/getting-started/concepts/
 **主体结构:**
 
 - malefic 主程序, 包含了 beacon/bind 两种模式的完整功能
@@ -398,7 +398,7 @@ end
 
 向着成为 **开放的红队基础设施**的目标迈进.
 
-详细的路线图可参阅: https://chainreactors.github.io/wiki/IoM/roadmap/
+详细的路线图可参阅: /IoM/getting-started/roadmap/
 
 **本次更新内容多到没办法通过一个更新日志进行描述, 后续还会有一系列文档对 IoM 的方方面面进行系统介绍.**
 

@@ -8,7 +8,7 @@ slug: IoM_v0.0.4
 
 IoM通过几个月的快速迭代, 已经具备了一个现代化C2的绝大部分功能. 
 
-v0.0.4将是v0.1.0之前的最后一个版本， 可以在这里看到我们v0.1.0的路线图: https://chainreactors.github.io/wiki/IoM/roadmap/#v010-professional-release
+v0.0.4将是v0.1.0之前的最后一个版本， 可以在这里看到我们v0.1.0的路线图: /IoM/getting-started/roadmap/#v010-professional-release
 
 <!-- more -->
 
@@ -148,7 +148,7 @@ allinone 镜像: ghcr.io/chainreactors/malefic-builder:v0.0.4
 * srdi, 能调用malefic-mutant中支持的srdi将二进制程序转为shellcode
 * .....
 
-详细文档可以查阅: https://chainreactors.github.io/wiki/IoM/manual/mal/builtin/#artifact 
+详细文档可以查阅: /IoM/reference/lua-api/builtin/#artifact 
 
 #### donut
 

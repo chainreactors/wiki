@@ -1,0 +1,948 @@
+---
+title: Win-Kit
+description: 当用户需要调用 PE/Shellcode 等多种格式时，Implant 提供了基于 Process Hollowing 的功能来伪装调用行为。
+edition: community
+generated: false
+source: imp:getting-started/components/win-kit.md
+---
+
+## Process
+
+### Process hollow
+
+当用户需要调用 `PE/Shellcode` 等多种格式时，`Implant` 提供了基于 `Process Hollowing` 的功能来伪装调用行为。
+
+`Process Hollow` 的核心思想为创建一个合法进程， 随后镂空其原本内存， 写入我们所需要执行的代码， 从而伪装成合法进程执行活动
+
+### Sacrifice Process
+
+尽管 `Fork&Run` 技术已不再是主流的操作安全（OPSEC）选择，但某些场景下仍不可避免。为统一概念，我们将所有需生成新进程的操作定义为生成一个 **牺牲进程** ，涵盖以下所有相关功能。
+
+#### **默认行为**
+
+- 所有牺牲进程均以 `SUSPEND` 和 `NO_WINDOW` 参数启动。
+- 主线程在后续处理完成后再唤醒。
+- 允许在暂停状态下进行多种自定义操作。
+
+#### **支持的功能**
+
+以下功能默认使用牺牲进程：
+
+- `execute`
+- `execute_exe`
+- `execute_dll`
+- `execute_local`
+- `execute_shellcode`
+
+此外，还提供了更高操作安全性的内联版本：
+
+- `inline_pe`
+- `inline_shellcode`
+- inline_assembly 为了同步
+
+接下来我们将以 `execute_exe` 功能来举例说明
+
+```bash
+# 命令示例
+execute_exe gogo.exe -- -i 127.0.0.1
+```
+
+上述命令表示以默认`牺牲进程` (`notepad.exe`) 执行 `gogo.exe`, 参数为 `-i 127.0.0.1`
+
+当然， 由于原本意义上的 `Fork&Run` 耗能非常巨大且笨重， 如果确实需要也可以考虑后期添加
+
+### Alternate Parent Processes
+
+所有上述支持 `牺牲进程` 的功能均可以自定义 `牺牲进程` 的 `ppid`, 只需在调用命令时添加 `-p` 参数即可
+
+可以使用 `ps` 命令获取当前所有进程的快照内容
+
+```bash
+# 命令示例
+execute_shellcode -p 8888 -n "notepad.exe" ./loader.bin
+```
+
+上述命令表示以`notepad.exe` 作为牺牲进程执行 `loader.bin` ， 并进行父进程欺骗， 将 `ppid` 设为 `8888`
+
+### Spoof Process Arguments
+
+由于所有的牺牲进程都会以 `SUSPEND` 参数启动， 因此在执行命令时， 我们可以对从启动到真正执行时的参数进行替换， 即在创建牺牲进程时以伪装的命令创建， 而在牺牲进程执行时以真实命令运行， 我们为所有的带有牺牲进程的功能都提供了该参数
+
+真实参数将被写入保存进虚假参数的内存中， 因此， 如果真实参数比伪装参数长， 该功能将不会启用
+
+### Blocking DLLs
+
+使用 `blockdlls start` 命令来使得以后启动的所有牺牲进程均需要验证将要加载的 `DLL` 的签名， 非微软签名的 `DLL` 将会被禁止加载于我们的 `牺牲进程中`, 使用 `blockdlls stop` 命令来结束这一行为
+
+该功能需要在 `Windows 10` 及以上系统中使用
+
+### AMSI & ETW & WLDP
+
+在终端攻防漫长的对抗中， `AMSI` 及 `ETW` 的推出可谓是一石激起千层浪， 但当大家都位于 `r3` 时， 通过一些手法即可轻松绕过这些检测， 我们也在该版本中推出了基础 `bypass` 功能
+
+目前常见的绕过技术大概分为四类， 直接 `patch`, `hook`， 修改 `IAT`以及通过 `VEH`来进行绕过
+
+在基础版本中， 我们选用了 `hook` 技术来为程序进行这类检测的绕过
+
+使用 `bypass` 命令来开启绕过 `AMSI` 及 `ETW` 检测,
+```bash
+#使用示例
+bypass
+```
+
+当然, 在某些功能使用时我们也会默认开启 `bypass` ， 例如
+
+- execute_assemble
+- powerpick
+
+由于 `ETW` 突然没有任何消息很突兀且明显， 因此在执行结束后， 我们还会将其复原
+
+也因为这个原因， 我们并不推荐直接粗鲁的进行 `bypass` 功能， 或使用某些不在执行后修复的 `PE2SHELLCODE` 软件， 以免发生意外
+
+## Fileless Loader
+### Inline PE
+
+某些极端情况下， 用户可能有在本进程执行 `PE` 文件的需求， 因此我们通过 `memory load pe` 技术以支持用户在 `Implant` 中执行 `PE` 文件, 我们将默认捕获 `PE` 文件的标准输出
+
+您可以使用 `inline_exe` / `inline_dll` 进行调用
+
+请注意， 由于各工具实现良莠不齐， 因此您所要使用的工具可能会伴随各种泄漏问题
+
+因此， 使用该功能时建议加上超时时间以防止您丢失自己的连接， 并且需要您自行评估 `inline` 执行的 `PE/DLL` 是否会伴随有内存问题
+
+> 请注意，以`EXE` 形式正常执行并结束的工具并不代表其在编写时完美关闭所有其持有的句柄或完美释放内存， 由于在 `inline` 场景下， 我们可能会丧失对于工具本身内存/句柄的监控能力（也许在不远的将来会有所有内存分配/句柄持有的监控）， 因此使用时请着重小心 :)
+
+由于我们提供了 `BOF` 执行的功能， 因此我更推荐您使用上位代替， 即使用 `bof` 功能进行拓展功能的调用:)
+
+```bash
+# 命令示例
+inline_exe gogo.exe -t 10 -- -i 127.0.0.1
+```
+
+上述命令表示以内联形式在 `implant` 本体中执行 `gogo.exe`, 超时时间为 `10s`， 参数为 `-i 127.0.0.1`
+
+
+### Shellcode
+
+常见的 `Shellcode` 为一段用于执行的短小精悍的代码段，其以体积小，可操作性大的方式广为使用， 因此
+
+`Implant` 支持动态加载 `shellcode`, 并可选择在自身进程还是牺牲进程中调用
+
+请注意，由于 `Implant` 无法分辨的 `shellcode` 是哪个架构的， 请在使用该功能时，如果不确定架构和其稳定性， 最好使用 `牺牲进程` 来进行调用， 而非在本体中进行， 以免由于误操作失去连接, 关于牺牲进程， 您可以参照 `Sacrifice Process` 这一小节的内容
+
+目前开源版本中使用的方式基于 `APC`, 当然， `Pool party` 正在路上
+
+```bash
+# 使用牺牲进程
+execute_shellcode xxx.bin
+
+# inline 执行
+inline_shellcode xxx.bin
+```
+
+### .NET CRL
+
+对于前几年的从事安全工作的从业人员来说, 在 `Windows` 系统上使用 `C#` 编写工具程序十分流行，各类检测及反制手段如 `AMSI` 还未添加进安全框架中, 因此市面上留存了大量由 C#编写并用于安全测试的各类利用和工具程序集。
+
+`C#` 程序可以在 `Windows` 的 `.Net` 框架中运行,而 `.Net` 框架也是现代 `Windows` 系统中不可或缺的一部分。其中包含一个被称为 `Common Language Runtime(CLR)` 的运行时,`Windows` 为此提供了大量的接口,以便开发者操作 `系统API`。
+
+因此， `Implant` 支持在内存中加载并调用 `.Net` 程序,并可选择是否需要获取标准输出。
+
+在 `inline` 执行 `.Net` 程序集时， 我们将会在 `implant` 进程中引入 `.Net` 环境， 在内存中加载并执行您的 `.Net` 程序集
+
+我们将会默认为您绕过 `AMSI`, `WDLP` 以及 `ETW` 的检测
+
+```bash
+# 使用示例
+execute_assemble Seatbelt.exe -- AMSIProviders
+```
+
+上述命令为内存中执行 `Seatbelt.exe` .Net程序， 参数为`AMSIProviders`
+
+### Unmanaged Powershell
+
+在红队的工作需求中， 命令执行为一个非常核心的功能， 而现代的 `Powershell` 就是一个在 `Windows` 中及其重要且常用的脚本解释器， 有很多功能强大的 Powershell 脚本可以支持红队人员在目标系统上的工作
+
+因此，针对直接调用 `Powershell.exe` 来执行 `powershell` 命令的检测层出不穷，为避免针对此类的安全检查
+
+`Implant` 支持在不依赖系统自身 `Powershell.exe ` 程序的情况下执行 `Powershell cmdlet` 命令, 具体可参照 `Post Exploitation` 章节中 `Running Commands` 小节的内容,进一步了解相关功能的使用方法。
+
+- 使用 `powershell` 命令来唤起 `powershell.exe` 以执行 `powershll` 命令
+- 使用 `powerpick` 命令来摆脱 `powershell.exe` 执行 `powershell` 命令
+- 使用 `powershell_import` 命令来向 `Implant` 导入 `powershell script`， 系统将在内存中保存该脚本， 以再后续使用时直接调用该脚本的内容
+
+```bash
+# 使用示例
+powerpick --script powerview.ps1 -- "Get-NetProcess"
+```
+即使用 `unmanaged powershell` 执行 `powerview.ps1` 脚本中的 `Get-NetProcess` 命令
+
+
+### BOF
+
+常见的， 一个 C 语言源程序被编译成目标程序由四个阶段组成， 即（预处理， 编译， 汇编， 链接）
+
+而我们的 `Beacon Object File(BOF) ` 是代码在经过前三个阶段（预处理， 编译， 汇编）后，未链接产生的 `Obj` 文件（通常被称为可重定位目标文件）
+
+该类型文件由于未进行链接操作， 因此一般体积较小， 较常见 `DLL/EXE` 这类可执行程序更易于传输，被广泛利用于知名 C2 工具 Cobalt Strike(后称 CS)中， 不少红队开发人员为其模块编写了 BOF 版本， 因此 `Implant` 对该功能进行了适配工作， `Implant` 支持大部分 CS 提供的内部 API, 以减少各使用人员的使用及适配成本
+
+请注意， 由于我们的 `BOF` 功能与 `CS` 类似，执行于本进程中， 因此在使用该功能时请确保使用的 `BOF` 文件可以正确执行， 否则将丢失当前连接
+
+```bash
+# 使用示例
+bof dir.x64.o "str:C:\\Program Files"
+```
+
+即使用 `bof` 功能加载执行 `dir.x64.o`， 参数为 `str:C:\\Program Files`
+您可选的参数模式有:
+
+- wstr: 以null结尾的宽字符串
+- str:  以null结尾的字符串
+- int:  4字节长度整形
+- short: 2 字节长度短整形
+- bin: 以base64编码后的bytes数组
+
+
+
+## OPSEC
+
+### malefic-evader 规避模块
+
+规避相关功能已拆分为独立 crate `malefic-evader`（位于 `malefic-crates/evader`），提供以下运行时规避技术：
+
+- anti_emu — 反模拟器检测
+- god_speed — 加速沙箱时间
+- api_untangle — API 解缠绕
+- etw_pass — ETW 绕过
+- cfg_patch — CFG 补丁
+- normal_api — 正常 API 调用恢复
+- sleep_encrypt — Sleep 加密（堆加密）
+- anti_forensic — 反取证
+
+详细的规避技术文档请参考 starship 规避模块文档 (Pro)。
+
+关于 Sleep 混淆（RWX + Heap加密、Timer/Wait/Foliage 策略、HypnusHeap 分配器）的详细说明，请参考 Sleep Obfuscation 文档 (Pro)。
+
+### Syscall
+
+虽然是老生常态的技术， 但作为基建设计的框架怎么会少的了它呢 :)
+
+在 `Syscall` 漫长的发展过程中， 出现了多种门技术， 在权衡了多个技术后
+
+我们最终选用通过地址排序计算 `Syscall Num` 并辅以随机 `Syscall` 地址作为我们默认的 `syscall` 调用
+
+但实际上为了规避调用检测， 最好用的还是动态获取 + 堆栈混淆 （目前默认采用）
+当然， 这里的动态获取函数的唯一目的就是减少导入表特征 :)
+
+### THREAD TACK SPOOFING
+
+在漫长的攻防旅程中， 堆栈劫持是一个非常精美的点子， 精美到让我完全放弃使用 `syscall` 来进行底层 `API` 的构建
+
+该技术的核心思想在于， 程序在创建每一个函数栈帧时， 都会将其返回地址压入栈中， 从在函数上下文结束后返回到正确的位置， 而这样也可以方便的进行 `unwind`， 即调用堆栈的分析和检测， 因此， 如果我们在调用点处替换返回地址为我们提前预设好的返回地址， 并相对应的创建假的栈帧， 那么在真正调用时， 在 `trace stack` 时， 我们的栈帧就是非常干净非常完美的
+
+我们将所有底层 `API` 都进行了默认的堆栈混淆， 通过伪造栈帧来达到所有调用点均是来自于某个随机的系统函数， 而非在某个私有内存中 :)
+
+并且由于我们 `implant` 本体本身会有很多合法的函数调用行为， 辅以 `kit` 中各类功能模块干净的栈帧，我们的行为就会更趋近于合法程序
+
+当然， 由于 `CET` 的出现， 这项技术的检测也有了解法， 但攻防的长河总是漫漫
+
+
+## 开发手册/SDK
+
+### 混淆体系参考
+
+malefic 提供了完整的编译期混淆体系，详细文档请参考：
+
+- malefic-macro 过程宏引擎 (Pro) — 字面量混淆、控制流混淆、垃圾代码注入、结构体加密、文件嵌入
+- malefic-obfuscate 混淆运行时 (Pro) — 宏重导出、运行时解密、安全容器、内存保护、易失性清零
+
+### BOF 开发
+
+为减少使用人员的开发成本， 本 `Implant` 的 `BOF` 开发标准与 `CS` 工具相同，可参照 `CS` 的开发模版进行开发，
+
+其模版如下， 链接为 [https://github.com/Cobalt-Strike/bof_template/blob/main/beacon.h](https://github.com/Cobalt-Strike/bof_template/blob/main/beacon.h)
+
+```c
+/*
+ * Beacon Object Files (BOF)
+ * -------------------------
+ * A Beacon Object File is a light-weight post exploitation tool that runs
+ * with Beacon's inline-execute command.
+ *
+ * Additional BOF resources are available here:
+ *   - https://github.com/Cobalt-Strike/bof_template
+ *
+ * Cobalt Strike 4.x
+ * ChangeLog:
+ *    1/25/2022: updated for 4.5
+ *    7/18/2023: Added BeaconInformation API for 4.9
+ *    7/31/2023: Added Key/Value store APIs for 4.9
+ *                  BeaconAddValue, BeaconGetValue, and BeaconRemoveValue
+ *    8/31/2023: Added Data store APIs for 4.9
+ *                  BeaconDataStoreGetItem, BeaconDataStoreProtectItem,
+ *                  BeaconDataStoreUnprotectItem, and BeaconDataStoreMaxEntries
+ *    9/01/2023: Added BeaconGetCustomUserData API for 4.9
+ */
+
+/* data API */
+typedef struct {
+        char * original; /* the original buffer [so we can free it] */
+        char * buffer;   /* current pointer into our buffer */
+        int    length;   /* remaining length of data */
+        int    size;     /* total size of this buffer */
+} datap;
+
+DECLSPEC_IMPORT void    BeaconDataParse(datap * parser, char * buffer, int size);
+DECLSPEC_IMPORT char *  BeaconDataPtr(datap * parser, int size);
+DECLSPEC_IMPORT int     BeaconDataInt(datap * parser);
+DECLSPEC_IMPORT short   BeaconDataShort(datap * parser);
+DECLSPEC_IMPORT int     BeaconDataLength(datap * parser);
+DECLSPEC_IMPORT char *  BeaconDataExtract(datap * parser, int * size);
+
+/* format API */
+typedef struct {
+        char * original; /* the original buffer [so we can free it] */
+        char * buffer;   /* current pointer into our buffer */
+        int    length;   /* remaining length of data */
+        int    size;     /* total size of this buffer */
+} formatp;
+
+DECLSPEC_IMPORT void    BeaconFormatAlloc(formatp * format, int maxsz);
+DECLSPEC_IMPORT void    BeaconFormatReset(formatp * format);
+DECLSPEC_IMPORT void    BeaconFormatAppend(formatp * format, char * text, int len);
+DECLSPEC_IMPORT void    BeaconFormatPrintf(formatp * format, char * fmt, ...);
+DECLSPEC_IMPORT char *  BeaconFormatToString(formatp * format, int * size);
+DECLSPEC_IMPORT void    BeaconFormatFree(formatp * format);
+DECLSPEC_IMPORT void    BeaconFormatInt(formatp * format, int value);
+
+/* Output Functions */
+#define CALLBACK_OUTPUT      0x0
+#define CALLBACK_OUTPUT_OEM  0x1e
+#define CALLBACK_OUTPUT_UTF8 0x20
+#define CALLBACK_ERROR       0x0d
+
+DECLSPEC_IMPORT void   BeaconOutput(int type, char * data, int len);
+DECLSPEC_IMPORT void   BeaconPrintf(int type, char * fmt, ...);
+
+
+/* Token Functions */
+DECLSPEC_IMPORT BOOL   BeaconUseToken(HANDLE token);
+DECLSPEC_IMPORT void   BeaconRevertToken();
+DECLSPEC_IMPORT BOOL   BeaconIsAdmin();
+
+/* Spawn+Inject Functions */
+DECLSPEC_IMPORT void   BeaconGetSpawnTo(BOOL x86, char * buffer, int length);
+DECLSPEC_IMPORT void   BeaconInjectProcess(HANDLE hProc, int pid, char * payload, int p_len, int p_offset, char * arg, int a_len);
+DECLSPEC_IMPORT void   BeaconInjectTemporaryProcess(PROCESS_INFORMATION * pInfo, char * payload, int p_len, int p_offset, char * arg, int a_len);
+DECLSPEC_IMPORT BOOL   BeaconSpawnTemporaryProcess(BOOL x86, BOOL ignoreToken, STARTUPINFO * si, PROCESS_INFORMATION * pInfo);
+DECLSPEC_IMPORT void   BeaconCleanupProcess(PROCESS_INFORMATION * pInfo);
+
+/* Utility Functions */
+DECLSPEC_IMPORT BOOL   toWideChar(char * src, wchar_t * dst, int max);
+
+/* Beacon Information */
+/*
+ *  ptr  - pointer to the base address of the allocated memory.
+ *  size - the number of bytes allocated for the ptr.
+ */
+typedef struct {
+        char * ptr;
+        size_t size;
+} HEAP_RECORD;
+#define MASK_SIZE 13
+
+/*
+ *  sleep_mask_ptr        - pointer to the sleep mask base address
+ *  sleep_mask_text_size  - the sleep mask text section size
+ *  sleep_mask_total_size - the sleep mask total memory size
+ *
+ *  beacon_ptr   - pointer to beacon's base address
+ *                 The stage.obfuscate flag affects this value when using CS default loader.
+ *                    true:  beacon_ptr = allocated_buffer - 0x1000 (Not a valid address)
+ *                    false: beacon_ptr = allocated_buffer (A valid address)
+ *                 For a UDRL the beacon_ptr will be set to the 1st argument to DllMain
+ *                 when the 2nd argument is set to DLL_PROCESS_ATTACH.
+ *  sections     - list of memory sections beacon wants to mask. These are offset values
+ *                 from the beacon_ptr and the start value is aligned on 0x1000 boundary.
+ *                 A section is denoted by a pair indicating the start and end offset values.
+ *                 The list is terminated by the start and end offset values of 0 and 0.
+ *  heap_records - list of memory addresses on the heap beacon wants to mask.
+ *                 The list is terminated by the HEAP_RECORD.ptr set to NULL.
+ *  mask         - the mask that beacon randomly generated to apply
+ */
+typedef struct {
+        char  * sleep_mask_ptr;
+        DWORD   sleep_mask_text_size;
+        DWORD   sleep_mask_total_size;
+
+        char  * beacon_ptr;
+        DWORD * sections;
+        HEAP_RECORD * heap_records;
+        char    mask[MASK_SIZE];
+} BEACON_INFO;
+
+DECLSPEC_IMPORT void   BeaconInformation(BEACON_INFO * info);
+
+/* Key/Value store functions
+ *    These functions are used to associate a key to a memory address and save
+ *    that information into beacon.  These memory addresses can then be
+ *    retrieved in a subsequent execution of a BOF.
+ *
+ *    key - the key will be converted to a hash which is used to locate the
+ *          memory address.
+ *
+ *    ptr - a memory address to save.
+ *
+ * Considerations:
+ *    - The contents at the memory address is not masked by beacon.
+ *    - The contents at the memory address is not released by beacon.
+ *
+ */
+DECLSPEC_IMPORT BOOL BeaconAddValue(const char * key, void * ptr);
+DECLSPEC_IMPORT void * BeaconGetValue(const char * key);
+DECLSPEC_IMPORT BOOL BeaconRemoveValue(const char * key);
+
+/* Beacon Data Store functions
+ *    These functions are used to access items in Beacon's Data Store.
+ *    BeaconDataStoreGetItem returns NULL if the index does not exist.
+ *
+ *    The contents are masked by default, and BOFs must unprotect the entry
+ *    before accessing the data buffer. BOFs must also protect the entry
+ *    after the data is not used anymore.
+ *
+ */
+
+#define DATA_STORE_TYPE_EMPTY 0
+#define DATA_STORE_TYPE_GENERAL_FILE 1
+
+typedef struct {
+        int type;
+        DWORD64 hash;
+        BOOL masked;
+        char* buffer;
+        size_t length;
+} DATA_STORE_OBJECT, *PDATA_STORE_OBJECT;
+
+DECLSPEC_IMPORT PDATA_STORE_OBJECT BeaconDataStoreGetItem(size_t index);
+DECLSPEC_IMPORT void BeaconDataStoreProtectItem(size_t index);
+DECLSPEC_IMPORT void BeaconDataStoreUnprotectItem(size_t index);
+DECLSPEC_IMPORT size_t BeaconDataStoreMaxEntries();
+
+/* Beacon User Data functions */
+DECLSPEC_IMPORT char * BeaconGetCustomUserData();
+```
+
+为避免的 `BOF` 程序由于调用了本 `Implant` 未适配的函数导致丢失连接， 请注意本 `Implant` 现支持使用的函数列表如下:
+
+```c
+// Data API
+BeaconDataParse
+BeaconDataPtr
+BeaconDataInt
+BeaconDataShort
+BeaconDataLength
+BeaconDataExtract
+
+// Format API
+BeaconFormatAlloc
+BeaconFormatReset
+BeaconFormatAppend
+BeaconFormatPrintf
+BeaconFormatToString
+BeaconFormatFree
+BeaconFormatInt
+
+// Output Functions
+BeaconOutput
+BeaconPrintf
+
+// Token Functions
+BeaconUseToken
+BeaconRevertToken
+BeaconIsAdmin
+
+// Spawn+Inject Functions
+BeaconGetSpawnTo
+BeaconInjectProcess
+BeaconInjectTemporaryProcess
+BeaconSpawnTemporaryProcess
+BeaconCleanupProcess
+
+// Beacon Information
+BeaconInformation
+
+// Key/Value Store
+BeaconAddValue
+BeaconGetValue
+BeaconRemoveValue
+
+// Data Store
+BeaconDataStoreGetItem
+BeaconDataStoreProtectItem
+BeaconDataStoreUnprotectItem
+BeaconDataStoreMaxEntries
+
+// User Data
+BeaconGetCustomUserData
+
+// Utility Functions
+toWideChar
+
+// Windows API (动态解析)
+LoadLibraryA
+GetProcAddress
+FreeLibrary
+GetModuleHandleA
+```
+
+!!! danger
+    请在编写 `BOF` 时请在本地进行充分测试, BOF导致的panic会导致进程退出
+
+### BeaconGate
+
+!!! warning "商业版专属"
+    非商业版本只允许使用预定义预编译的功能， 但是无法深度定制细节。
+
+`malefic-win-kit`  中用到的 `系统api` 都经过了win-kit的BeaconGate底座重载， 并提供了多种方式对外暴露。包括：
+
+- native syscall
+- dynamic syscall
+- indirect syscall
+- stask spoofer
+
+可以简单理解为我们为 `windows` 原生 `api` 写了大量的 `wrapper`， 调用都是通过 `wrapper` 来实现的。
+
+#### 类型声明/函数定义
+
+windows系统中有大量预定义的常量，我们需要在rust中定义C语言兼容的常量。我们提供了一组rust 宏实现相关常量/枚举值/结构体的定义。
+
+代码仓库中有一个 `types` 的 `crate`, 因此声明部分由此而来, 我们可以简要将类型分为几种， 由于 `rust` 语言的特性， 提供了多个的宏实现 `rust` 与 `c` 的等价声明。
+
+##### 结构体
+
+```rust
+STRUCT!{struct IMAGE_TLS_DIRECTORY32 {
+    StartAddressOfRawData: u32,
+    EndAddressOfRawData: u32,
+    AddressOfIndex: u32,
+    AddressOfCallBacks: u32,
+    SizeOfZeroFill: u32,
+    Characteristics: u32,
+}}
+```
+
+其中， 由于 `rust` 并不支持例如 `c` 类语言按位数分成员的功能， 因此需要另一个特殊的宏 `BITFIELD!` 来辅助完成这个目的:
+
+```rust
+BITFIELD!{
+    IMAGE_TLS_DIRECTORY64 Characteristics: u32 [
+        Reserved0 set_Reserved0[0..20],
+        Alignment set_Alignment[20..24],
+        Reserved1 set_Reserved1[24..32],
+    ]
+}
+```
+
+##### 枚举
+
+```rust
+ENUM!{
+    enum LDR_DDAG_STATE {
+    LdrModulesMerged = -5i32 as u32,
+    LdrModulesInitError = -4i32 as u32,
+    LdrModulesSnapError = -3i32 as u32,
+    LdrModulesUnloaded = -2i32 as u32,
+    LdrModulesUnloading = -1i32 as u32,
+    LdrModulesPlaceHolder = 0,
+    LdrModulesMapping = 1,
+    LdrModulesMapped = 2,
+    LdrModulesWaitingForDependencies = 3,
+    LdrModulesSnapping = 4,
+    LdrModulesSnapped = 5,
+    LdrModulesCondensed = 6,
+    LdrModulesReadyToInit = 7,
+    LdrModulesInitializing = 8,
+    LdrModulesReadyToRun = 9,
+    }
+}
+
+```
+
+##### 联合体
+
+```rust
+UNION2!{
+    union LDR_DDAG_NODE_u {
+        Dependencies: LDRP_CSLIST,
+        RemovalLink: SINGLE_LIST_ENTRY,
+    }
+}
+
+```
+
+
+##### 函数
+
+而函数就简单的多了， 与 `rust` 语法无异，例如:
+
+```rust
+pub type DllMain = unsafe extern "system" fn(
+    *mut core::ffi::c_void,
+    u32,
+    *mut core::ffi::c_void
+) -> i32;
+```
+
+####  `MALEFIC` 函数封装
+
+在声明了我们所需的内容后， 接下来就要进行底层 `API` 的包装（wrapper）了。
+
+此时我们将目光移向 `apis` 这一 `crate`
+
+为便于代码编写， 我们也提供了大量的宏来减少工作量
+
+为了达成添加一个新 `api` 的目的， 我们需要在三个地方添加代码
+
+* DynamicApis
+* RashoGateApis (indirect syscall现在被EDR严格查杀， 不推荐)
+* Core/**
+
+**以引入 `NtFreeVirtualMemory` 为例**
+
+##### 引入原始API
+
+
+??? tip "添加RashoGateApis(已经不推荐)"
+    如果需要使用 `syscall`， 则需要在 `RashoGateApis` 处添加， 添加方式也很简单:
+
+    ```rust
+    create_syscall_function!(ZW_CLOSE_VX, "ZwClose");
+    ```
+
+    前面为全局指针名， 后面为添加的函数名
+
+添加`DynamicApis` ，由于所需的 `api` 可能位于多个 `dll` 中， 因此需要区分在哪个 `dll` 中， 方式如下:
+
+```rust
+// ntdll
+create_nt_function!(NT_FREE_VIRTUAL_MEMORY, NtFreeVirtualMemory, "NtFreeVirtualMemory");
+
+// kernel32
+create_k32_function!(TLS_ALLOC, TlsAlloc, "TlsAlloc");
+
+// advapi32
+create_advapi32_function!(REG_OPEN_KEY_EX_A, RegOpenKeyExA, "RegOpenKeyExA");
+```
+
+第一个同样为全局指针名， 第二个为我们之前在 `types` 中添加的函数签名， 第三个为原始函数名
+
+##### 创建Wrapper
+
+完成到这一步， 意味着我们已经将所需的 `api` 成功引入到底层系统了， 下面只需要添加一个 `wrapper` 即可，
+
+我们的 `wrapper` 位于 `apis/Core/**` 中， 下面为如何定义进行说明:
+
+
+??? tip "normal 和 syscall feature"
+    对于当前EDR对抗来说， 已经较少用到 `NORMAL` 以及 `SYSCALL` 这两个 `feature` 的，但我们还是保留了相关的写法。
+
+    ```
+    FUNC! {
+        fn MNtFreeVirtualMemory(handle: *const core::ffi::c_void,
+                                ptr: *mut *mut core::ffi::c_void,
+                                size: *mut usize) -> i32 {
+            #[cfg(feature = "NORMAL")]
+            {
+                return windows_sys::Wdk::Storage::FileSystem::NtFreeVirtualMemory(
+                    handle as _,
+                    ptr,
+                    size,
+                    windows_sys::Win32::System::Memory::MEM_RELEASE
+                );
+            }
+            #[cfg(feature = "DYNAMIC")]
+            #[cfg(not(feature = "SYSCALLS"))]
+            {
+                match crate::apis::DynamicApis::NT_FREE_VIRTUAL_MEMORY.as_ref() {
+                    Some(nfvm) => {
+                        #[cfg(all(feature = "StackSpoofer", target_arch = "x86_64"))]
+                        {
+                            return crate::call_spoofed_function!(
+                                *nfvm,
+                                handle,
+                                ptr,
+                                size,
+                                MEM_RELEASE
+                            ) as i32;
+                        }
+                        #[cfg(any(target_arch = "x86", not(feature = "StackSpoofer")))]
+                        {
+                            return nfvm(handle as _, ptr, size, MEM_RELEASE);
+                        }
+                    },
+                    None => {
+                        MAIEFIC_NT_FAILED_CODE
+                    }
+                }
+            }
+            #[cfg(feature = "SYSCALLS")]
+            {
+                match crate::apis::RashoGateApis::
+                    ZW_FREE_VIRTUAL_MEMORY_VX.as_ref() {
+                    Some(vx) => {
+                        crate::rashoCall!(
+                            vx, handle, ptr, 0, size, MEM_RELEASE) as i32
+                    },
+                    None => {
+                        MAIEFIC_NT_FAILED_CODE
+                    }
+                }
+            }
+         }
+    }
+    ```
+
+`NORMAL` 意味着使用系统原本的 `API`， 而 `SYSCALL` 非常拙劣且十分有限， 不建议使用
+
+现在我们将 `DYNAMIC` 写法摘出来进行进一步解释:
+
+```rust
+    fn MNtFreeVirtualMemory(
+        handle: *const core::ffi::c_void,
+        ptr: *mut *mut core::ffi::c_void,
+        size: *mut usize
+    ) -> i32 {
+        // 使用 DYNAMIC且没使用SYSCALL时
+        #[cfg(feature = "DYNAMIC")]
+        #[cfg(not(feature = "SYSCALLS"))]
+        {
+            // 首先获取我们的全局指针
+            match crate::apis::DynamicApis::NT_FREE_VIRTUAL_MEMORY.as_ref() {
+                Some(nfvm) => {
+                    // 如果开启了堆栈混淆且为64位程序时
+                    #[cfg(all(feature = "StackSpoofer", target_arch = "x86_64"))]
+                    {
+                        // 通过堆栈混淆进行调用
+                        return crate::call_spoofed_function!(
+                            *nfvm, // 函数地址
+                            handle,
+                            ptr,
+                            size,
+                            MEM_RELEASE
+                        ) as i32;
+                    }
+                    // 未开堆栈混淆或32位时， 使用动态api调用
+                    #[cfg(any(target_arch = "x86", not(feature = "StackSpoofer")))]
+                    {
+                        return nfvm(handle as _, ptr, size, MEM_RELEASE);
+                    }
+                },
+                None => {
+                    MAIEFIC_NT_FAILED_CODE
+                }
+            }
+        }
+    }
+```
+
+
+#### 添加到BOF中
+
+现在我们有了我们新增加的 `MFunc` 了， 接下来要做的事情就简单很多了， 我们只需关注一个文件即可:
+
+* bof/beacon_apis
+
+接下来我们只需在 `INTERNEL_FUNCS` 这一全局变量中增加我们的 `api` 即可， 如
+
+```rust
+m.insert(obfstr!("NtFreeVirtualMemory").to_string(), NtFreeVirtualMemory as usize);
+```
+
+enjoy it :)
+
+#### 在其他地方使用 `MALEFIC` 函数
+
+##### 源码编译使用
+
+如果想在例如 `malefic-helper` 中使用我们的 `MaleficApi`， 只需将使用系统 `api` 替换为 `M*` 即可
+
+##### 导出使用
+
+而如果需要导出到 `DLL` 中， 则需要进一步转化为 `FFI` 接口， 我们还是以 `NtFreeVirtualMemory` 函数举例:
+
+在 `winkit` 中 `ffi/mod.rs` 中创建 `ffi` 函数:
+
+```rust
+#[no_mangle]
+pub unsafe extern "C" fn MNtFreeVirtualMemory(
+        handle: *const core::ffi::c_void,
+        ptr: *mut *mut core::ffi::c_void,
+        size: *mut usize
+    ) -> i32 {
+        crate::apis::xxxx::MNtFreeVirtualMemory(handle, ptr, size) // xxxx:: 为crate位置
+}
+```
+
+并在 `helper` 的接口文件 `malefic-helper\src\win\kit\mod.rs` 中引入声明:
+
+```rust
+
+#[cfg(target_os = "windows")]
+#[cfg(feature = "prebuild")]
+#[link(name = "malefic_win_kit", kind = "static")]
+extern "C" {
+        ...
+        fn MNtFreeVirtualMemory(
+                handle: *const core::ffi::c_void,
+                ptr: *mut *mut core::ffi::c_void,
+                size: *mut usize
+        ) -> i32;
+        ...
+}
+```
+
+之后正常使用即可 :)
+
+
+### 编译
+
+#### 编译 DLL
+
+```bash
+# 完整功能 DLL
+cargo build --release -p malefic-win-kit --features "ffi, default_apis"
+```
+
+编译产物：`target/release/malefic_win_kit.dll`
+
+头文件: `malefic-win-kit-ffi.h`
+
+#### 单独编译模块
+
+单独编译某个功能时可以使用如下指令， 比如 `RunPE`
+
+```bash
+cargo build --release -p malefic-win-kit --no-default-features --features "RunPE, USER_DEFINED_DYNAMIC, NT_APIS, AlloctorNtAllocateVirtualMemory, AlloctorExNtAllocateVirtualMemory, ffi"
+```
+
+或者使用动态api的`default` 组， 例如:
+
+```bash
+cargo build --release -p malefic-win-kit --no-default-features --features "RunPE, ffi, default_apis"
+```
+
+为 `pulse` 编译， 我们还需要单独编译一个使用 `NANO` 和 `ASM` 的 `malefic-win-kit`
+
+```bash
+cargo build --release -p malefic-win-kit --no-default-features --features "NANO, ASM"
+```
+
+### Features 介绍及使用
+
+我们可以将 `win-kit` 的 features 简要分为以下几种:
+
+1. 底层基础能力(如动态获取API还是使用SYSCALL, 是否需要FFI接口导出等)
+2. 底层基础能力上的加持(如内存分配/进程的创建选用的API及调用方式等)
+3. 基于底层能力的各能力及拓展(如PELoader, BOF等)
+
+#### 底层基础能力
+
+为了隐藏导入表特征， 我们提供了各类 `API` 的动态获取及调用方式
+
+同样的， 为了社区版本的闭源发布， 我们也包装了大量的 `FFI` 接口以方便主体调用， 因此我们需要下面的一些 `feature` 对此进行控制
+
+##### API 获取及调用方式
+
+可以理解为我们提供了三种调用方式:
+
+1. `NORMAL` => 正常调用API // 注意， 部分API为非公开API，因此开启该模式会导致某些API失效
+2. `DYNAMIC` => 动态获取API地址 // PEB及查表
+3. `SYSCALLS` => 获取SYSCALL号 // 注意， 只有NTDLL的函数才有SYSCALL， 因此开启该模式后不代表所有API都是通过SYSCALL来调用的
+
+以及两种类型的函数:
+
+1. `SYS_APIS` — 上层API，例如 `ReadProcessMemory`
+2. `NT_APIS` — NT_* 函数，例如 `NtReadVirtualMemory`
+
+`SYSCALL` 也同理, 我们提供了内联调用及函数的方式:
+
+1. `FUNC_SYSCALL`
+2. `INLINE_SYSCALL`
+
+##### 其他
+
+1. `NANO` => 干净的基础Kit
+2. `ASM` => 一些裸汇编代码， 为 `pulse` 服务
+3. `FFI` => 为社区版本服务， 开启 `FFI` 接口
+
+#### 底层基础能力加持
+
+在有了基础能力之后，我们就可以选配内部底座了
+
+##### API 获取
+
+`DynamicLibraryUtils_*` => 动态获取:
+
+- `DynamicLibraryUtils` — 包含了一些基本动态获取套件, 为整个的大 `feature`
+- `DynamicLibraryUtils_GetModuleBaseAddr` — 通过 `peb` 表获取 `DLL` 的基地址
+- `DynamicLibraryUtils_GetLdrDataTableEntry` — 用于获取指定模块的 LDR 数据表 // 目前用于 `MaleficLoadLibrary`
+- `DynamicLibraryUtils_GetFuncAddr` — 通过基地址获取函数地址
+- `DynamicLibraryUtils_GetExportTable` — 通过基地址获取导出表
+- `DynamicLibraryUtils_GetDeprecatedFunctionAddress` — 粗暴的尝试N个库来尝试获取函数地址（例如在windows server 2012的bof中用这种方法也许可以）
+- `DynamicLibraryUtils_DynamicApis` — 将底座用到的函数都以 `DynamicApis` 的形式做一次 `wrapper` 以直接使用
+- `DynamicLibraryUtils_MaleficApis` — `DynamicApis` 的上级， 在动态的基础上包含了 `Syscall`
+- `DynamicLibraryUtils_GetFuncAddr_Default` — 由于我们获取函数地址时使用的比对方式是自定义的回调函数， 因此如果用户没有自定义的话，就默认开这个
+
+`RashoGate_*` => `syscall`号及`syscall`指令获取
+
+其中需要注意的配置:
+
+1. `SYS_DYNAMIC` => 代表使用正常的 `LoadLibrary` 和 `GetProcAddress` 来获取各类 `API` 地址
+2. `USER_DEFINED_DYNAMIC` => 代表使用我们自定义的函数来获取各类 `API` 地址
+
+##### 内存分配方式
+
+1. 本进程内存分配: `Alloctor*`
+2. 牺牲进程内存分配: `AlloctorEx*`
+
+#### 能力拓展
+
+到了这里就是各类正常功能了，和名字可以对应上， 如 `RunPE`、`BOF` 等
+
+
+## Proxy DLL
+
+`malefic-proxydll` 是独立的代理DLL生成组件，支持DLL劫持场景。可在 `implant.yaml` 的 `loader.proxydll` 部分进行配置：
+
+```yaml
+loader:
+  proxydll:
+    proxyfunc: ""          # 代理函数名
+    raw_dll: ""            # 原始DLL路径
+    proxied_dll: ""        # 被代理的DLL路径
+    proxy_dll: ""          # 生成的代理DLL路径
+    pack_resources: true   # 是否打包资源
+    block: false           # 是否阻塞
+    hijack_dllmain: true   # 是否劫持DllMain
+```
+
+## Ref
+
+
+最后， 感谢大量优秀的开源项目及开发者们
+
+* https://github.com/yamakadi/clroxide/
+* https://github.com/MSxDOS/ntapi
+* https://github.com/trickster0/EDR_Detector/blob/master/EDR_Detector.rs
+* https://github.com/Fropops/Offensive-Rust
+* https://github.com/wildbook/hwbp-rs
+* https://github.com/bats3c/DarkLoadLibrary/blob/master/DarkLoadLibrary/
+* https://github.com/b4rtik/metasploit-execute-assembly
+* https://github.com/lap1nou/CLR_Heap_encryption
+* https://github.com/med0x2e/ExecuteAssembly/
+* https://github.com/postrequest/link
+* https://github.com/hakaioffsec/coffee/
+* https://github.com/Kudaes/Unwinder
+* https://github.com/klezVirus/SilentMoonwalk
+* https://github.com/rapid7/metasploit-framework
+* https://github.com/BishopFox/sliver

@@ -74,7 +74,8 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
-  - pymdownx.highlight
+  - pymdownx.highlight:
+      auto_title: true
   - pymdownx.inlinehilite
   - pymdownx.keys
   - pymdownx.magiclink:
@@ -95,72 +96,106 @@ markdown_extensions:
 nav:
   - 导航: index.md
   - IoM:
-      - index: IoM/index.md
-      - Design: IoM/design.md
-      - Quickstart: IoM/quickstart.md
-      - Concept: IoM/concept.md
-      - RoadMap: IoM/roadmap.md
-      - Guideline: 
-        - index: IoM/guideline/index.md
-        - 安装部署: IoM/guideline/deploy.md
-        - Listener: IoM/guideline/listener.md
-        - Payload: IoM/guideline/payload.md
-        - 后渗透基本操作: IoM/guideline/post_exploitation.md
-        - 内置插件: IoM/guideline/embed_mal.md
-        - 代理/隧道: IoM/guideline/proxy.md
-        - 高级用法:
-            - DumpLSASS: IoM/guideline/advance/DumpLSASS.md
-            - DomainFronting: IoM/guideline/advance/DomainFronting.md
-            - MultiServer: IoM/guideline/advance/Multi-Server.md
-            - Guardrail: IoM/guideline/advance/Guardrail.md
-        - DevelopGuide:
-            - index: IoM/guideline/develop/index.md
-            - mal快速入门: IoM/manual/mal/quickstart.md
-            - Server开发: IoM/guideline/develop/server.md
-            - Client开发: IoM/guideline/develop/client.md
-            - Implant开发: IoM/guideline/develop/implant.md
-      - Manual:
-        - index: IoM/manual/index.md
-        - client/server:
-            - index: IoM/manual/manual/index.md
-            - install&deploy: IoM/manual/manual/deploy.md
-            - listener: IoM/manual/manual/listener.md
-            - build: IoM/manual/manual/build.md
-            - client usage: IoM/manual/manual/client.md
-            - implant usage: IoM/manual/manual/implant.md
-        - mals插件生态:
-            - index: IoM/manual/mal/index.md
-            - embed: IoM/manual/mal/embed.md
-            - lua:
-                - builtin: IoM/manual/mal/builtin.md
-                - beacon: IoM/manual/mal/beacon.md
-                - rpc: IoM/manual/mal/rpc.md
-                # - events: IoM/mal/events.md
-        - mutant:
-            - tool: IoM/manual/mutant/malefic_mutant.md
-        - implant:
-            - index: IoM/manual/implant/index.md
-            - build: IoM/manual/implant/build.md
-            - modules: IoM/manual/implant/modules.md
-            - malefic-win-kit: IoM/manual/implant/win_kit.md
-        - integrate:
-            - index: IoM/manual/integrate/index.md
-            - SDK:
-                - index: IoM/manual/integrate/sdk/index.md
-                - Golang: IoM/manual/integrate/sdk/go.md
-                - Python(Untable): IoM/manual/integrate/sdk/python.md
-                - Typescript(Unstable): IoM/manual/integrate/sdk/typescript.md
-            - FFI: IoM/manual/integrate/ffi.md
-            - AI Integration: IoM/manual/integrate/ai.md
-      - Changelog:
-        - v0.1.2: blog/2025/11/10/IoM_v0.1.2/
-        - v0.1.1: blog/2025/07/09/IoM_v0.1.1/
-        - v0.1.0: blog/2025/04/14/IoM_v0.1.0/
-        - v0.0.4: blog/2025/01/02/IoM_v0.0.4/
-        - v0.0.3: blog/2024/11/20/IoM_v0.0.3/
-        - v0.0.2: blog/2024/09/23/IoM_v0.0.2/
-        - v0.0.1: blog/2024/08/16/IoM_introduce/
-
+    - Overview: IoM/index.md
+    - Getting Started:
+      - 快速开始: IoM/getting-started/index.md
+      - 核心概念: IoM/getting-started/concepts.md
+      - 设计目标: IoM/getting-started/design.md
+      - 路线图: IoM/getting-started/roadmap.md
+      - 更新日志: IoM/getting-started/changelog.md
+    - User Guide:
+      - 架构与配置: IoM/user-guide/index.md
+      - 命令行系统: IoM/user-guide/console.md
+      - 部署指南: IoM/user-guide/deployment.md
+      - Listener 与 Pipeline: IoM/user-guide/listener.md
+      - 构建与 Profile: IoM/user-guide/build.md
+      - 内置 MAL 操作: IoM/user-guide/embed-mal.md
+      - 快速开始: IoM/user-guide/client-quickstart.md
+      - 基础操作: IoM/user-guide/session-management.md
+      - Advanced:
+        - CDN 前置: IoM/user-guide/advanced/domain-fronting.md
+        - Dump LSASS: IoM/user-guide/advanced/dump-lsass.md
+        - Guardrail: IoM/user-guide/advanced/guardrail.md
+        - 多服务器连接: IoM/user-guide/advanced/multi-server.md
+        - REM 代理与隧道: IoM/user-guide/advanced/proxy.md
+      - Post Exploitation:
+        - 命令执行: IoM/user-guide/post-exploitation/command-execution.md
+        - 文件操作: IoM/user-guide/post-exploitation/file-operations.md
+        - 系统信息: IoM/user-guide/post-exploitation/system-info.md
+        - 服务管理: IoM/user-guide/post-exploitation/service-management.md
+        - 注册表操作: IoM/user-guide/post-exploitation/registry-operations.md
+        - WMI 操作: IoM/user-guide/post-exploitation/wmi-operations.md
+        - 网络代理: IoM/user-guide/post-exploitation/network-proxy.md
+        - 模块管理: IoM/user-guide/post-exploitation/module-management.md
+    - Reference:
+      - Commands:
+        - Client: IoM/reference/commands/client.md
+        - Implant: IoM/reference/commands/implant.md
+        - Community MAL: IoM/reference/commands/community.md
+      - Lua API:
+        - Builtin: IoM/reference/lua-api/builtin.md
+        - RPC: IoM/reference/lua-api/rpc.md
+        - Beacon: IoM/reference/lua-api/beacon.md
+    - Development:
+      - 开发总览: IoM/development/index.md
+      - 贡献指南: IoM/development/contributing.md
+      - 集成指南: IoM/development/integration.md
+      - Server:
+        - 开发指南: IoM/development/server/index.md
+        - CustomPipeline 开发手册: IoM/development/server/custom-pipeline.md
+        - Server 内部机制: IoM/development/server/internals.md
+      - Client 开发指南: IoM/development/client/index.md
+      - AI:
+        - MCP 集成: IoM/development/ai/index.md
+        - Agent 集成: IoM/development/ai/client-agent.md
+        - Agent Skill System: IoM/development/ai/agent-skills.md
+      - SDK:
+        - 概览: IoM/development/sdk/index.md
+        - Go: IoM/development/sdk/go.md
+        - Python: IoM/development/sdk/python.md
+        - TypeScript: IoM/development/sdk/typescript.md
+      - MAL 插件:
+        - 插件体系: IoM/development/mals/index.md
+        - 快速开始: IoM/development/mals/quickstart.md
+  - malefic:
+    - Malefic: malefic/index.md
+    - Getting Started:
+      - 快速开始: malefic/getting-started/index.md
+      - 架构设计 · 从 Starship 到 Malefic 的层层组装: malefic/getting-started/architecture.md
+      - Components:
+        - 主程序入口: malefic/getting-started/components/malefic.md
+        - Mutant: malefic/getting-started/components/mutant.md
+        - Prelude: malefic/getting-started/components/prelude.md
+        - ProxyDLL: malefic/getting-started/components/proxydll.md
+        - Pulse: malefic/getting-started/components/pulse.md
+        - Reactor: malefic/getting-started/components/reactor.md
+        - Runtime: malefic/getting-started/components/runtime.md
+        - SRDI: malefic/getting-started/components/srdi.md
+        - Win-Kit: malefic/getting-started/components/win-kit.md
+    - Build:
+      - 概览: malefic/build/index.md
+      - Malefic 构建: malefic/build/malefic.md
+      - 模块构建: malefic/build/modules.md
+      - Prelude 构建: malefic/build/prelude.md
+      - ProxyDLL 构建: malefic/build/proxydll.md
+      - Pulse 构建: malefic/build/pulse.md
+      - Reactor 构建: malefic/build/reactor.md
+    - Mutant:
+      - 工具概览: malefic/mutant/index.md
+      - Loader — 加载器生成: malefic/mutant/loader.md
+      - Obfuscate — 源码级混淆: malefic/mutant/obfuscate.md
+      - Patch — 运行时配置热补丁: malefic/mutant/patch.md
+      - PE Modify — PE 文件修改工具集: malefic/mutant/pe-modify.md
+      - 复测问题: malefic/mutant/retest-issues.md
+      - SigForge — PE 签名操作: malefic/mutant/sigforge.md
+      - Transform — Payload 编码与二进制转换: malefic/mutant/transform.md
+    - Develop:
+      - 概览: malefic/develop/index.md
+      - Third-Party Modules: malefic/develop/3rd-party.md
+      - ffi_library 宏: malefic/develop/ffi-library.md
+      - Win-Kit FFI: malefic/develop/ffi.md
+      - 多语言模块模板: malefic/develop/module-development.md
+      - 模块系统: malefic/develop/modules.md
 
   - gogo:
       - index: gogo/index.md
@@ -202,7 +237,7 @@ nav:
           - SDK: libs/proxyclient/sdk.md
   - Preview:
       - mapping:
-          index: mapping/index.md
-          design: mapping/design.md
+          - index: mapping/index.md
+          - design: mapping/design.md
   - Blog:
       - blog/index.md
