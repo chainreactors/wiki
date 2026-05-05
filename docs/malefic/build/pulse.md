@@ -66,13 +66,13 @@ Pulse 构建只支持 Windows target。`build/payload/mod.rs` 中的 `normalize_
 malefic-mutant build pulse --shellcode -c implant.yaml -t x86_64-pc-windows-gnu
 ```
 
-`--shellcode` 会启用 `shellcode` feature，构建 PE 后使用 `PEObjCopy::extract_binary` 提取 `.text` 段：
+`--shellcode` 会启用 `shellcode` feature，构建 PE 后使用 `PEObjCopy::extract_binary` 提取 PE 中所有可执行 section：
 
 ```text
 target/x86_64-pc-windows-gnu/release/malefic-pulse.bin
 ```
 
-Shellcode 模式需要 PE executable 输入，因此会强制走 binary 构建路径，不应与 `--lib` 混用。
+Shellcode 模式需要 PE executable 输入，因此会强制走 binary 构建路径；即使全局传入 `--lib`，该模式也不会构建 library target。
 
 ## 构建为库
 

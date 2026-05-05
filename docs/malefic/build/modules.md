@@ -1,7 +1,7 @@
 ---
 title: 模块构建
-description: 本页说明 malefic-modules 和 malefic-3rd 的构建方式。两者都可以被 Mutant 编译为独立 DLL，也可以通过
-  feature 选择静态链接进 beacon 或 reactor。
+description: 本页说明 malefic-modules 和 malefic-3rd 的构建方式。两者都可以通过 feature 选择静态链接进 beacon
+  或 reactor，也可以编译为独立 DLL。内置模块若要作为运行时可热加载 DLL 使用，需要显式启用 asmoduledll，否则只会产出普通 library，不导出...
 edition: community
 generated: false
 source: imp:build/modules.md
@@ -9,7 +9,7 @@ source: imp:build/modules.md
 
 # 模块构建
 
-本页说明 `malefic-modules` 和 `malefic-3rd` 的构建方式。两者都可以被 Mutant 编译为独立 DLL，也可以通过 feature 选择静态链接进 beacon 或 reactor。
+本页说明 `malefic-modules` 和 `malefic-3rd` 的构建方式。两者都可以通过 feature 选择静态链接进 beacon 或 reactor，也可以编译为独立 DLL。内置模块若要作为运行时可热加载 DLL 使用，需要显式启用 `as_module_dll`，否则只会产出普通 library，不导出 `rt_*` 模块 ABI。
 
 ## 关联组件
 
@@ -41,8 +41,8 @@ source: imp:build/modules.md
 | `base` | `ls`, `cd`, `rm`, `cp`, `mv`, `pwd`, `cat`, `upload`, `download`, `exec`, `env`, `info` |
 | `extend` | base 之外的系统、执行、文件扩展能力 |
 | `full` | `fs_full` + `execute_full` + `net_full` + `sys_full` |
-| `fs_full` | 完整文件系统模块 |
-| `sys_full` | 完整系统操作模块 |
+| `fs_full` | 完整文件系统模块，包含 `mem`、`pipe`、`enum_drivers` 等 |
+| `sys_full` | 完整系统操作模块，包含 `id`、`inject`、`wmi` 等 |
 | `execute_full` | 完整执行引擎模块 |
 | `net_full` | `upload`, `download` |
 
@@ -51,14 +51,14 @@ source: imp:build/modules.md
 ## 构建内置模块 DLL
 
 ```bash
-malefic-mutant build modules -c implant.yaml -t x86_64-pc-windows-gnu -m exec,ls,upload
+malefic-mutant build modules -c implant.yaml -t x86_64-pc-windows-gnu -m as_module_dll,exec,ls,upload
 ```
 
 `BuildCommands::Modules` 的处理逻辑：
 
 1. 如果传入 `-m`，按逗号拆分并覆盖本次构建的 `implants.modules`。
 2. 如果未传入 `-m`，使用 `implant.yaml` 中的 `implants.modules`。
-3. 调用 `update_module_toml(&modules, true)` 写入 `malefic-modules/Cargo.toml`。
+3. 调用 `update_module_toml(&modules, true)` 写入 `malefic-modules/Cargo.toml` 的 default features。
 4. 将 `malefic-modules` 编译为 `cdylib`。
 
 输出：
@@ -67,7 +67,7 @@ malefic-mutant build modules -c implant.yaml -t x86_64-pc-windows-gnu -m exec,ls
 target/<target>/release/malefic_modules.dll
 ```
 
-模块 DLL 构建只支持 Windows target。
+模块 DLL 构建只支持 Windows target。用于 `load_module` 的 DLL 必须包含 `as_module_dll` feature，因为当前热加载路径解析的是 `rt_abi_version`、`rt_module_count`、`rt_module_run` 等 `rt_*` 导出。
 
 ## 静态链接进 Beacon
 
@@ -152,6 +152,7 @@ implants:
 
 - `implants.modules` 是字符串数组，可以是预设或单个模块名。
 - `implants.3rd_modules` 是字符串数组，可以是第三方 feature。
+- `malefic-modules/Cargo.toml` 当前仓库默认 feature 是 `execute_shellcode`；Mutant 会在 generate/build 时按配置重写 default features，因此不要把仓库默认值当成最终 payload 能力。
 - schema 不校验模块名是否合法；非法 feature 会在 workspace feature 扫描阶段报 warning 或失败。
 
 ## 相关文档

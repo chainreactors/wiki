@@ -190,10 +190,10 @@ use malefic_3rd_ffi::*;
 |------|------|
 | `malefic-module` (prelude) | `Module`/`ModuleImpl` trait、`TaskResult`、辅助宏 |
 | `malefic-module` (ffi) | `ffi_run_loop`、`FfiBuffer`、`encode_request`/`decode_response`、`HandlerFn` |
-| `malefic-gateway` | `#[module_impl]` 宏、`#[obfuscate]` 宏 |
+| `malefic-gateway` | `#[module_impl]` 宏、`#[obfuscate]` 宏 (Pro) |
 | `malefic-proto` | protobuf 消息类型（`Body`、`Request`、`Response`） |
 
-子 crate 只依赖 `malefic-3rd-ffi`，不直接依赖 `malefic-macro` 或 `malefic-obfuscate`（通过 `malefic-gateway` 中转，避免强耦合）。
+子 crate 只依赖 `malefic-3rd-ffi`，不直接依赖 `malefic-macro` (Pro) 或 `malefic-obfuscate` (Pro)（通过 `malefic-gateway` 中转，避免强耦合）。
 
 ---
 

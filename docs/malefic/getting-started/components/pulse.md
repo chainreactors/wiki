@@ -146,15 +146,13 @@ malefic-mutant build pulse --shellcode -c implant.yaml -t x86_64-pc-windows-gnu
 
 生成的 `.bin` 文件即为可用的 shellcode。
 
-当前 shellcode 构建流程会编译 `malefic-pulse` 的 lib target，并在后处理阶段完成链接与二进制提取：
+当前 shellcode 构建流程会启用 `shellcode` feature，先构建 `malefic-pulse` 的 PE executable，再由 `PEObjCopy::extract_binary` 提取 PE 中的可执行 section：
 
 ```text
-cargo build --lib -p malefic-pulse
-  -> libmalefic_pulse.a
-  -> x86_64-w64-mingw32-gcc + linker.ld
-  -> malefic_pulse_shellcode.exe
+cargo build --release --target <target> -p malefic-pulse --bin malefic-pulse --features shellcode
+  -> target/<target>/release/malefic-pulse.exe
   -> PEObjCopy::extract_binary
-  -> pulse.bin
+  -> target/<target>/release/malefic-pulse.bin
 ```
 
 ### 使用 Docker 编译
@@ -206,7 +204,7 @@ Pulse 支持以下输出格式（在 `Cargo.toml` 中定义）：
 
 - **staticlib** ：静态库，可链接到其他程序
 - **cdylib** ：动态库，可作为 DLL 使用
-- **rlib** ：Rust library target，用于 `--lib` 编译和 shellcode 后处理
+- **rlib** ：Rust library target，用于 `--lib` 编译
 
 ## 安全建议
 

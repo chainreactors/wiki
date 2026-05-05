@@ -65,7 +65,7 @@ target/x86_64-pc-windows-gnu/release/<proxy-dll-name>.dll
 
 ## 资源打包
 
-构建完成后，`process_proxydll_resources()` 会重新读取 `implant.yaml`。当 `loader.proxydll.pack_resources` 为 `true` 时，会生成：
+构建完成后，`process_proxydll_resources()` 会重新读取默认 `implant.yaml`。当 `loader.proxydll.pack_resources` 为 `true` 时，会生成：
 
 ```text
 target/<target>/release/program.zip
@@ -75,7 +75,7 @@ target/<target>/release/program.zip
 
 - 生成的代理 DLL。
 - 被代理的原始 DLL。
-- 可选的 `spite.bin`。
+- 当 `include_spite: true` 时，包含 `spite_path` 指向的 `spite.bin`。
 
 如果代理 DLL 和原 DLL 文件名相同，原 DLL 会以 `<name>.backup` 形式打包，适合系统 DLL 劫持场景。
 
@@ -121,9 +121,11 @@ Schema 约束：
 | `native_thread: true` | `native_thread` | 使用 `NtCreateThreadEx` |
 | `block_method: loop` | `block_loop` | payload 线程循环阻塞 |
 | `block_method: waitfor` | `block_waitfor` | 使用等待式阻塞 |
-| `use_prelude: true` | `malefic-autorun` | 从 payload 路径运行 autorun spites |
+| `implants.prelude` 非空 | `malefic-autorun` | 生成并运行 autorun spites |
 
 阻塞开启时，payload 会使用带 `THREAD_CREATE_FLAGS_SKIP_THREAD_ATTACH` 的 `NtCreateThreadEx`，降低 loader-lock 死锁风险。
+
+`loader.proxydll` 中没有 `use_prelude` 字段；是否启用 `malefic-autorun` 由 `implants.prelude` 是否配置决定。`include_spite` 只影响资源包是否携带外部 `spite.bin`。
 
 ## 相关文档
 

@@ -157,7 +157,7 @@ Prelude 使用 YAML 格式定义任务序列，每个任务包含名称和执行
 - name: persistence
   body: !ExecuteBinary
     name: addservice
-    bin: !File "resources/addservice.o"
+    bin: !File "addservice.o"
 ```
 
 ### 生成配置
@@ -173,12 +173,12 @@ malefic-mutant generate prelude autorun.yaml
 - 解析 YAML 配置
 - 序列化为 protobuf 格式
 - 生成 `spite.bin` 文件
-- 嵌入到 prelude 二进制中
+- 后续编译时由 `malefic-autorun` 嵌入到 prelude 二进制中
 
 可选参数：
 
 ```bash
-# 指定自定义 resources 目录
+# 指定 spite.bin 输出目录
 malefic-mutant generate prelude autorun.yaml --resources ./my_resources
 ```
 
@@ -221,13 +221,6 @@ implants:
   prelude: "persistence.yaml"  # 指向 autorun 配置文件
 ```
 
-或使用新的字段名：
-
-```yaml
-implants:
-  autorun: "persistence.yaml"
-```
-
 ### 工作流程
 
 1. 编译时将 autorun 配置序列化到 beacon 中
@@ -247,7 +240,7 @@ EOF
 
 # 2. 配置 implant.yaml
 # implants:
-#   autorun: "persistence.yaml"
+#   prelude: "persistence.yaml"
 
 # 3. 生成并编译 beacon
 malefic-mutant generate beacon
@@ -276,23 +269,16 @@ external_spite = ["malefic-autorun/external_spite"]
 ### 相对路径
 
 ```yaml
-bin: !File "addservice.o"           # 相对于当前目录
-bin: !File "resources/payload.bin"  # 相对于 resources 目录
-```
-
-### 绝对路径
-
-```yaml
-bin: !File "/path/to/payload.bin"
-bin: !File "C:\\payloads\\beacon.exe"
+bin: !File "addservice.o"
+bin: !File "payloads/beacon.exe"
 ```
 
 ### 默认 Resources 目录
 
-`malefic-mutant generate prelude` 默认从 `./resources/` 目录查找文件。可通过 `--resources` 参数修改：
+`malefic-mutant generate prelude` 当前会从仓库根目录的 `./resources/` 查找 `!File` 引用。`--resources` 参数控制 `spite.bin` 输出目录，不改变 `!File` 的输入查找目录：
 
 ```bash
-malefic-mutant generate prelude autorun.yaml --resources /custom/path
+malefic-mutant generate prelude autorun.yaml --resources /custom/output
 ```
 
 ## 最佳实践

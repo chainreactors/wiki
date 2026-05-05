@@ -64,7 +64,7 @@ malefic-mutant generate bind -c implant.yaml
 malefic-mutant build malefic -c implant.yaml -t x86_64-pc-windows-gnu
 ```
 
-Bind 与 Beacon 使用同一套生成流水线，但会把 `implants.mod` 设置为 `bind`。`codegen.rs::update_core_config()` 会校验 bind target 只能使用 `tcp` 或 `udp`，配置 `http` 或 `rem` 会导致生成失败。
+Bind 与 Beacon 使用同一套生成流水线，但会把 `implants.mod` 设置为 `bind`。当前 schema 和 runtime 转换只提供默认 TCP、HTTP 和 REM 三种 target 形态；bind 生成会拒绝 `http` 或 `rem`，因此实际可用的是不配置 `http`/`rem` 的默认 TCP target。
 
 ## 构建为库
 

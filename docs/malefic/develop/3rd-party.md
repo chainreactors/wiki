@@ -68,9 +68,10 @@ basic:
 
 ```toml
 [features]
-default = []
+default = ["host_bridge"]
 full = ["rem", "curl", "pty", "onedrive"]
 
+host_bridge = ["malefic-features/runtime_tokio"]
 curl = ["dep:ureq"]
 onedrive = ["dep:ureq", "ureq/tls", "dep:serde", "dep:serde_json"]
 rem = ["malefic-rem/rem", "malefic-rem/rem_static", "rem_dial", "memory_dial"]

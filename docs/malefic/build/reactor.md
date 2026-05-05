@@ -1,7 +1,7 @@
 ---
 title: Reactor 构建
-description: Reactor 对应 malefic-reactor 包，是一个独立 runtime DLL。它不包含 beacon/bind 通信逻辑，只暴露
-  C ABI，用于加载和执行模块，是 headless malefic 的构建入口。
+description: Reactor 对应 malefic-reactor 包，是一个独立 runtime shared library。它不包含 beacon/bind
+  通信逻辑，只暴露 C ABI，用于加载和执行模块，是 headless malefic 的构建入口。
 edition: community
 generated: false
 source: imp:build/reactor.md
@@ -9,7 +9,7 @@ source: imp:build/reactor.md
 
 # Reactor 构建
 
-Reactor 对应 `malefic-reactor` 包，是一个独立 runtime DLL。它不包含 beacon/bind 通信逻辑，只暴露 C ABI，用于加载和执行模块，是 headless malefic 的构建入口。
+Reactor 对应 `malefic-reactor` 包，是一个独立 runtime shared library。它不包含 beacon/bind 通信逻辑，只暴露 C ABI，用于加载和执行模块，是 headless malefic 的构建入口。
 
 ## 关联组件
 
@@ -36,13 +36,13 @@ malefic-mutant build reactor -c implant.yaml -t x86_64-pc-windows-gnu -m base
 2. 强制以共享库方式构建 `malefic-reactor`。
 3. 将模块 feature 传给 `build_payload()`。
 
-输出：
+Windows 输出：
 
 ```text
 target/<target>/release/malefic_reactor.dll
 ```
 
-`--lib` 对 Reactor 无意义，因为 Reactor 始终构建为 `cdylib`。
+Linux/macOS target 会分别输出 `libmalefic_reactor.so` 或 `libmalefic_reactor.dylib`。`--lib` 对 Reactor 无意义，因为 Reactor 始终构建为 `cdylib`。
 
 ## 模块 Feature 映射
 
@@ -59,8 +59,11 @@ target/<target>/release/malefic_reactor.dll
 | `sys_full` | `builtin` + `malefic-modules/sys_full` |
 | `execute_full` | `builtin` + `malefic-modules/execute_full` |
 | `net_full` | `builtin` + `malefic-modules/net_full` |
+| `execute_assembly` | `builtin` + `malefic-modules/execute_assembly` |
+| `execute_powershell` | `builtin` + `malefic-modules/execute_powershell` |
+| `execute_bof` | `builtin` + `malefic-modules/execute_bof` |
 
-没有 `builtin` 时，Reactor 不携带静态模块，只能通过 C ABI 动态加载模块 DLL。
+没有 `builtin` 时，Reactor 不携带静态模块；Windows 热加载路径可通过 `rt_host_execute("load_module", ...)` 动态加载带 `rt_*` ABI 的模块 DLL。跨平台使用时，建议通过 `-m base/full/...` 静态内置需要的模块。
 
 ## Runtime C ABI
 

@@ -385,7 +385,9 @@ ConnectionBuilder::new(transport)
 
 ## Feature Flags
 
-默认启用的 feature: `source`, `community`, `addon`, `beacon`, `crypto_aes`, `hot_load`, `register_info`, `runtime_tokio`, `transport_tcp`
+当前 feature 分为两层：`malefic` 入口 crate 控制工作模式、传输、加密和功能开关；`malefic-features` 统一传播 build type、edition 和 async runtime。`malefic-mutant generate` 会按 `implant.yaml` 和命令行参数重写对应 Cargo.toml 的 default features，因此不要把仓库检出时的 default features 当作最终 payload 配置。
+
+`malefic/Cargo.toml` 仓库默认 feature 当前为 `addon`, `beacon`, `crypto_aes`, `hot_load`, `register_info`, `transport_tcp`, `malefic-autorun`。`malefic-features/Cargo.toml` 仓库默认 feature 当前为 `source`, `professional`, `runtime_tokio`；使用 `malefic-mutant generate -E community -s true` 时会按命令参数改写为对应 edition/build type/runtime。
 
 ### 工作模式
 
@@ -405,7 +407,7 @@ ConnectionBuilder::new(transport)
 | `runtime_asyncstd` | 否 | async-std 运行时. 提供与标准库对称的异步 API |
 
 !!! note "运行时传播"
-    运行时 feature 会级联传播到 `malefic-scheduler`, `malefic-transport`, `malefic-common`, `malefic-manager`, 确保所有子系统使用同一运行时.
+    运行时 feature 由 `malefic-features` 传播到 `malefic-common` 等公共 runtime 入口。`implants.runtime` 决定 Mutant 写入 `runtime_tokio`、`runtime_smol` 或 `runtime_asyncstd`。
 
 ### 安全与规避
 
@@ -443,18 +445,18 @@ ConnectionBuilder::new(transport)
 | Feature | 默认 | 说明 |
 |---------|:----:|------|
 | `addon` | **是** | Addon 管理. 将二进制数据 (shellcode、PE 等) 压缩加密后存储在内存中, 减少重复传输. 详见 [Addon 内存加密存储](#addon-内存加密存储) |
-| `hot_load` | **是** | 模块热加载. 运行时通过反射加载 DLL, 提取 `register_modules` 导出函数, 动态扩展模块. 详见 [模块热加载](#模块热加载-hot-load) |
+| `hot_load` | **是** | 模块热加载. 运行时通过反射加载 DLL, 解析 `rt_*` C ABI 导出并动态扩展模块. 详见 [模块热加载](#模块热加载-hot-load) |
 | `register_info` | **是** | 注册时采集完整系统信息 (OS、进程、用户、路径等). 关闭后仅上报编译期常量 (OS 名称和架构), 减少信息暴露 |
 | `malefic-3rd` | 否 | 第三方模块支持. 启用 `malefic-manager` 的 3rd 模块注册能力, 允许加载独立编译的扩展模块 |
 
-### 构建类型
+### 构建类型与 Edition
 
 | Feature | 默认 | 说明 |
 |---------|:----:|------|
-| `source` | **是** | 源码编译模式. 从源码编译 `malefic-os-win` 的 Windows 功能 |
-| `prebuild` | 否 | 使用预编译产物. 链接预编译的静态库而非从源码编译 |
-| `community` | **是** | 社区版. 使用社区版的 `malefic-os-win` 功能集 |
-| `professional` | 否 | 专业版. 解锁完整的 `malefic-os-win` 功能集 |
+| `source` | **是** | 由 `malefic-features` 传播的源码编译模式 |
+| `prebuild` | 否 | 由 `malefic-features` 传播的预编译产物模式 |
+| `community` | 否 | 社区版，由 `malefic-mutant generate -E community` 写入 |
+| `professional` | **是** | 仓库默认 edition；`generate -E professional` 时显式写入 |
 
 ### 随机数后端
 
@@ -770,15 +772,16 @@ graph TD
 graph TD
     DLL["DLL 字节流"] --> LOAD["load_pe()<br/>反射加载: 解析 PE 头,<br/>映射 sections,<br/>处理重定位和导入表"]
     LOAD --> INIT["DllMain(DLL_PROCESS_ATTACH)<br/>初始化"]
-    INIT --> FIND["查找 register_modules 导出"]
-    FIND --> CALL["调用注册函数<br/>返回 MaleficBundle<br/>(HashMap&lt;String, Module&gt;)"]
-    CALL --> MERGE["合并到 manager.modules<br/>可供调度器使用"]
+    INIT --> FIND["解析 rt_* C ABI 导出"]
+    FIND --> BUNDLE["RtBundle 读取模块名<br/>生成 RtModuleProxy"]
+    BUNDLE --> MERGE["合并到 manager.modules<br/>可供调度器使用"]
 ```
 
 **关键函数:**
 
 - `malefic_loader::hot_modules::load_module(bins, bundle)`: PE 反射加载 + 入口点执行
-- `malefic_loader::hot_modules::call_fresh_modules(module_ptr)`: 查找 `register_modules` 导出函数
+- `malefic_runtime::host::RtVTable::resolve(...)`: 解析 `rt_abi_version`、`rt_module_count`、`rt_module_run` 等导出
+- `malefic_runtime::host::RtBundle::try_new(...)`: 读取模块列表并生成 runtime proxy
 - `MaleficManager::load_module(spite)`: 接收服务端请求, 调用加载流程
 
 **与编译时模块的区别:**
@@ -902,7 +905,7 @@ graph TD
 **并发控制:**
 
 - 使用 `Semaphore` 限制并发数 (默认 pool size = 6)
-- 每个任务获取 permit 后 spawn 为独立的 tokio task
+- 每个任务通过当前选择的 async runtime spawn 为独立 task
 - 任务失败不影响其他任务
 
 **触发位置:** `main.rs` 中, 在反沙箱检测之后、`Malefic::run()` 之前执行.
