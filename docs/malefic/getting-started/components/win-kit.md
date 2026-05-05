@@ -206,9 +206,9 @@ bof dir.x64.o "str:C:\\Program Files"
 
 ## OPSEC
 
-### malefic-evader 规避模块
+### malefic-evader 规避模块 (Pro)
 
-规避相关功能已拆分为独立 crate `malefic-evader`（位于 `malefic-crates/evader`），提供以下运行时规避技术：
+规避相关功能已拆分为独立 crate `malefic-evader`（位于 `malefic-crates/evader`），属于 Professional 能力，提供以下运行时规避技术：
 
 - anti_emu — 反模拟器检测
 - god_speed — 加速沙箱时间
@@ -216,7 +216,7 @@ bof dir.x64.o "str:C:\\Program Files"
 - etw_pass — ETW 绕过
 - cfg_patch — CFG 补丁
 - normal_api — 正常 API 调用恢复
-- sleep_encrypt — Sleep 加密（堆加密）
+- sleep_encrypt — Sleep 加密（堆加密，Pro）
 - anti_forensic — 反取证
 
 详细的规避技术文档请参考 starship 规避模块文档 (Pro)。

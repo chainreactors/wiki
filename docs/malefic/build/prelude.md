@@ -40,7 +40,7 @@ malefic-mutant generate prelude prelude.yaml \
 2. `prelude::parse_yaml()` 解析 autorun YAML。
 3. 根据 `third` 和 `depend_on` 将依赖分为内置模块和第三方模块。
 4. 调用 `update_module_toml()` / `update_3rd_toml()` 更新模块 features。
-5. `update_prelude_spites()` 编码、压缩、加密并写入 `resources/spite.bin`。
+5. `update_prelude_spites()` 编码、压缩、加密并写入指定目录下的 `spite.bin`。
 6. 根据 `build.metadata` 写入资源文件。
 7. 通过 schema 解析剩余 features。
 
@@ -85,6 +85,8 @@ malefic-mutant generate prelude prelude.yaml \
 | `!Base64 "string"` | base64 解码为 bytes |
 | `!Hex "deadbeef"` | hex 解码为 bytes |
 
+当前 `!File` 的读取目录固定为仓库根目录下的 `./resources/`。`--resources` 参数控制 `spite.bin` 的输出目录，不会改变 `!File` 的输入查找目录。
+
 ## 构建 Prelude
 
 ```bash
@@ -111,14 +113,14 @@ implants:
       dst: "C:\\Users\\Public\\tool.exe"
 ```
 
-`implants.pack` 会为每个资源生成 upload + exec spites，并自动添加 `upload`、`exec` 模块 feature。最终 spites 被加密后嵌入 beacon，启动时自动执行。
+`implants.pack` 会从 `./resources` 查找资源文件。找到的每个资源会生成 upload + exec spites，并自动添加 `upload`、`exec` 模块 feature；缺失文件会被跳过。最终 spites 被加密后嵌入 beacon，启动时自动执行。
 
 ## CLI 参数
 
 | 参数 | 默认值 | 说明 |
 |------|--------|------|
 | `yaml_path` | `prelude.yaml` | autorun YAML 路径 |
-| `--resources` | `resources` | 资源目录 |
+| `--resources` | `resources` | `spite.bin` 输出目录 |
 | `--key` | `maliceofinternal` | 加密 key |
 | `--spite` | `spite.bin` | 输出 spite 文件名 |
 

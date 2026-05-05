@@ -102,7 +102,15 @@ nav:
       - 核心概念: IoM/getting-started/concepts.md
       - 设计目标: IoM/getting-started/design.md
       - 路线图: IoM/getting-started/roadmap.md
-      - 更新日志: IoM/getting-started/changelog.md
+      - Changelog:
+        - v0.3.0: https://wiki.chainreactors.red/blog/2026/04/20/IoM_v0.3.0/
+        - v0.1.2: https://wiki.chainreactors.red/blog/2025/11/10/IoM_v0.1.2/
+        - v0.1.1: https://wiki.chainreactors.red/blog/2025/07/09/IoM_v0.1.1/
+        - v0.1.0: https://wiki.chainreactors.red/blog/2025/04/14/IoM_v0.1.0/
+        - v0.0.4: https://wiki.chainreactors.red/blog/2025/01/02/IoM_v0.0.4/
+        - v0.0.3: https://wiki.chainreactors.red/blog/2024/11/20/IoM_v0.0.3/
+        - v0.0.2: https://wiki.chainreactors.red/blog/2024/09/23/IoM_v0.0.2/
+        - v0.0.1: https://wiki.chainreactors.red/blog/2024/08/16/IoM_introduce/
     - User Guide:
       - 架构与配置: IoM/user-guide/index.md
       - 命令行系统: IoM/user-guide/console.md
@@ -183,7 +191,6 @@ nav:
     - Mutant:
       - 工具概览: malefic/mutant/index.md
       - Loader — 加载器生成: malefic/mutant/loader.md
-      - Obfuscate — 源码级混淆: malefic/mutant/obfuscate.md
       - Patch — 运行时配置热补丁: malefic/mutant/patch.md
       - PE Modify — PE 文件修改工具集: malefic/mutant/pe-modify.md
       - 复测问题: malefic/mutant/retest-issues.md

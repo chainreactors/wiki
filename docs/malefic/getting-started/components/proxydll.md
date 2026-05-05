@@ -220,13 +220,13 @@ hijack_dllmain: true
 
 #### pack_resources
 
-是否打包资源到 DLL：
+是否在构建后生成资源包：
 
 ```yaml
 pack_resources: true
 ```
 
-启用后可将额外文件嵌入 DLL。
+启用后，`build proxy-dll` 会在构建输出目录生成 `program.zip`。资源包包含生成的代理 DLL、被代理的原始 DLL；当 `include_spite: true` 时，还会包含 `spite_path` 指向的 `spite.bin`。这不是把文件嵌入代理 DLL 本体。
 
 #### block
 
@@ -241,59 +241,9 @@ block: false
 
 ## 线程模型
 
-ProxyDLL 支持多种线程模型：
+生成后的 ProxyDLL 使用全局标志确保 payload 只触发一次。默认通过 `std::thread` 创建后台线程；启用 `native_thread` 时使用 `NtCreateThreadEx`；启用 `block` 时会选择 `block_loop` 或 `block_waitfor` feature，并使用带 `THREAD_CREATE_FLAGS_SKIP_THREAD_ATTACH` 的 `NtCreateThreadEx` 启动 payload 线程，以降低 DllMain 场景下的 loader-lock 风险。
 
-### 同步执行
-
-在调用线程中直接执行 payload：
-
-```rust
-pub extern "C" fn execute_payload() {
-    // 直接执行，会阻塞调用线程
-    do_something();
-}
-```
-
-**优点** ：简单，无需线程管理
-**缺点** ：可能影响应用程序性能
-
-### 异步执行
-
-创建新线程执行 payload：
-
-```rust
-use std::thread;
-
-pub extern "C" fn execute_payload() {
-    thread::spawn(|| {
-        // 在新线程中执行
-        do_something();
-    });
-}
-```
-
-**优点** ：不阻塞主线程
-**缺点** ：需要管理线程生命周期
-
-### 一次性执行
-
-使用全局标志确保只执行一次：
-
-```rust
-use std::sync::Once;
-
-static INIT: Once = Once::new();
-
-pub extern "C" fn execute_payload() {
-    INIT.call_once(|| {
-        // 只执行一次
-        do_something();
-    });
-}
-```
-
-**优点** ：避免重复执行
-**缺点** ：只能执行一次
+`block: false` 表示触发后立即返回到原导出函数转发流程。`block: true` 表示触发 payload 后阻塞当前调用路径，适合只需要执行 payload、不再依赖原函数返回的场景。
 
 ## 常见劫持场景
 

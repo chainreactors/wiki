@@ -1,7 +1,7 @@
 ---
 title: Reactor
 description: malefic-reactor 是一个独立的顶层 crate，编译为 maleficreactor.dll（Windows）/ libmaleficreactor.so（Linux），
-  外部程序通过 C ABI 加载后即可动态加载 module 插件并执行——本质上是一个 headless malefic ， 不...
+  外部程序通过 C ABI 加载后即可执行内置模块，或在 Windows 热加载路径中动态加载 module 插件并执行——本质上...
 edition: community
 generated: false
 source: imp:getting-started/components/reactor.md
@@ -10,7 +10,7 @@ source: imp:getting-started/components/reactor.md
 # malefic-reactor
 
 `malefic-reactor` 是一个独立的顶层 crate，编译为 `malefic_reactor.dll`（Windows）/ `libmalefic_reactor.so`（Linux），
-外部程序通过 C ABI 加载后即可动态加载 module 插件并执行——本质上是一个 **headless malefic** ，
+外部程序通过 C ABI 加载后即可执行内置模块，或在 Windows 热加载路径中动态加载 module 插件并执行——本质上是一个 **headless malefic** ，
 不依赖网络、beacon、transport，仅保留模块加载与执行能力。
 
 头文件 `malefic-reactor/include/malefic_reactor.h` 由 cbindgen 在编译时自动生成，无需手动维护。
@@ -56,7 +56,7 @@ beacon/bind 的 stub 和 headless 的 reactor 都调用它处理 ping/init/list_
 Beacon-only 模块（sleep/suicide/switch/keepalive/key_exchange）由 stub 单独处理。
 
 **reactor** 是唯一的 headless 对外入口（cdylib），持有 `MaleficManager`，
-通过 6 个 C ABI 函数将模块能力暴露给任意外部程序。
+通过 4 个 C ABI 函数将模块能力暴露给任意外部程序。
 
 ### rt_host_execute 调度流程
 
@@ -83,7 +83,7 @@ rt_host_execute(name, body)
 ### 通过 mutant 编译（推荐）
 
 ```bash
-# 空壳 DLL（仅支持运行时动态加载模块）
+# 空壳 DLL（不内置模块；Windows 下可通过 load_module 动态加载模块 DLL）
 malefic-mutant build reactor
 
 # 内置 base 模块集
@@ -102,16 +102,13 @@ malefic-mutant build reactor -m "base,execute_bof,execute_assembly"
 malefic-mutant build -t x86_64-pc-windows-gnu reactor -m base
 ```
 
-mutant 会自动附加 `source` feature（从源码编译 win-kit），并以 release `--lib` 模式构建。
+mutant 会以 release library 模式构建 Reactor，并把 `-m/--modules` 传入 Cargo `--features`。
 
 ### 直接 cargo 编译
 
 ```bash
-# 空壳 DLL（默认 source + tokio）
+# 空壳 DLL（不内置模块）
 cargo build -p malefic-reactor
-
-# 使用 prebuild（预编译二进制，跳过 win-kit 源码编译）
-cargo build -p malefic-reactor --no-default-features --features "tokio,prebuild"
 
 # 内置 base 模块集
 cargo build -p malefic-reactor --features base
@@ -129,24 +126,9 @@ cargo build -p malefic-reactor --release --features base
 |------|---------|-------|
 | Debug | `target/debug/malefic_reactor.dll` | `target/debug/libmalefic_reactor.so` |
 | Release | `target/release/malefic_reactor.dll` | `target/release/libmalefic_reactor.so` |
-| mutant | `target/<target>/release/malefic_reactor.dll` | — |
+| mutant | `target/<target>/release/malefic_reactor.dll` | `target/<target>/release/libmalefic_reactor.so` |
 
 ### Feature 参考
-
-**构建类型：**
-
-| Feature | 说明 |
-|---------|------|
-| `source` | 从源码编译 win-kit（默认） |
-| `prebuild` | 使用预编译二进制 |
-
-**异步运行时（三选一）：**
-
-| Feature | 说明 |
-|---------|------|
-| `tokio` | tokio 多线程（默认） |
-| `async-std` | async-std |
-| `smol` | smol 轻量运行时 |
 
 **内置模块（与 `malefic-modules` 完全一致）：**
 
@@ -164,6 +146,7 @@ cargo build -p malefic-reactor --release --features base
 | `execute_bof` | BOF 执行 |
 
 > **注意** : `builtin` 模式下仍可通过 `rt_host_execute("load_module", ...)` 额外加载动态模块 DLL，两者共存。
+> 当前动态 `load_module` 路径依赖 Windows 的 hot-load loader；跨平台使用 Reactor 时应优先通过 `-m base/full/...` 静态内置模块。
 
 ---
 

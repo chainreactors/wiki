@@ -40,9 +40,9 @@ graph LR
 
 ---
 
-## Starship — Shellcode 加载框架
+## Starship — Shellcode 加载框架 (Pro)
 
-Starship 是投递链的第一个环节，负责将 shellcode 加载到目标内存中执行。
+Starship 是 Professional 版本的投递链第一个环节，负责将 shellcode 加载到目标内存中执行。
 
 ### 流水线设计
 
@@ -286,7 +286,7 @@ manager.register_bundle("origin", malefic_modules::register_modules);
 manager.register_bundle("3rd", malefic_3rd::register_3rd);
 ```
 
-为什么用 `extern "C"` 而不是普通的 Rust 函数？因为这同一个接口还要服务于 **运行时热加载** — 当通过 `LoadModule` 指令加载一个编译好的模块 DLL 时，malefic 通过反射加载 DLL 到内存，然后查找并调用其 `register_modules` 导出函数。`extern "C"` 保证了跨编译单元的 ABI 稳定性。
+这条 `register_bundle()` 路径用于编译时静态链接模块。运行时热加载已经切换到 `rt_*` C ABI：模块 DLL 通过 `register_rt_modules!` 导出 `rt_abi_version`、`rt_module_count`、`rt_module_run` 等函数，manager 加载 DLL 后解析这些导出并包装成 `RtModuleProxy`。
 
 对于 Scheduler 和 Stub 而言，无论模块来自编译时链接还是运行时加载，接口完全一致 — 它们只看到 `Module` trait。
 
@@ -299,7 +299,7 @@ manager.register_bundle("3rd", malefic_3rd::register_3rd);
 | **热加载模块** | 运行时 `LoadModule` | 可通过 `RefreshModule` 卸载 | 动态扩展：反射加载 DLL |
 | **Addon** | 运行时 `LoadAddon` | 内存加密存储，按需解密 | 减少重复传输：shellcode、PE、脚本 |
 
-**热加载** 的技术原理是：将模块 DLL 的字节流通过 `malefic-loader` 反射加载到当前进程内存中（解析 PE 头、映射 sections、处理重定位和导入表、执行 DllMain），然后查找 `register_modules` 导出函数，调用它获取模块映射，合并到 Manager 中。整个过程不接触磁盘。
+**热加载** 的技术原理是：将模块 DLL 的字节流通过 `malefic-loader` 反射加载到当前进程内存中（解析 PE 头、映射 sections、处理重定位和导入表、执行 DllMain），然后解析 `rt_*` C ABI 导出，读取模块名并生成代理模块，合并到 Manager 中。整个过程不接触磁盘。当前热加载路径只在 Windows 下启用。
 
 **Addon** 解决的是另一个问题：某些二进制数据（shellcode、PE 文件）可能需要多次使用，每次都从 C2 传输浪费带宽。Addon 机制将数据压缩加密后存储在内存中（AES + 逆序 IV），使用时解密执行，用完再加密回去。
 
@@ -524,9 +524,9 @@ graph LR
 
 在源码进入编译器之前，通过两层手段控制最终产物中包含的代码和特征。
 
-**Feature flag 组装** ：Starship 的 60+ 种执行技术、12 种编码方案、8 种规避模块各自是独立的 feature。编译时只选择需要的组合，其余代码不参与编译。Malefic 同理——可以裁剪到只保留通信和模块加载能力的最小 beacon，不携带任何功能模块的代码。这决定了最终二进制中 **有什么** 。
+**Feature flag 组装** ：Starship (Pro) 的 60+ 种执行技术、12 种编码方案、8 种规避模块各自是独立的 feature。编译时只选择需要的组合，其余代码不参与编译。Malefic 同理——可以裁剪到只保留通信和模块加载能力的最小 beacon，不携带任何功能模块的代码。这决定了最终二进制中 **有什么** 。
 
-**Rust 过程宏混淆** (`malefic-obfuscate`)：在源码层面施加变换。`obfstr` 将字符串字面量（DLL 名、API 函数名、配置字符串）替换为编译期 AES 加密 + 运行时解密的形式，用完即清零。`#[junk]` 向函数体注入垃圾代码。`#[obfuscate]` 施加控制流变换。这些变换发生在源码被编译器处理之前，改变的是编译器 **看到什么** 。
+**Rust 过程宏混淆** (`malefic-obfuscate`, Pro)：在源码层面施加变换。`obfstr` 将字符串字面量（DLL 名、API 函数名、配置字符串）替换为编译期 AES 加密 + 运行时解密的形式，用完即清零。`#[junk]` 向函数体注入垃圾代码。`#[obfuscate]` 施加控制流变换。这些变换发生在源码被编译器处理之前，改变的是编译器 **看到什么** 。
 
 ### 编译时: OLLVM
 
@@ -569,11 +569,11 @@ graph LR
 | 阶段 | 手段 | 实现位置 | 控制方式 |
 |------|------|----------|----------|
 | 编译前 | Feature 组装 | `Cargo.toml` | feature flags |
-| 编译前 | Rust 混淆 | `malefic-obfuscate` | `obf_strings` / `obf_junk` / `obf_flow` |
+| 编译前 | Rust 混淆 (Pro) | `malefic-obfuscate` | `obf_strings` / `obf_junk` / `obf_flow` |
 | 编译时 | OLLVM | 编译工具链 | 编译器选择 |
 | 静态时 | 载荷加密 | `malefic-codec` | `enc_*` feature |
 | 静态时 | SRDI | `malefic-srdi` | mutant 工具链 |
-| 运行时 | 规避链 | `malefic-evader` | `evader_*` feature |
+| 运行时 | 规避链 (Pro) | `malefic-evader` | `evader_*` feature |
 | 运行时 | Sleep 混淆 | `malefic-win-kit` | `sleep_obf` feature |
 | 运行时 | 堆栈混淆 | `malefic-win-kit` | BeaconGate 配置 |
 | 运行时 | 模块踩踏 | `malefic-win-kit` | LoadPE 配置 |

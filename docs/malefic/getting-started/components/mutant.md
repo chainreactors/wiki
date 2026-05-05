@@ -116,7 +116,7 @@ malefic-mutant build \
 | `generate bind` / `build malefic` | `malefic` | same as beacon, `mod=bind` | [malefic build](/malefic/build/malefic/) |
 | `generate prelude` / `build prelude` | `malefic-prelude` | bin | [prelude build](/malefic/build/prelude/) |
 | `generate pulse` / `build pulse` | `malefic-pulse` | bin / lib / shellcode (`--shellcode`) | [pulse build](/malefic/build/pulse/) |
-| `generate modules` / `build modules` | `malefic-modules` | shared library | [modules build](/malefic/build/modules/) |
+| `generate modules` / `build modules` | `malefic-modules` | feature 配置 / shared library | [modules build](/malefic/build/modules/) |
 | `generate loader proxydll` / `build proxy-dll` | `malefic-proxydll` | shared library | [proxydll build](/malefic/build/proxydll/) |
 | `build 3rd` | `malefic-3rd` | shared library | [modules build](/malefic/build/modules/) |
 | `build reactor` | `malefic-reactor` | shared library (always) | [reactor build](/malefic/build/reactor/) |
@@ -133,17 +133,21 @@ Windows-only gates are enforced for `pulse`, `modules`, `3rd`, and `proxy-dll`.
 | `tool patch` | Runtime config hot-patch | [Patch](/malefic/mutant/patch/) |
 | `tool sigforge` | PE signature manipulation | [SigForge](/malefic/mutant/sigforge/) |
 | `tool strip` | Path stripping from binaries | [PE Modify](/malefic/mutant/pe-modify/) |
-| `tool obf` | Source-level obfuscation | [Obfuscate](/malefic/mutant/obfuscate/) |
+| `tool obf` | Source-level obfuscation | Obfuscate (Pro) |
 | `tool entropy` | Entropy measurement / reduction | [PE Modify](/malefic/mutant/pe-modify/) |
 | `tool watermark` | PE watermark embedding | [PE Modify](/malefic/mutant/pe-modify/) |
 | `tool binder` | PE binding / embedding | [PE Modify](/malefic/mutant/pe-modify/) |
 | `tool icon` | Icon replacement / extraction | [PE Modify](/malefic/mutant/pe-modify/) |
 | `generate loader template` | Template loader generation | [Loader](/malefic/mutant/loader/) |
 | `generate loader proxydll` | ProxyDLL generation | [Loader](/malefic/mutant/loader/) |
+| `tool bdf` | PE shellcode injection (Pro) | BDF (Pro) |
+| `tool relink` | PE post-link randomization (Pro) | Relink (Pro) |
+| `tool mutate` | Polymorphic variant generation (Pro) | Mutate (Pro) |
+| `tool lnk` | LNK weaponization (Pro) | LNK (Pro) |
 
 ## implant.yaml
 
-`implant.yaml` is the single source of truth for all generate and build commands. Mutant validates only the sections relevant to the selected command. `basic.obf_seed` is required by all generation paths.
+`implant.yaml` is the single source of truth for generate and build commands that need project configuration. Mutant validates only the sections relevant to the selected command. `basic.obf_seed` is required by generation paths that produce the main implant runtime config; commands such as `generate pulse` only load their own active section.
 
 | Section | Used by | Detail |
 |---------|---------|--------|
