@@ -1,0 +1,7247 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="传统的植入体设计往往将所有能力打包到一个单体二进制中 — 加载、通信、执行、持久化全部耦合在一起。这在简单场景下足够，但随着对抗升级，单体设计暴露出根本性的问题：">
+      
+      
+        <meta name="author" content="M09ic">
+      
+      
+        <link rel="canonical" href="https://wiki.chainreactors.red/malefic/getting-started/architecture/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../components/malefic/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>架构设计 · 从 Starship 到 Malefic 的层层组装 - ChainReactor Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-DCRVR86FG2"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-DCRVR86FG2",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-DCRVR86FG2",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#架构设计-从-starship-到-malefic-的层层组装" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="ChainReactor Wiki" class="md-header__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ChainReactor Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              架构设计 · 从 Starship 到 Malefic 的层层组装
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  导航
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../IoM/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  IoM
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  malefic
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../gogo/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  gogo
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../spray/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  spray
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../zombie/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  zombie
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../rem/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  rem
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../libs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  libs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../mapping/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Preview
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../blog/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="ChainReactor Wiki" class="md-nav__button md-logo" aria-label="ChainReactor Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ChainReactor Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chainreactors/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    导航
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IoM
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    IoM
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/getting-started/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/getting-started/concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    核心概念
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/getting-started/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计目标
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/getting-started/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    路线图
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_5" id="__nav_2_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Changelog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.chainreactors.red/blog/2026/04/20/IoM_v0.3.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.3.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.chainreactors.red/blog/2025/11/10/IoM_v0.1.2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.chainreactors.red/blog/2025/07/09/IoM_v0.1.1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.chainreactors.red/blog/2025/04/14/IoM_v0.1.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.chainreactors.red/blog/2025/01/02/IoM_v0.0.4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.chainreactors.red/blog/2024/11/20/IoM_v0.0.3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.chainreactors.red/blog/2024/09/23/IoM_v0.0.2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.chainreactors.red/blog/2024/08/16/IoM_introduce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.0.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/user-guide/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/console/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    命令行系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    部署指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/listener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Listener 与 Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    构建与 Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/embed-mal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内置 MAL 操作
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/client-quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    快速开始
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/session-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    基础操作
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_9" id="__nav_2_3_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/advanced/domain-fronting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CDN 前置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/advanced/dump-lsass/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dump LSASS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/advanced/guardrail/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guardrail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/advanced/multi-server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    多服务器连接
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/advanced/proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    REM 代理与隧道
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_10" id="__nav_2_3_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Post Exploitation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Post Exploitation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/post-exploitation/command-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    命令执行
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/post-exploitation/file-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    文件操作
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/post-exploitation/system-info/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    系统信息
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/post-exploitation/service-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    服务管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/post-exploitation/registry-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    注册表操作
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/post-exploitation/wmi-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WMI 操作
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/post-exploitation/network-proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    网络代理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/user-guide/post-exploitation/module-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模块管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_1" id="__nav_2_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commands
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Commands
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/reference/commands/client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/reference/commands/implant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implant
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/reference/commands/community/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Community MAL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_2" id="__nav_2_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lua API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Lua API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/reference/lua-api/builtin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Builtin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/reference/lua-api/rpc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RPC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/reference/lua-api/beacon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beacon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/development/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/development/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    贡献指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/development/integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    集成指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/development/server/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Server
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_5_4" id="__nav_2_5_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/development/server/custom-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CustomPipeline 开发手册
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/development/server/internals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Server 内部机制
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/development/client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Client 开发指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/development/ai/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_5_6" id="__nav_2_5_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/development/ai/client-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 集成
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/development/ai/agent-skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Skill System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/development/sdk/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_5_7" id="__nav_2_5_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    SDK
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/development/sdk/go/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Go
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/development/sdk/python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/development/sdk/typescript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TypeScript
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5_8" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../IoM/development/mals/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MAL 插件
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_5_8" id="__nav_2_5_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_5_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MAL 插件
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IoM/development/mals/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    快速开始
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    malefic
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    malefic
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    架构设计 · 从 Starship 到 Malefic 的层层组装
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    架构设计 · 从 Starship 到 Malefic 的层层组装
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#为什么需要分层" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么需要分层
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starship-shellcode-加载框架-pro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starship — Shellcode 加载框架 (Pro)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Starship — Shellcode 加载框架 (Pro)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#流水线设计" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        流水线设计
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#编码与执行" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        编码与执行
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#规避链" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        规避链
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#依赖隔离" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        依赖隔离
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pulse-最小化-stager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pulse — 最小化 Stager
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pulse — 最小化 Stager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#设计约束" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设计约束
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#位置无关代码" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        位置无关代码
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#运行时-api-解析" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        运行时 API 解析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#与其他阶段的关系" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        与其他阶段的关系
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#malefic-完整的-c2-植入体" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Malefic — 完整的 C2 植入体
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Malefic — 完整的 C2 植入体">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#多形态入口" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多形态入口
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#消息总线架构" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        消息总线架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beacon-与-bind-strategy-模式" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Beacon 与 Bind: Strategy 模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#双模式通信-heartbeat-与-duplex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        双模式通信: Heartbeat 与 Duplex
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#心跳调度" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        心跳调度
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#密钥交换" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        密钥交换
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#两层路由" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        两层路由
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#模块系统" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模块系统
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="模块系统">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trait-体系" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trait 体系
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bundle-注册" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bundle 注册
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#四种模块来源" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四种模块来源
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#基础设施层" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基础设施层
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prelude-基于-yaml-的场景编排" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prelude — 基于 YAML 的场景编排
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prelude — 基于 YAML 的场景编排">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#设计动机" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设计动机
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#编排即复用" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        编排即复用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#编译时密封" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        编译时密封
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#两种部署方式" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        两种部署方式
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#编译期组装-极限裁剪" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        编译期组装 — 极限裁剪
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="编译期组装 — 极限裁剪">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#最小化-beacon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最小化 Beacon
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#opsec-对抗体系" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OPSEC 对抗体系
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OPSEC 对抗体系">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#编译前-基于配置的组装" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        编译前: 基于配置的组装
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#编译时-ollvm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        编译时: OLLVM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#静态时-产物后处理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        静态时: 产物后处理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#运行时-内存中的对抗" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        运行时: 内存中的对抗
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#解耦与可扩展" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解耦与可扩展
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#典型部署链路" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        典型部署链路
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="典型部署链路">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#全链路多段上线" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        全链路多段上线
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#直接投递" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        直接投递
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stager-模式" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stager 模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#设计原则" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设计原则
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2_3" id="__nav_3_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Components
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Components
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../components/malefic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    主程序入口
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../components/mutant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mutant
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../components/prelude/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prelude
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../components/proxydll/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ProxyDLL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../components/pulse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pulse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../components/reactor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reactor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../components/runtime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../components/srdi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SRDI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../components/win-kit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Win-Kit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../build/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../build/malefic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Malefic 构建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../build/modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模块构建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../build/prelude/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prelude 构建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../build/proxydll/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ProxyDLL 构建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../build/pulse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pulse 构建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../build/reactor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reactor 构建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mutant/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mutant
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_4" id="__nav_3_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mutant
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mutant/loader/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Loader — 加载器生成
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mutant/patch/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Patch — 运行时配置热补丁
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mutant/pe-modify/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PE Modify — PE 文件修改工具集
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mutant/retest-issues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    复测问题
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mutant/sigforge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SigForge — PE 签名操作
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mutant/transform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transform — Payload 编码与二进制转换
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../develop/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Develop
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_5" id="__nav_3_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Develop
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../develop/3rd-party/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Third-Party Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../develop/ffi-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ffi_library 宏
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../develop/ffi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Win-Kit FFI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../develop/module-development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    多语言模块模板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../develop/modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模块系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../gogo/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    gogo
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    gogo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gogo/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gogo/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gogo/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    细节
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gogo/extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拓展
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gogo/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../spray/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    spray
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    spray
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../spray/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../spray/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../spray/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    细节
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../spray/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../zombie/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    zombie
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    zombie
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../zombie/start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../zombie/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../zombie/extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拓展
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../rem/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rem
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    rem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rem/usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rem/concept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概念
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rem/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rem/changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../libs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    libs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    libs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../libs/neutron/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    neutron
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    neutron
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../libs/neutron/update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    update
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../libs/words/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    words
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    words
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../libs/fingers/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    fingers
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8_4" id="__nav_8_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    fingers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../libs/fingers/rule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../libs/fingers/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../libs/proxyclient/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    proxyclient
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8_5" id="__nav_8_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    proxyclient
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../libs/proxyclient/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preview
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preview
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../mapping/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mapping
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9_1" id="__nav_9_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mapping
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mapping/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../blog/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_10" id="__nav_10_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_2" id="__nav_10_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2026/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="架构设计-从-starship-到-malefic-的层层组装">架构设计: 从 Starship 到 Malefic 的层层组装<a class="headerlink" href="#架构设计-从-starship-到-malefic-的层层组装" title="Permanent link">&para;</a></h1>
+<h2 id="为什么需要分层">为什么需要分层<a class="headerlink" href="#为什么需要分层" title="Permanent link">&para;</a></h2>
+<p>传统的植入体设计往往将所有能力打包到一个单体二进制中 — 加载、通信、执行、持久化全部耦合在一起。这在简单场景下足够，但随着对抗升级，单体设计暴露出根本性的问题：</p>
+<ul>
+<li><strong>体积与隐蔽性的矛盾</strong> ：功能越多，体积越大，静态特征越明显</li>
+<li><strong>投递灵活性不足</strong> ：不同场景需要不同的投递方式，但单体无法裁剪</li>
+<li><strong>场景适配困难</strong> ：面对不同的目标环境（不同杀软、不同权限、不同网络拓扑），需要不同的前置策略</li>
+</ul>
+<p>malefic 的回答是 <strong>分层组装</strong> — 将植入体的生命周期拆分为多个独立阶段，每个阶段只解决一个问题，通过编译期 feature flags 实现零成本裁剪。这些阶段可以自由组合：可以全链路串联，也可以跳过中间阶段直接投递。</p>
+<pre class="mermaid"><code>graph LR
+    S[Starship&lt;br/&gt;Loader] --&gt;|加载 + 执行| P[Pulse&lt;br/&gt;Stager ~4KB]
+    P --&gt;|拉取载荷| M[Malefic&lt;br/&gt;Full Implant]
+    M --- MOD[Modules&lt;br/&gt;40+ 功能模块]
+    PRE[Prelude&lt;br/&gt;YAML 场景编排] -.-&gt;|复用模块能力| MOD
+
+    style S fill:#e74c3c,color:#fff
+    style P fill:#e67e22,color:#fff
+    style M fill:#2ecc71,color:#fff
+    style MOD fill:#3498db,color:#fff
+    style PRE fill:#9b59b6,color:#fff</code></pre>
+<p>从左到右，体积递增、功能递丰；从右到左，OPSEC 要求递严。整个架构可以从三个层面理解：</p>
+<ul>
+<li><strong>投递链</strong> (Starship → Pulse → Malefic)：解决"如何把载荷安全送达目标"</li>
+<li><strong>模块系统</strong> (Modules)：解决"Agent 能做什么"</li>
+<li><strong>编排层</strong> (Prelude)：解决"不同场景如何适配"</li>
+</ul>
+<hr />
+<h2 id="starship-shellcode-加载框架-pro">Starship — Shellcode 加载框架 (Pro)<a class="headerlink" href="#starship-shellcode-加载框架-pro" title="Permanent link">&para;</a></h2>
+<p>Starship 是 Professional 版本的投递链第一个环节，负责将 shellcode 加载到目标内存中执行。</p>
+<h3 id="流水线设计">流水线设计<a class="headerlink" href="#流水线设计" title="Permanent link">&para;</a></h3>
+<p>Starship 内部采用四段流水线，每一段职责单一、通过 feature flag 独立选择实现：</p>
+<pre class="mermaid"><code>graph LR
+    L[Load&lt;br/&gt;加载载荷] --&gt; D[Decode&lt;br/&gt;解码还原]
+    D --&gt; E[Evade&lt;br/&gt;运行时规避]
+    E --&gt; X[Execute&lt;br/&gt;注入执行]
+
+    style L fill:#3498db,color:#fff
+    style D fill:#2ecc71,color:#fff
+    style E fill:#e67e22,color:#fff
+    style X fill:#e74c3c,color:#fff</code></pre>
+<p>这种设计源于一个现实问题：shellcode 加载面临 <strong>组合爆炸</strong> — 12 种编码方案 × 60+ 种执行技术 × 8 种规避模块，如果每种组合都写一个 loader，维护成本不可接受。通过将流水线拆分为独立的阶段，每个阶段通过 feature flag 选择实现，任意组合只需要在编译时指定 feature：</p>
+<div class="highlight"><span class="filename">Bash</span><pre><span></span><code><span class="c1"># AES 加密 + 间接系统调用 + 全部规避</span>
+cargo<span class="w"> </span>build<span class="w"> </span>--features<span class="w"> </span>enc_aes,indirect_syscall,evader_full
+</code></pre></div>
+<p>不需要的代码根本不会编译进最终二进制，从根本上减少静态特征。</p>
+<h3 id="编码与执行">编码与执行<a class="headerlink" href="#编码与执行" title="Permanent link">&para;</a></h3>
+<p><strong>编码阶段</strong> 提供 12 种方案，覆盖三种思路：对称加密（AES、ChaCha20、DES、RC4）、编码变换（Base64/45/58）、格式伪装（将 shellcode 伪装为 UUID/MAC/IPv4 列表，绕过基于熵值的检测）。密钥和额外参数在编译时从 <code>generated/</code> 目录读取。</p>
+<p><strong>执行阶段</strong> 提供 60+ 种注入技术，按原理分为：自注入（函数指针、Fiber、TLS 回调）、APC 注入（NtTestAlert、QueueUserAPC、ThreadlessAPC）、DLL 技术（DLL 重载、入口点劫持、Phantom DLL）、系统调用（直接/间接 syscall、Halo's Gate、Ninja Syscall）、异常处理（VEH + ROP、硬件断点）、Hook 技术（VMT hook、ROP trampoline）等。每种技术一个 feature，编译时选择恰好一种。</p>
+<h3 id="规避链">规避链<a class="headerlink" href="#规避链" title="Permanent link">&para;</a></h3>
+<p>在执行 shellcode 之前，Starship 通过 <code>malefic-evader</code> 按固定顺序运行规避模块。这个顺序经过精心设计：</p>
+<ol>
+<li><strong>anti_emu</strong> — 先检测沙箱，如果在沙箱中就不暴露后续技术</li>
+<li><strong>god_speed</strong> — 从干净的 ntdll 恢复被 hook 的函数（挂起 cmd.exe 读取）</li>
+<li><strong>api_untangle</strong> — 从磁盘 ntdll 恢复被 hook 的 NT 函数前 8 字节</li>
+<li><strong>etw_pass</strong> — 绕过 ETW 追踪（patch NtTraceEvent / VEH+HWBP）</li>
+<li><strong>cfg_patch</strong> — 补丁 CFG 检查，为后续注入铺路</li>
+<li><strong>normal_api</strong> — 调用无害 API 制造行为噪声</li>
+</ol>
+<p>先脱钩再绕过 ETW，先绕过 ETW 再绕过 CFG — 每一步都为下一步创造条件。如果 anti_emu 检测到沙箱，后续模块不会执行，避免在分析环境中暴露规避手段。</p>
+<h3 id="依赖隔离">依赖隔离<a class="headerlink" href="#依赖隔离" title="Permanent link">&para;</a></h3>
+<p>Starship 作为 <strong>独立 workspace</strong> 存在，不在主 <code>Cargo.toml</code> 的 workspace members 中。这是一个有意为之的架构决策：loader 依赖的 crate（Windows FFI 绑定、编解码库、规避模块）应当与主体植入体完全隔离。如果 loader 和 implant 共享 workspace，任何一方的依赖变更都可能影响另一方的编译产物，这在对抗场景中是不可接受的。</p>
+<blockquote>
+<p>详见 Starship 文档 (Pro)</p>
+</blockquote>
+<hr />
+<h2 id="pulse-最小化-stager">Pulse — 最小化 Stager<a class="headerlink" href="#pulse-最小化-stager" title="Permanent link">&para;</a></h2>
+<p>Pulse 是 Starship 加载的 shellcode 本身 — 一个约 4-8KB 的位置无关代码，负责连接 C2、拉取主体载荷并注入执行。</p>
+<h3 id="设计约束">设计约束<a class="headerlink" href="#设计约束" title="Permanent link">&para;</a></h3>
+<p>Pulse 的核心约束是体积。shellcode 越小，能加载它的 loader 越多，注入成功率越高，静态特征也越少。</p>
+<p>为了压缩体积，Pulse 做出了以下设计决策：</p>
+<ul>
+<li><strong><code>#![no_std]</code></strong>：彻底移除 Rust 标准库。标准库会引入 libc 依赖、panic 处理、格式化输出等大量代码，这些对 stager 毫无用处</li>
+<li><strong><code>#![no_main]</code></strong>：不使用 Rust 的常规入口点。入口是一段手写汇编，直接控制栈帧对齐和调用约定</li>
+<li><strong>无 panic handler</strong> ：panic 处理器是一个空的死循环 — stager 如果出错，沉默退出比展开栈帧更安全</li>
+<li><strong>编译优化</strong> ：<code>opt-level = "z"</code> + <code>lto = true</code> + <code>strip = true</code> + <code>panic = "abort"</code>，一切为体积服务</li>
+</ul>
+<h3 id="位置无关代码">位置无关代码<a class="headerlink" href="#位置无关代码" title="Permanent link">&para;</a></h3>
+<p>作为 shellcode，Pulse 必须能在任意内存地址运行，不能依赖固定的加载基址。这通过 <code>global_asm!</code> 实现 RIP-relative 定位来解决：</p>
+<div class="highlight"><span class="filename">GAS</span><pre><span></span><code><span class="nl">stardust:</span><span class="w">           </span><span class="c1">; 入口点</span>
+<span class="w">    </span><span class="nf">push</span><span class="w"> </span><span class="no">rsi</span>
+<span class="w">    </span><span class="nf">mov</span><span class="w"> </span><span class="no">rsi</span><span class="p">,</span><span class="w"> </span><span class="no">rsp</span>
+<span class="w">    </span><span class="nf">and</span><span class="w"> </span><span class="no">rsp</span><span class="p">,</span><span class="w"> </span><span class="mi">-16</span><span class="w">    </span><span class="c1">; 16 字节对齐</span>
+<span class="w">    </span><span class="nf">sub</span><span class="w"> </span><span class="no">rsp</span><span class="p">,</span><span class="w"> </span><span class="mi">0x20</span><span class="w">   </span><span class="c1">; shadow space</span>
+<span class="w">    </span><span class="nf">call</span><span class="w"> </span><span class="no">entry</span><span class="w">       </span><span class="c1">; 调用 Rust 入口</span>
+<span class="w">    </span><span class="nf">mov</span><span class="w"> </span><span class="no">rsp</span><span class="p">,</span><span class="w"> </span><span class="no">rsi</span>
+<span class="w">    </span><span class="nf">pop</span><span class="w"> </span><span class="no">rsi</span>
+<span class="w">    </span><span class="nf">ret</span>
+
+<span class="nl">RipStart:</span><span class="w">           </span><span class="c1">; 获取当前 RIP（代码基址）</span>
+<span class="w">    </span><span class="nf">call</span><span class="w"> </span><span class="mi">2</span><span class="no">f</span>
+<span class="w">    </span><span class="nf">ret</span>
+<span class="err">2:</span><span class="w">  </span><span class="nf">mov</span><span class="w"> </span><span class="no">rax</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="no">rsp</span><span class="p">]</span>
+<span class="w">    </span><span class="nf">sub</span><span class="w"> </span><span class="no">rax</span><span class="p">,</span><span class="w"> </span><span class="mi">0x1b</span>
+<span class="w">    </span><span class="nf">ret</span>
+</code></pre></div>
+<p><code>RipStart</code> 通过 <code>call</code> + 读取返回地址的技巧获取当前执行位置，所有数据引用都基于此相对偏移。这套模式（称为 stardust pattern）使得 Pulse 不需要重定位表，可以被 <code>memcpy</code> 到任意内存位置直接执行。</p>
+<h3 id="运行时-api-解析">运行时 API 解析<a class="headerlink" href="#运行时-api-解析" title="Permanent link">&para;</a></h3>
+<p>没有标准库，也没有导入表 — Pulse 需要在运行时手动解析所有 Windows API：</p>
+<div class="highlight"><span class="filename">Rust</span><pre><span></span><code><span class="k">pub</span><span class="w"> </span><span class="k">unsafe</span><span class="w"> </span><span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">entry</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="o">*</span><span class="k">mut</span><span class="w"> </span><span class="n">c_void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">instance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Instance</span><span class="p">::</span><span class="n">new</span><span class="p">();</span><span class="w">   </span><span class="c1">// 遍历 PEB → 定位 kernel32 → 解析 GetProcAddress</span>
+<span class="w">    </span><span class="n">instance</span><span class="p">.</span><span class="n">start</span><span class="p">(</span><span class="n">args</span><span class="p">);</span><span class="w">             </span><span class="c1">// 用解析到的 API 完成网络通信 + 载荷注入</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>Instance::new()</code> 遍历进程环境块（PEB）的模块链表，通过 API 名称哈希定位 <code>kernel32.dll</code>，从其导出表解析 <code>GetProcAddress</code> 和 <code>LoadLibraryA</code>，然后用它们加载网络通信所需的其他 API。整个过程不产生任何 IAT 条目。</p>
+<h3 id="与其他阶段的关系">与其他阶段的关系<a class="headerlink" href="#与其他阶段的关系" title="Permanent link">&para;</a></h3>
+<p>Pulse 可以被任何 loader 加载 — Starship、第三方 loader、甚至内联到 PowerShell 脚本中。它的价值在于 <strong>将投递和执行解耦</strong> ：修改主体 beacon 不需要重新投递 stager，因为 Pulse 只是一个通用的下载执行器。同时 Pulse 也支持 DLL 入口点（<code>DllMain</code>），可以作为 DLL 被 <code>LoadLibrary</code> 加载。</p>
+<blockquote>
+<p>详见 <a href="/malefic/getting-started/components/pulse/">Pulse 文档</a></p>
+</blockquote>
+<hr />
+<h2 id="malefic-完整的-c2-植入体">Malefic — 完整的 C2 植入体<a class="headerlink" href="#malefic-完整的-c2-植入体" title="Permanent link">&para;</a></h2>
+<p>Malefic 是投递链的最后一级，也是实际执行任务的主体。它是功能完整的 C2 Agent，支持文件操作、进程管理、网络通信、执行引擎等能力。</p>
+<h3 id="多形态入口">多形态入口<a class="headerlink" href="#多形态入口" title="Permanent link">&para;</a></h3>
+<p>Malefic 编译为 <code>cdylib</code>（动态库）+ <code>rlib</code>（静态库），通过条件编译为每个平台提供原生的加载入口：</p>
+<ul>
+<li><strong>Windows</strong> ：<code>DllMain</code>（LoadLibrary 自动触发）、<code>Run</code>/<code>RunBlocking</code>（rundll32 调用）</li>
+<li><strong>Linux</strong> ：<code>.init_array</code> constructor（dlopen 自动触发）、<code>run</code> 导出符号（dlsym 调用）</li>
+<li><strong>macOS</strong> ：<code>__DATA,__mod_init_func</code>（dlopen 自动触发）</li>
+</ul>
+<p>所有入口最终调用同一个 <code>spawn_malefic_runtime()</code> — 在新线程中启动异步运行时。这意味着无论通过什么方式加载（注入、rundll32、dlopen），malefic 的行为完全一致。</p>
+<h3 id="消息总线架构">消息总线架构<a class="headerlink" href="#消息总线架构" title="Permanent link">&para;</a></h3>
+<p>Malefic 内部采用 <strong>基于消息的组装</strong> — 运行时由三个并发子系统组成，它们不直接调用彼此，而是通过 <code>MaleficChannel</code>（一组 mpsc channel）传递消息：</p>
+<pre class="mermaid"><code>graph TD
+    subgraph 并发子系统
+        SCH[Scheduler&lt;br/&gt;任务调度]
+        COL[Collector&lt;br/&gt;结果收集]
+        CLI[Client&lt;br/&gt;Beacon / Bind]
+    end
+
+    CH[MaleficChannel&lt;br/&gt;消息总线]
+    STUB[MaleficStub&lt;br/&gt;组合根 · 指令分发 · 模块管理]
+
+    SCH --- CH
+    COL --- CH
+    CLI --- STUB
+    CH --- STUB
+
+    style CH fill:#e67e22,color:#fff
+    style STUB fill:#2ecc71,color:#fff</code></pre>
+<p>为什么选择消息总线而不是直接函数调用？</p>
+<ul>
+<li><strong>故障隔离</strong> ：模块执行出错不会传播到通信层，channel 天然隔离 panic</li>
+<li><strong>异步并行</strong> ：多个模块任务可以同时执行，Scheduler 通过 channel 接收任务、通过 channel 返回结果，不需要锁</li>
+<li><strong>背压控制</strong> ：当模块执行过快而网络发送较慢时，Collector 中的 channel 自然形成缓冲</li>
+</ul>
+<p>三个子系统通过 <code>try_join!</code> 并发运行，任何一个退出都会触发整体退出。<code>MaleficChannel</code> 包含五条 channel，分别承载：数据推送（Stub → Collector）、数据请求（Stub → Collector）、聚合响应（Collector → Stub）、任务派发（Stub → Scheduler）、任务控制（Stub → Scheduler）。</p>
+<h3 id="beacon-与-bind-strategy-模式">Beacon 与 Bind: Strategy 模式<a class="headerlink" href="#beacon-与-bind-strategy-模式" title="Permanent link">&para;</a></h3>
+<p>Beacon（主动外连）和 Bind（被动监听）是两种截然不同的通信方向，但它们的会话管理逻辑几乎完全相同 — 都需要处理指令分发、结果收集、心跳维持、密钥交换、KeepAlive 升降级。</p>
+<p>如果用 <code>if/else</code> 区分两种模式，这些通用逻辑会被复制两份。malefic 选择了 <strong>Strategy 模式</strong> ：<code>SessionLoop</code> 实现所有通用逻辑，通过 <code>SessionStrategy</code> trait 注入模式特定的行为：</p>
+<pre class="mermaid"><code>sequenceDiagram
+    participant B as Beacon
+    participant C2 as C2 Server
+
+    Note over B,C2: Beacon 策略: 主动外连，先发后收
+    B-&gt;&gt;C2: send(request / ping)
+    C2--&gt;&gt;B: response(commands)
+    B-&gt;&gt;B: handle + sleep(cron + jitter)
+
+    Note over B,C2: Bind 策略: 被动监听，先收后发
+    C2-&gt;&gt;B: request(commands)
+    B-&gt;&gt;B: handle
+    B--&gt;&gt;C2: response(results)</code></pre>
+<p>Beacon 策略的 <code>heartbeat_iteration</code> 先准备并发送请求，再阻塞等待响应；Bind 策略的 <code>heartbeat_iteration</code> 先阻塞等待请求，处理后再发送响应。仅此一个方法的差异，其余全部复用。</p>
+<p>如果需要新增通信模式（如基于 DNS 的被动通道），只需实现 <code>SessionStrategy</code> trait 的一个方法，不需要改动 SessionLoop 和 Stub 的代码。</p>
+<h3 id="双模式通信-heartbeat-与-duplex">双模式通信: Heartbeat 与 Duplex<a class="headerlink" href="#双模式通信-heartbeat-与-duplex" title="Permanent link">&para;</a></h3>
+<p>传统的 beacon 只有心跳模式 — 每个周期一次请求-响应交互。但某些场景（如交互式 PTY 终端、实时命令流）需要全双工通信。</p>
+<p>malefic 支持运行时在两种模式之间动态切换：</p>
+<ul>
+<li><strong>Heartbeat 模式</strong> （默认）：严格的请求-响应，心跳间隔由 cron 表达式 + jitter 控制，适合低频隐蔽通信</li>
+<li><strong>Duplex 模式</strong> （KeepAlive 触发）：全双工，<code>upgrade()</code> 启动后台读取任务将接收数据写入 channel，<code>try_receive()</code> 非阻塞轮询，10ms 间隔。适合需要实时交互的场景</li>
+</ul>
+<p>服务端通过 <code>KeepAlive(enable=true)</code> 指令触发升级，<code>KeepAlive(enable=false)</code> 或连接异常时自动降级。大部分时间 beacon 在 Heartbeat 模式下低频通信，只有需要实时交互时才切换到 Duplex。</p>
+<h3 id="心跳调度">心跳调度<a class="headerlink" href="#心跳调度" title="Permanent link">&para;</a></h3>
+<p>心跳间隔不是简单的固定秒数，而是通过 <strong>cron 表达式 + jitter</strong> 控制。cron 表达式提供灵活的调度能力（如 "工作时间每 5 秒，凌晨每 30 分钟"），jitter 在基础间隔上引入随机偏移，避免固定间隔产生可识别的流量模式。服务端可以通过 <code>Sleep</code> 指令在运行时动态更新调度策略。</p>
+<h3 id="密钥交换">密钥交换<a class="headerlink" href="#密钥交换" title="Permanent link">&para;</a></h3>
+<p>启用 <code>secure</code> feature 后，传输层在对称加密之上叠加基于 age (X25519) 的非对称加密。密钥轮换采用三阶段状态机： <strong>Idle → Pending → ResponseSent → Idle</strong> 。</p>
+<p>收到服务端的 KeyExchange 请求后，implant 生成新密钥对，将新公钥放入响应队列，但 <strong>不立即切换密钥</strong> — 旧密钥继续使用，确保当前通信不中断。只有当响应确认发送成功后，才在下一个循环中提升新密钥为活跃密钥并触发重连。如果响应发送失败，状态回退，旧密钥仍然有效。这个流程保证密钥切换不会导致通信中断。</p>
+<h3 id="两层路由">两层路由<a class="headerlink" href="#两层路由" title="Permanent link">&para;</a></h3>
+<p><code>MaleficStub</code> 是指令的分发中心，采用两层路由将 <strong>控制面</strong> 和 <strong>数据面</strong> 分离：</p>
+<ol>
+<li>
+<p><strong>内置指令</strong> （<code>InternalModule</code>）— 控制 Agent 自身行为的指令，在 Stub 内直接处理，不经过 Scheduler。包括：生命周期管理（<code>Ping</code>/<code>Init</code>/<code>Sleep</code>/<code>Suicide</code>）、模块管理（<code>ListModule</code>/<code>RefreshModule</code>/<code>LoadModule</code>）、插件系统（<code>LoadAddon</code>/<code>ExecuteAddon</code>）、任务管理（<code>CancelTask</code>/<code>QueryTask</code>/<code>ListTask</code>）、通信控制（<code>Switch</code>/<code>KeyExchange</code>/<code>KeepAlive</code>）。这些指令需要即时响应，不应排队等待。</p>
+</li>
+<li>
+<p><strong>功能模块</strong> — 未匹配内置指令时，从 <code>MaleficManager</code> 查找已注册的模块，通过 <code>scheduler_task_sender</code> 派发到 Scheduler 异步执行。每个模块在独立的异步任务中运行，通过 input/output channel 与 Scheduler 通信，不阻塞主会话循环。</p>
+</li>
+</ol>
+<p>这种分离确保了即使有耗时模块（如大文件上传）在执行，<code>Sleep</code>、<code>Suicide</code> 等控制指令仍然能立即生效。</p>
+<blockquote>
+<p>详见 <a href="/malefic/getting-started/components/malefic/">Malefic 文档</a></p>
+</blockquote>
+<hr />
+<h2 id="模块系统">模块系统<a class="headerlink" href="#模块系统" title="Permanent link">&para;</a></h2>
+<p>malefic 的所有功能 — 从 <code>ls</code> 列目录到 <code>execute_assembly</code> 执行 .NET 程序集 — 都被抽象为统一的模块接口。模块系统管理模块的注册、查找、实例化和生命周期。</p>
+<h3 id="trait-体系">Trait 体系<a class="headerlink" href="#trait-体系" title="Permanent link">&para;</a></h3>
+<p>每个模块实现两个 trait：</p>
+<ul>
+<li><strong><code>Module</code></strong>：提供元信息（名称）和工厂方法（<code>new_instance()</code> 创建独立实例）。之所以需要工厂方法，是因为同一个模块可能被并发调用多次（比如同时下载两个文件），每次调用需要独立的状态</li>
+<li><strong><code>ModuleImpl</code></strong>：实现实际的执行逻辑。通过 <code>input channel</code> 接收请求参数，通过 <code>output channel</code> 发送中间结果，最终返回 <code>TaskResult</code>。channel 的设计使得模块可以流式输出（如实时命令执行的 stdout），而不是等全部完成才返回</li>
+</ul>
+<h3 id="bundle-注册">Bundle 注册<a class="headerlink" href="#bundle-注册" title="Permanent link">&para;</a></h3>
+<p>模块以 bundle 为单位注册，每个 bundle 是一个 <code>extern "C"</code> 函数，返回模块名到模块实例的 HashMap：</p>
+<div class="highlight"><span class="filename">Rust</span><pre><span></span><code><span class="c1">// 内置模块集</span>
+<span class="n">manager</span><span class="p">.</span><span class="n">register_bundle</span><span class="p">(</span><span class="s">&quot;origin&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">malefic_modules</span><span class="p">::</span><span class="n">register_modules</span><span class="p">);</span>
+<span class="c1">// 第三方模块集（可选）</span>
+<span class="n">manager</span><span class="p">.</span><span class="n">register_bundle</span><span class="p">(</span><span class="s">&quot;3rd&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">malefic_3rd</span><span class="p">::</span><span class="n">register_3rd</span><span class="p">);</span>
+</code></pre></div>
+<p>这条 <code>register_bundle()</code> 路径用于编译时静态链接模块。运行时热加载已经切换到 <code>rt_*</code> C ABI：模块 DLL 通过 <code>register_rt_modules!</code> 导出 <code>rt_abi_version</code>、<code>rt_module_count</code>、<code>rt_module_run</code> 等函数，manager 加载 DLL 后解析这些导出并包装成 <code>RtModuleProxy</code>。</p>
+<p>对于 Scheduler 和 Stub 而言，无论模块来自编译时链接还是运行时加载，接口完全一致 — 它们只看到 <code>Module</code> trait。</p>
+<h3 id="四种模块来源">四种模块来源<a class="headerlink" href="#四种模块来源" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>注册时机</th>
+<th>生命周期</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>内置模块</strong> (<code>malefic-modules</code>)</td>
+<td>编译时</td>
+<td>与进程同生命周期</td>
+<td>基础能力：fs、sys、net、execute</td>
+</tr>
+<tr>
+<td><strong>第三方模块</strong> (<code>malefic-3rd</code>)</td>
+<td>编译时</td>
+<td>与进程同生命周期</td>
+<td>社区扩展：rem、curl、pty</td>
+</tr>
+<tr>
+<td><strong>热加载模块</strong></td>
+<td>运行时 <code>LoadModule</code></td>
+<td>可通过 <code>RefreshModule</code> 卸载</td>
+<td>动态扩展：反射加载 DLL</td>
+</tr>
+<tr>
+<td><strong>Addon</strong></td>
+<td>运行时 <code>LoadAddon</code></td>
+<td>内存加密存储，按需解密</td>
+<td>减少重复传输：shellcode、PE、脚本</td>
+</tr>
+</tbody>
+</table>
+<p><strong>热加载</strong> 的技术原理是：将模块 DLL 的字节流通过 <code>malefic-loader</code> 反射加载到当前进程内存中（解析 PE 头、映射 sections、处理重定位和导入表、执行 DllMain），然后解析 <code>rt_*</code> C ABI 导出，读取模块名并生成代理模块，合并到 Manager 中。整个过程不接触磁盘。当前热加载路径只在 Windows 下启用。</p>
+<p><strong>Addon</strong> 解决的是另一个问题：某些二进制数据（shellcode、PE 文件）可能需要多次使用，每次都从 C2 传输浪费带宽。Addon 机制将数据压缩加密后存储在内存中（AES + 逆序 IV），使用时解密执行，用完再加密回去。</p>
+<h3 id="基础设施层">基础设施层<a class="headerlink" href="#基础设施层" title="Permanent link">&para;</a></h3>
+<p>22 个 workspace crate（<code>malefic-crates/*</code>）构成项目的基础设施，按职责分层：</p>
+<pre class="mermaid"><code>graph TD
+    subgraph 组合层
+        STUB[stub · 组合根]
+        MGR[manager · 模块注册表]
+        SCH[scheduler · 任务调度]
+        MOD[module · trait 定义]
+    end
+
+    subgraph 通信层
+        TRANS[transport · TCP/HTTP/REM]
+        PROTO[proto · Protobuf 消息]
+        CRYPTO[crypto · AES/ChaCha20]
+        CFG[config · 编译期配置]
+    end
+
+    subgraph 能力层
+        PROC[process · 进程操作]
+        NET[net · 网络工具]
+        SYS[sysinfo · 系统信息]
+        LDR[loader · 注入加载]
+        WIN[win · Windows API]
+    end
+
+    subgraph OPSEC层
+        OBF[obfuscate · 编译期混淆]
+        EVD[evader · 运行时规避]
+        GRD[guardrail · 环境护栏]
+    end
+
+    组合层 --&gt; 通信层
+    组合层 --&gt; 能力层
+    能力层 --&gt; OPSEC层
+
+    style 组合层 fill:#2ecc71,color:#fff
+    style 通信层 fill:#3498db,color:#fff
+    style 能力层 fill:#e67e22,color:#fff
+    style OPSEC层 fill:#e74c3c,color:#fff</code></pre>
+<p>每一层只依赖下层，不反向依赖。 <strong>组合层</strong> 负责将其他层粘合在一起（stub 是组合根，manager 管理模块，scheduler 调度任务）； <strong>通信层</strong> 处理所有与 C2 的交互（transport 抽象多种协议，proto 定义消息格式，crypto 提供加密）； <strong>能力层</strong> 封装操作系统交互（进程、网络、系统信息、内存加载、Windows 特有 API）； <strong>OPSEC 层</strong> 提供安全增强（编译期字符串加密和控制流混淆、运行时规避模块、环境护栏检测）。</p>
+<p>替换某一层的实现（比如换传输协议、换加密算法）不需要修改其他层 — 只需切换 feature flag。这种分层也使得各 crate 可以被其他阶段复用：Starship 复用 <code>malefic-codec</code>（编解码）、<code>malefic-evader</code>（规避）和 <code>malefic-os-win</code>（Windows FFI）；Prelude 复用 <code>malefic-autorun</code>（自动运行引擎）。</p>
+<blockquote>
+<p>模块详细列表见 <a href="/malefic/develop/modules/">模块文档</a></p>
+</blockquote>
+<hr />
+<h2 id="prelude-基于-yaml-的场景编排">Prelude — 基于 YAML 的场景编排<a class="headerlink" href="#prelude-基于-yaml-的场景编排" title="Permanent link">&para;</a></h2>
+<h3 id="设计动机">设计动机<a class="headerlink" href="#设计动机" title="Permanent link">&para;</a></h3>
+<p>前面介绍的模块系统为 malefic 提供了丰富的能力集 — 文件操作、进程管理、命令执行、BOF 加载、shellcode 注入等等。但在实际作战中，一个关键问题是： <strong>不同的目标环境需要不同的前置策略</strong> 。</p>
+<p>某个目标部署了 CrowdStrike，另一个跑的是 Defender；某个环境需要先做持久化再拉起主体，另一个需要先检查域环境确认在目标网络内。如果每种场景都编译一个特化的二进制，维护成本会迅速失控。</p>
+<p>Prelude 的解决方案是： <strong>将已有的模块能力通过 YAML 编排成前置任务序列</strong> 。操作者为不同场景编写不同的 YAML 编排文件，<code>malefic-mutant</code> 将其编译为加密的 <code>spite.bin</code>，运行时解密后按序执行。场景适配从"写代码"变为"写配置"。</p>
+<h3 id="编排即复用">编排即复用<a class="headerlink" href="#编排即复用" title="Permanent link">&para;</a></h3>
+<p>Prelude 不引入新的执行能力 — 它的 YAML 直接引用 <code>malefic-modules</code> 中已有的模块。所有 malefic 能做的事，Prelude 都能编排。这意味着模块系统的每一次能力扩展，都自动成为 Prelude 可编排的新能力：</p>
+<div class="highlight"><span class="filename">YAML</span><pre><span></span><code><span class="c1"># 场景: 杀软感知 — 先侦察再行动</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ps</span><span class="w">                        </span><span class="c1"># 复用 sys::ps 模块，收集进程列表</span>
+<span class="w">  </span><span class="nt">body</span><span class="p">:</span><span class="w"> </span><span class="kt">!Request</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ps</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">av_detect</span><span class="w">                 </span><span class="c1"># 复用 execute_bof 模块，加载探测 BOF</span>
+<span class="w">  </span><span class="nt">depend_on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">execute_bof</span>
+<span class="w">  </span><span class="nt">body</span><span class="p">:</span><span class="w"> </span><span class="kt">!ExecuteBinary</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">avdetect</span>
+<span class="w">    </span><span class="nt">bin</span><span class="p">:</span><span class="w"> </span><span class="kt">!File</span><span class="w"> </span><span class="s">&quot;avdetect.x64.o&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">edr_bypass</span><span class="w">                </span><span class="c1"># 根据探测结果，加载针对性绕过</span>
+<span class="w">  </span><span class="nt">depend_on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">execute_bof</span>
+<span class="w">  </span><span class="nt">body</span><span class="p">:</span><span class="w"> </span><span class="kt">!ExecuteBinary</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bypass</span>
+<span class="w">    </span><span class="nt">bin</span><span class="p">:</span><span class="w"> </span><span class="kt">!File</span><span class="w"> </span><span class="s">&quot;edr_bypass.x64.o&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">inject_beacon</span><span class="w">             </span><span class="c1"># 一切就绪，注入主体</span>
+<span class="w">  </span><span class="nt">body</span><span class="p">:</span><span class="w"> </span><span class="kt">!ExecuteShellcode</span>
+<span class="w">    </span><span class="nt">bin</span><span class="p">:</span><span class="w"> </span><span class="kt">!File</span><span class="w"> </span><span class="s">&quot;beacon.bin&quot;</span>
+</code></pre></div>
+<p>YAML 中的 <code>!File</code> 是自定义 Tag — 编译时 <code>malefic-mutant</code> 会从 resources 目录读取文件内容，将二进制数据内嵌到 spite.bin 中。类似的还有 <code>!Base64</code> 和 <code>!Hex</code>，分别解码 Base64/十六进制字符串为字节序列。这使得 YAML 可以引用任意二进制资源，而不需要额外的文件分发机制。</p>
+<p><code>depend_on</code> 字段声明 Cargo feature 依赖 — <code>malefic-mutant</code> 解析 YAML 后会自动在 <code>Cargo.toml</code> 中启用对应的 feature。<code>third: true</code> 标记第三方模块，影响 feature 写入哪个 crate 的配置。</p>
+<h3 id="编译时密封">编译时密封<a class="headerlink" href="#编译时密封" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph LR
+    Y[YAML 编排文件] --&gt; P[malefic-mutant&lt;br/&gt;解析 + Tag 处理]
+    P --&gt; PB[Protobuf 编码]
+    PB --&gt; Z[Zstd 压缩]
+    Z --&gt; E[AES 加密]
+    E --&gt; BIN[spite.bin]
+    BIN --&gt; PRE[Prelude / Beacon&lt;br/&gt;运行时解密执行]
+
+    style Y fill:#9b59b6,color:#fff
+    style BIN fill:#e74c3c,color:#fff
+    style PRE fill:#2ecc71,color:#fff</code></pre>
+<p>整个流程是 <strong>编译时密封</strong> 的。<code>malefic-mutant</code> 将 YAML 解析为 Protobuf 格式的 <code>Spites</code> 消息（与 C2 指令使用完全相同的消息格式），经过 zstd 压缩和 AES 加密后生成 <code>spite.bin</code>。加密密钥与 IV（密钥的逆序字节）在编译时确定。</p>
+<p>运行时，<code>malefic-autorun</code> 执行逆向流程：解密 → 解压 → Protobuf 解码 → 得到任务列表。然后创建 <code>MaleficManager</code>（注册所有内置模块），通过 <code>Autorun</code> 引擎并发执行任务。并发度通过 semaphore 控制（默认 6），每个任务在独立的异步任务中运行。</p>
+<p>因为 spite.bin 是加密的、嵌入在二进制中的，反向分析无法直接读取编排内容。这比将配置明文放在资源段中安全得多。</p>
+<h3 id="两种部署方式">两种部署方式<a class="headerlink" href="#两种部署方式" title="Permanent link">&para;</a></h3>
+<p>Prelude 可以作为独立二进制部署（适合分阶段上线，前置策略可以独立替换），也可以通过 Beacon 的 autorun 功能直接内嵌到主体 beacon 中（适合 stageless 场景，减少中间环节）。两者复用完全相同的 <code>malefic-autorun</code> 引擎，区别仅在于 spite.bin 嵌入的位置。</p>
+<p>此外，<code>external_spite</code> feature 允许运行时从磁盘加载 spite.bin 而非编译时嵌入，适合需要动态替换编排策略的场景。</p>
+<blockquote>
+<p>详见 <a href="/malefic/getting-started/components/prelude/">Prelude 文档</a></p>
+</blockquote>
+<hr />
+<h2 id="编译期组装-极限裁剪">编译期组装 — 极限裁剪<a class="headerlink" href="#编译期组装-极限裁剪" title="Permanent link">&para;</a></h2>
+<p>整个架构的"组装"发生在编译期。通过 feature flags，操作者可以精确控制最终二进制包含哪些能力：</p>
+<pre class="mermaid"><code>graph TD
+    TOP[malefic]
+    TOP --&gt; MODE[运行模式&lt;br/&gt;beacon / bind]
+    TOP --&gt; RT[异步运行时&lt;br/&gt;tokio / smol / async-std]
+    TOP --&gt; TP[传输协议&lt;br/&gt;TCP / HTTP / REM]
+    TOP --&gt; CR[加密算法&lt;br/&gt;AES / ChaCha20 / XOR]
+    TOP --&gt; EXT[扩展能力&lt;br/&gt;hot_load · addon · 3rd]
+    TOP --&gt; SEC[安全特性&lt;br/&gt;guardrail · sleep_obf · secure]
+
+    style TOP fill:#2c3e50,color:#fff</code></pre>
+<p>Feature 通过依赖链逐层传播：顶层 <code>malefic</code> 的 feature 会级联到 <code>malefic-stub</code>、<code>malefic-transport</code>、<code>malefic-crypto</code> 等子 crate，确保所有层使用一致的配置。未启用的 feature 对应的代码不会编译，实现真正的零成本裁剪。</p>
+<h3 id="最小化-beacon">最小化 Beacon<a class="headerlink" href="#最小化-beacon" title="Permanent link">&para;</a></h3>
+<p>这套 feature 体系可以做到很极端 — 编译出一个几乎"空"的 beacon，只保留通信能力和模块加载能力，不包含任何内置功能模块。</p>
+<pre class="mermaid"><code>graph LR
+    subgraph 最小 Beacon
+        COMM[通信层&lt;br/&gt;transport + crypto]
+        LOAD[模块加载&lt;br/&gt;hot_load]
+    end
+
+    subgraph 运行时按需扩展
+        M1[fs 模块]
+        M2[execute 模块]
+        M3[自定义模块]
+    end
+
+    C2[C2 Server] --&gt;|LoadModule| LOAD
+    LOAD --&gt; M1
+    LOAD --&gt; M2
+    LOAD --&gt; M3
+    COMM &lt;--&gt; C2
+
+    style COMM fill:#3498db,color:#fff
+    style LOAD fill:#2ecc71,color:#fff</code></pre>
+<p>这个最小 beacon 上线时不携带任何功能代码 — 没有 <code>ls</code>，没有 <code>exec</code>，没有 <code>ps</code>，静态分析几乎看不到任何"恶意"行为的特征。它唯一能做的事就是与 C2 通信和加载模块。所有功能都在运行时按需通过 <code>LoadModule</code> 热加载，用完即卸。</p>
+<p>传统 implant 的静态特征很大程度上来自它内置的功能代码 — 文件操作函数、进程枚举逻辑、注入代码等等。最小化 beacon 将这些代码从二进制中完全移除，只在需要时通过加密信道传输到内存中执行，用完卸载。</p>
+<p>这也是为什么 malefic 选择 Rust 的原因之一 — Rust 的 feature flags + 条件编译 + 零成本抽象，天然适合这种"同一套代码，编译出截然不同的产物"的需求。</p>
+<hr />
+<h2 id="opsec-对抗体系">OPSEC 对抗体系<a class="headerlink" href="#opsec-对抗体系" title="Permanent link">&para;</a></h2>
+<p>malefic 的 OPSEC 按照植入体从源码到执行的生命周期，分为四个阶段。每个阶段的手段各自实现为独立的 crate 或 feature，可以单独启用或组合使用。</p>
+<pre class="mermaid"><code>graph LR
+    subgraph 编译前
+        FF[Feature Flag 组装]
+        ROBF[Rust 过程宏混淆&lt;br/&gt;obfstr · junk · obfuscate]
+    end
+
+    subgraph 编译时
+        OLLVM[OLLVM&lt;br/&gt;控制流平坦化&lt;br/&gt;指令替换&lt;br/&gt;虚假控制流]
+        STRIP[符号剥离 + LTO]
+    end
+
+    subgraph 静态时
+        ENC[载荷加密 + 格式伪装]
+        SRDI[SRDI 剥离 PE 特征]
+        SIGN[签名伪造 · 资源替换]
+    end
+
+    subgraph 运行时
+        EVADE[规避链]
+        SLEEP[Sleep 混淆 + 堆加密]
+        STACK[堆栈混淆]
+        STOMP[模块踩踏]
+        SYSCALL[间接系统调用]
+    end
+
+    编译前 --&gt; 编译时 --&gt; 静态时 --&gt; 运行时
+
+    style 编译前 fill:#3498db,color:#fff
+    style 编译时 fill:#9b59b6,color:#fff
+    style 静态时 fill:#e67e22,color:#fff
+    style 运行时 fill:#e74c3c,color:#fff</code></pre>
+<h3 id="编译前-基于配置的组装">编译前: 基于配置的组装<a class="headerlink" href="#编译前-基于配置的组装" title="Permanent link">&para;</a></h3>
+<p>在源码进入编译器之前，通过两层手段控制最终产物中包含的代码和特征。</p>
+<p><strong>Feature flag 组装</strong> ：Starship (Pro) 的 60+ 种执行技术、12 种编码方案、8 种规避模块各自是独立的 feature。编译时只选择需要的组合，其余代码不参与编译。Malefic 同理——可以裁剪到只保留通信和模块加载能力的最小 beacon，不携带任何功能模块的代码。这决定了最终二进制中 <strong>有什么</strong> 。</p>
+<p><strong>Rust 过程宏混淆</strong> (<code>malefic-obfuscate</code>, Pro)：在源码层面施加变换。<code>obfstr</code> 将字符串字面量（DLL 名、API 函数名、配置字符串）替换为编译期 AES 加密 + 运行时解密的形式，用完即清零。<code>#[junk]</code> 向函数体注入垃圾代码。<code>#[obfuscate]</code> 施加控制流变换。这些变换发生在源码被编译器处理之前，改变的是编译器 <strong>看到什么</strong> 。</p>
+<h3 id="编译时-ollvm">编译时: OLLVM<a class="headerlink" href="#编译时-ollvm" title="Permanent link">&para;</a></h3>
+<p>代码进入编译器后，通过定制的 OLLVM 工具链施加第二层混淆。控制流平坦化将正常的分支结构变为 switch-case 状态机，指令替换用等价但更复杂的序列替代简单运算，虚假控制流插入看起来合理但不会执行的分支。经过 OLLVM 处理后，反汇编得到的控制流图不再反映原始逻辑。</p>
+<p>配合符号剥离（<code>strip = true</code>）、链接时优化（<code>lto = "fat"</code>）、单编译单元（<code>codegen-units = 1</code>）和移除 unwind 表（<code>panic = "abort"</code>），最终产物中没有符号、没有明文字符串、控制流被平坦化。</p>
+<p>编译前 + 编译时两步叠加的效果是：即使拿到二进制，静态分析也难以恢复原始逻辑。</p>
+<h3 id="静态时-产物后处理">静态时: 产物后处理<a class="headerlink" href="#静态时-产物后处理" title="Permanent link">&para;</a></h3>
+<p>二进制编译完成后、落地到目标之前，还有一层后处理，降低文件层面的可检测性。</p>
+<p><strong>SRDI</strong> ：<code>malefic-srdi</code> 将 DLL 转换为位置无关的 shellcode，转换过程中剥离节表名称、导入描述符、资源目录等 PE 特征，使注入后的内存区域不呈现典型的 PE 结构。</p>
+<p><strong>载荷加密与格式伪装</strong> ：Starship 的 12 种编码方案在此阶段将 shellcode 加密。除对称加密（AES、ChaCha20、RC4、DES）外，还支持将 shellcode 编码为 UUID 列表、MAC 地址列表或 IPv4 地址列表。这类格式的熵值低于常规密文，可以绕过基于熵值的检测（部分安全产品会将高熵数据标记为可疑加密载荷）。</p>
+<p><strong>签名与元数据</strong> ：<code>malefic-mutant</code> 提供签名伪造、资源替换、PE 元数据修改等能力，使落地文件在文件属性层面不引起怀疑。</p>
+<h3 id="运行时-内存中的对抗">运行时: 内存中的对抗<a class="headerlink" href="#运行时-内存中的对抗" title="Permanent link">&para;</a></h3>
+<p>植入体进入内存后，面对 EDR 的内存扫描、行为监控和调用栈检查：</p>
+<p><strong>规避链</strong> ：Starship 在执行 shellcode 前按固定顺序运行规避模块 — 沙箱检测 → ntdll 脱钩 → ETW bypass → CFG patch。顺序有依赖关系：先检测沙箱（避免在分析环境中暴露后续手段），脱钩需要在 ETW bypass 之前完成，CFG patch 需要在注入之前完成。</p>
+<p><strong>Sleep 混淆 + 堆加密</strong> ：beacon 在心跳等待期间，将自身代码段的内存保护属性从 RWX 改为 RW（不可执行），用 <code>SystemFunction040</code> 加密内存内容；同时通过 <code>RtlWalkHeap</code> 遍历进程的所有私有堆块，用 RDTSC 派生的密钥 XOR 加密。beacon 大部分时间处于 sleep 状态，这段时间内代码段和堆上的数据都是加密的。</p>
+<p><strong>堆栈混淆</strong> (Call Stack Spoofing)：每次系统调用前，通过 <code>malefic-win-kit</code> 构造伪造的调用栈帧。EDR 常通过检查调用栈判断系统调用是否来自合法代码。堆栈混淆使调用栈看起来来自正常的系统模块调用链。</p>
+<p><strong>模块踩踏</strong> (Module Stomping)：在内存中加载代码时，不分配新的可执行内存（<code>VirtualAlloc</code> + <code>RWX</code> 是常见检测信号），而是将代码写入已加载的合法 DLL 的 <code>.text</code> 段。从 EDR 的视角看，执行代码的内存区域属于一个合法的系统 DLL。</p>
+<p><strong>间接系统调用</strong> ：直接调用 NT API 会被 EDR 的 userland hook 拦截。malefic 通过 <code>malefic-win-kit</code> 实现间接系统调用（从 ntdll 的合法代码位置发起 syscall 指令）、Syscall Gate（动态解析 syscall 号）、Halo's Gate（通过相邻未被 hook 的函数推算 syscall 号）等方案，配合堆栈混淆绕过 userland 监控。</p>
+<p><strong>环境护栏</strong> (Guardrail)：在 beacon 注册之前检查目标环境（IP、用户名、主机名、域名）是否匹配预设条件，不匹配则退出，防止在非预期环境中运行。</p>
+<h3 id="解耦与可扩展">解耦与可扩展<a class="headerlink" href="#解耦与可扩展" title="Permanent link">&para;</a></h3>
+<p>四个阶段的每一项手段都是独立的 crate 或 feature，可以单独启用、禁用或替换：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>手段</th>
+<th>实现位置</th>
+<th>控制方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>编译前</td>
+<td>Feature 组装</td>
+<td><code>Cargo.toml</code></td>
+<td>feature flags</td>
+</tr>
+<tr>
+<td>编译前</td>
+<td>Rust 混淆 (Pro)</td>
+<td><code>malefic-obfuscate</code></td>
+<td><code>obf_strings</code> / <code>obf_junk</code> / <code>obf_flow</code></td>
+</tr>
+<tr>
+<td>编译时</td>
+<td>OLLVM</td>
+<td>编译工具链</td>
+<td>编译器选择</td>
+</tr>
+<tr>
+<td>静态时</td>
+<td>载荷加密</td>
+<td><code>malefic-codec</code></td>
+<td><code>enc_*</code> feature</td>
+</tr>
+<tr>
+<td>静态时</td>
+<td>SRDI</td>
+<td><code>malefic-srdi</code></td>
+<td>mutant 工具链</td>
+</tr>
+<tr>
+<td>运行时</td>
+<td>规避链 (Pro)</td>
+<td><code>malefic-evader</code></td>
+<td><code>evader_*</code> feature</td>
+</tr>
+<tr>
+<td>运行时</td>
+<td>Sleep 混淆</td>
+<td><code>malefic-win-kit</code></td>
+<td><code>sleep_obf</code> feature</td>
+</tr>
+<tr>
+<td>运行时</td>
+<td>堆栈混淆</td>
+<td><code>malefic-win-kit</code></td>
+<td>BeaconGate 配置</td>
+</tr>
+<tr>
+<td>运行时</td>
+<td>模块踩踏</td>
+<td><code>malefic-win-kit</code></td>
+<td>LoadPE 配置</td>
+</tr>
+<tr>
+<td>运行时</td>
+<td>间接系统调用</td>
+<td><code>malefic-win-kit</code></td>
+<td>SyscallGate 配置</td>
+</tr>
+<tr>
+<td>运行时</td>
+<td>环境护栏</td>
+<td><code>malefic-guardrail</code></td>
+<td><code>guardrail</code> feature</td>
+</tr>
+</tbody>
+</table>
+<p>操作者根据目标环境的检测能力选择启用哪些层级。新的对抗技术可以作为独立 crate 或 feature 加入任一阶段，不需要修改现有代码。</p>
+<blockquote>
+<p>详见混淆技术 (Pro)、<a href="/malefic/getting-started/components/win-kit/">Win-Kit 文档</a></p>
+</blockquote>
+<hr />
+<h2 id="典型部署链路">典型部署链路<a class="headerlink" href="#典型部署链路" title="Permanent link">&para;</a></h2>
+<h3 id="全链路多段上线">全链路多段上线<a class="headerlink" href="#全链路多段上线" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph TD
+    SS[Starship&lt;br/&gt;加载 + 解码 + 规避 + 注入] --&gt; PU[Pulse ~4KB&lt;br/&gt;连接 C2 拉取下一阶段]
+    PU --&gt; PR[Prelude&lt;br/&gt;解密 spite.bin · 执行前置任务]
+    PR --&gt; CHECK{环境检查&lt;br/&gt;通过?}
+    CHECK --&gt;|是| MA[Malefic&lt;br/&gt;注册 → 会话循环]
+    CHECK --&gt;|否| EXIT[退出]
+
+    style SS fill:#e74c3c,color:#fff
+    style PU fill:#e67e22,color:#fff
+    style PR fill:#9b59b6,color:#fff
+    style MA fill:#2ecc71,color:#fff</code></pre>
+<h3 id="直接投递">直接投递<a class="headerlink" href="#直接投递" title="Permanent link">&para;</a></h3>
+<p>跳过所有中间阶段，直接加载 malefic 动态库：</p>
+<pre class="mermaid"><code>graph LR
+    L[任意 Loader / 社工] --&gt;|加载 malefic.dll| M[Malefic]
+    M --&gt; C2[C2 Server]
+
+    style M fill:#2ecc71,color:#fff</code></pre>
+<h3 id="stager-模式">Stager 模式<a class="headerlink" href="#stager-模式" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph LR
+    L[PowerShell / 自定义 Loader] --&gt; P[Pulse]
+    P --&gt;|拉取| C2[C2]
+    C2 --&gt;|返回载荷| P
+    P --&gt;|注入执行| M[Malefic]
+
+    style P fill:#e67e22,color:#fff
+    style M fill:#2ecc71,color:#fff</code></pre>
+<hr />
+<h2 id="设计原则">设计原则<a class="headerlink" href="#设计原则" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>关注点分离</strong> ：每个阶段只解决一个问题。Starship 只管加载，Pulse 只管拉取，Malefic 只管执行，Prelude 只管编排。</li>
+<li><strong>编译期组装</strong> ：能力集在编译期通过 feature flags 决定，不需要的代码不编译，零运行时开销。</li>
+<li><strong>依赖隔离</strong> ：Starship 独立于主 workspace，避免 loader 的依赖污染主体植入体。</li>
+<li><strong>Trait 驱动</strong> ：<code>Module</code>、<code>SessionStrategy</code>、<code>SessionIo</code> 等 trait 定义了清晰的抽象边界，实现松耦合。</li>
+<li><strong>统一的模块接口</strong> ：无论是编译时链接、运行时热加载、还是 Prelude 编排，所有模块都通过同一个 <code>Module</code> trait 和 bundle 注册机制工作。</li>
+<li><strong>场景化编排</strong> ：Prelude 通过 YAML 复用模块能力，场景适配不需要写代码，只需要写配置。</li>
+</ol>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 ChainReactors
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/chainreactors" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "toc.integrate", "toc.follo", "navigation.top", "header.autohide", "search.share", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
