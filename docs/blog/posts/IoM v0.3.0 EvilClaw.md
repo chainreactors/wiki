@@ -23,27 +23,16 @@ slug: IoM_v0.3.0_evilclaw
 
 传统 C2 框架的 Listener 是封闭的——只能监听框架自身的 Implant 协议。IoM 的 `ListenerRPC` 协议把 Listener 变成了一个**开放的扩展点**：任何外部程序只要实现 5 个 RPC 调用，就能将任意类型的可控端点注册为 IoM Session。
 
-```
-┌─────────────── IoM Server ────────────────┐
-│                                            │
-│   ListenerRPC (gRPC + mTLS)                │
-│   ┌──────────────────────────────────┐    │
-│   │ RegisterListener                  │    │
-│   │ RegisterPipeline                  │    │
-│   │ Register (session)                │    │
-│   │ SpiteStream (双向: 收命令/发结果) │    │
-│   │ JobStream (生命周期管理)          │    │
-│   └──────────────────────────────────┘    │
-│                                            │
-│   统一控制面: IoM Client                    │
-│   exec / upload / download / chat / ...    │
-└───────────────┬───────────────────────────┘
-                │
-    ┌───────────┼───────────┐
-    ▼           ▼           ▼
- malefic     EvilClaw     (你的扩展)
- (传统       (AI Agent    Webshell?
-  Implant)    劫持)       供应链?
+```mermaid
+graph TD
+    subgraph IoM Server
+        RPC["ListenerRPC (gRPC + mTLS)<br/>RegisterListener<br/>RegisterPipeline<br/>Register session<br/>SpiteStream 双向流<br/>JobStream 生命周期"]
+        Client["统一控制面: IoM Client<br/>exec / upload / download / chat / ..."]
+    end
+
+    IoM Server --> malefic["malefic<br/>传统 Implant"]
+    IoM Server --> EvilClaw["EvilClaw<br/>AI Agent 劫持"]
+    IoM Server --> Ext["你的扩展<br/>Webshell? 供应链?"]
 ```
 
 **IoM 的控制面可以快速扩展到任意的 Implant 类型。**
@@ -287,22 +276,28 @@ skill recon
 
 ## 架构位置
 
-```
-IoM v0.3.0 · AI Native Offensive Infrastructure
-├── malefic ─────── 自研 Implant (Rust, 传统 C2 能力)
-│   ├── starship ── 可组装 Loader 框架
-│   ├── reactor ─── Headless DLL / Native Webshell
-│   ├── pulse ───── 极简 Stager
-│   └── mutant ──── 全栈构建工具
-│
-├── EvilClaw ────── LOLAgent (Go, AI Agent 劫持)    ← 本文
-│   ├── LLM Proxy ─ 透明代理 + 协议适配
-│   ├── Bridge ──── ListenerRPC 扩展接入
-│   └── Modules ─── 16 个 C2 模块映射到 Tool Call 注入
-│
-├── IoM Server ──── 统一控制面 (gRPC)
-├── IoM Client ──── 操作员终端 (CLI/TUI/Lua/MCP/LocalRPC)
-└── ListenerRPC ─── 开放扩展协议 (任意 Implant 类型接入)
+```mermaid
+graph LR
+    subgraph IoM["IoM v0.3.0 · AI Native Offensive Infrastructure"]
+        subgraph malefic["malefic · 自研 Implant (Rust)"]
+            starship["starship<br/>可组装 Loader"]
+            reactor["reactor<br/>Headless DLL"]
+            pulse["pulse<br/>极简 Stager"]
+            mutant["mutant<br/>全栈构建"]
+        end
+        subgraph EC["EvilClaw · LOLAgent (Go)"]
+            proxy["LLM Proxy<br/>透明代理 + 协议适配"]
+            bridge["Bridge<br/>ListenerRPC 扩展"]
+            modules["Modules<br/>16 个 C2 模块"]
+        end
+        server["IoM Server · 统一控制面 (gRPC)"]
+        client["IoM Client · CLI / TUI / Lua / MCP"]
+        lrpc["ListenerRPC · 开放扩展协议"]
+    end
+
+    server --- lrpc
+    lrpc --- malefic
+    lrpc --- EC
 ```
 
 | | malefic | EvilClaw |
