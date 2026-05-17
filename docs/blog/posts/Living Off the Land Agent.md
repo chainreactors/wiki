@@ -1,4 +1,5 @@
 ---
+draft: true
 date:
   created: 2026-05-17
 slug: living_off_the_land_agent
