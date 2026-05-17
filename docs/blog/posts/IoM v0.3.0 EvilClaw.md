@@ -19,6 +19,38 @@ slug: IoM_v0.3.0_evilclaw
 
 ---
 
+## v0.3.0 上半部分回顾：malefic 做了什么
+
+v0.3.0 的上半部分对 malefic（IoM 的 Implant 端）进行了彻底重构。原文写得比较抽象，这里用一句话总结每个核心变化：
+
+**分层组装架构** —— 植入体不再是一个大单体，而是拆成了四个阶段，每个阶段只干一件事：
+
+```mermaid
+graph LR
+    S["Starship<br/>Loader · 30~50KB<br/>60+ 注入技术 × 12 编码 × 8 规避"] -->|加载| P["Pulse<br/>Stager · ~4KB<br/>无导入表的位置无关代码"]
+    P -->|拉取载荷| M["Malefic<br/>完整 Implant<br/>Beacon / Bind 双模式"]
+    M --- MOD["Modules<br/>40+ 功能模块<br/>运行时热加载"]
+    PRE["Prelude<br/>YAML 编排<br/>场景化前置任务"] -.->|复用| MOD
+```
+
+- **Starship**（Pro）：可组装的 Loader 框架。四段流水线（加载 → 解码 → 规避 → 执行），通过 feature flag 任意组合，每次编译产物都不同
+- **Pulse**：极简 Stager，约 4KB 的 `no_std` shellcode。没有导入表、没有标准库，通过 PEB 遍历在运行时解析 API，可以被任何 Loader 加载
+- **Malefic**：完整的 C2 植入体。消息总线架构（Scheduler / Collector / Client 三个并发子系统通过 channel 通信），支持 Beacon（主动外连）和 Bind（被动监听）两种模式运行时切换，心跳调度使用 cron 表达式 + jitter
+- **Prelude**：YAML 编排引擎。将已有模块能力编排成前置任务序列（先侦察杀软 → 针对性绕过 → 再拉起主体），场景适配从写代码变为写配置
+- **Reactor**：Headless DLL，剥离所有网络和 Beacon 逻辑，只保留模块加载与执行能力。任何能加载 DLL 的宿主（Webshell、JNI、PHP extension）调用 4 个 C 函数就是一个完整 Implant
+
+**模块系统** —— 统一的 Module trait，四种来源（编译时内置 / 编译时第三方 / 运行时热加载 / Addon），支持 Rust/Go/C/Zig/Nim 五种语言编写模块。热加载通过 C ABI + 内存反射加载 DLL，不接触磁盘
+
+**OPSEC** —— 四个阶段的纵深防御链：编译前（feature 裁剪 + 过程宏混淆）→ 编译时（OLLVM 控制流平坦化）→ 静态时（SRDI + 载荷加密 + 签名伪造）→ 运行时（规避链 + Sleep 混淆 + 堆加密 + 堆栈欺骗 + 间接系统调用）。同一份源码两次编译产物在二进制层面完全不同
+
+**Transport** —— 协议无关设计，只要实现 trait 接口就能接入任何信道。支持半双工/全双工运行时互转、多目标轮转 + 指数退避重连、运行时 `switch` 切换传输协议
+
+**22 个基础 crate** —— 原来的三个大杂烩 crate 拆成 22 个职责单一的库（transport / crypto / loader / evader / ...），每层只依赖下层，替换任一实现只需切换 feature flag
+
+简言之：v0.3.0 的 malefic 从一个单体植入体变成了一套**可按需组装的模块化基础设施**。这为下面要介绍的 Listener 扩展机制提供了背景——当 Implant 端已经足够灵活时，控制面也需要同样的扩展性。
+
+---
+
 ## Listener 扩展机制
 
 传统 C2 框架的 Listener 是封闭的——只能监听框架自身的 Implant 协议。IoM 的 `ListenerRPC` 协议把 Listener 变成了一个**开放的扩展点**：任何外部程序只要实现 5 个 RPC 调用，就能将任意类型的可控端点注册为 IoM Session。
