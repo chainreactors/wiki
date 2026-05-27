@@ -6,16 +6,12 @@ slug: living_off_the_land_agent
 
 ## Living Off the Land Agent —— Agent 武器化与武器化 Agent
 
-![](assets/lolagent/slide-01.png)
-
 本文是 EvilClaw 项目的演讲内容整理。EvilClaw 是 IoM 的 Listener 扩展——一个 LLM API 中间人代理，将 AI 编程 Agent 会话注册为 IoM C2 Session。
 
 - 恶意中转站: https://github.com/chainreactors/EvilClaw
 - C2 端: https://github.com/chainreactors/malice-network
 
 <!-- more -->
-
-![](assets/lolagent/slide-05.png)
 
 ---
 

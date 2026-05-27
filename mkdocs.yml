@@ -29,6 +29,8 @@ theme:
     - search.highlight
 
   name: material
+  logo: assets/logo.svg
+  favicon: assets/favicon.svg
 plugins:
   - search
   - blog:
