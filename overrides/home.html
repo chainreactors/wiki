@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChainReactor — AI 驱动的全流程智能化渗透</title>
+<meta name="description" content="ChainReactor — 面向企业、渗透测试人员与安全专家的开源进攻性基础设施，AI 驱动的全流程智能化渗透。">
+<meta property="og:title" content="ChainReactor — AI 驱动的全流程智能化渗透">
+<meta property="og:description" content="智能化渗透的开源基础设施，覆盖 Pre-Exploit 到 Post-Exploit 全链路。">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="shortcut icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #06080e;
+  --surface: #0b0e18;
+  --surface-2: #101424;
+  --border: rgba(100,140,255,0.08);
+  --border-h: rgba(100,140,255,0.15);
+  --text: #e8ecf8;
+  --text-2: #94a0bc;
+  --text-3: #5a6480;
+  --text-4: #2a3050;
+
+  --red: #ff0844;
+  --red-soft: #ff4472;
+  --red-glow: rgba(255,8,68,0.35);
+  --blue: #00d4ff;
+  --blue-glow: rgba(0,212,255,0.35);
+  --violet: #8b5cf6;
+  --amber: #ff9f0a;
+  --amber-glow: rgba(255,159,10,0.35);
+  --green: #00ff88;
+  --green-glow: rgba(0,255,136,0.35);
+
+  --max: 1280px;
+  --px: clamp(1.5rem, 5vw, 4rem);
+  --heading: "Orbitron", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --display: "Rajdhani", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --body: "Inter", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
+
+  --cut: 12px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  min-height: 100vh;
+  color: var(--text);
+  background: var(--bg);
+  font-family: var(--body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
+  mix-blend-mode: multiply;
+}
+
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 70% 50% at 50% 30%, rgba(0,0,0,0.6) 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 30%, rgba(0,0,0,0.6) 0%, transparent 70%);
+}
+
+.aurora {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.aurora i {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(140px);
+  animation: drift 22s ease-in-out infinite alternate;
+}
+
+.aurora i:nth-child(1) {
+  width: 700px; height: 700px;
+  top: -20%; right: -10%;
+  background: var(--red);
+  opacity: 0.07;
+  animation-duration: 20s;
+}
+
+.aurora i:nth-child(2) {
+  width: 600px; height: 600px;
+  top: 5%; left: -15%;
+  background: var(--blue);
+  opacity: 0.06;
+  animation-duration: 25s;
+  animation-delay: -8s;
+}
+
+.aurora i:nth-child(3) {
+  width: 500px; height: 500px;
+  bottom: 5%; right: 15%;
+  background: var(--violet);
+  opacity: 0.05;
+  animation-duration: 28s;
+  animation-delay: -14s;
+}
+
+@keyframes drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(80px, -50px) scale(1.12); }
+  100% { transform: translate(-40px, 60px) scale(0.95); }
+}
+
+a { color: inherit; text-decoration: none; }
+
+.w {
+  width: min(100%, var(--max));
+  margin: 0 auto;
+  padding: 0 var(--px);
+}
+
+/* ── nav ── */
+.nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.nav.scrolled {
+  background: rgba(6,8,14,0.88);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-in {
+  width: min(100%, var(--max));
+  height: 60px;
+  margin: 0 auto;
+  padding: 0 var(--px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: var(--heading);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--red);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-3);
+  padding: 0.4rem 0.75rem;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+  text-transform: uppercase;
+}
+
+.nav-links a:hover { color: var(--text); }
+
+.nav-links .cta {
+  color: #fff !important;
+  background: var(--red);
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+  font-weight: 700;
+  margin-left: 0.5rem;
+  padding: 0.4rem 1rem;
+  transition: filter 0.2s;
+  box-shadow: 0 0 20px var(--red-glow);
+}
+
+.nav-links .cta:hover { filter: brightness(1.15); }
+
+.menu-btn {
+  display: none;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text);
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+}
+
+.menu-btn span {
+  display: block;
+  width: 16px;
+  height: 1.5px;
+  margin: 3px auto;
+  background: currentColor;
+}
+
+/* ── hero ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 7rem 0 4rem;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 22%;
+  left: 4vw;
+  right: 4vw;
+  height: 1px;
+  background: var(--blue);
+  opacity: 0.08;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: 14%;
+  left: 4vw;
+  right: 4vw;
+  height: 1px;
+  background: var(--red);
+  opacity: 0.06;
+}
+
+.hero-label {
+  font-family: var(--heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.4rem 1rem 0.4rem 0.85rem;
+  background: rgba(0,212,255,0.05);
+  border: 1px solid rgba(0,212,255,0.15);
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  color: var(--blue);
+}
+
+.hero-label::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  background: var(--red);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  box-shadow: 0 0 10px var(--red);
+  animation: diamond-pulse 2s ease-in-out infinite;
+}
+
+@keyframes diamond-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.hero-title {
+  margin-top: 2rem;
+  font-family: var(--display);
+  font-size: clamp(3.5rem, 10vw, 8.5rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+}
+
+.hero-title .line { display: block; }
+
+.hero-title .accent {
+  color: var(--red);
+  text-shadow: 0 0 80px var(--red-glow);
+}
+
+.hero-sub {
+  margin-top: 2rem;
+  max-width: 620px;
+  color: var(--text-2);
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.hero-sub strong {
+  color: var(--red-soft);
+  font-weight: 700;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 48px;
+  padding: 0 1.5rem;
+  font-family: var(--heading);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-red {
+  background: var(--red);
+  color: #fff;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  box-shadow: 0 0 28px var(--red-glow);
+}
+
+.btn-red:hover {
+  box-shadow: 0 0 44px var(--red-glow);
+  filter: brightness(1.1);
+}
+
+.btn-ghost {
+  background: none;
+  color: var(--text-2);
+  border: 1px solid var(--border-h);
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+}
+
+.btn-ghost:hover {
+  border-color: rgba(100,140,255,0.25);
+  color: var(--text);
+}
+
+/* ── stats ── */
+.stats {
+  display: flex;
+  margin-top: 4rem;
+  max-width: 820px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
+}
+
+.stat {
+  flex: 1;
+  padding: 1.25rem 1.35rem;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.stat:last-child { border-right: none; }
+
+.stat-k {
+  font-family: var(--heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-3);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.stat:nth-child(1) .stat-k { color: var(--blue); }
+.stat:nth-child(3) .stat-k { color: var(--red); }
+
+.stat-v {
+  margin-top: 0.5rem;
+  font-family: var(--display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.stat-v.neon-red {
+  color: var(--red);
+  text-shadow: 0 0 20px var(--red-glow);
+}
+
+/* ── divider ── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 var(--px);
+  width: min(100%, var(--max));
+  margin: 0 auto;
+  height: 52px;
+  font-family: var(--heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-4);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-h);
+}
+
+.divider .num { color: var(--red); }
+
+/* ── sections ── */
+.sec {
+  padding: 5rem 0;
+}
+
+.sec-head {
+  margin-bottom: 3rem;
+}
+
+.sec-tag {
+  font-family: var(--heading);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blue);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sec-tag::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--blue);
+}
+
+.sec-title {
+  margin-top: 0.75rem;
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.sec-desc {
+  margin-top: 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  color: var(--text-3);
+}
+
+/* ── timeline ── */
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+  position: relative;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background: var(--blue);
+  opacity: 0.12;
+  z-index: 0;
+}
+
+.tl-item {
+  padding: 0 0.75rem;
+  position: relative;
+}
+
+.tl-node {
+  width: 12px;
+  height: 12px;
+  background: var(--text-4);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  margin-bottom: 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+
+.tl-item.on .tl-node {
+  background: var(--blue);
+  box-shadow: 0 0 14px var(--blue-glow);
+}
+
+.tl-item.hot .tl-node {
+  background: var(--red);
+  box-shadow: 0 0 14px var(--red-glow);
+}
+
+.tl-idx {
+  font-family: var(--heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-4);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.4rem;
+}
+
+.tl-item.on .tl-idx { color: var(--blue); }
+.tl-item.hot .tl-idx { color: var(--red); }
+
+.tl-name {
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.15rem;
+}
+
+.tl-sub {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-3);
+  margin-bottom: 0.55rem;
+}
+
+.tl-desc {
+  font-size: 0.88rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+.note-bar {
+  margin-top: 2rem;
+  padding: 1.1rem 1.35rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--blue);
+  font-size: 0.92rem;
+  color: var(--text-2);
+}
+
+.note-bar strong { color: var(--blue); }
+
+/* ── principles ── */
+.principles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+}
+
+.prin {
+  --pc: var(--blue);
+  padding: 2.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.prin::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 2px;
+  background: var(--pc);
+  opacity: 0.5;
+}
+
+.prin:hover {
+  background: var(--surface-2);
+  border-color: var(--border-h);
+}
+
+.prin:nth-child(1) { --pc: var(--blue); }
+.prin:nth-child(2) { --pc: var(--red); }
+.prin:nth-child(3) { --pc: var(--violet); }
+.prin:nth-child(4) { --pc: var(--amber); }
+
+.prin-tag {
+  font-family: var(--heading);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pc);
+}
+
+.prin-quote {
+  margin-top: 1.1rem;
+  font-family: var(--display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.prin-body {
+  margin-top: 0.85rem;
+  font-size: 0.92rem;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
+/* ── products ── */
+.products {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+}
+
+.prod {
+  --pc: var(--blue);
+  padding: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  position: relative;
+  min-height: 260px;
+  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
+  transition: all 0.3s ease;
+}
+
+.prod::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 50%;
+  height: 2px;
+  background: var(--pc);
+  opacity: 0.5;
+}
+
+.prod:hover {
+  background: var(--surface-2);
+  border-color: color-mix(in srgb, var(--pc), transparent 75%);
+  box-shadow: 0 0 40px color-mix(in srgb, var(--pc), transparent 90%);
+}
+
+.prod.feat { grid-row: span 2; min-height: 0; }
+
+.prod-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+}
+
+.prod-level {
+  font-family: var(--heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0.2rem 0.6rem;
+  color: var(--pc);
+  background: color-mix(in srgb, var(--pc), transparent 90%);
+  border: 1px solid color-mix(in srgb, var(--pc), transparent 75%);
+  clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px));
+}
+
+.prod-cat {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-3);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.prod-name {
+  font-family: var(--display);
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--pc);
+  text-shadow: 0 0 30px color-mix(in srgb, var(--pc), transparent 70%);
+}
+
+.prod-subtitle {
+  margin-top: 0.45rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.prod-desc {
+  margin-top: 0.65rem;
+  font-size: 0.9rem;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
+.prod-stack {
+  margin-top: 0.8rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--text-3);
+}
+
+.prod-link {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.2s, gap 0.2s;
+}
+
+.prod-link:hover { color: var(--pc); gap: 0.7rem; }
+
+/* ── open source panel (second fold) ── */
+.oss-panel {
+  min-height: 100vh;
+  padding: 5rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-top: 2px solid var(--border-h);
+}
+
+.matrix {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
+
+.mx {
+  padding: 1.5rem 1.65rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  transition: all 0.3s ease;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  min-height: 130px;
+}
+
+.mx:hover {
+  background: var(--surface-2);
+  border-color: var(--border-h);
+}
+
+.mx-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mx-name {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.mx-stars {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--amber);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.mx-stars::before {
+  content: "★";
+  font-size: 0.78rem;
+}
+
+.mx-desc {
+  font-size: 0.9rem;
+  color: var(--text-2);
+  line-height: 1.55;
+}
+
+.mx-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.mx-lang {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--blue);
+}
+
+.mx-cat {
+  font-family: var(--heading);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.mx-total {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
+}
+
+.mx-total-item { text-align: center; }
+
+.mx-total-num {
+  font-family: var(--heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.mx-total-label {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--text-3);
+  margin-top: 0.25rem;
+}
+
+/* ── footer ── */
+.foot {
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.foot-in {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-4);
+}
+
+.foot-formula {
+  font-family: var(--heading);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--text-4);
+}
+
+.foot-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.foot-links a { transition: color 0.2s; }
+.foot-links a:hover { color: var(--text-2); }
+
+/* ── reveal ── */
+.rv {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1);
+}
+
+.rv.vis {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── responsive ── */
+@media (max-width: 1080px) {
+  .products { grid-template-columns: repeat(2, 1fr) !important; }
+  .prod.feat { grid-row: auto; }
+  .timeline { grid-template-columns: repeat(3, 1fr); gap: 1.5rem 0; }
+  .timeline::before { display: none; }
+  .principles { grid-template-columns: 1fr; }
+  .matrix { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .menu-btn { display: flex; align-items: center; justify-content: center; }
+
+  .nav-links {
+    position: absolute;
+    top: 60px;
+    left: 1rem;
+    right: 1rem;
+    display: none;
+    padding: 0.5rem;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    background: rgba(6,8,14,0.96);
+    backdrop-filter: blur(24px);
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 0.55rem 0.75rem; }
+  .nav-links .cta { margin-left: 0; margin-top: 0.25rem; text-align: center; justify-content: center; clip-path: none; }
+  .hero { min-height: auto; padding: 7rem 0 3rem; }
+  .hero-title { font-size: 2.8rem; }
+  .stats { flex-direction: column; }
+  .stat { border-right: none; border-bottom: 1px solid var(--border); }
+  .stat:last-child { border-bottom: none; }
+  .timeline, .products, .matrix { grid-template-columns: 1fr !important; }
+  .mx-total { flex-direction: column; gap: 1.25rem; }
+  .foot-in { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="aurora"><i></i><i></i><i></i></div>
+
+<nav class="nav" id="nav">
+  <div class="nav-in">
+    <a class="logo" href="/">CHAINREACTOR</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#roadmap">路线</a>
+      <a href="#principles">理念</a>
+      <a href="#products">产品</a>
+      <a href="#oss">开源</a>
+      <a class="cta" href="/wiki/">WIKI</a>
+    </div>
+    <button class="menu-btn" id="menu" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<main>
+
+<section class="hero" id="top">
+  <div class="w">
+    <div class="hero-label rv">OPEN SOURCE OFFENSIVE INFRASTRUCTURE</div>
+    <h1 class="hero-title rv">
+      <span class="line">AI 驱动的</span>
+      <span class="line accent">全流程智能化渗透</span>
+    </h1>
+    <p class="hero-sub rv">
+      全流程<strong>开源进攻性基础设施</strong>，为 AI Agent 提供面向实战的工具链与运行时。长期致力于进攻性安全开源，在过去两年进行了激进的智能化渗透探索。
+    </p>
+    <div class="hero-actions rv">
+      <a class="btn btn-red" href="/wiki/">进入 WIKI →</a>
+      <a class="btn btn-ghost" href="https://github.com/chainreactors/" target="_blank" rel="noopener">GITHUB</a>
+    </div>
+    <div class="stats rv">
+      <div class="stat">
+        <div class="stat-k">面向</div>
+        <div class="stat-v">进攻性安全的<strong style="color:var(--red-soft)">全流程</strong></div>
+        <div class="stat-v" style="font-size:0.88rem;margin-top:0.25rem;color:var(--text-2)">企业 · 渗透测试人员 · 红队</div>
+      </div>
+      <div class="stat">
+        <div class="stat-k">原则</div>
+        <div class="stat-v">AI First · Orthogonal</div>
+      </div>
+      <div class="stat">
+        <div class="stat-k">目标</div>
+        <div class="stat-v neon-red">实现<strong style="text-decoration:underline;text-underline-offset:4px">人类专家</strong>水平的渗透测试能力</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span class="num">001</span> OPEN SOURCE</div>
+<section class="oss-panel" id="oss">
+  <div class="w">
+    <div class="sec-head rv">
+      <div class="sec-tag">开源矩阵</div>
+      <h2 class="sec-title">开源项目</h2>
+      <p class="sec-desc">全部开源 · 全部 AI 可编程</p>
+    </div>
+    <div class="matrix rv">
+      <a class="mx" href="https://github.com/chainreactors/gogo" target="_blank" rel="noopener">
+        <div class="mx-top"><span class="mx-name">gogo</span><span class="mx-stars">2,062</span></div>
+        <div class="mx-desc">红队自动化扫描引擎，端口扫描 / 服务指纹 / 信息提取</div>
+        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Pre-Exploit</span></div>
+      </a>
+      <a class="mx" href="https://github.com/chainreactors/spray" target="_blank" rel="noopener">
+        <div class="mx-top"><span class="mx-name">spray</span><span class="mx-stars">1,026</span></div>
+        <div class="mx-desc">HTTP 模糊测试 / 目录爆破 / 智能过滤 / 指纹识别</div>
+        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Pre-Exploit</span></div>
+      </a>
+      <a class="mx" href="https://github.com/chainreactors/malice-network" target="_blank" rel="noopener">
+        <div class="mx-top"><span class="mx-name">malice-network</span><span class="mx-stars">452</span></div>
+        <div class="mx-desc">下一代 C2 框架，IoM Server / Client</div>
+        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Post-Exploit</span></div>
+      </a>
+      <a class="mx" href="https://github.com/chainreactors/zombie" target="_blank" rel="noopener">
+        <div class="mx-top"><span class="mx-name">zombie</span><span class="mx-stars">357</span></div>
+        <div class="mx-desc">服务 / 协议爆破工具，覆盖外网 / 内网 / 云场景</div>
+        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Pre-Exploit</span></div>
+      </a>
+      <a class="mx" href="https://github.com/chainreactors/rem" target="_blank" rel="noopener">
+        <div class="mx-top"><span class="mx-name">rem</span><span class="mx-stars">260</span></div>
+        <div class="mx-desc">通用流量代理 / 隧道 / 转发，多协议加密</div>
+        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Network</span></div>
+      </a>
+      <a class="mx" href="https://github.com/chainreactors/malefic" target="_blank" rel="noopener">
+        <div class="mx-top"><span class="mx-name">malefic</span><span class="mx-stars">257</span></div>
+        <div class="mx-desc">IoM 默认 Implant，模块化 Shellcode / 多阶段投递</div>
+        <div class="mx-meta"><span class="mx-lang">Rust</span><span class="mx-cat">Post-Exploit</span></div>
+      </a>
+      <a class="mx" href="https://github.com/chainreactors/fingers" target="_blank" rel="noopener">
+        <div class="mx-top"><span class="mx-name">fingers</span><span class="mx-stars">252</span></div>
+        <div class="mx-desc">全合一框架 / 技术指纹识别库</div>
+        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Library</span></div>
+      </a>
+      <a class="mx" href="https://github.com/chainreactors/picker" target="_blank" rel="noopener">
+        <div class="mx-top"><span class="mx-name">picker</span><span class="mx-stars">232</span></div>
+        <div class="mx-desc">仓库转 RSS 订阅 / 文章聚合 / 讨论社区</div>
+        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Tool</span></div>
+      </a>
+      <a class="mx" href="https://github.com/chainreactors/tinyctfer" target="_blank" rel="noopener">
+        <div class="mx-top"><span class="mx-name">tinyctfer</span><span class="mx-stars">169</span></div>
+        <div class="mx-desc">~100 行的意图运行时 + Meta Tooling 设计</div>
+        <div class="mx-meta"><span class="mx-lang">Python</span><span class="mx-cat">AI Agent</span></div>
+      </a>
+      <a class="mx" href="https://github.com/chainreactors/templates" target="_blank" rel="noopener">
+        <div class="mx-top"><span class="mx-name">templates</span><span class="mx-stars">138</span></div>
+        <div class="mx-desc">漏洞检测模板库，配合 neutron 使用</div>
+        <div class="mx-meta"><span class="mx-lang">YAML</span><span class="mx-cat">Library</span></div>
+      </a>
+      <a class="mx" href="https://github.com/chainreactors/neutron" target="_blank" rel="noopener">
+        <div class="mx-top"><span class="mx-name">neutron</span><span class="mx-stars">86</span></div>
+        <div class="mx-desc">轻量 Nuclei 引擎，零副作用漏洞检测</div>
+        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Pre-Exploit</span></div>
+      </a>
+      <a class="mx" href="https://github.com/chainreactors/urlfounder" target="_blank" rel="noopener">
+        <div class="mx-top"><span class="mx-name">urlfounder</span><span class="mx-stars">86</span></div>
+        <div class="mx-desc">快速被动 URL 枚举工具</div>
+        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Pre-Exploit</span></div>
+      </a>
+    </div>
+    <div class="mx-total rv">
+      <div class="mx-total-item">
+        <div class="mx-total-num">5,400+</div>
+        <div class="mx-total-label">Total Stars</div>
+      </div>
+      <div class="mx-total-item">
+        <div class="mx-total-num">200,000+</div>
+        <div class="mx-total-label">Lines of Code</div>
+      </div>
+      <div class="mx-total-item">
+        <div class="mx-total-num">6</div>
+        <div class="mx-total-label">Scenarios</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span class="num">002</span> ROADMAP</div>
+<section class="sec" id="roadmap">
+  <div class="w">
+    <div class="sec-head rv">
+      <div class="sec-tag">路线图</div>
+      <h2 class="sec-title">L1 → L5</h2>
+      <p class="sec-desc">AI渗透能力 = Model(t) × D × E × I</p>
+    </div>
+    <div class="timeline rv">
+      <div class="tl-item">
+        <div class="tl-node"></div>
+        <div class="tl-idx">L1 · 起点</div>
+        <div class="tl-name">Manual</div>
+        <div class="tl-sub">Offensive Infrastructure</div>
+        <p class="tl-desc">人工主导，工具辅助。统一 CLI / DSL / 结构化输出。</p>
+      </div>
+      <div class="tl-item on">
+        <div class="tl-node"></div>
+        <div class="tl-idx">L2 · 当前</div>
+        <div class="tl-name">AI Native Infra</div>
+        <div class="tl-sub">为 Agent 构建操作系统</div>
+        <p class="tl-desc">统一工具、数据和接口。MTP、Agentic Tool、数据共享。</p>
+      </div>
+      <div class="tl-item on">
+        <div class="tl-node"></div>
+        <div class="tl-idx">L3 · 主战场</div>
+        <div class="tl-name">AI First</div>
+        <div class="tl-sub">反馈闭环与人机交互</div>
+        <p class="tl-desc">意图工程 + Checkpoint，关键节点人机交互。</p>
+      </div>
+      <div class="tl-item hot">
+        <div class="tl-node"></div>
+        <div class="tl-idx">L4 · 前沿</div>
+        <div class="tl-name">Autonomous</div>
+        <div class="tl-sub">Agent 自组网</div>
+        <p class="tl-desc">分布式 Agent 自发现、自协调。IoA + aiscan。</p>
+      </div>
+      <div class="tl-item hot">
+        <div class="tl-node"></div>
+        <div class="tl-idx">L5 · 3年内</div>
+        <div class="tl-name">AI Expert</div>
+        <div class="tl-sub">专家级自主攻击</div>
+        <p class="tl-desc">自主发现 0day，构建完整攻击链。</p>
+      </div>
+    </div>
+    <div class="note-bar rv">
+      当前：<strong>L2 / L3 / L4 并行</strong>。L2 做底座，L3 做闭环，L4 做协作。与模型正交的投入不会废弃。
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span class="num">003</span> PRINCIPLES</div>
+<section class="sec" id="principles">
+  <div class="w">
+    <div class="sec-head rv">
+      <div class="sec-tag">核心理念</div>
+      <h2 class="sec-title">四个核心原则</h2>
+    </div>
+    <div class="principles rv">
+      <div class="prin">
+        <div class="prin-tag">First Principles</div>
+        <div class="prin-quote">做得越少，涌现越充分</div>
+        <p class="prin-body">不教模型渗透，只给基础设施。能力来自闭环反馈，不来自硬编码知识。</p>
+      </div>
+      <div class="prin">
+        <div class="prin-tag">Orthogonal</div>
+        <div class="prin-quote">Human × Agent × Infra 解耦</div>
+        <p class="prin-body">三者独立演进，互不耦合。模型换代，Infra 不废弃；Infra 升级，Agent 无需改。</p>
+      </div>
+      <div class="prin">
+        <div class="prin-tag">AI First</div>
+        <div class="prin-quote">通用能力是因，安全能力是果</div>
+        <p class="prin-body">先有强 Agent，安全能力自然涌现。从通用到专业，不从安全到 AI。</p>
+      </div>
+      <div class="prin">
+        <div class="prin-tag">Intent Engineering</div>
+        <div class="prin-quote">不设计方案，设计创建方案的方案</div>
+        <p class="prin-body">自然语义即编程语言。描述意图，而非编排步骤。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span class="num">004</span> AI NATIVE INFRA</div>
+<section class="sec" id="products">
+  <div class="w">
+    <div class="sec-head rv">
+      <div class="sec-tag">基础设施</div>
+      <h2 class="sec-title">AI Native Offensive Infra</h2>
+      <p class="sec-desc">L2 · 为 AI Agent 构建的进攻性基础设施</p>
+    </div>
+    <div class="products rv" style="grid-template-columns:repeat(4,1fr);">
+      <div class="prod" style="--pc:var(--blue)">
+        <div class="prod-top">
+          <span class="prod-cat">Pre-Exploit · CTEM</span>
+          <span class="prod-level">L2</span>
+        </div>
+        <h3 class="prod-name">Collider</h3>
+  <div class="prod-subtitle">持续威胁暴露管理</div>
+        <p class="prod-desc">攻击面管理平台。gogo / spray / zombie / neutron 组成统一工具链，结构化输出供 Agent 消费。</p>
+        <div class="prod-stack">gogo / spray / zombie / neutron</div>
+        <a class="prod-link" href="/mapping/">查看 →</a>
+      </div>
+      <div class="prod" style="--pc:var(--red)">
+        <div class="prod-top">
+          <span class="prod-cat">Post-Exploit · C2</span>
+          <span class="prod-level">L2</span>
+        </div>
+        <h3 class="prod-name">IoM</h3>
+        <div class="prod-subtitle">后渗透一体化平台</div>
+        <p class="prod-desc">malice-network + malefic implant。端上纵深对抗、后渗透全场景统一、AI 原生 C2。</p>
+        <a class="prod-link" href="/IoM/">查看 →</a>
+      </div>
+      <div class="prod" style="--pc:var(--green)">
+        <div class="prod-top">
+          <span class="prod-cat">Network · Tunnel</span>
+          <span class="prod-level">L2</span>
+        </div>
+        <h3 class="prod-name">REM</h3>
+        <div class="prod-subtitle">流量与代理层</div>
+        <p class="prod-desc">全场景流量代理与隧道，打通 Collider 与 IoM，屏蔽网络拓扑复杂度。</p>
+        <a class="prod-link" href="/rem/">查看 →</a>
+      </div>
+      <div class="prod" style="--pc:var(--violet)">
+        <div class="prod-top">
+          <span class="prod-cat">Knowledge · Engine</span>
+          <span class="prod-level">L2</span>
+        </div>
+        <h3 class="prod-name">CyberHub</h3>
+        <div class="prod-subtitle">安全知识引擎</div>
+        <p class="prod-desc">指纹、漏洞、字典、威胁情报统一管理。GraphRAG 驱动的知识沉淀与检索。</p>
+        <span class="prod-link">开发中 →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span class="num">005</span> AI PRODUCTS</div>
+<section class="sec" id="ai-products">
+  <div class="w">
+    <div class="sec-head rv">
+      <div class="sec-tag">智能化渗透</div>
+      <h2 class="sec-title">Autonomous Offense</h2>
+      <p class="sec-desc">L3-L4 · 基于 Infra 构建的自主化渗透能力</p>
+    </div>
+    <div class="products rv" style="grid-template-columns:repeat(3,1fr);">
+      <div class="prod" style="--pc:var(--green)">
+        <div class="prod-top">
+          <span class="prod-cat">Enterprise · Auto-Pentest</span>
+          <span class="prod-level">L3</span>
+        </div>
+        <h3 class="prod-name" style="color:var(--green);text-shadow:0 0 30px var(--green-glow);">Cairn</h3>
+        <div class="prod-subtitle">企业级自动化智能渗透测试平台</div>
+        <p class="prod-desc">面向企业 — 声明目标，AI 自主完成全流程渗透。黑板架构多智能体协作，支持私有化部署与国产模型。TCH2 3rd/610，唯一全解。</p>
+        <span class="prod-link">商业产品 →</span>
+      </div>
+      <div class="prod" style="--pc:var(--amber)">
+        <div class="prod-top">
+          <span class="prod-cat">Pentest · Copilot</span>
+          <span class="prod-level">L3</span>
+        </div>
+        <h3 class="prod-name" style="color:var(--amber);text-shadow:0 0 30px var(--amber-glow);">Cybernetics</h3>
+        <div class="prod-subtitle">渗透工程师的 AI 副驾驶</div>
+        <p class="prod-desc">面向渗透测试人员 — 人类保留决策权，AI 负责执行与探索。感知-行动-反馈闭环，Checkpoint 人机协同。</p>
+        <span class="prod-link">商业产品 →</span>
+      </div>
+      <div class="prod" style="--pc:var(--red)">
+        <div class="prod-top">
+          <span class="prod-cat">Autonomous · Scan</span>
+          <span class="prod-level">L4</span>
+        </div>
+        <h3 class="prod-name" style="color:var(--red);text-shadow:0 0 30px var(--red-glow);">AIScan</h3>
+        <div class="prod-subtitle">自主攻击面探索</div>
+        <p class="prod-desc">分布式 Agent 自组网，基于 IoA 协议多智能体自发现、自协调。从单点扫描到群体智能协作攻击。</p>
+        <span class="prod-link">探索中 →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="w foot-in">
+    <div>© 2026 ChainReactors</div>
+    <div class="foot-formula">AI渗透能力 = MODEL(T) × D × E × I</div>
+    <div class="foot-links">
+      <a href="/wiki/">Wiki</a>
+      <a href="https://github.com/chainreactors/" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  var nav = document.getElementById('nav');
+  var menu = document.getElementById('menu');
+  var links = document.getElementById('navLinks');
+
+  window.addEventListener('scroll', function() {
+    nav.classList.toggle('scrolled', window.scrollY > 24);
+  }, { passive: true });
+
+  menu.addEventListener('click', function() {
+    links.classList.toggle('open');
+  });
+
+  links.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() { links.classList.remove('open'); });
+  });
+
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.rv').forEach(function(el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>
