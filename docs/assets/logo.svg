@@ -1,9 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="70 70 360 360">
   <defs>
-    <radialGradient id="bgGradient1" cx="50%" cy="50%" r="75%">
-      <stop offset="0%" stop-color="#1a0a0d" />
-      <stop offset="100%" stop-color="#060202" />
-    </radialGradient>
     <linearGradient id="neonRed1" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#ff3333" />
       <stop offset="50%" stop-color="#d90429" />
@@ -23,27 +19,25 @@
       </feMerge>
     </filter>
   </defs>
-
-
   <g transform="translate(250, 250)">
     <g stroke="url(#neonRed1)" fill="none" stroke-width="2" opacity="0.4">
-      <ellipse cx="0" cy="0" rx="160" ry="45" transform="rotate(30)" />
-      <ellipse cx="0" cy="0" rx="160" ry="45" transform="rotate(90)" />
-      <ellipse cx="0" cy="0" rx="160" ry="45" transform="rotate(150)" />
+      <ellipse rx="160" ry="45" transform="rotate(30)" />
+      <ellipse rx="160" ry="45" transform="rotate(90)" />
+      <ellipse rx="160" ry="45" transform="rotate(150)" />
     </g>
-    <circle cx="0" cy="0" r="65" fill="#d90429" opacity="0.15" filter="url(#glow1)"/>
+    <circle r="65" fill="#d90429" opacity="0.15" filter="url(#glow1)"/>
     <g stroke="url(#chainGradient1)" stroke-width="9" fill="none" stroke-linejoin="round" filter="url(#glow1)">
       <polygon points="0,-80 69,-40 69,40 0,80 -69,40 -69,-40" stroke-dasharray="320" stroke-dashoffset="0" />
       <path d="M -30,-18 L 30,-18 A 18,18 0 0,1 30,18 L -30,18 A 18,18 0 0,1 -30,-18" stroke-width="7" />
       <path d="M 0,0 L 45,45 A 18,18 0 0,1 20,70 L -25,25 A 18,18 0 0,1 0,0" stroke-width="6" opacity="0.85" />
       <path d="M 0,0 L -45,-45 A 18,18 0 0,1 -20,-70 L 25,-25 A 18,18 0 0,1 0,0" stroke-width="6" opacity="0.85" />
     </g>
-    <circle cx="0" cy="0" r="7" fill="#ffffff" filter="url(#glow1)" />
+    <circle r="7" fill="#ffffff" filter="url(#glow1)" />
     <g fill="#ffffff" filter="url(#glow1)">
-      <circle cx="0" cy="-80" r="5" />
+      <circle cy="-80" r="5" />
       <circle cx="69" cy="-40" r="5" />
       <circle cx="69" cy="40" r="5" />
-      <circle cx="0" cy="80" r="5" />
+      <circle cy="80" r="5" />
       <circle cx="-69" cy="40" r="5" />
       <circle cx="-69" cy="-40" r="5" />
     </g>
