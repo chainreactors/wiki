@@ -12,6 +12,8 @@ extra:
   analytics:
     provider: google
     property: G-DCRVR86FG2
+extra_css:
+  - assets/stylesheets/theme.css
 theme:
   features:
     - navigation.tracking
@@ -29,8 +31,22 @@ theme:
     - search.highlight
 
   name: material
+  custom_dir: overrides
   logo: assets/logo.svg
   favicon: assets/favicon.svg
+  palette:
+    - scheme: slate
+      primary: black
+      accent: red
+      toggle:
+        icon: material/brightness-7
+        name: 切换到亮色模式
+    - scheme: default
+      primary: red
+      accent: red
+      toggle:
+        icon: material/brightness-4
+        name: 切换到暗色模式
 plugins:
   - search
   - blog:
@@ -96,7 +112,7 @@ markdown_extensions:
   - pymdownx.tilde
 
 nav:
-  - 导航: index.md
+  - 导航: wiki.md
   - IoM:
     - Overview: IoM/index.md
     - Getting Started:

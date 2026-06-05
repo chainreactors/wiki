@@ -1,0 +1,86 @@
+/* ── Dark theme (slate) ── */
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color: #0b0e18;
+  --md-default-bg-color--light: #101424;
+  --md-default-bg-color--lighter: #161a30;
+  --md-default-bg-color--lightest: #1c2240;
+
+  --md-default-fg-color: #e8ecf8;
+  --md-default-fg-color--light: #94a0bc;
+  --md-default-fg-color--lighter: #5a6480;
+  --md-default-fg-color--lightest: #2a3050;
+
+  --md-primary-fg-color: #d90429;
+  --md-primary-fg-color--light: #ff4472;
+  --md-primary-fg-color--dark: #800000;
+  --md-primary-bg-color: #fff;
+
+  --md-accent-fg-color: #ff0844;
+  --md-accent-fg-color--transparent: rgba(255, 8, 68, 0.1);
+  --md-accent-bg-color: #fff;
+
+  --md-code-bg-color: #0a0d16;
+  --md-code-fg-color: #e8ecf8;
+  --md-code-hl-color: rgba(255, 8, 68, 0.15);
+
+  --md-typeset-color: #e8ecf8;
+  --md-typeset-a-color: #ff4472;
+
+  --md-footer-bg-color: #06080e;
+  --md-footer-bg-color--dark: #040610;
+  --md-footer-fg-color: #94a0bc;
+  --md-footer-fg-color--light: #5a6480;
+  --md-footer-fg-color--lighter: #2a3050;
+}
+
+[data-md-color-scheme="slate"] .md-header {
+  background: rgba(6, 8, 14, 0.92);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  border-bottom: 1px solid rgba(100, 140, 255, 0.08);
+}
+
+[data-md-color-scheme="slate"] .md-tabs {
+  background: rgba(11, 14, 24, 0.95);
+  border-bottom: 1px solid rgba(100, 140, 255, 0.06);
+}
+
+[data-md-color-scheme="slate"] .md-search__form {
+  background: rgba(16, 20, 36, 0.8);
+  border: 1px solid rgba(100, 140, 255, 0.1);
+}
+
+[data-md-color-scheme="slate"] .md-typeset code {
+  border: 1px solid rgba(100, 140, 255, 0.08);
+}
+
+[data-md-color-scheme="slate"] .md-typeset .admonition,
+[data-md-color-scheme="slate"] .md-typeset details {
+  border-color: rgba(100, 140, 255, 0.12);
+}
+
+[data-md-color-scheme="slate"] ::-webkit-scrollbar-thumb {
+  background: rgba(217, 4, 41, 0.3);
+}
+
+[data-md-color-scheme="slate"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(217, 4, 41, 0.5);
+}
+
+[data-md-color-scheme="slate"] ::-webkit-scrollbar-track {
+  background: #0b0e18;
+}
+
+/* ── Shared ── */
+.md-nav__link:hover,
+.md-nav__link--active {
+  color: var(--md-accent-fg-color);
+}
+
+.md-typeset a:hover {
+  color: var(--md-accent-fg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+}

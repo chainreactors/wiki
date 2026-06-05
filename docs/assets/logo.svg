@@ -24,11 +24,6 @@
     </filter>
   </defs>
 
-  <rect width="100%" height="100%" fill="url(#bgGradient1)" />
-  <pattern id="grid1" width="40" height="40" patternUnits="userSpaceOnUse">
-    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#220a0d" stroke-width="1" />
-  </pattern>
-  <rect width="100%" height="100%" fill="url(#grid1)" />
 
   <g transform="translate(250, 250)">
     <g stroke="url(#neonRed1)" fill="none" stroke-width="2" opacity="0.4">
