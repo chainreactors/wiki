@@ -212,7 +212,7 @@ build beacon --profile tcp_default --target x86_64-unknown-linux-musl --source s
 ```
 在这个示例中，`build` 命令包含以下参数：
 
-- **profile** ：指定要使用的构建配置文件名称，必填项。
+- **profile** ：指定要使用的构建配置文件名称。常规 beacon、pulse、prelude、modules 构建需要指定 profile；`build bind` 也可以不依赖 profile，直接通过 `--addresses` 指定目标地址。
     
 - **target** ：指定构建目标平台和架构，必填项，例如 `"x86_64-pc-windows-gnu"` 或 `"x86_64-unknown-linux-musl"` 。
     
@@ -257,6 +257,24 @@ build beacon --profile tcp_default --target x86_64-unknown-linux-musl --addresse
 
     在gui上，您需要在artifacts页面，在对应的profile行上点击build，选择beacon后，根据需求，在对应配置行上填入信息，进行编译。
     ![image-20250817183527224752](../assets/usage/build/build_beacon_gui.png)
+
+#### 编译bind
+
+**bind** 是由 operator 主动连接目标地址的 Implant 模式。它可以继续使用已有 profile，也可以直接通过地址构建。
+
+最简命令示例：
+
+```bash
+build bind --target x86_64-pc-windows-gnu --addresses 127.0.0.1:5008
+```
+
+需要附加模块时：
+
+```bash
+build bind --target x86_64-pc-windows-gnu --addresses 127.0.0.1:5008 --modules base,sys_full
+```
+
+如果地址没有写协议，默认按 TCP 地址处理。更多参数请参阅 [build bind 命令参考](/IoM/reference/commands/client/#build-bind)。
 
 #### 编译pulse
 

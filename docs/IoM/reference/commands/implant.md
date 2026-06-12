@@ -47,7 +47,7 @@ keepalive [enable/disable]
 
 ### ping
 
-get bind implant response
+send one bind ping
 
 ```
 ping
@@ -55,16 +55,16 @@ ping
 
 ### polling
 
-polling task status
+manage bind polling
 
 ```
-polling [flags]
+polling [start|stop|status] [flags]
 ```
 
 **Options**
 
 ```
-      --interval int   interval (default 1)
+      --interval int   interval in seconds (default 1)
 ```
 
 ### recover
@@ -2299,4 +2299,3 @@ rportfwd_local [pipeline] [agent] [flags]
   -p, --port string     Local port to listen on
   -r, --remote string   implant's internal address to connect to (host:port)
 ```
-
