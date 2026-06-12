@@ -76,10 +76,13 @@ listeners:
 ### autobuild 配置
 目前启动一个listener时，可以通过autobuild的配置，来控制是否编译与当前listener通信的implant。
 
-如果需要编译pulse artifact，将auitobuild的 `build_pulse` 设为true。
+默认不会自动构建。只有显式开启 `auto_build.enable` 后，listener 启动 pipeline 时才会触发自动构建。
+
+如果需要编译pulse artifact，将autobuild的 `build_pulse` 设为true。
 
 ```yaml
   auto_build:
+    enable: true
     build_pulse: true
 ```
 
@@ -87,6 +90,7 @@ listeners:
 
 ```yaml
   auto_build:
+    enable: true
     target:
       - x86_64-pc-windows-gnu
       - x86_64-unknown-linux-musl
