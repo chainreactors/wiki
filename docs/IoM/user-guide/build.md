@@ -363,6 +363,16 @@ artifact download artifact-name --format raw
     在gui上，您需要在artifact页面上点击对应的artifact行上的download按钮，即可下载artifact源文件到指定路径。
     ![image-20250817190327224752](../assets/usage/build/artifact_download.png)
 
+!!! tip "macOS artifact 首次执行"
+    macOS 可能会因为产物未签名或带 quarantine 标记而拒绝执行。下载 macOS 目标产物后，可以先执行以下命令。示例路径为 `/tmp/malefic`，实际使用时替换为你的 artifact 路径。
+
+    ```bash
+    xattr -cr /tmp/malefic
+    sudo xattr -r -d com.apple.quarantine /tmp/malefic
+    sudo codesign --force --deep --sign - /tmp/malefic
+    chmod +x /tmp/malefic
+    ```
+
 当artifact编译失败时，可以通过以下命令来查看log(目前支持查看docker，后续会加上saas）：
 
 ```bash

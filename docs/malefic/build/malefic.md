@@ -39,7 +39,21 @@ source: imp:build/malefic.md
 
 `malefic/src/main.rs` 会在启用 `malefic-autorun` 时先执行 autorun，然后进入 `bootstrap::run(...)` 的会话循环。Unix release 构建会在启动异步 runtime 前 daemonize。
 
+### macOS 产物首次执行
+
+macOS 会阻止未签名或带 quarantine 标记的产物直接运行。编译出 macOS 目标后，可以先对产物做本地信任处理。以下以 `/tmp/malefic` 为例，实际使用时替换为你的产物路径：
+
+```bash
+xattr -cr /tmp/malefic
+sudo xattr -r -d com.apple.quarantine /tmp/malefic
+sudo codesign --force --deep --sign - /tmp/malefic
+chmod +x /tmp/malefic
+```
+
 ## 生成 Beacon
+
+!!! warning "malefic-mutant 需要和源码版本匹配"
+    `malefic-mutant generate` 会按当前源码结构生成运行时配置和 Cargo features。使用 release 离线包编译时，优先执行 `source_code/bin/malefic-mutant`；这个二进制已经随包更新到对应版本。不要随手使用镜像内置或系统 PATH 中的旧 `malefic-mutant`，否则可能出现 `RuntimeConfig` 字段缺失、schema 不匹配或生成代码编译失败。
 
 ```bash
 malefic-mutant generate beacon -c implant.yaml -E community

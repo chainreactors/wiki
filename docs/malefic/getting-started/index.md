@@ -36,22 +36,27 @@ git submodule update --init --recursive
 
 推荐优先使用 Docker 构建，因为跨 target Rust 构建依赖目标平台对应的 toolchain、linker、SDK 和系统库。`ghcr.io/chainreactors/malefic-builder:latest` 面向常见 Windows、Linux 和 macOS target triple。
 
-```bash
-docker run -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/malefic-builder:latest sh -c "malefic-mutant generate beacon && malefic-mutant build malefic --target x86_64-pc-windows-gnu"
-```
-
-频繁重建时可以挂载 Cargo cache：
+Release 中的 `malefic.zip` 是推荐的离线编译包，包含完整源码、vendor 依赖和与该源码匹配的 Linux 版 `malefic-mutant`。手动编译时进入 `source_code/`，并优先使用包内的 `./bin/malefic-mutant`：
 
 ```bash
+wget https://github.com/chainreactors/malefic/releases/download/v0.3.0/malefic.zip
+unzip malefic.zip
+cd malefic/source_code
+
 docker run \
   -v "$(pwd):/root/src" \
-  -v "$(pwd)/cache/registry:/root/cargo/registry" \
-  -v "$(pwd)/cache/git:/root/cargo/git" \
   --rm -it ghcr.io/chainreactors/malefic-builder:latest \
-  sh -c "malefic-mutant generate beacon && malefic-mutant build malefic --target x86_64-pc-windows-gnu"
+  sh -lc "cd /root/src && chmod +x ./bin/malefic-mutant && ./bin/malefic-mutant generate beacon && ./bin/malefic-mutant build malefic --target x86_64-pc-windows-gnu"
 ```
 
+离线包已经包含 vendor 依赖，不需要额外挂载 `/root/cargo/registry` 或 `/root/cargo/git`。如果使用的是 Git clone 源码而不是 release 离线包，才需要根据网络和缓存情况自行决定是否挂载 Cargo cache。
+
 构建产物位于 `target/<target-triple>/release/`。
+
+!!! warning "使用源码包内置的 malefic-mutant"
+    `malefic-mutant generate` 会根据当前源码生成配置、改写 feature 并写入运行时配置文件，因此必须与源码版本匹配。手动 Docker 编译时优先使用 `./bin/malefic-mutant`，避免误用镜像内置或系统 PATH 中的旧版本。若遇到 `RuntimeConfig` 字段缺失、schema 不匹配或生成后的 Rust 代码编译失败，先检查实际执行的 `malefic-mutant` 路径。
+
+如果目标产物需要在 macOS 上运行，首次执行前可能需要清理 quarantine 标记并做本地签名，命令参考 [Malefic 构建](/malefic/build/malefic/#macos-产物首次执行)。
 
 ## GitHub Action Build
 
