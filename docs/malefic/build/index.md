@@ -9,7 +9,7 @@ source: imp:build/index.md
 
 # 概览
 
-构建文档说明 `malefic-mutant generate` 与 `malefic-mutant build` 如何生成配置、改写 feature、编译不同入口 crate，并输出可部署产物。
+构建文档说明 `malefic-mutant generate` 与 `malefic-mutant build` 如何生成配置、改写 feature、编译不同入口 crate，并输出可部署产物。推荐从 release 下载 `malefic.zip`，进入 `source_code/` 后使用包内配套的 `./bin/malefic-mutant` 构建。
 
 ## 构建入口
 

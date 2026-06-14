@@ -27,7 +27,7 @@ Prelude 适合把多个动作编排成前置任务，例如环境检查、上传
 ## 生成 Prelude
 
 ```bash
-malefic-mutant generate prelude prelude.yaml \
+./bin/malefic-mutant generate prelude prelude.yaml \
   -c implant.yaml \
   --resources resources \
   --key maliceofinternal \
@@ -90,7 +90,7 @@ malefic-mutant generate prelude prelude.yaml \
 ## 构建 Prelude
 
 ```bash
-malefic-mutant build prelude -c implant.yaml -t x86_64-pc-windows-gnu
+./bin/malefic-mutant build prelude -c implant.yaml -t x86_64-pc-windows-gnu
 ```
 
 输出：

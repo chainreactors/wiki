@@ -147,7 +147,7 @@ release note: [v0.0.2 the Real Beginning](/blog/2024/09/23/IoM_v0.0.2/)
         - [x] implant交互的基本命令按照其原本用法重写
     - [x] 支持website
 - [x] CI/CD支持
-    - [x] 允许用户使用github action/docker等快速编译implant
+    - [x] 支持通过自动化构建环境快速编译 implant
     - [x] server/client的CI/CD
 - [x] implant优化
     - [x] 提供更多的编译选项, MSVC, MUSL等
@@ -226,7 +226,7 @@ release note: [v0.0.4 Bootstrapping](/blog/2025/01/02/IoM_v0.0.4/)
     - [ ] bug修复
 - client/server
     - [x] 新增artifact相关命令和lua api
-    - [x] 新增action 命令组， 控制github action 编译
+    - [x] 新增构建命令组，控制 artifact 编译
     - [x] 新增donut命令，实现donut v1.1的全部功能
     - [x] 重构并简化docker编译
         - [x] pulse 自动联动编译

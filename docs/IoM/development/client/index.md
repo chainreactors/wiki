@@ -68,6 +68,12 @@ source: wiki:guideline/develop/client.md
        cd malice-network
        git remote add upstream https://github.com/chainreactors/malice-network.git
        ```
+
+       需要把 submodules 同步到各自 master 最新代码时，可以执行：
+
+       ```bash
+       git submodule foreach 'git checkout master && git pull'
+       ```
     
     2. **安装依赖**
        ```bash

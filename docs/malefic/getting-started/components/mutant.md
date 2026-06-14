@@ -28,9 +28,9 @@ Mutant handles the entire lifecycle from configuration to binary:
 
 | Phase | Command | Output |
 |-------|---------|--------|
-| Generate | `malefic-mutant generate beacon` | Rust source + `Cargo.toml` features + encrypted config blob |
-| Build | `malefic-mutant build malefic` | Compiled binary or shared library |
-| Transform | `malefic-mutant tool patch` | Modified binary with new runtime config |
+| Generate | `./bin/malefic-mutant generate beacon` | Rust source + `Cargo.toml` features + encrypted config blob |
+| Build | `./bin/malefic-mutant build malefic` | Compiled binary or shared library |
+| Transform | `./bin/malefic-mutant tool patch` | Modified binary with new runtime config |
 
 ## Design Philosophy
 
@@ -91,7 +91,7 @@ malefic-mutant
 Generation:
 
 ```bash
-malefic-mutant generate \
+./bin/malefic-mutant generate \
   -c implant.yaml                 # config file (default: implant.yaml)
   -E community                    # edition: community / professional
   -s true                         # source / prebuild runtime
@@ -101,7 +101,7 @@ malefic-mutant generate \
 Build:
 
 ```bash
-malefic-mutant build \
+./bin/malefic-mutant build \
   -c implant.yaml                 # config file
   -t x86_64-pc-windows-gnu       # target triple
   --lib                            # build as shared library

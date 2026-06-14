@@ -74,11 +74,11 @@ listeners:
 
 
 ### autobuild 配置
-目前启动一个listener时，可以通过autobuild的配置，来控制是否编译与当前listener通信的implant。
+启动 listener 时，可以通过 `auto_build` 控制是否自动编译与当前 listener / pipeline 通信的默认 payload。
 
-默认不会自动构建。只有显式开启 `auto_build.enable` 后，listener 启动 pipeline 时才会触发自动构建。
+默认不会自动构建。`auto_build` 是便捷功能，适合希望 pipeline 启动后直接得到可用 artifact 的场景；如果你需要手动选择 profile、target、modules，或者只是先启动监听服务，保持关闭即可。只有显式开启 `auto_build.enable` 后，listener 启动 pipeline 时才会触发自动构建。
 
-如果需要编译pulse artifact，将autobuild的 `build_pulse` 设为true。
+如果需要同时编译 pulse artifact，将 `build_pulse` 设为 `true`。
 
 ```yaml
   auto_build:
@@ -86,7 +86,7 @@ listeners:
     build_pulse: true
 ```
 
-您可以根据实际需求，来配置自动编译的implant的架构和通信的pipeline，implant支持的架构在[构建操作](/IoM/user-guide/build/)中有显示。autobuild中的 `pipeline` 字段需要和已有的pipeline名对应。
+您可以根据实际需求，配置自动编译的 implant 架构和通信 pipeline。implant 支持的架构在 [构建操作](/IoM/user-guide/build/) 中有说明；`pipeline` 字段需要填写已经存在的 pipeline 名称。
 
 ```yaml
   auto_build:
@@ -100,7 +100,8 @@ listeners:
 ```
 
 > **Tip:**
-    autobuild的编译平台优先级为docker > github action > saas，若使用saas编译，需确保服务端的config.yaml配置了saas，并且服务端未启动docker，也没有在config.yaml中配置github仓库信息。
+    常用构建来源是 `saas` 和 `docker`。如果希望使用 SaaS 构建服务，请在 server 配置中填写 SaaS URL 和 token；如果希望使用本地构建环境，请确保 Docker 构建环境可用。
+
 ### pipeline 配置
 
 pipeline是数据管道，Listener与Implant/WebShell交互的具体实现。

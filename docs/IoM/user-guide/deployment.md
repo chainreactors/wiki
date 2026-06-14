@@ -60,7 +60,7 @@ sudo -E bash install.sh
 
 1. 检查基础依赖（`curl`、`unzip`）
 2. 下载并安装 Malice Network 服务端及客户端
-3. 下载 `malefic.zip`，并解压到 `./malefic/source_code`
+3. 下载 `malefic.zip`，并解压到 `./malefic/source_code`，其中包含 Malefic 源码、vendor 依赖和配套的 `bin/malefic-mutant`
 4. 拉取 Docker 镜像：`ghcr.io/chainreactors/malefic-builder:latest`
 5. 可选配置并启动 systemd 服务；如跳过，则输出手动启动命令
 
@@ -73,6 +73,9 @@ sudo -E bash install.sh
 ├── iom_linux_amd64
 └── malefic/
     └── source_code/
+        ├── bin/malefic-mutant
+        ├── vendor/
+        └── ...
 ```
 
 ### 下载 Release 部署
