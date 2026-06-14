@@ -216,11 +216,11 @@ build beacon --profile tcp_default --target x86_64-unknown-linux-musl --source s
     
 - **target** ：指定构建目标平台和架构，必填项，例如 `"x86_64-pc-windows-gnu"` 或 `"x86_64-unknown-linux-musl"` 。
     
-- **source** ：指定构建来源，可以是 `docker`、`action` 或 `saas` ，若没有指定，则会寻找可用的编译平台来编译 。
+- **source** ：指定构建来源。推荐使用 `saas` 或 `docker`；若没有指定，server 会按当前可用的构建环境选择编译平台。
 
-!!! tip "target与source说明"
-    target架构列表详见 [构建操作](/IoM/user-guide/build/)
-    source信息详见 [构建操作](/IoM/user-guide/build/)
+!!! tip "target 与 source"
+    `target` 决定产物平台和架构；`source` 决定由 SaaS 构建服务还是本地 Docker 构建环境执行编译。日常使用优先选择 `saas`，需要完全使用本地构建环境时选择 `docker`。
+
 #### 编译beacon
 
  **beacon** 是功能完整的主 Implant，运行在 beacon 模式下。
@@ -260,7 +260,7 @@ build beacon --profile tcp_default --target x86_64-unknown-linux-musl --addresse
 
 #### 编译bind
 
-**bind** 是由 operator 主动连接目标地址的 Implant 模式。它可以继续使用已有 profile，也可以直接通过地址构建。
+**bind** 是由 operator 主动连接目标地址的 Implant 模式。可以直接通过 `--addresses` 构建 bind payload，不需要先准备 profile。
 
 最简命令示例：
 

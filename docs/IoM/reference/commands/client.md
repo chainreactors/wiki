@@ -2432,7 +2432,7 @@ build beacon --addresses "https://127.0.0.1:443" --target x86_64-pc-windows-gnu 
 build beacon --addresses "https://127.0.0.1:443,https://10.0.0.1:443" --target x86_64-pc-windows-gnu --modules nano --source docker
 
 // Build a beacon with custom rem
-build beacon --addresses "tcp://127.0.0.1:5001" --rem "tcp://nonenonenonenone:@127.0.0.1:12345?wrapper=qu7tnG..." --target x86_64-pc-windows-gnu --source action
+build beacon --addresses "tcp://127.0.0.1:5001" --rem "tcp://nonenonenonenone:@127.0.0.1:12345?wrapper=qu7tnG..." --target x86_64-pc-windows-gnu --source docker
 
 // Build a beacon with a profile
 build beacon --profile tcp_default --target x86_64-pc-windows-gnu
@@ -2446,8 +2446,8 @@ build beacon --implant-path /path/to/implant.yaml --prelude-path /path/to/prelud
 // Build a beacon by saas
 build beacon --profile tcp_default --target x86_64-pc-windows-gnu --source saas
 
-// Build by GithubAction
-build beacon --profile tcp_default --target x86_64-pc-windows-gnu --source action
+// Build by SaaS
+build beacon --profile tcp_default --target x86_64-pc-windows-gnu --source saas
 
 // Use interactive wizard mode
 build beacon --wizard
@@ -2491,7 +2491,7 @@ build beacon --wizard
       --resources-path string           path to resources directory
       --retry int                       retry count (default -1)
       --secure                          Enable secure communication
-      --source string                   build source: docker, action, saas, patch
+      --source string                   build source: docker, saas, patch
       --target string                   build target, specify the target arch and platform, such as  **x86_64-pc-windows-gnu**.
       --wizard                          Start interactive wizard mode
 ```
@@ -2566,7 +2566,7 @@ build bind --target x86_64-pc-windows-gnu --addresses 127.0.0.1:5008 --source sa
       --resources-path string           path to resources directory
       --retry int                       retry count (default -1)
       --secure                          Enable secure communication
-      --source string                   build source: docker, action, saas, patch
+      --source string                   build source: docker, saas, patch
       --target string                   build target, specify the target arch and platform, such as  **x86_64-pc-windows-gnu**.
       --wizard                          Start interactive wizard mode
 ```
@@ -2656,7 +2656,7 @@ build modules --target x86_64-pc-windows-gnu --profile tcp_default --source saas
       --lib                          build shared library instead of executable
       --modules string               Override modules (comma-separated, e.g., 'full,execute_exe')
       --profile string               profile name
-      --source string                build source: docker, action, saas, patch
+      --source string                build source: docker, saas, patch
       --target string                build target, specify the target arch and platform, such as  **x86_64-pc-windows-gnu**.
       --wizard                       Start interactive wizard mode
 ```
@@ -2717,7 +2717,7 @@ build prelude --target x86_64-pc-windows-gnu --profile my_profile --source saas
       --prelude-path string          path to prelude.yaml file
       --profile string               profile name
       --resources-path string        path to resources directory
-      --source string                build source: docker, action, saas, patch
+      --source string                build source: docker, saas, patch
       --target string                build target, specify the target arch and platform, such as  **x86_64-pc-windows-gnu**.
       --wizard                       Start interactive wizard mode
 ```
@@ -2777,7 +2777,7 @@ build pulse --target x86_64-pc-windows-gnu --profile tcp_default --artifact-id 1
       --path string                   (default "/pulse")
       --profile string               profile name
       --shellcode                    Build pulse as raw shellcode (.bin)
-      --source string                build source: docker, action, saas, patch
+      --source string                build source: docker, saas, patch
       --target string                build target, specify the target arch and platform, such as  **x86_64-pc-windows-gnu**.
       --user-agent string            HTTP User-Agent string
       --wizard                       Start interactive wizard mode

@@ -43,6 +43,8 @@ Release 中的主要二进制如下：
 
 Build 和 Notify 是可选配置面板。未展开或未显式启用 Auto-Build 时，首次启动只会保存配置并启动选中的 pipeline，不会自动触发 implant 构建。
 
+Auto-Build 用于在 pipeline 启动后自动生成可连接该 pipeline 的默认 payload，适合希望初始化后立即拿到可用 artifact 的场景。如果只是先启动 server、listener 和 pipeline，或者需要之后手动选择 profile、target、modules，再保持关闭即可。
+
 ### 直接启动
 
 已有 `config.yaml`，或者让程序自动生成默认配置后，可直接启动：
@@ -133,7 +135,7 @@ Malice Network 的构建入口位于 client，基本流程如下：
 
 - `--pipeline` 需要填现有 pipeline 名称，不是随便写的标签
 - `--source` 需要与 server 端已启用的构建源匹配
-- 常见构建源是 `docker`、`action`、`saas`
+- 常用构建源是 `saas` 和 `docker`
 
 更完整的构建说明看 [server/build.md](/IoM/user-guide/build/)。
 

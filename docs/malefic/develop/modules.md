@@ -222,11 +222,11 @@ sys::your_module::YourModule,
 
 ```bash
 # 编译完整 beacon（包含你的模块）
-malefic-mutant generate beacon
-cargo build --release -p malefic --target x86_64-pc-windows-gnu
+./bin/malefic-mutant generate beacon
+./bin/malefic-mutant build malefic --target x86_64-pc-windows-gnu
 
 # 或编译为独立模块 DLL
-malefic-mutant build modules --target x86_64-pc-windows-gnu -m as_module_dll,your_module
+./bin/malefic-mutant build modules --target x86_64-pc-windows-gnu -m as_module_dll,your_module
 ```
 
 ---
@@ -286,7 +286,7 @@ malefic_module::register_rt_modules!(
 
 ```bash
 # 编译为可热加载 DLL
-malefic-mutant build modules --target x86_64-pc-windows-gnu \
+./bin/malefic-mutant build modules --target x86_64-pc-windows-gnu \
   -m as_module_dll,execute_powershell,execute_assembly,execute_bof
 ```
 

@@ -52,12 +52,12 @@ chmod +x /tmp/malefic
 
 ## 生成 Beacon
 
-!!! warning "malefic-mutant 需要和源码版本匹配"
-    `malefic-mutant generate` 会按当前源码结构生成运行时配置和 Cargo features。使用 release 离线包编译时，优先执行 `source_code/bin/malefic-mutant`；这个二进制已经随包更新到对应版本。不要随手使用镜像内置或系统 PATH 中的旧 `malefic-mutant`，否则可能出现 `RuntimeConfig` 字段缺失、schema 不匹配或生成代码编译失败。
+!!! tip "使用源码包内置的 malefic-mutant"
+    release 离线包已经带有匹配当前源码的 `malefic-mutant`。进入 `source_code/` 后优先使用 `./bin/malefic-mutant`；如果二进制被放在容器挂载根目录，也可以使用 `/root/src/malefic-mutant`。遇到 `RuntimeConfig` 字段缺失、schema 不匹配或生成代码编译失败时，先确认实际执行的是包内配套版本。
 
 ```bash
-malefic-mutant generate beacon -c implant.yaml -E community
-malefic-mutant build malefic -c implant.yaml -t x86_64-pc-windows-gnu
+./bin/malefic-mutant generate beacon -c implant.yaml -E community
+./bin/malefic-mutant build malefic -c implant.yaml -t x86_64-pc-windows-gnu
 ```
 
 `generate beacon` 的核心流程：
@@ -74,8 +74,8 @@ malefic-mutant build malefic -c implant.yaml -t x86_64-pc-windows-gnu
 ## 生成 Bind
 
 ```bash
-malefic-mutant generate bind -c implant.yaml
-malefic-mutant build malefic -c implant.yaml -t x86_64-pc-windows-gnu
+./bin/malefic-mutant generate bind -c implant.yaml
+./bin/malefic-mutant build malefic -c implant.yaml -t x86_64-pc-windows-gnu
 ```
 
 Bind 与 Beacon 使用同一套生成流水线，但会把 `implants.mod` 设置为 `bind`。当前 schema 和 runtime 转换只提供默认 TCP、HTTP 和 REM 三种 target 形态；bind 生成会拒绝 `http` 或 `rem`，因此实际可用的是不配置 `http`/`rem` 的默认 TCP target。
@@ -83,8 +83,8 @@ Bind 与 Beacon 使用同一套生成流水线，但会把 `implants.mod` 设置
 ## 构建为库
 
 ```bash
-malefic-mutant generate beacon -c implant.yaml
-malefic-mutant build --lib malefic -c implant.yaml -t x86_64-pc-windows-gnu
+./bin/malefic-mutant generate beacon -c implant.yaml
+./bin/malefic-mutant build --lib malefic -c implant.yaml -t x86_64-pc-windows-gnu
 ```
 
 当 implant 需要被其他进程加载，而不是作为独立进程运行时，使用 `--lib`。`build_payload` 会把该选项转换为 Cargo `--lib` 构建。
@@ -229,7 +229,7 @@ Feature 解析由 `config_lint.json` 和 `malefic-mutant/src/generate/features.r
 ## 构建参数
 
 ```bash
-malefic-mutant build malefic \
+./bin/malefic-mutant build malefic \
   -c implant.yaml \
   -t x86_64-pc-windows-gnu \
   --lib \

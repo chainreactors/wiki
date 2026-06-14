@@ -10,19 +10,28 @@ source: imp:getting-started/build.md
 
 本页说明构建 Malefic 所需的环境准备。具体构建命令和配置字段参考各组件构建页。
 
-## Prerequisites
+## 推荐准备方式
 
-无论使用 Docker 还是本地构建，都需要先 clone workspace 并拉取 submodules：
+推荐直接使用 release 中的 `malefic.zip`。该离线包已经包含完整源码、vendor 依赖和与源码匹配的 Linux 版 `malefic-mutant`：
+
+```bash
+wget https://github.com/chainreactors/malefic/releases/download/v0.3.0/malefic.zip
+unzip malefic.zip
+cd malefic/source_code
+```
+
+如果你是开发调试源码，也可以 clone workspace 并拉取 submodules：
 
 ```bash
 git clone --recurse-submodules https://github.com/chainreactors/malefic
 cd malefic
+git submodule update --init --recursive
 ```
 
-如果仓库 clone 时没有带 submodules，构建前先补齐：
+需要把 submodules 同步到各自 master 最新代码时，可以执行：
 
 ```bash
-git submodule update --init --recursive
+git submodule foreach 'git checkout master && git pull'
 ```
 
 `resources.zip` 包含构建时可能用到的预置资源，包括 win-kit 相关产物。自动安装流程会下载资源；手动准备时，从最新 release 下载并解压到 `resources/`：
@@ -36,42 +45,23 @@ git submodule update --init --recursive
 
 推荐优先使用 Docker 构建，因为跨 target Rust 构建依赖目标平台对应的 toolchain、linker、SDK 和系统库。`ghcr.io/chainreactors/malefic-builder:latest` 面向常见 Windows、Linux 和 macOS target triple。
 
-Release 中的 `malefic.zip` 是推荐的离线编译包，包含完整源码、vendor 依赖和与该源码匹配的 Linux 版 `malefic-mutant`。手动编译时进入 `source_code/`，并优先使用包内的 `./bin/malefic-mutant`：
+手动编译时进入 `source_code/`，并使用包内配套的 `malefic-mutant`：
 
 ```bash
-wget https://github.com/chainreactors/malefic/releases/download/v0.3.0/malefic.zip
-unzip malefic.zip
-cd malefic/source_code
-
 docker run \
   -v "$(pwd):/root/src" \
   --rm -it ghcr.io/chainreactors/malefic-builder:latest \
   sh -lc "cd /root/src && chmod +x ./bin/malefic-mutant && ./bin/malefic-mutant generate beacon && ./bin/malefic-mutant build malefic --target x86_64-pc-windows-gnu"
 ```
 
-离线包已经包含 vendor 依赖，不需要额外挂载 `/root/cargo/registry` 或 `/root/cargo/git`。如果使用的是 Git clone 源码而不是 release 离线包，才需要根据网络和缓存情况自行决定是否挂载 Cargo cache。
+离线包已经包含 vendor 依赖，不需要额外挂载 Cargo cache。如果使用的是 Git clone 源码而不是 release 离线包，才需要根据网络和缓存情况自行决定是否挂载缓存目录。
 
 构建产物位于 `target/<target-triple>/release/`。
 
-!!! warning "使用源码包内置的 malefic-mutant"
-    `malefic-mutant generate` 会根据当前源码生成配置、改写 feature 并写入运行时配置文件，因此必须与源码版本匹配。手动 Docker 编译时优先使用 `./bin/malefic-mutant`，避免误用镜像内置或系统 PATH 中的旧版本。若遇到 `RuntimeConfig` 字段缺失、schema 不匹配或生成后的 Rust 代码编译失败，先检查实际执行的 `malefic-mutant` 路径。
+!!! tip "使用源码包内置的 malefic-mutant"
+    `malefic-mutant generate` 会根据当前源码生成配置、改写 feature 并写入运行时配置文件，因此需要与源码版本匹配。release 离线包中默认路径是 `./bin/malefic-mutant`；如果你把二进制放在挂载目录根部，也可以使用 `/root/src/malefic-mutant`。遇到 `RuntimeConfig` 字段缺失、schema 不匹配或生成后的 Rust 代码编译失败时，先确认实际执行的是包内配套版本。
 
 如果目标产物需要在 macOS 上运行，首次执行前可能需要清理 quarantine 标记并做本地签名，命令参考 [Malefic 构建](/malefic/build/malefic/#macos-产物首次执行)。
-
-## GitHub Action Build
-
-仓库 workflow `generate.yaml` 接收 base64 编码后的 `implant.yaml` 和 package 名称，适合把构建环境留在 GitHub Actions 内。
-
-```bash
-gh workflow run generate.yaml \
-  -f package="beacon" \
-  -f malefic_config_yaml=$(base64 -w 0 < implant.yaml) \
-  -f remark="beacon" \
-  -f targets="x86_64-pc-windows-gnu" \
-  -R <username/malefic>
-```
-
-如果 Windows shell 没有 GNU `base64`，从 Git Bash 或其他提供该命令的 shell 执行。
 
 ## Local Build
 

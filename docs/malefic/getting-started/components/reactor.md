@@ -84,27 +84,27 @@ rt_host_execute(name, body)
 
 ```bash
 # 空壳 DLL（不内置模块；Windows 下可通过 load_module 动态加载模块 DLL）
-malefic-mutant build reactor
+./bin/malefic-mutant build reactor
 
 # 内置 base 模块集
-malefic-mutant build reactor -m base
+./bin/malefic-mutant build reactor -m base
 
 # 内置全部模块
-malefic-mutant build reactor -m full
+./bin/malefic-mutant build reactor -m full
 
 # 内置扩展模块集
-malefic-mutant build reactor -m extend
+./bin/malefic-mutant build reactor -m extend
 
 # 精确控制：组合多个 feature
-malefic-mutant build reactor -m "base,execute_bof,execute_assembly"
+./bin/malefic-mutant build reactor -m "base,execute_bof,execute_assembly"
 
 # 指定编译目标
-malefic-mutant build -t x86_64-pc-windows-gnu reactor -m base
+./bin/malefic-mutant build -t x86_64-pc-windows-gnu reactor -m base
 ```
 
 mutant 会以 release library 模式构建 Reactor，并把 `-m/--modules` 传入 Cargo `--features`。
 
-### 直接 cargo 编译
+### 开发调试：直接 cargo 编译
 
 ```bash
 # 空壳 DLL（不内置模块）
@@ -434,7 +434,7 @@ bash malefic-reactor/tests/c/build_and_test.sh
 **Windows：**
 ```bash
 # 编译
-malefic-mutant build reactor
+./bin/malefic-mutant build reactor
 cargo build -p test-runtime-plugin
 
 # 编译 C 测试

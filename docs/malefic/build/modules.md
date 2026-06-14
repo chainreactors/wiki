@@ -51,7 +51,7 @@ source: imp:build/modules.md
 ## 构建内置模块 DLL
 
 ```bash
-malefic-mutant build modules -c implant.yaml -t x86_64-pc-windows-gnu -m as_module_dll,exec,ls,upload
+./bin/malefic-mutant build modules -c implant.yaml -t x86_64-pc-windows-gnu -m as_module_dll,exec,ls,upload
 ```
 
 `BuildCommands::Modules` 的处理逻辑：
@@ -81,8 +81,8 @@ implants:
 然后执行：
 
 ```bash
-malefic-mutant generate beacon -c implant.yaml
-malefic-mutant build malefic -c implant.yaml -t x86_64-pc-windows-gnu
+./bin/malefic-mutant generate beacon -c implant.yaml
+./bin/malefic-mutant build malefic -c implant.yaml -t x86_64-pc-windows-gnu
 ```
 
 生成 beacon 时，Mutant 会根据 `implants.modules` 更新 `malefic-modules/Cargo.toml`，这些模块会静态链接进主 implant。
@@ -106,7 +106,7 @@ malefic-mutant build malefic -c implant.yaml -t x86_64-pc-windows-gnu
 ## 构建第三方模块 DLL
 
 ```bash
-malefic-mutant build 3rd -c implant.yaml -t x86_64-pc-windows-gnu -m rem,curl
+./bin/malefic-mutant build 3rd -c implant.yaml -t x86_64-pc-windows-gnu -m rem,curl
 ```
 
 `BuildCommands::Modules3rd` 的处理逻辑：

@@ -162,10 +162,10 @@ Prelude 使用 YAML 格式定义任务序列，每个任务包含名称和执行
 
 ### 生成配置
 
-使用 `malefic-mutant` 生成 prelude 配置：
+进入 release 离线包的 `source_code/` 后，使用包内配套的 `malefic-mutant` 生成 prelude 配置：
 
 ```bash
-malefic-mutant generate prelude autorun.yaml
+./bin/malefic-mutant generate prelude autorun.yaml
 ```
 
 此命令会：
@@ -179,13 +179,13 @@ malefic-mutant generate prelude autorun.yaml
 
 ```bash
 # 指定 spite.bin 输出目录
-malefic-mutant generate prelude autorun.yaml --resources ./my_resources
+./bin/malefic-mutant generate prelude autorun.yaml --resources ./my_resources
 ```
 
 ### 编译 Prelude
 
 ```bash
-cargo build --release -p malefic-prelude --target x86_64-pc-windows-gnu
+./bin/malefic-mutant build prelude -c implant.yaml -t x86_64-pc-windows-gnu
 ```
 
 编译产物位于 `target/<target_triple>/release/malefic-prelude.exe`。
@@ -193,19 +193,8 @@ cargo build --release -p malefic-prelude --target x86_64-pc-windows-gnu
 ### 使用 Docker 编译
 
 ```bash
-docker run -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/malefic-builder:latest sh -c "malefic-mutant generate prelude autorun.yaml && cargo build -p malefic-prelude --target x86_64-pc-windows-gnu"
-```
-
-### 使用 GitHub Action 编译
-
-```bash
-gh workflow run generate.yaml \
-  -f package="prelude" \
-  -f autorun_yaml=$(base64 -w 0 <autorun.yaml) \
-  -f malefic_config_yaml=$(base64 -w 0 <implant.yaml) \
-  -f remark="prelude with persistence" \
-  -f targets="x86_64-pc-windows-gnu" \
-  -R <username/malefic>
+docker run -v "$(pwd):/root/src" --rm -it ghcr.io/chainreactors/malefic-builder:latest \
+  sh -lc "cd /root/src && chmod +x ./bin/malefic-mutant && ./bin/malefic-mutant generate prelude autorun.yaml && ./bin/malefic-mutant build prelude -c implant.yaml -t x86_64-pc-windows-gnu"
 ```
 
 ## Beacon 集成 - Stageless Autorun
@@ -243,8 +232,8 @@ EOF
 #   prelude: "persistence.yaml"
 
 # 3. 生成并编译 beacon
-malefic-mutant generate beacon
-cargo build --release -p malefic --target x86_64-pc-windows-gnu
+./bin/malefic-mutant generate beacon
+./bin/malefic-mutant build malefic --target x86_64-pc-windows-gnu
 ```
 
 ## Feature Flags
@@ -278,7 +267,7 @@ bin: !File "payloads/beacon.exe"
 `malefic-mutant generate prelude` 当前会从仓库根目录的 `./resources/` 查找 `!File` 引用。`--resources` 参数控制 `spite.bin` 输出目录，不改变 `!File` 的输入查找目录：
 
 ```bash
-malefic-mutant generate prelude autorun.yaml --resources /custom/output
+./bin/malefic-mutant generate prelude autorun.yaml --resources /custom/output
 ```
 
 ## 最佳实践
