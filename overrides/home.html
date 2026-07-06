@@ -873,19 +873,20 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   align-items: baseline;
   gap: 1.25rem;
-  padding: 0.85rem 0;
+  padding: 1rem 0;
   border-bottom: 1px solid var(--border);
   transition: all 0.2s ease;
 }
 
 .blog-item:first-child { border-top: 1px solid var(--border); }
 
-.blog-item:hover { padding-left: 0.5rem; }
+.blog-item:hover { padding-left: 0.5rem; background: var(--surface); }
 .blog-item:hover .blog-title { color: var(--blue); }
+.blog-item:hover .blog-excerpt { color: var(--text); }
 
 .blog-date {
   font-family: var(--mono);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 500;
   color: var(--text-3);
   white-space: nowrap;
@@ -894,7 +895,7 @@ a { color: inherit; text-decoration: none; }
 
 .blog-title {
   font-family: var(--display);
-  font-size: 1.05rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--text);
   transition: color 0.2s;
@@ -902,12 +903,13 @@ a { color: inherit; text-decoration: none; }
 }
 
 .blog-excerpt {
-  font-size: 0.85rem;
-  color: var(--text-3);
+  font-size: 0.88rem;
+  color: var(--text-2);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 0;
+  transition: color 0.2s;
 }
 
 .blog-more {
