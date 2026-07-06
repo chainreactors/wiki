@@ -184,7 +184,7 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--mono);
   font-size: 0.8rem;
   font-weight: 500;
-  color: var(--text-3);
+  color: var(--text-2);
   padding: 0.4rem 0.75rem;
   letter-spacing: 0.04em;
   transition: color 0.2s;
@@ -192,6 +192,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .nav-links a:hover { color: var(--text); }
+.nav-links a.active { color: var(--text); font-weight: 700; }
 
 .nav-links .cta {
   color: #fff !important;
@@ -939,7 +940,7 @@ a { color: inherit; text-decoration: none; }
   justify-content: space-between;
   font-family: var(--mono);
   font-size: 0.78rem;
-  color: var(--text-4);
+  color: var(--text-2);
 }
 
 .foot-links {
@@ -1375,9 +1376,30 @@ a { color: inherit; text-decoration: none; }
   var menu = document.getElementById('menu');
   var links = document.getElementById('navLinks');
 
+  var navAnchors = links.querySelectorAll('a[href^="#"]');
+  var sections = [];
+  navAnchors.forEach(function(a) {
+    var id = a.getAttribute('href').substring(1);
+    var sec = document.getElementById(id);
+    if (sec) sections.push({ el: sec, link: a });
+  });
+
+  function updateActive() {
+    var scrollY = window.scrollY + 120;
+    var current = null;
+    sections.forEach(function(s) {
+      if (s.el.offsetTop <= scrollY) current = s;
+    });
+    navAnchors.forEach(function(a) { a.classList.remove('active'); });
+    if (current) current.link.classList.add('active');
+  }
+
   window.addEventListener('scroll', function() {
     nav.classList.toggle('scrolled', window.scrollY > 24);
+    updateActive();
   }, { passive: true });
+
+  updateActive();
 
   menu.addEventListener('click', function() {
     links.classList.toggle('open');
