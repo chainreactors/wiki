@@ -1345,7 +1345,7 @@ a { color: inherit; text-decoration: none; }
       <h2 class="sec-title">Blog</h2>
     </div>
     <div class="blog-grid rv" id="blogGrid"></div>
-    <div class="blog-more rv"><a href="/wiki/blog/">查看全部文章 →</a></div>
+    <div class="blog-more rv"><a href="/blog/">查看全部文章 →</a></div>
   </div>
 </section>
 
@@ -1413,26 +1413,29 @@ a { color: inherit; text-decoration: none; }
 
   var blogGrid = document.getElementById('blogGrid');
   if (blogGrid) {
-    fetch('/wiki/blog/')
+    fetch('/blog/')
       .then(function(r) { return r.text(); })
       .then(function(html) {
         var doc = new DOMParser().parseFromString(html, 'text/html');
-        var articles = doc.querySelectorAll('article');
+        var articles = doc.querySelectorAll('article.md-post');
         var count = 0;
         articles.forEach(function(article) {
           if (count >= 6) return;
-          var titleEl = article.querySelector('h2 a') || article.querySelector('h2');
+          var titleEl = article.querySelector('h2 a.toclink');
           if (!titleEl) return;
           var title = titleEl.textContent.trim();
           if (!title) return;
           var href = titleEl.getAttribute('href') || '';
-          if (href && !href.startsWith('http')) href = '/wiki' + href;
+          if (href && !href.startsWith('http') && !href.startsWith('/')) href = '/blog/' + href;
           var excerpt = '';
-          var contentEl = article.querySelector('.md-post__content p, section p');
-          if (contentEl) excerpt = contentEl.textContent.trim().substring(0, 80);
+          var paragraphs = article.querySelectorAll('.md-post__content > p');
+          for (var i = 0; i < paragraphs.length; i++) {
+            var text = paragraphs[i].textContent.trim();
+            if (text.length > 20) { excerpt = text.substring(0, 80); break; }
+          }
           var dateStr = '';
           var timeEl = article.querySelector('time');
-          if (timeEl) dateStr = timeEl.getAttribute('datetime') || timeEl.textContent.trim();
+          if (timeEl) dateStr = timeEl.textContent.trim();
           var card = document.createElement('a');
           card.className = 'blog-card';
           card.href = href;
