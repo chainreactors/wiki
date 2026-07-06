@@ -813,6 +813,29 @@ a { color: inherit; text-decoration: none; }
   margin-top: 0.25rem;
 }
 
+.mx-total-scenarios { flex: 1; }
+
+.mx-scenario-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  justify-content: center;
+}
+
+.mx-scenario-tag {
+  font-family: var(--heading);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  color: var(--sc);
+  background: color-mix(in srgb, var(--sc), transparent 90%);
+  border: 1px solid color-mix(in srgb, var(--sc), transparent 75%);
+  clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px));
+}
+
 /* ── footer ── */
 .foot {
   padding: 1.75rem 0;
@@ -825,13 +848,6 @@ a { color: inherit; text-decoration: none; }
   justify-content: space-between;
   font-family: var(--mono);
   font-size: 0.78rem;
-  color: var(--text-4);
-}
-
-.foot-formula {
-  font-family: var(--heading);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
   color: var(--text-4);
 }
 
@@ -1050,13 +1066,16 @@ a { color: inherit; text-decoration: none; }
         <div class="mx-total-num">5,400+</div>
         <div class="mx-total-label">Total Stars</div>
       </div>
-      <div class="mx-total-item">
-        <div class="mx-total-num">200,000+</div>
-        <div class="mx-total-label">Lines of Code</div>
-      </div>
-      <div class="mx-total-item">
-        <div class="mx-total-num">6</div>
-        <div class="mx-total-label">Scenarios</div>
+      <div class="mx-total-item mx-total-scenarios">
+        <div class="mx-total-label" style="margin-top:0">覆盖场景</div>
+        <div class="mx-scenario-tags">
+          <span class="mx-scenario-tag" style="--sc:var(--blue)">Pre-Exploit</span>
+          <span class="mx-scenario-tag" style="--sc:var(--red)">Post-Exploit</span>
+          <span class="mx-scenario-tag" style="--sc:var(--green)">Network</span>
+          <span class="mx-scenario-tag" style="--sc:var(--violet)">AI Agent</span>
+          <span class="mx-scenario-tag" style="--sc:var(--amber)">Library</span>
+          <span class="mx-scenario-tag" style="--sc:var(--text-3)">Tool</span>
+        </div>
       </div>
     </div>
   </div>
@@ -1218,7 +1237,6 @@ a { color: inherit; text-decoration: none; }
 <footer class="foot">
   <div class="w foot-in">
     <div>© 2026 ChainReactors</div>
-    <div class="foot-formula">AI渗透能力 = MODEL(T) × D × E × I</div>
     <div class="foot-links">
       <a href="/wiki/">Wiki</a>
       <a href="https://github.com/chainreactors/" target="_blank" rel="noopener">GitHub</a>
