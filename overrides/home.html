@@ -863,6 +863,68 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.45;
 }
 
+/* ── blog ── */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.blog-card {
+  padding: 1.5rem 1.65rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.blog-card:hover {
+  background: var(--surface-2);
+  border-color: var(--border-h);
+}
+
+.blog-date {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-3);
+}
+
+.blog-title {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.blog-excerpt {
+  font-size: 0.88rem;
+  color: var(--text-2);
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-more {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.blog-more a {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-3);
+  transition: color 0.2s;
+}
+
+.blog-more a:hover { color: var(--blue); }
+
 /* ── footer ── */
 .foot {
   padding: 1.75rem 0;
@@ -961,7 +1023,7 @@ a { color: inherit; text-decoration: none; }
   .stats { flex-direction: column; }
   .stat { border-right: none; border-bottom: 1px solid var(--border); }
   .stat:last-child { border-bottom: none; }
-  .timeline, .products, .matrix, .mx-scenarios { grid-template-columns: 1fr !important; }
+  .timeline, .products, .matrix, .mx-scenarios, .blog-grid { grid-template-columns: 1fr !important; }
   .mx-total { flex-direction: column; gap: 1.25rem; }
   .foot-in { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
 }
@@ -1275,6 +1337,18 @@ a { color: inherit; text-decoration: none; }
   </div>
 </section>
 
+<div class="divider"><span class="num">005</span> BLOG</div>
+<section class="sec" id="blog">
+  <div class="w">
+    <div class="sec-head rv">
+      <div class="sec-tag">最新动态</div>
+      <h2 class="sec-title">Blog</h2>
+    </div>
+    <div class="blog-grid rv" id="blogGrid"></div>
+    <div class="blog-more rv"><a href="/wiki/blog/">查看全部文章 →</a></div>
+  </div>
+</section>
+
 </main>
 
 <footer class="foot">
@@ -1336,6 +1410,41 @@ a { color: inherit; text-decoration: none; }
   }, { threshold: 0.08 });
 
   document.querySelectorAll('.rv').forEach(function(el) { io.observe(el); });
+
+  var blogGrid = document.getElementById('blogGrid');
+  if (blogGrid) {
+    fetch('/wiki/blog/')
+      .then(function(r) { return r.text(); })
+      .then(function(html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var articles = doc.querySelectorAll('article');
+        var count = 0;
+        articles.forEach(function(article) {
+          if (count >= 6) return;
+          var titleEl = article.querySelector('h2 a') || article.querySelector('h2');
+          if (!titleEl) return;
+          var title = titleEl.textContent.trim();
+          if (!title) return;
+          var href = titleEl.getAttribute('href') || '';
+          if (href && !href.startsWith('http')) href = '/wiki' + href;
+          var excerpt = '';
+          var contentEl = article.querySelector('.md-post__content p, section p');
+          if (contentEl) excerpt = contentEl.textContent.trim().substring(0, 80);
+          var dateStr = '';
+          var timeEl = article.querySelector('time');
+          if (timeEl) dateStr = timeEl.getAttribute('datetime') || timeEl.textContent.trim();
+          var card = document.createElement('a');
+          card.className = 'blog-card';
+          card.href = href;
+          if (dateStr) card.innerHTML += '<div class="blog-date">' + dateStr + '</div>';
+          card.innerHTML += '<div class="blog-title">' + title + '</div>';
+          if (excerpt) card.innerHTML += '<div class="blog-excerpt">' + excerpt + '</div>';
+          blogGrid.appendChild(card);
+          count++;
+        });
+      })
+      .catch(function() {});
+  }
 
   fetch('https://api.github.com/orgs/chainreactors/repos?per_page=100')
     .then(function(r) { return r.json(); })
