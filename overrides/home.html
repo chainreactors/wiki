@@ -564,70 +564,6 @@ a { color: inherit; text-decoration: none; }
 
 .note-bar strong { color: var(--blue); }
 
-/* ── principles ── */
-.principles {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2px;
-}
-
-.prin {
-  --pc: var(--blue);
-  padding: 2.25rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.prin::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 40%;
-  height: 2px;
-  background: var(--pc);
-  opacity: 0.5;
-}
-
-.prin:hover {
-  background: var(--surface-2);
-  border-color: var(--border-h);
-}
-
-.prin:nth-child(1) { --pc: var(--blue); }
-.prin:nth-child(2) { --pc: var(--red); }
-.prin:nth-child(3) { --pc: var(--violet); }
-.prin:nth-child(4) { --pc: var(--amber); }
-
-.prin-tag {
-  font-family: var(--heading);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--pc);
-}
-
-.prin-quote {
-  margin-top: 1.1rem;
-  font-family: var(--display);
-  font-size: 1.6rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
-  color: var(--text);
-}
-
-.prin-body {
-  margin-top: 0.85rem;
-  font-size: 0.92rem;
-  color: var(--text-2);
-  line-height: 1.65;
-}
-
 /* ── products ── */
 .products {
   display: grid;
@@ -922,7 +858,6 @@ a { color: inherit; text-decoration: none; }
   .prod.feat { grid-row: auto; }
   .timeline { grid-template-columns: repeat(3, 1fr); gap: 1.5rem 0; }
   .timeline::before { display: none; }
-  .principles { grid-template-columns: 1fr; }
   .matrix { grid-template-columns: repeat(2, 1fr); }
 }
 
@@ -967,7 +902,6 @@ a { color: inherit; text-decoration: none; }
     <a class="logo" href="/">CHAINREACTOR</a>
     <div class="nav-links" id="navLinks">
       <a href="#roadmap">路线</a>
-      <a href="#principles">理念</a>
       <a href="#products">产品</a>
       <a href="#oss">开源</a>
       <a class="cta" href="/wiki/">WIKI</a>
@@ -1148,39 +1082,7 @@ a { color: inherit; text-decoration: none; }
   </div>
 </section>
 
-<div class="divider"><span class="num">003</span> PRINCIPLES</div>
-<section class="sec" id="principles">
-  <div class="w">
-    <div class="sec-head rv">
-      <div class="sec-tag">核心理念</div>
-      <h2 class="sec-title">四个核心原则</h2>
-    </div>
-    <div class="principles rv">
-      <div class="prin">
-        <div class="prin-tag">First Principles</div>
-        <div class="prin-quote">做得越少，涌现越充分</div>
-        <p class="prin-body">不教模型渗透，只给基础设施。能力来自闭环反馈，不来自硬编码知识。</p>
-      </div>
-      <div class="prin">
-        <div class="prin-tag">Orthogonal</div>
-        <div class="prin-quote">Human × Agent × Infra 解耦</div>
-        <p class="prin-body">三者独立演进，互不耦合。模型换代，Infra 不废弃；Infra 升级，Agent 无需改。</p>
-      </div>
-      <div class="prin">
-        <div class="prin-tag">AI First</div>
-        <div class="prin-quote">通用能力是因，安全能力是果</div>
-        <p class="prin-body">先有强 Agent，安全能力自然涌现。从通用到专业，不从安全到 AI。</p>
-      </div>
-      <div class="prin">
-        <div class="prin-tag">Intent Engineering</div>
-        <div class="prin-quote">不设计方案，设计创建方案的方案</div>
-        <p class="prin-body">自然语义即编程语言。描述意图，而非编排步骤。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"><span class="num">004</span> AI NATIVE INFRA</div>
+<div class="divider"><span class="num">003</span> AI NATIVE INFRA</div>
 <section class="sec" id="products">
   <div class="w">
     <div class="sec-head rv">
@@ -1195,8 +1097,8 @@ a { color: inherit; text-decoration: none; }
           <span class="prod-level">L2</span>
         </div>
         <h3 class="prod-name">Collider</h3>
-  <div class="prod-subtitle">持续威胁暴露管理</div>
-        <p class="prod-desc">攻击面管理平台。gogo / spray / zombie / neutron 组成统一工具链，结构化输出供 Agent 消费。</p>
+        <div class="prod-subtitle">持续攻击面管理</div>
+        <p class="prod-desc">持续发现、评估和收敛外部攻击面，统一覆盖端口、服务、漏洞、目录全维度探测。</p>
         <div class="prod-stack">gogo / spray / zombie / neutron</div>
         <a class="prod-link" href="/mapping/">查看 →</a>
       </div>
@@ -1206,8 +1108,8 @@ a { color: inherit; text-decoration: none; }
           <span class="prod-level">L2</span>
         </div>
         <h3 class="prod-name">IoM</h3>
-        <div class="prod-subtitle">后渗透一体化平台</div>
-        <p class="prod-desc">malice-network + malefic implant。端上纵深对抗、后渗透全场景统一、AI 原生 C2。</p>
+        <div class="prod-subtitle">后渗透全场景平台</div>
+        <p class="prod-desc">一个平台统一管理权限维持、横向移动与数据回收，覆盖后渗透全场景。</p>
         <a class="prod-link" href="/IoM/">查看 →</a>
       </div>
       <div class="prod" style="--pc:var(--green)">
@@ -1216,8 +1118,8 @@ a { color: inherit; text-decoration: none; }
           <span class="prod-level">L2</span>
         </div>
         <h3 class="prod-name">REM</h3>
-        <div class="prod-subtitle">流量与代理层</div>
-        <p class="prod-desc">全场景流量代理与隧道，打通 Collider 与 IoM，屏蔽网络拓扑复杂度。</p>
+        <div class="prod-subtitle">穿透任意网络</div>
+        <p class="prod-desc">一条命令穿透多层内网，加密隧道让工具触达任意网段。</p>
         <a class="prod-link" href="/rem/">查看 →</a>
       </div>
       <div class="prod" style="--pc:var(--violet)">
@@ -1226,15 +1128,15 @@ a { color: inherit; text-decoration: none; }
           <span class="prod-level">L2</span>
         </div>
         <h3 class="prod-name">CyberHub</h3>
-        <div class="prod-subtitle">安全知识引擎</div>
-        <p class="prod-desc">指纹、漏洞、字典、威胁情报统一管理。GraphRAG 驱动的知识沉淀与检索。</p>
+        <div class="prod-subtitle">AI 驱动的安全知识引擎</div>
+        <p class="prod-desc">统一管理指纹、漏洞、字典与威胁情报，AI 自动关联上下文并推荐攻击路径，让每个工具和 Agent 共享同一份持续进化的知识。</p>
         <span class="prod-link">开发中 →</span>
       </div>
     </div>
   </div>
 </section>
 
-<div class="divider"><span class="num">005</span> AI PRODUCTS</div>
+<div class="divider"><span class="num">004</span> AI PRODUCTS</div>
 <section class="sec" id="ai-products">
   <div class="w">
     <div class="sec-head rv">
@@ -1249,8 +1151,8 @@ a { color: inherit; text-decoration: none; }
           <span class="prod-level">L3</span>
         </div>
         <h3 class="prod-name" style="color:var(--green);text-shadow:0 0 30px var(--green-glow);">Cairn</h3>
-        <div class="prod-subtitle">企业级自动化智能渗透测试平台</div>
-        <p class="prod-desc">面向企业 — 声明目标，AI 自主完成全流程渗透。黑板架构多智能体协作，支持私有化部署与国产模型。TCH2 3rd/610，唯一全解。</p>
+        <div class="prod-subtitle">AI 自主渗透测试</div>
+        <p class="prod-desc">面向企业 — 声明目标即启动，AI 自主完成从资产发现到漏洞利用的完整渗透流程。支持私有化部署。</p>
         <div class="prod-actions">
           <span class="prod-link">商业产品 →</span>
           <a class="prod-link" href="https://github.com/oritera/Cairn" target="_blank" rel="noopener">开源 →</a>
@@ -1263,7 +1165,7 @@ a { color: inherit; text-decoration: none; }
         </div>
         <h3 class="prod-name" style="color:var(--amber);text-shadow:0 0 30px var(--amber-glow);">Cybernetics</h3>
         <div class="prod-subtitle">渗透工程师的 AI 副驾驶</div>
-        <p class="prod-desc">面向渗透测试人员 — 人类保留决策权，AI 负责执行与探索。感知-行动-反馈闭环，Checkpoint 人机协同。</p>
+        <p class="prod-desc">面向渗透测试人员 — AI 承担执行与探索，人类专注关键决策，渗透效率提升数倍。</p>
         <span class="prod-link">商业产品 →</span>
       </div>
       <div class="prod" style="--pc:var(--red)">
@@ -1272,8 +1174,8 @@ a { color: inherit; text-decoration: none; }
           <span class="prod-level">L4</span>
         </div>
         <h3 class="prod-name" style="color:var(--red);text-shadow:0 0 30px var(--red-glow);">AIScan</h3>
-        <div class="prod-subtitle">自主攻击面探索</div>
-        <p class="prod-desc">分布式 Agent 自组网，基于 IoA 协议多智能体自发现、自协调。从单点扫描到群体智能协作攻击。</p>
+        <div class="prod-subtitle">持续攻击面验证</div>
+        <p class="prod-desc">多 Agent 协作持续探索攻击面，从单次扫描升级为不间断的主动验证。</p>
         <span class="prod-link">探索中 →</span>
       </div>
     </div>
@@ -1318,6 +1220,26 @@ a { color: inherit; text-decoration: none; }
   }, { threshold: 0.08 });
 
   document.querySelectorAll('.rv').forEach(function(el) { io.observe(el); });
+
+  fetch('https://api.github.com/orgs/chainreactors/repos?per_page=100')
+    .then(function(r) { return r.json(); })
+    .then(function(repos) {
+      if (!Array.isArray(repos)) return;
+      var total = 0;
+      repos.forEach(function(repo) {
+        total += repo.stargazers_count || 0;
+        document.querySelectorAll('.mx').forEach(function(card) {
+          var name = card.querySelector('.mx-name');
+          var stars = card.querySelector('.mx-stars');
+          if (name && stars && name.textContent.trim() === repo.name) {
+            stars.textContent = repo.stargazers_count.toLocaleString();
+          }
+        });
+      });
+      var totalEl = document.querySelector('.mx-total-num');
+      if (totalEl) totalEl.textContent = total.toLocaleString() + '+';
+    })
+    .catch(function() {});
 })();
 </script>
 </body>
