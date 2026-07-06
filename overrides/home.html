@@ -8,11 +8,14 @@
 <meta property="og:title" content="ChainReactor — AI 驱动的全流程智能化渗透">
 <meta property="og:description" content="智能化渗透的开源基础设施，覆盖 Pre-Exploit 到 Post-Exploit 全链路。">
 <meta property="og:type" content="website">
+<meta property="og:image" content="assets/wx.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ChainReactor — AI 驱动的全流程智能化渗透">
+<meta name="twitter:description" content="智能化渗透的开源基础设施，覆盖 Pre-Exploit 到 Post-Exploit 全链路。">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="shortcut icon" type="image/svg+xml" href="assets/favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.loli.net" crossorigin>
+<link href="https://fonts.loli.net/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -840,6 +843,30 @@ a { color: inherit; text-decoration: none; }
 .foot-links a { transition: color 0.2s; }
 .foot-links a:hover { color: var(--text-2); }
 
+.foot-wx-trigger { cursor: pointer; }
+
+.wx-popover {
+  display: none;
+  position: fixed;
+  bottom: 4.5rem;
+  right: var(--px);
+  padding: 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border-h);
+  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  z-index: 200;
+  animation: popIn 0.2s ease;
+}
+
+.wx-popover.show { display: block; }
+.wx-popover img { display: block; border-radius: 4px; }
+
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* ── reveal ── */
 .rv {
   opacity: 0;
@@ -869,16 +896,20 @@ a { color: inherit; text-decoration: none; }
     top: 60px;
     left: 1rem;
     right: 1rem;
-    display: none;
+    display: flex;
     padding: 0.5rem;
     flex-direction: column;
     border: 1px solid var(--border);
     background: rgba(6,8,14,0.96);
     backdrop-filter: blur(24px);
     clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
   }
 
-  .nav-links.open { display: flex; }
+  .nav-links.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
   .nav-links a { padding: 0.55rem 0.75rem; }
   .nav-links .cta { margin-left: 0; margin-top: 0.25rem; text-align: center; justify-content: center; clip-path: none; }
   .hero { min-height: auto; padding: 7rem 0 3rem; }
@@ -1191,7 +1222,11 @@ a { color: inherit; text-decoration: none; }
     <div class="foot-links">
       <a href="/wiki/">Wiki</a>
       <a href="https://github.com/chainreactors/" target="_blank" rel="noopener">GitHub</a>
+      <a href="#" class="foot-wx-trigger" id="wxTrigger">微信公众号</a>
     </div>
+  </div>
+  <div class="wx-popover" id="wxPopover">
+    <img src="assets/wx.jpg" alt="微信公众号" width="200" height="200">
   </div>
 </footer>
 
@@ -1212,6 +1247,26 @@ a { color: inherit; text-decoration: none; }
   links.querySelectorAll('a').forEach(function(a) {
     a.addEventListener('click', function() { links.classList.remove('open'); });
   });
+
+  document.addEventListener('click', function(e) {
+    if (links.classList.contains('open') && !links.contains(e.target) && e.target !== menu && !menu.contains(e.target)) {
+      links.classList.remove('open');
+    }
+  });
+
+  var wxTrigger = document.getElementById('wxTrigger');
+  var wxPopover = document.getElementById('wxPopover');
+  if (wxTrigger && wxPopover) {
+    wxTrigger.addEventListener('click', function(e) {
+      e.preventDefault();
+      wxPopover.classList.toggle('show');
+    });
+    document.addEventListener('click', function(e) {
+      if (wxPopover.classList.contains('show') && !wxPopover.contains(e.target) && e.target !== wxTrigger) {
+        wxPopover.classList.remove('show');
+      }
+    });
+  }
 
   var io = new IntersectionObserver(function(entries) {
     entries.forEach(function(e) {
