@@ -84,3 +84,10 @@
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
 }
+
+.md-post--excerpt > .md-post__content > h2:first-child a[href*="qiling_"]::before {
+  content: "[起零衍迹实验室]";
+  color: #ff9f0a;
+  font-weight: 700;
+  margin-right: 0.35em;
+}
