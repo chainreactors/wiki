@@ -29,8 +29,10 @@ Usage:
   gogo [OPTIONS]
 
 Miscellaneous Options:
+  -k, --key=                                        String, file encrypt key
       --version                                    Bool, show version
-  -P=[port|workflow|nuclei|extract]                String, show preset config
+  -P, --print=[port|workflow|neutron|nuclei|extract]
+                                                   String, show preset config; nuclei is a legacy alias
       --debug                                      Bool, show debug info
       --plugin-debug                               Bool, show plugin debug stack
       --proxy=                                     String, socks5 proxy url, e.g. socks5://127.0.0.1:11111
@@ -38,14 +40,18 @@ Miscellaneous Options:
 Input Options:
   -i, --ip=                                        IP/CIDR, support comma-split ip/cidr, e.g.
                                                    192.168.1.1/24,172.16.1.1/24
+      --exclude=                                   IP/CIDR, exclude comma-split IP/CIDR
+      --exclude-file=                              File, exclude IP/CIDR filename
   -p, --port=                                      Port, support comma-split preset('-P port' show all preset), range,
                                                    alias port, e.g. top2,mysql,12345,10000-10100,oxid,smb (default:
                                                    top1)
+      --port-config=                               File, custom port config file
   -l, --list=                                      File, list of IP/CIDR
   -L                                               Bool, same as -l, input from stdin
   -j, --json=                                      File, previous results file e.g. -j 1.dat1 or list of colon-split
                                                    ip:port, e.g. 123.123.123.123:123
   -J                                               Bool, same as -j, input from stdin
+      --filter-or                                  Bool, combine multiple --filter rules with OR
   -w, --workflow=                                  String, workflow name('-P workflow' show all workflow)
   -W                                               Bool, same as -w, input from stdin
   -F, --format=                                    File, to be formatted result file
@@ -53,13 +59,13 @@ Input Options:
 Output Options:
   -f, --file=                                      String, output filename
       --path=                                      String, output file path
-  -o, --output=                                    String,cmdline output format, default: full (default: default)
-  -O, --file-output=                               String, file output format, default: json (default: default)
-      --output-filter=                             String, When scanning filter the output
+  -o, --output=                                    String, command-line output format (scan default: full;
+                                                   -F default: color)
+  -O, --file-output=                               String, file output format; default is inferred from filename
       --output-delimiter=                          String, output delimiter, default [TAB] (default: "\t")
       --af                                         Bool, auto choice filename
       --hf                                         Bool, auto choice hidden filename
-  -C, --compress                                   Bool, close compress output file
+  -C, --compress                                   Bool, disable compressed output
       --tee                                        Bool, keep console output
   -q, --quiet                                      Bool, close log output
       --no-guess                                   Bool, When formatting not output guess framework
@@ -67,33 +73,39 @@ Output Options:
 Smart Options:
   -m, --mod=[s|ss|default|sc]                      String, smart mod (default: default)
       --ping                                       Bool, alive pre-scan
-      --no                                         Bool, no-plugin, only smart scan
+  -n, --no                                         Bool, only smart scan; skip the following default port scan
       --sp=                                        String, smart-port-probe, smart mod default: 80, supersmart mod
                                                    default: icmp (default: default)
       --ipp=                                       String, IP-probe, default: 1,254 (default: default)
 
-Configuration Options:
-  -t, --thread=                                    Int, concurrent thread number,linux default: 4000, windows default:
-                                                   1000
-  -e, --exploit                                    Bool,enable nuclei exploit scan
-  -v, --verbose                                    Bool, enable active finger scan
+Advance Options:
   -s, --spray                                      Bool, enable port-first spray generator. if ports number > 500,
                                                    auto enable
       --no-spray                                   Bool, force to close spray
-  -E, --exploit-name=                              String, specify nuclei template name
+  -E, --exploit-name=                              String, specify neutron template name/tag
       --ef=                                        String, load specified templates file
-      --filter=                                    String, filter formatting(-F) results
-      --filter-or                                  FilterOr
-      --payload=                                   String, specify nuclei payload
-      --attack-type=[pitchfork|clusterbomb|sniper] nuclei attack types, sniper|clusterbomb|pitchfork
-      --extract=                                   Strings, custom Extract regexp
+      --ff=                                        String, load specified finger file; repeatable
+      --payload=                                   String, specify neutron payload; repeatable
+      --attack-type=[sniper|clusterbomb|pitchfork] Neutron attack type
+      --extract=                                   String, custom extractor regexp/preset; repeatable
+      --opsec                                      Bool, skip templates marked as non-OPSEC
+      --filter=                                    String, retain matching results for -F/-j; repeatable
+      --output-filter=                             String, suppress matching scan results from output
+      --scan-filter=                               String, stop deep scanning and suppress matching results
+
+Configuration Options:
+  -e, --exploit                                    Bool, enable neutron exploit scan
+  -v, --verbose                                    Bool, enable active finger scan; repeat for level 2
+  -t, --thread=                                    Int, concurrent thread number,linux default: 4000, windows default:
+                                                   1000
   -d, --timeout=                                   Int, socket and http timeout (default: 2)
   -D, --ssl-timeout=                               Int, ssl and https timeout (default: 2)
-      --suffix=                                    String, url path
 
 Help Options:
   -h, --help                                       Show this help message
 ```
+
+上面的参数表与当前 `v2/core/options.go` 同步；具体版本仍以本地二进制的 `gogo -h` 输出为准。多字符长参数必须使用双横线，例如 `--ipp`、`--sp`、`--ef`，不能写成 `-ipp`、`-sp`、`-ef`。
 
 ## QuickStart
 
@@ -123,9 +135,11 @@ Help Options:
 
 当目标范围的子网掩码小于16, 建议启用[supersmart模式](/gogo/concept/#a段的启发式扫描)扫描, 例如:
 
-`gogo -i 10.0.0.0/8 --mod ss -p top2,win,db --af`
+`gogo -i 10.0.0.0/8 --mod ss --ping -p all --af`
 
 或使用workflow简化为 `gogo --workflow 10`
+
+当前 `10`、`172`、`192` 等内置 workflow 默认使用 `all` 端口预设。如需缩小范围，可在 workflow 后覆盖，例如 `gogo --workflow 10 -p top2,win,db`。
 
 <br>
 
@@ -134,13 +148,13 @@ Help Options:
 因为`--workflow 10`的语义可能造成混淆, 也可以使用语义化的通用workflow: `gogo --workflow ss -i 11.1.1.1/8`.
 
 !!! note "注意"
-	workflow中的预设参数优先级低于命令行输入, 因此可以通过命令行覆盖workflow中的参数. 
+	workflow 中的大多数预设参数优先级低于命令行输入，因此可以通过命令行覆盖；当前二进制实际支持的覆盖行为以 `gogo -h` 和运行结果为准。
 
 使用`-P workflow`查看所有的[workflow预设](/gogo/start/#workflow), 更便捷的使用gogo.
 
 **分析扫描结果**
 
-如果指定了`--af`或者`--workflow`(所有--workflow均默认配置了`--af`), 默认的输出结果为deflate算法压缩后的json文件, 需要使用`-F`格式化扫描结果. 
+如果指定了 `--af` 或 `--workflow`（内置 workflow 默认配置自动文件输出），默认结果是 deflate 压缩的 JSON Lines `.dat` 文件，需要使用 `-F` 格式化扫描结果。
 
 `gogo -F result.dat`
 
@@ -171,6 +185,8 @@ Help Options:
 
 从stdin来的数据可能是base64编码过后也可能是明文的, gogo会自动判断. 
 
+可以使用 `--exclude 192.168.1.1,192.168.2.0/24` 或 `--exclude-file exclude.txt` 排除目标。多个排除项使用逗号分隔；文件中每行一个 IP/CIDR。
+
 ### 端口配置
 
 gogo支持非常灵活的[端口配置](https://github.com/chainreactors/gogo-templates/blob/master/port.yaml)
@@ -186,73 +202,25 @@ gogo支持非常灵活的[端口配置](https://github.com/chainreactors/gogo-te
 * `-p common` 内网常用端口
 * `-p top2,top3` 外网常见web端口
 
+如需加载自定义端口预设文件，使用 `--port-config port.yaml`。自定义指纹文件使用可重复的 `--ff finger.yaml` 参数加载。
+
 ### workflow
 
 在gogo2.0版本后, 引入了全新的命令行操作方式workflow, 大大简化了十几个参数对初学者造成的困扰.
 
 可以自定义常用工作流, 或者使用预设的工作流. 参数为-w/--workflow.
 
-可以输入`gogo -P workflow` 查看预设的workflow, 这里是目前内置的所有工作流
+使用下面的命令查看当前二进制内置的全部 workflow。预设会随模板更新，因此文档不再复制一份容易过期的静态列表。
 
-```
-name	index	ip         	port     	mod	ping	arp	smartPort	smartIp	version	exploit	outputFile	outputPath
-172noping: 
-	0	172.16.0.0/12  	top2,win,db	ss	false	false	default   	default   	0    	none      	auto      	          	          
-smart: 
-	0	               	top2,win,db	ss	true	true	default   	default   	0    	none      	auto      	          	          
-smartnoping: 
-	0	               	top2,win,db	ss	false	false	default   	default   	0    	none      	auto      	          	          
-192c: 
-	0	192.168.0.0/16 	top1      	s	false	false	default   	default   	0    	none      	auto      	          	          
-internoping: 
-	0	10.0.0.0/8     	top2,win,db	ss	false	false	default   	default   	0    	none      	auto      	          	          
-	1	172.16.0.0/12  	top2,win,db	ss	false	false	default   	default   	0    	none      	auto      	          	          
-	2	192.168.0.0/16 	top2,win,db	s	false	false	default   	default   	0    	none      	auto      	          	          
-smartc: 
-	0	               	top1      	sc	false	false	default   	default   	0    	none      	auto      	          	          
-c: 
-	0	               	top1      	s	false	false	default   	default   	0    	none      	auto      	          	          
-interc: 
-	0	10.0.0.0/8     	top1      	sc	false	false	default   	default   	0    	none      	auto      	          	          
-	1	172.16.0.0/12  	top1      	sc	false	false	default   	default   	0    	none      	auto      	          	          
-	2	192.168.0.0/16 	top1      	s	false	false	default   	default   	0    	none      	auto      	          	          
-interb: 
-	0	10.0.0.0/8     	top1      	ss	false	false	default   	default   	0    	none      	auto      	          	          
-	1	172.16.0.0/12  	top1      	ss	false	false	default   	default   	0    	none      	auto      	          	          
-	2	192.168.0.0/16 	top1      	ss	false	false	default   	default   	0    	none      	auto      	          	          
-10noping: 
-	0	10.0.0.0/8     	top2,win,db	ss	false	false	default   	default   	0    	none      	auto      	          	          
-192noping: 
-	0	192.168.0.0/16 	top2,win,db	s	false	false	default   	default   	0    	none      	auto      	          	          
-10: 
-	0	10.0.0.0/8     	top2,win,db	ss	true	true	default   	default   	0    	none      	auto      	          	          
-172: 
-	0	172.16.0.0/12  	top2,win,db	ss	true	true	default   	default   	0    	none      	auto      	          	          
-192: 
-	0	192.168.0.0/16 	top2,win,db	s	true	true	default   	default   	0    	none      	auto      	          	          
-10c: 
-	0	10.0.0.0/8     	top1      	sc	false	false	default   	default   	0    	none      	auto      	          	          
-192b: 
-	0	192.168.0.0/16 	top1      	ss	false	false	default   	default   	0    	none      	auto      	          	          
-b: 
-	0	               	top1      	ss	false	false	default   	default   	0    	none      	auto      	          	          
-inter: 
-	0	10.0.0.0/8     	top2,win,db	ss	true	true	default   	default   	0    	none      	auto      	          	          
-	1	172.16.0.0/12  	top2,win,db	ss	true	true	default   	default   	0    	none      	auto      	          	          
-	2	192.168.0.0/16 	top2,win,db	s	true	true	default   	default   	0    	none      	auto      	          	          
-10b: 
-	0	10.0.0.0/8     	top1      	ss	false	false	default   	default   	0    	none      	auto      	          	          
-172c: 
-	0	172.16.0.0/12  	top1      	sc	false	false	default   	default   	0    	none      	auto      	          	          
-172b: 
-	0	172.16.0.0/12  	top1      	ss	false	false	default   	default   	0    	none      	auto   
+```bash
+gogo -P workflow
 ```
 
 虽然已经采用workflow简化了使用者使用的难度, 但不代表能简化理解工作流原理的难度. 这张思维导图列出了一些常见的工作流工作逻辑.
 
 ![workflow_pipeline](img/pipeline.png)
 
-需要知道的是, 里面的每个参数都可以使用对应的命令行参数进行覆盖, 命令行的优先级高于workflow中的配置, 具体的参数见help. 
+workflow 的目标、扫描模式、探针、并发、输出和过滤等常用配置可以通过命令行覆盖，具体参数见 `gogo -h`。
 
 例如:`gogo --workflow 10 -p 1-65535 -ev`
 
@@ -260,15 +228,13 @@ inter:
 
 如果是需要对某个网段长期监控, 还可以自定义workflow.
 
-预设的配置文件位于, v2/templates/workflows.yml, 可以仿照配置文件添加新的预设, 并使用`--workflow filename` 指定对应的预设.
+预设的配置文件位于 `v2/templates/workflows.yaml`，可以仿照配置文件添加新的预设，并使用 `--workflow filename` 指定对应的预设。
 
 如果在渗透的远程环境下, 可以使用yaml2json.py 见自定义预设转为base64编码字符串, 使用`--workflow 'b64de|[BASE64 string]'`执行.
 
 ## Output
 
-命令行默认输出的输出格式为一行一个端口, 以及获取到的相关信息. 
-
-默认是不带着色器的, 如果需要着色以获得更好的效果, 请添加`-o color`, 因为webshell与c2不一定支持着色器, 可能会导致乱码. 
+实时扫描默认使用不带颜色的 `full` 格式，一行输出一个开放端口及其识别信息。需要着色时可指定 `-o color`；`-F` 格式化到终端时默认使用 `color`，如需关闭颜色则指定 `-o full`。
 
 ??? info "命令行输出样例"
     ```
@@ -287,22 +253,22 @@ inter:
     [*] Totally run: 4.0441884s ,2022-07-07 07:07.07
     ```
 
-在没有配置输出文件的情况下,所有内容会输出到标准输出, 如果指定了-f filename 或者使用-af自动选择文件名(--af格式为`ip_mask_port_mod_type.dat1`). 如果打开了文件输出会自动关闭命令行输出, 防止过多的命令行输出阻塞webshell或者C2.
+在没有配置输出文件的情况下，结果会输出到标准输出。如果指定 `-f filename` 或使用 `--af` 自动选择文件名，文件输出会默认关闭扫描结果的命令行输出，防止大量输出阻塞 WebShell 或 C2；日志仍会正常输出。自动文件通常使用 `.dat` 后缀，重名时才会追加数字。
 
 如果想同时保留两个地方的输出, 也预留了可选项, 使用`--tee` 参数能在指定了-f的时候继续保留命令行输出. 
 
-输出到文件的格式通过大写的`-O`指定, 常见的输出格式有:json(default), jsonlines, csv, 可通过`-o` 与`-O` 分别控制两个输出方式的格式. 
+输出到文件的格式通过大写的 `-O` 指定。未指定 `-O` 时会根据 `-f` 的扩展名推断：`.json` 使用明文 JSON Lines，`.csv` 使用 CSV，`.txt` 使用 full 文本，`.dat` 或 `--af` 使用压缩 JSON Lines。`-o` 与 `-O` 分别控制终端和文件格式。
 
 如果需要配合其他工具, 那就需要将日志输出关闭, 或者不输入到标准输入, 可使用`-q` 关闭所有日志输出.
 
-输出到文件会默认开启deflate压缩, 如果想要明文的文件输出. 可以指定`-C`参数关闭加密.
+`.dat`/`--af` 文件默认使用 deflate 压缩；指定 `-C` 可关闭压缩。`-C` 只控制压缩，不等同于加密；使用 `.json`、`.csv` 或 `.txt` 扩展名时默认就是明文输出。
 
 !!! info "命令行输出的缺点"
 	命令行输出有不少缺点, 当一个ip开放了多个端口, 请求响应的顺序无法控制, 会结果导致东一个西一个, 无法很好地关联起来; 乱序的输出是很难人工介入判断扫描是否存在漏报或者误报的, 因此更推荐使用输出到文件, 使用-F格式化排序并根据IP聚类数据.
 
 
 !!! note "注意"
-	如果输出到文件, 默认会输出到与gogo二进制文件同目录. 如需修改所有文件的输出目录, 请指定`--path [path]`. 这是为了webshell场景下不输出到网站根目录.
+	`--af`、`--hf` 等自动生成的文件默认写到 gogo 二进制文件目录，可通过 `--path [path]` 修改目录。显式指定 `-f` 时，文件路径按 `-f` 原样使用；如需指定目录，请直接写成 `-f path/result.dat`。
 
 ### 输出到文件
 
@@ -360,7 +326,7 @@ inter:
     ...
     ```
 
-如果需要着色, 同样需要添加`-o color`. 
+`-F` 输出到终端时默认着色；如需无颜色文本，使用 `-o full`。
 
 ??? info "待格式化的json文件样例"
     ```json
@@ -438,7 +404,7 @@ inter:
 
 对于输出的格式, 命令行目前默认是full, 但是为了配合其他工具, 也提供了各种格式的输出, `-o ip`参数指定需要的字段, 也支持逗号分割的多个参数, `-o ip,port,title`. 以及一些特殊值, 例如`-o url,target`等.
 
-在扫描时可以通过`-o` (输出到命令行的格式, 默认为full)与 `-O` (输出的文件的格式, 默认为json). 分别控制两个输出的格式.
+在扫描时可以通过 `-o`（终端格式，默认为 full）与 `-O`（文件格式，未指定时根据文件扩展名推断）分别控制两类输出。
 
 使用`-F`时, 只需要使用`-o`.
 
@@ -462,8 +428,8 @@ inter:
 
 除了这些字段, 还存在一些特殊的输出格式. 如下:
 
-* json, 输出为json, 文件的默认输出格式
-* jsonlines,  别名jl, 一行一个json的特殊格式.
+* json, 输出为一个聚合 JSON 对象
+* jsonlines, 别名 jl, 一行一个 JSON；扫描文件的默认数据格式
 * full, 命令行的默认输出格式
 * color, 带颜色的full输出
 * csv, 输出为csv
@@ -473,17 +439,17 @@ inter:
 
 ### 过滤器
 
-在很多场景下, 都需要从结果中过滤出特定的目标再次扫描或者导到其他工具中, 因此添加了`--filter` 参数. 
+当前过滤器分为三类，不能混用：
 
-filter可以在三种情况下使用, 分别为.
+1. `--filter`：用于 `-F` 或 `-j`，保留匹配的历史结果，便于格式化、导出或再次扫描。
+2. `--output-filter`：实时扫描完成后，隐藏匹配的结果，不输出到终端或结果文件。
+3. `--scan-filter`：基础指纹识别后立即停止匹配目标的主动指纹和漏洞探测，同时隐藏该结果，可用于减少后续发包。
 
-1. -F result.dat1 , 将从result中过滤特定的结果并输出
-2. -j result.dat1 , 不少场景需要再进行一次扫描,  可以直接在-j中使用--filter, 选择合适的结果进行再次扫描
-3. 扫描时, 例如`gogo -i 1.1.1.1/24 --filter frame::nginx`, 在扫描时就进行过滤,  被过滤的结果不会输出到命令行, 也不会输出到文件中.
+多个 `--filter` 默认按 AND 组合；添加 `--filter-or` 后按 OR 组合。三个过滤参数都可以重复指定。
 
 当前filter支持的操作, `==` 全等匹配, `::` 模糊匹配, `!=` 不等于, `!:` 不包含
 
-filter的key与-o支持的result字段相同, 但不支持-o中的特殊字段.
+filter 的 key 与 `-o` 支持的 result 字段相同，但不支持 `-o` 中的特殊格式。
 
 example:
 
@@ -512,6 +478,16 @@ filter还支持一些特殊值.
 !!! note "注意."
 	使用`-F 1.dat --filter`的时候也可以使用`-f`/`--af`对filter的结果再次输出. 
 
+实时扫描过滤示例：
+
+```bash
+# 隐藏 nginx 结果，但仍完成正常扫描流程
+gogo -i 192.168.1.0/24 --output-filter frame::nginx
+
+# 识别到 nginx 后停止更深层探测，并隐藏该结果
+gogo -i 192.168.1.0/24 --scan-filter frame::nginx -ev
+```
+
 ### 提取器
 
 gogo可以从返回内容中提取的特定的数据.
@@ -531,7 +507,7 @@ extract也存在一些常用的预设, 可以通过`--extract url`调用内置�
 
 任务生成器会以端口优先生成任务, 而非默认的ip优先.
 
-`gogo -i 172.16.1.1/24 -p top2 -s`l
+`gogo -i 172.16.1.1/24 -p top2 -s`
 
 在配置的端口数超过500时, 会自动开启. 防止过高的并发将几千个请求同时打在同一个设备上, 造成dos.  可以使用`--no-spray` 强制忽略掉这个优化. 
 
@@ -541,7 +517,7 @@ gogo的指纹识别通过 [fingers](https://github.com/chainreactors/fingers) �
 
 当前包括数千条web指纹, 数百条favicon指纹以及数十条tcp指纹
 
-默认情况下只进行被动指纹识别, 如需进行主动的指纹识别, 需要手动添加`-v`参数. http协议的主动指纹识别已自动适配keep-alive.
+默认情况下只进行被动指纹识别。如需主动指纹识别，添加一次 `-v` 启用 level 1；重复为 `-vv` 时启用 level 2，并增加 favicon/FingerprintHub 等更深层主动识别。主动探测会增加请求量和耗时。
 
 `gogo -i 192.168.1.1/24 -p top2 -v `
 
@@ -570,7 +546,7 @@ gogo并非漏扫工具,因此不会支持sql注入, xss之类的通用漏洞探�
 
 nuclei的中poc往往攻击性比较强, poc移植到gogo之前会进行一些修改和复现, 因此不打算一口气移植全部的nuclei poc
 
-目前已集成的pocs见`v2/templates/nuclei`, 以及ms17010、shiro、snmp等特殊的漏洞
+目前已集成的 POC 位于 `v2/templates/neutron`，另有 ms17-010、SMBGhost、SNMP 等协议专项探测。
 
 nuclei poc将会根据指纹识别的情况自动调用, 而非一口气全打过去, 为了更好的探测漏洞, 建议同时开启`-v`主动指纹识别
 
@@ -601,7 +577,7 @@ nuclei poc将会根据指纹识别的情况自动调用, 而非一口气全打�
 `gogo -i 172.16.1.1/24 -p smb,wmi,oxid,nbt,icmp,80,443,top2`
 
 !!! info "ICMP的权限"
-	在linux中, 非root权限无法使用icmp, 但是可以通过suid调用可执行文件ping, 但这会导致每个goroutine都起一个子进程, 可能对目标造成不可预料的后果。因此gogo放弃了这种做法, 并添加了自动的错误处理, 如果当前权限非root, 则自动跳过icmp相关的扫描。如果指定了`--icmp` 也会跳过先icmp验活这个步骤, 直接进入到下一步中。
+	在 Linux 中，非 root 权限无法使用 ICMP。gogo 不会为每个 goroutine 调用外部 ping，而是输出警告并跳过 ICMP 探测；如果指定了 `--ping`，会跳过存活预扫描并直接进入端口扫描。
 	Windows大多数情况下就算是普通用户权限也能使用icmp, 极少数情况下会发生权限不足的报错。
 	不管是Windows还是Linux, 发生了相关的问题都会在命令行中输出相关的提示, 或者打开`--debug`查看每个请求的失败原因, 可以人工判断后调整扫描逻辑。
 
@@ -677,9 +653,29 @@ go mod tidy
 # generate template.go
 go generate
 
-# build 
-go build .
+# build（标准 CLI 构建必须启用 goregexp，与 release 构建保持一致）
+go build -tags goregexp -o gogo .
+
+# run from source
+go run -tags goregexp . -F 1.json
 ```
+
+`goregexp` 用于选择 Go 标准库正则后端，也是 release、nightly 和 TinyGo 构建采用的默认方案。手动编译时不要省略该 tag；否则在部分 Go/Windows 组合下可能进入 `go-re2`/WASM 路径，并在加载指纹规则时出现 `wasm error: invalid table access`。
+
+`-tags` 是 `go` 命令的编译参数，不是 gogo 的运行参数：
+
+```bash
+# 从源码运行并解析结果
+go run -tags goregexp . -F 1.json
+
+# 编译后运行
+./gogo -F 1.json
+
+# Windows PowerShell
+.\gogo.exe -F .\1.json
+```
+
+不要写成 `gogo run -tags goregexp -F 1.json`，否则 `-tags` 会被 gogo 解析为 `-t` 线程参数，并报 `strconv.ParseInt: parsing "ags"`。
 
 ## 注意事项
 !!! danger "注意事项!"

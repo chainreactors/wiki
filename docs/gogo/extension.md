@@ -91,7 +91,7 @@ gogo 保留了大量可拓展接口, 例如指纹、poc/exp、工作流, 端口�
 如果没有填相应的值, 则采用默认值。
 
 
-如果使用--workflow参数, 但只想改变某几个参数, 可直接使用--workflow workflowname的同时, 使用命令行参数进行覆盖, 命令行参数的优先级大于workflow.
+如果使用 `--workflow` 参数但只想改变部分配置，可以在 `--workflow workflowname` 后追加命令行参数覆盖常用的目标、扫描模式、探针、输出和过滤设置；具体支持项以 `gogo -h` 为准。
 
 ## 拓展指纹
 
@@ -413,7 +413,7 @@ http:
 
 指定ef文件加载poc
 
-`gogo.exe -ef .\poc.json -ip 127.0.0.1 -e -p 80 -debug`
+`gogo.exe --ef .\poc.json -i 127.0.0.1 -e -p 80 --debug`
 
 如果需要配合burp调试, 请使用proxifier代理, 代理gogo的流量到burp
 
