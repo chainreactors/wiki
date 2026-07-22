@@ -59,6 +59,39 @@
 - [ ] 通过ebpf与raw packet实现更高级的信道建立与隐蔽
 ## log
 
+### v0.3.0
+
+**重大变更（Breaking Changes）**
+
+- [breaking] CLI 参数重构：`-c` 改为 client 专用，新增 `-s` 作为 server 参数
+- [breaking] `-m/--mode` 废弃（设为 legacy flag，被忽略）；使用 `-b/--bind` 替代 bind 模式
+- [breaking] `inbound` 侧由 `-l`/`-r` 位置自动推断，无需 `-m reverse/proxy`
+
+**新增功能**
+
+- [feat] Relay 模式：`-s` 和 `-c` 同时使用时，启动透明 TCP 中继，加密端到端（已实测）
+- [feat] Extra Serves：支持多个 `-l`/`-r` 参数，自动 fork 多服务（已实测）
+- [feat] ConnHub 多通道：支持多个 `-c` URL，定向通道（up/down）分离（已实测，`[connhub] attached channel full tcp-1`）
+- [feat] 负载均衡：`--lb random/fallback/round-robin`，也可通过 URL query `?lb=` 设置（已实测参数接受）
+- [feat] FetchProxy MITM：`--fetchproxy-mitm/ca/key`，服务端 HTTPS CONNECT 解密（Pro 功能，代码实现确认）
+- [feat] 重试指数退避：新增 `--retry-max-interval`，支持 `?retry-max-interval=` URL query（已实测参数接受）
+- [feat] `--list` 命令：列出所有已注册的传输层、服务和 wrapper（已实测）
+- [feat] `-q/--quiet` 短参数支持（已实测，静默无输出）
+- [feat] Relay link 自动生成（含 `via` 参数，已实测）
+
+**改进**
+
+- [improve] 连接失败默认无限重试（`retry=0`），原默认为10次
+- [improve] 自动探测外网 IP（`-i` 可省略）
+- [improve] 多 console URL 支持（`-c` 可重复）
+- [improve] 版本信息（`--version`）由 ldflags 注入
+
+**重要说明**
+
+- `-l port://:X` = client 监听 X（本地端口转发），等价于 SSH `-L`
+- `-r port://:X` = server 监听 X（远程端口转发），等价于 SSH `-R`
+- 旧版本文档中两者描述有误，已修正
+
 ### v0.2.2
 
 - [feat] 新增clash config的自动网段配置

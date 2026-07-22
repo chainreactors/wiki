@@ -31,11 +31,25 @@ rem : https://github.com/chainreactors/rem
 
 高级特性 :
 
-!!! example "Features."
+!!! example "Pro Features 🔒"
 
-    * 密码学前向与后向安全
-    * 上行流量与下行流量特征自定义
-    * tls特性: shadowtls, utls, reality 
-    * lolc2
+    **需要 `advance` build tag 编译**（Pro 版本专属）：
+    
+    * 🔒 Age 密钥交换 + AEAD 加密
+    * 🔒 uTLS 指纹伪装（绕过 TLS 指纹识别）
+    * 🔒 ShadowTLS 混淆（伪装 TLS 流量）
+    * 🔒 REALITY 协议（Xray REALITY）
+
+**Community 版本包含**：
+
+    * ✅ 标准 TLS/TLS-in-TLS
+    * ✅ 流量压缩
+    * ✅ 所有基础传输层（tcp, udp, http, icmp）
+    * ✅ 完整代理与端口转发功能
+
+**编译 Pro 版本**：
+```bash
+./build.sh --full --tags advance -o windows/amd64
+```
 
 

@@ -1,160 +1,176 @@
 ## Usage
 
 ```
-Usage:
-  C:\Users\Hunter\AppData\Local\Temp\go-build3142230917\b001\exe\rem.exe
-        WIKI: https://chainreactors.github.io/wiki/rem
+WIKI: https://chainreactors.github.io/wiki/rem
 
-        QUICKSTART:
-                serving:
-                        ./rem
+QUICKSTART:
+    start server (listen on default address):
+        ./rem -s tcp://0.0.0.0:34996
 
-                reverse socks5 proxy:
-                        ./rem -c [link]
+    or just (uses default server address):
+        ./rem
 
-                serve socks5 proxy on client:
-                        ./rem -c [link] -m proxy
+    reverse socks5 proxy (client connects to server):
+        ./rem -c [link]
 
-                remote port forward:
-                        ./rem -c [link] -l port://:8080
+    serve socks5 proxy on client:
+        ./rem -c [link] -l socks5://:1080
 
-                local port forward:
-                        ./rem -c [link] -r port://:8080
+    remote port forward (server listens):
+        ./rem -c [link] -r port://:8080
 
+    local port forward (client listens):
+        ./rem -c [link] -l port://:8080
 
+OPTIONS:
+  Main Options:
+    -s, --server <addr>           server listen address (repeatable)
+    -c, --client <addr>           client connect address (repeatable)
+    -l, --local <addr>            local address (repeatable)
+    -r, --remote <addr>           remote address (repeatable)
+    -a, --alias <name>            alias
+    -d, --destination <id>        destination agent id
+    -x, --proxy <url>             outbound proxy chain (repeatable)
+    -f, --forward <url>           proxy chain for connect to console (repeatable)
+    -b, --bind                    bind mode (standalone local proxy)
+    -n, --connect-only            only connect to console
 
-Main Options:
-  -c, --console=        console address
-  -l, --local=          local address
-  -r, --remote=         remote address
-  -d, --destination=    destination agent id
-  -x, --proxy=          outbound proxy chain
-  -f, --forward=        proxy chain for connect to console
-  -m, --mod=            rem mod, reverse/proxy/bind
-  -n, --connect-only    only connect to console
+  Miscellaneous Options:
+    -k, --key <key>               key for encrypt
+        --version                 show version
+        --debug                   debug mode
+        --detail                  show detail
+    -q, --quiet                   quiet mode
+        --dump                    dump data
+        --list                    list all registered tunnels, services and wrappers
 
-Miscellaneous Options:
-  -k, --key=            key for encrypt
-  -a, --alias=          alias
-      --version         show version
-      --debug           debug mode
-      --detail          show detail
-      --quiet           quiet mode
-      --dump            dump data
+  Config Options:
+    -i, --ip <ip>                 console external ip address
+        --lb <name>               connhub load balance: random/fallback/round-robin
+        --sub <url>               subscribe address (default: http://0.0.0.0:29999)
+        --no-sub                  disable subscribe
 
-Config Options:
-  -i, --ip=             console external ip address
-      --retry=          retry times (default: 10)
-      --retry-interval= retry interval (default: 10)
-      --sub=            subscribe address (default: http://0.0.0.0:29999)
-      --no-sub          disable subscribe
+  Common URL Query:
+    retry=<num>                   reconnect attempts (0=infinite, default: 0)
+    retry-interval=<num>          reconnect interval seconds (default: 10)
+    retry-max-interval=<num>      max backoff interval seconds (default: 300)
+    lb=<name>                     load balance: random/fallback/round-robin
 
-Help Options:
-  -h, --help            Show this help message
+    -h, --help                    show help
 ```
 
 ## QuickStart
 
-命令行设计能简则简, `{}`中的内容为可省略的参数
+rem 在被 client 与 user 都能访问到的机器上作为 server 运行，client 主动连接到 server。
 
-rem 需要在被 client 与 user 都能访问到的一台机器上搭建一个对外暴露的中心服务器.
-
-值得一提的是, 这个 console 并非实际意义上的 server, 而只是代理链路中平等的一环.
-
-不需要任何参数启动的 rem 会自动生成连接链接与订阅链接
+Server 每次启动都会随机生成加密 wrapper 配置，并输出连接链接，复制该链接在 client 端使用。
 
 ```
 ./rem
 ```
 
-![image-20241216182132544](assets/image-20241216182132544.png)
+!!! tips "-i 可手动指定对外暴露的 IP"
+    这里的 `-i` 可不填，会自动尝试通过 ipip 获取外网 IP
 
-!!! tips "-i 可手动指定对外暴露的ip"
-	这里的-i 可不填, 会自动尝试通过 ipip 获取外网 ip
-
-每次启动都会生成随机的密钥以及各种加密混淆配置, 所以需要复制这里生成的配置连接, 用来在对端连接使用
+**实测输出示例**：
+```
+[*] inbound: remote , remote: socks5://remno1:0onmer@0.0.0.0:21658
+[*] console: [tcp://nonenonenonenone:@0.0.0.0:34996]
+[*] tcp channel starting with 42.120.103.63
+[*] tcp://nonenonenonenone:@42.120.103.63:34996?wrapper=uCDBWU...（完整连接链接）
+```
 
 ### 反向代理
 
-rem 默认的模式即为反向代理, 并会在 server 上启动 socks5 代理
+rem 默认模式：client 连接后，在 **server 端**建立 socks5 代理，用户通过 server 访问 client 内网
 
 ```
-./rem -c [link] {-r socks5://user:pass@0.0.0.0:12345}
+./rem -c [link]
 ```
 
-!!! tips "极简参数"
-	`{}`中的内容为可省略的参数
-	
-	这行命令可以缩写为
-	
-	`./rem -c [link]`
+等价于（显式指定 server 端 socks5 端口）：
 
-![image-20241216182737400](assets/image-20241216182737400.png)
+```
+./rem -c [link] -r socks5://:10086
+```
 
-这个场景类似 frp 的 socks5 插件
+**实测输出**（client 端）：
+```
+[*] inbound: remote , remote: socks5://remno1:0onmer@0.0.0.0:22451
+[*] [agent.outbound] relay serving
+```
 
-client 通过 rem 支持的任意一种信道能连接到外网即可建立连接, 并在 server 端建立 socks5 服务.
-
-user 位于外网, 通过 socks5 服务即可访问 client 所在的网络.
+`inbound: remote` 表示服务监听在 server 端，server 自动监听随机端口。
 
 !!! tips "对外暴露不同的协议"
-	rem 支持 socks5,http,trojan,shadowsocks 等协议, 可以指定任意协议, 具体请见[文件:应用层](#local-remote)
+    rem 支持 socks5、http 等协议，可以通过 `-r` 指定：
 
-	`./rem -c [link] -r ss://`
+    `./rem -c [link] -r http://:8080`
 
 ### 正向代理
 
-与反向代理相反, 可以在 client 上搭建 socks5 服务， 访问 server 所在的网络
-
-`./rem -c [link] -m proxy`  
-![image-20241216183149941](assets/image-20241216183149941.png)
-
-!!! tips "工作模式"
-	`-m` 表示工作模式, 请见 [文档:参数解释](#参数解释)
-	
-	`-m reverse` 表示 inbound 位于 server 端
-	
-	`-m proxy` 表示 inbound 位于 client 端
-
-这个场景中 user 位于内网, client 通过 rem 支持的任意一种信道能连接到外网即可建立连接, 并在 client 端打开 socks5 服务.
-
-user 可以通过 client 上监听的 socks5 服务实现出网, 访问 server 能访问到的网络. 在一些有各种限制的不出网场景中常用.
-
-### 远程端口转发
-
-server 会监听一个端口, 访问该端口的流量都会转发到 client 的指定端口
-
-`./rem -c [link] -l port://:8000 `  
-![image-20241217004325283](assets/image-20241217004325283.png)
-
-!!! important "-l 与-r"
-	一般来说, 这两个参数会在 client 端使用, 用来描述用户层协议.
-	
-	`-r` 表示 remote, 即 server 端.
-	
-	`-l` 表示 local, 即 client(自身)端
-	
-	通过这两个参数的组合, 可以构造出任意想要的应用层功能
-
-默认情况下, 未描述`-r` 会使用随机生成的端口. 也可以手动指定 server 的端口
+在 **client 端**建立 socks5 代理，用户通过 client 访问 server 所在的网络
 
 ```
-./rem -c [link] -r :12345 -l port://:8000
+./rem -c [link] -l socks5://:1080
 ```
 
-等价于 ssh 的`ssh -R 12345:localhost:8000 user@ip`
-
-`-l` 的 host 留空表示 127.0.0.1. 可以指定 client 内网 ip
-
+**实测输出**：
 ```
-./rem -c [link] -l port://[internal_ip]:8000
+[*] inbound: local , remote: raw://...:0 ,local socks5://...:1080
+[*] [agent.inbound] Socks5 serving: socks5 1080 remno1 0onmer
 ```
 
-### 本地端口转发
+`inbound: local` 表示服务监听在 client 端（本地端口 1080）。
 
-与远程端口转发相反, client 监听一个端口, 访问该端口的流量会转发到 server 的指定端口
+常用于出网受限的内网环境：client 在内网，连接外网 server，本地开放代理供内网用户出网。
 
-`./rem -c [link] -r port://:8000 -m proxy`
+### 远程端口转发（Server 监听）
+
+**server 端**监听端口，访问该端口的流量转发到 client 指定地址。等价于 SSH `-R`。
+
+```
+./rem -c [link] -r port://:8080
+```
+
+**实测输出**：
+```
+[*] inbound: remote , remote: port://...:8080 ,local raw://...:0
+[*] [agent.outbound] relay serving
+```
+
+手动指定转发目标（client 端某个端口）：
+
+```
+./rem -c [link] -r port://:8080 -l :9090
+```
+
+### 本地端口转发（Client 监听）
+
+**client 端**监听端口，访问该端口的流量转发到 server 指定地址。等价于 SSH `-L`。
+
+```
+./rem -c [link] -l port://:8001
+```
+
+**实测输出**：
+```
+[*] inbound: local , remote: raw://...:0 ,local port://...:8001
+[*] [agent.inbound] portforward serving: 0.0.0.0:8001 -> 0.0.0.0:0
+```
+
+手动指定转发目标（server 端某个端口）：
+
+```
+./rem -c [link] -l port://:8001 -r :9001
+```
+
+!!! important "-l 与 -r 的语义"
+    `-l` = **L**ocal，client 端地址，`-l port://:X` 表示 client 监听 X 端口
+
+    `-r` = **R**emote，server 端地址，`-r port://:X` 表示 server 监听 X 端口
+
+    inbound（服务入口）跟随地址所在端：哪端指定 `port://`，哪端就监听。
 
 ### url 缩写
 
@@ -182,62 +198,92 @@ ss://
 
 ## 参数解释
 
-当两个 rem 建立连接, 实际上就虚拟了一个传输层网络. 我们可以在这个网络上实现自由转发数据构造上层应用.
+当两个 rem 建立连接，实际上就虚拟了一个传输层网络，可以在这个网络上自由转发数据。
 
-rem 提供了三种工作模式, 分别是:
+**三种工作模式**（由 `-l`/`-r` 位置自动推断）：
 
-- reverse(默认) , 建立连接后 inbound 在 server 端, 会在 server 上监听来自端口接收数据
-- proxy, 建立连接后 inbound 在 client 端, 会在 client 上监听端口接收数据
-- bind, 简单工作模式, 不需要两个 rem 建立连接
+- **inbound=remote（默认）**：inbound 在 server 端，server 监听并提供服务 → 仅指定 `-r` 或不指定任何地址
+- **inbound=local**：inbound 在 client 端，client 监听并提供服务 → 仅指定 `-l`
+- **bind（`-b`）**：单机模式，不连接 server，直接在本地提供代理
 
-每个 agent 进程在逻辑上行可以承载任意多个隧道, 自动根据 rem 之间建立的传输层信道链接复用. 为了命令操作方便, 一般情况下, 我们通过一行命令描述一个服务.
+每个 agent 可承载任意多个隧道（通过多个 `-l`/`-r` 参数），自动复用传输层连接。
 
-### Console
+### Server / Client 地址
 
-Console当前支持的传输层
-
-- tcp 默认启用
-- udp (arq 协议: kcp) 默认启用
-- icmp (arq 协议: kcp)
-- unix , windows 上基于命名管道(SMB)实现, 非 unix 系统基于文件实现
-- websocket
-- wireguard
-- http (通过单工信道模拟, arq 协议 kcp)
-- memory 本进程中使用的虚拟信道
-
-完整示例: 
+**Server 模式**（监听等待连接）：
 ```
-./rem -c [transport]://[key]:@[host]:[port]?wrapper=[]&tls=[bool]&tlsintls=[bool]&compress=[bool]
+./rem -s [transport]://[key]:@[host]:[port]?wrapper=[]&tls=[]&compress=[]
 ```
 
-**每个`[]`都表示可选项, 所有参都可留空**， 最简表达为搭建tcp协议的rem console， 随机加密方式。
+**Client 模式**（主动连接）：
+```
+./rem -c [transport]://[key]:@[host]:[port]?wrapper=[]
+```
 
+**每个 `[]` 都是可选项，留空使用默认值**。
 
-参数解释:
+URL 参数说明：
 
-- transport:  传输层，默认为tcp 
-- key: 配置加密密钥， 留空自动使用默认值
-- host: host留空或者为0.0.0.0 时表示监听rem console 服务, 其他值则为指定domain/ip的rem console
-- port: console 端口
-- wrapper: 留空自动生成随机加密方式， 特殊值`raw`不启用任何加密方式
-- tls: 自动生成tls配置，并打开tls通讯，默认不启用
-- tlsintls，默认不启用
+| 参数 | 说明 | 默认 |
+|-----|------|------|
+| `transport` | 传输层协议 | `tcp` |
+| `key` | 加密密钥（用户名位置） | 自动使用默认值 |
+| `host` | 地址（`0.0.0.0` 表示监听，其他为连接目标） | `0.0.0.0` |
+| `port` | 端口 | `34996` |
+| `wrapper` | 加密混淆配置（留空自动生成随机，`raw` 不加密） | 随机生成 |
+| `tls` | 启用标准 TLS | 不启用 |
+| `tlsintls` | 启用 TLS-in-TLS | 不启用 |
+| `compress` | 启用流量压缩 | 不启用 |
+
+**实测：默认传输层（默认编译版本）**
+
+```bash
+./rem --list
+```
+输出：
+```
+Tunnels (Dialers):
+  - memory
+  - simplex [onedrive, oss, azureblob, sharepoint]
+  - tcp
+
+Services (Inbound/Outbound):
+  - forward
+  - http
+  - raw
+  - socks5
+
+Wrappers:
+  - cryptor
+  - padding
+```
+
+!!! tips "完整传输层需自行编译"
+    默认编译包含 `tcp,udp,http,icmp`，`websocket,wireguard,unix` 等需要 `--full` 编译：
+    
+    `./build.sh --full -o windows/amd64`
 
 ### Local && Remote
 
-rem 通过-l与-r 描述所有的应用层常见， 通过-m描述流量方向。 
+rem 通过 `-l` 与 `-r` 描述应用层场景，inbound 侧由参数位置自动决定。
 
-**三种mod:**
+**流量方向规则**（实测确认）：
 
-- reverse (默认值), 表示流量入口在server， 会在server监听一个服务
-- proxy , 表示流量入口在client， 会在client监听一个服务
-- bind , 单机模式, 搭建普通的http/socks5代理
+| 命令 | Inbound 侧 | 效果 |
+|-----|-----------|------|
+| 仅 `-r socks5://:X` 或不指定 | remote（server） | Server 监听 X，提供 socks5 代理 |
+| 仅 `-l socks5://:X` | local（client） | Client 监听 X，提供 socks5 代理 |
+| 仅 `-r port://:X` | remote（server） | Server 监听 X，流量转到 client |
+| 仅 `-l port://:X` | local（client） | Client 监听 X，流量转到 server |
+| `-l port://:X -r :Y` | local（client） | Client 监听 X，流量转到 server:Y |
+| `-r port://:X -l :Y` | remote（server） | Server 监听 X，流量转到 client:Y |
 
-**应用层协议** 
+**应用层协议（默认编译包含）**：
 
-- socks5 (默认启用)
-- http/https (默认启用)
-- port forward (默认启用)
+- `socks5`（默认）
+- `http`
+- `port`（端口转发）
+- `raw`（透明转发）
 - trojan
 - shadowsocks
 
@@ -324,28 +370,28 @@ flowchart LR
 
 桥接建立后，常见用法：
 
-- 在 `A` 监听 socks5，访问 `B` 内网（默认 `reverse`）
+- 在 `A` 监听 socks5，访问 `B` 内网（默认，inbound 在 server 端）
 
 ```bash
 ./rem -c [link] -d internal
 ```
 
-- 在 `B` 监听 socks5，访问 `A` 内网（`proxy`）
+- 在 `B` 监听 socks5，访问 `A` 内网（正向代理，client 端监听）
 
 ```bash
-./rem -c [link] -d internal -m proxy
+./rem -c [link] -d internal -l socks5://:1080
 ```
 
-- 将 `B:12345` 转发到 `A` 的随机端口
+- 将 `B:12345` 转发到 `A` 的随机端口（远程端口转发，server 监听）
 
 ```bash
-./rem -c [link] -d internal -l port://:12345
+./rem -c [link] -d internal -r port://:12345
 ```
 
-- 将 `A:1234` 转发到 `B` 的随机端口
+- 将 `A:1234` 转发到 `B` 的随机端口（本地端口转发，client 监听）
 
 ```bash
-./rem -c [link] -d internal -r :1234 -m proxy
+./rem -c [link] -d internal -l port://:1234
 ```
 
 #### 场景2：级联（B 能访问 A，A 能访问 C）
@@ -366,10 +412,10 @@ flowchart LR
 ./rem
 ```
 
-2) 在 `A` 上做端口转发（把 `C` 的 console 端口转发到 `A:1234`）
+2) 在 `A` 上做端口转发（把 `C` 的 console 端口转发到 `A:1234`，client 端监听）
 
 ```bash
-./rem -c [link] -m proxy -r raw://:34996 -l port://:1234
+./rem -c [link] -l port://:1234 -r :34996
 ```
 
 3) 在 `B` 上连接 `A` 的转发端口完成级联
@@ -402,10 +448,10 @@ flowchart LR
 ./rem
 ```
 
-2) 在 `B` 启动本地 socks5（`bind` 单机模式）
+2) 在 `B` 启动本地 socks5（bind 单机模式，`-b`）
 
 ```bash
-./rem -m bind -l socks5://:12345
+./rem -b -l socks5://:12345
 ```
 
 3) 在 `A` 连接 `C` 时使用 `-f` 经由 `B` 的 socks5 级联
@@ -419,6 +465,45 @@ flowchart LR
 
 !!! danger "安全提示"
     `A` 与 `B` 间若直接使用明文 socks5，可能存在被检测风险。可用 rem 再套一层隧道降低暴露面。
+
+#### 场景4：Relay 模式（透明中继）🆕
+
+适用于：B 无法直接访问 C，但可访问 A；A 可访问 C。与场景2的区别：A 作为**透明中继**，不解密流量，加密端到端（C ↔ B）。
+
+```mermaid
+flowchart LR
+    U[User] --> C[服务器 C<br/>rem console]
+    A[服务器 A<br/>中继节点] --> C
+    B[服务器 B<br/>内层主机] --> A
+    B -. 使用 relay link .-> C
+```
+
+1) 在 `C` 启动 console
+
+```bash
+./rem -s tcp://0.0.0.0:34996
+```
+
+2) 在 `A` 同时连接上游 C 并监听下游（`-s` 和 `-c` 同时使用触发 relay 模式）
+
+```bash
+./rem -c [C_link] -s tcp://0.0.0.0:12345 -i [A的外网IP]
+```
+
+A 会输出 relay link（包含 `via` 参数）：
+```
+[relay] relay link: tcp://nonenonenonenone:@[A_IP]:12345?wrapper=...&via=[agentID]
+```
+
+3) 在 `B` 使用 relay link 连接（流量透过 A 直达 C）
+
+```bash
+./rem -c [relay_link]
+```
+
+!!! tips "Relay vs 级联的选择"
+    - **Relay（透明中继）**：A 只转发字节，加密在 C-B 之间端到端，A 无法解密流量
+    - **级联（场景2）**：A 需要解密重加密，有两次握手开销，但更灵活
 
 ### 特殊场景
 
@@ -538,102 +623,140 @@ proxy-groups:
 可以通过`-sub http://0.0.0.0:12345/abcd` 指定clash订阅链接
 
 可以通过 `--no-sub` 关闭clash订阅
-## Build  
-  
-rem 提供了灵活的构建系统，支持多种构建模式和目标平台。  
-  
-### 快速开始  
-  
-```bash  
-# 编译默认版本（基础模块，多平台）  
-./build.sh  
-  
-# 编译完整版本（包含所有模块，多平台）  
-./build.sh --full  
-  
-# 编译自定义平台版本  
-./build.sh --full -o "windows/amd64,linux/amd64,darwin/amd64"  
-```  
-  
-### 构建参数  
-  
-#### 基础参数  
+## Build
 
-- `-m MOD`: 设置默认模式  
-- `-c CONSOLE`: 设置默认控制台地址  
-- `-l LOCAL`: 设置默认本地地址  
-- `-r REMOTE`: 设置默认远程地址  
-- `-o OSARCH`: 指定目标平台，格式：`os/arch`，多个平台用逗号分隔（默认：`windows/amd64,windows/386,linux/amd64,linux/arm64,darwin/amd64,darwin/arm64`）  
-- `-a APPLICATION`: 指定应用模块，多个模块用逗号分隔  
-- `-t TRANSPORT`: 指定传输模块，多个模块用逗号分隔  
-- `-g`: 只生成配置文件，不进行编译  
-- `--full`: 使用完整模块配置  
-- `-buildmode MODE`: 指定构建模式  
-- `-h, --help`: 显示帮助信息  
-  
-#### 构建模式  
+rem 提供了灵活的构建系统，支持多种构建模式和目标平台。
 
-- `exe`: 默认可执行文件（使用 gox 进行交叉编译，CGO_ENABLED=0）  
-- `c-shared`: 动态链接库（.dll/.so，CGO_ENABLED=1）  
-- `c-archive`: 静态链接库（.a，CGO_ENABLED=1）  
-  
-### 模块配置  
-  
-#### 默认模块  
+### 快速开始
 
-- **应用模块**: `http,raw,socks,portforward`  
-- **传输模块**: `tcp,udp`  
-  
-#### 完整模块（--full）  
+```bash
+# 编译默认版本（多平台）
+./build.sh
 
-- **应用模块**: `http,raw,socks,portforward,shadowsocks,trojan`  
-- **传输模块**: `tcp,udp,websocket,unix,icmp,http,memory`  
-  
-### 使用场景  
-  
-#### 默认模式  
-  
-```bash  
-# 编译多平台版本用于开发调试  
-./build.sh  
-  
-# 只生成配置文件，检查模块配置  
-./build.sh --full -g  
-```  
-  
-#### 完整模式  
-  
-```bash  
-# 编译生产版本（完整功能，默认多平台）  
-./build.sh --full  
-  
-# 编译自定义平台生产版本  
-./build.sh --full -o "windows/amd64,linux/amd64,darwin/amd64"  
-```  
-  
-#### 自定义模块  
-  
-```bash  
-# 只编译 HTTP 和 SOCKS 代理功能  
-./build.sh -a "http,socks" -t "tcp,websocket"  
-  
-# 编译特定平台的自定义版本  
-./build.sh -a "http,socks" -t "tcp,udp" -o "linux/amd64"  
-```  
-  
-#### 库文件编译  
-  
-```bash  
-# 编译动态链接库  
-./build.sh --full -buildmode c-shared -o "windows/amd64,linux/amd64"  
-# 输出: dist/lib/rem_community_windows_amd64.dll, dist/lib/rem_community_linux_amd64.so  
-  
-# 编译静态链接库  
-./build.sh --full -buildmode c-archive -o "windows/amd64,linux/amd64"  
-# 输出: dist/lib/librem_community_windows_amd64.a, dist/lib/librem_community_linux_amd64.a  
-  
-# 编译本地平台库文件  
-./build.sh --full -buildmode c-shared  
-# 输出: dist/lib/rem_community_<local_os>_<local_arch>.<ext>  
-```  
-  
+# 编译完整版本（全模块，多平台）
+./build.sh --full
+
+# 指定单平台
+./build.sh --full -o "windows/amd64"
+```
+
+### 构建参数
+
+#### 编译时内嵌默认值
+
+以下参数将默认值直接编入二进制，client 无需每次传参：
+
+| 参数 | 说明 | 示例 |
+|-----|------|------|
+| `-s SERVER` | 内嵌默认 server 监听地址 | `-s tcp://0.0.0.0:34996` |
+| `-c CLIENT` | 内嵌默认 client 连接地址 | `-c tcp://1.2.3.4:34996?wrapper=...` |
+| `-l LOCAL` | 内嵌默认 local 地址 | `-l socks5://:1080` |
+| `-r REMOTE` | 内嵌默认 remote 地址 | `-r port://:8080` |
+| `-q` | 内嵌静默模式 | `-q` |
+
+#### 模块选择
+
+| 参数 | 说明 |
+|-----|------|
+| `-a APPLICATION` | 应用模块，逗号分隔 |
+| `-t TRANSPORT` | 传输模块，逗号分隔 |
+| `--full` | 使用完整模块配置 |
+| `--tags TAGS` | 额外 build tags，逗号分隔 |
+
+#### 目标平台与构建模式
+
+| 参数 | 说明 |
+|-----|------|
+| `-o OSARCH` | 目标平台，逗号或空格分隔 |
+| `-buildmode MODE` | 构建模式（见下表） |
+| `-g` | 只生成模块配置文件，不编译 |
+
+**构建模式**：
+
+| 模式 | 说明 | CGO |
+|-----|------|-----|
+| `exe`（默认） | 可执行文件，gox 交叉编译 | 0 |
+| `c-shared` | 动态链接库（.dll/.so） | 1 |
+| `c-archive` | 静态链接库（.a） | 1 |
+| `--tinygo` | TinyGo 极小体积可执行文件 | - |
+
+#### 其他选项
+
+| 参数 | 说明 |
+|-----|------|
+| `--tinygo` | 使用 TinyGo 编译（体积极小，Linux ~724KB） |
+| `--ollvm` | 配合 `--tinygo`，启用 OLLVM 代码混淆（需 Docker） |
+| `--clientui` | 快速打包单文件客户端 UI |
+| `--webui` | 快速打包单文件 WebUI Server |
+| `--chromeext` | 快速打包 Chrome 浏览器插件（unpacked） |
+
+### 模块配置
+
+**默认模块**（`./build.sh`）：
+
+- 应用模块：`http, raw, socks, portforward`
+- 传输模块：`tcp, udp, http, icmp`
+
+**完整模块**（`./build.sh --full`）：
+
+- 应用模块：`http, raw, socks, portforward, fetch, shadowsocks, trojan`
+- 传输模块：`tcp, udp, websocket, unix, icmp, http, memory`
+
+!!! tips "simplex 信道需独立 tag"
+    OSS、OneDrive、AzureBlob、DNS 等 simplex 信道不包含在 `--full` 中，需通过 `--tags` 单独添加：
+
+    `./build.sh --full --tags oss,graph,dns`
+
+### 常用场景
+
+#### Community 标准版
+
+```bash
+./build.sh --full -o "windows/amd64,linux/amd64,darwin/amd64"
+```
+
+#### Pro 版本（advance tag）
+
+```bash
+./build.sh --full --tags advance -o "windows/amd64,linux/amd64"
+```
+
+#### Pro + Simplex 扩展
+
+```bash
+./build.sh --full --tags advance,oss,graph,dns,azureblob
+```
+
+#### TinyGo 最小化版本
+
+```bash
+./build.sh --tinygo
+```
+
+#### TinyGo + OLLVM 混淆（需 Docker）
+
+```bash
+./build.sh --tinygo --ollvm -o linux/amd64
+```
+
+#### 内嵌默认连接地址（免配置 agent）
+
+```bash
+# 编译后 client 无需 -c 参数，直接运行即可连接
+./build.sh --full -c "tcp://1.2.3.4:34996?wrapper=..." -o "linux/amd64"
+```
+
+#### 库文件（FFI/SDK 使用）
+
+```bash
+# 动态库
+./build.sh --full -buildmode c-shared -o "windows/amd64,linux/amd64"
+# 输出: dist/lib/rem_community_windows_amd64.dll
+
+# 静态库
+./build.sh --full -buildmode c-archive -o "linux/amd64"
+# 输出: dist/lib/librem_community_linux_amd64.a
+```
+
+**默认目标平台**（不指定 `-o` 时）：
+`windows/amd64, windows/386, linux/amd64, linux/arm64, linux/mips, linux/mipsle, linux/mips64, linux/mips64le, darwin/amd64, darwin/arm64`
