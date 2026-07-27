@@ -61,7 +61,7 @@ AI 时代符合第一性原理的设计理念胜过复杂的 Agent 工程。
 
 我们认为意图工程的终极形态是出现AI Native Programming Language. 专家可以通过形式化的自然语言充分表达意图，通过Runtime执行ANPL中的意图。 
 
-![](Pasted%20image%2020251201022851.png)
+![](assets/Pasted%20image%2020251201022851.png)
 
 ## 答疑
 

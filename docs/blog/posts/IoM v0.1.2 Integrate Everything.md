@@ -102,7 +102,7 @@ v0.1.1 中，我们通过community插件进一步简化了各种常用功能的�
 
 https://github.com/chainreactors/malice-network/issues/65
 
-![](Pasted%20image%2020251112014614.png)
+![](assets/Pasted%20image%2020251112014614.png)
 
 ### 文档重构
 

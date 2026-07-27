@@ -42,7 +42,7 @@ IDSL的优点非常多, 适合AI生成, 使用简单, 上手门槛低. 而缺点
 
 直到现在也只是小猫三两只, 原因就在于IDSL的表达力是不如EDSL更不如GPL的, 如果通过内嵌的python,javascript实现, 又会失去DSL的原本的优势. 
 
-![](assets/image_20240823164515.png)
+![](../../IoM/assets/image_20240823164515.png)
 我猜这也是nuclei在v3版本引入javascript/python等GPL作为其DSL的拓展的原因。不提高自己的基础能力就没办法覆盖复杂场景。但也因为nuclei变得复杂，chainreactors中的gogo/zombie两个工具不得不放弃原版的nuclei，自行实现了[轻量级的poc引擎 neutron](https://github.com/chainreactors/neutron)
 
 ### External DSL
