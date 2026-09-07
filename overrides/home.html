@@ -737,8 +737,8 @@
         if (!context) return;
 
         var TAU = Math.PI * 2;
-        var SPACE = { w: 1440, h: 680 };
-        var LIMIT = 12, MEDIUM = 660, MAX_EVENTS = 1600;
+        var SPACE = { w: 1520, h: 680 };
+        var LIMIT = 12, MEDIUM = 2000, MAX_EVENTS = 2600;
         // 播放节奏由这张表推导，不看帧率：接近 → 顿住 → 级联，级联速度趋近上限而不是无限加速。
         var TIMING = {
           impact: 3.5, hitStop: .085, hold: 4.2,
@@ -812,8 +812,9 @@
             if (a.parent >= 0 && a.parent === b.parent) return null;
             var start = Math.max(now, a.start, b.start), end = Math.min(a.end, b.end, LIMIT);
             if (start >= end - 1e-5) return null;
-            var pa = position(a, start), pb = position(b, start);
-            var x = pa.x - pb.x, y = pa.y - pb.y, vx = a.vx - b.vx, vy = a.vy - b.vy, r = a.r + b.r;
+            var x = (a.x + a.vx * (start - a.start)) - (b.x + b.vx * (start - b.start));
+            var y = (a.y + a.vy * (start - a.start)) - (b.y + b.vy * (start - b.start));
+            var vx = a.vx - b.vx, vy = a.vy - b.vy, r = a.r + b.r;
             var aa = vx * vx + vy * vy, bb = 2 * (x * vx + y * vy), cc = x * x + y * y - r * r;
             if (aa < 1e-7 || bb >= 0) return null;
             var d = bb * bb - 4 * aa * cc; if (d < 0) return null;
@@ -821,7 +822,7 @@
             return dt >= 0 && time <= end ? time : null;
           }
           function schedule(p, now) {
-            if (p.hit >= 0 || p.end <= now || p.gen > 9) return;
+            if (p.hit >= 0 || p.end <= now || p.gen > 17) return;
             var best = Infinity, other = null;
             for (var i = 0; i < particles.length; i++) {
               var q = particles[i];
@@ -837,19 +838,34 @@
             return Math.hypot(x - a.x - dx * u, y - a.y - dy * u);
           }
 
-          // 介质：稀疏散布的慢粒子。入射通道两侧留空，第一次接触才算点火。
+          // 介质：从左到右由稀到密——这道密度梯度就是反应的推进方向。
+          // 采样强烈右偏；最小间距随 x 收紧（左 36px → 右 11.5px，面积密度差近 10 倍）；
+          // 纵向轮廓从入射侧的窄喉张开到右边的满高，右缘不再被椭圆掐掉。
           var entryA = { x: 56, y: 434 }, entryB = { x: 212, y: 244 };
-          for (var tries = 0; particles.length < MEDIUM && tries < 44000; tries++) {
-            var x = 78 + Math.pow(rand(), .74) * 1270, y = 70 + rand() * 540;
-            if (Math.pow((x - 780) / 690, 2) + Math.pow((y - 340) / 292, 2) > 1) continue;
-            if (x < center.x - 90 && rand() < .78) continue;
+          var CELL = 40, cells = {};
+          function tooClose(x, y, gap) {
+            var gx = Math.floor(x / CELL), gy = Math.floor(y / CELL);
+            for (var a = -1; a <= 1; a++) for (var b = -1; b <= 1; b++) {
+              var bucket = cells[(gx + a) * 4096 + (gy + b)];
+              if (!bucket) continue;
+              for (var k = 0; k < bucket.length; k += 2) {
+                var ddx = x - bucket[k], ddy = y - bucket[k + 1];
+                if (ddx * ddx + ddy * ddy < gap * gap) return true;
+              }
+            }
+            return false;
+          }
+          for (var tries = 0; particles.length < MEDIUM && tries < 120000; tries++) {
+            var x = 96 + Math.pow(rand(), .78) * 1412, y = 48 + rand() * 584;
+            var xn = clamp((x - 150) / 1240);
+            if (Math.abs(y - 340) > mix(94, 302, smooth(0, .70, xn))) continue;
             if (Math.hypot(x - center.x, y - center.y) < 94) continue;
             if (segmentDistance(x, y, entryA, center) < 42 || segmentDistance(x, y, entryB, center) < 42) continue;
-            var crowded = false;
-            for (i = 0; i < particles.length; i++) if (Math.hypot(x - particles[i].x, y - particles[i].y) < 19) { crowded = true; break; }
-            if (crowded) continue;
+            if (tooClose(x, y, mix(31, 12, xn))) continue;
             var a = rand() * TAU, v = 2.7 + rand() * 6.5, drift = x / W;
             add(x, y, Math.cos(a) * v - (.12 + drift * .68) + (rand() - .5) * .6, Math.sin(a) * v + (rand() - .5) * .75, 0, 'medium', 0);
+            var key = Math.floor(x / CELL) * 4096 + Math.floor(y / CELL);
+            (cells[key] || (cells[key] = [])).push(x, y);
           }
 
           // 两束入射：从画面两侧加速相向，在 impact 时刻真正接触。
@@ -872,9 +888,17 @@
             var cx = (qa.x + qb.x) / 2, cy = (qa.y + qb.y) / 2;
             if (cx < 15 || cx > W - 15 || cy < 24 || cy > H - 24) continue;
             var gen = Math.max(pa.gen, pb.gen) + 1, id = events.length, root = id === 0;
-            var frontBias = clamp((cx - center.x) / (W - center.x));
-            var delay = root ? .105 : Math.max(.013, .112 * Math.pow(.74, gen)) * (cx > W * .76 ? 1.06 : 1);
-            var count = gen >= 9 ? 0 : root ? 6 : gen >= 8 ? 2 : 3 + (rand() < .34 ? 1 : 0) + (rand() < .10 ? 1 : 0);
+            // 以取景框右缘为满值：越靠右，链条允许烧得越深、每次接触分出的碎片也越多。
+            // 左侧分叉期望约 1.4（克制，不在点火点就炸完），画面右缘约 2.7（越裂越多）。
+            var frontBias = clamp((cx - center.x) / (FRAME.edge - center.x));
+            var depth = 7 + Math.round(frontBias * 7);
+            var delay = root ? .105 : Math.max(.012, .108 * Math.pow(.76, gen)) * (1 - frontBias * .22);
+            var count = root ? 6 : gen > depth ? 0
+              : 1 + (rand() < .32 + frontBias * .56 ? 1 : 0)
+                  + (rand() < .08 + frontBias * .66 ? 1 : 0)
+                  + (rand() < frontBias * frontBias * .48 ? 1 : 0);
+            // 出了取景框就只留一次闪光、不再分叉：链式反应不该在画外自己炸开。
+            if (cx > FRAME.edge - 24) count = 0;
             var parents = [];
             if (pa.parent >= 0) parents.push(pa.parent);
             if (pb.parent >= 0 && pb.parent !== pa.parent) parents.push(pb.parent);
@@ -1011,6 +1035,41 @@
         }
         function line(c, x1, y1, x2, y2, color, w) { c.strokeStyle = color; c.lineWidth = w === undefined ? 1 : w; c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke(); }
         function dot(c, x, y, r, color) { c.fillStyle = color; c.beginPath(); c.arc(x, y, r, 0, TAU); c.fill(); }
+        // 介质密度往右翻了一倍多，逐笔提交会把每帧上千次 draw call 堆到主线程上。
+        // 同色同宽的线段与圆点先入桶，一组画完再 flush——图层顺序不变，调用数掉到十几次。
+        // 桶的键要收敛，所以透明度按 1/48、半径按 1/4 量化（屏幕上不到半个像素的差别）。
+        var shades = {}, batchPool = {}, batchKeys = [];
+        function shade(rgb, a) {
+          var q = Math.round(clamp(a) * 48), key = rgb + '|' + q;
+          return shades[key] || (shades[key] = 'rgba(' + rgb + ',' + (q / 48).toFixed(3) + ')');
+        }
+        function queueLine(color, w, x1, y1, x2, y2) {
+          var key = 'l' + w + '|' + color, b = batchPool[key];
+          if (!b) { b = batchPool[key] = { round: false, color: color, size: w, v: [] }; batchKeys.push(key); }
+          b.v.push(x1, y1, x2, y2);
+        }
+        function queueDot(color, r, x, y) {
+          r = Math.round(r * 4) / 4;
+          var key = 'd' + r + '|' + color, b = batchPool[key];
+          if (!b) { b = batchPool[key] = { round: true, color: color, size: r, v: [] }; batchKeys.push(key); }
+          b.v.push(x, y);
+        }
+        function flush(c) {
+          for (var i = 0; i < batchKeys.length; i++) {
+            var b = batchPool[batchKeys[i]], v = b.v, j;
+            if (!v.length) continue;
+            c.beginPath();
+            if (b.round) {
+              // 每个圆点前先 moveTo 到起点，否则 arc 会拿一条直线把它们串起来。
+              for (j = 0; j < v.length; j += 2) { c.moveTo(v[j] + b.size, v[j + 1]); c.arc(v[j], v[j + 1], b.size, 0, TAU); }
+              c.fillStyle = b.color; c.fill();
+            } else {
+              for (j = 0; j < v.length; j += 4) { c.moveTo(v[j], v[j + 1]); c.lineTo(v[j + 2], v[j + 3]); }
+              c.strokeStyle = b.color; c.lineWidth = b.size; c.stroke();
+            }
+            v.length = 0;
+          }
+        }
 
         function layout(w, h) {
           var mobile = w < 860 || w / h < 1.05, s, x, y;
@@ -1052,32 +1111,37 @@
         }
         function drawMedium(c, raw) {
           var alpha = raw >= graph.settle ? .09 : FINISH.medium;
+          var tailShade = shade('227,49,76', alpha * .4), headShade = shade('255,46,68', alpha);
           for (var i = 0; i < graph.particles.length; i++) {
             var p = graph.particles[i];
             if (p.kind !== 'medium' || p.end <= raw) continue;
             // 到接触前一刻都是同样的暗度：不读将来的 hit 时间去提前放大或点亮。
-            var q = position(p, raw), tail = position(p, Math.max(0, raw - .42));
-            line(c, tail.x, tail.y, q.x, q.y, 'rgba(227,49,76,' + alpha * .4 + ')', .65);
-            dot(c, q.x, q.y, 1.2, 'rgba(255,46,68,' + alpha + ')');
+            var dt = raw - p.start, back = Math.max(0, raw - .42) - p.start;
+            var x = p.x + p.vx * dt, y = p.y + p.vy * dt;
+            queueLine(tailShade, .65, p.x + p.vx * back, p.y + p.vy * back, x, y);
+            queueDot(headShade, 1.2, x, y);
           }
+          flush(c);
         }
         function drawTrajectories(c, raw, L) {
+          var residue = shade('229,38,61', .19), hitWidth = L.mobile ? 1.6 : .95;
           for (var i = 0; i < graph.particles.length; i++) {
             var p = graph.particles[i];
             if (p.kind === 'medium') {
               // 只留事后的接触痕迹，绝不预先画出将要发生的路径。
               if (p.hit < 0 || raw < p.end) continue;
-              var a = position(p, Math.max(0, p.end - .55)), b = position(p, Math.min(raw, p.end));
-              line(c, a.x, a.y, b.x, b.y, 'rgba(229,38,61,.19)', .65);
+              var a = Math.max(0, p.end - .55) - p.start, b = Math.min(raw, p.end) - p.start;
+              queueLine(residue, .65, p.x + p.vx * a, p.y + p.vy * a, p.x + p.vx * b, p.y + p.vy * b);
               continue;
             }
             if (raw < p.start || p.kind === 'seed') continue; // 入射是一颗动点，不是一条常亮的光束
-            var end = Math.min(raw, p.end), q = position(p, end);
+            var end = Math.min(raw, p.end) - p.start;
             var age = Math.max(0, raw - p.end), flying = raw < p.end;
             var retention = (p.hit >= 0 ? .17 : .018) * FINISH.trail;
             var alpha = flying ? .335 : retention + .165 * Math.exp(-age * 5);
-            line(c, p.x, p.y, q.x, q.y, 'rgba(238,32,59,' + alpha + ')', p.hit >= 0 ? (L.mobile ? 1.6 : .95) : .60);
+            queueLine(shade('238,32,59', alpha), p.hit >= 0 ? hitWidth : .60, p.x, p.y, p.x + p.vx * end, p.y + p.vy * end);
           }
+          flush(c);
         }
         function drawParticles(c, raw, L, time) {
           for (var i = 0; i < graph.particles.length; i++) {
@@ -1088,13 +1152,13 @@
             var previous = Math.max(p.start, simulationTime(Math.max(0, time - (isSeed ? .068 : .033))));
             var tail = Math.min(isSeed ? 95 : 72, Math.max(0, (raw - previous) * v));
             if (tail > .1) {
-              line(c, q.x - nx * tail, q.y - ny * tail, q.x, q.y, 'rgba(255,34,59,' + opacity * .072 + ')', isSeed ? 3.5 : 2.6);
-              line(c, q.x - nx * tail * .78, q.y - ny * tail * .78, q.x, q.y, 'rgba(255,34,59,' + opacity * .25 + ')', isSeed ? 1.7 : 1.2);
-              line(c, q.x - nx * tail * .34, q.y - ny * tail * .34, q.x, q.y, 'rgba(255,34,59,' + opacity * .94 + ')', isSeed ? 1.15 : .9);
+              queueLine(shade('255,34,59', opacity * .072), isSeed ? 3.5 : 2.6, q.x - nx * tail, q.y - ny * tail, q.x, q.y);
+              queueLine(shade('255,34,59', opacity * .25), isSeed ? 1.7 : 1.2, q.x - nx * tail * .78, q.y - ny * tail * .78, q.x, q.y);
+              queueLine(shade('255,34,59', opacity * .94), isSeed ? 1.15 : .9, q.x - nx * tail * .34, q.y - ny * tail * .34, q.x, q.y);
             }
             glow(c, q.x, q.y, isSeed ? Math.max(57, 39 / L.s) : Math.max(32, 12 / L.s), opacity * .93, false);
             glow(c, q.x, q.y, isSeed ? Math.max(112, 64 / L.s) : 48, opacity * (isSeed ? .19 : .115), false);
-            dot(c, q.x, q.y, isSeed ? Math.max(3.6, 2.8 / L.s) : Math.max(2.25, .9 / L.s), 'rgba(255,34,57,' + opacity + ')');
+            queueDot(shade('255,34,57', opacity), isSeed ? Math.max(3.6, 2.8 / L.s) : Math.max(2.25, .9 / L.s), q.x, q.y);
             if (!isSeed || !p.identity) continue;
             // 两束入射各自带名字：这是 AI × 进攻性安全，撞击前收掉。
             var a = 1 - smooth(TIMING.impact - .43, TIMING.impact - .11, time);
@@ -1108,6 +1172,7 @@
             c.fillText(name, (clamp(sx, half + 22, L.w - half - 22) - L.x) / L.s, q.y - (L.mobile ? 21 : 25) / L.s);
             c.restore();
           }
+          flush(c);
         }
         function drawIgnition(c, raw, L, time) {
           var e = graph.root, age = contactAge(e, time, raw);
@@ -1144,22 +1209,23 @@
             // 飞行速度不能提前点亮将来的闪光：必须先发生接触。
             var age = elapsed * TIMING.effectRate;
             var flash = Math.exp(-Math.min(age, .14) * 32), residual = Math.exp(-age * 18);
-            dot(c, e.x, e.y, e.children.length ? .95 : .7, 'rgba(218,42,68,' + (.16 + residual * .20) + ')');
+            queueDot(shade('218,42,68', .16 + residual * .20), e.children.length ? .95 : .7, e.x, e.y);
             if (age < .14) {
               var scale = (e.pair ? 1.30 : 1) * Math.max(1, .46 / L.s);
               glow(c, e.x, e.y, (16 + flash * 24) * scale * FINISH.bloomRadius, flash * .72 * FINISH.bloomOpacity, true);
               if (flash > .10) for (var k = 0; k < 2; k++) {
                 var th = e.salt + k * Math.PI / 2, len = 5 + flash * 13;
-                line(c, e.x - Math.cos(th) * len, e.y - Math.sin(th) * len, e.x + Math.cos(th) * len, e.y + Math.sin(th) * len, 'rgba(255,84,102,' + flash * .58 + ')', .8);
+                queueLine(shade('255,84,102', flash * .58), .8, e.x - Math.cos(th) * len, e.y - Math.sin(th) * len, e.x + Math.cos(th) * len, e.y + Math.sin(th) * len);
               }
-              dot(c, e.x, e.y, Math.max(1.9 + flash * 1.7, 1.1 / L.s), 'rgba(255,60,80,' + flash * .86 + ')');
+              queueDot(shade('255,60,80', flash * .86), Math.max(1.9 + flash * 1.7, 1.1 / L.s), e.x, e.y);
             }
             if (age < .18) for (var j = 0; j < 4; j++) {
               var ta = e.salt + j * 2.4, ln = (13 + j * 5.8) * Math.sqrt(age / .18);
               var x = e.x + Math.cos(ta) * ln, y = e.y + Math.sin(ta) * ln;
-              line(c, x - Math.cos(ta) * 3, y - Math.sin(ta) * 3, x, y, 'rgba(255,67,87,' + (1 - age / .18) * .63 + ')', .68);
+              queueLine(shade('255,67,87', (1 - age / .18) * .63), .68, x - Math.cos(ta) * 3, y - Math.sin(ta) * 3, x, y);
             }
           }
+          flush(c);
         }
         // 悬停一个项目节点，回溯点亮它的整条因果链。
         function pathAncestors(eventId) {
