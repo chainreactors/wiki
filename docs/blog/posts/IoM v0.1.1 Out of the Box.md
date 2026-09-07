@@ -30,7 +30,7 @@ slug: IoM_v0.1.1
 
 因此将给**所有用户提供最基础版本的自动化编译**， 这个编译服务托管在服务器上， **如果有安全上顾虑， 可以手动关闭这个功能。** 
 
-!!! danger "使用自动化编译服务即视为同意[用户协议](https://wiki.chainreactors.red/IoM/#用户协议)"
+!!! danger "使用自动化编译服务即视为同意[用户协议](https://www.chainreactors.ai/IoM/#用户协议)"
 
 !!! danger "在提供自动化编译的同时, 也添加了malefic.yar"
 	任何防护设备的厂家可以通过我们的malefic.yar 检测通过自动化服务编译的二进制文件
@@ -175,4 +175,3 @@ implant上的transport进行了完全的重构， 从接口到实现都与之前
 ## End
 
 从v0.1.1 开始， 我们可以丢掉安装脚本， 丢掉编译环境， 只需要server和client两个二进制文件， 即可在任意位置使用IoM，不再有复杂的环境安装，rust编译操作。 对绝大多数轻度用户不会带来任何的负担， **能做到接近CobaltStrike/vshell级别的开箱即用**。 
-

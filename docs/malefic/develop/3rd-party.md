@@ -30,7 +30,7 @@ basic:
         link: "tcp://key:@127.0.0.1:12345?wrapper=lsJy"
 ```
 
-相关文档：[REM 用法](https://wiki.chainreactors.red/rem/usage/)
+相关文档：[REM 用法](https://www.chainreactors.ai/rem/usage/)
 
 ### curl — HTTP 客户端
 
@@ -166,4 +166,4 @@ malefic_module::register_rt_modules!(
 - [3rd Template](/malefic/develop/module-development/) — 多语言自定义模块开发模板
 - [Modules](/malefic/develop/modules/) — 内置模块与 Module trait 定义
 - [编译手册](/malefic/getting-started/) — 完整编译流程
-- [REM 协议](https://wiki.chainreactors.red/rem/usage/) — REM 使用文档
+- [REM 协议](https://www.chainreactors.ai/rem/usage/) — REM 使用文档

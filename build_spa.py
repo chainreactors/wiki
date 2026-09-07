@@ -170,7 +170,7 @@ def build(wiki_base: str, out_dir: pathlib.Path, subsets: set, with_fonts: bool)
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--wiki-base", default="https://wiki.chainreactors.red")
+    ap.add_argument("--wiki-base", default="https://www.chainreactors.ai")
     ap.add_argument("--out", default="dist/chainreactors-spa")
     ap.add_argument("--font-subsets", default="latin,latin-ext",
                     help="内联哪些 unicode 子集 (中文走系统字体, 不需要内联)")

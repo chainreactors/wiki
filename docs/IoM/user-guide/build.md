@@ -41,7 +41,7 @@ basic:
     有关 pipeline 的 TCP 与 HTTP 配置，请参见 [Listener 操作](/IoM/user-guide/listener/)。
 #### REM 信道上线
 
-REM 是 IoM 基于[rem](/rem)自定义协议，支持更灵活的流量伪装，其中`link` 格式为`[transport]://[key]:@[host]:[port]?wrapper=[]&tls=[bool]&tlsintls=[bool]&compress=[bool]`, 详细参数请阅读[rem参数解释](https://wiki.chainreactors.red/rem/usage/#console)
+REM 是 IoM 基于[rem](/rem)自定义协议，支持更灵活的流量伪装，其中`link` 格式为`[transport]://[key]:@[host]:[port]?wrapper=[]&tls=[bool]&tlsintls=[bool]&compress=[bool]`, 详细参数请阅读[rem参数解释](https://www.chainreactors.ai/rem/usage/#console)
 
 ```yaml
 targets: 

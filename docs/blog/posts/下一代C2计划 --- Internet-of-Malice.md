@@ -132,7 +132,7 @@ IoM只是redboot计划的三个支线之一, 也是第一个发布的支线.  �
 并在计划今年内发布另外两条支线的红队向的ASM与我们的代理工具. 
 
 ### Thread1 IoM
-[IoM](/IoM/) https://wiki.chainreactors.red/IoM/
+[IoM](/IoM/) https://www.chainreactors.ai/IoM/
 
 IoM(`Internet of Malice`) 的定位是下一代C2框架, 同样以高度模块化与可拓展性为核心设计理念. 基于这个理念去实现插件化的OPSEC, 插件化的社区生态, 插件化的一切.
 
@@ -144,7 +144,7 @@ IoM即将发布v0.0.1, 这个版本离我们最初的v0.0.1设计目标还有很
 
 ### Thread2 mapping
 
-[mapping](/mapping/) https://wiki.chainreactors.red/mapping/ *预计在2024年内发布*
+[mapping](/mapping/) https://www.chainreactors.ai/mapping/ *预计在2024年内发布*
 
 ASM是chainreactor的初衷, gogo/spray/zombie之类的工具实际上都是为了这个目标设计的. 通过极高的拓展性与细粒度实现的完全可控的攻击面管理引擎.
 

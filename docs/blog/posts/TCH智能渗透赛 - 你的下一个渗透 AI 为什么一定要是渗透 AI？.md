@@ -150,4 +150,4 @@ aide 是一个通用 Agent 运行时，不是为 CTF 做的特殊适配。赛前
 致力于构建 AI 原生的进攻性安全基座。通过重构全流程攻击链基础设施与先进的 AI Agent 工程，打造下一代最强大的 AI Native Offensive Infrastructure 和智能化渗透平台。欢迎私信交流。
 
 开源：https://github.com/chainreactors  
-博客：https://wiki.chainreactors.red/blog/
+博客：https://www.chainreactors.ai/blog/
