@@ -32,7 +32,7 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 # 内联的本地资源: 页面里的引用路径 -> 磁盘文件
 INLINE_ASSETS = {
     "assets/chainreactors-favicon.png": ASSETS / "chainreactors-favicon.png",
-    "assets/chainreactors-mark.png": ASSETS / "chainreactors-mark.png",
+    "assets/logo.svg": ASSETS / "logo.svg",
 }
 
 PRECONNECT = '  <link rel="preconnect" href="https://fonts.loli.net" crossorigin>\n'

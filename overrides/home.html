@@ -521,7 +521,7 @@
   <nav class="site-nav" id="siteNav" data-i18n-aria="nav.navAria">
     <div class="wrap nav-inner">
       <a class="wordmark" href="#top" data-i18n-aria="nav.homeAria">
-        <img class="logo-mark" src="assets/chainreactors-mark.png" alt="" aria-hidden="true">
+        <img class="logo-mark" src="assets/logo.svg" alt="" aria-hidden="true">
         <span>CHAINREACTORS<i>.AI</i></span>
       </a>
       <div class="nav-links" id="navLinks">
@@ -637,7 +637,7 @@
 
   <footer>
     <div class="wrap footer-main">
-      <div class="footer-brand"><a class="wordmark" href="#top"><img class="logo-mark" src="assets/chainreactors-mark.png" alt="" aria-hidden="true"><span>CHAINREACTORS<i>.AI</i></span></a><p class="footer-brand-copy" data-i18n="footer.about"></p><div class="footer-social"><a href="https://github.com/chainreactors" target="_blank" rel="noopener">GITHUB ↗</a><a href="https://github.com/chainreactors/cyber-harness/pull/120" target="_blank" rel="noopener">JOIN US ↗</a></div></div>
+      <div class="footer-brand"><a class="wordmark" href="#top"><img class="logo-mark" src="assets/logo.svg" alt="" aria-hidden="true"><span>CHAINREACTORS<i>.AI</i></span></a><p class="footer-brand-copy" data-i18n="footer.about"></p><div class="footer-social"><a href="https://github.com/chainreactors" target="_blank" rel="noopener">GITHUB ↗</a><a href="https://github.com/chainreactors/cyber-harness/pull/120" target="_blank" rel="noopener">JOIN US ↗</a></div></div>
       <nav class="footer-column"><span class="footer-column-title" data-i18n="footer.exploreTitle"></span><a href="#open-source" data-i18n="nav.openSource"></a><a href="#blog" data-i18n="nav.blog"></a><a href="#cairn" data-i18n="nav.company"></a><a href="#future-products" data-i18n="nav.capabilities"></a></nav>
       <div class="footer-column"><span class="footer-column-title" data-i18n="footer.contactTitle"></span><a href="mailto:business@chainreactors.ai">business@chainreactors.ai</a><a href="mailto:opensource@chainreactors.ai">opensource@chainreactors.ai</a><a href="mailto:joinus@chainreactors.ai">joinus@chainreactors.ai</a><a href="https://github.com/chainreactors" target="_blank" rel="noopener">github.com/chainreactors ↗</a></div>
       <div class="footer-column"><span class="footer-column-title" data-i18n="footer.joinTitle"></span><p class="footer-join-copy" data-i18n="footer.joinCopy"></p><a class="footer-join-link" href="#contact" data-i18n="footer.joinLink"></a><a class="footer-join-link" href="#top" data-i18n="footer.top"></a></div>
@@ -737,8 +737,11 @@
         if (!context) return;
 
         var TAU = Math.PI * 2;
+        // 模拟域比取景框（FRAME.edge = 1440）宽一截：超宽屏能填满，16:9 下反应是溢出画面而不是撞墙。
         var SPACE = { w: 1520, h: 680 };
-        var LIMIT = 12, MEDIUM = 2000, MAX_EVENTS = 2600;
+        // MEDIUM / MAX_EVENTS 都只是安全上限：介质数量由下面的最小间距规则自己收敛（约 1410 颗），
+        // 事件数由碰撞与出画自己收敛（约 1000–1600）。上限调低会先饿死左边的稀疏区。
+        var LIMIT = 12, MEDIUM = 1600, MAX_EVENTS = 2600;
         // 播放节奏由这张表推导，不看帧率：接近 → 顿住 → 级联，级联速度趋近上限而不是无限加速。
         var TIMING = {
           impact: 3.5, hitStop: .085, hold: 4.2,
@@ -839,7 +842,7 @@
           }
 
           // 介质：从左到右由稀到密——这道密度梯度就是反应的推进方向。
-          // 采样强烈右偏；最小间距随 x 收紧（左 36px → 右 11.5px，面积密度差近 10 倍）；
+          // 密度由最小间距决定（左 31px → 右 12px，面积密度差约 6.7 倍），不靠采样分布；
           // 纵向轮廓从入射侧的窄喉张开到右边的满高，右缘不再被椭圆掐掉。
           var entryA = { x: 56, y: 434 }, entryB = { x: 212, y: 244 };
           var CELL = 40, cells = {};
