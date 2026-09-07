@@ -32,8 +32,8 @@ theme:
 
   name: material
   custom_dir: overrides
-  logo: assets/logo.svg
-  favicon: assets/favicon.svg
+  logo: assets/chainreactors-mark.png
+  favicon: assets/chainreactors-favicon.png
   palette:
     - scheme: slate
       primary: black

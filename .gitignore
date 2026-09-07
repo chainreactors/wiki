@@ -3,3 +3,6 @@ docs/.obsidian/
 docs/.smart-env/
 client_template.md
 implant_template.md
+.fontcache/
+dist/
+.playwright-cli/

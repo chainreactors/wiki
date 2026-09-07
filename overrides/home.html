@@ -1,1531 +1,1468 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ChainReactor — AI 驱动的全流程智能化渗透</title>
-<meta name="description" content="ChainReactor — 面向企业、渗透测试人员与安全专家的开源进攻性基础设施，AI 驱动的全流程智能化渗透。">
-<meta property="og:title" content="ChainReactor — AI 驱动的全流程智能化渗透">
-<meta property="og:description" content="智能化渗透的开源基础设施，覆盖 Pre-Exploit 到 Post-Exploit 全链路。">
-<meta property="og:type" content="website">
-<meta property="og:image" content="assets/wx.jpg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ChainReactor — AI 驱动的全流程智能化渗透">
-<meta name="twitter:description" content="智能化渗透的开源基础设施，覆盖 Pre-Exploit 到 Post-Exploit 全链路。">
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<link rel="shortcut icon" type="image/svg+xml" href="assets/favicon.svg">
-<link rel="preconnect" href="https://fonts.loli.net" crossorigin>
-<link href="https://fonts.loli.net/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --bg: #06080e;
-  --surface: #0b0e18;
-  --surface-2: #101424;
-  --border: rgba(100,140,255,0.08);
-  --border-h: rgba(100,140,255,0.15);
-  --text: #e8ecf8;
-  --text-2: #94a0bc;
-  --text-3: #5a6480;
-  --text-4: #2a3050;
-
-  --red: #ff0844;
-  --red-glow: rgba(255,8,68,0.35);
-  --blue: #00d4ff;
-  --blue-glow: rgba(0,212,255,0.35);
-  --violet: #8b5cf6;
-  --amber: #ff9f0a;
-  --amber-glow: rgba(255,159,10,0.35);
-  --green: #00ff88;
-  --green-glow: rgba(0,255,136,0.35);
-
-  --max: 1280px;
-  --px: clamp(1.5rem, 5vw, 4rem);
-  --heading: "Orbitron", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-  --display: "Rajdhani", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-  --body: "Inter", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-  --mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
-
-  --cut: 12px;
-}
-
-html { scroll-behavior: smooth; }
-
-body {
-  min-height: 100vh;
-  color: var(--text);
-  background: var(--bg);
-  font-family: var(--body);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9998;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
-  mix-blend-mode: multiply;
-}
-
-.grid-bg {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -2;
-  background-image:
-    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse 70% 50% at 50% 30%, rgba(0,0,0,0.6) 0%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 30%, rgba(0,0,0,0.6) 0%, transparent 70%);
-}
-
-.aurora {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  overflow: hidden;
-}
-
-.aurora i {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(140px);
-  animation: drift 22s ease-in-out infinite alternate;
-}
-
-.aurora i:nth-child(1) {
-  width: 700px; height: 700px;
-  top: -20%; right: -10%;
-  background: var(--red);
-  opacity: 0.07;
-  animation-duration: 20s;
-}
-
-.aurora i:nth-child(2) {
-  width: 600px; height: 600px;
-  top: 5%; left: -15%;
-  background: var(--blue);
-  opacity: 0.06;
-  animation-duration: 25s;
-  animation-delay: -8s;
-}
-
-.aurora i:nth-child(3) {
-  width: 500px; height: 500px;
-  bottom: 5%; right: 15%;
-  background: var(--violet);
-  opacity: 0.05;
-  animation-duration: 28s;
-  animation-delay: -14s;
-}
-
-@keyframes drift {
-  0%   { transform: translate(0, 0) scale(1); }
-  50%  { transform: translate(80px, -50px) scale(1.12); }
-  100% { transform: translate(-40px, 60px) scale(0.95); }
-}
-
-a { color: inherit; text-decoration: none; }
-
-.w {
-  width: min(100%, var(--max));
-  margin: 0 auto;
-  padding: 0 var(--px);
-}
-
-/* ── nav ── */
-.nav {
-  position: fixed;
-  inset: 0 0 auto;
-  z-index: 100;
-  transition: all 0.3s ease;
-}
-
-.nav.scrolled {
-  background: rgba(6,8,14,0.88);
-  backdrop-filter: blur(24px) saturate(1.2);
-  -webkit-backdrop-filter: blur(24px) saturate(1.2);
-  border-bottom: 1px solid var(--border);
-}
-
-.nav-in {
-  width: min(100%, var(--max));
-  height: 60px;
-  margin: 0 auto;
-  padding: 0 var(--px);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.logo {
-  font-family: var(--heading);
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  color: var(--red);
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 0.15rem;
-}
-
-.nav-links a {
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--text-2);
-  padding: 0.4rem 0.75rem;
-  letter-spacing: 0.04em;
-  transition: color 0.2s;
-  text-transform: uppercase;
-}
-
-.nav-links a:hover { color: var(--text); }
-.nav-links a.active { color: var(--text); font-weight: 700; }
-
-.nav-links .cta {
-  color: #fff !important;
-  background: var(--red);
-  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
-  font-weight: 700;
-  margin-left: 0.5rem;
-  padding: 0.4rem 1rem;
-  transition: filter 0.2s;
-  box-shadow: 0 0 20px var(--red-glow);
-}
-
-.nav-links .cta:hover { filter: brightness(1.15); }
-
-.menu-btn {
-  display: none;
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--border);
-  background: none;
-  color: var(--text);
-  cursor: pointer;
-  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
-}
-
-.menu-btn span {
-  display: block;
-  width: 16px;
-  height: 1.5px;
-  margin: 3px auto;
-  background: currentColor;
-}
-
-/* ── hero ── */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  position: relative;
-  padding: 7rem 0 4rem;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: "";
-  position: absolute;
-  top: 22%;
-  left: 4vw;
-  right: 4vw;
-  height: 1px;
-  background: var(--blue);
-  opacity: 0.08;
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  bottom: 14%;
-  left: 4vw;
-  right: 4vw;
-  height: 1px;
-  background: var(--red);
-  opacity: 0.06;
-}
-
-.hero-label {
-  font-family: var(--heading);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  padding: 0.4rem 1rem 0.4rem 0.85rem;
-  background: rgba(0,212,255,0.05);
-  border: 1px solid rgba(0,212,255,0.15);
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-  color: var(--blue);
-}
-
-.hero-label::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  background: var(--red);
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-  box-shadow: 0 0 10px var(--red);
-  animation: diamond-pulse 2s ease-in-out infinite;
-}
-
-@keyframes diamond-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-.hero-title {
-  margin-top: 2rem;
-  font-family: var(--display);
-  font-size: clamp(3.5rem, 10vw, 8.5rem);
-  font-weight: 700;
-  line-height: 0.92;
-  letter-spacing: -0.02em;
-}
-
-.hero-title .line { display: block; }
-
-.hero-title .accent {
-  color: var(--red);
-  text-shadow: 0 0 80px var(--red-glow);
-}
-
-.hero-sub {
-  margin-top: 2rem;
-  max-width: 620px;
-  color: var(--text-2);
-  font-size: 1.1rem;
-  line-height: 1.8;
-}
-
-.hero-sub strong {
-  color: var(--red);
-  font-weight: 700;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 0.75rem;
-  margin-top: 2.5rem;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  height: 48px;
-  padding: 0 1.5rem;
-  font-family: var(--heading);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.btn-red {
-  background: var(--red);
-  color: #fff;
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-  box-shadow: 0 0 28px var(--red-glow);
-}
-
-.btn-red:hover {
-  box-shadow: 0 0 44px var(--red-glow);
-  filter: brightness(1.1);
-}
-
-.btn-ghost {
-  background: none;
-  color: var(--text-2);
-  border: 1px solid var(--border-h);
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-}
-
-.btn-ghost:hover {
-  border-color: rgba(100,140,255,0.25);
-  color: var(--text);
-}
-
-/* ── stats ── */
-.stats {
-  display: flex;
-  margin-top: 4rem;
-  max-width: 820px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
-}
-
-.stat {
-  flex: 1;
-  padding: 1.25rem 1.35rem;
-  border-right: 1px solid var(--border);
-  background: var(--surface);
-}
-
-.stat:last-child { border-right: none; }
-
-.stat-k {
-  font-family: var(--heading);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-2);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.stat:nth-child(1) .stat-k { color: var(--blue); }
-.stat:nth-child(3) .stat-k { color: var(--red); }
-
-.stat-v {
-  margin-top: 0.5rem;
-  font-family: var(--display);
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.stat-v.neon-red {
-  color: var(--red);
-  text-shadow: 0 0 20px var(--red-glow);
-}
-
-/* ── divider ── */
-.divider {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0 var(--px);
-  width: min(100%, var(--max));
-  margin: 0 auto;
-  height: 52px;
-  font-family: var(--heading);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-3);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--border-h);
-}
-
-.divider .num { color: var(--red); }
-.divider span:not(.num) { color: var(--text-3); }
-
-/* ── sections ── */
-.sec {
-  padding: 5rem 0;
-}
-
-.sec-head {
-  margin-bottom: 3rem;
-}
-
-.sec-tag {
-  font-family: var(--heading);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--blue);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.sec-tag::before {
-  content: "";
-  width: 24px;
-  height: 1px;
-  background: var(--blue);
-}
-
-.sec-title {
-  margin-top: 0.75rem;
-  font-family: var(--display);
-  font-size: clamp(2.2rem, 5vw, 3.5rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-
-.sec-desc {
-  margin-top: 0.75rem;
-  font-family: var(--mono);
-  font-size: 0.88rem;
-  color: var(--text-2);
-}
-
-/* ── timeline ── */
-.timeline {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 2px;
-  position: relative;
-}
-
-.timeline::before {
-  content: "";
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  right: 20px;
-  height: 2px;
-  background: var(--blue);
-  opacity: 0.12;
-  z-index: 0;
-}
-
-.tl-item {
-  padding: 0 0.75rem;
-  position: relative;
-}
-
-.tl-node {
-  width: 12px;
-  height: 12px;
-  background: var(--text-4);
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-  margin-bottom: 1.25rem;
-  position: relative;
-  z-index: 1;
-}
-
-.tl-item.on .tl-node {
-  background: var(--blue);
-  box-shadow: 0 0 14px var(--blue-glow);
-}
-
-.tl-item.hot .tl-node {
-  background: var(--red);
-  box-shadow: 0 0 14px var(--red-glow);
-}
-
-.tl-idx {
-  font-family: var(--heading);
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--text-3);
-  letter-spacing: 0.08em;
-  margin-bottom: 0.4rem;
-}
-
-.tl-item.on .tl-idx { color: var(--blue); }
-.tl-item.hot .tl-idx { color: var(--red); }
-
-.tl-name {
-  font-family: var(--display);
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  margin-bottom: 0.15rem;
-}
-
-.tl-sub {
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  color: var(--text-2);
-  margin-bottom: 0.55rem;
-}
-
-.tl-desc {
-  font-size: 0.88rem;
-  color: var(--text-2);
-  line-height: 1.6;
-}
-
-.note-bar {
-  margin-top: 2rem;
-  padding: 1.1rem 1.35rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-left: 2px solid var(--blue);
-  font-size: 0.92rem;
-  color: var(--text-2);
-}
-
-.note-bar strong { color: var(--blue); }
-
-/* ── products ── */
-.products {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 2px;
-}
-
-.prod {
-  --pc: var(--blue);
-  padding: 2rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 260px;
-  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
-  transition: all 0.3s ease;
-}
-
-.prod::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: 0;
-  width: 50%;
-  height: 2px;
-  background: var(--pc);
-  opacity: 0.5;
-}
-
-.prod:hover {
-  background: var(--surface-2);
-  border-color: color-mix(in srgb, var(--pc), transparent 75%);
-  box-shadow: 0 0 40px color-mix(in srgb, var(--pc), transparent 90%);
-}
-
-.prod.feat { grid-row: span 2; min-height: 0; }
-
-.prod-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.1rem;
-}
-
-.prod-level {
-  font-family: var(--heading);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  padding: 0.2rem 0.6rem;
-  color: var(--pc);
-  background: color-mix(in srgb, var(--pc), transparent 90%);
-  border: 1px solid color-mix(in srgb, var(--pc), transparent 75%);
-  clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px));
-}
-
-.prod-cat {
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--text-2);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.prod-name {
-  font-family: var(--display);
-  font-size: clamp(2rem, 3.5vw, 2.8rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  color: var(--pc);
-  text-shadow: 0 0 30px color-mix(in srgb, var(--pc), transparent 70%);
-}
-
-.prod-subtitle {
-  margin-top: 0.45rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-2);
-}
-
-.prod-desc {
-  margin-top: 0.65rem;
-  font-size: 0.9rem;
-  color: var(--text-2);
-  line-height: 1.65;
-}
-
-.prod-stack {
-  margin-top: 0.8rem;
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  color: var(--text-2);
-}
-
-.prod-actions {
-  margin-top: auto;
-  padding-top: 1.25rem;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.7rem 1rem;
-}
-
-.prod-link {
-  margin-top: auto;
-  padding-top: 1.25rem;
-  align-self: flex-start;
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--text-2);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  transition: color 0.2s, gap 0.2s;
-}
-
-.prod-actions .prod-link {
-  margin-top: 0;
-  padding-top: 0;
-}
-
-.prod-link:hover { color: var(--pc); gap: 0.7rem; }
-
-/* ── open source panel (second fold) ── */
-.oss-panel {
-  min-height: 100vh;
-  padding: 5rem 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-top: 2px solid var(--border-h);
-}
-
-.matrix {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2px;
-}
-
-.mx {
-  padding: 1.5rem 1.65rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-  transition: all 0.3s ease;
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-  min-height: 130px;
-}
-
-.mx:hover {
-  background: var(--surface-2);
-  border-color: var(--border-h);
-}
-
-.mx-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.mx-name {
-  font-family: var(--display);
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.mx-stars {
-  font-family: var(--mono);
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--amber);
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-.mx-stars::before {
-  content: "★";
-  font-size: 0.78rem;
-}
-
-.mx-desc {
-  font-size: 0.9rem;
-  color: var(--text-2);
-  line-height: 1.55;
-}
-
-.mx-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: auto;
-}
-
-.mx-lang {
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--blue);
-}
-
-.mx-cat {
-  font-family: var(--heading);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-2);
-}
-
-.mx-total {
-  margin-top: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3rem;
-  padding: 1.25rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
-}
-
-.mx-total-item { text-align: center; }
-
-.mx-total-num {
-  font-family: var(--heading);
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--text);
-}
-
-.mx-total-label {
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  color: var(--text-2);
-  margin-top: 0.25rem;
-}
-
-.mx-scenarios {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 2px;
-  margin-top: 2px;
-}
-
-.mx-sc {
-  --sc: var(--text-3);
-  padding: 1rem 1.1rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-  text-align: center;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.mx-sc::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: var(--sc);
-  opacity: 0.5;
-}
-
-.mx-sc:hover {
-  background: var(--surface-2);
-  border-color: color-mix(in srgb, var(--sc), transparent 70%);
-}
-
-.mx-sc-name {
-  font-family: var(--heading);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--sc);
-}
-
-.mx-sc-desc {
-  margin-top: 0.35rem;
-  font-size: 0.82rem;
-  color: var(--text-2);
-  line-height: 1.45;
-}
-
-/* ── blog ── */
-.blog-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.blog-item {
-  display: flex;
-  align-items: baseline;
-  gap: 1.25rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--border);
-  transition: all 0.2s ease;
-}
-
-.blog-item:first-child { border-top: 1px solid var(--border); }
-
-.blog-item:hover { padding-left: 0.5rem; background: var(--surface); }
-.blog-item:hover .blog-title { color: var(--blue); }
-.blog-item:hover .blog-excerpt { color: var(--text); }
-.blog-item:hover .blog-source { color: var(--amber); }
-
-.blog-date {
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--text-2);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.blog-title {
-  font-family: var(--display);
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text);
-  transition: color 0.2s;
-  flex-shrink: 0;
-}
-
-.blog-source {
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  font-weight: 800;
-  color: var(--amber);
-  white-space: nowrap;
-  flex-shrink: 0;
-  text-shadow: 0 0 14px var(--amber-glow);
-}
-
-.blog-excerpt {
-  font-size: 0.88rem;
-  color: var(--text-2);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-  transition: color 0.2s;
-}
-
-.blog-more {
-  margin-top: 1.5rem;
-  text-align: center;
-}
-
-.blog-more a {
-  font-family: var(--mono);
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-2);
-  transition: color 0.2s;
-}
-
-.blog-more a:hover { color: var(--blue); }
-
-/* ── footer ── */
-.foot {
-  padding: 1.75rem 0;
-  border-top: 1px solid var(--border);
-}
-
-.foot-in {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  color: var(--text-2);
-}
-
-.foot-links {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.foot-links a { transition: color 0.2s; }
-.foot-links a:hover { color: var(--text-2); }
-
-.foot-wx-trigger { cursor: pointer; }
-
-.wx-popover {
-  display: none;
-  position: fixed;
-  bottom: 4.5rem;
-  right: var(--px);
-  padding: 0.75rem;
-  background: var(--surface);
-  border: 1px solid var(--border-h);
-  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-  z-index: 200;
-  animation: popIn 0.2s ease;
-}
-
-.wx-popover.show { display: block; }
-.wx-popover img { display: block; border-radius: 4px; }
-
-@keyframes popIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ── reveal ── */
-.rv {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1);
-}
-
-.rv.vis {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ── responsive ── */
-@media (max-width: 1080px) {
-  .products { grid-template-columns: repeat(2, 1fr) !important; }
-  .prod.feat { grid-row: auto; }
-  .timeline { grid-template-columns: repeat(3, 1fr); gap: 1.5rem 0; }
-  .timeline::before { display: none; }
-  .matrix { grid-template-columns: repeat(2, 1fr); }
-  .mx-scenarios { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (max-width: 760px) {
-  .menu-btn { display: flex; align-items: center; justify-content: center; }
-
-  .nav-links {
-    position: absolute;
-    top: 60px;
-    left: 1rem;
-    right: 1rem;
-    display: flex;
-    padding: 0.5rem;
-    flex-direction: column;
-    border: 1px solid var(--border);
-    background: rgba(6,8,14,0.96);
-    backdrop-filter: blur(24px);
-    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-    opacity: 0;
-    transform: translateY(-8px);
-    pointer-events: none;
-    transition: opacity 0.25s ease, transform 0.25s ease;
-  }
-
-  .nav-links.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
-  .nav-links a { padding: 0.55rem 0.75rem; }
-  .nav-links .cta { margin-left: 0; margin-top: 0.25rem; text-align: center; justify-content: center; clip-path: none; }
-  .hero { min-height: auto; padding: 7rem 0 3rem; }
-  .hero-title { font-size: 2.8rem; }
-  .stats { flex-direction: column; }
-  .stat { border-right: none; border-bottom: 1px solid var(--border); }
-  .stat:last-child { border-bottom: none; }
-  .timeline, .products, .matrix, .mx-scenarios { grid-template-columns: 1fr !important; }
-  .mx-total { flex-direction: column; gap: 1.25rem; }
-  .blog-item { flex-direction: column; gap: 0.3rem; }
-  .blog-excerpt { white-space: normal; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical; }
-  .foot-in { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChainReactors — AI + 进攻性安全</title>
+  <meta name="description" content="ChainReactors 聚焦 AI + 进攻性安全：以 Cairn 重新定义渗透测试，并持续构建威胁管理、攻击模拟与漏洞挖掘产品。">
+  <meta property="og:title" content="ChainReactors — AI + 进攻性安全">
+  <meta property="og:description" content="Cairn redefines penetration testing, while ChainReactors builds threat management, attack simulation and vulnerability discovery products.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/png" href="assets/chainreactors-favicon.png">
+  <link rel="preconnect" href="https://fonts.loli.net" crossorigin>
+  <link href="https://fonts.loli.net/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      try {
+        var saved = window.localStorage.getItem('chainreactors-language');
+        var browser = (navigator.language || '').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en';
+        document.documentElement.dataset.lang = saved === 'zh' || saved === 'en' ? saved : browser;
+      } catch (e) { document.documentElement.dataset.lang = 'zh'; }
+    }());
+  </script>
+  <style>
+    :root {
+      --ink: #080808;
+      --ink-2: #101010;
+      --paper: #f4f2ed;
+      --paper-2: #e6e4de;
+      --white: #fff;
+      --red: #df463f;
+      --red-dark: #a9272d;
+      --ember: #e95a48;
+      --molten: #f4bd86;
+      --muted: #9f9f9a;
+      --muted-dark: #666660;
+      --line: rgba(255,255,255,.16);
+      --line-dark: rgba(8,8,8,.15);
+      --max: 1280px;
+      --slogan: clamp(2.8rem, 6vw, 6rem);
+      --gutter: clamp(1.25rem, 4vw, 4rem);
+      --sans: "DM Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --display: "Sora", "DM Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --mono: "Space Mono", "IBM Plex Mono", Consolas, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    /* 逐屏吸附：每个板块一屏高、内容纵向居中。proximity 而不是 mandatory，
+       是因为招聘面板天生高于一屏，强制吸附会把用户卡住。 */
+    html { scroll-behavior: smooth; scroll-snap-type: y proximity; background: var(--ink); }
+    body { min-width: 320px; margin: 0; overflow-x: hidden; color: var(--white); background: var(--ink); font: 400 16px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+    body::before { content: ""; position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: .07; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.34'/%3E%3C/svg%3E"); mix-blend-mode: soft-light; }
+    body::after { content: ""; position: fixed; inset: 0; z-index: -3; pointer-events: none; background: linear-gradient(90deg, transparent calc(50% - .5px), rgba(255,255,255,.035) 50%, transparent calc(50% + .5px)); }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    h1, h2, h3, p { margin: 0; }
+    .wrap { width: min(100%, var(--max)); margin: 0 auto; padding-inline: var(--gutter); }
+    .eyebrow { display: inline-flex; align-items: center; gap: .65rem; color: var(--red); font: 600 .67rem/1 var(--mono); letter-spacing: .15em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 24px; height: 1px; background: currentColor; }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .8s ease, transform .8s cubic-bezier(.22,.61,.36,1); }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; } .d3 { transition-delay: .3s; }
+    .hero .reveal { opacity: 1; transform: none; animation: hero-in .85s cubic-bezier(.22,.61,.36,1) both; }
+    .hero .reveal.d1 { animation-delay: .12s; } .hero .reveal.d2 { animation-delay: .24s; } .hero .reveal.d3 { animation-delay: .36s; }
+    @keyframes hero-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+    /* navigation */
+    .site-nav { position: fixed; inset: 0 0 auto; z-index: 40; height: 74px; border-bottom: 1px solid transparent; transition: background .35s, border-color .35s, backdrop-filter .35s; }
+    .site-nav.scrolled { border-color: var(--line); background: rgba(8,8,8,.82); backdrop-filter: blur(18px); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 100%; }
+    .wordmark { display: inline-flex; align-items: center; gap: .62rem; font: 600 .8rem/1 var(--display); letter-spacing: .18em; white-space: nowrap; }
+    .wordmark small { color: var(--red); font: 500 .51rem/1 var(--mono); letter-spacing: .08em; }
+    .wordmark i { color: var(--red); font-style: normal; }
+    .logo-mark { width: 32px; height: 32px; flex: 0 0 auto; object-fit: contain; }
+    .nav-links { display: flex; align-items: center; gap: .2rem; }
+    .nav-links a, .lang-toggle { position: relative; padding: .47rem .7rem; color: var(--muted); border: 0; background: transparent; font: 500 .68rem/1 var(--mono); letter-spacing: .07em; cursor: pointer; transition: color .2s, background .2s; }
+    .nav-links a:not(.nav-cta)::after { content: ""; position: absolute; right: .7rem; bottom: .08rem; left: .7rem; height: 1px; background: var(--red); transform: scaleX(0); transform-origin: right; transition: transform .25s; }
+    .nav-links a:hover, .nav-links a.active, .lang-toggle:hover { color: var(--white); }
+    .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); transform-origin: left; }
+    .lang-toggle { margin-left: .15rem; color: var(--white); border: 1px solid var(--line); }
+    .lang-toggle:hover { border-color: var(--white); background: var(--white); color: var(--ink); }
+    .nav-cta { margin-left: .5rem; padding: .72rem .95rem !important; color: var(--white) !important; background: var(--red) !important; font-weight: 700 !important; }
+    .nav-cta:hover { color: var(--ink) !important; background: var(--white) !important; }
+    .menu { display: none; width: 40px; height: 36px; padding: 0; color: var(--white); border: 1px solid var(--line); background: transparent; cursor: pointer; }
+    .menu span { display: block; width: 18px; height: 1px; margin: 4px auto; background: currentColor; }
+
+    /* hero */
+    .hero { position: relative; display: block; min-height: 100svh; padding: 0; overflow: hidden; isolation: isolate; scroll-snap-align: start; background: #050506; }
+    .hero::before { content: ""; position: absolute; inset: 0; z-index: -2; background: radial-gradient(circle at 74% 49%, rgba(255,41,41,.2), transparent 26%), radial-gradient(circle at 92% 14%, rgba(255,41,41,.1), transparent 20%); }
+    .hero::after { content: ""; position: absolute; right: 0; bottom: 9%; left: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--line), transparent); }
+    .hero-grid { position: relative; z-index: 3; display: block; min-height: 100svh; pointer-events: none; }
+    .hero-copy { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; width: 100%; min-height: 100svh; padding-block: 7rem 5rem; text-align: center; pointer-events: none; }
+    .hero-copy a { pointer-events: auto; }
+    .hero-kicker { color: var(--muted); font: 500 .66rem/1.4 var(--mono); letter-spacing: .14em; }
+    .hero h1 { max-width: 100%; margin-top: 1.45rem; font: 600 var(--slogan)/.9 var(--display); letter-spacing: -.075em; text-wrap: balance; }
+    .hero h1 span, .hero h1 em { display: block; }
+    .hero h1 em { color: var(--red); font-style: normal; }
+    .hero-sub { margin-top: 1.6rem; color: #d0d0cb; font: 500 clamp(1rem, 1.6vw, 1.25rem)/1.4 var(--sans); }
+    .hero-sub::before { content: ""; display: inline-block; width: 30px; height: 1px; margin: 0 .75rem .3rem 0; background: var(--red); }
+    .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; margin-top: 2.15rem; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 47px; padding: 0 1.25rem; color: var(--white); border: 1px solid var(--line); font: 600 .68rem/1 var(--mono); letter-spacing: .08em; transition: background .25s, color .25s, border-color .25s, transform .25s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { color: var(--white); border-color: var(--red); background: var(--red); font-weight: 700; }
+    .btn-primary:hover { color: var(--ink); border-color: var(--white); background: var(--white); }
+    .btn-ghost:hover { color: var(--ink); border-color: var(--white); background: var(--white); }
+    .hero-bottom { position: absolute; right: var(--gutter); bottom: 2rem; left: var(--gutter); display: flex; align-items: center; justify-content: space-between; color: var(--muted); font: .6rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    .hero-tags { display: flex; gap: 1.25rem; }
+    .hero-tags span::before { content: "•"; margin-right: .4rem; color: var(--red); }
+    .scroll-cue { display: inline-flex; align-items: center; gap: .6rem; }
+    .scroll-cue i { display: block; width: 38px; height: 1px; background: var(--red); animation: cue 2s ease-in-out infinite; }
+
+    /* animated brand signal — spatial fission canvas */
+    .hero-art { position: absolute; inset: 0; z-index: 1; display: block; width: 100%; height: 100%; overflow: hidden; background: #050506; }
+    /* 画布先到场，入射粒子的第一帧就不会被淡入吃掉 */
+    .hero .hero-art.reveal { animation-duration: .5s; animation-delay: .06s; }
+    .hero-art::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(ellipse 62% 36% at 50% 22%, rgba(5,5,6,.95) 0%, rgba(5,5,6,.84) 42%, rgba(5,5,6,.4) 70%, rgba(5,5,6,.08) 90%, rgba(5,5,6,0) 100%); }
+    .hero-art-inner { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; }
+    #fissionCanvas { display: block; width: 100%; height: 100%; background: #050506; }
+    .fission-caption { position: absolute; right: var(--gutter); bottom: 2rem; z-index: 3; color: #8e7f88; font: .56rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    /* 关键节点 = 开源项目：被反应点亮之后才浮出名字，可点开 GitHub */
+    .fission-labels { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+    .fission-label { position: absolute; top: 0; left: 0; display: inline-flex; gap: .45em; align-items: center; padding: .28em .45em; border-radius: 2px; background: rgba(5,5,6,.72); color: #b9a1ad; font: .56rem/1 var(--mono); letter-spacing: .04em; text-decoration: none; white-space: nowrap; opacity: 0; pointer-events: auto; transition: color .18s, background .18s; }
+    .fission-label i { color: #b14854; font-style: normal; }
+    .fission-label:hover, .fission-label:focus-visible { color: var(--white); background: rgba(24,10,16,.94); }
+    .fission-label:hover i, .fission-label:focus-visible i { color: var(--red); }
+    @media (max-width: 860px) {
+      .fission-labels { display: none; }
+      /* 竖屏构图里文案在上方，遮罩也得转成纵向，否则会把反应的左半边压掉。 */
+      .hero-art::after { background: linear-gradient(180deg, rgba(5,5,6,.94) 0%, rgba(5,5,6,.9) 44%, rgba(5,5,6,.5) 60%, rgba(5,5,6,.06) 74%, transparent 84%); }
+    }
+    @keyframes orbit { to { transform: rotate(360deg); } }
+    @keyframes cue { 0%,100% { transform: scaleX(.55); transform-origin: left; opacity: .5; } 50% { transform: scaleX(1); opacity: 1; } }
+    @keyframes blink { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
+
+    /* shared sections */
+    .section { display: flex; flex-direction: column; justify-content: center; min-height: 100svh; padding-block: clamp(3rem, 5.5svh, 6rem); scroll-snap-align: start; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: clamp(.9rem, 2.6svh, 3.1rem); }
+    .section h2 { margin-top: 1rem; font: 600 var(--slogan)/.9 var(--display); letter-spacing: -.075em; }
+    .section h2 .line { display: block; text-wrap: balance; }
+    .section h2 .accent, .section h2 em { color: var(--red); font-style: normal; }
+    .section h2 em { margin-left: .06em; }
+    /* 中文字面撑满字身，.9 的行高会让两行咬在一起 */
+    html[lang="zh-CN"] .section h2 { line-height: 1.02; }
+    .section-intro { max-width: 340px; color: var(--muted); font-size: .88rem; line-height: 1.75; }
+
+    /* capabilities */
+    .capabilities { background: var(--ink); }
+    #cairn { min-height: 100svh; display: flex; align-items: center; background: linear-gradient(135deg, #080808 0%, #080808 58%, #190507 100%); }
+    #cairn > .wrap { width: min(100%, var(--max)); }
+    #cairn .cap-grid { grid-template-columns: 1fr; }
+    #cairn .cap { min-height: clamp(190px, 26svh, 300px); padding-right: clamp(1.5rem, 4vw, 4rem); background: linear-gradient(110deg, rgba(255,41,41,.13), transparent 62%); }
+    #cairn .cap h3 { margin-top: clamp(1.6rem, 7svh, 7rem); font-size: clamp(2rem, 4vw, 4rem); }
+    #cairn .cap p { max-width: 720px; font-size: 1rem; }
+    #future-products { min-height: 100svh; display: flex; align-items: center; background: var(--ink-2); }
+    #future-products > .wrap { width: min(100%, var(--max)); }
+    .cap-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .future-grid { grid-template-columns: repeat(3, 1fr); }
+    .cap { position: relative; min-height: clamp(150px, 22svh, 255px); padding: clamp(1rem, 2svh, 1.35rem) 1.3rem clamp(1.1rem, 2.2svh, 1.6rem) 0; transition: background .3s; }
+    .cap + .cap { padding-left: 1.3rem; border-left: 1px solid var(--line); }
+    .cap:hover { background: linear-gradient(145deg, rgba(255,41,41,.14), transparent 68%); }
+    .cap-index { color: var(--red); font: .62rem/1 var(--mono); letter-spacing: .12em; }
+    .cap h3 { margin-top: 4.15rem; font: 600 1.45rem/1 var(--display); letter-spacing: -.04em; }
+    .cap p { max-width: 240px; margin-top: .75rem; color: var(--muted); font-size: .84rem; line-height: 1.7; }
+    .cap::after { content: "↗"; position: absolute; right: 1rem; bottom: 1.2rem; color: var(--red); font-size: 1.2rem; transition: transform .25s; }
+    .cap:hover::after { transform: translate(4px, -4px); }
+    .cap-status { position: absolute; top: 1.28rem; right: 1rem; display: inline-flex; align-items: center; gap: .42rem; color: var(--muted); font: .57rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .cap-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--red); box-shadow: 0 0 10px var(--red); animation: blink 1.8s ease-in-out infinite; }
+    .cap-pending { cursor: default; background: linear-gradient(145deg, rgba(255,41,41,.04), transparent 65%); }
+    .cap-pending h3 { color: #d0d0cb; }
+    .cap-pending::after { content: "…"; color: var(--muted); }
+    .cap-pending:hover::after { transform: none; }
+
+    /* open source matrix */
+    .open-source { background: var(--ink-2); }
+    .repo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; overflow: hidden; background: var(--line); }
+    .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin-bottom: clamp(1rem, 2.4svh, 2.5rem); background: var(--line); }
+    .product-card { position: relative; display: flex; flex-direction: column; min-height: clamp(160px, 20svh, 260px); padding: clamp(1.1rem, 2.2svh, 1.6rem); overflow: hidden; border: 1px solid rgba(255,41,41,.45); background: linear-gradient(135deg, rgba(255,41,41,.2), #101010 62%); transition: transform .3s, background .3s; }
+    .product-card::before { content: "PRODUCT"; position: absolute; top: 1.6rem; right: 1.6rem; color: var(--red); font: .6rem/1 var(--mono); letter-spacing: .13em; }
+    .product-card:hover { z-index: 1; transform: translateY(-4px); background: linear-gradient(135deg, rgba(255,41,41,.32), #171717 62%); }
+    .product-card .product-index { color: var(--red); font: .62rem/1 var(--mono); letter-spacing: .12em; }
+    .product-card h3 { margin-top: clamp(1.3rem, 5svh, 3.9rem); color: var(--white); font: 600 clamp(1.7rem, 3vw, 2.6rem)/1 var(--display); letter-spacing: -.06em; }
+    .product-card p { max-width: 520px; margin-top: clamp(.4rem, 1svh, .75rem); color: #c5c5c0; font-size: .9rem; line-height: 1.55; }
+    .product-card .product-link { margin-top: auto; padding-top: clamp(.6rem, 1.6svh, 1.2rem); color: var(--red); font: .65rem/1 var(--mono); letter-spacing: .08em; }
+    .repo { position: relative; display: flex; flex-direction: column; min-height: clamp(96px, 11.5svh, 190px); padding: clamp(.8rem, 1.7svh, 1.35rem); background: var(--ink-2); transition: background .3s, transform .3s; }
+    .repo::before { content: ""; position: absolute; top: 0; left: 0; width: 34%; height: 2px; background: var(--red); opacity: .75; transition: width .3s; }
+    .repo:hover { z-index: 1; background: #191919; transform: translateY(-3px); }
+    .repo:hover::before { width: 100%; }
+    .repo-top { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+    .repo-name { font: 600 clamp(1.05rem, 2.4svh, 1.45rem)/1 var(--display); letter-spacing: -.04em; }
+    .repo-stars { color: #f2b84b; font: .62rem/1 var(--mono); }
+    .repo-stars::before { content: "★"; margin-right: .3rem; }
+    .repo-desc { max-width: 300px; margin-top: clamp(.35rem, .9svh, .78rem); color: var(--muted); font-size: .82rem; line-height: 1.5; }
+    .repo-meta { display: flex; gap: .8rem; margin-top: auto; padding-top: clamp(.5rem, 1.3svh, 1rem); color: var(--red); font: .6rem/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+    .repo-meta span + span { color: var(--muted); }
+    .repo-meta .repo-github { margin-left: auto; color: #cfcfc9; opacity: .62; transition: color .2s, opacity .2s; }
+    .repo:hover .repo-meta .repo-github, .repo:focus-visible .repo-meta .repo-github { color: var(--red); opacity: 1; }
+    .matrix-foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: clamp(.8rem, 1.8svh, 1.35rem); color: var(--muted); font: .64rem/1.4 var(--mono); letter-spacing: .06em; }
+    .matrix-foot a { color: var(--white); border-bottom: 1px solid var(--red); padding-bottom: .3rem; transition: color .2s; }
+    .matrix-foot a:hover { color: var(--red); }
+
+    /* research */
+    .research { background: var(--ink); }
+    .blog-list { border-top: 1px solid var(--line); }
+    .blog-item { display: grid; grid-template-columns: 110px 150px minmax(0, 1fr) auto; gap: 1rem; align-items: baseline; padding: clamp(.5rem, 1.35svh, 1.1rem) 0; border-bottom: 1px solid var(--line); transition: padding .25s, background .25s; }
+    .blog-item:hover { padding-inline: .8rem; background: rgba(255,255,255,.035); }
+    .blog-date, .blog-source { color: var(--muted); font: .62rem/1.35 var(--mono); }
+    .blog-source { color: var(--red); }
+    .blog-content { min-width: 0; }
+    .blog-title { display: block; color: var(--white); font: 500 1rem/1.4 var(--display); transition: color .2s; }
+    .blog-excerpt { display: block; overflow: hidden; margin-top: .25rem; color: var(--muted); font-size: .75rem; line-height: 1.4; white-space: nowrap; text-overflow: ellipsis; }
+    .blog-item:hover .blog-title { color: var(--red); }
+    .blog-arrow { color: var(--muted); font-size: 1.1rem; transition: color .2s, transform .2s; }
+    .blog-item:hover .blog-arrow { color: var(--red); transform: translate(3px, -3px); }
+    .blog-more { display: inline-block; margin-top: 1.35rem; color: var(--muted); border-bottom: 1px solid var(--red); padding-bottom: .32rem; font: .65rem/1 var(--mono); }
+    .blog-more:hover { color: var(--white); }
+
+    /* contact */
+    .contact { position: relative; overflow: hidden; color: var(--white); background: var(--ink); border-top: 1px solid rgba(255,41,41,.55); }
+    .contact .eyebrow { color: var(--red) !important; }
+    .contact::before { content: ""; position: absolute; width: 48vw; aspect-ratio: 1; top: -72%; right: -8%; border: 1px solid rgba(255,41,41,.3); border-radius: 50%; box-shadow: 0 0 0 60px rgba(255,41,41,.06), 0 0 0 120px rgba(255,41,41,.035); animation: orbit 34s linear infinite; }
+    .contact h2 { width: fit-content; max-width: 100%; margin-top: 1rem; font: 600 var(--slogan)/.9 var(--display); letter-spacing: -.075em; text-wrap: balance; }
+    .contact h2 span:last-child { color: var(--red); }
+    .contact-intro { max-width: 490px; margin-top: 1.25rem; font-size: 1rem; }
+    .contact-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 300px)); width: fit-content; max-width: 100%; gap: 1rem; margin-top: clamp(1.3rem, 3.5svh, 3rem); background: transparent; }
+    .contact-card { display: flex; flex-direction: column; min-height: 220px; padding: 1.25rem; color: var(--white); border: 1px solid var(--line); background: var(--ink-2); transition: background .25s, color .25s, border-color .25s; }
+    .contact-card:hover { color: var(--white); border-color: var(--red); background: var(--red); }
+    .contact-card:hover * { color: var(--white); font-weight: 700; }
+    .contact-label { font: 600 .62rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    .contact-card-copy { max-width: 420px; margin-top: 1.2rem; color: var(--muted); font-size: .78rem; line-height: 1.65; }
+    .contact-card:hover .contact-card-copy { color: var(--white); }
+    .contact-email { margin-top: auto; font: 500 1rem/1.2 var(--display); }
+    .contact-arrow { margin-top: .7rem; font-size: 1rem; }
+
+    /* join us — compact editorial recruitment panel */
+    .talent-panel { position: relative; margin-top: clamp(3rem, 7svh, 8rem); padding-top: clamp(2rem, 4svh, 3.5rem); scroll-snap-align: start; border-top: 1px solid rgba(255,41,41,.7); }
+    .talent-panel::before { content: "JOIN US"; position: absolute; top: -1.1rem; right: 0; color: rgba(255,255,255,.035); font: 700 clamp(4.5rem, 12vw, 11rem)/1 var(--display); letter-spacing: -.08em; pointer-events: none; }
+    .talent-head { position: relative; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr); gap: clamp(2rem, 7vw, 7rem); align-items: end; }
+    .talent-title h3 { width: fit-content; max-width: 100%; margin-top: 1rem; font: 600 var(--slogan)/.9 var(--display); letter-spacing: -.075em; text-wrap: balance; }
+    .talent-title h3 em { color: var(--red); font-style: normal; }
+    .talent-summary { max-width: 600px; }
+    .talent-summary > p { color: #d0d0cb; font-size: clamp(.95rem, 1.2vw, 1.1rem); line-height: 1.8; }
+    .talent-facts { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 1.5rem; }
+    .talent-fact { padding: .6rem .72rem; color: var(--white); border: 1px solid var(--line); font: 600 .61rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .talent-fact:first-child { color: var(--white); border-color: var(--red); background: var(--red); font-weight: 700; }
+    .talent-grid { position: relative; display: grid; grid-template-columns: minmax(280px, .82fr) minmax(0, 1.7fr); gap: 1px; margin-top: clamp(3rem, 6vw, 5rem); background: var(--line); border: 1px solid var(--line); }
+    .talent-profile { display: flex; flex-direction: column; padding: clamp(1.5rem, 3vw, 2.5rem); color: var(--white); background: linear-gradient(150deg, #84272b 0%, #541519 100%); }
+    .talent-kicker { font: 700 .62rem/1 var(--mono); letter-spacing: .13em; text-transform: uppercase; }
+    .talent-profile > p { margin-top: 1.2rem; color: var(--white); font-size: .9rem; font-weight: 700; line-height: 1.7; }
+    .talent-profile * { color: var(--white); font-weight: 700; }
+    .talent-profile .talent-traits li { color: var(--white); font-weight: 700; }
+    .talent-traits { display: grid; gap: 0; margin: 2.6rem 0 0; padding: 0; list-style: none; counter-reset: talent-trait; }
+    .talent-traits li { display: grid; grid-template-columns: 2rem 1fr; gap: .75rem; padding: 1rem 0; border-top: 1px solid rgba(255,255,255,.2); font: 600 clamp(.9rem, 1.2vw, 1.05rem)/1.45 var(--display); counter-increment: talent-trait; }
+    .talent-traits li::before { content: "0" counter(talent-trait); padding-top: .2rem; font: 600 .59rem/1 var(--mono); letter-spacing: .08em; }
+    .talent-work { padding: clamp(1.5rem, 3vw, 2.5rem); background: #0c0c0c; }
+    .talent-block-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; }
+    .talent-block-head h4, .talent-detail h4 { font: 600 clamp(1.6rem, 2.5vw, 2.7rem)/1 var(--display); letter-spacing: -.05em; }
+    .talent-block-head p { max-width: 390px; color: var(--muted); font-size: .78rem; line-height: 1.6; text-align: right; }
+    .talent-roles { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 2rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .talent-role { min-height: 260px; padding: 1.35rem 1.25rem 1.4rem 0; }
+    .talent-role + .talent-role { padding-left: 1.25rem; border-left: 1px solid var(--line); }
+    .talent-role-index { color: var(--red); font: 600 .6rem/1 var(--mono); letter-spacing: .1em; }
+    .talent-role h5 { margin: 4rem 0 0; font: 600 1.25rem/1.12 var(--display); letter-spacing: -.035em; }
+    .talent-role p { margin-top: .8rem; color: var(--muted); font-size: .78rem; line-height: 1.65; }
+    .talent-details { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 4vw, 4rem); margin-top: 2.5rem; }
+    .talent-detail ul { display: grid; gap: .75rem; margin: 1.25rem 0 0; padding: 0; list-style: none; }
+    .talent-detail li { position: relative; padding-left: 1rem; color: #b8b8b3; font-size: .8rem; line-height: 1.55; }
+    .talent-detail li::before { content: ""; position: absolute; top: .67em; left: 0; width: 5px; height: 5px; background: var(--red); }
+
+    /* footer */
+    footer { color: var(--muted); border-top: 1px solid var(--line); scroll-snap-align: start; background: #050505; }
+    .footer-main { display: grid; grid-template-columns: minmax(260px, 1.6fr) repeat(3, minmax(150px, 1fr)); gap: clamp(2rem, 5vw, 6rem); padding-block: clamp(3.5rem, 7vw, 6rem); }
+    .footer-brand .wordmark { color: var(--white); }
+    .footer-brand-copy { max-width: 330px; margin-top: 1.35rem; color: var(--muted); font-size: .82rem; line-height: 1.75; }
+    .footer-social { display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 1.5rem; color: var(--white); font: .63rem/1 var(--mono); letter-spacing: .08em; }
+    .footer-social a { padding-bottom: .28rem; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
+    .footer-social a:hover { color: var(--red); border-color: var(--red); }
+    .footer-column { display: flex; flex-direction: column; align-items: flex-start; gap: .85rem; }
+    .footer-column-title { margin-bottom: .45rem; color: var(--white); font: 600 .65rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+    .footer-column a { color: var(--muted); font-size: .82rem; line-height: 1.45; transition: color .2s; }
+    .footer-column a:hover { color: var(--white); }
+    .footer-join-copy { margin: .1rem 0 .5rem; color: var(--muted); font-size: .79rem; line-height: 1.65; }
+    .footer-join-link { color: var(--red) !important; font: 600 .66rem/1 var(--mono) !important; letter-spacing: .08em; }
+    .footer-bottom { border-top: 1px solid var(--line); }
+    .footer-bottom-in { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.35rem; font: .62rem/1 var(--mono); letter-spacing: .06em; }
+    .footer-bottom-in > span:last-child { color: #656560; }
+
+    /* expansive canvas for ultrawide / 4K displays */
+    @media (min-width: 1800px) {
+      :root { --slogan: clamp(3.5rem, 6vw, 8rem); }
+      :root { --max: min(2400px, calc(100vw - 6rem)); --gutter: clamp(3rem, 3.2vw, 6rem); }
+      .site-nav { height: 88px; }
+      .logo-mark { width: 40px; height: 40px; }
+      .wordmark { gap: .78rem; font-size: 1rem; }
+      .wordmark small { font-size: .6rem; }
+      .nav-links a, .lang-toggle { padding: .62rem .9rem; font-size: .76rem; }
+      .nav-cta { padding: .82rem 1.15rem !important; }
+      .hero { padding: 0; }
+      .hero-grid { grid-template-columns: minmax(0, .9fr) minmax(720px, 1.1fr); gap: clamp(3rem, 4vw, 6rem); }
+      .hero h1 { max-width: 100%; }
+      .hero-sub { max-width: 700px; font-size: clamp(1.15rem, 1.5vw, 1.6rem); }
+      .btn { min-height: 56px; padding-inline: 1.55rem; font-size: .76rem; }
+      .hero-bottom { bottom: 3rem; font-size: .68rem; }
+      .hero-tags { gap: 1.8rem; }
+      .scroll-cue i { width: 52px; }
+      .section-intro { max-width: 520px; font-size: 1rem; }
+      .proof b { font-size: 2rem; }
+      .proof span { font-size: .74rem; }
+      .cap { min-height: clamp(190px, 26svh, 360px); padding: 2rem 2rem 2.4rem 0; }
+      .cap + .cap { padding-left: 2rem; }
+      .cap-index { font-size: .72rem; }
+      .cap h3 { margin-top: 6rem; font-size: 2rem; }
+      .cap p { max-width: 360px; font-size: 1rem; }
+      .cap-status { top: 1.9rem; right: 1.8rem; font-size: .65rem; }
+      .cap::after { right: 1.8rem; bottom: 1.8rem; font-size: 1.5rem; }
+      .repo-name { font-size: 2rem; }
+      .repo-desc { max-width: 380px; font-size: .96rem; }
+      .repo-meta, .matrix-foot { font-size: .7rem; }
+      .blog-item { grid-template-columns: 140px 190px minmax(0, 1fr) auto; gap: 1.5rem; }
+      .blog-date, .blog-source { font-size: .7rem; }
+      .blog-title { font-size: 1.2rem; }
+      .blog-excerpt { font-size: .88rem; }
+      .contact h2 { max-width: 1300px; }
+      .contact-intro { max-width: 650px; font-size: 1.15rem; }
+      .contact-grid { grid-template-columns: repeat(3, minmax(0, 380px)); gap: 1.5rem; margin-top: 4rem; }
+      .contact-card { min-height: 190px; padding: 1.6rem; }
+      .contact-email { font-size: 1.2rem; }
+      .join-lead h2 { max-width: 900px; font-size: clamp(4rem, 6vw, 8rem); }
+      .join-lead-copy > p { max-width: 780px; font-size: 1.08rem; }
+      .join-identity { margin-top: 2.5rem; padding: 1.6rem 0 0 1.7rem; }
+      .join-block h3 { font-size: clamp(2.2rem, 3vw, 4rem); }
+      .join-traits li { min-height: 230px; padding-top: 1.6rem; font-size: 1rem; }
+      .join-role { min-height: 390px; padding-top: 2rem; }
+      .join-role h4 { margin-top: 6.5rem; font-size: 2rem; }
+      .join-role p, .join-detail li { font-size: 1rem; }
+      .footer-main { grid-template-columns: minmax(430px, 1.65fr) repeat(3, minmax(210px, 1fr)); gap: clamp(3rem, 5vw, 8rem); padding-block: clamp(5rem, 7vw, 8rem); }
+      .footer-brand-copy { max-width: 450px; font-size: .95rem; }
+      .footer-column { gap: 1rem; }
+      .footer-column-title { font-size: .72rem; }
+      .footer-column a { font-size: .93rem; }
+      .footer-join-copy { font-size: .9rem; }
+      .footer-join-link { font-size: .72rem !important; }
+      .footer-bottom-in { padding-block: 1.7rem; font-size: .7rem; }
+    }
+
+    @media (min-width: 3000px) {
+      :root { --slogan: clamp(5rem, 6vw, 11rem); }
+      :root { --max: min(3200px, calc(100vw - 8rem)); --gutter: clamp(4rem, 4vw, 9rem); }
+      .site-nav { height: 112px; }
+      .logo-mark { width: 52px; height: 52px; }
+      .wordmark { gap: 1rem; font-size: 1.25rem; }
+      .wordmark small { font-size: .75rem; }
+      .nav-links { gap: .45rem; }
+      .nav-links a, .lang-toggle { padding: .8rem 1.2rem; font-size: .88rem; }
+      .nav-cta { padding: 1rem 1.45rem !important; }
+      .hero { padding-top: 14rem; padding-bottom: 8rem; }
+      .hero-grid { grid-template-columns: minmax(0, .86fr) minmax(1120px, 1.14fr); gap: clamp(5rem, 6vw, 10rem); }
+      .hero h1 { max-width: 100%; }
+      .hero-sub { max-width: 980px; margin-top: 2.3rem; font-size: clamp(1.45rem, 1.45vw, 2.15rem); }
+      .hero-sub::before { width: 48px; margin-right: 1.1rem; }
+      .actions { gap: 1rem; margin-top: 3rem; }
+      .btn { min-height: 72px; padding-inline: 2rem; font-size: .92rem; }
+      .hero-bottom { right: 4vw; bottom: 4rem; left: 4vw; font-size: .82rem; }
+      .hero-tags { gap: 2.5rem; }
+      .scroll-cue { gap: .9rem; }
+      .scroll-cue i { width: 76px; }
+      .section-intro { max-width: 680px; font-size: 1.25rem; }
+      .cap { min-height: clamp(240px, 30svh, 480px); padding: 2.6rem 2.6rem 3rem 0; }
+      .cap + .cap { padding-left: 2.6rem; }
+      .cap-index { font-size: .86rem; }
+      .cap h3 { margin-top: 8rem; font-size: 2.6rem; }
+      .cap p { max-width: 440px; font-size: 1.25rem; }
+      .cap-status { top: 2.5rem; right: 2.4rem; font-size: .75rem; }
+      .cap::after { right: 2.4rem; bottom: 2.3rem; font-size: 1.9rem; }
+      .repo-name { font-size: 2.6rem; }
+      .repo-stars, .repo-meta, .matrix-foot { font-size: .82rem; }
+      .repo-desc { max-width: 480px; margin-top: 1.2rem; font-size: 1.15rem; }
+      .matrix-foot { margin-top: 2rem; }
+      .blog-item { grid-template-columns: 190px 240px minmax(0, 1fr) auto; gap: 2rem; }
+      .blog-date, .blog-source { font-size: .85rem; }
+      .blog-title { font-size: 1.5rem; }
+      .blog-excerpt { font-size: 1rem; }
+      .contact h2 { max-width: 1700px; }
+      .contact-intro { max-width: 840px; font-size: 1.4rem; }
+      .contact-grid { grid-template-columns: repeat(3, minmax(0, 480px)); gap: 2rem; margin-top: 5rem; }
+      .contact-card { min-height: 240px; padding: 2rem; }
+      .contact-label { font-size: .78rem; }
+      .contact-email { font-size: 1.5rem; }
+      .join-lead h2 { max-width: 1400px; font-size: clamp(6rem, 6vw, 11rem); }
+      .join-lead-copy > p { max-width: 1050px; font-size: 1.3rem; }
+      .join-identity { margin-top: 3rem; padding: 2rem 0 0 2rem; }
+      .join-identity b { font-size: .88rem; }
+      .join-identity span { max-width: 960px; font-size: 1.08rem; }
+      .join-block h3 { font-size: clamp(3rem, 3vw, 5rem); }
+      .join-traits li { min-height: 300px; padding-top: 2rem; font-size: 1.18rem; }
+      .join-traits li::before { margin-bottom: 4rem; font-size: .76rem; }
+      .join-role { min-height: 510px; padding-top: 2.6rem; }
+      .join-role-index { font-size: .78rem; }
+      .join-role h4 { margin-top: 8.5rem; font-size: 2.7rem; }
+      .join-role p { max-width: 480px; font-size: 1.15rem; }
+      .join-detail h3 { font-size: clamp(2.6rem, 2.7vw, 4.5rem); }
+      .join-detail li { font-size: 1.1rem; }
+      .join-apply-copy b { font-size: clamp(2rem, 2.3vw, 3.8rem); }
+      .join-apply-copy span { font-size: 1rem; }
+      .footer-main { grid-template-columns: minmax(600px, 1.7fr) repeat(3, minmax(300px, 1fr)); gap: clamp(4rem, 5vw, 10rem); padding-block: clamp(7rem, 8vw, 11rem); }
+      .footer-brand-copy { max-width: 630px; margin-top: 1.8rem; font-size: 1.2rem; }
+      .footer-social { gap: 1.8rem; margin-top: 2rem; font-size: .78rem; }
+      .footer-column { gap: 1.25rem; }
+      .footer-column-title { margin-bottom: .7rem; font-size: .85rem; }
+      .footer-column a { font-size: 1.1rem; }
+      .footer-join-copy { font-size: 1.05rem; }
+      .footer-join-link { font-size: .85rem !important; }
+      .footer-bottom-in { padding-block: 2.2rem; font-size: .82rem; }
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 0; }
+      .hero { padding: 0; }
+      .hero-bottom { position: relative; right: auto; bottom: auto; left: auto; margin-top: -2rem; }
+      .cap-grid { grid-template-columns: repeat(2, 1fr); }
+      #cairn .cap-grid { grid-template-columns: 1fr; }
+      .future-grid { grid-template-columns: repeat(3, 1fr); }
+      .cap:nth-child(3) { border-left: 0; border-top: 1px solid var(--line); }
+      .cap:nth-child(4) { border-top: 1px solid var(--line); }
+      .repo-grid { grid-template-columns: repeat(2, 1fr); }
+      .product-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; width: 100%; }
+      .talent-head, .talent-grid { grid-template-columns: 1fr; }
+      .talent-summary { max-width: 720px; }
+      .join-lead { grid-template-columns: 1fr; gap: 2rem; }
+      .join-lead-copy { max-width: 700px; }
+      .join-traits { grid-template-columns: repeat(2, 1fr); }
+      .footer-main { grid-template-columns: repeat(2, 1fr); }
+    }
+    /* 中文的「用 AI 重构进攻性安全」「重新定义渗透测试」合成一行；
+       英文对应的两句拼起来放不下，保持两行 */
+    html[lang="zh-CN"] .hero h1, html[lang="zh-CN"] #cairn h2 { white-space: nowrap; }
+    html[lang="zh-CN"] .hero h1 span, html[lang="zh-CN"] .hero h1 em,
+    html[lang="zh-CN"] #cairn h2 .line { display: inline; }
+    /* 「AI」和「重构」之间是拉丁接汉字，得比汉字之间多留一点气 */
+    html[lang="zh-CN"] .hero h1 em { margin-left: .16em; }
+    html[lang="zh-CN"] #cairn h2 .line + .line { margin-left: .08em; }
+    /* slogan 短句一律不折行；下面几条英文实在超宽，单独放开 */
+    .hero h1 span, .hero h1 em, .section h2 .line, .section h2 span, .section h2 em,
+    .contact h2 span, .talent-title h3 span, .talent-title h3 em { white-space: nowrap; }
+    html[data-lang="en"] [data-i18n="future.titleTwo"] { white-space: normal; }
+    @media (max-width: 680px) {
+      .site-nav { height: 64px; }
+      .wordmark small { display: none; }
+      .nav-links { position: absolute; top: 64px; right: var(--gutter); left: var(--gutter); display: grid; gap: 0; padding: .45rem; opacity: 0; pointer-events: none; transform: translateY(-10px); border: 1px solid var(--line); background: rgba(8,8,8,.97); transition: opacity .25s, transform .25s; }
+      .nav-links.open { opacity: 1; pointer-events: auto; transform: none; }
+      .nav-links a, .lang-toggle { padding: .85rem .7rem; text-align: left; }
+      .nav-cta { margin: .35rem 0 0 !important; text-align: center !important; }
+      .lang-toggle { margin: .25rem 0 0; }
+      .menu { display: block; }
+      .hero { padding: 0; }
+      .hero-sub { font-size: .95rem; }
+      .hero-copy { width: 100%; min-height: 100svh; padding: 7rem 0 6rem; }
+      .art-status { right: 0; bottom: 2%; font-size: .52rem; }
+      .hero-bottom { display: block; margin-top: -.3rem; }
+      .hero-tags { flex-wrap: wrap; gap: .55rem .8rem; font-size: .53rem; }
+      .scroll-cue { margin-top: 1.1rem; }
+      .section-head { display: block; }
+      .section-intro { max-width: 100%; margin-top: 1.45rem; }
+      .cap-grid, .future-grid, .repo-grid, .product-grid { grid-template-columns: 1fr; }
+      .cap, .cap + .cap { min-height: 185px; padding: 1.3rem 0; border-left: 0; }
+      .cap + .cap { border-top: 1px solid var(--line); }
+      .cap h3 { margin-top: 2.8rem; }
+      .matrix-foot { align-items: flex-start; flex-direction: column; }
+      .blog-item { grid-template-columns: 1fr auto; gap: .5rem; }
+      .blog-date { grid-column: 1; }
+      .blog-source { grid-column: 2; grid-row: 1; text-align: right; }
+      .blog-content { grid-column: 1 / -1; grid-row: 2; }
+      .blog-arrow { grid-column: 2; grid-row: 2; align-self: end; }
+      .blog-excerpt { white-space: normal; }
+      .contact-grid { grid-template-columns: 1fr; width: 100%; margin-top: 2.3rem; }
+      .contact-card { min-height: 125px; }
+      .talent-panel { margin-top: 4rem; }
+      .talent-panel::before { top: -.3rem; font-size: 4rem; }
+      .talent-head { gap: 1.5rem; }
+      .talent-facts { display: grid; grid-template-columns: 1fr 1fr; }
+      .talent-fact { text-align: center; }
+      .talent-grid { margin-top: 2.5rem; }
+      .talent-traits { margin-top: 1.8rem; }
+      .talent-block-head { display: block; }
+      .talent-block-head p { margin-top: .7rem; text-align: left; }
+      .talent-roles, .talent-details { grid-template-columns: 1fr; }
+      .talent-role, .talent-role + .talent-role { min-height: 0; padding: 1.2rem 0 1.4rem; border-left: 0; border-bottom: 1px solid var(--line); }
+      .talent-role:last-child { border-bottom: 0; }
+      .talent-role h5 { margin-top: 2rem; }
+      .talent-details { gap: 2.5rem; }
+      .join-lead { gap: 1.5rem; }
+      .join-lead h2 { font-size: clamp(3rem, 14vw, 5.2rem); }
+      .join-lead-copy > p { font-size: .92rem; }
+      .join-identity { margin-top: 1.5rem; }
+      .join-block { margin-top: 4rem; }
+      .join-block-head { display: block; }
+      .join-block-note { display: block; margin-top: .8rem; text-align: left; }
+      .join-traits { grid-template-columns: 1fr; }
+      .join-traits li, .join-traits li + li { min-height: 0; padding: 1.1rem 0; border-left: 0; }
+      .join-traits li::before { margin-bottom: .65rem; }
+      .join-roles { grid-template-columns: 1fr; }
+      .join-role, .join-role + .join-role { min-height: 0; padding: 1.3rem 0 1.6rem; border-left: 0; border-bottom: 1px solid var(--line); }
+      .join-role:last-child { border-bottom: 0; }
+      .join-role h4 { margin-top: 2.2rem; }
+      .join-detail-grid { grid-template-columns: 1fr; gap: 3.5rem; margin-top: 4rem; }
+      .join-apply { align-items: flex-start; flex-direction: column; gap: 1.4rem; margin-top: 4rem; }
+      .join-apply-actions { width: 100%; }
+      .join-apply-actions .btn { flex: 1 1 auto; }
+      .footer-main { grid-template-columns: 1fr 1fr; gap: 2.5rem 1.5rem; }
+      .footer-brand { grid-column: 1 / -1; }
+      .footer-bottom-in { align-items: flex-start; flex-direction: column; gap: .6rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+    :focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
+  </style>
 </head>
 <body>
+  <nav class="site-nav" id="siteNav" data-i18n-aria="nav.navAria">
+    <div class="wrap nav-inner">
+      <a class="wordmark" href="#top" data-i18n-aria="nav.homeAria">
+        <img class="logo-mark" src="assets/chainreactors-mark.png" alt="" aria-hidden="true">
+        <span>CHAINREACTORS<i>.AI</i></span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="/wiki/" data-i18n="nav.wiki"></a><a href="#open-source" data-i18n="nav.openSource"></a><a href="#blog" data-i18n="nav.blog"></a><a href="#cairn" data-i18n="nav.company"></a><a href="#future-products" data-i18n="nav.capabilities"></a><a href="#contact" data-i18n="nav.contact"></a>
+        <a class="nav-cta" href="mailto:business@chainreactors.ai" data-i18n="nav.business"></a>
+        <button class="lang-toggle" id="langToggle" type="button"><span id="langLabel">EN</span></button>
+      </div>
+      <button class="menu" id="menu" type="button" aria-expanded="false" data-i18n-aria="nav.menuAria"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
 
-<div class="grid-bg"></div>
-<div class="aurora"><i></i><i></i><i></i></div>
-
-<nav class="nav" id="nav">
-  <div class="nav-in">
-    <a class="logo" href="/">CHAINREACTOR</a>
-    <div class="nav-links" id="navLinks">
-      <a href="#roadmap">路线</a>
-      <a href="#products">产品</a>
-      <a href="#oss">开源</a>
-      <a class="cta" href="/wiki/">WIKI</a>
-    </div>
-    <button class="menu-btn" id="menu" aria-label="菜单"><span></span><span></span><span></span></button>
-  </div>
-</nav>
-
-<main>
-
-<section class="hero" id="top">
-  <div class="w">
-    <div class="hero-label rv">AI NATIVE OFFENSIVE INFRASTRUCTURE</div>
-    <h1 class="hero-title rv">
-      <span class="line">AI 驱动的</span>
-      <span class="line accent">全流程智能化渗透</span>
-    </h1>
-    <p class="hero-sub rv">
-      全流程<strong>开源进攻性基础设施</strong>，为 AI Agent 提供面向实战的工具链与运行时。长期致力于进攻性安全开源，在过去两年进行了激进的智能化渗透探索。
-    </p>
-    <div class="hero-actions rv">
-      <a class="btn btn-red" href="/wiki/">进入 WIKI →</a>
-      <a class="btn btn-ghost" href="https://github.com/chainreactors/" target="_blank" rel="noopener">GITHUB</a>
-    </div>
-    <div class="stats rv">
-      <div class="stat">
-        <div class="stat-k">面向</div>
-        <div class="stat-v">进攻性安全的<strong style="color:var(--red)">全流程</strong></div>
-        <div class="stat-v" style="font-size:0.88rem;margin-top:0.25rem;color:var(--text-2)">企业 · 渗透测试人员 · 红队</div>
+  <main id="top">
+    <section class="hero" id="home">
+      <div class="hero-art reveal d2" id="heroArt">
+        <div class="hero-art-inner"><canvas id="fissionCanvas" role="img" data-i18n-aria="hero.animationAria"></canvas><span class="fission-caption" data-i18n="hero.status"></span></div><nav class="fission-labels" id="fissionLabels" data-i18n-aria="hero.projectsAria"></nav>
       </div>
-      <div class="stat">
-        <div class="stat-k">原则</div>
-        <div class="stat-v">AI First · Orthogonal</div>
-      </div>
-      <div class="stat">
-        <div class="stat-k">目标</div>
-        <div class="stat-v neon-red">实现<strong style="text-decoration:underline;text-underline-offset:4px">人类专家</strong>水平的渗透测试能力</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"><span class="num">001</span> OPEN SOURCE</div>
-<section class="oss-panel" id="oss">
-  <div class="w">
-    <div class="sec-head rv">
-      <div class="sec-tag">开源矩阵</div>
-      <h2 class="sec-title">开源项目</h2>
-      <p class="sec-desc">全部开源 · 全部 AI 可编程</p>
-    </div>
-    <div class="matrix rv">
-      <a class="mx" href="https://github.com/chainreactors/gogo" target="_blank" rel="noopener">
-        <div class="mx-top"><span class="mx-name">gogo</span><span class="mx-stars">2,062</span></div>
-        <div class="mx-desc">红队自动化扫描引擎，端口扫描 / 服务指纹 / 信息提取</div>
-        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Pre-Exploit</span></div>
-      </a>
-      <a class="mx" href="https://github.com/chainreactors/spray" target="_blank" rel="noopener">
-        <div class="mx-top"><span class="mx-name">spray</span><span class="mx-stars">1,026</span></div>
-        <div class="mx-desc">HTTP 模糊测试 / 目录爆破 / 智能过滤 / 指纹识别</div>
-        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Pre-Exploit</span></div>
-      </a>
-      <a class="mx" href="https://github.com/chainreactors/malice-network" target="_blank" rel="noopener">
-        <div class="mx-top"><span class="mx-name">malice-network</span><span class="mx-stars">452</span></div>
-        <div class="mx-desc">下一代 C2 框架，IoM Server / Client</div>
-        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Post-Exploit</span></div>
-      </a>
-      <a class="mx" href="https://github.com/chainreactors/zombie" target="_blank" rel="noopener">
-        <div class="mx-top"><span class="mx-name">zombie</span><span class="mx-stars">357</span></div>
-        <div class="mx-desc">服务 / 协议爆破工具，覆盖外网 / 内网 / 云场景</div>
-        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Pre-Exploit</span></div>
-      </a>
-      <a class="mx" href="https://github.com/chainreactors/rem" target="_blank" rel="noopener">
-        <div class="mx-top"><span class="mx-name">rem</span><span class="mx-stars">260</span></div>
-        <div class="mx-desc">通用流量代理 / 隧道 / 转发，多协议加密</div>
-        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Network</span></div>
-      </a>
-      <a class="mx" href="https://github.com/chainreactors/malefic" target="_blank" rel="noopener">
-        <div class="mx-top"><span class="mx-name">malefic</span><span class="mx-stars">257</span></div>
-        <div class="mx-desc">IoM 默认 Implant，模块化 Shellcode / 多阶段投递</div>
-        <div class="mx-meta"><span class="mx-lang">Rust</span><span class="mx-cat">Post-Exploit</span></div>
-      </a>
-      <a class="mx" href="https://github.com/chainreactors/fingers" target="_blank" rel="noopener">
-        <div class="mx-top"><span class="mx-name">fingers</span><span class="mx-stars">252</span></div>
-        <div class="mx-desc">全合一框架 / 技术指纹识别库</div>
-        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Library</span></div>
-      </a>
-      <a class="mx" href="https://github.com/chainreactors/picker" target="_blank" rel="noopener">
-        <div class="mx-top"><span class="mx-name">picker</span><span class="mx-stars">232</span></div>
-        <div class="mx-desc">仓库转 RSS 订阅 / 文章聚合 / 讨论社区</div>
-        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Tool</span></div>
-      </a>
-      <a class="mx" href="https://github.com/chainreactors/tinyctfer" target="_blank" rel="noopener">
-        <div class="mx-top"><span class="mx-name">tinyctfer</span><span class="mx-stars">169</span></div>
-        <div class="mx-desc">~100 行的意图运行时 + Meta Tooling 设计</div>
-        <div class="mx-meta"><span class="mx-lang">Python</span><span class="mx-cat">AI Agent</span></div>
-      </a>
-      <a class="mx" href="https://github.com/chainreactors/templates" target="_blank" rel="noopener">
-        <div class="mx-top"><span class="mx-name">templates</span><span class="mx-stars">138</span></div>
-        <div class="mx-desc">漏洞检测模板库，配合 neutron 使用</div>
-        <div class="mx-meta"><span class="mx-lang">YAML</span><span class="mx-cat">Library</span></div>
-      </a>
-      <a class="mx" href="https://github.com/chainreactors/neutron" target="_blank" rel="noopener">
-        <div class="mx-top"><span class="mx-name">neutron</span><span class="mx-stars">86</span></div>
-        <div class="mx-desc">轻量 Nuclei 引擎，零副作用漏洞检测</div>
-        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Pre-Exploit</span></div>
-      </a>
-      <a class="mx" href="https://github.com/chainreactors/urlfounder" target="_blank" rel="noopener">
-        <div class="mx-top"><span class="mx-name">urlfounder</span><span class="mx-stars">86</span></div>
-        <div class="mx-desc">快速被动 URL 枚举工具</div>
-        <div class="mx-meta"><span class="mx-lang">Go</span><span class="mx-cat">Pre-Exploit</span></div>
-      </a>
-    </div>
-    <div class="mx-scenarios rv">
-      <div class="mx-sc" style="--sc:var(--blue)">
-        <div class="mx-sc-name">Pre-Exploit</div>
-        <div class="mx-sc-desc">攻击面发现与漏洞检测</div>
-      </div>
-      <div class="mx-sc" style="--sc:var(--red)">
-        <div class="mx-sc-name">Post-Exploit</div>
-        <div class="mx-sc-desc">权限维持与横向移动</div>
-      </div>
-      <div class="mx-sc" style="--sc:var(--green)">
-        <div class="mx-sc-name">Network</div>
-        <div class="mx-sc-desc">隧道穿透与流量代理</div>
-      </div>
-      <div class="mx-sc" style="--sc:var(--violet)">
-        <div class="mx-sc-name">AI Agent</div>
-        <div class="mx-sc-desc">意图驱动的自主执行</div>
-      </div>
-      <div class="mx-sc" style="--sc:var(--amber)">
-        <div class="mx-sc-name">Library</div>
-        <div class="mx-sc-desc">指纹、模板与基础库</div>
-      </div>
-      <div class="mx-sc" style="--sc:var(--text-2)">
-        <div class="mx-sc-name">Tool</div>
-        <div class="mx-sc-desc">情报聚合与社区协作</div>
-      </div>
-    </div>
-    <div class="mx-total rv">
-      <div class="mx-total-item">
-        <div class="mx-total-num">5,400+</div>
-        <div class="mx-total-label">Total Stars</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"><span class="num">002</span> ROADMAP</div>
-<section class="sec" id="roadmap">
-  <div class="w">
-    <div class="sec-head rv">
-      <div class="sec-tag">路线图</div>
-      <h2 class="sec-title">L1 → L5</h2>
-      <p class="sec-desc">AI渗透能力 = Model(t) × D × E × I</p>
-    </div>
-    <div class="timeline rv">
-      <div class="tl-item">
-        <div class="tl-node"></div>
-        <div class="tl-idx">L1 · 起点</div>
-        <div class="tl-name">Manual</div>
-        <div class="tl-sub">Offensive Infrastructure</div>
-        <p class="tl-desc">人工主导，工具辅助。统一 CLI / DSL / 结构化输出。</p>
-      </div>
-      <div class="tl-item on">
-        <div class="tl-node"></div>
-        <div class="tl-idx">L2 · 当前</div>
-        <div class="tl-name">AI Native Infra</div>
-        <div class="tl-sub">为 Agent 构建操作系统</div>
-        <p class="tl-desc">统一工具、数据和接口。MTP、Agentic Tool、数据共享。</p>
-      </div>
-      <div class="tl-item on">
-        <div class="tl-node"></div>
-        <div class="tl-idx">L3 · 主战场</div>
-        <div class="tl-name">AI First</div>
-        <div class="tl-sub">反馈闭环与人机交互</div>
-        <p class="tl-desc">意图工程 + Checkpoint，关键节点人机交互。</p>
-      </div>
-      <div class="tl-item hot">
-        <div class="tl-node"></div>
-        <div class="tl-idx">L4 · 前沿</div>
-        <div class="tl-name">Autonomous</div>
-        <div class="tl-sub">Agent 自组网</div>
-        <p class="tl-desc">分布式 Agent 自发现、自协调。IoA + aiscan。</p>
-      </div>
-      <div class="tl-item hot">
-        <div class="tl-node"></div>
-        <div class="tl-idx">L5 · 3年内</div>
-        <div class="tl-name">AI Expert</div>
-        <div class="tl-sub">专家级自主攻击</div>
-        <p class="tl-desc">自主发现 0day，构建完整攻击链。</p>
-      </div>
-    </div>
-    <div class="note-bar rv">
-      当前：<strong>L2 / L3 / L4 并行</strong>。L2 做底座，L3 做闭环，L4 做协作。与模型正交的投入不会废弃。
-    </div>
-  </div>
-</section>
-
-<div class="divider"><span class="num">003</span> AI NATIVE INFRA</div>
-<section class="sec" id="products">
-  <div class="w">
-    <div class="sec-head rv">
-      <div class="sec-tag">基础设施</div>
-      <h2 class="sec-title">AI Native Offensive Infra</h2>
-      <p class="sec-desc">L2 · 为 AI Agent 构建的进攻性基础设施</p>
-    </div>
-    <div class="products rv" style="grid-template-columns:repeat(4,1fr);">
-      <div class="prod" style="--pc:var(--blue)">
-        <div class="prod-top">
-          <span class="prod-cat">Pre-Exploit · CTEM</span>
-          <span class="prod-level">L2</span>
-        </div>
-        <h3 class="prod-name">Collider</h3>
-        <div class="prod-subtitle">持续攻击面管理</div>
-        <p class="prod-desc">持续发现、评估和收敛外部攻击面，统一覆盖端口、服务、漏洞、目录全维度探测。</p>
-        <div class="prod-stack">gogo / spray / zombie / neutron</div>
-        <a class="prod-link" href="/mapping/">查看 →</a>
-      </div>
-      <div class="prod" style="--pc:var(--red)">
-        <div class="prod-top">
-          <span class="prod-cat">Post-Exploit · C2</span>
-          <span class="prod-level">L2</span>
-        </div>
-        <h3 class="prod-name">IoM</h3>
-        <div class="prod-subtitle">后渗透全场景平台</div>
-        <p class="prod-desc">一个平台统一管理权限维持、横向移动与数据回收，覆盖后渗透全场景。</p>
-        <a class="prod-link" href="/IoM/">查看 →</a>
-      </div>
-      <div class="prod" style="--pc:var(--green)">
-        <div class="prod-top">
-          <span class="prod-cat">Network · Tunnel</span>
-          <span class="prod-level">L2</span>
-        </div>
-        <h3 class="prod-name">REM</h3>
-        <div class="prod-subtitle">穿透任意网络</div>
-        <p class="prod-desc">一条命令穿透多层内网，加密隧道让工具触达任意网段。</p>
-        <a class="prod-link" href="/rem/">查看 →</a>
-      </div>
-      <div class="prod" style="--pc:var(--violet)">
-        <div class="prod-top">
-          <span class="prod-cat">Knowledge · Engine</span>
-          <span class="prod-level">L2</span>
-        </div>
-        <h3 class="prod-name">CyberHub</h3>
-        <div class="prod-subtitle">AI 驱动的安全知识引擎</div>
-        <p class="prod-desc">统一管理指纹、漏洞、字典与威胁情报，AI 自动关联上下文并推荐攻击路径，让每个工具和 Agent 共享同一份持续进化的知识。</p>
-        <span class="prod-link">开发中 →</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"><span class="num">004</span> AI PRODUCTS</div>
-<section class="sec" id="ai-products">
-  <div class="w">
-    <div class="sec-head rv">
-      <div class="sec-tag">智能化渗透</div>
-      <h2 class="sec-title">Autonomous Offense</h2>
-      <p class="sec-desc">L3-L4 · 基于 Infra 构建的自主化渗透能力</p>
-    </div>
-    <div class="products rv" style="grid-template-columns:repeat(3,1fr);">
-      <div class="prod" style="--pc:var(--green)">
-        <div class="prod-top">
-          <span class="prod-cat">Enterprise · Auto-Pentest</span>
-          <span class="prod-level">L3</span>
-        </div>
-        <h3 class="prod-name" style="color:var(--green);text-shadow:0 0 30px var(--green-glow);">Cairn</h3>
-        <div class="prod-subtitle">AI 自主渗透测试</div>
-        <p class="prod-desc">面向企业 — 声明目标即启动，AI 自主完成从资产发现到漏洞利用的完整渗透流程。支持私有化部署。</p>
-        <div class="prod-actions">
-          <span class="prod-link">商业产品 →</span>
-          <a class="prod-link" href="https://github.com/oritera/Cairn" target="_blank" rel="noopener">开源 →</a>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <div class="hero-kicker reveal" data-i18n="hero.kicker"></div>
+          <h1 class="reveal d1"><span data-i18n="hero.titleOne"></span><em data-i18n="hero.titleTwo"></em></h1>
+          <div class="actions reveal d2"><a class="btn btn-primary" href="mailto:business@chainreactors.ai" data-i18n="hero.business"></a><a class="btn btn-ghost" href="#open-source" data-i18n="hero.explore"></a></div>
         </div>
       </div>
-      <div class="prod" style="--pc:var(--amber)">
-        <div class="prod-top">
-          <span class="prod-cat">Pentest · Copilot</span>
-          <span class="prod-level">L3</span>
+      <div class="hero-bottom"><div class="hero-tags"><span data-i18n="hero.tagDiscover"></span><span data-i18n="hero.tagVuln"></span><span data-i18n="hero.tagAudit"></span><span data-i18n="hero.tagPentest"></span></div><div class="scroll-cue"><span data-i18n="hero.scroll"></span><i></i></div></div>
+    </section>
+
+    <section class="section open-source" id="open-source">
+      <div class="wrap"><div class="section-head"><div><div class="eyebrow reveal" data-i18n="openSource.eyebrow"></div><h2 class="reveal d1"><span class="line" data-i18n="openSource.titleOne"></span><span class="line accent" data-i18n="openSource.titleTwo"></span></h2></div></div>
+        <div class="product-grid reveal d2">
+          <a class="product-card" href="https://github.com/chainreactors/malice-network" target="_blank" rel="noopener" data-repo="malice-network"><span class="product-index">01 / OFFENSIVE INFRASTRUCTURE · <span data-stars>490</span> ★</span><h3 data-i18n="products.iomName"></h3><p data-i18n="products.iom"></p><span class="product-link" data-i18n="products.explore"></span></a>
+          <a class="product-card" href="https://github.com/oritera/Cairn" target="_blank" rel="noopener" data-repo="Cairn"><span class="product-index">02 / AI NATIVE · <span data-stars>2,605</span> ★</span><h3 data-i18n="products.cairnName"></h3><p data-i18n="products.cairn"></p><span class="product-link" data-i18n="products.explore"></span></a>
         </div>
-        <h3 class="prod-name" style="color:var(--amber);text-shadow:0 0 30px var(--amber-glow);">Cybernetics</h3>
-        <div class="prod-subtitle">渗透工程师的 AI 副驾驶</div>
-        <p class="prod-desc">面向渗透测试人员 — AI 承担执行与探索，人类专注关键决策，渗透效率提升数倍。</p>
-        <span class="prod-link">商业产品 →</span>
-      </div>
-      <div class="prod" style="--pc:var(--red)">
-        <div class="prod-top">
-          <span class="prod-cat">Autonomous · Scan</span>
-          <span class="prod-level">L4</span>
+        <div class="repo-grid reveal d2">
+          <a class="repo" href="https://github.com/chainreactors/gogo" target="_blank" rel="noopener" data-repo="gogo"><div class="repo-top"><span class="repo-name">gogo</span><span class="repo-stars" data-stars="2119">2,119</span></div><p class="repo-desc" data-i18n="repos.gogo"></p><div class="repo-meta"><span>Go</span><span data-i18n="repo.preExploit"></span><span class="repo-github">GITHUB ↗</span></div></a>
+          <a class="repo" href="https://github.com/chainreactors/spray" target="_blank" rel="noopener" data-repo="spray"><div class="repo-top"><span class="repo-name">spray</span><span class="repo-stars" data-stars="1057">1,057</span></div><p class="repo-desc" data-i18n="repos.spray"></p><div class="repo-meta"><span>Go</span><span data-i18n="repo.preExploit"></span><span class="repo-github">GITHUB ↗</span></div></a>
+          <a class="repo" href="https://github.com/chainreactors/zombie" target="_blank" rel="noopener" data-repo="zombie"><div class="repo-top"><span class="repo-name">zombie</span><span class="repo-stars" data-stars="378">378</span></div><p class="repo-desc" data-i18n="repos.zombie"></p><div class="repo-meta"><span>Go</span><span data-i18n="repo.preExploit"></span><span class="repo-github">GITHUB ↗</span></div></a>
+          <a class="repo" href="https://github.com/chainreactors/rem" target="_blank" rel="noopener" data-repo="rem"><div class="repo-top"><span class="repo-name">REM</span><span class="repo-stars" data-stars="275">275</span></div><p class="repo-desc" data-i18n="repos.rem"></p><div class="repo-meta"><span>Go</span><span data-i18n="repo.network"></span><span class="repo-github">GITHUB ↗</span></div></a>
+          <a class="repo" href="https://github.com/chainreactors/malefic" target="_blank" rel="noopener" data-repo="malefic"><div class="repo-top"><span class="repo-name">Malefic</span><span class="repo-stars" data-stars="275">275</span></div><p class="repo-desc" data-i18n="repos.malefic"></p><div class="repo-meta"><span>Rust</span><span data-i18n="repo.postExploit"></span><span class="repo-github">GITHUB ↗</span></div></a>
+          <a class="repo" href="https://github.com/chainreactors/fingers" target="_blank" rel="noopener" data-repo="fingers"><div class="repo-top"><span class="repo-name">fingers</span><span class="repo-stars" data-stars="268">268</span></div><p class="repo-desc" data-i18n="repos.fingers"></p><div class="repo-meta"><span>Go</span><span data-i18n="repo.library"></span><span class="repo-github">GITHUB ↗</span></div></a>
+          <a class="repo" href="https://github.com/chainreactors/picker" target="_blank" rel="noopener" data-repo="picker"><div class="repo-top"><span class="repo-name">picker</span><span class="repo-stars" data-stars="237">237</span></div><p class="repo-desc" data-i18n="repos.picker"></p><div class="repo-meta"><span>Python</span><span data-i18n="repo.tool"></span><span class="repo-github">GITHUB ↗</span></div></a>
+          <a class="repo" href="https://github.com/chainreactors/malice-network" target="_blank" rel="noopener" data-repo="malice-network"><div class="repo-top"><span class="repo-name">malice-network</span><span class="repo-stars" data-stars="490">490</span></div><p class="repo-desc" data-i18n="repos.iom"></p><div class="repo-meta"><span>Go</span><span data-i18n="repo.postExploit"></span><span class="repo-github">GITHUB ↗</span></div></a>
+          <a class="repo" href="https://github.com/chainreactors/cyber-harness" target="_blank" rel="noopener" data-repo="cyber-harness"><div class="repo-top"><span class="repo-name">cyber-harness</span><span class="repo-stars" data-stars="275">275</span></div><p class="repo-desc" data-i18n="repos.cyberHarness"></p><div class="repo-meta"><span>Go</span><span data-i18n="repo.aiAgent"></span><span class="repo-github">GITHUB ↗</span></div></a>
         </div>
-        <h3 class="prod-name" style="color:var(--red);text-shadow:0 0 30px var(--red-glow);">AIScan</h3>
-        <div class="prod-subtitle">持续攻击面验证</div>
-        <p class="prod-desc">多 Agent 协作持续探索攻击面，从单次扫描升级为不间断的主动验证。</p>
-        <span class="prod-link">探索中 →</span>
+        <div class="matrix-foot reveal d3"><a href="https://github.com/chainreactors" target="_blank" rel="noopener" data-i18n="openSource.github"></a></div>
       </div>
+    </section>
+
+    <section class="section research" id="blog">
+      <div class="wrap"><div class="section-head"><div><div class="eyebrow reveal" data-i18n="blog.eyebrow"></div><h2 class="reveal d1"><span data-i18n="blog.title"></span></h2></div></div><div class="blog-list reveal d2" id="blogList"><div class="blog-item"><span class="blog-date">LIVE</span><span class="blog-source" aria-hidden="true">—</span><span class="blog-content"><span class="blog-title" data-i18n="blog.loading"></span></span><span class="blog-arrow">↗</span></div></div><a class="blog-more reveal d3" href="/blog/" data-i18n="blog.more"></a></div>
+    </section>
+
+    <section class="section capabilities" id="cairn">
+      <div class="wrap"><div class="section-head"><div><div class="eyebrow reveal" data-i18n="cairn.eyebrow"></div><h2 class="reveal d1"><span class="line" data-i18n="cairn.titleOne"></span><span class="line accent" data-i18n="cairn.titleTwo"></span></h2></div></div>
+        <div class="cap-grid reveal d2"><a class="cap" href="https://github.com/oritera/Cairn" target="_blank" rel="noopener"><span class="cap-index">01 / CAIRN</span><h3 data-i18n="cairn.cardTitle"></h3><p data-i18n="cairn.cardCopy"></p></a></div>
+      </div>
+    </section>
+
+    <section class="section capabilities" id="future-products">
+      <div class="wrap"><div class="section-head"><div><div class="eyebrow reveal" data-i18n="future.eyebrow"></div><h2 class="reveal d1"><span class="line" data-i18n="future.titleOne"></span><span class="line accent" data-i18n="future.titleTwo"></span></h2></div></div>
+        <div class="cap-grid future-grid reveal d2"><article class="cap cap-pending"><span class="cap-index">01 / THREAT</span><span class="cap-status" data-i18n="future.pending"></span><h3 data-i18n="future.threatTitle"></h3><p data-i18n="future.threatCopy"></p></article><article class="cap cap-pending"><span class="cap-index">02 / SIMULATION</span><span class="cap-status" data-i18n="future.pending"></span><h3 data-i18n="future.simulationTitle"></h3><p data-i18n="future.simulationCopy"></p></article><article class="cap cap-pending"><span class="cap-index">03 / DISCOVERY</span><span class="cap-status" data-i18n="future.pending"></span><h3 data-i18n="future.vulnTitle"></h3><p data-i18n="future.vulnCopy"></p></article></div>
+      </div>
+    </section>
+
+    <section class="contact section" id="contact">
+      <div class="wrap">
+        <div class="eyebrow reveal" data-i18n="contact.eyebrow"></div>
+        <h2 class="reveal d1"><span data-i18n="contact.titleOne"></span> <span data-i18n="contact.titleTwo"></span></h2>
+        <p class="contact-intro reveal d1" data-i18n="contact.intro"></p>
+        <div class="contact-grid reveal d2">
+          <a class="contact-card" href="mailto:business@chainreactors.ai"><span class="contact-label" data-i18n="contact.businessLabel"></span><span class="contact-email">business@chainreactors.ai</span><span class="contact-arrow">↗</span></a>
+          <a class="contact-card" href="mailto:opensource@chainreactors.ai"><span class="contact-label" data-i18n="contact.openSourceLabel"></span><span class="contact-email">opensource@chainreactors.ai</span><span class="contact-arrow">↗</span></a>
+          <a class="contact-card" href="#join-us"><span class="contact-label" data-i18n="contact.joinLabel"></span><p class="contact-card-copy" data-i18n="contact.joinCopy"></p><span class="contact-email">joinus@chainreactors.ai</span><span class="contact-arrow">↓</span></a>
+        </div>
+
+        <div class="talent-panel" id="join-us">
+          <div class="talent-head">
+            <div class="talent-title reveal">
+              <div class="eyebrow" data-i18n="join.eyebrow"></div>
+              <h3><span data-i18n="join.titleOne"></span> <em data-i18n="join.titleTwo"></em></h3>
+            </div>
+            <div class="talent-summary reveal d1">
+              <p data-i18n="join.intro"></p>
+              <div class="talent-facts"><span class="talent-fact" data-i18n="join.openings"></span><span class="talent-fact" data-i18n="join.location"></span><span class="talent-fact" data-i18n="join.education"></span></div>
+            </div>
+          </div>
+
+          <div class="talent-grid reveal d2">
+            <aside class="talent-profile">
+              <span class="talent-kicker" data-i18n="join.identityTitle"></span>
+              <p data-i18n="join.identityCopy"></p>
+              <ol class="talent-traits">
+                <li data-i18n="join.traitOne"></li><li data-i18n="join.traitTwo"></li><li data-i18n="join.traitThree"></li><li data-i18n="join.traitFour"></li>
+              </ol>
+            </aside>
+            <div class="talent-work">
+              <div class="talent-block-head"><h4 data-i18n="join.rolesTitle"></h4><p data-i18n="join.rolesNote"></p></div>
+              <div class="talent-roles">
+                <article class="talent-role"><span class="talent-role-index">01 / BUILD</span><h5 data-i18n="join.roleOneTitle"></h5><p data-i18n="join.roleOneCopy"></p></article>
+                <article class="talent-role"><span class="talent-role-index">02 / GROW</span><h5 data-i18n="join.roleTwoTitle"></h5><p data-i18n="join.roleTwoCopy"></p></article>
+                <article class="talent-role"><span class="talent-role-index">03 / INVENT</span><h5 data-i18n="join.roleThreeTitle"></h5><p data-i18n="join.roleThreeCopy"></p></article>
+              </div>
+              <div class="talent-details">
+                <div class="talent-detail"><h4 data-i18n="join.plusTitle"></h4><ul><li data-i18n="join.plusOne"></li><li data-i18n="join.plusTwo"></li><li data-i18n="join.plusThree"></li><li data-i18n="join.plusFour"></li></ul></div>
+                <div class="talent-detail"><h4 data-i18n="join.offerTitle"></h4><ul><li data-i18n="join.offerOne"></li><li data-i18n="join.offerTwo"></li><li data-i18n="join.offerThree"></li><li data-i18n="join.offerFour"></li></ul></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap footer-main">
+      <div class="footer-brand"><a class="wordmark" href="#top"><img class="logo-mark" src="assets/chainreactors-mark.png" alt="" aria-hidden="true"><span>CHAINREACTORS<i>.AI</i></span></a><p class="footer-brand-copy" data-i18n="footer.about"></p><div class="footer-social"><a href="https://github.com/chainreactors" target="_blank" rel="noopener">GITHUB ↗</a><a href="https://github.com/chainreactors/cyber-harness/pull/120" target="_blank" rel="noopener">JOIN US ↗</a></div></div>
+      <nav class="footer-column"><span class="footer-column-title" data-i18n="footer.exploreTitle"></span><a href="#open-source" data-i18n="nav.openSource"></a><a href="#blog" data-i18n="nav.blog"></a><a href="#cairn" data-i18n="nav.company"></a><a href="#future-products" data-i18n="nav.capabilities"></a></nav>
+      <div class="footer-column"><span class="footer-column-title" data-i18n="footer.contactTitle"></span><a href="mailto:business@chainreactors.ai">business@chainreactors.ai</a><a href="mailto:opensource@chainreactors.ai">opensource@chainreactors.ai</a><a href="mailto:joinus@chainreactors.ai">joinus@chainreactors.ai</a><a href="https://github.com/chainreactors" target="_blank" rel="noopener">github.com/chainreactors ↗</a></div>
+      <div class="footer-column"><span class="footer-column-title" data-i18n="footer.joinTitle"></span><p class="footer-join-copy" data-i18n="footer.joinCopy"></p><a class="footer-join-link" href="#contact" data-i18n="footer.joinLink"></a><a class="footer-join-link" href="#top" data-i18n="footer.top"></a></div>
     </div>
-  </div>
-</section>
+    <div class="footer-bottom"><div class="wrap footer-bottom-in"><span data-i18n="footer.copyright"></span><span data-i18n="footer.tagline"></span></div></div>
+  </footer>
 
-<div class="divider"><span class="num">005</span> BLOG</div>
-<section class="sec" id="blog">
-  <div class="w">
-    <div class="sec-head rv">
-      <div class="sec-tag">最新动态</div>
-      <h2 class="sec-title">Blog</h2>
-    </div>
-    <div class="blog-list rv" id="blogList"></div>
-    <div class="blog-more rv"><a href="/blog/">查看全部文章 →</a></div>
-  </div>
-</section>
+  <script>
+    (function () {
+      var copy = {
+        zh: {
+          "meta.title": "ChainReactors — AI + 进攻性安全",
+          "meta.description": "ChainReactors 聚焦 AI + 进攻性安全：以 Cairn 重新定义渗透测试，并持续构建威胁管理、攻击模拟与漏洞挖掘产品。",
+          "nav.navAria": "主导航", "nav.homeAria": "ChainReactors 首页", "nav.wiki": "Wiki", "nav.company": "渗透测试", "nav.capabilities": "未来产品", "nav.openSource": "开源", "nav.blog": "Blog", "nav.contact": "商务 / 加入", "nav.join": "加入我们", "nav.business": "企业合作 ↗", "nav.menuAria": "打开菜单", "nav.switchToEn": "切换到 English", "nav.switchToZh": "切换到中文",
+          "hero.kicker": "CHAINREACTORS / AI + OFFENSIVE SECURITY", "hero.titleOne": "用 AI", "hero.titleTwo": "重构进攻性安全", "hero.subtitle": "", "hero.business": "企业合作 ↗", "hero.explore": "探索开源 ↓", "hero.status": "IGNITION / COLLISION → FISSION → ACCELERATION", "hero.animationAria": "AI 与进攻性安全两束粒子加速相向，对撞点火后碎片继续碰撞裂变，反应逐代加速，开源项目节点被依次点亮", "hero.identityAi": "AI", "hero.identityOffsec": "进攻性安全", "hero.projectsAria": "被反应点亮的开源项目", "hero.tagDiscover": "攻击面发现", "hero.tagVuln": "漏洞挖掘", "hero.tagAudit": "代码审计", "hero.tagPentest": "渗透作战", "hero.scroll": "SCROLL TO EXPLORE",
+          "cairn.eyebrow": "PENETRATION TESTING / 03", "cairn.titleOne": "重新定义", "cairn.titleTwo": "渗透测试", "cairn.cardTitle": "Cairn：AI 原生渗透测试", "cairn.cardCopy": "Cairn 将侦察、推理、利用与验证组织成可复用的攻击路径，让渗透测试从一次性交付变成持续运行的智能系统。",
+          "future.eyebrow": "PRODUCT ROADMAP / 04", "future.titleOne": "重新定义", "future.titleTwo": "未来攻防的产品形态", "future.pending": "即将推出", "future.threatTitle": "威胁管理", "future.threatCopy": "持续理解资产、暴露面与真实风险，让防守从告警响应走向主动决策。", "future.simulationTitle": "攻击模拟", "future.simulationCopy": "以 AI 驱动可控、可验证的攻击演练，持续检验组织的检测与响应能力。", "future.vulnTitle": "漏洞挖掘", "future.vulnCopy": "结合模型推理、模糊测试与智能验证，规模化发现并复现高价值漏洞。",
+          "openSource.eyebrow": "OPEN & BATTLE-TESTED / 01", "openSource.titleOne": "面向开源", "openSource.titleTwo": "也面向 Realworld", "openSource.intro": "", "openSource.github": "在 GitHub 查看全部 ↗", "repo.preExploit": "PRE-EXPLOIT", "repo.postExploit": "POST-EXPLOIT", "repo.network": "NETWORK", "repo.library": "LIBRARY", "repo.tool": "TOOL", "repo.aiAgent": "AI AGENT",
+          "products.iomName": "恶联网", "products.cairnName": "衍迹", "products.iom": "IoM 是面向 AI Agent 的后渗透与 C2 产品，将控制、编排与实战工作流连接起来。", "products.cairn": "Cairn 是 AI 通用状态空间搜索引擎，首先在自主渗透测试中验证。", "products.explore": "探索产品 ↗", "repos.gogo": "红队自动化扫描引擎 / 端口、服务与指纹。", "repos.spray": "HTTP 模糊测试、目录爆破与智能过滤。", "repos.iom": "面向 AI Agent 的后渗透与 C2 平台。", "repos.zombie": "服务与协议爆破，覆盖外网、内网与云场景。", "repos.rem": "多协议加密隧道、代理与网络穿透。", "repos.malefic": "模块化 Implant 与多阶段投递框架。", "repos.fingers": "全合一框架与技术指纹识别库。", "repos.picker": "仓库转 RSS 订阅、文章聚合与讨论社区。", "repos.tinyctfer": "约 100 行的意图运行时与 Meta Tooling 设计。", "repos.templates": "漏洞检测模板库，配合 neutron 使用。", "repos.neutron": "轻量 Nuclei 引擎，零副作用漏洞检测。", "repos.urlfounder": "快速被动 URL 枚举工具。", "repos.cyberHarness": "面向网络安全的 AI 驱动 Agent，覆盖渗透、红队与漏洞赏金。", "repos.proxyclient": "Go 实现的代理客户端，支持 HTTP/HTTPS、SOCKS4/5 与 SSH。",
+          "blog.eyebrow": "BLOG / 02", "blog.title": "最新研究", "blog.intro": "", "blog.loading": "正在加载最新研究……", "blog.more": "查看全部文章 ↗", "blog.sourceQiling": "[起零衍迹实验室]", "blog.sourceJournal": "BLOG",
+          "contact.eyebrow": "BUILD WITH US", "contact.titleOne": "共同构建", "contact.titleTwo": "未来攻防", "contact.intro": "无论你需要 AI Native 的进攻性安全能力，还是希望共同定义新的产品形态，欢迎和我们聊聊。", "contact.businessLabel": "BUSINESS / 企业合作", "contact.openSourceLabel": "OPEN SOURCE / 开源合作", "contact.joinLabel": "JOIN US / 加入我们", "contact.joinCopy": "杭州余杭｜实习与全职开放。工程 / SaaS、市场 / 商业化、AI Native 工程方向。",
+          "join.eyebrow": "JOIN US / 05", "join.titleOne": "Join", "join.titleTwo": "us", "join.intro": "我们要做 AI Native 的公司，也要成为进攻性安全领域的 Top 1。没有上下级和 KPI，以共同目标协作；节奏高、边界少，面向技术、客户与市场解决真实问题。", "join.identityTitle": "WHO WE ARE LOOKING FOR", "join.identityCopy": "我们寻找有独特判断、能独立推进，也愿意跨越岗位边界的人。", "join.traitsTitle": "我们正在寻找这样的你", "join.openings": "实习 / 全职", "join.location": "杭州余杭", "join.education": "经验 / 学历不限", "join.traitOne": "基础扎实，拥有 AI Native 思维", "join.traitTwo": "执行力强，高度自驱", "join.traitThree": "对技术与架构有近乎偏执的标准", "join.traitFour": "能跨领域思考，也能亲自落地", "join.traitFive": "愿意和一群超级个体一起，把目标做成现实。", "join.rolesTitle": "现在需要你", "join.rolesNote": "岗位只是切入点，能力没有边界。", "join.roleOneTitle": "工程化 / SaaS 研发", "join.roleOneCopy": "理解架构、并发与调度，熟悉 Golang / Rust，以高质量代码和 AI 辅助研发完成复杂系统。", "join.roleTwoTitle": "市场 / 商业化", "join.roleTwoCopy": "技术出身、理解开源与 ToB，能洞察 AI 时代客户问题并设计有效的市场路径。", "join.roleThreeTitle": "AI Native 工程师", "join.roleThreeCopy": "从产品到架构设计 AI 时代的新形态，提出好想法，也能把它真正做出来。", "join.plusTitle": "更强信号", "join.plusOne": "构建过 Harness 架构，并形成自己的判断。", "join.plusTwo": "在进攻性安全的某个方向做到极致。", "join.plusThree": "从 Graph、Loop、Ontology 等工程视角理解 AI。", "join.plusFour": "在开源、技术会议或 benchmark 有高质量产出。", "join.offerTitle": "你会得到", "join.offerOne": "成为核心员工乃至合伙人的清晰路径。", "join.offerTwo": "公开薪酬体系与高于市场标准的激励。", "join.offerThree": "最前沿的 AI + 进攻性安全技术与产品实践。", "join.offerFour": "无限量 Token，以及把重要事情做到底的空间。", "join.applyTitle": "来一起定义下一代。", "join.applyCopy": "告诉我们你做过什么、相信什么，以及下一步想做什么。", "join.applyGithub": "查看 Join Us ↗", "join.applyEmail": "发送邮件 ↗", "footer.about": "ChainReactors 聚焦 AI + 进攻性安全，以开放协作和真实实战，持续重构工具、工作流与产品形态。", "footer.exploreTitle": "探索", "footer.contactTitle": "联系方式", "footer.joinTitle": "加入我们", "footer.joinCopy": "实习与全职均可，期待与你一起走向 AI Native。", "footer.joinLink": "查看招聘信息 ↗", "footer.copyright": "© 2026 CHAINREACTORS · 杭州链式反应科技有限公司", "footer.wiki": "WIKI", "footer.github": "GITHUB", "footer.top": "返回顶部 ↑", "footer.tagline": "AI Native / Offensive Security"
+        },
+        en: {
+          "meta.title": "ChainReactors — AI + Offensive Security", "meta.description": "ChainReactors focuses on AI + offensive security: redefining penetration testing with Cairn and building threat management, attack simulation and vulnerability discovery products.",
+          "nav.navAria": "Primary navigation", "nav.homeAria": "ChainReactors home", "nav.wiki": "Wiki", "nav.company": "Penetration testing", "nav.capabilities": "Coming products", "nav.openSource": "Open source", "nav.blog": "Blog", "nav.contact": "Business / Join us", "nav.join": "Join us", "nav.business": "Business ↗", "nav.menuAria": "Open menu", "nav.switchToEn": "Switch to English", "nav.switchToZh": "切换到中文",
+          "hero.kicker": "CHAINREACTORS / AI + OFFENSIVE SECURITY", "hero.titleOne": "Rebuild", "hero.titleTwo": "offensive security with AI", "hero.subtitle": "", "hero.business": "Talk to us ↗", "hero.explore": "Explore open source ↓", "hero.status": "IGNITION / COLLISION → FISSION → ACCELERATION", "hero.animationAria": "AI and offensive security accelerate toward each other, ignite on contact, and the fission cascade accelerates while open-source nodes light up", "hero.identityAi": "AI", "hero.identityOffsec": "OFFENSIVE SECURITY", "hero.projectsAria": "Open-source projects lit up by the reaction", "hero.tagDiscover": "Attack surface", "hero.tagVuln": "Vulnerability research", "hero.tagAudit": "Code audit", "hero.tagPentest": "Penetration testing", "hero.scroll": "SCROLL TO EXPLORE",
+          "cairn.eyebrow": "PENETRATION TESTING / 03", "cairn.titleOne": "Penetration testing", "cairn.titleTwo": "redefined", "cairn.cardTitle": "Cairn: AI-native penetration testing", "cairn.cardCopy": "Cairn turns reconnaissance, reasoning, exploitation and validation into reusable attack paths—making penetration testing a continuously running intelligent system.",
+          "future.eyebrow": "PRODUCT ROADMAP / 04", "future.titleOne": "Redefining product forms", "future.titleTwo": "for the future of offense and defense", "future.pending": "COMING SOON", "future.threatTitle": "Threat management", "future.threatCopy": "Continuously understand assets, exposure and real risk so defense moves from alert response to proactive decisions.", "future.simulationTitle": "Attack simulation", "future.simulationCopy": "Use AI to run controlled, verifiable attack exercises that continuously test detection and response.", "future.vulnTitle": "Vulnerability discovery", "future.vulnCopy": "Combine model reasoning, fuzzing and intelligent validation to discover and reproduce high-value vulnerabilities at scale.",
+          "openSource.eyebrow": "OPEN & BATTLE-TESTED / 01", "openSource.titleOne": "Built for open source", "openSource.titleTwo": "built for the real world", "openSource.intro": "", "openSource.github": "View everything on GitHub ↗", "repo.preExploit": "PRE-EXPLOIT", "repo.postExploit": "POST-EXPLOIT", "repo.network": "NETWORK", "repo.library": "LIBRARY", "repo.tool": "TOOL", "repo.aiAgent": "AI AGENT",
+          "products.iomName": "IoM", "products.cairnName": "Cairn", "products.iom": "IoM is a post-exploitation and C2 product for AI agents, connecting control, orchestration and field workflows.", "products.cairn": "Cairn is an AI general-purpose state-space search engine, first validated on autonomous penetration testing.", "products.explore": "Explore product ↗", "repos.gogo": "Red-team scanning engine for ports, services and fingerprints.", "repos.spray": "HTTP fuzzing, directory discovery and smart filtering.", "repos.iom": "Post-exploitation and C2 platform built for AI agents.", "repos.zombie": "Service and protocol spraying across external, internal and cloud targets.", "repos.rem": "Encrypted tunnels, proxies and network traversal across protocols.", "repos.malefic": "Modular implant and multi-stage delivery framework.", "repos.fingers": "Unified framework and technology fingerprint library.", "repos.picker": "Repository RSS, article aggregation and discussion community.", "repos.tinyctfer": "A tiny intent runtime and Meta Tooling design.", "repos.templates": "Vulnerability detection templates for neutron.", "repos.neutron": "Lightweight Nuclei engine for low-impact vulnerability detection.", "repos.urlfounder": "Fast passive URL enumeration tool.", "repos.cyberHarness": "AI-driven agent for cyber security, covering pentest, red team and bug bounty.", "repos.proxyclient": "Go proxy client supporting HTTP/HTTPS, SOCKS4/5 and SSH.",
+          "blog.eyebrow": "BLOG / 02", "blog.title": "Latest research", "blog.intro": "", "blog.loading": "Loading the latest field notes…", "blog.more": "Read all articles ↗", "blog.sourceQiling": "[Qiling Lab]", "blog.sourceJournal": "BLOG",
+          "contact.eyebrow": "BUILD WITH US", "contact.titleOne": "Build", "contact.titleTwo": "future security", "contact.intro": "Whether you need AI-native offensive security capability or want to define new product forms with us, we would like to hear from you.", "contact.businessLabel": "BUSINESS / PARTNERSHIPS", "contact.openSourceLabel": "OPEN SOURCE / COLLABORATION", "contact.joinLabel": "JOIN US / CAREERS", "contact.joinCopy": "Yuhang, Hangzhou | Internships and full-time roles across Engineering / SaaS, go-to-market and AI-native engineering.",
+          "join.eyebrow": "JOIN US / 05", "join.titleOne": "Join", "join.titleTwo": "us", "join.intro": "We are building an AI-native company with one ambition: become No. 1 in offensive security. There are no hierarchies or KPIs—only shared goals, high tempo and practical work accountable to technology, customers and the market.", "join.identityTitle": "WHO WE ARE LOOKING FOR", "join.identityCopy": "We look for people with independent judgment, the drive to move work forward and the range to cross job boundaries.", "join.traitsTitle": "You may be one of us if you", "join.openings": "Internships / Full-time", "join.location": "Yuhang, Hangzhou", "join.education": "No degree gate", "join.traitOne": "Strong fundamentals and AI-native thinking", "join.traitTwo": "Unusual ownership and self-direction", "join.traitThree": "Exacting standards for technology and architecture", "join.traitFour": "Cross-disciplinary thinking with hands-on delivery", "join.traitFive": "Want to turn an ambitious shared goal into reality with a team of exceptional individuals.", "join.rolesTitle": "Where you can start", "join.rolesNote": "A role is an entry point, not a boundary.", "join.roleOneTitle": "Engineering / SaaS", "join.roleOneCopy": "Build complex systems with strong architecture, concurrency and scheduling skills, Golang / Rust, excellent code and AI-assisted engineering.", "join.roleTwoTitle": "Go-to-market / Commercialization", "join.roleTwoCopy": "Bring technical depth, open-source and B2B fluency, customer insight and the ability to design an effective path to market.", "join.roleThreeTitle": "AI Native Engineer", "join.roleThreeCopy": "Invent product forms for the AI era, think from product through architecture and turn distinctive ideas into working systems.", "join.plusTitle": "Stronger signals", "join.plusOne": "You have built Harness architectures and formed your own judgment.", "join.plusTwo": "You have gone exceptionally deep in an offensive-security domain.", "join.plusThree": "You reason about AI through graphs, loops, ontologies and other engineering primitives.", "join.plusFour": "You have delivered high-quality open-source, conference or benchmark work.", "join.offerTitle": "What you get", "join.offerOne": "A clear path to core employee or partner.", "join.offerTwo": "Transparent compensation and above-market incentives.", "join.offerThree": "Front-row access to AI + offensive-security technology and products.", "join.offerFour": "Unlimited tokens and room to take important work all the way.", "join.applyTitle": "Come define what comes next.", "join.applyCopy": "Tell us what you have built, what you believe and what you want to do next.", "join.applyGithub": "View Join Us ↗", "join.applyEmail": "Email us ↗", "footer.about": "ChainReactors builds AI-native offensive-security products, infrastructure and workflows—open by default, proven in the field.", "footer.exploreTitle": "Explore", "footer.contactTitle": "Contact", "footer.joinTitle": "Join us", "footer.joinCopy": "Internships and full-time roles are open. Let us build the AI-native future together.", "footer.joinLink": "View openings ↗", "footer.copyright": "© 2026 CHAINREACTORS · 杭州链式反应科技有限公司", "footer.wiki": "WIKI", "footer.github": "GITHUB", "footer.top": "BACK TO TOP ↑", "footer.tagline": "AI Native / Offensive Security"
+        }
+      };
+      copy.zh["footer.about"] = "ChainReactors 聚焦 AI + 进攻性安全，以开放协作和真实实战，持续重构工具、Agent 架构与产品形态。";
+      copy.en["footer.about"] = "ChainReactors focuses on AI + offensive security, continuously rebuilding tools, agent architectures and product forms through open collaboration and real-world practice.";
 
-</main>
+      var root = document.documentElement;
+      var nav = document.getElementById('siteNav');
+      var menu = document.getElementById('menu');
+      var navLinks = document.getElementById('navLinks');
+      var langToggle = document.getElementById('langToggle');
+      var langLabel = document.getElementById('langLabel');
+      var lang = root.dataset.lang === 'en' ? 'en' : 'zh';
+      var heroRedraw = null, heroStars = null;
 
-<footer class="foot">
-  <div class="w foot-in">
-    <div>© 2026 ChainReactors</div>
-    <div class="foot-links">
-      <a href="/wiki/">Wiki</a>
-      <a href="https://github.com/chainreactors/" target="_blank" rel="noopener">GitHub</a>
-      <a href="#" class="foot-wx-trigger" id="wxTrigger">微信公众号</a>
-    </div>
-  </div>
-  <div class="wx-popover" id="wxPopover">
-    <img src="assets/wx.jpg" alt="微信公众号" width="200" height="200">
-  </div>
-</footer>
-
-<script>
-(function() {
-  var nav = document.getElementById('nav');
-  var menu = document.getElementById('menu');
-  var links = document.getElementById('navLinks');
-
-  var navAnchors = links.querySelectorAll('a[href^="#"]');
-  var sections = [];
-  navAnchors.forEach(function(a) {
-    var id = a.getAttribute('href').substring(1);
-    var sec = document.getElementById(id);
-    if (sec) sections.push({ el: sec, link: a });
-  });
-
-  function updateActive() {
-    var scrollY = window.scrollY + 120;
-    var current = null;
-    sections.forEach(function(s) {
-      if (s.el.offsetTop <= scrollY) current = s;
-    });
-    navAnchors.forEach(function(a) { a.classList.remove('active'); });
-    if (current) current.link.classList.add('active');
-  }
-
-  window.addEventListener('scroll', function() {
-    nav.classList.toggle('scrolled', window.scrollY > 24);
-    updateActive();
-  }, { passive: true });
-
-  updateActive();
-
-  menu.addEventListener('click', function() {
-    links.classList.toggle('open');
-  });
-
-  links.querySelectorAll('a').forEach(function(a) {
-    a.addEventListener('click', function() { links.classList.remove('open'); });
-  });
-
-  document.addEventListener('click', function(e) {
-    if (links.classList.contains('open') && !links.contains(e.target) && e.target !== menu && !menu.contains(e.target)) {
-      links.classList.remove('open');
-    }
-  });
-
-  var wxTrigger = document.getElementById('wxTrigger');
-  var wxPopover = document.getElementById('wxPopover');
-  if (wxTrigger && wxPopover) {
-    wxTrigger.addEventListener('click', function(e) {
-      e.preventDefault();
-      wxPopover.classList.toggle('show');
-    });
-    document.addEventListener('click', function(e) {
-      if (wxPopover.classList.contains('show') && !wxPopover.contains(e.target) && e.target !== wxTrigger) {
-        wxPopover.classList.remove('show');
+      function text(key) { return (copy[lang] && copy[lang][key]) || copy.zh[key] || key; }
+      function applyLanguage(next) {
+        lang = next === 'en' ? 'en' : 'zh';
+        root.dataset.lang = lang;
+        root.lang = lang === 'en' ? 'en' : 'zh-CN';
+        nav.setAttribute('aria-label', text('nav.navAria'));
+        document.querySelectorAll('[data-i18n]').forEach(function (el) { el.textContent = text(el.dataset.i18n); });
+        document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { el.setAttribute('aria-label', text(el.dataset.i18nAria)); });
+        document.querySelectorAll('[data-blog-source]').forEach(function (el) { el.textContent = el.dataset.blogSource === 'qiling' ? text('blog.sourceQiling') : text('blog.sourceJournal'); });
+        document.title = text('meta.title');
+        var description = document.querySelector('meta[name="description"]');
+        var ogTitle = document.querySelector('meta[property="og:title"]');
+        if (description) description.setAttribute('content', text('meta.description'));
+        if (ogTitle) ogTitle.setAttribute('content', text('meta.title'));
+        langLabel.textContent = lang === 'zh' ? 'EN' : '中文';
+        langToggle.setAttribute('aria-label', lang === 'zh' ? text('nav.switchToEn') : text('nav.switchToZh'));
+        langToggle.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
+        if (heroRedraw) heroRedraw();
+        try { window.localStorage.setItem('chainreactors-language', lang); } catch (e) { /* private mode */ }
       }
-    });
-  }
+      applyLanguage(lang);
+      window.setTimeout(function () { nav.setAttribute('aria-label', text('nav.navAria')); }, 0);
+      langToggle.addEventListener('click', function () { applyLanguage(lang === 'zh' ? 'en' : 'zh'); });
 
-  var io = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) {
-      if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.08 });
+      window.addEventListener('scroll', function () { nav.classList.toggle('scrolled', window.scrollY > 18); }, { passive: true });
+      menu.addEventListener('click', function () { var open = navLinks.classList.toggle('open'); menu.setAttribute('aria-expanded', open ? 'true' : 'false'); });
+      navLinks.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { navLinks.classList.remove('open'); menu.setAttribute('aria-expanded', 'false'); }); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { navLinks.classList.remove('open'); menu.setAttribute('aria-expanded', 'false'); } });
+      document.addEventListener('click', function (e) { if (navLinks.classList.contains('open') && !navLinks.contains(e.target) && !menu.contains(e.target)) { navLinks.classList.remove('open'); menu.setAttribute('aria-expanded', 'false'); } });
 
-  document.querySelectorAll('.rv').forEach(function(el) { io.observe(el); });
+      var revealEls = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var revealObserver = new IntersectionObserver(function (entries) { entries.forEach(function (entry) { if (entry.isIntersecting) { entry.target.classList.add('in'); revealObserver.unobserve(entry.target); } }); }, { threshold: .12 });
+        revealEls.forEach(function (el) { revealObserver.observe(el); });
+        var navAnchors = Array.prototype.slice.call(navLinks.querySelectorAll('a[href^="#"]'));
+        var sections = navAnchors.map(function (a) { return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+        var activeObserver = new IntersectionObserver(function (entries) { entries.forEach(function (entry) { if (entry.isIntersecting) navAnchors.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id); }); }); }, { rootMargin: '-38% 0px -52% 0px' });
+        sections.forEach(function (section) { activeObserver.observe(section); });
+      } else { revealEls.forEach(function (el) { el.classList.add('in'); }); }
 
-  var blogList = document.getElementById('blogList');
-  if (blogList) {
-    fetch('/blog/')
-      .then(function(r) { return r.text(); })
-      .then(function(html) {
+      /* CHAINREACTORS / IGNITION — 内联的核心动画（移植 ChainReactors_AI_OffSec_AllRed.html 的 04.3 引擎）。
+         叙事：AI 与进攻性安全从两侧加速相向 → 一次真实接触点火 → 碎片各自继续碰撞裂变，逐代加速。
+         纪律：碰撞由连续扫掠圆求交解出，效果只在接触之后播放；没被撞到的粒子不会因为"将要被撞"提前发光。
+         构图：点火点落在画面 52% 处，入射段藏在文案的暗场后面，裂变向右铺开。 */
+      (function () {
+        var canvas = document.getElementById('fissionCanvas');
+        if (!canvas || !canvas.getContext) return;
+        var context = canvas.getContext('2d', { alpha: false });
+        if (!context) return;
+
+        var TAU = Math.PI * 2;
+        var SPACE = { w: 1440, h: 680 };
+        var LIMIT = 12, MEDIUM = 660, MAX_EVENTS = 1600;
+        // 播放节奏由这张表推导，不看帧率：接近 → 顿住 → 级联，级联速度趋近上限而不是无限加速。
+        var TIMING = {
+          impact: 3.5, hitStop: .085, hold: 4.2,
+          initialRate: .62, acceleration: 3.2, maxRate: 1.4, cascadeStretch: 1.9,
+          densityBrake: 1.5, densityWindow: .26, densityLow: 55, densityHigh: 350,
+          brakeStart: .15, brakeRamp: .35, samplesPerSecond: 120,
+          // 闪光与碎屑用独立的短时钟，级联放慢时它们不会跟着拖长。
+          effectRate: .85
+        };
+        var FINISH = { bloomRadius: .72, bloomOpacity: .76, debris: 46, debrisDecay: 4.55, trail: .84, medium: .18, grid: .105 };
+        // 文案顶在画面上方居中，左右都空着，所以反应整屏铺满：点火点落在 22% 处，
+        // 裂变向右横扫。band 是纵向的兜底——画面太扁时不能把项目节点裁掉。
+        var FRAME = { anchor: .22, right: 1, edge: 1440, band: 600 };
+        var MONO = '"Space Mono","IBM Plex Mono",Consolas,monospace';
+        var SANS = '"DM Sans","PingFang SC","Microsoft YaHei",sans-serif';
+        // 项目节点：反应经过的碰撞点会被认领，名字随之浮出。默认指向 chainreactors，
+        // 别的组织（Cairn 在 oritera）用 url 覆盖。ANCHORS 与这份列表一一对应，
+        // 认领是按顺序贪心的，排在前面的拿到更靠近点火点、也更早亮起的碰撞。
+        var PROJECTS = [
+          { n: 'Cairn', url: 'https://github.com/oritera/Cairn' },
+          { n: 'gogo' }, { n: 'spray' }, { n: 'zombie' }, { n: 'rem' }, { n: 'malice-network' },
+          { n: 'malefic' }, { n: 'picker' }, { n: 'cyber-harness' }, { n: 'fingers' },
+          { n: 'tinyctfer' }, { n: 'templates' }, { n: 'neutron' }, { n: 'urlfounder' }, { n: 'proxyclient' }
+        ];
+        var ANCHORS = [[548, 330],
+          [502, 312], [624, 186], [740, 444], [888, 190], [1012, 312], [1118, 510], [1260, 248],
+          [1310, 388], [1080, 118], [860, 560], [688, 474], [560, 168], [1216, 566], [962, 210]];
+
+        function clamp(v, a, b) { a = a === undefined ? 0 : a; b = b === undefined ? 1 : b; return Math.max(a, Math.min(b, v)); }
+        function mix(a, b, u) { return a + (b - a) * u; }
+        function smooth(a, b, x) { var u = clamp((x - a) / (b - a)); return u * u * (3 - 2 * u); }
+        function rng32(s) { return function () { s |= 0; s = s + 0x6D2B79F5 | 0; var z = Math.imul(s ^ s >>> 15, 1 | s); z ^= z + Math.imul(z ^ z >>> 7, 61 | z); return ((z ^ z >>> 14) >>> 0) / 4294967296; }; }
+        function position(p, t) { return { x: p.x + p.vx * (t - p.start), y: p.y + p.vy * (t - p.start) }; }
+
+        /* 确定性的碰撞驱动模拟：一个种子决定整场反应。这是品牌动画，不是核物理模型。 */
+        function buildReaction(seed) {
+          var rand = rng32(seed), W = SPACE.w, H = SPACE.h;
+          var particles = [], events = [], heap = [];
+          var center = { x: 438 + (rand() - .5) * 26, y: 346 + (rand() - .5) * 28 };
+          var i, j, k, p, q;
+
+          function push(e) { var i = heap.length; heap.push(e); while (i > 0) { var j = (i - 1) >> 1; if (heap[j].time <= e.time) break; heap[i] = heap[j]; i = j; } heap[i] = e; }
+          function pop() {
+            var root = heap[0], end = heap.pop(); if (!heap.length) return root;
+            var i = 0;
+            for (;;) {
+              var j = i * 2 + 1; if (j >= heap.length) break;
+              if (j + 1 < heap.length && heap[j + 1].time < heap[j].time) j++;
+              if (heap[j].time >= end.time) break;
+              heap[i] = heap[j]; i = j;
+            }
+            heap[i] = end; return root;
+          }
+          function add(x, y, vx, vy, start, kind, gen, parent, life) {
+            var end = start + (life === undefined ? Infinity : life);
+            if (kind === 'fragment') {
+              // 碎片飞出画外就结束，不再参与排程。
+              if (vx > 0) end = Math.min(end, start + (W + 35 - x) / vx); else if (vx < 0) end = Math.min(end, start + (-35 - x) / vx);
+              if (vy > 0) end = Math.min(end, start + (H + 35 - y) / vy); else if (vy < 0) end = Math.min(end, start + (-35 - y) / vy);
+            }
+            var p = {
+              id: particles.length, x: x, y: y, vx: vx, vy: vy, start: start, end: end,
+              kind: kind, gen: gen, parent: parent === undefined ? -1 : parent, hit: -1,
+              r: kind === 'medium' ? 4.6 : kind === 'seed' ? 3.5 : 2.7, salt: rand() * TAU, identity: ''
+            };
+            particles.push(p); return p;
+          }
+          // 连续扫掠圆求交：两个匀速圆的第一个接触时刻，没有接触就返回 null。
+          function collision(a, b, now) {
+            if (a.hit >= 0 || b.hit >= 0) return null;
+            if (a.parent >= 0 && a.parent === b.parent) return null;
+            var start = Math.max(now, a.start, b.start), end = Math.min(a.end, b.end, LIMIT);
+            if (start >= end - 1e-5) return null;
+            var pa = position(a, start), pb = position(b, start);
+            var x = pa.x - pb.x, y = pa.y - pb.y, vx = a.vx - b.vx, vy = a.vy - b.vy, r = a.r + b.r;
+            var aa = vx * vx + vy * vy, bb = 2 * (x * vx + y * vy), cc = x * x + y * y - r * r;
+            if (aa < 1e-7 || bb >= 0) return null;
+            var d = bb * bb - 4 * aa * cc; if (d < 0) return null;
+            var dt = cc <= 0 ? .00001 : (-bb - Math.sqrt(d)) / (2 * aa), time = start + dt;
+            return dt >= 0 && time <= end ? time : null;
+          }
+          function schedule(p, now) {
+            if (p.hit >= 0 || p.end <= now || p.gen > 9) return;
+            var best = Infinity, other = null;
+            for (var i = 0; i < particles.length; i++) {
+              var q = particles[i];
+              if (p === q || q.hit >= 0 || q.end <= now || q.kind === 'seed') continue;
+              var ct = collision(p, q, now);
+              if (ct !== null && ct < best) { best = ct; other = q; }
+            }
+            if (other) push({ a: p.id, b: other.id, time: best });
+          }
+          function segmentDistance(x, y, a, b) {
+            var dx = b.x - a.x, dy = b.y - a.y;
+            var u = clamp(((x - a.x) * dx + (y - a.y) * dy) / (dx * dx + dy * dy));
+            return Math.hypot(x - a.x - dx * u, y - a.y - dy * u);
+          }
+
+          // 介质：稀疏散布的慢粒子。入射通道两侧留空，第一次接触才算点火。
+          var entryA = { x: 56, y: 434 }, entryB = { x: 212, y: 244 };
+          for (var tries = 0; particles.length < MEDIUM && tries < 44000; tries++) {
+            var x = 78 + Math.pow(rand(), .74) * 1270, y = 70 + rand() * 540;
+            if (Math.pow((x - 780) / 690, 2) + Math.pow((y - 340) / 292, 2) > 1) continue;
+            if (x < center.x - 90 && rand() < .78) continue;
+            if (Math.hypot(x - center.x, y - center.y) < 94) continue;
+            if (segmentDistance(x, y, entryA, center) < 42 || segmentDistance(x, y, entryB, center) < 42) continue;
+            var crowded = false;
+            for (i = 0; i < particles.length; i++) if (Math.hypot(x - particles[i].x, y - particles[i].y) < 19) { crowded = true; break; }
+            if (crowded) continue;
+            var a = rand() * TAU, v = 2.7 + rand() * 6.5, drift = x / W;
+            add(x, y, Math.cos(a) * v - (.12 + drift * .68) + (rand() - .5) * .6, Math.sin(a) * v + (rand() - .5) * .75, 0, 'medium', 0);
+          }
+
+          // 两束入射：从画面两侧加速相向，在 impact 时刻真正接触。
+          var injection = 0, impact = 2.65;
+          var ai = add(entryA.x, entryA.y, (center.x - entryA.x) / (impact - injection), (center.y - entryA.y) / (impact - injection), injection, 'seed', 0);
+          var offsec = add(entryB.x, entryB.y, (center.x - entryB.x) / (impact - injection), (center.y - entryB.y) / (impact - injection), injection, 'seed', 0);
+          ai.identity = 'ai'; offsec.identity = 'offsec';
+          push({ a: ai.id, b: offsec.id, time: collision(ai, offsec, injection) });
+
+          while (heap.length && events.length < MAX_EVENTS) {
+            var e = pop(); if (e.time > LIMIT) break;
+            var pa = particles[e.a], pb = particles[e.b];
+            // 堆里的旧排程可能已经作废：任一方已经被撞过或已出局，就重排而不是记一次假碰撞。
+            if (pa.hit >= 0 || pb.hit >= 0 || e.time > pa.end + 1e-7 || e.time > pb.end + 1e-7) {
+              if (pa.hit < 0 && pa.kind !== 'medium') schedule(pa, e.time);
+              if (pb.hit < 0 && pb.kind !== 'medium') schedule(pb, e.time);
+              continue;
+            }
+            var qa = position(pa, e.time), qb = position(pb, e.time);
+            var cx = (qa.x + qb.x) / 2, cy = (qa.y + qb.y) / 2;
+            if (cx < 15 || cx > W - 15 || cy < 24 || cy > H - 24) continue;
+            var gen = Math.max(pa.gen, pb.gen) + 1, id = events.length, root = id === 0;
+            var frontBias = clamp((cx - center.x) / (W - center.x));
+            var delay = root ? .105 : Math.max(.013, .112 * Math.pow(.74, gen)) * (cx > W * .76 ? 1.06 : 1);
+            var count = gen >= 9 ? 0 : root ? 6 : gen >= 8 ? 2 : 3 + (rand() < .34 ? 1 : 0) + (rand() < .10 ? 1 : 0);
+            var parents = [];
+            if (pa.parent >= 0) parents.push(pa.parent);
+            if (pb.parent >= 0 && pb.parent !== pa.parent) parents.push(pb.parent);
+            var ev = {
+              id: id, time: e.time, split: e.time + delay, x: cx, y: cy, gen: gen, a: pa.id, b: pb.id,
+              children: [], parents: parents, pair: pa.kind !== 'medium' && pb.kind !== 'medium', salt: rand() * TAU
+            };
+            events.push(ev); pa.hit = pb.hit = id; pa.end = pb.end = e.time;
+            // 子粒子从真实接触点出发，方向继承入射合速度，逐代更快更散。
+            var heading = root ? 0 : Math.atan2((pa.vy + pb.vy) / 2, Math.max(40, (pa.vx + pb.vx) / 2 + 50));
+            var spread = root ? 1.52 : (1.46 - frontBias * .26) + (gen < 3 ? .12 : 0);
+            var driftBoost = root ? 92 : 34 + gen * 7 + frontBias * 42;
+            for (i = 0; i < count; i++) {
+              var u = count === 1 ? .5 : i / (count - 1);
+              var angle = heading + (u - .5) * spread + (rand() - .5) * (root ? .16 : .30);
+              var velocity = Math.min(1460, (192 + gen * 74) * Math.pow(1.09, Math.max(0, gen - 2)) * (.88 + rand() * .26));
+              p = add(cx, cy, Math.cos(angle) * velocity + driftBoost, Math.sin(angle) * velocity, ev.split, 'fragment', gen, id, 2.1 + rand() * 1.0);
+              ev.children.push(p.id);
+            }
+            for (i = 0; i < ev.children.length; i++) schedule(particles[ev.children[i]], ev.split);
+          }
+
+          var rootEvent = events[0], lastEvent = impact, lastParticle = impact;
+          for (i = 0; i < events.length; i++) lastEvent = Math.max(lastEvent, events[i].time);
+          for (i = 0; i < particles.length; i++) if (particles[i].kind !== 'medium') lastParticle = Math.max(lastParticle, particles[i].end);
+          var settle = Math.min(LIMIT + 3, Math.max(lastEvent + .9, lastParticle + .15));
+
+          // 项目节点认领：每个锚点找一个已经发生的碰撞，彼此拉开距离，不认领点火本身。
+          var projects = [];
+          for (i = 0; i < ANCHORS.length; i++) {
+            var ax = ANCHORS[i][0], ay = ANCHORS[i][1], best = null, bestScore = Infinity;
+            for (j = 1; j < events.length; j++) {
+              var c = events[j];
+              if (c.x <= center.x - 10 || c.x >= 1360 || c.y <= 90 || c.y >= 600) continue;
+              var taken = false;
+              for (k = 0; k < projects.length; k++) if (projects[k].event === c.id) { taken = true; break; }
+              if (taken) continue;
+              var near = 220;
+              for (k = 0; k < projects.length; k++) near = Math.min(near, Math.hypot(projects[k].x - c.x, projects[k].y - c.y));
+              var score = Math.hypot(ax - c.x, ay - c.y) + Math.max(0, 92 - near) * 9 + (c.gen < 2 ? 260 : 0) + (c.x < center.x + 24 ? 260 : 0);
+              if (score < bestScore) { bestScore = score; best = c; }
+            }
+            if (best) projects.push({ index: i, event: best.id, x: best.x, y: best.y, time: best.time + .32, gen: best.gen });
+          }
+          return { seed: seed, particles: particles, events: events, root: rootEvent, projects: projects, settle: settle };
+        }
+
+        /* 可逆的级联时钟：一次性按种子算好，动画、标签与播放进度都读它。 */
+        function introProgress(q) { return .045 * q + .955 * q * q * q; }
+        function inverseIntro(u) {
+          var lo = 0, hi = 1;
+          for (var i = 0; i < 30; i++) { var m = (lo + hi) / 2; if (introProgress(m) < u) lo = m; else hi = m; }
+          return (lo + hi) / 2;
+        }
+        function buildPlayback(reaction) {
+          var root = reaction.root.time, span = reaction.settle - root, events = reaction.events;
+          var count = Math.max(1, Math.ceil(span * TIMING.samplesPerSecond)), step = span / count;
+          var times = new Float64Array(count + 1);
+          var win = Math.max(.05, TIMING.densityWindow), headroom = Math.max(.01, TIMING.maxRate - TIMING.initialRate);
+          var lo = 0, hi = 0, previous = TIMING.cascadeStretch / TIMING.initialRate;
+          times[0] = TIMING.impact + TIMING.hitStop;
+          for (var i = 0; i <= count; i++) {
+            var elapsed = i * step, raw = root + elapsed;
+            while (lo < events.length && events[lo].time < raw - win) lo++;
+            while (hi < events.length && events[hi].time <= raw + win) hi++;
+            // 升余弦密度窗：刹车平滑地进出密集段，而不是跳变。
+            var density = 0;
+            for (var j = lo; j < hi; j++) density += .5 + .5 * Math.cos(Math.PI * (events[j].time - raw) / win);
+            density /= win;
+            var base = TIMING.initialRate + headroom * (-Math.expm1(-elapsed / (TIMING.acceleration * headroom)));
+            var brake = TIMING.densityBrake * smooth(TIMING.densityLow, TIMING.densityHigh, density)
+              * smooth(TIMING.brakeStart, TIMING.brakeStart + TIMING.brakeRamp, elapsed);
+            var inverse = TIMING.cascadeStretch * (1 + brake) / base;
+            if (i) times[i] = times[i - 1] + step * (previous + inverse) * .5;
+            previous = inverse;
+          }
+          return { root: root, count: count, step: step, times: times, end: times[count] };
+        }
+
+        var params = null;
+        try { params = new URLSearchParams(window.location.search); } catch (err) { params = null; }
+        var seed = (params && Number(params.get('seed')) >>> 0) || 260907;
+        var graph = null, playback = null, total = 0;
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var t = 0, last = 0, visible = true, running = false, dirty = true;
+        var hoverEvent = -1, focusIds = null, labels = [], leaders = [];
+        var weights = [], BASE_WEIGHT = .62;
+        var width = 1, height = 1, dpr = 1;
+
+        function displayTime(s) {
+          if (s === graph.root.time) return TIMING.impact;
+          if (s < graph.root.time) return TIMING.impact * inverseIntro(clamp(s / graph.root.time));
+          if (s >= graph.settle) return playback.end;
+          var u = (s - playback.root) / playback.step, i = Math.min(playback.count - 1, Math.floor(u));
+          return mix(playback.times[i], playback.times[i + 1], u - i);
+        }
+        function playbackSegment(time) {
+          var lo = 0, hi = playback.count;
+          while (hi - lo > 1) { var mid = (lo + hi) >> 1; if (playback.times[mid] <= time) lo = mid; else hi = mid; }
+          return lo;
+        }
+        function simulationTime(time) {
+          if (time < TIMING.impact) return graph.root.time * introProgress(clamp(time / TIMING.impact));
+          if (time <= TIMING.impact + TIMING.hitStop) return graph.root.time;
+          if (time >= playback.end) return graph.settle;
+          var i = playbackSegment(time), u = (time - playback.times[i]) / (playback.times[i + 1] - playback.times[i]);
+          return Math.min(graph.settle, playback.root + (i + u) * playback.step);
+        }
+        // 排到日程上的碰撞不等于已经发生的碰撞：接触之前的帧一律拒绝，不做钳位。
+        function contactAge(e, time, raw) {
+          var at = e.id === 0 ? TIMING.impact : displayTime(e.time);
+          if (time < at || raw < e.time - 1e-10) return null;
+          return time - at;
+        }
+
+        function makeGlow(kind) {
+          var c = document.createElement('canvas'); c.width = c.height = 128;
+          var g = c.getContext('2d'), r = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+          if (kind === 'hot') {
+            r.addColorStop(0, 'rgba(255,255,253,1)'); r.addColorStop(.065, 'rgba(255,249,245,.96)');
+            r.addColorStop(.18, 'rgba(255,150,155,.44)'); r.addColorStop(.40, 'rgba(255,38,60,.15)'); r.addColorStop(1, 'rgba(255,38,60,0)');
+          } else {
+            r.addColorStop(0, 'rgba(255,36,60,1)'); r.addColorStop(.075, 'rgba(255,36,60,.98)');
+            r.addColorStop(.21, 'rgba(255,28,48,.48)'); r.addColorStop(.5, 'rgba(255,24,44,.08)'); r.addColorStop(1, 'rgba(255,24,44,0)');
+          }
+          g.fillStyle = r; g.fillRect(0, 0, 128, 128); return c;
+        }
+        var hotGlow = null, redGlow = null;
+        function glow(c, x, y, size, a, hot) {
+          if (a < .003 || size <= 0) return;
+          var saved = c.globalAlpha; c.globalAlpha = saved * clamp(a);
+          c.drawImage(hot ? hotGlow : redGlow, x - size / 2, y - size / 2, size, size);
+          c.globalAlpha = saved;
+        }
+        function line(c, x1, y1, x2, y2, color, w) { c.strokeStyle = color; c.lineWidth = w === undefined ? 1 : w; c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke(); }
+        function dot(c, x, y, r, color) { c.fillStyle = color; c.beginPath(); c.arc(x, y, r, 0, TAU); c.fill(); }
+
+        function layout(w, h) {
+          var mobile = w < 860 || w / h < 1.05, s, x, y;
+          if (mobile) {
+            // 竖屏：文案占上半屏，反应压到下面，左右都越界一点。
+            s = w * 1.5 / SPACE.w; x = -w * .26; y = h * .74 - SPACE.h * s / 2;
+          } else {
+            s = Math.min((FRAME.right - FRAME.anchor) * w / (FRAME.edge - graph.root.x), h / FRAME.band);
+            x = FRAME.anchor * w - graph.root.x * s; y = (h - SPACE.h * s) / 2;
+          }
+          return { w: w, h: h, mobile: mobile, s: s, x: x, y: y };
+        }
+        // 撞击瞬间轻微推近并晃一下，0.63s 内收回。
+        function camera(L, time) {
+          var age = time - TIMING.impact;
+          if (reduced || age < 0 || age > .63) return L;
+          var k = Math.exp(-age * 8.8) * (1 - smooth(.43, .63, age)), z = 1 + .045 * k;
+          var cx = L.x + graph.root.x * L.s, cy = L.y + graph.root.y * L.s;
+          return {
+            w: L.w, h: L.h, mobile: L.mobile, s: L.s * z,
+            x: cx + (L.x - cx) * z + Math.sin(age * 67) * 6.5 * k,
+            y: cy + (L.y - cy) * z + Math.sin(age * 49) * 3.9 * k
+          };
+        }
+
+        function drawBackground(c, L, time) {
+          c.fillStyle = '#050506'; c.fillRect(0, 0, L.w, L.h);
+          var k = time < TIMING.impact ? 0 : Math.exp(-(time - TIMING.impact) * 1.4);
+          var cx = L.x + graph.root.x * L.s, cy = L.y + graph.root.y * L.s;
+          var g = c.createRadialGradient(cx, cy, 0, cx, cy, Math.max(L.w, L.h) * .6);
+          g.addColorStop(0, 'rgba(79,12,28,' + (.075 + k * .10) + ')');
+          g.addColorStop(.5, 'rgba(25,14,24,.06)');
+          g.addColorStop(1, 'rgba(5,5,6,0)');
+          c.fillStyle = g; c.fillRect(0, 0, L.w, L.h);
+          c.fillStyle = '#727580'; c.globalAlpha = FINISH.grid;
+          var step = L.mobile ? 34 : 48;
+          for (var x = 21; x < L.w; x += step) for (var y = 22; y < L.h; y += step) c.fillRect(x, y, .7, .7);
+          c.globalAlpha = 1;
+        }
+        function drawMedium(c, raw) {
+          var alpha = raw >= graph.settle ? .09 : FINISH.medium;
+          for (var i = 0; i < graph.particles.length; i++) {
+            var p = graph.particles[i];
+            if (p.kind !== 'medium' || p.end <= raw) continue;
+            // 到接触前一刻都是同样的暗度：不读将来的 hit 时间去提前放大或点亮。
+            var q = position(p, raw), tail = position(p, Math.max(0, raw - .42));
+            line(c, tail.x, tail.y, q.x, q.y, 'rgba(227,49,76,' + alpha * .4 + ')', .65);
+            dot(c, q.x, q.y, 1.2, 'rgba(255,46,68,' + alpha + ')');
+          }
+        }
+        function drawTrajectories(c, raw, L) {
+          for (var i = 0; i < graph.particles.length; i++) {
+            var p = graph.particles[i];
+            if (p.kind === 'medium') {
+              // 只留事后的接触痕迹，绝不预先画出将要发生的路径。
+              if (p.hit < 0 || raw < p.end) continue;
+              var a = position(p, Math.max(0, p.end - .55)), b = position(p, Math.min(raw, p.end));
+              line(c, a.x, a.y, b.x, b.y, 'rgba(229,38,61,.19)', .65);
+              continue;
+            }
+            if (raw < p.start || p.kind === 'seed') continue; // 入射是一颗动点，不是一条常亮的光束
+            var end = Math.min(raw, p.end), q = position(p, end);
+            var age = Math.max(0, raw - p.end), flying = raw < p.end;
+            var retention = (p.hit >= 0 ? .17 : .018) * FINISH.trail;
+            var alpha = flying ? .335 : retention + .165 * Math.exp(-age * 5);
+            line(c, p.x, p.y, q.x, q.y, 'rgba(238,32,59,' + alpha + ')', p.hit >= 0 ? (L.mobile ? 1.6 : .95) : .60);
+          }
+        }
+        function drawParticles(c, raw, L, time) {
+          for (var i = 0; i < graph.particles.length; i++) {
+            var p = graph.particles[i];
+            if (p.kind === 'medium' || raw < p.start || raw >= p.end) continue;
+            var q = position(p, raw), v = Math.hypot(p.vx, p.vy), nx = p.vx / v, ny = p.vy / v, isSeed = p.kind === 'seed';
+            var opacity = p.hit >= 0 ? 1 : clamp((p.end - raw) / .14);
+            var previous = Math.max(p.start, simulationTime(Math.max(0, time - (isSeed ? .068 : .033))));
+            var tail = Math.min(isSeed ? 95 : 72, Math.max(0, (raw - previous) * v));
+            if (tail > .1) {
+              line(c, q.x - nx * tail, q.y - ny * tail, q.x, q.y, 'rgba(255,34,59,' + opacity * .072 + ')', isSeed ? 3.5 : 2.6);
+              line(c, q.x - nx * tail * .78, q.y - ny * tail * .78, q.x, q.y, 'rgba(255,34,59,' + opacity * .25 + ')', isSeed ? 1.7 : 1.2);
+              line(c, q.x - nx * tail * .34, q.y - ny * tail * .34, q.x, q.y, 'rgba(255,34,59,' + opacity * .94 + ')', isSeed ? 1.15 : .9);
+            }
+            glow(c, q.x, q.y, isSeed ? Math.max(57, 39 / L.s) : Math.max(32, 12 / L.s), opacity * .93, false);
+            glow(c, q.x, q.y, isSeed ? Math.max(112, 64 / L.s) : 48, opacity * (isSeed ? .19 : .115), false);
+            dot(c, q.x, q.y, isSeed ? Math.max(3.6, 2.8 / L.s) : Math.max(2.25, .9 / L.s), 'rgba(255,34,57,' + opacity + ')');
+            if (!isSeed || !p.identity) continue;
+            // 两束入射各自带名字：这是 AI × 进攻性安全，撞击前收掉。
+            var a = 1 - smooth(TIMING.impact - .43, TIMING.impact - .11, time);
+            if (a <= .001) continue;
+            var isAi = p.identity === 'ai', name = text(isAi ? 'hero.identityAi' : 'hero.identityOffsec');
+            var size = (L.mobile ? 11 : 14) / L.s;
+            c.save(); c.globalAlpha = a; c.textAlign = 'center';
+            c.font = '500 ' + size + 'px ' + (isAi ? MONO : SANS);
+            var half = c.measureText(name).width * L.s / 2, sx = L.x + q.x * L.s;
+            c.fillStyle = '#ff4053';
+            c.fillText(name, (clamp(sx, half + 22, L.w - half - 22) - L.x) / L.s, q.y - (L.mobile ? 21 : 25) / L.s);
+            c.restore();
+          }
+        }
+        function drawIgnition(c, raw, L, time) {
+          var e = graph.root, age = contactAge(e, time, raw);
+          // 接触点在接触之前不会有任何蓄能环或预热光。
+          if (age === null || age > 1.20) return;
+          var flashAge = Math.min(age, .16), flash = Math.exp(-flashAge * 28), pressure = Math.exp(-flashAge * 10.5);
+          // 核心只在撞击那一下炸开：碎屑继续飞，高亮不拖着。
+          if (age < .16) {
+            glow(c, e.x, e.y, Math.max(84 + flash * 26, 42 / L.s) * FINISH.bloomRadius, flash * .68 * FINISH.bloomOpacity, false);
+            glow(c, e.x, e.y, Math.max(50 + flash * 16, 24 / L.s) * FINISH.bloomRadius, (flash * .78 + pressure * .08) * FINISH.bloomOpacity, false);
+            if (flash > .02) {
+              var len = 12 + flash * 96;
+              line(c, e.x - len, e.y, e.x + len, e.y, 'rgba(255,68,88,' + flash * .62 + ')', 1);
+              line(c, e.x, e.y - len * .24, e.x, e.y + len * .24, 'rgba(255,78,96,' + flash * .34 + ')', .72);
+              dot(c, e.x, e.y, Math.max(4.2 + flash * 6.8, (3.1 + flash * 2.2) / L.s), 'rgba(255,54,74,' + Math.min(1, flash * .94 + pressure * .10) + ')');
+              dot(c, e.x, e.y, Math.max(1.7 + flash * 2.0, 1.1 / L.s), 'rgba(255,72,90,' + flash * .68 + ')');
+            }
+          }
+          if (age >= .82) return;
+          for (var k = 0; k < FINISH.debris; k++) {
+            var th = e.salt + k * 2.399963 + Math.sin(k * 18.43) * .21;
+            var v = 220 + (Math.sin(k * 93.71) * .5 + .5) * 1080;
+            var decay = Math.exp(-age * FINISH.debrisDecay) * (1 - smooth(.48, .82, age));
+            var length = v * age * (1 - age * .20), spark = 2.4 + v * .0098;
+            var xx = e.x + Math.cos(th) * length, yy = e.y + Math.sin(th) * length;
+            line(c, xx - Math.cos(th) * spark, yy - Math.sin(th) * spark, xx, yy,
+              k % 3 === 0 ? 'rgba(255,86,104,' + decay * .70 + ')' : 'rgba(255,38,63,' + decay * .64 + ')', k % 5 === 0 ? 1.15 : .66);
+          }
+        }
+        function drawCollisions(c, raw, L, time) {
+          for (var i = 1; i < graph.events.length; i++) {
+            var e = graph.events[i], elapsed = contactAge(e, time, raw);
+            if (elapsed === null) continue;
+            // 飞行速度不能提前点亮将来的闪光：必须先发生接触。
+            var age = elapsed * TIMING.effectRate;
+            var flash = Math.exp(-Math.min(age, .14) * 32), residual = Math.exp(-age * 18);
+            dot(c, e.x, e.y, e.children.length ? .95 : .7, 'rgba(218,42,68,' + (.16 + residual * .20) + ')');
+            if (age < .14) {
+              var scale = (e.pair ? 1.30 : 1) * Math.max(1, .46 / L.s);
+              glow(c, e.x, e.y, (16 + flash * 24) * scale * FINISH.bloomRadius, flash * .72 * FINISH.bloomOpacity, true);
+              if (flash > .10) for (var k = 0; k < 2; k++) {
+                var th = e.salt + k * Math.PI / 2, len = 5 + flash * 13;
+                line(c, e.x - Math.cos(th) * len, e.y - Math.sin(th) * len, e.x + Math.cos(th) * len, e.y + Math.sin(th) * len, 'rgba(255,84,102,' + flash * .58 + ')', .8);
+              }
+              dot(c, e.x, e.y, Math.max(1.9 + flash * 1.7, 1.1 / L.s), 'rgba(255,60,80,' + flash * .86 + ')');
+            }
+            if (age < .18) for (var j = 0; j < 4; j++) {
+              var ta = e.salt + j * 2.4, ln = (13 + j * 5.8) * Math.sqrt(age / .18);
+              var x = e.x + Math.cos(ta) * ln, y = e.y + Math.sin(ta) * ln;
+              line(c, x - Math.cos(ta) * 3, y - Math.sin(ta) * 3, x, y, 'rgba(255,67,87,' + (1 - age / .18) * .63 + ')', .68);
+            }
+          }
+        }
+        // 悬停一个项目节点，回溯点亮它的整条因果链。
+        function pathAncestors(eventId) {
+          var paths = {}, seen = {}, stack = [eventId];
+          while (stack.length) {
+            var id = stack.pop();
+            if (seen[id]) continue;
+            seen[id] = 1;
+            var e = graph.events[id]; if (!e) continue;
+            var pair = [e.a, e.b];
+            for (var i = 0; i < 2; i++) {
+              paths[pair[i]] = 1;
+              var p = graph.particles[pair[i]];
+              if (p.parent >= 0) stack.push(p.parent);
+            }
+          }
+          return paths;
+        }
+        function drawFocus(c, raw) {
+          if (!focusIds) return;
+          for (var id in focusIds) {
+            var p = graph.particles[id]; if (!p || p.start > raw) continue;
+            var start = p.kind === 'medium' ? Math.max(0, p.end - .45) : p.start;
+            var a = position(p, start), b = position(p, Math.min(raw, p.end));
+            line(c, a.x, a.y, b.x, b.y, 'rgba(255,72,94,.07)', 5);
+            line(c, a.x, a.y, b.x, b.y, 'rgba(255,130,146,.74)', 1.05);
+          }
+        }
+        function drawProjects(c, raw) {
+          for (var i = 0; i < graph.projects.length; i++) {
+            var n = graph.projects[i];
+            if (raw < n.time) continue;
+            var a = smooth(n.time, n.time + .42, raw), focus = n.event === hoverEvent;
+            // 节点亮度 = 项目的 star 权重：星多的烧得更亮、更大。
+            var w = weights[n.index] === undefined ? BASE_WEIGHT : weights[n.index];
+            glow(c, n.x, n.y, (focus ? 49 : 30) * (.72 + w * .5), a * (focus ? .92 : .34 + w * .42), false);
+            dot(c, n.x, n.y, focus ? 2.9 : 1.5 + w * 1.1, 'rgba(255,235,227,' + a * (.55 + w * .45) + ')');
+            c.strokeStyle = 'rgba(255,97,118,' + a * (focus ? .65 : .12 + w * .22) + ')'; c.lineWidth = .7;
+            c.beginPath(); c.arc(n.x, n.y, focus ? 11 : 5.4 + w * 3.2, 0, TAU); c.stroke();
+          }
+        }
+
+        // 标签排布：只在屏幕空间里躲避彼此、别的节点和左侧文案，反应点本身永不移动。
+        var placement = { key: '', map: null };
+        function overlap(r, box, mx, my) {
+          if (!box) return 0;
+          var ox = Math.max(0, Math.min(r.x + r.w + mx, box.x + box.w) - Math.max(r.x - mx, box.x));
+          var oy = Math.max(0, Math.min(r.y + r.h + my, box.y + box.h) - Math.max(r.y - my, box.y));
+          return ox * oy;
+        }
+        function textBox(el) {
+          if (!document.createRange) return null;
+          try {
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            var r = range.getBoundingClientRect();
+            range.detach && range.detach();
+            return r && r.width ? r : null;
+          } catch (err) { return null; }
+        }
+        // 文案的实际占位：取几个文字块的紧致外框（.hero-copy 是撑满整屏的列，不能直接用）。
+        function copyBox() {
+          var parts = ['.hero-kicker', '.hero h1', '.hero .actions'], base = canvas.getBoundingClientRect();
+          var left = Infinity, top = Infinity, right = -Infinity, bottom = -Infinity;
+          for (var i = 0; i < parts.length; i++) {
+            var el = document.querySelector(parts[i]);
+            if (!el || !el.getBoundingClientRect) continue;
+            var r = el.getBoundingClientRect();
+            if (!r.width || !r.height) continue;
+            // 英文标题是一整行不折行的字，会越过 max-width 的盒子往右溢出；
+            // 元素矩形只报盒子，得用 Range 量出真正的字面外框。
+            var ink = textBox(el);
+            left = Math.min(left, r.left, ink ? ink.left : r.left);
+            top = Math.min(top, r.top, ink ? ink.top : r.top);
+            right = Math.max(right, r.right, ink ? ink.right : r.right);
+            bottom = Math.max(bottom, r.bottom, ink ? ink.bottom : r.bottom);
+          }
+          if (left === Infinity || !isFinite(base.left)) return null;
+          return { x: left - base.left - 10, y: top - base.top - 6, w: right - left + 20, h: bottom - top + 12 };
+        }
+        function placeLabels(L) {
+          var key = seed + '/' + Math.round(L.w) + '/' + Math.round(L.h) + '/' + lang;
+          if (placement.key === key && placement.map) return placement.map;
+          var map = {}, taken = [], order = labels.slice(), box = copyBox(), i, j;
+          order.sort(function (a, b) { return a.node.time - b.node.time; });
+          for (i = 0; i < order.length; i++) {
+            var n = order[i].node, w = order[i].el.offsetWidth || 58, h = 18, gap = 13;
+            var x = L.x + n.x * L.s, y = L.y + n.y * L.s;
+            var prefer = x + gap + w > L.w - 24 ? -1 : 1;
+            // 除了固定的几档上下微调，再给两个"跳到文案上/下沿之外"的候选：
+            // 被标题横穿的节点靠微调是躲不开的。
+            var offsets = [0, 21, -21, 38, -38, 55, -55, 72, -72];
+            if (box) {
+              var up = box.y - h / 2 - 9 - y, down = box.y + box.h + h / 2 + 9 - y;
+              if (up > -96 && up < 0) offsets.push(up);
+              if (down < 96 && down > 0) offsets.push(down);
+            }
+            var best = null;
+            for (var f = 0; f < 2; f++) for (var d = 0; d < offsets.length; d++) {
+              var dy = offsets[d], side = f ? -prefer : prefer;
+              var rx = side < 0 ? x - gap - w : x + gap, ry = y + dy - h / 2;
+              var rect = { x: rx, y: ry, w: w, h: h };
+              var score = Math.abs(dy) * .8 + (f ? 10 : 0);
+              // 出界、压到文案、压到别的标签或别的节点都要重罚。
+              if (rx + w > L.w - 14) score += (rx + w - L.w + 14) * 1000;
+              if (ry < 96) score += (96 - ry) * 1000;
+              if (ry + h > L.h - 108) score += (ry + h - L.h + 108) * 1000;
+              score += overlap(rect, box, 0, 0) * 30;
+              for (j = 0; j < taken.length; j++) score += overlap(rect, taken[j], 6, 4) * 20;
+              for (j = 0; j < graph.projects.length; j++) {
+                var o = graph.projects[j]; if (o.index === n.index) continue;
+                var px = L.x + o.x * L.s, py = L.y + o.y * L.s;
+                if (px > rx - 5 && px < rx + w + 5 && py > ry - 5 && py < ry + h + 5) score += 800;
+              }
+              if (!best || score < best.score) best = { side: side, dy: dy, gap: gap, score: score, x: rx, y: ry, w: w, h: h };
+            }
+            // 挪不开文案就干脆不显示：压在标题上的项目名比少一个标签更糟。
+            best.blocked = overlap(best, box, 0, 0) > 0;
+            map[n.index] = best;
+            if (!best.blocked) taken.push(best);
+          }
+          placement = { key: key, map: map };
+          return map;
+        }
+        function updateLabels(raw, L, cam) {
+          leaders.length = 0;
+          if (!labels.length) return;
+          // 竖屏构图里标签会压住文案，CSS 也把它们收了起来：一并复位，避免留下上一次的坐标。
+          var map = L.mobile ? null : placeLabels(L);
+          for (var i = 0; i < labels.length; i++) {
+            var l = labels[i], n = l.node, o = map && map[n.index];
+            var opacity = !o || o.blocked || raw < n.time ? 0 : smooth(n.time, n.time + .42, raw);
+            if (opacity <= 0) {
+              if (l.el.style.opacity !== '0') { l.el.style.opacity = '0'; l.el.tabIndex = -1; }
+              continue;
+            }
+            var x = cam.x + (L.x + n.x * L.s - L.x) * cam.s / L.s, y = cam.y + (L.y + n.y * L.s - L.y) * cam.s / L.s;
+            l.el.style.transform = 'translate(' + (o.side < 0 ? 'calc(-100% - ' + o.gap + 'px)' : o.gap + 'px') + ', -50%) translate('
+              + x.toFixed(1) + 'px,' + (y + o.dy).toFixed(1) + 'px)';
+            l.el.style.opacity = opacity.toFixed(3);
+            if (opacity > .9 && l.el.tabIndex !== 0) l.el.tabIndex = 0;
+            if (o.dy) leaders.push({ x: x, y: y, tx: x + (o.side < 0 ? -o.gap : o.gap), ty: y + o.dy, a: opacity });
+          }
+        }
+        function makeLabels() {
+          var layer = document.getElementById('fissionLabels');
+          if (!layer) return;
+          layer.textContent = '';
+          labels.length = 0;
+          for (var i = 0; i < graph.projects.length; i++) {
+            var n = graph.projects[i], p = PROJECTS[n.index];
+            var a = document.createElement('a');
+            a.className = 'fission-label'; a.href = p.url || 'https://github.com/chainreactors/' + p.n;
+            a.target = '_blank'; a.rel = 'noopener noreferrer'; a.tabIndex = -1; a.style.opacity = '0';
+            a.appendChild(document.createTextNode(p.n));
+            var arrow = document.createElement('i'); arrow.textContent = '↗'; arrow.setAttribute('aria-hidden', 'true');
+            a.appendChild(arrow); layer.appendChild(a);
+            labels.push({ node: n, el: a });
+            bindLabel(a, n);
+          }
+        }
+        function bindLabel(el, n) {
+          // 悬停时暂缓播放，方便看清这条链路。
+          function enter() { hoverEvent = n.event; focusIds = pathAncestors(n.event); dirty = true; ensureLoop(); }
+          function leave() { hoverEvent = -1; focusIds = null; dirty = true; last = 0; ensureLoop(); }
+          el.addEventListener('mouseenter', enter); el.addEventListener('focus', enter);
+          el.addEventListener('mouseleave', leave); el.addEventListener('blur', leave);
+        }
+
+        function render(time) {
+          var base = layout(width, height), L = camera(base, time), raw = simulationTime(time), c = context;
+          c.setTransform(dpr, 0, 0, dpr, 0, 0); c.globalAlpha = 1;
+          drawBackground(c, base, time);
+          c.save();
+          c.translate(L.x, L.y); c.scale(L.s, L.s); c.lineCap = 'round'; c.lineJoin = 'round';
+          c.beginPath(); c.rect(-110, -115, SPACE.w + 220, SPACE.h + 230); c.clip();
+          drawIgnition(c, raw, L, time); drawTrajectories(c, raw, L); drawMedium(c, raw); drawFocus(c, raw);
+          drawCollisions(c, raw, L, time); drawParticles(c, raw, L, time); drawProjects(c, raw);
+          c.restore();
+          updateLabels(raw, base, L);
+          for (var i = 0; i < leaders.length; i++) {
+            var g = leaders[i];
+            line(c, g.x, g.y, g.tx, g.ty, 'rgba(151,73,92,' + (g.a * .8).toFixed(3) + ')', .7);
+          }
+        }
+        function resize() {
+          var r = canvas.getBoundingClientRect();
+          width = Math.max(1, r.width); height = Math.max(1, r.height);
+          dpr = Math.min(window.devicePixelRatio || 1, width < 860 ? 1.5 : 2);
+          var w = Math.max(1, Math.round(width * dpr)), h = Math.max(1, Math.round(height * dpr));
+          if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+          placement.key = '';
+          if (graph) render(t);
+        }
+        function tick(now) {
+          if (!running) return;
+          var dt = last ? Math.min((now - last) / 1000, .12) : 0; last = now;
+          if (visible && !document.hidden && hoverEvent < 0 && t < total) { t = Math.min(total, t + dt); dirty = true; }
+          if (dirty && visible) { render(t); dirty = false; }
+          // 播完并停在余震上就收工，滚动、悬停或离开悬停时再唤醒。
+          if (t >= total && !dirty) { running = false; return; }
+          window.requestAnimationFrame(tick);
+        }
+        function ensureLoop() {
+          if (running || reduced) { dirty = true; return; }
+          running = true; last = 0; window.requestAnimationFrame(tick);
+        }
+
+        // 反应图的求解要几十到几百毫秒：让首屏先画出来，再在下一拍构建。
+        context.setTransform(1, 0, 0, 1, 0, 0);
+        context.fillStyle = '#050506';
+        context.fillRect(0, 0, canvas.width || 1, canvas.height || 1);
+        window.requestAnimationFrame(function () {
+          window.setTimeout(function () {
+            hotGlow = makeGlow('hot'); redGlow = makeGlow('red');
+            graph = buildReaction(seed); playback = buildPlayback(graph);
+            total = playback.end + TIMING.hold;
+            t = reduced ? total - TIMING.hold * .5 : 0;
+            // ?t= 从指定秒数起播，方便调参和截图对齐。
+            if (params && params.has('t')) t = clamp(Number(params.get('t')) || 0, 0, total);
+            makeLabels(); resize();
+            heroRedraw = function () { placement.key = ''; dirty = true; ensureLoop(); render(t); };
+            heroStars = function (counts) {
+              var max = 0, i, v;
+              for (i = 0; i < PROJECTS.length; i++) { v = counts[PROJECTS[i].n] || 0; if (v > max) max = v; }
+              if (!max) return;
+              // star 数跨了两个量级，线性映射会把小项目压没；开根压缩一下再留个下限。
+              for (i = 0; i < PROJECTS.length; i++) {
+                v = counts[PROJECTS[i].n] || 0;
+                weights[i] = v ? clamp(.30 + .70 * Math.pow(v / max, .45), .30, 1) : BASE_WEIGHT;
+              }
+              dirty = true; ensureLoop();
+            };
+            // 首屏文案还在做入场动画，此刻量出来的外框是偏的；等它落定再重排一次标签。
+            // 第一个节点要到 3.3s 才浮出，这次重排看不见。
+            window.setTimeout(function () { placement.key = ''; dirty = true; ensureLoop(); }, 1400);
+            // 字体没就位时标题的字面宽度是错的，标签会按错的外框排布。
+            if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
+              document.fonts.ready.then(function () { placement.key = ''; dirty = true; ensureLoop(); });
+            }
+            if (!reduced) ensureLoop();
+          }, 0);
+        });
+        window.addEventListener('resize', resize, { passive: true });
+        document.addEventListener('visibilitychange', function () { last = 0; if (!document.hidden) ensureLoop(); });
+        if (typeof IntersectionObserver !== 'undefined') {
+          // 滚出视口就不再绘制。
+          new IntersectionObserver(function (entries) {
+            visible = entries[0].isIntersecting; last = 0;
+            if (visible && t < total) ensureLoop();
+          }).observe(canvas);
+        }
+      }());
+
+      var heroArt = document.getElementById('heroArt');
+      if (heroArt && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        heroArt.addEventListener('pointermove', function (e) { var rect = heroArt.getBoundingClientRect(); heroArt.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width - .5) * 18 + 'px'); heroArt.style.setProperty('--my', ((e.clientY - rect.top) / rect.height - .5) * 18 + 'px'); });
+        heroArt.addEventListener('pointerleave', function () { heroArt.style.setProperty('--mx', '0px'); heroArt.style.setProperty('--my', '0px'); });
+      }
+
+      function fetchJson(url, timeout) {
+        var controller = window.AbortController ? new AbortController() : null;
+        var timer = controller ? window.setTimeout(function () { controller.abort(); }, timeout) : null;
+        return fetch(url, controller ? { signal: controller.signal } : undefined).then(function (res) { if (!res.ok) throw new Error('request failed'); return res.json(); }).finally(function () { if (timer) window.clearTimeout(timer); });
+      }
+      // star 数既写进列表，也决定首屏里每个项目节点的亮度。
+      var starCounts = {};
+      function applyStars(name, count) {
+        starCounts[name] = count;
+        document.querySelectorAll('[data-repo="' + name + '"] [data-stars]').forEach(function (node) { node.textContent = count.toLocaleString(); node.dataset.stars = count; });
+      }
+      fetchJson('https://api.github.com/orgs/chainreactors/repos?per_page=100', 6500).then(function (repos) {
+        if (!Array.isArray(repos)) return;
+        repos.forEach(function (repo) { applyStars(repo.name, repo.stargazers_count || 0); });
+        if (heroStars) heroStars(starCounts);
+      }).catch(function () {});
+      // Cairn 在 oritera 组织下，得单独问一次。
+      fetchJson('https://api.github.com/repos/oritera/Cairn', 6500).then(function (repo) {
+        if (!repo || typeof repo.stargazers_count !== 'number') return;
+        applyStars('Cairn', repo.stargazers_count);
+        if (heroStars) heroStars(starCounts);
+      }).catch(function () {});
+
+      var blogList = document.getElementById('blogList');
+      fetch('/blog/').then(function (res) { if (!res.ok) throw new Error('request failed'); return res.text(); }).then(function (html) {
         var doc = new DOMParser().parseFromString(html, 'text/html');
         var articles = doc.querySelectorAll('article.md-post');
-        var count = 0;
-        articles.forEach(function(article) {
-          if (count >= 10) return;
-          var titleEl = article.querySelector('h2 a.toclink');
-          if (!titleEl) return;
-          var title = titleEl.textContent.trim();
-          if (!title) return;
-          var href = titleEl.getAttribute('href') || '';
-          if (href && !href.startsWith('http') && !href.startsWith('/')) href = '/blog/' + href;
-          var isQiling = href.indexOf('qiling_') !== -1;
-          var excerpt = '';
+        if (!articles.length) return;
+        blogList.innerHTML = '';
+        Array.prototype.slice.call(articles, 0, 6).forEach(function (article) {
+          var titleEl = article.querySelector('h2 a.toclink, h2 a'); if (!titleEl) return;
+          var href = titleEl.getAttribute('href') || '/blog/';
+          var item = document.createElement('a'); item.className = 'blog-item'; item.href = new URL(href, window.location.href).href;
+          var date = document.createElement('span'); date.className = 'blog-date'; var time = article.querySelector('time'); date.textContent = time ? time.textContent.trim() : 'RESEARCH';
+          var isQiling = href.indexOf('qiling_') !== -1 || titleEl.textContent.indexOf('Qiling') !== -1;
+          var source = document.createElement('span'); source.className = 'blog-source'; source.dataset.blogSource = isQiling ? 'qiling' : 'journal'; source.textContent = isQiling ? text('blog.sourceQiling') : text('blog.sourceJournal');
+          var content = document.createElement('span'); content.className = 'blog-content';
+          var title = document.createElement('span'); title.className = 'blog-title'; title.textContent = titleEl.textContent.trim(); content.appendChild(title);
           var paragraphs = article.querySelectorAll('.md-post__content > p');
-          for (var i = 0; i < paragraphs.length; i++) {
-            var text = paragraphs[i].textContent.trim();
-            if (text.length > 20) { excerpt = text.substring(0, 60); break; }
-          }
-          var dateStr = '';
-          var timeEl = article.querySelector('time');
-          if (timeEl) dateStr = timeEl.textContent.trim();
-          var item = document.createElement('a');
-          item.className = 'blog-item' + (isQiling ? ' is-qiling' : '');
-          item.href = href;
-          if (dateStr) {
-            var dateNode = document.createElement('span');
-            dateNode.className = 'blog-date';
-            dateNode.textContent = dateStr;
-            item.appendChild(dateNode);
-          }
-          if (isQiling) {
-            var sourceNode = document.createElement('span');
-            sourceNode.className = 'blog-source';
-            sourceNode.textContent = '[起零衍迹实验室]';
-            item.appendChild(sourceNode);
-          }
-          var titleNode = document.createElement('span');
-          titleNode.className = 'blog-title';
-          titleNode.textContent = title;
-          item.appendChild(titleNode);
-          if (excerpt) {
-            var excerptNode = document.createElement('span');
-            excerptNode.className = 'blog-excerpt';
-            excerptNode.textContent = excerpt;
-            item.appendChild(excerptNode);
-          }
-          blogList.appendChild(item);
-          count++;
+          for (var i = 0; i < paragraphs.length; i++) { var excerptText = paragraphs[i].textContent.trim(); if (excerptText.length > 20) { var excerpt = document.createElement('span'); excerpt.className = 'blog-excerpt'; excerpt.textContent = excerptText.substring(0, 100); content.appendChild(excerpt); break; } }
+          var arrow = document.createElement('span'); arrow.className = 'blog-arrow'; arrow.textContent = '↗'; item.append(date, source, content, arrow); blogList.appendChild(item);
         });
-      })
-      .catch(function() {});
-  }
-
-  fetch('https://api.github.com/orgs/chainreactors/repos?per_page=100')
-    .then(function(r) { return r.json(); })
-    .then(function(repos) {
-      if (!Array.isArray(repos)) return;
-      var total = 0;
-      repos.forEach(function(repo) {
-        total += repo.stargazers_count || 0;
-        document.querySelectorAll('.mx').forEach(function(card) {
-          var name = card.querySelector('.mx-name');
-          var stars = card.querySelector('.mx-stars');
-          if (name && stars && name.textContent.trim() === repo.name) {
-            stars.textContent = repo.stargazers_count.toLocaleString();
-          }
-        });
-      });
-      var totalEl = document.querySelector('.mx-total-num');
-      if (totalEl) totalEl.textContent = total.toLocaleString() + '+';
-    })
-    .catch(function() {});
-})();
-</script>
+      }).catch(function () {});
+    }());
+  </script>
 </body>
 </html>
