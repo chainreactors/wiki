@@ -135,6 +135,8 @@ def build(wiki_base: str, out_dir: pathlib.Path, subsets: set, with_fonts: bool)
     # 站内入口: 独立部署时必须是绝对地址
     html = sub(html, 'href="/wiki/"', 'href="%s/"' % wiki_base, expect=1)
     html = sub(html, 'href="/blog/"', 'href="%s/blog/"' % wiki_base, expect=1)
+    html = sub(html, 'href="/recruitment.html"',
+               'href="%s/recruitment.html"' % wiki_base, expect=4)
     # 博客列表: 抓取 wiki 的 blog 索引 (GitHub Pages 返回 access-control-allow-origin: *)
     html = sub(html, "fetch('/blog/')", "fetch('%s/blog/')" % wiki_base, expect=1)
     # 文章链接是相对 blog 索引的, 不能按当前 SPA 的 origin 解析
