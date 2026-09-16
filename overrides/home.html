@@ -46,7 +46,7 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; background: var(--ink); }
+    html { scroll-behavior: smooth; overflow-x: hidden; background: var(--ink); }
     body { min-width: 320px; margin: 0; overflow-x: hidden; color: var(--white); background: var(--ink); font: 400 16px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
     body::before { content: ""; position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: .07; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.34'/%3E%3C/svg%3E"); mix-blend-mode: soft-light; }
     body::after { content: ""; position: fixed; inset: 0; z-index: -3; pointer-events: none; background: linear-gradient(90deg, transparent calc(50% - .5px), rgba(255,255,255,.035) 50%, transparent calc(50% + .5px)); }
@@ -119,8 +119,11 @@
     .fission-caption { display: none; }
     /* 关键节点 = 开源项目：被反应点亮之后才浮出名字，可点开 GitHub */
     .fission-labels { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
-    .fission-label { position: absolute; top: 0; left: 0; display: inline-flex; gap: .45em; align-items: center; padding: .28em .45em; border-radius: 2px; background: rgba(5,5,6,.72); color: #b9a1ad; font: .56rem/1 var(--mono); letter-spacing: .04em; text-decoration: none; white-space: nowrap; opacity: 0; pointer-events: auto; transition: color .18s, background .18s; }
+    .fission-label { position: absolute; top: 0; left: 0; display: inline-flex; gap: .45em; align-items: center; padding: .28em .45em; border: 1px solid transparent; border-radius: 2px; background: rgba(5,5,6,.72); color: #b9a1ad; font: .56rem/1 var(--mono); letter-spacing: .04em; text-decoration: none; white-space: nowrap; opacity: 0; pointer-events: auto; transition: color .18s, background .18s, border-color .18s, box-shadow .18s; }
     .fission-label i { color: #b14854; font-style: normal; }
+    .fission-label.is-major { gap: .55em; padding: .34em .58em; border-color: rgba(255,72,82,.34); background: rgba(18,7,10,.88); color: #fff5ee; box-shadow: 0 0 22px rgba(223,70,63,.2); font-size: .72rem; font-weight: 700; }
+    .fission-stars { color: var(--red-bright); font-weight: 700; }
+    .fission-label.is-major i { color: var(--red-bright); }
     .fission-label:hover, .fission-label:focus-visible { color: var(--white); background: rgba(24,10,16,.94); }
     .fission-label:hover i, .fission-label:focus-visible i { color: var(--red); }
     @media (max-width: 860px) {
@@ -150,18 +153,190 @@
 
     /* capabilities */
     .capabilities { background: var(--ink); }
-    #cairn { min-height: auto; display: block; background: var(--ink); }
-    #cairn > .wrap { width: min(100%, var(--max)); }
-    #cairn .cap-grid { grid-template-columns: 1fr; }
-    #cairn .cap { min-height: clamp(190px, 26svh, 300px); padding-right: clamp(1.5rem, 4vw, 4rem); background: linear-gradient(110deg, rgba(255,41,41,.13), transparent 62%); }
-    #cairn .cap h3 { margin-top: clamp(1.6rem, 7svh, 7rem); font-size: clamp(1.75rem, 3.1vw, 3rem); }
-    #cairn .cap p { max-width: 720px; font-size: .94rem; }
+    /* cairn · 重新定义渗透测试：左栏标题 + 右栏产品演示舞台 */
+    #cairn { min-height: auto; display: block; background: var(--ink); --cairn-stack-top: clamp(6rem, 13vh, 7.5rem); }
+    #cairn > .wrap { width: min(100%, 1820px); padding-inline: clamp(1.25rem, 2vw, 2.5rem); }
+    #cairn .cairn-layout { display: grid; grid-template-columns: minmax(320px, 430px) minmax(680px, 840px); justify-content: center; gap: clamp(7.8rem, 14vw, 14.5rem); align-items: center; transform: translateX(clamp(1rem, 1.2vw, 1.6rem)); }
+    #cairn .cairn-side { position: sticky; top: clamp(6rem, 18vh, 12rem); justify-self: end; max-width: 430px; padding-top: .35rem; }
+    #cairn .cairn-side .eyebrow { margin: 0; }
+    #cairn .cairn-side h2 { max-width: none; margin: 1rem 0 0; text-align: left; font-size: clamp(2.35rem, 3.75vw, 4.15rem); }
+    #cairn .cairn-intro { margin-top: clamp(1.5rem, 3.2vh, 2.6rem); padding-top: clamp(1.3rem, 2.8vh, 2.1rem); border-top: 1px solid var(--line); }
+    #cairn .cairn-intro h3 { font: 600 clamp(1.45rem, 1.85vw, 1.9rem)/1.26 var(--display); letter-spacing: -.03em; }
+    #cairn .cairn-intro p { max-width: 34em; margin-top: .95rem; color: var(--muted); font-size: 1rem; line-height: 1.88; }
+    #cairn .cairn-actions { margin-top: clamp(1.6rem, 3.4vh, 2.6rem); }
+    /* cairn · 产品演示舞台：仿真 Web 界面 + 五阶段动态流程 */
+    .cairn-stage { position: relative; justify-self: start; width: min(100%, clamp(680px, 53vw, 840px)); }
+    .cairn-browser { overflow: hidden; border: 1px solid rgba(255,255,255,.15); border-radius: 8px; background: #101012; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 4px 18px rgba(0,0,0,.5); }
+    .cairn-browser-bar { display: flex; align-items: center; gap: .8rem; height: 44px; padding: 0 1.1rem; background: rgba(255,255,255,.045); border-bottom: 1px solid rgba(255,255,255,.1); }
+    .cairn-dots { display: flex; gap: 7px; }
+    .cairn-dots i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.18); }
+    .cairn-dots i:first-child { background: rgba(223,70,63,.8); }
+    .cairn-addr { flex: 1; max-width: 320px; margin: 0 auto; padding: .34rem .9rem; border-radius: 5px; background: rgba(255,255,255,.06); color: var(--muted); font: .66rem/1.2 var(--mono); letter-spacing: .05em; text-align: center; }
+    .cairn-viewport { position: relative; aspect-ratio: 16 / 9.25; background: #0c0c0e; overflow: hidden; }
+    .cairn-slot { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility 0s linear .6s; }
+    .cairn-slot.is-active { opacity: 1; visibility: visible; transition: opacity .6s ease; z-index: 2; }
+    .cairn-slot::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 36%; background: linear-gradient(180deg, transparent, rgba(5,5,6,.52)); pointer-events: none; z-index: 2; opacity: 0; transition: opacity .6s; }
+    .cairn-slot.is-active::after { opacity: 1; }
+    .cairn-slot video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .cairn-caption { position: absolute; left: 1.05rem; bottom: 1.05rem; z-index: 3; display: flex; align-items: center; gap: .6rem; max-width: 82%; padding: .55rem .95rem; border: 1px solid rgba(255,255,255,.18); border-radius: 9px; background: rgba(10,10,11,.84); backdrop-filter: blur(8px); color: var(--white); font: 600 .78rem/1.5 var(--display); letter-spacing: -.01em; text-align: left; opacity: 0; transform: translateY(8px); transition: opacity .45s, transform .45s; }
+    .cairn-caption.show { opacity: 1; transform: none; }
+    .cairn-caption::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--red); box-shadow: 0 0 10px var(--red); flex-shrink: 0; }
+    .cairn-verdict { position: absolute; right: 5%; top: 30%; z-index: 3; padding: .7rem 1.05rem; border: 1px solid rgba(111,191,115,.55); border-radius: 10px; background: rgba(8,14,9,.9); color: #6fbf73; font: 700 .78rem/1.6 var(--mono); opacity: 0; transform: scale(.82); transition: opacity .45s, transform .45s cubic-bezier(.34,1.56,.64,1); }
+    .cairn-verdict.show { opacity: 1; transform: none; }
+    .cairn-chainwrap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 1.2rem 1.5rem; background: radial-gradient(560px 260px at 55% 38%, rgba(223,70,63,.07), transparent 70%), #0c0c0e; }
+    .cairn-chainwrap svg { width: 100%; height: 100%; }
+    .chain-edge { stroke-width: 2; fill: none; }
+    .chain-edge-base { stroke: rgba(255,255,255,.16); }
+    .chain-edge-draw { stroke: var(--red); stroke-dasharray: var(--edge-len, 1); stroke-dashoffset: var(--edge-len, 1); opacity: 0; filter: drop-shadow(0 0 5px rgba(223,70,63,.75)); transition: stroke-dashoffset var(--edge-dur, 720ms) cubic-bezier(.22,.61,.36,1), opacity .18s ease; }
+    .chain-edge-draw.lit { stroke-dashoffset: 0; opacity: 1; }
+    .chain-node .box { fill: #141416; stroke: rgba(255,255,255,.3); stroke-width: 1.5; transition: .4s; }
+    .chain-node.lit .box { stroke: var(--red); fill: rgba(223,70,63,.12); }
+    .chain-node.final .box { stroke: rgba(223,70,63,.65); }
+    .chain-node.final.lit .box { fill: rgba(223,70,63,.22); filter: drop-shadow(0 0 12px rgba(223,70,63,.55)); }
+    .chain-node .nnum { fill: var(--red); font: 700 15px "Space Mono", monospace; }
+    .chain-node .nlab { fill: #e8e8e4; font: 600 15px "Sora", "PingFang SC", sans-serif; opacity: .45; transition: opacity .4s; }
+    .chain-node.lit .nlab { opacity: 1; }
+    .chain-pulse { fill: #fff; filter: drop-shadow(0 0 7px var(--red)); opacity: 0; }
+    /* 四场景矢量动画（与长链路同一视觉语言） */
+    .cairn-ani { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 1rem 1.1rem 2.45rem; background: radial-gradient(560px 260px at 55% 38%, rgba(223,70,63,.07), transparent 70%), #0c0c0e; }
+    .pane { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 1rem 1.1rem 2.45rem; opacity: 0; transform: translateY(10px) scale(.98); transition: opacity .55s, transform .55s; pointer-events: none; }
+    .pane.show { opacity: 1; transform: none; }
+    /* 端到端 · 场景1 任务表单 */
+    .formcard { width: min(500px, 96%); border: 1px solid rgba(255,255,255,.16); border-radius: 12px; background: #141416; box-shadow: 0 24px 60px rgba(0,0,0,.5); overflow: hidden; }
+    .fc-title { padding: .8rem 1.2rem; border-bottom: 1px solid rgba(255,255,255,.1); font: 600 .86rem/1 var(--display); letter-spacing: -.01em; }
+    .fc-row { display: flex; align-items: center; gap: .9rem; padding: .7rem 1.2rem; border-bottom: 1px dashed rgba(255,255,255,.07); }
+    .fc-label { width: 4.2em; flex-shrink: 0; color: var(--muted); font-size: .72rem; }
+    .fc-field { flex: 1; min-height: 1.4em; padding: .42rem .7rem; border: 1px solid rgba(255,255,255,.14); border-radius: 7px; background: rgba(255,255,255,.04); font: .74rem/1.3 var(--mono); color: var(--white); }
+    .fc-field.dim { color: var(--muted); }
+    .fc-caret { display: inline-block; width: 7px; height: 12px; margin-left: 2px; background: var(--red); vertical-align: -2px; animation: blink 1s steps(1) infinite; }
+    .fc-desc { display: block; padding: .85rem 1.2rem; border-bottom: 1px dashed rgba(255,255,255,.07); }
+    .fc-task { display: block; min-height: 3.4em; line-height: 1.6; font: .76rem/1.6 var(--sans); white-space: pre-wrap; word-break: break-all; }
+    .fc-chips em { font-style: normal; font-size: .72rem; padding: .34rem .7rem; border-radius: 6px; border: 1px solid rgba(223,70,63,.6); background: rgba(223,70,63,.12); color: var(--white); }
+    .fc-btn { margin: .9rem 1.2rem 1.1rem; padding: .62rem 0; border-radius: 8px; background: var(--red); color: #fff; text-align: center; font: 600 .8rem/1 var(--display); transition: transform .18s, box-shadow .3s; }
+    .fc-btn.pressed { transform: scale(.96); box-shadow: 0 0 0 6px rgba(223,70,63,.25), 0 0 24px rgba(223,70,63,.5); }
+    /* 端到端 · 场景2 推理图 */
+    .reason-wrap { width: min(700px, 96%); }
+    .rflow { position: relative; width: 100%; }
+    .reason-graph { display: block; width: 100%; height: auto; overflow: visible; }
+    .reason-edge-base, .reason-edge-draw { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .reason-edge-base { stroke: rgba(255,255,255,.22); stroke-width: 1.5; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; filter: drop-shadow(0 0 3px rgba(255,255,255,.06)); }
+    .reason-edge-base.dead { stroke: rgba(255,64,85,.28); stroke-width: 1.8; stroke-dasharray: .045 .045; }
+    .reason-edge-draw { stroke: var(--red); stroke-width: 1.9; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; filter: drop-shadow(0 0 7px rgba(223,70,63,.42)); }
+    .reason-edge-draw.dead { stroke-width: 2; filter: drop-shadow(0 0 6px rgba(223,70,63,.48)); }
+    .reason-node { opacity: 0; transform: translateY(8px) scale(.97); transform-box: fill-box; transform-origin: center; }
+    .reason-node .shape { fill: #111317; stroke: rgba(255,255,255,.82); stroke-width: 1.8; }
+    .reason-node.intent .shape { fill: rgba(24,42,68,.18); stroke: #4a9cff; stroke-width: 2.1; }
+    .reason-node.goal .shape { fill: rgba(223,70,63,.12); stroke: #ff4055; stroke-width: 2.1; }
+    .reason-node.dead .shape { fill: rgba(223,70,63,.08); stroke: #ff4055; stroke-width: 2; }
+    .reason-node text { fill: var(--white); font: 700 24px var(--display); letter-spacing: -.03em; text-anchor: middle; dominant-baseline: middle; }
+    .reason-node.fact text { font-size: 23px; }
+    .reason-node.dead text { font-size: 22px; }
+    .pane.show .reason-edge-base { animation: reasonBaseDraw .9s cubic-bezier(.22,.61,.36,1) forwards; animation-delay: calc(.44s + var(--i) * .4s); }
+    .pane.show .reason-edge-draw { animation: reasonDraw .98s cubic-bezier(.22,.61,.36,1) forwards; animation-delay: calc(.52s + var(--i) * .4s); }
+    .pane.show .reason-edge-draw.dead { animation-name: reasonDeadDraw; animation-duration: 1.12s; }
+    .pane.show .reason-node { animation: popin .52s cubic-bezier(.34,1.56,.64,1) forwards; animation-delay: calc(.28s + var(--i) * .38s); }
+    @keyframes popin { to { opacity: 1; transform: none; } }
+    @keyframes reasonBaseDraw { to { opacity: 1; stroke-dashoffset: 0; } }
+    @keyframes reasonDraw { to { opacity: 1; stroke-dashoffset: 0; } }
+    @keyframes reasonDeadDraw {
+      0% { opacity: 0; stroke-dasharray: 1; stroke-dashoffset: 1; }
+      72% { opacity: 1; stroke-dasharray: 1; stroke-dashoffset: 0; }
+      100% { opacity: 1; stroke-dasharray: .045 .045; stroke-dashoffset: 0; }
+    }
+    .rmeta { margin-top: 1.6rem; color: var(--muted); font-size: .72rem; text-align: center; opacity: 0; transition: opacity .5s; transition-delay: 4.2s; }
+    .pane.show .rmeta { opacity: 1; }
+    /* 端到端 · 场景3 报告 */
+    .reportcard { width: min(510px, 96%); border: 1px solid rgba(255,255,255,.16); border-radius: 12px; background: #141416; box-shadow: 0 24px 60px rgba(0,0,0,.5); padding: 1.08rem 1.28rem 1.18rem; }
+    .rc-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: .7rem; border-bottom: 1px solid rgba(255,255,255,.1); font: 600 .82rem/1.3 var(--display); }
+    .rc-agent { font: .6rem/1 var(--mono); letter-spacing: .1em; color: var(--red); border: 1px solid rgba(223,70,63,.5); border-radius: 5px; padding: .3rem .5rem; }
+    .rc-row { display: flex; align-items: baseline; gap: .6rem; padding: .5rem 0; border-bottom: 1px dashed rgba(255,255,255,.07); font-size: .72rem; line-height: 1.45; opacity: 0; transform: translateX(10px); }
+    .pane.show .rc-row { animation: popin .52s ease forwards; animation-delay: calc(.55s + var(--i) * .62s); }
+    .rc-row b { color: var(--red); font-weight: 600; min-width: 2.2em; }
+    .rc-row span { flex: 1; }
+    .rc-row i { font-style: normal; color: #6fbf73; font-size: .66rem; white-space: nowrap; flex-shrink: 0; }
+    .pane.p-report { flex-direction: column; gap: .95rem; }
+    .rc-pop { padding: .62rem 1.15rem; border: 1px solid rgba(223,70,63,.5); border-radius: 10px; background: rgba(19,12,12,.94); box-shadow: 0 16px 40px rgba(0,0,0,.55), 0 0 24px rgba(223,70,63,.12); font-size: .72rem; letter-spacing: .01em; opacity: 0; transform: translateY(14px) scale(.92); }
+    .pane.show .rc-pop { animation: popin .58s cubic-bezier(.34,1.56,.64,1) forwards; animation-delay: 3s; }
+    .rc-pop b { color: var(--red); font-weight: 600; }
+    .rc-foot { margin-top: .75rem; color: var(--muted); font-size: .66rem; }
+    /* 可观测 · 三源流汇聚成黑板 */
+    .obsx { width: 100%; height: 100%; display: flex; align-items: center; gap: 0; }
+    .srcs { width: 43%; flex-shrink: 0; display: flex; flex-direction: column; gap: .55rem; }
+    .src { border: 1px solid rgba(255,255,255,.14); border-radius: 10px; background: #111113; padding: .5rem .7rem .55rem; opacity: 0; transform: translateX(-12px); transition: opacity .5s, transform .5s; overflow: hidden; }
+    .src.in { opacity: 1; transform: none; }
+    .src-title { display: flex; align-items: center; justify-content: space-between; font: 700 .6rem/1 var(--mono); letter-spacing: .12em; color: var(--red); padding-bottom: .42rem; margin-bottom: .3rem; border-bottom: 1px dashed rgba(255,255,255,.12); }
+    .src-title i { font-style: normal; color: var(--muted); letter-spacing: .08em; font-size: .54rem; }
+    .src-rows { display: flex; flex-direction: column; justify-content: flex-end; height: 4.55em; overflow: hidden; }
+    .brow { display: flex; align-items: center; gap: .5rem; padding: .14rem 0; font: .6rem/1.4 var(--mono); color: #d6d6d1; opacity: 0; transform: translateY(-6px); animation: rowin .35s ease forwards; flex-shrink: 0; }
+    @keyframes rowin { to { opacity: 1; transform: none; } }
+    .brow .m { flex-shrink: 0; font-weight: 700; font-size: .56rem; padding: .1rem .3rem; border-radius: 4px; background: rgba(255,255,255,.08); color: var(--muted); }
+    .brow .m.post { background: rgba(223,70,63,.16); color: var(--red); }
+    .brow .u { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .brow .s { flex-shrink: 0; color: var(--muted); }
+    .brow .s.ok { color: #6fbf73; }
+    .brow .s.bad { color: var(--red); }
+    .obsflow { flex: 1 1 auto; align-self: stretch; min-width: 0; min-height: 0; position: relative; }
+    .obsflow svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .ofline { stroke: rgba(255,255,255,.28); stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .9s cubic-bezier(.22,.61,.36,1) .15s; }
+    .ofline.draw { stroke-dashoffset: 0; }
+    .ofpulse { fill: var(--red); filter: drop-shadow(0 0 5px rgba(223,70,63,.85)); }
+    .bb { width: 40%; flex-shrink: 0; display: flex; flex-direction: column; border: 1px solid rgba(223,70,63,.42); border-radius: 12px; background: #111113; overflow: hidden; opacity: 0; transform: scale(.95); transition: opacity .55s, transform .55s cubic-bezier(.34,1.56,.64,1); box-shadow: 0 18px 46px rgba(0,0,0,.4); }
+    .bb.in { opacity: 1; transform: none; }
+    .bb-head { display: flex; align-items: center; justify-content: space-between; padding: .62rem .9rem; border-bottom: 1px solid rgba(255,255,255,.1); font: 700 .6rem/1 var(--mono); letter-spacing: .09em; color: var(--muted); white-space: nowrap; }
+    .bb-head .rh { display: flex; align-items: center; gap: .6rem; }
+    .board-live { color: var(--red); font-size: .58rem; animation: blink 1.6s steps(1) infinite; }
+    .bb-count { color: var(--red); font-size: .6rem; }
+    .bb-facts { display: flex; flex-direction: column; gap: .38rem; padding: .6rem .75rem; }
+    .bfact { display: flex; align-items: baseline; gap: .55rem; padding: .42rem .6rem; border: 1px solid rgba(255,255,255,.1); border-radius: 8px; background: rgba(255,255,255,.03); font-size: .66rem; opacity: 0; transform: translateX(14px); }
+    .bfact.in { animation: bfactin .45s cubic-bezier(.34,1.56,.64,1) forwards; }
+    @keyframes bfactin { to { opacity: 1; transform: none; } }
+    .btag { flex-shrink: 0; font: 700 .55rem/1 var(--mono); padding: .16rem .4rem; border-radius: 4px; border: 1px solid rgba(255,255,255,.25); color: var(--muted); }
+    .btag.sus { border-color: rgba(223,70,63,.6); color: var(--red); background: rgba(223,70,63,.1); }
+    .btag.evi { border-color: rgba(111,191,115,.55); color: #6fbf73; }
+    /* 0误报 · 验证管线 */
+    .verify { width: min(520px, 96%); display: flex; flex-direction: column; gap: 1rem; }
+    .vuln-card { border: 1px solid rgba(255,255,255,.16); border-radius: 12px; background: #141416; padding: .85rem 1.1rem; box-shadow: 0 18px 46px rgba(0,0,0,.45); opacity: 0; transform: translateY(10px); transition: .5s; }
+    .vuln-card.in { opacity: 1; transform: none; }
+    .vc-head { display: flex; align-items: center; gap: .6rem; font: 600 .82rem/1.3 var(--display); }
+    .vc-head b { color: var(--red); font-weight: 600; }
+    .vc-sub { margin-top: .4rem; color: var(--muted); font: .66rem/1.4 var(--mono); }
+    .vsteps { display: flex; flex-direction: column; gap: .45rem; }
+    .vstep { display: flex; align-items: center; gap: .7rem; padding: .5rem .9rem; border: 1px solid rgba(255,255,255,.12); border-radius: 9px; background: rgba(255,255,255,.03); font-size: .74rem; opacity: .4; transition: .4s; }
+    .vstep.run, .vstep.done { opacity: 1; border-color: rgba(255,255,255,.22); }
+    .vstep .vsp { width: 13px; height: 13px; border-radius: 50%; border: 2px solid rgba(255,255,255,.25); flex-shrink: 0; }
+    .vstep.run .vsp { border-top-color: var(--red); animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .vstep.done .vsp { border-color: #6fbf73; background: #6fbf73; }
+    .vstep .vst { margin-left: auto; font: 700 .64rem/1 var(--mono); color: #6fbf73; opacity: 0; }
+    .vstep.done .vst { opacity: 1; }
+    .verdict2 { align-self: flex-start; padding: .6rem 1rem; border: 1px solid rgba(111,191,115,.55); border-radius: 10px; background: rgba(8,14,9,.9); color: #6fbf73; font: 700 .72rem/1.5 var(--mono); opacity: 0; transform: scale(.82); transition: opacity .4s, transform .4s cubic-bezier(.34,1.56,.64,1); }
+    .verdict2.in { opacity: 1; transform: none; }
+    .discard { color: var(--muted); font-size: .68rem; opacity: 0; transform: translateY(6px); transition: .5s; }
+    .discard.in { opacity: .85; transform: none; }
+    .discard .dx { color: rgba(255,255,255,.4); margin-right: .4rem; }
+    /* 可解释 · 证据链 */
+    .evchain { width: min(540px, 97%); display: flex; flex-direction: column; gap: .65rem; }
+    .ev-head { font: 600 .86rem/1.3 var(--display); letter-spacing: -.01em; padding-bottom: .55rem; border-bottom: 1px solid rgba(255,255,255,.12); }
+    .ev-item { display: flex; gap: .8rem; padding: .6rem .8rem; border: 1px solid rgba(255,255,255,.1); border-radius: 10px; background: rgba(255,255,255,.03); opacity: 0; transform: translateX(-12px); transition: .5s; }
+    .ev-item.in { opacity: 1; transform: none; }
+    .ev-tag { flex-shrink: 0; align-self: flex-start; font: 700 .6rem/1 var(--mono); letter-spacing: .08em; color: var(--red); border: 1px solid rgba(223,70,63,.5); border-radius: 5px; padding: .32rem .45rem; margin-top: .1rem; }
+    .ev-title { font: 600 .76rem/1.45 var(--display); }
+    .ev-sub { margin-top: .28rem; color: var(--muted); font: .64rem/1.5 var(--mono); }
+    .ev-concl { margin-top: .3rem; padding: .6rem .9rem; border-left: 3px solid var(--red); background: rgba(223,70,63,.08); border-radius: 0 8px 8px 0; font-size: .74rem; opacity: 0; transform: translateY(8px); transition: .5s; }
+    .ev-concl.in { opacity: 1; transform: none; }
+    .cairn-keys { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.35rem; }
+    .cairn-key { position: relative; overflow: hidden; display: flex; align-items: center; gap: .55rem; border: 1px solid rgba(255,255,255,.18); background: transparent; color: var(--muted); border-radius: 99px; padding: .62rem 1.15rem; font: 600 .82rem/1 var(--display); letter-spacing: -.01em; cursor: pointer; transition: color .35s, border-color .35s, background .35s, box-shadow .35s; }
+    .cairn-key .kidx { color: var(--red); font: .58rem/1 var(--mono); letter-spacing: .1em; transition: color .35s; }
+    .cairn-key .kbar { position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: rgba(255,255,255,.85); }
+    .cairn-key:hover { border-color: rgba(255,255,255,.45); color: var(--white); }
+    .cairn-key.on { background: var(--red); border-color: var(--red); color: #fff; box-shadow: 0 8px 26px rgba(223,70,63,.35); }
+    .cairn-key.on .kidx { color: rgba(255,255,255,.75); }
     #future-products { min-height: auto; display: block; background: var(--ink); }
     #future-products > .wrap { width: min(100%, var(--max)); }
     .cap-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
     .future-grid { grid-template-columns: repeat(3, 1fr); }
-    .cap { position: relative; min-height: clamp(150px, 22svh, 255px); padding: clamp(1rem, 2svh, 1.35rem) 1.3rem clamp(1.1rem, 2.2svh, 1.6rem) 0; transition: background .3s; }
-    .cap + .cap { padding-left: 1.3rem; border-left: 1px solid var(--line); }
+    .cap { position: relative; min-height: clamp(150px, 22svh, 255px); padding: clamp(1rem, 2svh, 1.35rem) 1.3rem clamp(1.1rem, 2.2svh, 1.6rem); transition: background .3s; }
+    .cap + .cap { border-left: 1px solid var(--line); }
     .cap:hover { background: linear-gradient(145deg, rgba(255,41,41,.14), transparent 68%); }
     .cap-index { color: var(--red); font: .62rem/1 var(--mono); letter-spacing: .12em; }
     .cap h3 { margin-top: .6rem; font: 600 1.28rem/1.05 var(--display); letter-spacing: -.035em; }
@@ -228,7 +403,7 @@
     html[lang="zh-CN"] .contact h2 { white-space: nowrap; }
     html[lang="zh-CN"] .contact h2 span { display: inline; }
     html[lang="zh-CN"] .contact h2 span:last-child { margin-top: 0; margin-left: .12em; font-size: 1.18em; line-height: .92; letter-spacing: -.06em; }
-    .contact-intro { max-width: 490px; margin: 1.25rem auto 0; text-align: center; font-size: 1rem; }
+    .contact-intro { width: fit-content; max-width: min(100%, 980px); margin: 1.25rem auto 0; text-align: center; font-size: 1rem; white-space: nowrap; }
     .contact-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 300px)); width: fit-content; max-width: 100%; gap: 1rem; margin: clamp(1.3rem, 3.5svh, 3rem) auto 0; background: transparent; }
     .contact-card { display: flex; flex-direction: column; min-height: 220px; padding: 1.25rem; color: var(--white); border: 1px solid var(--line); background: var(--ink-2); transition: background .25s, color .25s, border-color .25s; }
     .contact-card:hover { color: var(--white); border-color: var(--red); background: var(--red); }
@@ -244,12 +419,16 @@
     .talent-panel::before { content: "JOIN US"; position: absolute; top: -1.1rem; right: 0; color: rgba(255,255,255,.035); font: 700 clamp(4.5rem, 12vw, 11rem)/1 var(--display); letter-spacing: -.08em; pointer-events: none; }
     .talent-head { position: relative; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr); gap: clamp(2rem, 7vw, 7rem); align-items: end; }
     .talent-title h3 { width: fit-content; max-width: 100%; margin: 0 auto; text-align: center; font: 600 var(--slogan)/.92 var(--display); letter-spacing: -.06em; text-wrap: balance; }
-    .talent-title h3 em { display: block; margin-top: .12em; color: var(--red); font-size: 1.18em; line-height: .92; letter-spacing: -.06em; font-style: normal; }
+    .talent-title h3 em { display: inline; margin: 0 0 0 .16em; color: var(--red); font-size: 1.18em; line-height: .92; letter-spacing: -.06em; font-style: normal; }
     .talent-summary { max-width: 600px; }
     .talent-summary > p { color: #d0d0cb; font-size: clamp(.95rem, 1.2vw, 1.1rem); line-height: 1.8; }
-    .talent-facts { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 1.5rem; }
-    .talent-fact { padding: .6rem .72rem; color: var(--white); border: 1px solid var(--line); font: 600 .61rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
-    .talent-fact:first-child { color: var(--white); border-color: var(--red); background: var(--red); font-weight: 700; }
+    .talent-meta { display: flex; align-items: center; justify-content: space-between; gap: .9rem; margin-top: 1.5rem; }
+    .talent-facts { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 0; }
+    .talent-fact { padding: .6rem .72rem; color: var(--red); border: 1px solid rgba(223,70,63,.7); background: rgba(223,70,63,.08); font: 700 .61rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .talent-fact:first-child { color: var(--red); border-color: rgba(223,70,63,.7); background: rgba(223,70,63,.08); font-weight: 700; }
+    .talent-apply { flex: 0 0 auto; min-height: 0; padding: .6rem .72rem; color: var(--red); border-color: rgba(223,70,63,.7); border-radius: 0; background: rgba(223,70,63,.08); box-shadow: none; font: 700 .61rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+    .talent-apply::after { content: "↗"; margin-left: .42rem; font-size: .82em; line-height: 1; }
+    .talent-apply:hover { color: var(--white); border-color: var(--red-bright); background: var(--red-bright); box-shadow: 0 0 0 4px rgba(255,90,82,.14), 0 14px 34px rgba(223,70,63,.22); }
     .talent-grid { position: relative; display: grid; grid-template-columns: minmax(280px, .82fr) minmax(0, 1.7fr); gap: 1px; margin-top: clamp(3rem, 6vw, 5rem); background: var(--line); border: 1px solid var(--line); }
     .talent-profile { display: flex; flex-direction: column; padding: clamp(1.5rem, 3vw, 2.5rem); color: var(--white); background: linear-gradient(150deg, #84272b 0%, #541519 100%); }
     .talent-kicker { font: 700 .62rem/1 var(--mono); letter-spacing: .13em; text-transform: uppercase; }
@@ -313,7 +492,7 @@
       .section-intro { max-width: 520px; font-size: 1rem; }
       .proof b { font-size: 2rem; }
       .proof span { font-size: .74rem; }
-      .cap { min-height: clamp(190px, 26svh, 360px); padding: 2rem 2rem 2.4rem 0; }
+      .cap { min-height: clamp(190px, 26svh, 360px); padding: 2rem 2rem 2.4rem; }
       .cap + .cap { padding-left: 2rem; }
       .cap-index { font-size: .72rem; }
       .cap h3 { margin-top: .8rem; font-size: 1.65rem; }
@@ -328,7 +507,7 @@
       .blog-title { font-size: 1.05rem; }
       .blog-excerpt { font-size: .82rem; }
       .contact h2 { max-width: 1300px; }
-      .contact-intro { max-width: 650px; font-size: 1.15rem; }
+      .contact-intro { max-width: min(100%, 1080px); font-size: 1.15rem; }
       .contact-grid { grid-template-columns: repeat(3, minmax(0, 380px)); gap: 1.5rem; margin-top: 4rem; }
       .contact-card { min-height: 190px; padding: 1.6rem; }
       .contact-email { font-size: 1.2rem; }
@@ -372,7 +551,7 @@
       .scroll-cue { gap: .9rem; }
       .scroll-cue i { width: 76px; }
       .section-intro { max-width: 680px; font-size: 1.25rem; }
-      .cap { min-height: clamp(240px, 30svh, 480px); padding: 2.6rem 2.6rem 3rem 0; }
+      .cap { min-height: clamp(240px, 30svh, 480px); padding: 2.6rem 2.6rem 3rem; }
       .cap + .cap { padding-left: 2.6rem; }
       .cap-index { font-size: .86rem; }
       .cap h3 { margin-top: 1rem; font-size: 2rem; }
@@ -388,7 +567,7 @@
       .blog-title { font-size: 1.2rem; }
       .blog-excerpt { font-size: .9rem; }
       .contact h2 { max-width: 1700px; }
-      .contact-intro { max-width: 840px; font-size: 1.4rem; }
+      .contact-intro { max-width: min(100%, 1320px); font-size: 1.4rem; }
       .contact-grid { grid-template-columns: repeat(3, minmax(0, 480px)); gap: 2rem; margin-top: 5rem; }
       .contact-card { min-height: 240px; padding: 2rem; }
       .contact-label { font-size: .78rem; }
@@ -425,6 +604,9 @@
       .hero { padding: 0; }
       .hero-bottom { display: none; }
       .cap-grid { grid-template-columns: repeat(2, 1fr); }
+      #cairn .cairn-layout { grid-template-columns: 1fr; gap: 3rem; transform: none; }
+      #cairn .cairn-side { position: static; justify-self: stretch; max-width: 640px; }
+      .cairn-stage { width: 100%; justify-self: stretch; }
       #cairn .cap-grid { grid-template-columns: 1fr; }
       .future-grid { grid-template-columns: repeat(3, 1fr); }
       .cap:nth-child(3) { border-left: 0; border-top: 1px solid var(--line); }
@@ -471,8 +653,44 @@
       html[lang="zh-CN"] .hero h1 em { margin-left: 0; }
       .section-head { display: block; }
       .section-intro { max-width: 100%; margin-top: 1.45rem; }
+      #cairn .cairn-layout { grid-template-columns: 1fr; gap: 2.6rem; transform: none; }
+      #cairn .cairn-side { position: static; }
+      .cairn-stage { width: 100%; justify-self: stretch; }
+      .cairn-viewport { aspect-ratio: 1 / 1.14; }
+      .cairn-ani { padding: .7rem .7rem 3.4rem; align-items: flex-start; }
+      .cairn-addr { max-width: 190px; font-size: .58rem; }
+      .cairn-caption { max-width: 92%; font-size: .68rem; }
+      .cairn-keys { gap: .5rem; }
+      .cairn-key { padding: .52rem .85rem; font-size: .72rem; }
+      .evchain { gap: .4rem; }
+      .ev-head { font-size: .78rem; padding-bottom: .4rem; }
+      .ev-item { padding: .45rem .6rem; gap: .55rem; }
+      .ev-item .ev-sub { font-size: .62rem; }
+      .ev-concl { font-size: .66rem; padding: .45rem .6rem; }
+      .rc-row { font-size: .64rem; gap: .45rem; padding: .42rem 0; }
+      .rc-row i { font-size: .58rem; }
+      .rc-pop { font-size: .62rem; padding: .5rem .8rem; text-align: center; line-height: 1.6; }
+      .fc-task { font-size: .7rem; min-height: 4.2em; }
+      .pane { padding: .8rem .8rem 3.4rem; }
+      .reason-wrap { width: 100%; }
+      .reason-node text { font-size: 22px; }
+      .reason-node.fact text, .reason-node.dead text { font-size: 20px; }
+      .rmeta { width: 100%; margin-top: 1.1rem; font-size: .62rem; }
+      .obsx { flex-direction: column; justify-content: flex-start; gap: 0; }
+      .srcs { width: 100%; flex-direction: row; gap: .4rem; }
+      .src-title i { display: none; }
+      .src { flex: 1; padding: .35rem .45rem .4rem; }
+      .src-title { font-size: .5rem; letter-spacing: .05em; padding-bottom: .3rem; margin-bottom: .2rem; }
+      .src-rows { height: 2.7em; }
+      .src-rows .brow { font-size: .52rem; gap: .3rem; padding: .1rem 0; }
+      .obsflow { flex: 0 0 36px; width: 100%; min-height: 0; }
+      .bb { width: 100%; }
+      .bb-head { padding: .42rem .6rem; font-size: .54rem; }
+      .bb-facts { gap: .26rem; padding: .4rem .5rem; }
+      .bfact { font-size: .56rem; padding: .26rem .45rem; gap: .4rem; }
+      .btag { font-size: .48rem; padding: .12rem .3rem; }
       .cap-grid, .future-grid, .repo-grid, .product-grid { grid-template-columns: 1fr; }
-      .cap, .cap + .cap { min-height: 185px; padding: 1.3rem 0; border-left: 0; }
+      .cap, .cap + .cap { min-height: 185px; padding: 1.3rem 1rem; border-left: 0; }
       .cap + .cap { border-top: 1px solid var(--line); }
       .cap h3 { margin-top: .6rem; }
       .matrix-foot { align-items: flex-start; flex-direction: column; }
@@ -482,13 +700,16 @@
       .blog-content { grid-column: 1 / -1; grid-row: 2; }
       .blog-arrow { grid-column: 2; grid-row: 2; align-self: end; }
       .blog-excerpt { white-space: normal; }
+      .contact-intro { width: auto; white-space: normal; }
       .contact-grid { grid-template-columns: 1fr; width: 100%; margin-top: 2.3rem; }
       .contact-card { min-height: 125px; }
       .talent-panel { margin-top: 4rem; }
       .talent-panel::before { top: -.3rem; font-size: 4rem; }
       .talent-head { gap: 1.5rem; }
+      .talent-meta { align-items: stretch; flex-direction: column; }
       .talent-facts { display: grid; grid-template-columns: 1fr 1fr; }
       .talent-fact { text-align: center; }
+      .talent-apply { width: 100%; }
       .talent-grid { margin-top: 2.5rem; }
       .talent-traits { margin-top: 1.8rem; }
       .talent-block-head { display: block; }
@@ -584,8 +805,166 @@
     </section>
 
     <section class="section capabilities" id="cairn">
-      <div class="wrap"><div class="section-head"><div><div class="eyebrow reveal" data-i18n="cairn.eyebrow"></div><h2 class="reveal d1"><span class="line" data-i18n="cairn.titleOne"></span><span class="line accent" data-i18n="cairn.titleTwo"></span></h2></div></div>
-        <div class="cap-grid reveal d2"><a class="cap" href="https://github.com/oritera/Cairn" target="_blank" rel="noopener"><span class="cap-index">01 / CAIRN</span><h3 data-i18n="cairn.cardTitle"></h3><p data-i18n="cairn.cardCopy"></p></a></div>
+      <div class="wrap">
+        <div class="cairn-layout">
+          <div class="cairn-side">
+            <h2 class="reveal d1"><span class="line" data-i18n="cairn.titleOne"></span><span class="line accent" data-i18n="cairn.titleTwo"></span></h2>
+            <div class="cairn-intro reveal d2">
+              <h3 data-i18n="cairn.cardTitle"></h3>
+              <p data-i18n="cairn.cardCopy"></p>
+            </div>
+            <div class="cairn-actions reveal d3"><a class="btn btn-primary" href="mailto:business@chainreactors.ai" data-i18n="cairn.trial"></a></div>
+          </div>
+          <div class="cairn-stage reveal d2" id="cairnStage">
+            <div class="cairn-browser">
+              <div class="cairn-browser-bar">
+                <span class="cairn-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="cairn-addr">衍迹.chainreactors.ai</span>
+              </div>
+              <div class="cairn-viewport">
+                <div class="cairn-slot is-active" data-slot="e2e">
+                  <div class="pane p-form">
+                    <div class="formcard">
+                      <div class="fc-title">新建任务</div>
+                      <div class="fc-desc"><span class="fc-field fc-task"><span class="fc-typed"></span><span class="fc-caret"></span></span></div>
+                      <div class="fc-row"><span class="fc-label">执行器</span><span class="fc-field dim">衍迹 Agent · 默认</span></div>
+                      <div class="fc-btn">创建并启动</div>
+                    </div>
+                  </div>
+                  <div class="pane p-reason">
+                    <div class="reason-wrap">
+                      <div class="rflow">
+                        <svg class="reason-graph" viewBox="0 0 760 320" role="img" aria-label="Origin 分出两条 Intent，推理到 Fact 后汇聚到 Goal；无效路径进入 Dead End">
+                          <defs>
+                            <marker id="reasonArrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                              <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,.36)"></path>
+                            </marker>
+                            <marker id="reasonArrowRed" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                              <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff4055"></path>
+                            </marker>
+                          </defs>
+                          <g aria-hidden="true">
+                            <path class="reason-edge-base" style="--i:1" pathLength="1" marker-end="url(#reasonArrow)" d="M 122 128 C 164 96, 188 78, 208 73"></path>
+                            <path class="reason-edge-base" style="--i:1.2" pathLength="1" marker-end="url(#reasonArrow)" d="M 122 158 C 164 190, 188 209, 208 211"></path>
+                            <path class="reason-edge-base" style="--i:3" pathLength="1" marker-end="url(#reasonArrow)" d="M 286 75 C 332 55, 377 55, 418 77"></path>
+                            <path class="reason-edge-base" style="--i:3.2" pathLength="1" marker-end="url(#reasonArrow)" d="M 286 210 C 323 208, 350 206, 378 205"></path>
+                            <path class="reason-edge-base" style="--i:5" pathLength="1" marker-end="url(#reasonArrow)" d="M 532 78 C 572 92, 594 112, 608 133"></path>
+                            <path class="reason-edge-base" style="--i:5.2" pathLength="1" marker-end="url(#reasonArrow)" d="M 492 206 C 540 198, 575 171, 608 151"></path>
+                            <path class="reason-edge-base dead" style="--i:5.7" marker-end="url(#reasonArrowRed)" pathLength="1" d="M 438 238 C 474 276, 532 284, 574 266"></path>
+                          </g>
+                          <g aria-hidden="true">
+                            <path class="reason-edge-draw" style="--i:1" pathLength="1" marker-end="url(#reasonArrowRed)" d="M 122 128 C 164 96, 188 78, 208 73"></path>
+                            <path class="reason-edge-draw" style="--i:1.2" pathLength="1" marker-end="url(#reasonArrowRed)" d="M 122 158 C 164 190, 188 209, 208 211"></path>
+                            <path class="reason-edge-draw" style="--i:3" pathLength="1" marker-end="url(#reasonArrowRed)" d="M 286 75 C 332 55, 377 55, 418 77"></path>
+                            <path class="reason-edge-draw" style="--i:3.2" pathLength="1" marker-end="url(#reasonArrowRed)" d="M 286 210 C 323 208, 350 206, 378 205"></path>
+                            <path class="reason-edge-draw" style="--i:5" pathLength="1" marker-end="url(#reasonArrowRed)" d="M 532 78 C 572 92, 594 112, 608 133"></path>
+                            <path class="reason-edge-draw" style="--i:5.2" pathLength="1" marker-end="url(#reasonArrowRed)" d="M 492 206 C 540 198, 575 171, 608 151"></path>
+                            <path class="reason-edge-draw dead" style="--i:5.7" pathLength="1" marker-end="url(#reasonArrowRed)" d="M 438 238 C 474 276, 532 284, 574 266"></path>
+                          </g>
+                          <g class="reason-node origin" style="--i:0">
+                            <circle class="shape" cx="82" cy="143" r="42"></circle>
+                            <text x="82" y="143">Origin</text>
+                          </g>
+                          <g class="reason-node intent" style="--i:2">
+                            <circle class="shape" cx="246" cy="73" r="42"></circle>
+                            <text x="246" y="73">Intent</text>
+                          </g>
+                          <g class="reason-node intent" style="--i:2.2">
+                            <circle class="shape" cx="246" cy="210" r="42"></circle>
+                            <text x="246" y="210">Intent</text>
+                          </g>
+                          <g class="reason-node fact" style="--i:4">
+                            <rect class="shape" x="418" y="43" width="116" height="70" rx="13"></rect>
+                            <text x="476" y="78">Fact</text>
+                          </g>
+                          <g class="reason-node fact" style="--i:4.2">
+                            <rect class="shape" x="378" y="171" width="116" height="70" rx="13"></rect>
+                            <text x="436" y="206">Fact</text>
+                          </g>
+                          <g class="reason-node goal" style="--i:6">
+                            <circle class="shape" cx="650" cy="143" r="44"></circle>
+                            <text x="650" y="143">Goal</text>
+                          </g>
+                          <g class="reason-node dead" style="--i:6.4">
+                            <rect class="shape" x="574" y="238" width="142" height="58" rx="13"></rect>
+                            <text x="645" y="267">Dead End</text>
+                          </g>
+                        </svg>
+                      </div>
+                      <div class="rmeta">fact · intent 推理链持续生长 · 命中 4 个可疑点</div>
+                    </div>
+                  </div>
+                  <div class="pane p-report">
+                    <div class="reportcard">
+                      <div class="rc-head">企业级渗透测试报告<span class="rc-agent">报告 Agent</span></div>
+                      <div class="rc-row" style="--i:0"><b>严重</b><span>Jenkins 未授权 Script Console 任意命令执行</span><i>✓ 已验证</i></div>
+                      <div class="rc-row" style="--i:1"><b>严重</b><span>某通用云平台黑盒 0day 实现云平台接管</span><i>✓ 已验证</i></div>
+                      <div class="rc-row" style="--i:2"><b>严重</b><span>Zimbra postjournal 未授权 SMTP RCPT TO 命令注入 RCE</span><i>✓ 已验证</i></div>
+                      <div class="rc-foot">含完整 fact · intent 推理链，可逐条复核</div>
+                    </div>
+                    <div class="rc-pop">至今为止，已在实网环境发现 <b>严重 180+</b> <b>高危 740+</b>；包括 0day / RCE / 长链路漏洞</div>
+                  </div>
+                  <div class="cairn-caption"></div>
+                </div>
+                <div class="cairn-slot" data-slot="obs">
+                  <div class="cairn-ani">
+                    <div class="obsx">
+                      <div class="srcs">
+                        <div class="src" data-col="0"><div class="src-title">HTTP 流量<i>TRAFFIC</i></div><div class="src-rows"></div></div>
+                        <div class="src" data-col="1"><div class="src-title">工具调用<i>TOOLS</i></div><div class="src-rows"></div></div>
+                        <div class="src" data-col="2"><div class="src-title">文件记录<i>FILES</i></div><div class="src-rows"></div></div>
+                      </div>
+                      <div class="obsflow"><svg preserveAspectRatio="none" aria-hidden="true"></svg></div>
+                      <div class="bb">
+                        <div class="bb-head"><span>黑板 · BLACKBOARD</span><span class="rh"><span class="board-live">● LIVE</span><span class="bb-count">facts: 0</span></span></div>
+                        <div class="bb-facts"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cairn-caption"></div>
+                </div>
+                <div class="cairn-slot" data-slot="chain">
+                  <div class="cairn-chainwrap"><svg id="cairnChain" viewBox="0 0 800 470" role="img" aria-label="attack chain"></svg></div>
+                  <div class="cairn-caption"></div>
+                </div>
+                <div class="cairn-slot" data-slot="zero">
+                  <div class="cairn-ani">
+                    <div class="verify">
+                      <div class="vuln-card"><div class="vc-head"><b>严重</b><span>远程代码执行（RCE）· dify 容器</span></div><div class="vc-sub">插件上传点 → 恶意插件 → 容器命令执行</div></div>
+                      <div class="vsteps">
+                        <div class="vstep" data-s="0"><i class="vsp"></i><span>构造 PoC</span><b class="vst">✓ pass</b></div>
+                        <div class="vstep" data-s="1"><i class="vsp"></i><span>沙箱复现</span><b class="vst">✓ pass</b></div>
+                        <div class="vstep" data-s="2"><i class="vsp"></i><span>断言比对</span><b class="vst">✓ pass</b></div>
+                      </div>
+                      <div class="verdict2">✓ confirmed : true · severity : critical</div>
+                      <div class="discard"><span class="dx">✗</span>2 项可疑点未通过验证 · 已自动丢弃</div>
+                    </div>
+                  </div>
+                  <div class="cairn-caption"></div>
+                </div>
+                <div class="cairn-slot" data-slot="exp">
+                  <div class="cairn-ani">
+                    <div class="evchain">
+                      <div class="ev-head">漏洞证据链 · 远程代码执行（RCE）</div>
+                      <div class="ev-item" data-e="0"><span class="ev-tag">事实 1</span><div><div class="ev-title">目标指纹识别：dify 部署暴露</div><div class="ev-sub">指纹比对命中 · 版本资产确认 · HTTP 200</div></div></div>
+                      <div class="ev-item" data-e="1"><span class="ev-tag">事实 2</span><div><div class="ev-title">插件安装接口缺乏有效鉴权</div><div class="ev-sub">固定验证码爆破成功 · 越权登录</div></div></div>
+                      <div class="ev-item" data-e="2"><span class="ev-tag">事实 3</span><div><div class="ev-title">恶意插件安装后容器内命令执行</div><div class="ev-sub">回显确认 uid=0 · 获取容器权限</div></div></div>
+                      <div class="ev-concl">推理过程 → 结论：链路成立，漏洞已验证</div>
+                    </div>
+                  </div>
+                  <div class="cairn-caption"></div>
+                </div>
+              </div>
+            </div>
+            <div class="cairn-keys" id="cairnKeys">
+              <button class="cairn-key" type="button" data-go="e2e"><span class="kbar"></span><span class="kidx">01</span><span data-i18n="cairn.kw1"></span></button>
+              <button class="cairn-key" type="button" data-go="obs"><span class="kbar"></span><span class="kidx">02</span><span data-i18n="cairn.kw2"></span></button>
+              <button class="cairn-key" type="button" data-go="chain"><span class="kbar"></span><span class="kidx">03</span><span data-i18n="cairn.kw3"></span></button>
+              <button class="cairn-key" type="button" data-go="zero"><span class="kbar"></span><span class="kidx">04</span><span data-i18n="cairn.kw4"></span></button>
+              <button class="cairn-key" type="button" data-go="exp"><span class="kbar"></span><span class="kidx">05</span><span data-i18n="cairn.kw5"></span></button>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -614,7 +993,10 @@
             </div>
             <div class="talent-summary reveal d1">
               <p data-i18n="join.intro"></p>
-              <div class="talent-facts"><span class="talent-fact" data-i18n="join.openings"></span><span class="talent-fact" data-i18n="join.location"></span><span class="talent-fact" data-i18n="join.education"></span></div>
+              <div class="talent-meta">
+                <div class="talent-facts"><span class="talent-fact" data-i18n="join.openings"></span><span class="talent-fact" data-i18n="join.location"></span><span class="talent-fact" data-i18n="join.education"></span></div>
+                <a class="btn btn-primary talent-apply" href="mailto:joinus@chainreactors.ai" data-i18n="join.resume"></a>
+              </div>
             </div>
           </div>
 
@@ -663,25 +1045,25 @@
           "meta.description": "ChainReactors 聚焦 AI + 进攻性安全：以 Cairn 重新定义渗透测试，并持续构建威胁管理、攻击模拟与漏洞挖掘产品。",
           "nav.navAria": "主导航", "nav.homeAria": "ChainReactors 首页", "nav.wiki": "Wiki", "nav.company": "渗透测试", "nav.capabilities": "未来产品", "nav.openSource": "开源", "nav.blog": "Blog", "nav.contact": "商务 / 加入", "nav.join": "加入我们", "nav.business": "企业合作 ↗", "nav.menuAria": "打开菜单", "nav.switchToEn": "切换到 English", "nav.switchToZh": "切换到中文",
           "hero.kicker": "CHAINREACTORS / AI + OFFENSIVE SECURITY", "hero.titleOne": "用 AI", "hero.titleTwo": "重构进攻性安全", "hero.subtitle": "", "hero.business": "企业合作 ↗", "hero.explore": "探索开源 ↓", "hero.status": "IGNITION / COLLISION → FISSION → ACCELERATION", "hero.animationAria": "AI 与进攻性安全两束粒子加速相向，对撞点火后碎片继续碰撞裂变，反应逐代加速，开源项目节点被依次点亮", "hero.identityAi": "AI", "hero.identityOffsec": "进攻性安全", "hero.projectsAria": "被反应点亮的开源项目", "hero.tagDiscover": "攻击面发现", "hero.tagVuln": "漏洞挖掘", "hero.tagAudit": "代码审计", "hero.tagPentest": "渗透作战", "hero.scroll": "SCROLL TO EXPLORE",
-          "cairn.eyebrow": "PENETRATION TESTING / 03", "cairn.titleOne": "重新定义", "cairn.titleTwo": "渗透测试", "cairn.cardTitle": "Cairn：AI 原生渗透测试", "cairn.cardCopy": "Cairn 将侦察、推理、利用与验证组织成可复用的攻击路径，让渗透测试从一次性交付变成持续运行的智能系统。",
+          "cairn.titleOne": "重新定义", "cairn.titleTwo": "渗透测试", "cairn.cardTitle": "衍迹:AI自动化渗透测试系统", "cairn.cardCopy": "衍迹将侦察、推理、利用与验证组织成可复用的攻击路径，让渗透测试从一次性交付变成持续运行的智能系统。", "cairn.trial": "申请试用 ↗", "cairn.kw1": "端到端", "cairn.kw2": "可观测", "cairn.kw3": "长链路", "cairn.kw4": "0误报", "cairn.kw5": "可解释", "cairn.capE1": "自然语言描述任务目标，一键启动", "cairn.capE2": "直接输出 fact · intent 推理链及漏洞报告", "cairn.capE3": "报告 Agent 交付企业级渗透测试报告", "cairn.capObs": "流量 · 工具 · 文件全程留痕，汇聚成实时黑板", "cairn.capChain": "具备超长链路 RCE 漏洞挖掘能力", "cairn.capZero": "漏洞 Agent 自动验证 / 复现 / 利用 · 交付即零误报", "cairn.capExp": "漏洞证据链：事实逐条可复核",
           "future.eyebrow": "PRODUCT ROADMAP / 04", "future.titleOne": "重新定义", "future.titleTwo": "未来攻防的产品形态", "future.pending": "即将推出", "future.threatTitle": "威胁管理", "future.threatCopy": "持续理解资产、暴露面与真实风险，让防守从告警响应走向主动决策。", "future.simulationTitle": "攻击模拟", "future.simulationCopy": "以 AI 驱动可控、可验证的攻击演练，持续检验组织的检测与响应能力。", "future.vulnTitle": "漏洞挖掘", "future.vulnCopy": "结合模型推理、模糊测试与智能验证，规模化发现并复现高价值漏洞。",
           "openSource.eyebrow": "OPEN & BATTLE-TESTED / 01", "openSource.titleOne": "面向开源", "openSource.titleTwo": "也面向 Realworld", "openSource.intro": "", "openSource.github": "在 GitHub 查看全部 ↗", "repo.preExploit": "PRE-EXPLOIT", "repo.postExploit": "POST-EXPLOIT", "repo.network": "NETWORK", "repo.library": "LIBRARY", "repo.tool": "TOOL", "repo.aiAgent": "AI AGENT",
-          "products.iomName": "恶联网", "products.cairnName": "衍迹", "products.iom": "IoM 是面向 AI Agent 的后渗透与 C2 产品，将控制、编排与实战工作流连接起来。", "products.cairn": "衍迹是 Cairn 的官方商业版：基于状态空间的链式推理引擎，已在渗透测试中得到验证。", "products.explore": "探索产品 ↗", "repos.gogo": "红队自动化扫描引擎 / 端口、服务与指纹。", "repos.spray": "HTTP 模糊测试、目录爆破与智能过滤。", "repos.iom": "面向 AI Agent 的后渗透与 C2 平台。", "repos.zombie": "服务与协议爆破，覆盖外网、内网与云场景。", "repos.rem": "多协议加密隧道、代理与网络穿透。", "repos.malefic": "模块化 Implant 与多阶段投递框架。", "repos.fingers": "全合一框架与技术指纹识别库。", "repos.picker": "仓库转 RSS 订阅、文章聚合与讨论社区。", "repos.tinyctfer": "约 100 行的意图运行时与 Meta Tooling 设计。", "repos.templates": "漏洞检测模板库，配合 neutron 使用。", "repos.neutron": "轻量 Nuclei 引擎，零副作用漏洞检测。", "repos.urlfounder": "快速被动 URL 枚举工具。", "repos.cyberHarness": "面向网络安全的 AI 驱动 Agent，覆盖渗透、红队与漏洞赏金。", "repos.proxyclient": "Go 实现的代理客户端，支持 HTTP/HTTPS、SOCKS4/5 与 SSH。",
+          "products.iomName": "恶联网", "products.cairnName": "衍迹", "products.iom": "IoM 是面向 AI Agent 的后渗透与 C2 产品，将控制、编排与实战工作流连接起来。", "products.cairn": "衍迹是基于Cairn架构的商业化产品：基于状态空间的链式推理引擎，已在渗透测试中得到验证。", "products.explore": "探索产品 ↗", "repos.gogo": "红队自动化扫描引擎 / 端口、服务与指纹。", "repos.spray": "HTTP 模糊测试、目录爆破与智能过滤。", "repos.iom": "面向 AI Agent 的后渗透与 C2 平台。", "repos.zombie": "服务与协议爆破，覆盖外网、内网与云场景。", "repos.rem": "多协议加密隧道、代理与网络穿透。", "repos.malefic": "模块化 Implant 与多阶段投递框架。", "repos.fingers": "全合一框架与技术指纹识别库。", "repos.picker": "仓库转 RSS 订阅、文章聚合与讨论社区。", "repos.tinyctfer": "约 100 行的意图运行时与 Meta Tooling 设计。", "repos.templates": "漏洞检测模板库，配合 neutron 使用。", "repos.neutron": "轻量 Nuclei 引擎，零副作用漏洞检测。", "repos.urlfounder": "快速被动 URL 枚举工具。", "repos.cyberHarness": "面向网络安全的 AI 驱动 Agent，覆盖渗透、红队与漏洞赏金。", "repos.proxyclient": "Go 实现的代理客户端，支持 HTTP/HTTPS、SOCKS4/5 与 SSH。",
           "blog.eyebrow": "BLOG / 02", "blog.title": "最新研究", "blog.intro": "", "blog.loading": "正在加载最新研究……", "blog.more": "查看全部文章 ↗", "blog.sourceQiling": "[起零衍迹实验室]", "blog.sourceJournal": "BLOG",
           "contact.eyebrow": "BUILD WITH US", "contact.titleOne": "共同构建", "contact.titleTwo": "未来攻防", "contact.intro": "无论你需要 AI Native 的进攻性安全能力，还是希望共同定义新的产品形态，欢迎和我们聊聊。", "contact.businessLabel": "BUSINESS / 企业合作", "contact.openSourceLabel": "OPEN SOURCE / 开源合作", "contact.joinLabel": "JOIN US / 加入我们", "contact.joinCopy": "杭州余杭｜实习与全职开放。工程 / SaaS、市场 / 商业化、AI Native 工程方向。",
-          "join.eyebrow": "JOIN US / 05", "join.titleOne": "Join", "join.titleTwo": "us", "join.intro": "我们要做 AI Native 的公司，也要成为进攻性安全领域的 Top 1。没有上下级和 KPI，以共同目标协作；节奏高、边界少，面向技术、客户与市场解决真实问题。", "join.identityTitle": "WHO WE ARE LOOKING FOR", "join.identityCopy": "我们寻找有独特判断、能独立推进，也愿意跨越岗位边界的人。", "join.traitsTitle": "我们正在寻找这样的你", "join.openings": "实习 / 全职", "join.location": "杭州余杭", "join.education": "经验 / 学历不限", "join.traitOne": "基础扎实，拥有 AI Native 思维", "join.traitTwo": "执行力强，高度自驱", "join.traitThree": "对技术与架构有近乎偏执的标准", "join.traitFour": "能跨领域思考，也能亲自落地", "join.traitFive": "愿意和一群超级个体一起，把目标做成现实。", "join.rolesTitle": "现在需要你", "join.rolesNote": "岗位只是切入点，能力没有边界。", "join.roleOneTitle": "工程化 / SaaS 研发", "join.roleOneCopy": "理解架构、并发与调度，熟悉 Golang / Rust，以高质量代码和 AI 辅助研发完成复杂系统。", "join.roleTwoTitle": "市场 / 商业化", "join.roleTwoCopy": "技术出身、理解开源与 ToB，能洞察 AI 时代客户问题并设计有效的市场路径。", "join.roleThreeTitle": "AI Native 工程师", "join.roleThreeCopy": "从产品到架构设计 AI 时代的新形态，提出好想法，也能把它真正做出来。", "join.plusTitle": "更强信号", "join.plusOne": "构建过 Harness 架构，并形成自己的判断。", "join.plusTwo": "在进攻性安全的某个方向做到极致。", "join.plusThree": "从 Graph、Loop、Ontology 等工程视角理解 AI。", "join.plusFour": "在开源、技术会议或 benchmark 有高质量产出。", "join.offerTitle": "你会得到", "join.offerOne": "成为核心员工乃至合伙人的清晰路径。", "join.offerTwo": "公开薪酬体系与高于市场标准的激励。", "join.offerThree": "最前沿的 AI + 进攻性安全技术与产品实践。", "join.offerFour": "无限量 Token，以及把重要事情做到底的空间。", "join.applyTitle": "来一起定义下一代。", "join.applyCopy": "告诉我们你做过什么、相信什么，以及下一步想做什么。", "join.applyGithub": "查看 Join Us ↗", "join.applyEmail": "发送邮件 ↗", "footer.about": "ChainReactors 聚焦 AI + 进攻性安全，以开放协作和真实实战，持续重构工具、工作流与产品形态。", "footer.exploreTitle": "探索", "footer.contactTitle": "联系方式", "footer.joinTitle": "加入我们", "footer.joinCopy": "实习与全职均可，期待与你一起走向 AI Native。", "footer.joinLink": "查看招聘信息 ↗", "footer.copyright": "© 2026 CHAINREACTORS · 杭州链式反应科技有限公司", "footer.wiki": "WIKI", "footer.github": "GITHUB", "footer.top": "返回顶部 ↑", "footer.tagline": "AI Native / Offensive Security"
+          "join.eyebrow": "JOIN US / 05", "join.titleOne": "Join", "join.titleTwo": "us", "join.intro": "我们要做 AI Native 的公司，也要成为进攻性安全领域的 Top 1。没有上下级和 KPI，以共同目标协作；节奏高、边界少，面向技术、客户与市场解决真实问题。", "join.identityTitle": "WHO WE ARE LOOKING FOR", "join.identityCopy": "我们寻找有独特判断、能独立推进，也愿意跨越岗位边界的人。", "join.traitsTitle": "我们正在寻找这样的你", "join.openings": "实习 / 全职", "join.location": "杭州余杭", "join.education": "经验 / 学历不限", "join.resume": "投递简历", "join.traitOne": "基础扎实，拥有 AI Native 思维", "join.traitTwo": "执行力强，高度自驱", "join.traitThree": "对技术与架构有近乎偏执的标准", "join.traitFour": "能跨领域思考，也能亲自落地", "join.traitFive": "愿意和一群超级个体一起，把目标做成现实。", "join.rolesTitle": "我们希望你", "join.rolesNote": "岗位只是切入点，能力没有边界。", "join.roleOneTitle": "工程化 / SaaS 研发", "join.roleOneCopy": "理解架构、并发与调度，熟悉 Golang / Rust，以高质量代码和 AI 辅助研发完成复杂系统。", "join.roleTwoTitle": "市场 / 商业化", "join.roleTwoCopy": "技术出身、理解开源与 ToB，能洞察 AI 时代客户问题并设计有效的市场路径。", "join.roleThreeTitle": "AI Native 工程师", "join.roleThreeCopy": "从产品到架构设计 AI 时代的新形态，提出好想法，也能把它真正做出来。", "join.plusTitle": "更强信号", "join.plusOne": "构建过 Harness 架构，并形成自己的判断。", "join.plusTwo": "在进攻性安全的某个方向做到极致。", "join.plusThree": "从 Graph、Loop、Ontology 等工程视角理解 AI。", "join.plusFour": "在开源、技术会议或 benchmark 有高质量产出。", "join.offerTitle": "你会得到", "join.offerOne": "成为核心员工乃至合伙人的清晰路径。", "join.offerTwo": "公开薪酬体系与高于市场标准的激励。", "join.offerThree": "最前沿的 AI + 进攻性安全技术与产品实践。", "join.offerFour": "无限量 Token，以及把重要事情做到底的空间。", "join.applyTitle": "来一起定义下一代。", "join.applyCopy": "告诉我们你做过什么、相信什么，以及下一步想做什么。", "join.applyGithub": "查看 Join Us ↗", "join.applyEmail": "发送邮件 ↗", "footer.about": "ChainReactors 聚焦 AI + 进攻性安全，以开放协作和真实实战，持续重构工具、工作流与产品形态。", "footer.exploreTitle": "探索", "footer.contactTitle": "联系方式", "footer.joinTitle": "加入我们", "footer.joinCopy": "实习与全职均可，期待与你一起走向 AI Native。", "footer.joinLink": "查看招聘信息 ↗", "footer.copyright": "© 2026 CHAINREACTORS · 杭州链式反应科技有限公司", "footer.wiki": "WIKI", "footer.github": "GITHUB", "footer.top": "返回顶部 ↑", "footer.tagline": "AI Native / Offensive Security"
         },
         en: {
           "meta.title": "ChainReactors — AI + Offensive Security", "meta.description": "ChainReactors focuses on AI + offensive security: redefining penetration testing with Cairn and building threat management, attack simulation and vulnerability discovery products.",
           "nav.navAria": "Primary navigation", "nav.homeAria": "ChainReactors home", "nav.wiki": "Wiki", "nav.company": "Penetration testing", "nav.capabilities": "Coming products", "nav.openSource": "Open source", "nav.blog": "Blog", "nav.contact": "Business / Join us", "nav.join": "Join us", "nav.business": "Business ↗", "nav.menuAria": "Open menu", "nav.switchToEn": "Switch to English", "nav.switchToZh": "切换到中文",
           "hero.kicker": "CHAINREACTORS / AI + OFFENSIVE SECURITY", "hero.titleOne": "Rebuild", "hero.titleTwo": "offensive security with AI", "hero.subtitle": "", "hero.business": "Talk to us ↗", "hero.explore": "Explore open source ↓", "hero.status": "IGNITION / COLLISION → FISSION → ACCELERATION", "hero.animationAria": "AI and offensive security accelerate toward each other, ignite on contact, and the fission cascade accelerates while open-source nodes light up", "hero.identityAi": "AI", "hero.identityOffsec": "OFFENSIVE SECURITY", "hero.projectsAria": "Open-source projects lit up by the reaction", "hero.tagDiscover": "Attack surface", "hero.tagVuln": "Vulnerability research", "hero.tagAudit": "Code audit", "hero.tagPentest": "Penetration testing", "hero.scroll": "SCROLL TO EXPLORE",
-          "cairn.eyebrow": "PENETRATION TESTING / 03", "cairn.titleOne": "Penetration testing", "cairn.titleTwo": "redefined", "cairn.cardTitle": "Cairn: AI-native penetration testing", "cairn.cardCopy": "Cairn turns reconnaissance, reasoning, exploitation and validation into reusable attack paths—making penetration testing a continuously running intelligent system.",
+          "cairn.titleOne": "Penetration testing", "cairn.titleTwo": "redefined", "cairn.cardTitle": "Cairn: AI-native penetration testing", "cairn.cardCopy": "Cairn turns reconnaissance, reasoning, exploitation and validation into reusable attack paths—making penetration testing a continuously running intelligent system.", "cairn.trial": "Request a Demo ↗", "cairn.kw1": "End-to-End", "cairn.kw2": "Observable", "cairn.kw3": "Long-Chain", "cairn.kw4": "Zero False Positive", "cairn.kw5": "Explainable", "cairn.capE1": "Describe the task in natural language, launch in one click", "cairn.capE2": "Directly outputs the fact · intent reasoning chain & vuln report", "cairn.capE3": "Report Agent delivers an enterprise-grade pentest report", "cairn.capObs": "Traffic, tools & files fused into a live blackboard", "cairn.capChain": "Capable of long-chain RCE vulnerability discovery", "cairn.capZero": "Vuln Agent auto-verifies every finding—zero false positives delivered", "cairn.capExp": "Vulnerability evidence chain—every fact auditable",
           "future.eyebrow": "PRODUCT ROADMAP / 04", "future.titleOne": "Redefining product forms", "future.titleTwo": "for the future of offense and defense", "future.pending": "COMING SOON", "future.threatTitle": "Threat management", "future.threatCopy": "Continuously understand assets, exposure and real risk so defense moves from alert response to proactive decisions.", "future.simulationTitle": "Attack simulation", "future.simulationCopy": "Use AI to run controlled, verifiable attack exercises that continuously test detection and response.", "future.vulnTitle": "Vulnerability discovery", "future.vulnCopy": "Combine model reasoning, fuzzing and intelligent validation to discover and reproduce high-value vulnerabilities at scale.",
           "openSource.eyebrow": "OPEN & BATTLE-TESTED / 01", "openSource.titleOne": "Built for open source", "openSource.titleTwo": "built for the real world", "openSource.intro": "", "openSource.github": "View everything on GitHub ↗", "repo.preExploit": "PRE-EXPLOIT", "repo.postExploit": "POST-EXPLOIT", "repo.network": "NETWORK", "repo.library": "LIBRARY", "repo.tool": "TOOL", "repo.aiAgent": "AI AGENT",
           "products.iomName": "IoM", "products.cairnName": "Cairn", "products.iom": "IoM is a post-exploitation and C2 product for AI agents, connecting control, orchestration and field workflows.", "products.cairn": "The official commercial edition of Cairn: a chain-reasoning engine built on state space, proven in penetration testing.", "products.explore": "Explore product ↗", "repos.gogo": "Red-team scanning engine for ports, services and fingerprints.", "repos.spray": "HTTP fuzzing, directory discovery and smart filtering.", "repos.iom": "Post-exploitation and C2 platform built for AI agents.", "repos.zombie": "Service and protocol spraying across external, internal and cloud targets.", "repos.rem": "Encrypted tunnels, proxies and network traversal across protocols.", "repos.malefic": "Modular implant and multi-stage delivery framework.", "repos.fingers": "Unified framework and technology fingerprint library.", "repos.picker": "Repository RSS, article aggregation and discussion community.", "repos.tinyctfer": "A tiny intent runtime and Meta Tooling design.", "repos.templates": "Vulnerability detection templates for neutron.", "repos.neutron": "Lightweight Nuclei engine for low-impact vulnerability detection.", "repos.urlfounder": "Fast passive URL enumeration tool.", "repos.cyberHarness": "AI-driven agent for cyber security, covering pentest, red team and bug bounty.", "repos.proxyclient": "Go proxy client supporting HTTP/HTTPS, SOCKS4/5 and SSH.",
           "blog.eyebrow": "BLOG / 02", "blog.title": "Latest research", "blog.intro": "", "blog.loading": "Loading the latest field notes…", "blog.more": "Read all articles ↗", "blog.sourceQiling": "[Qiling Lab]", "blog.sourceJournal": "BLOG",
           "contact.eyebrow": "BUILD WITH US", "contact.titleOne": "Build", "contact.titleTwo": "future security", "contact.intro": "Whether you need AI-native offensive security capability or want to define new product forms with us, we would like to hear from you.", "contact.businessLabel": "BUSINESS / PARTNERSHIPS", "contact.openSourceLabel": "OPEN SOURCE / COLLABORATION", "contact.joinLabel": "JOIN US / CAREERS", "contact.joinCopy": "Yuhang, Hangzhou | Internships and full-time roles across Engineering / SaaS, go-to-market and AI-native engineering.",
-          "join.eyebrow": "JOIN US / 05", "join.titleOne": "Join", "join.titleTwo": "us", "join.intro": "We are building an AI-native company with one ambition: become No. 1 in offensive security. There are no hierarchies or KPIs—only shared goals, high tempo and practical work accountable to technology, customers and the market.", "join.identityTitle": "WHO WE ARE LOOKING FOR", "join.identityCopy": "We look for people with independent judgment, the drive to move work forward and the range to cross job boundaries.", "join.traitsTitle": "You may be one of us if you", "join.openings": "Internships / Full-time", "join.location": "Yuhang, Hangzhou", "join.education": "No degree gate", "join.traitOne": "Strong fundamentals and AI-native thinking", "join.traitTwo": "Unusual ownership and self-direction", "join.traitThree": "Exacting standards for technology and architecture", "join.traitFour": "Cross-disciplinary thinking with hands-on delivery", "join.traitFive": "Want to turn an ambitious shared goal into reality with a team of exceptional individuals.", "join.rolesTitle": "Where you can start", "join.rolesNote": "A role is an entry point, not a boundary.", "join.roleOneTitle": "Engineering / SaaS", "join.roleOneCopy": "Build complex systems with strong architecture, concurrency and scheduling skills, Golang / Rust, excellent code and AI-assisted engineering.", "join.roleTwoTitle": "Go-to-market / Commercialization", "join.roleTwoCopy": "Bring technical depth, open-source and B2B fluency, customer insight and the ability to design an effective path to market.", "join.roleThreeTitle": "AI Native Engineer", "join.roleThreeCopy": "Invent product forms for the AI era, think from product through architecture and turn distinctive ideas into working systems.", "join.plusTitle": "Stronger signals", "join.plusOne": "You have built Harness architectures and formed your own judgment.", "join.plusTwo": "You have gone exceptionally deep in an offensive-security domain.", "join.plusThree": "You reason about AI through graphs, loops, ontologies and other engineering primitives.", "join.plusFour": "You have delivered high-quality open-source, conference or benchmark work.", "join.offerTitle": "What you get", "join.offerOne": "A clear path to core employee or partner.", "join.offerTwo": "Transparent compensation and above-market incentives.", "join.offerThree": "Front-row access to AI + offensive-security technology and products.", "join.offerFour": "Unlimited tokens and room to take important work all the way.", "join.applyTitle": "Come define what comes next.", "join.applyCopy": "Tell us what you have built, what you believe and what you want to do next.", "join.applyGithub": "View Join Us ↗", "join.applyEmail": "Email us ↗", "footer.about": "ChainReactors builds AI-native offensive-security products, infrastructure and workflows—open by default, proven in the field.", "footer.exploreTitle": "Explore", "footer.contactTitle": "Contact", "footer.joinTitle": "Join us", "footer.joinCopy": "Internships and full-time roles are open. Let us build the AI-native future together.", "footer.joinLink": "View openings ↗", "footer.copyright": "© 2026 CHAINREACTORS · 杭州链式反应科技有限公司", "footer.wiki": "WIKI", "footer.github": "GITHUB", "footer.top": "BACK TO TOP ↑", "footer.tagline": "AI Native / Offensive Security"
+          "join.eyebrow": "JOIN US / 05", "join.titleOne": "Join", "join.titleTwo": "us", "join.intro": "We are building an AI-native company with one ambition: become No. 1 in offensive security. There are no hierarchies or KPIs—only shared goals, high tempo and practical work accountable to technology, customers and the market.", "join.identityTitle": "WHO WE ARE LOOKING FOR", "join.identityCopy": "We look for people with independent judgment, the drive to move work forward and the range to cross job boundaries.", "join.traitsTitle": "You may be one of us if you", "join.openings": "Internships / Full-time", "join.location": "Yuhang, Hangzhou", "join.education": "No degree gate", "join.resume": "Send resume", "join.traitOne": "Strong fundamentals and AI-native thinking", "join.traitTwo": "Unusual ownership and self-direction", "join.traitThree": "Exacting standards for technology and architecture", "join.traitFour": "Cross-disciplinary thinking with hands-on delivery", "join.traitFive": "Want to turn an ambitious shared goal into reality with a team of exceptional individuals.", "join.rolesTitle": "Where you can start", "join.rolesNote": "A role is an entry point, not a boundary.", "join.roleOneTitle": "Engineering / SaaS", "join.roleOneCopy": "Build complex systems with strong architecture, concurrency and scheduling skills, Golang / Rust, excellent code and AI-assisted engineering.", "join.roleTwoTitle": "Go-to-market / Commercialization", "join.roleTwoCopy": "Bring technical depth, open-source and B2B fluency, customer insight and the ability to design an effective path to market.", "join.roleThreeTitle": "AI Native Engineer", "join.roleThreeCopy": "Invent product forms for the AI era, think from product through architecture and turn distinctive ideas into working systems.", "join.plusTitle": "Stronger signals", "join.plusOne": "You have built Harness architectures and formed your own judgment.", "join.plusTwo": "You have gone exceptionally deep in an offensive-security domain.", "join.plusThree": "You reason about AI through graphs, loops, ontologies and other engineering primitives.", "join.plusFour": "You have delivered high-quality open-source, conference or benchmark work.", "join.offerTitle": "What you get", "join.offerOne": "A clear path to core employee or partner.", "join.offerTwo": "Transparent compensation and above-market incentives.", "join.offerThree": "Front-row access to AI + offensive-security technology and products.", "join.offerFour": "Unlimited tokens and room to take important work all the way.", "join.applyTitle": "Come define what comes next.", "join.applyCopy": "Tell us what you have built, what you believe and what you want to do next.", "join.applyGithub": "View Join Us ↗", "join.applyEmail": "Email us ↗", "footer.about": "ChainReactors builds AI-native offensive-security products, infrastructure and workflows—open by default, proven in the field.", "footer.exploreTitle": "Explore", "footer.contactTitle": "Contact", "footer.joinTitle": "Join us", "footer.joinCopy": "Internships and full-time roles are open. Let us build the AI-native future together.", "footer.joinLink": "View openings ↗", "footer.copyright": "© 2026 CHAINREACTORS · 杭州链式反应科技有限公司", "footer.wiki": "WIKI", "footer.github": "GITHUB", "footer.top": "BACK TO TOP ↑", "footer.tagline": "AI Native / Offensive Security"
         }
       };
       copy.zh["footer.about"] = "ChainReactors 聚焦 AI + 进攻性安全，以开放协作和真实实战，持续重构工具、Agent 架构与产品形态。";
@@ -777,25 +1159,30 @@
         var FINISH = { bloomRadius: .72, bloomOpacity: .76, debris: 46, debrisDecay: 4.55, trail: .84, medium: .18, grid: .105 };
         // 文案顶在画面上方居中，左右都空着，所以反应整屏铺满：点火点落在偏左侧，
         // 裂变向右横扫。band 是纵向的兜底——画面太扁时不能把项目节点裁掉。
-        var FRAME = { anchor: .16, right: .94, edge: 1440, band: 600 };
+        var FRAME = { anchor: .16, right: .94, edge: 1440, band: 600, projectTop: 120, projectBottom: 620, stretchX: 1.12 };
         var MONO = '"Space Mono","IBM Plex Mono",Consolas,monospace';
         var SANS = '"DM Sans","PingFang SC","Microsoft YaHei",sans-serif';
         // 项目节点：反应经过的碰撞点会被认领，名字随之浮出。默认指向 chainreactors，
         // 别的组织（Cairn 在 oritera）用 url 覆盖。ANCHORS 与这份列表一一对应，
         // 认领是按顺序贪心的，排在前面的拿到更靠近点火点、也更早亮起的碰撞。
         var PROJECTS = [
-          { n: 'Cairn', url: 'https://github.com/oritera/Cairn' },
-          { n: 'gogo' }, { n: 'spray' }, { n: 'zombie' }, { n: 'rem' }, { n: 'malice-network' },
-          { n: 'malefic' }, { n: 'picker' }, { n: 'cyber-harness' }, { n: 'fingers' },
+          { n: 'Cairn', url: 'https://github.com/oritera/Cairn', stars: 2605 },
+          { n: 'gogo', stars: 2119 }, { n: 'spray', stars: 1057 }, { n: 'zombie', stars: 378 }, { n: 'rem', stars: 275 }, { n: 'malice-network', stars: 490 },
+          { n: 'malefic', stars: 275 }, { n: 'picker', stars: 237 }, { n: 'cyber-harness', stars: 275 }, { n: 'fingers', stars: 268 },
           { n: 'tinyctfer' }, { n: 'templates' }, { n: 'neutron' }, { n: 'urlfounder' }, { n: 'proxyclient' }
         ];
-        var ANCHORS = [[548, 330],
-          [502, 312], [624, 186], [740, 444], [888, 190], [1012, 312], [1118, 510], [1260, 248],
-          [1310, 388], [1080, 118], [860, 560], [688, 474], [560, 168], [1216, 566], [962, 210]];
+        var ANCHORS = [[548, 300],
+          [506, 560], [640, 145], [742, 600], [888, 155], [1012, 330], [1118, 620], [1260, 190],
+          [1310, 452], [1080, 420], [860, 610], [688, 550], [592, 392], [1216, 615], [962, 275]];
 
         function clamp(v, a, b) { a = a === undefined ? 0 : a; b = b === undefined ? 1 : b; return Math.max(a, Math.min(b, v)); }
         function mix(a, b, u) { return a + (b - a) * u; }
         function smooth(a, b, x) { var u = clamp((x - a) / (b - a)); return u * u * (3 - 2 * u); }
+        function starLabel(count) {
+          count = Number(count) || 0;
+          if (count >= 1000) return (Math.round(count / 100) / 10).toFixed(count >= 10000 ? 0 : 1).replace(/\.0$/, '') + 'k';
+          return count.toLocaleString();
+        }
         function rng32(s) { return function () { s |= 0; s = s + 0x6D2B79F5 | 0; var z = Math.imul(s ^ s >>> 15, 1 | s); z ^= z + Math.imul(z ^ z >>> 7, 61 | z); return ((z ^ z >>> 14) >>> 0) / 4294967296; }; }
         function position(p, t) { return { x: p.x + p.vx * (t - p.start), y: p.y + p.vy * (t - p.start) }; }
 
@@ -958,7 +1345,7 @@
             var ax = ANCHORS[i][0], ay = ANCHORS[i][1], best = null, bestScore = Infinity;
             for (j = 1; j < events.length; j++) {
               var c = events[j];
-              if (c.x <= center.x - 10 || c.x >= 1360 || c.y <= 90 || c.y >= 600) continue;
+              if (c.x <= center.x - 10 || c.x >= 1360 || c.y <= 105 || c.y >= 630) continue;
               var taken = false;
               for (k = 0; k < projects.length; k++) if (projects[k].event === c.id) { taken = true; break; }
               if (taken) continue;
@@ -967,7 +1354,7 @@
               var score = Math.hypot(ax - c.x, ay - c.y) + Math.max(0, 92 - near) * 9 + (c.gen < 2 ? 260 : 0) + (c.x < center.x + 24 ? 260 : 0);
               if (score < bestScore) { bestScore = score; best = c; }
             }
-            if (best) projects.push({ index: i, event: best.id, x: best.x, y: best.y, time: best.time + .32, gen: best.gen });
+            if (best) projects.push({ index: i, event: best.id, x: mix(best.x, ax, .9), y: mix(best.y, ay, .9), time: best.time + .32, gen: best.gen });
           }
           return { seed: seed, particles: particles, events: events, root: rootEvent, projects: projects, settle: settle };
         }
@@ -1097,25 +1484,36 @@
           }
         }
 
+        function heroSignalBand(w, h) {
+          var top = h * .28, bottom = h * .82, base = canvas.getBoundingClientRect();
+          var title = document.querySelector('.hero h1'), actions = document.querySelector('.actions');
+          if (title && title.getBoundingClientRect) top = title.getBoundingClientRect().bottom - base.top + clamp(h * .045, 30, 58);
+          if (actions && actions.getBoundingClientRect) bottom = actions.getBoundingClientRect().top - base.top - clamp(h * .06, 42, 72);
+          if (!isFinite(top) || !isFinite(bottom) || bottom - top < h * .36) { top = h * .28; bottom = h * .82; }
+          return { top: top, bottom: bottom, h: bottom - top };
+        }
         function layout(w, h) {
-          var mobile = w < 860 || w / h < 1.05, s, x, y;
+          var mobile = w < 860 || w / h < 1.05, s, x, y, band = null;
           if (mobile) {
             // 竖屏：文案占上半屏，反应压到下面，左右都越界一点。
             s = w * 1.5 / SPACE.w; x = -w * .34; y = h * .74 - SPACE.h * s / 2;
+            return { w: w, h: h, mobile: mobile, s: s, sx: s, x: x, y: y, labelTop: 132, labelBottom: h - 108 };
           } else {
-            s = Math.min((FRAME.right - FRAME.anchor) * w / (FRAME.edge - graph.root.x), h / FRAME.band);
-            x = FRAME.anchor * w - graph.root.x * s; y = (h - SPACE.h * s) / 2;
+            band = heroSignalBand(w, h);
+            s = Math.min((FRAME.right - FRAME.anchor) * w / (FRAME.edge - graph.root.x), band.h / (FRAME.projectBottom - FRAME.projectTop));
+            x = FRAME.anchor * w - graph.root.x * s * FRAME.stretchX;
+            y = band.top + (band.h - (FRAME.projectBottom - FRAME.projectTop) * s) / 2 - FRAME.projectTop * s;
           }
-          return { w: w, h: h, mobile: mobile, s: s, x: x, y: y };
+          return { w: w, h: h, mobile: mobile, s: s, sx: s * FRAME.stretchX, x: x, y: y, labelTop: band ? band.top - 10 : 132, labelBottom: band ? band.bottom + 10 : h - 108 };
         }
         // 撞击瞬间轻微推近并晃一下，0.63s 内收回。
         function camera(L, time) {
           var age = time - TIMING.impact;
           if (reduced || age < 0 || age > .63) return L;
           var k = Math.exp(-age * 8.8) * (1 - smooth(.43, .63, age)), z = 1 + .045 * k;
-          var cx = L.x + graph.root.x * L.s, cy = L.y + graph.root.y * L.s;
+          var cx = L.x + graph.root.x * L.sx, cy = L.y + graph.root.y * L.s;
           return {
-            w: L.w, h: L.h, mobile: L.mobile, s: L.s * z,
+            w: L.w, h: L.h, mobile: L.mobile, s: L.s * z, sx: L.sx * z,
             x: cx + (L.x - cx) * z + Math.sin(age * 67) * 6.5 * k,
             y: cy + (L.y - cy) * z + Math.sin(age * 49) * 3.9 * k
           };
@@ -1124,7 +1522,7 @@
         function drawBackground(c, L, time) {
           c.fillStyle = '#050506'; c.fillRect(0, 0, L.w, L.h);
           var k = time < TIMING.impact ? 0 : Math.exp(-(time - TIMING.impact) * 1.4);
-          var cx = L.x + graph.root.x * L.s, cy = L.y + graph.root.y * L.s;
+          var cx = L.x + graph.root.x * L.sx, cy = L.y + graph.root.y * L.s;
           var g = c.createRadialGradient(cx, cy, 0, cx, cy, Math.max(L.w, L.h) * .6);
           g.addColorStop(0, 'rgba(79,12,28,' + (.075 + k * .10) + ')');
           g.addColorStop(.5, 'rgba(25,14,24,.06)');
@@ -1193,9 +1591,9 @@
             var size = (L.mobile ? 11 : 14) / L.s;
             c.save(); c.globalAlpha = a; c.textAlign = 'center';
             c.font = '500 ' + size + 'px ' + (isAi ? MONO : SANS);
-            var half = c.measureText(name).width * L.s / 2, sx = L.x + q.x * L.s;
+            var half = c.measureText(name).width * L.sx / 2, sx = L.x + q.x * L.sx;
             c.fillStyle = '#ff4053';
-            c.fillText(name, (clamp(sx, half + 22, L.w - half - 22) - L.x) / L.s, q.y - (L.mobile ? 21 : 25) / L.s);
+            c.fillText(name, (clamp(sx, half + 22, L.w - half - 22) - L.x) / L.sx, q.y - (L.mobile ? 21 : 25) / L.s);
             c.restore();
           }
           flush(c);
@@ -1287,10 +1685,11 @@
             var a = smooth(n.time, n.time + .42, raw), focus = n.event === hoverEvent;
             // 节点亮度 = 项目的 star 权重：星多的烧得更亮、更大。
             var w = weights[n.index] === undefined ? BASE_WEIGHT : weights[n.index];
-            glow(c, n.x, n.y, (focus ? 49 : 30) * (.72 + w * .5), a * (focus ? .92 : .34 + w * .42), false);
-            dot(c, n.x, n.y, focus ? 2.9 : 1.5 + w * 1.1, 'rgba(255,235,227,' + a * (.55 + w * .45) + ')');
-            c.strokeStyle = 'rgba(255,97,118,' + a * (focus ? .65 : .12 + w * .22) + ')'; c.lineWidth = .7;
-            c.beginPath(); c.arc(n.x, n.y, focus ? 11 : 5.4 + w * 3.2, 0, TAU); c.stroke();
+            var major = (PROJECTS[n.index].stars || 0) >= 1000, boost = major ? 1.18 : 1;
+            glow(c, n.x, n.y, (focus ? 52 : 31) * (.72 + w * .52) * boost, a * (focus ? .94 : .36 + w * .46 + (major ? .08 : 0)), false);
+            dot(c, n.x, n.y, (focus ? 3.1 : 1.55 + w * 1.18) * boost, 'rgba(255,239,232,' + a * (.58 + w * .42) + ')');
+            c.strokeStyle = 'rgba(255,108,126,' + a * (focus ? .7 : .14 + w * .25 + (major ? .08 : 0)) + ')'; c.lineWidth = major ? .85 : .7;
+            c.beginPath(); c.arc(n.x, n.y, (focus ? 11.5 : 5.6 + w * 3.3) * boost, 0, TAU); c.stroke();
           }
         }
 
@@ -1333,13 +1732,14 @@
           return { x: left - base.left - 10, y: top - base.top - 6, w: right - left + 20, h: bottom - top + 12 };
         }
         function placeLabels(L) {
-          var key = seed + '/' + Math.round(L.w) + '/' + Math.round(L.h) + '/' + lang;
+          var key = seed + '/' + Math.round(L.w) + '/' + Math.round(L.h) + '/' + Math.round(L.labelTop || 0) + '/' + Math.round(L.labelBottom || 0) + '/' + lang;
           if (placement.key === key && placement.map) return placement.map;
-          var map = {}, taken = [], order = labels.slice(), box = copyBox(), i, j;
+          var map = {}, taken = [], order = labels.slice(), box = copyBox(), topSafe = L.labelTop || 132, bottomSafe = L.labelBottom || (L.h - 108), i, j;
           order.sort(function (a, b) { return a.node.time - b.node.time; });
           for (i = 0; i < order.length; i++) {
-            var n = order[i].node, w = order[i].el.offsetWidth || 58, h = 18, gap = 13;
-            var x = L.x + n.x * L.s, y = L.y + n.y * L.s;
+            var majorLabel = order[i].el.classList.contains('is-major');
+            var n = order[i].node, w = order[i].el.offsetWidth || 58, h = order[i].el.offsetHeight || (majorLabel ? 23 : 18), gap = majorLabel ? 16 : 13;
+            var x = L.x + n.x * L.sx, y = L.y + n.y * L.s;
             var prefer = x + gap + w > L.w - 24 ? -1 : 1;
             // 除了固定的几档上下微调，再给两个"跳到文案上/下沿之外"的候选：
             // 被标题横穿的节点靠微调是躲不开的。
@@ -1357,13 +1757,13 @@
               var score = Math.abs(dy) * .8 + (f ? 10 : 0);
               // 出界、压到文案、压到别的标签或别的节点都要重罚。
               if (rx + w > L.w - 14) score += (rx + w - L.w + 14) * 1000;
-              if (ry < 96) score += (96 - ry) * 1000;
-              if (ry + h > L.h - 108) score += (ry + h - L.h + 108) * 1000;
+              if (ry < topSafe) score += (topSafe - ry) * 1000;
+              if (ry + h > bottomSafe) score += (ry + h - bottomSafe) * 1000;
               score += overlap(rect, box, 0, 0) * 30;
               for (j = 0; j < taken.length; j++) score += overlap(rect, taken[j], 6, 4) * 20;
               for (j = 0; j < graph.projects.length; j++) {
                 var o = graph.projects[j]; if (o.index === n.index) continue;
-                var px = L.x + o.x * L.s, py = L.y + o.y * L.s;
+                var px = L.x + o.x * L.sx, py = L.y + o.y * L.s;
                 if (px > rx - 5 && px < rx + w + 5 && py > ry - 5 && py < ry + h + 5) score += 800;
               }
               if (!best || score < best.score) best = { side: side, dy: dy, gap: gap, score: score, x: rx, y: ry, w: w, h: h };
@@ -1388,13 +1788,28 @@
               if (l.el.style.opacity !== '0') { l.el.style.opacity = '0'; l.el.tabIndex = -1; }
               continue;
             }
-            var x = cam.x + (L.x + n.x * L.s - L.x) * cam.s / L.s, y = cam.y + (L.y + n.y * L.s - L.y) * cam.s / L.s;
+            var x = cam.x + n.x * cam.sx, y = cam.y + n.y * cam.s;
             l.el.style.transform = 'translate(' + (o.side < 0 ? 'calc(-100% - ' + o.gap + 'px)' : o.gap + 'px') + ', -50%) translate('
               + x.toFixed(1) + 'px,' + (y + o.dy).toFixed(1) + 'px)';
             l.el.style.opacity = opacity.toFixed(3);
             if (opacity > .9 && l.el.tabIndex !== 0) l.el.tabIndex = 0;
             if (o.dy) leaders.push({ x: x, y: y, tx: x + (o.side < 0 ? -o.gap : o.gap), ty: y + o.dy, a: opacity });
           }
+        }
+        function syncLabel(el, p) {
+          var count = Number(p.stars) || 0, major = count >= 1000;
+          el.classList.toggle('is-major', major);
+          var name = el.querySelector('.fission-name'), stars = el.querySelector('.fission-stars');
+          if (name) name.textContent = p.n;
+          if (stars) {
+            stars.textContent = major ? '★ ' + starLabel(count) : '';
+            stars.hidden = !major;
+          }
+          el.setAttribute('aria-label', p.n + (count ? ' GitHub stars ' + count.toLocaleString() : ''));
+        }
+        function refreshLabels() {
+          for (var i = 0; i < labels.length; i++) syncLabel(labels[i].el, PROJECTS[labels[i].node.index]);
+          placement.key = '';
         }
         function makeLabels() {
           var layer = document.getElementById('fissionLabels');
@@ -1406,7 +1821,9 @@
             var a = document.createElement('a');
             a.className = 'fission-label'; a.href = p.url || 'https://github.com/chainreactors/' + p.n;
             a.target = '_blank'; a.rel = 'noopener noreferrer'; a.tabIndex = -1; a.style.opacity = '0';
-            a.appendChild(document.createTextNode(p.n));
+            var name = document.createElement('span'); name.className = 'fission-name';
+            var stars = document.createElement('span'); stars.className = 'fission-stars';
+            a.appendChild(name); a.appendChild(stars); syncLabel(a, p);
             var arrow = document.createElement('i'); arrow.textContent = '↗'; arrow.setAttribute('aria-hidden', 'true');
             a.appendChild(arrow); layer.appendChild(a);
             labels.push({ node: n, el: a });
@@ -1426,7 +1843,7 @@
           c.setTransform(dpr, 0, 0, dpr, 0, 0); c.globalAlpha = 1;
           drawBackground(c, base, time);
           c.save();
-          c.translate(L.x, L.y); c.scale(L.s, L.s); c.lineCap = 'round'; c.lineJoin = 'round';
+          c.translate(L.x, L.y); c.scale(L.sx, L.s); c.lineCap = 'round'; c.lineJoin = 'round';
           c.beginPath(); c.rect(-110, -115, SPACE.w + 220, SPACE.h + 230); c.clip();
           drawIgnition(c, raw, L, time); drawTrajectories(c, raw, L); drawMedium(c, raw); drawFocus(c, raw);
           drawCollisions(c, raw, L, time); drawParticles(c, raw, L, time); drawProjects(c, raw);
@@ -1476,15 +1893,18 @@
             heroRedraw = function () { placement.key = ''; dirty = true; ensureLoop(); render(t); };
             heroStars = function (counts) {
               var max = 0, i, v;
-              for (i = 0; i < PROJECTS.length; i++) { v = counts[PROJECTS[i].n] || 0; if (v > max) max = v; }
+              for (i = 0; i < PROJECTS.length; i++) { v = counts[PROJECTS[i].n] || PROJECTS[i].stars || 0; if (v > max) max = v; }
               if (!max) return;
               // star 数跨了两个量级，线性映射会把小项目压没；开根压缩一下再留个下限。
               for (i = 0; i < PROJECTS.length; i++) {
-                v = counts[PROJECTS[i].n] || 0;
+                v = counts[PROJECTS[i].n] || PROJECTS[i].stars || 0;
+                PROJECTS[i].stars = v;
                 weights[i] = v ? clamp(.30 + .70 * Math.pow(v / max, .45), .30, 1) : BASE_WEIGHT;
               }
+              refreshLabels();
               dirty = true; ensureLoop();
             };
+            heroStars({});
             // 首屏文案还在做入场动画，此刻量出来的外框是偏的；等它落定再重排一次标签。
             // 第一个节点要到 3.3s 才浮出，这次重排看不见。
             window.setTimeout(function () { placement.key = ''; dirty = true; ensureLoop(); }, 1400);
@@ -1577,6 +1997,264 @@
           });
         }).catch(function () {});
       }
+
+      // cairn 产品演示舞台：五阶段自动轮播 + 关键词联动
+      (function () {
+        var stage = document.getElementById('cairnStage');
+        if (!stage) return;
+        var slots = {};
+        Array.prototype.forEach.call(stage.querySelectorAll('.cairn-slot'), function (s) { slots[s.dataset.slot] = s; });
+        var keys = Array.prototype.slice.call(stage.querySelectorAll('.cairn-key'));
+        var order = ['e2e', 'obs', 'chain', 'zero', 'exp'];
+        var DUR = { e2e: 16800, obs: 13200, chain: 12600, zero: 10000, exp: 9800 };
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var timers = [], streams = [], cur = null, inView = false;
+        function later(fn, ms) { var t = setTimeout(fn, ms); timers.push(t); }
+        function every(fn, ms) { var t = setInterval(fn, ms); streams.push(t); }
+        function clearTimers() { timers.forEach(clearTimeout); timers = []; streams.forEach(clearInterval); streams = []; }
+        function caption(slot, key, delay) {
+          later(function () {
+            var cap = slots[slot].querySelector('.cairn-caption');
+            cap.setAttribute('data-i18n', key); cap.textContent = text(key); cap.classList.add('show');
+          }, delay);
+        }
+        function swapCaption(slot, key, at) {
+          later(function () {
+            var cap = slots[slot].querySelector('.cairn-caption');
+            cap.classList.remove('show');
+            later(function () { cap.setAttribute('data-i18n', key); cap.textContent = text(key); cap.classList.add('show'); }, 300);
+          }, at);
+        }
+
+        var CH = [
+          { x: 118, y: 66, t: '信息收集' }, { x: 400, y: 66, t: '前端JS逆向' }, { x: 682, y: 66, t: 'API及敏感信息提取' },
+          { x: 682, y: 226, t: '爆破常见固定验证码' }, { x: 400, y: 226, t: '登陆账号' }, { x: 118, y: 226, t: '分析dify' },
+          { x: 118, y: 386, t: '安装恶意插件' }, { x: 400, y: 386, t: '成功获取dify容器权限', final: true }
+        ];
+        var NS = 'http://www.w3.org/2000/svg';
+        var chainSvg = document.getElementById('cairnChain');
+        function svgEl(n, attrs, parent) { var e = document.createElementNS(NS, n); for (var k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; }
+        var chEdges = [], chNodes = [], chPulse = null;
+        (function buildChain() {
+          var eg = svgEl('g', {}, chainSvg), ng = svgEl('g', {}, chainSvg);
+          CH.forEach(function (n) { n.w = n.t.length * 16.5 + 66; n.h = 44; });
+          for (var i = 0; i < CH.length - 1; i++) {
+            var a = CH[i], b = CH[i + 1], x1, y1, x2, y2;
+            if (a.y === b.y) { var dir = b.x > a.x ? 1 : -1; x1 = a.x + dir * (a.w / 2 + 2); x2 = b.x - dir * (b.w / 2 + 2); y1 = y2 = a.y; }
+            else { var dv = b.y > a.y ? 1 : -1; y1 = a.y + dv * (a.h / 2 + 2); y2 = b.y - dv * (b.h / 2 + 2); x1 = x2 = a.x; }
+            svgEl('line', { class: 'chain-edge chain-edge-base', x1: x1, y1: y1, x2: x2, y2: y2 }, eg);
+            var draw = svgEl('line', { class: 'chain-edge chain-edge-draw', x1: x1, y1: y1, x2: x2, y2: y2 }, eg);
+            var len = Math.hypot(x2 - x1, y2 - y1);
+            draw.style.setProperty('--edge-len', len + 'px');
+            draw.style.setProperty('--edge-dur', '680ms');
+            chEdges.push({ el: draw, len: len, x1: x1, y1: y1, x2: x2, y2: y2 });
+          }
+          CH.forEach(function (n, i) {
+            var g = svgEl('g', { class: 'chain-node' + (n.final ? ' final' : '') }, ng);
+            svgEl('rect', { class: 'box', x: n.x - n.w / 2, y: n.y - n.h / 2, width: n.w, height: n.h, rx: 22 }, g);
+            svgEl('text', { class: 'nnum', x: n.x - n.w / 2 + 22, y: n.y + 5, 'text-anchor': 'middle' }, g).textContent = (i + 1);
+            svgEl('text', { class: 'nlab', x: n.x - n.w / 2 + 39, y: n.y + 5 }, g).textContent = n.t;
+            chNodes.push(g);
+          });
+          chPulse = svgEl('circle', { class: 'chain-pulse', r: 4.5, cx: CH[0].x, cy: CH[0].y }, chainSvg);
+        }());
+        function pulseAlong(i, dur) {
+          return new Promise(function (resolve) {
+            var t0 = null, e = chEdges[i]; chPulse.setAttribute('opacity', 1);
+            function step(t) {
+              if (cur !== 'chain') { chPulse.setAttribute('opacity', 0); resolve(); return; }
+              if (!t0) t0 = t;
+              var p = Math.min(1, (t - t0) / dur);
+              chPulse.setAttribute('cx', e.x1 + (e.x2 - e.x1) * p);
+              chPulse.setAttribute('cy', e.y1 + (e.y2 - e.y1) * p);
+              if (p < 1) requestAnimationFrame(step); else { chPulse.setAttribute('opacity', 0); resolve(); }
+            }
+            requestAnimationFrame(step);
+          });
+        }
+        async function runChain() {
+          chNodes.forEach(function (n) { n.classList.remove('lit'); });
+          chEdges.forEach(function (e) { e.el.classList.remove('lit'); });
+          await new Promise(function (r) { later(r, 500); });
+          if (cur !== 'chain') return;
+          chNodes[0].classList.add('lit');
+          for (var s = 0; s < chEdges.length; s++) {
+            if (cur !== 'chain') return;
+            chEdges[s].el.classList.add('lit');
+            await pulseAlong(s, 680);
+            if (cur !== 'chain') return;
+            chNodes[s + 1].classList.add('lit');
+            await new Promise(function (r) { later(r, 260); });
+          }
+        }
+        function runE2E() {
+          var panes = slots.e2e.querySelectorAll('.pane');
+          var typed = slots.e2e.querySelector('.fc-typed');
+          var btn = slots.e2e.querySelector('.fc-btn');
+          panes.forEach(function (pn) { pn.classList.remove('show'); });
+          btn.classList.remove('pressed'); typed.textContent = '';
+          later(function () { panes[0].classList.add('show'); }, 140);
+          caption('e2e', 'cairn.capE1', 500);
+          var target = '针对某企业进行渗透测试，目标：需要挖掘高危严重漏洞，至少包含一个RCE';
+          var typeStart = 850, typeStep = 68;
+          var btnAt = typeStart + target.length * typeStep + 720;
+          var reasonAt = btnAt + 320, reportAt = 10000;
+          for (var i = 0; i < target.length; i++) {
+            (function (k) { later(function () { typed.textContent = target.slice(0, k + 1); }, typeStart + k * typeStep); }(i));
+          }
+          later(function () { btn.classList.add('pressed'); }, btnAt);
+          swapCaption('e2e', 'cairn.capE2', reasonAt);
+          later(function () { panes[0].classList.remove('show'); panes[1].classList.add('show'); }, reasonAt);
+          swapCaption('e2e', 'cairn.capE3', reportAt);
+          later(function () { panes[1].classList.remove('show'); panes[2].classList.add('show'); }, reportAt);
+        }
+        var OBS_ROWS = [
+          [['POST', '/api/v1/plugin/install', '202'], ['GET', '/console/api/workspaces', '200'], ['POST', '/login', '302'], ['GET', '/api/v1/comments?id=41', '200'], ['POST', '/api/v1/chat-messages', '200'], ['GET', '/static/js/app.8f2c.js', '304'], ['POST', '/api/v1/upload', '500'], ['GET', '/console/api/datasets', '200']],
+          [['nmap -sV --top-ports 1000', 'done'], ['subfinder -d target', '34 assets'], ['httpx -probe', 'ok'], ['nuclei -t cves/', '2 hits'], ['sqlmap --batch -u ***', 'done'], ['ffuf -w dict.txt', '12 found'], ['poc.yaml --verify', 'pass']],
+          [['recon_assets.json', '18 KB'], ['traffic_0041.http', '3.2 KB'], ['poc_plugin.py', '1.1 KB'], ['screenshot_uid0.png', '264 KB'], ['report_draft.md', '9.6 KB'], ['chain_export.json', '5.4 KB']]
+        ];
+        var OBS_FACTS = [
+          { s: 1, tag: '资产', cls: '', txt: '34 个子域资产入库' },
+          { s: 0, tag: '资产', cls: '', txt: 'dify 部署确认 · HTTP 200' },
+          { s: 0, tag: '可疑点', cls: 'sus', txt: '插件安装接口缺乏鉴权' },
+          { s: 1, tag: '可疑点', cls: 'sus', txt: '固定验证码可爆破' },
+          { s: 2, tag: '证据', cls: 'evi', txt: '容器内命令执行 · uid=0' },
+          { s: 2, tag: '证据', cls: 'evi', txt: '回显截图已归档' }
+        ];
+        function runObs() {
+          var box = slots.obs.querySelector('.obsx');
+          var srcs = box.querySelectorAll('.src');
+          var svg = box.querySelector('.obsflow svg');
+          var bb = box.querySelector('.bb');
+          var factsBox = box.querySelector('.bb-facts');
+          var countEl = box.querySelector('.bb-count');
+          srcs.forEach(function (c) { c.classList.remove('in'); c.querySelector('.src-rows').innerHTML = ''; });
+          bb.classList.remove('in'); factsBox.innerHTML = ''; countEl.textContent = 'facts: 0';
+          while (svg.firstChild) svg.removeChild(svg.firstChild);
+          caption('obs', 'cairn.capObs', 500);
+          srcs.forEach(function (c, i) { later(function () { c.classList.add('in'); }, 300 + i * 220); });
+          later(function () { bb.classList.add('in'); }, 1050);
+          srcs.forEach(function (c, ci) {
+            var idx = 0;
+            later(function () {
+              every(function () {
+                if (cur !== 'obs') return;
+                var rowsBox = c.querySelector('.src-rows');
+                var data = OBS_ROWS[ci][idx % OBS_ROWS[ci].length]; idx++;
+                var r = document.createElement('div'); r.className = 'brow';
+                if (ci === 0) r.innerHTML = '<span class="m' + (data[0] === 'POST' ? ' post' : '') + '">' + data[0] + '</span><span class="u">' + data[1] + '</span><span class="s ' + (data[2][0] === '2' || data[2][0] === '3' ? 'ok' : 'bad') + '">' + data[2] + '</span>';
+                else if (ci === 1) r.innerHTML = '<span class="u">' + data[0] + '</span><span class="s ok">' + data[1] + '</span>';
+                else r.innerHTML = '<span class="u">' + data[0] + '</span><span class="s">' + data[1] + '</span>';
+                rowsBox.appendChild(r);
+                while (rowsBox.children.length > 4) rowsBox.removeChild(rowsBox.firstChild);
+              }, 560 + ci * 90);
+            }, 750 + ci * 220);
+          });
+          later(function () {
+            var br = box.getBoundingClientRect();
+            svg.setAttribute('viewBox', '0 0 ' + br.width + ' ' + br.height);
+            var bbr = bb.getBoundingClientRect(), paths = [];
+            srcs.forEach(function (c, i) {
+              var r = c.getBoundingClientRect();
+              var horizontal = bbr.left > r.right - 4, x1, y1, x2, y2, d;
+              if (!horizontal) {
+                x1 = r.left + r.width / 2 - br.left; y1 = r.bottom - br.top;
+                x2 = bbr.left + bbr.width * (.5 + (i - 1) * .08) - br.left; y2 = bbr.top - br.top;
+                var by = Math.min(78, Math.max(42, Math.abs(y2 - y1) * .36));
+                d = 'M ' + x1 + ' ' + y1 + ' C ' + x1 + ' ' + (y1 + by) + ', ' + x2 + ' ' + (y2 - by) + ', ' + x2 + ' ' + y2;
+              } else {
+                x1 = r.right - br.left; y1 = r.top + r.height / 2 - br.top;
+                x2 = bbr.left - br.left; y2 = bbr.top + bbr.height * .5 + (i - 1) * Math.min(34, bbr.height * .14) - br.top;
+                var bx = Math.min(96, Math.max(64, Math.abs(x2 - x1) * .38));
+                d = 'M ' + x1 + ' ' + y1 + ' C ' + (x1 + bx) + ' ' + y1 + ', ' + (x2 - bx) + ' ' + y2 + ', ' + x2 + ' ' + y2;
+              }
+              var pl = svgEl('path', { class: 'ofline', pathLength: 1, d: d }, svg);
+              paths.push(pl);
+              requestAnimationFrame(function () { pl.classList.add('draw'); });
+            });
+            var n = 0;
+            OBS_FACTS.forEach(function (f, k) {
+              later(function () {
+                var path = paths[f.s]; if (!path) return;
+                var dot = svgEl('circle', { class: 'ofpulse', r: 4, opacity: 1 }, svg);
+                var len = path.getTotalLength(), t0 = null;
+                function step(t) {
+                  if (cur !== 'obs') { if (dot.parentNode) dot.parentNode.removeChild(dot); return; }
+                  if (!t0) t0 = t;
+                  var q = Math.min(1, (t - t0) / 780);
+                  var pt = path.getPointAtLength(len * q);
+                  dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y);
+                  if (q < 1) requestAnimationFrame(step);
+                  else {
+                    if (dot.parentNode) dot.parentNode.removeChild(dot);
+                    var d = document.createElement('div'); d.className = 'bfact in';
+                    d.innerHTML = '<span class="btag ' + f.cls + '">' + f.tag + '</span><span>' + f.txt + '</span>';
+                    factsBox.appendChild(d); n++; countEl.textContent = 'facts: ' + n;
+                  }
+                }
+                requestAnimationFrame(step);
+              }, 1900 + k * 1120);
+            });
+          }, 1250);
+        }
+        function runZero() {
+          var card = slots.zero.querySelector('.vuln-card');
+          var steps = slots.zero.querySelectorAll('.vstep');
+          var verdict = slots.zero.querySelector('.verdict2');
+          var discard = slots.zero.querySelector('.discard');
+          card.classList.remove('in'); verdict.classList.remove('in'); discard.classList.remove('in');
+          steps.forEach(function (s) { s.classList.remove('run', 'done'); });
+          caption('zero', 'cairn.capZero', 500);
+          later(function () { card.classList.add('in'); }, 400);
+          steps.forEach(function (s, i) {
+            later(function () { s.classList.add('run'); }, 1100 + i * 1100);
+            later(function () { s.classList.remove('run'); s.classList.add('done'); }, 1100 + i * 1100 + 900);
+          });
+          later(function () { verdict.classList.add('in'); }, 4700);
+          later(function () { discard.classList.add('in'); }, 5600);
+        }
+        function runExp() {
+          var items = slots.exp.querySelectorAll('.ev-item');
+          var concl = slots.exp.querySelector('.ev-concl');
+          items.forEach(function (it) { it.classList.remove('in'); });
+          concl.classList.remove('in');
+          caption('exp', 'cairn.capExp', 500);
+          items.forEach(function (it, i) { later(function () { it.classList.add('in'); }, 700 + i * 1500); });
+          later(function () { concl.classList.add('in'); }, 700 + items.length * 1500);
+        }
+        function activate(name) {
+          clearTimers();
+          cur = name;
+          Object.keys(slots).forEach(function (k) {
+            var on = k === name;
+            slots[k].classList.toggle('is-active', on);
+            if (!on) { var c = slots[k].querySelector('.cairn-caption'); if (c) c.classList.remove('show'); }
+          });
+          keys.forEach(function (b) {
+            var on = b.dataset.go === name;
+            b.classList.toggle('on', on);
+            var bar = b.querySelector('.kbar');
+            bar.style.transition = 'none'; bar.style.width = '0';
+            if (on && !reduced) { void bar.offsetWidth; bar.style.transition = 'width ' + DUR[name] + 'ms linear'; bar.style.width = '100%'; }
+          });
+          if (name === 'e2e') runE2E();
+          else if (name === 'obs') runObs();
+          else if (name === 'chain') { caption('chain', 'cairn.capChain', 500); runChain(); }
+          else if (name === 'zero') runZero();
+          else if (name === 'exp') runExp();
+          if (!reduced && inView) later(function () { activate(order[(order.indexOf(name) + 1) % order.length]); }, DUR[name]);
+        }
+        keys.forEach(function (b) { b.addEventListener('click', function () { activate(b.dataset.go); }); });
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) {
+              if (en.isIntersecting) { if (!inView) { inView = true; activate(cur || 'e2e'); } }
+              else { inView = false; clearTimers(); }
+            });
+          }, { threshold: .25 }).observe(stage);
+        } else { inView = true; }
+        activate('e2e');
+      }());
     }());
   </script>
 </body>
