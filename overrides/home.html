@@ -46,8 +46,12 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; overflow-x: hidden; background: var(--ink); }
-    body { min-width: 320px; margin: 0; overflow-x: hidden; color: var(--white); background: var(--ink); font: 400 16px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+    /* 每个板块的顶边是一个吸附点。板块高度自适应（不再保证一屏一个），
+       mandatory 会在短板块之间反复弹跳，所以用 proximity：只有滚动停在吸附点
+       附近时才吸过去，翻页手感比之前的逐屏吸附轻。 */
+    html { scroll-behavior: smooth; scroll-snap-type: y proximity; overflow-x: hidden; background: var(--ink); }
+    /* 这里必须是 clip：hidden 会让 body 变成滚动容器，视口的 scroll-snap-type 就看不到版块的吸附点。 */
+    body { min-width: 320px; margin: 0; overflow-x: clip; color: var(--white); background: var(--ink); font: 400 16px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
     body::before { content: ""; position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: .07; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.34'/%3E%3C/svg%3E"); mix-blend-mode: soft-light; }
     body::after { content: ""; position: fixed; inset: 0; z-index: -3; pointer-events: none; background: linear-gradient(90deg, transparent calc(50% - .5px), rgba(255,255,255,.035) 50%, transparent calc(50% + .5px)); }
     a { color: inherit; text-decoration: none; }
@@ -84,7 +88,7 @@
     .menu span { display: block; width: 18px; height: 1px; margin: 4px auto; background: currentColor; }
 
     /* hero */
-    .hero { position: relative; display: block; min-height: 100svh; padding: 0; overflow: hidden; isolation: isolate; background: var(--ink); }
+    .hero { position: relative; display: block; min-height: 100svh; padding: 0; overflow: hidden; isolation: isolate; scroll-snap-align: start; background: var(--ink); }
     .hero::before { content: ""; position: absolute; inset: 0; z-index: -2; background: radial-gradient(circle at 74% 49%, rgba(255,41,41,.2), transparent 26%), radial-gradient(circle at 92% 14%, rgba(255,41,41,.1), transparent 20%); }
     .hero::after { content: none; }
     .hero-grid { position: relative; z-index: 3; display: block; min-height: 100svh; pointer-events: none; }
@@ -136,7 +140,7 @@
     @keyframes blink { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
 
     /* shared sections */
-    .section { display: flex; flex-direction: column; justify-content: flex-start; min-height: auto; padding-block: clamp(4.5rem, 8vw, 7rem); }
+    .section { display: flex; flex-direction: column; justify-content: flex-start; min-height: auto; padding-block: clamp(4.5rem, 8vw, 7rem); scroll-snap-align: start; }
     .section-head { display: flex; align-items: center; justify-content: center; gap: 2rem; margin-bottom: clamp(1.4rem, 3.6vw, 3.6rem); text-align: center; }
     .section-head > div { display: flex; flex-direction: column; align-items: center; }
     .section h2 { max-width: min(100%, 1080px); margin: 0 auto; text-align: center; font: 600 var(--slogan)/.92 var(--display); letter-spacing: -.06em; }
@@ -415,7 +419,7 @@
     .contact-arrow { margin-top: .7rem; font-size: 1rem; }
 
     /* join us — compact editorial recruitment panel */
-    .talent-panel { position: relative; margin-top: clamp(3rem, 7svh, 8rem); padding-top: clamp(2rem, 4svh, 3.5rem); border-top: 1px solid rgba(255,41,41,.7); }
+    .talent-panel { position: relative; margin-top: clamp(3rem, 7svh, 8rem); padding-top: clamp(2rem, 4svh, 3.5rem); scroll-snap-align: start; border-top: 1px solid rgba(255,41,41,.7); }
     .talent-panel::before { content: "JOIN US"; position: absolute; top: -1.1rem; right: 0; color: rgba(255,255,255,.035); font: 700 clamp(4.5rem, 12vw, 11rem)/1 var(--display); letter-spacing: -.08em; pointer-events: none; }
     .talent-head { position: relative; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr); gap: clamp(2rem, 7vw, 7rem); align-items: end; }
     .talent-title h3 { width: fit-content; max-width: 100%; margin: 0 auto; text-align: center; font: 600 var(--slogan)/.92 var(--display); letter-spacing: -.06em; text-wrap: balance; }
@@ -455,7 +459,7 @@
     .talent-detail li::before { content: ""; position: absolute; top: .67em; left: 0; width: 5px; height: 5px; background: var(--red); }
 
     /* footer */
-    footer { color: var(--muted); border-top: 1px solid var(--line); background: var(--ink); }
+    footer { color: var(--muted); border-top: 1px solid var(--line); scroll-snap-align: start; background: var(--ink); }
     .footer-main { display: grid; grid-template-columns: minmax(260px, 1.6fr) repeat(3, minmax(150px, 1fr)); gap: clamp(2rem, 5vw, 6rem); padding-block: clamp(3.5rem, 7vw, 6rem); }
     .footer-brand .wordmark { color: var(--white); }
     .footer-brand-copy { max-width: 330px; margin-top: 1.35rem; color: var(--muted); font-size: .82rem; line-height: 1.75; }
