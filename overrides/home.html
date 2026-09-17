@@ -328,14 +328,14 @@
     .ev-sub { margin-top: .28rem; color: var(--muted); font: .64rem/1.5 var(--mono); }
     .ev-concl { margin-top: .3rem; padding: .6rem .9rem; border-left: 3px solid var(--red); background: rgba(223,70,63,.08); border-radius: 0 8px 8px 0; font-size: .74rem; opacity: 0; transform: translateY(8px); transition: .5s; }
     .ev-concl.in { opacity: 1; transform: none; }
-    .cairn-tabs { display: flex; gap: .22rem; padding: .4rem .5rem 0; background: rgba(0,0,0,.36); border-bottom: 1px solid rgba(255,255,255,.1); overflow-x: auto; scrollbar-width: none; }
+    .cairn-tabs { display: flex; gap: .28rem; padding: .5rem .55rem 0; background: rgba(0,0,0,.36); border-bottom: 1px solid rgba(255,255,255,.12); overflow-x: auto; scrollbar-width: none; }
     .cairn-tabs::-webkit-scrollbar { display: none; }
-    .cairn-key { position: relative; overflow: hidden; flex: 0 0 auto; display: flex; align-items: center; gap: .42rem; border: 1px solid transparent; border-bottom: 0; background: transparent; color: var(--muted); border-radius: 6px 6px 0 0; padding: .48rem .8rem .52rem; font: 600 .72rem/1 var(--display); letter-spacing: -.01em; white-space: nowrap; cursor: pointer; transition: color .35s, border-color .35s, background .35s; }
-    .cairn-key .kidx { color: var(--red); font: .56rem/1 var(--mono); letter-spacing: .1em; transition: color .35s; }
-    .cairn-key .kbar { position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: var(--red); }
-    .cairn-key:hover { color: var(--white); background: rgba(255,255,255,.045); }
-    .cairn-key.on { background: rgba(255,255,255,.055); border-color: rgba(255,255,255,.13); color: var(--white); }
-    .cairn-key.on .kidx { color: rgba(255,255,255,.7); }
+    .cairn-key { position: relative; overflow: hidden; flex: 0 0 auto; display: flex; align-items: center; gap: .45rem; border: 1px solid rgba(255,255,255,.17); border-bottom: 0; background: rgba(255,255,255,.05); color: #d2c9c5; border-radius: 6px 6px 0 0; padding: .54rem .9rem .58rem; font: 600 .78rem/1 var(--display); letter-spacing: -.01em; white-space: nowrap; cursor: pointer; transition: color .35s, border-color .35s, background .35s; }
+    .cairn-key .kidx { color: var(--red); font: 700 .6rem/1 var(--mono); letter-spacing: .1em; transition: color .35s; }
+    .cairn-key .kbar { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: var(--red); }
+    .cairn-key:hover { color: var(--white); background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.24); }
+    .cairn-key.on { background: rgba(223,70,63,.3); border-color: rgba(223,70,63,.65); color: var(--white); box-shadow: inset 0 3px 0 var(--red); }
+    .cairn-key.on .kidx { color: rgba(255,255,255,.85); }
     #future-products { min-height: auto; display: block; background: var(--ink); }
     #future-products > .wrap { width: min(100%, var(--max)); }
     .cap-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -677,7 +677,7 @@
       .cairn-addr { max-width: 190px; font-size: .58rem; }
       .cairn-caption { max-width: 92%; font-size: .68rem; }
       .cairn-tabs { padding-inline: .35rem; }
-      .cairn-key { padding: .42rem .58rem .48rem; font-size: .66rem; }
+      .cairn-key { padding: .48rem .62rem .52rem; font-size: .7rem; }
       .evchain { gap: .4rem; }
       .ev-head { font-size: .78rem; padding-bottom: .4rem; }
       .ev-item { padding: .45rem .6rem; gap: .55rem; }
@@ -811,9 +811,9 @@
     #cairnStage.is-reduced .src-rows { height: auto; }
     #cairnStage.is-reduced .cairn-chainwrap { position: relative; height: 480px; }
     @media (max-width:680px) {
-      #cairnStage .cairn-tabs { padding-inline: .35rem; gap: .1rem; }
-      #cairnStage .cairn-key { padding: .42rem .58rem .48rem; font-size: .66rem; gap: .3rem; }
-      #cairnStage .cairn-key .kidx { font-size: .52rem; }
+      #cairnStage .cairn-tabs { padding-inline: .25rem; gap: .14rem; }
+      #cairnStage .cairn-key { padding: .48rem .52rem .52rem; font-size: .68rem; gap: .26rem; }
+      #cairnStage .cairn-key .kidx { font-size: .54rem; }
       #cairnStage .cairn-browser-bar { padding-inline: .6rem; gap: .3rem; }
       #cairnStage .cairn-addr { font-size: .54rem; padding-inline: .45rem; max-width: 174px; }
       #cairnStage .cairn-dots { gap: 4px; }
@@ -2105,7 +2105,9 @@
         ];
         var target = '针对某企业进行渗透测试，目标：需要挖掘高危严重漏洞，至少包含一个RCE';
         var NS='http://www.w3.org/2000/svg',mq=window.matchMedia('(prefers-reduced-motion: reduce)');
-        var order=['e2e','obs','chain','zero','exp'],DUR={e2e:19000,obs:14000,chain:12600,zero:10000,exp:10500};
+        /* RATE 是整体快慢。每段 DUR = 该段最后一项内容播完的时刻（render* 里的时间点）+ TAIL，TAIL 是留给最后一行内容的停顿。 */
+        var RATE=1.3,TAIL=1000*RATE;
+        var order=['e2e','obs','chain','zero','exp'],DUR={e2e:15250+TAIL,obs:10030+TAIL,chain:9820+TAIL,zero:7600+TAIL,exp:7350+TAIL};
         var state={mode:'e2e',time:0,frame:0,last:0,visible:false,hidden:document.hidden,paused:false,reduced:mq.matches};
         var phaseStart=4400,reportStart=11600,typed=slots.e2e.querySelector('.fc-typed'),panes=slots.e2e.querySelectorAll('.pane');
         var staticCaptions=['cairn.capE1','cairn.capE2','cairn.capE3'].map(function(key,i){var p=document.createElement('p');p.className='cairn-motion-static-caption';p.dataset.i18n=key;panes[i].appendChild(p);return p;});
@@ -2293,7 +2295,7 @@
         function control(kind,draw){var b=document.createElement('button');b.type='button';b.className='cairn-motion-control';b.dataset.control=kind;var icon=svg('svg',{viewBox:'0 0 20 20',width:15,height:15,'aria-hidden':'true'},b);svg('path',{d:draw,fill:'none',stroke:'currentColor','stroke-width':1.5,'stroke-linecap':'round','stroke-linejoin':'round'},icon);controls.appendChild(b);return b;}
         var play=control('pause','M 7 5 V 15 M 13 5 V 15'),replay=control('replay','M 4 6 A 7 7 0 1 1 3 12 M 4 2 V 7 H 9');
         var phaseNav=document.createElement('div');phaseNav.className='cairn-motion-phases';Q(stage,'.cairn-browser-bar').appendChild(phaseNav);
-        var phaseButtons=[4200,phaseStart+6700,reportStart+5000].map(function(time,i){var b=document.createElement('button');b.type='button';b.className='cairn-motion-phase';b.dataset.phase=String(i);b.addEventListener('click',function(){activate('e2e');state.time=state.reduced?DUR.e2e:time;state.paused=true;render();sync();});phaseNav.appendChild(b);return b;});
+        var phaseButtons=[4200,phaseStart+6700,reportStart+3650].map(function(time,i){var b=document.createElement('button');b.type='button';b.className='cairn-motion-phase';b.dataset.phase=String(i);b.addEventListener('click',function(){activate('e2e');state.time=state.reduced?DUR.e2e:time;state.paused=true;render();sync();});phaseNav.appendChild(b);return b;});
         function labels(){var en=document.documentElement.dataset.lang==='en';attr(play,'aria-label',en?(running()?'Pause animation':'Play animation'):(running()?'暂停动画':'播放动画'));attr(replay,'aria-label',en?'Replay current animation':'重播当前动画');phaseButtons.forEach(function(b,i){attr(b,'aria-label',(en?['Task','Reasoning','Report']:['新建任务','推理图','企业级渗透测试报告'])[i]);});}
         function running(){return state.visible&&!state.hidden&&!state.paused&&!state.reduced&&state.time<DUR[state.mode];}
         /* 键盘正在标签页之间移动焦点时不要抢走舞台；鼠标点击不算，它应当继续轮播。 */
@@ -2313,7 +2315,7 @@
           keys.forEach(function(b){var on=b.dataset.go===mode;b.classList.toggle('on',on);attr(b,'aria-pressed',on);if(on&&b.parentNode){var box=b.parentNode;if(box.scrollWidth>box.clientWidth+4)box.scrollLeft=Math.max(0,b.offsetLeft-box.clientWidth/2+b.offsetWidth/2);}});
           if(mode==='chain')buildChain();if(mode==='obs'){obsLayoutDirty=true;logIndices=[-1,-1,-1];}render();sync();
         }
-        function tick(now){state.frame=0;if(!running()){sync();return;}if(state.last)state.time=Math.min(DUR[state.mode],state.time+Math.min(80,now-state.last));state.last=now;render();if(state.time>=DUR[state.mode]){if(!focusHeld()){advance();return;}sync();return;}state.frame=requestAnimationFrame(tick);}
+        function tick(now){state.frame=0;if(!running()){sync();return;}if(state.last)state.time=Math.min(DUR[state.mode],state.time+Math.min(80,now-state.last)*RATE);state.last=now;render();if(state.time>=DUR[state.mode]){if(!focusHeld()){advance();return;}sync();return;}state.frame=requestAnimationFrame(tick);}
         keys.forEach(function(b){b.addEventListener('click',function(){activate(b.dataset.go);});});
         document.getElementById('cairnKeys').addEventListener('keydown',function(e){var i=keys.indexOf(document.activeElement);if(i<0)return;var next=i;if(e.key==='ArrowRight')next=(i+1)%5;else if(e.key==='ArrowLeft')next=(i+4)%5;else if(e.key==='Home')next=0;else if(e.key==='End')next=4;else return;e.preventDefault();keys[next].focus();activate(keys[next].dataset.go);});
         /* 焦点离开舞台后补上被推迟的那次切换，键盘用户不会把轮播停在原地。 */
