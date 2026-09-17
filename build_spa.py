@@ -149,7 +149,7 @@ def build(wiki_base: str, out_dir: pathlib.Path, subsets: set, with_fonts: bool)
     )
     html = sub(
         html,
-        "new URL(href, window.location.href).href",
+        "new URL(href, new URL('/blog/', window.location.href)).href",
         "new URL(href, '%s/blog/').href" % wiki_base,
         expect=1,
     )

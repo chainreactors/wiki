@@ -2072,7 +2072,7 @@
           Array.prototype.slice.call(articles, 0, 6).forEach(function (article) {
             var titleEl = article.querySelector('h2 a.toclink, h2 a'); if (!titleEl) return;
             var href = titleEl.getAttribute('href') || '/blog/';
-            var item = document.createElement('a'); item.className = 'blog-item'; item.href = new URL(href, window.location.href).href;
+            var item = document.createElement('a'); item.className = 'blog-item'; item.href = new URL(href, new URL('/blog/', window.location.href)).href;
             var date = document.createElement('span'); date.className = 'blog-date'; var time = article.querySelector('time'); date.textContent = time ? time.textContent.trim() : 'RESEARCH';
             var isQiling = href.indexOf('qiling_') !== -1 || titleEl.textContent.indexOf('Qiling') !== -1 || titleEl.textContent.indexOf('起零衍迹') !== -1;
             var source = document.createElement('span'); source.className = 'blog-source'; source.dataset.blogSource = isQiling ? 'qiling' : 'journal'; source.textContent = isQiling ? text('blog.sourceQiling') : text('blog.sourceJournal');
