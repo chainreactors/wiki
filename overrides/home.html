@@ -169,7 +169,7 @@
     #cairn .cairn-intro p { max-width: 34em; margin-top: .95rem; color: var(--muted); font-size: 1rem; line-height: 1.88; }
     #cairn .cairn-actions { margin-top: clamp(1.6rem, 3.4vh, 2.6rem); }
     /* cairn · 产品演示舞台：仿真 Web 界面 + 五阶段动态流程 */
-    .cairn-stage { position: relative; justify-self: start; width: min(100%, clamp(680px, 53vw, 840px)); }
+    .cairn-stage { position: relative; min-width: 0; justify-self: start; width: min(100%, clamp(680px, 53vw, 840px)); }
     .cairn-browser { overflow: hidden; border: 1px solid rgba(255,255,255,.15); border-radius: 8px; background: #101012; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 4px 18px rgba(0,0,0,.5); }
     .cairn-browser-bar { display: flex; align-items: center; gap: .8rem; height: 44px; padding: 0 1.1rem; background: rgba(255,255,255,.045); border-bottom: 1px solid rgba(255,255,255,.1); }
     .cairn-dots { display: flex; gap: 7px; }
@@ -328,13 +328,14 @@
     .ev-sub { margin-top: .28rem; color: var(--muted); font: .64rem/1.5 var(--mono); }
     .ev-concl { margin-top: .3rem; padding: .6rem .9rem; border-left: 3px solid var(--red); background: rgba(223,70,63,.08); border-radius: 0 8px 8px 0; font-size: .74rem; opacity: 0; transform: translateY(8px); transition: .5s; }
     .ev-concl.in { opacity: 1; transform: none; }
-    .cairn-keys { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.35rem; }
-    .cairn-key { position: relative; overflow: hidden; display: flex; align-items: center; gap: .55rem; border: 1px solid rgba(255,255,255,.18); background: transparent; color: var(--muted); border-radius: 99px; padding: .62rem 1.15rem; font: 600 .82rem/1 var(--display); letter-spacing: -.01em; cursor: pointer; transition: color .35s, border-color .35s, background .35s, box-shadow .35s; }
-    .cairn-key .kidx { color: var(--red); font: .58rem/1 var(--mono); letter-spacing: .1em; transition: color .35s; }
-    .cairn-key .kbar { position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: rgba(255,255,255,.85); }
-    .cairn-key:hover { border-color: rgba(255,255,255,.45); color: var(--white); }
-    .cairn-key.on { background: var(--red); border-color: var(--red); color: #fff; box-shadow: 0 8px 26px rgba(223,70,63,.35); }
-    .cairn-key.on .kidx { color: rgba(255,255,255,.75); }
+    .cairn-tabs { display: flex; gap: .22rem; padding: .4rem .5rem 0; background: rgba(0,0,0,.36); border-bottom: 1px solid rgba(255,255,255,.1); overflow-x: auto; scrollbar-width: none; }
+    .cairn-tabs::-webkit-scrollbar { display: none; }
+    .cairn-key { position: relative; overflow: hidden; flex: 0 0 auto; display: flex; align-items: center; gap: .42rem; border: 1px solid transparent; border-bottom: 0; background: transparent; color: var(--muted); border-radius: 6px 6px 0 0; padding: .48rem .8rem .52rem; font: 600 .72rem/1 var(--display); letter-spacing: -.01em; white-space: nowrap; cursor: pointer; transition: color .35s, border-color .35s, background .35s; }
+    .cairn-key .kidx { color: var(--red); font: .56rem/1 var(--mono); letter-spacing: .1em; transition: color .35s; }
+    .cairn-key .kbar { position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: var(--red); }
+    .cairn-key:hover { color: var(--white); background: rgba(255,255,255,.045); }
+    .cairn-key.on { background: rgba(255,255,255,.055); border-color: rgba(255,255,255,.13); color: var(--white); }
+    .cairn-key.on .kidx { color: rgba(255,255,255,.7); }
     #future-products { min-height: auto; display: block; background: var(--ink); }
     #future-products > .wrap { width: min(100%, var(--max)); }
     .cap-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -675,8 +676,8 @@
       .cairn-ani { padding: .7rem .7rem 3.4rem; align-items: flex-start; }
       .cairn-addr { max-width: 190px; font-size: .58rem; }
       .cairn-caption { max-width: 92%; font-size: .68rem; }
-      .cairn-keys { gap: .5rem; }
-      .cairn-key { padding: .52rem .85rem; font-size: .72rem; }
+      .cairn-tabs { padding-inline: .35rem; }
+      .cairn-key { padding: .42rem .58rem .48rem; font-size: .66rem; }
       .evchain { gap: .4rem; }
       .ev-head { font-size: .78rem; padding-bottom: .4rem; }
       .ev-item { padding: .45rem .6rem; gap: .55rem; }
@@ -798,8 +799,7 @@
     #cairnStage .srcs, #cairnStage .bb { position: relative; z-index: 2; }
     #cairnStage .brow { opacity: 1; transform: none; }
     #cairnStage .bfact { min-height: 34px; }
-    #cairnStage .cairn-key.on { box-shadow: 0 5px 19px rgba(223,70,63,.22); }
-    #cairnStage .cairn-key .kbar { background: rgba(255,255,255,.65); }
+    #cairnStage .cairn-tabs { align-items: flex-end; }
     #cairnStage.is-reduced .cairn-viewport { aspect-ratio: auto; min-height: 360px; overflow: visible; }
     #cairnStage.is-reduced .cairn-slot.is-active { position: relative; }
     #cairnStage .cairn-motion-static-caption { display: none; }
@@ -811,6 +811,9 @@
     #cairnStage.is-reduced .src-rows { height: auto; }
     #cairnStage.is-reduced .cairn-chainwrap { position: relative; height: 480px; }
     @media (max-width:680px) {
+      #cairnStage .cairn-tabs { padding-inline: .35rem; gap: .1rem; }
+      #cairnStage .cairn-key { padding: .42rem .58rem .48rem; font-size: .66rem; gap: .3rem; }
+      #cairnStage .cairn-key .kidx { font-size: .52rem; }
       #cairnStage .cairn-browser-bar { padding-inline: .6rem; gap: .3rem; }
       #cairnStage .cairn-addr { font-size: .54rem; padding-inline: .45rem; max-width: 174px; }
       #cairnStage .cairn-dots { gap: 4px; }
@@ -898,9 +901,16 @@
           </div>
           <div class="cairn-stage reveal d2" id="cairnStage">
             <div class="cairn-browser">
+              <div class="cairn-tabs" id="cairnKeys">
+                <button class="cairn-key" type="button" data-go="e2e"><span class="kbar"></span><span class="kidx">01</span><span data-i18n="cairn.kw1"></span></button>
+                <button class="cairn-key" type="button" data-go="obs"><span class="kbar"></span><span class="kidx">02</span><span data-i18n="cairn.kw2"></span></button>
+                <button class="cairn-key" type="button" data-go="chain"><span class="kbar"></span><span class="kidx">03</span><span data-i18n="cairn.kw3"></span></button>
+                <button class="cairn-key" type="button" data-go="zero"><span class="kbar"></span><span class="kidx">04</span><span data-i18n="cairn.kw4"></span></button>
+                <button class="cairn-key" type="button" data-go="exp"><span class="kbar"></span><span class="kidx">05</span><span data-i18n="cairn.kw5"></span></button>
+              </div>
               <div class="cairn-browser-bar">
                 <span class="cairn-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-                <span class="cairn-addr">衍迹.chainreactors.ai</span>
+                <span class="cairn-addr">yanji.chainreactors.ai</span>
               </div>
               <div class="cairn-viewport">
                 <div class="cairn-slot is-active" data-slot="e2e">
@@ -1032,13 +1042,6 @@
                   <div class="cairn-caption"></div>
                 </div>
               </div>
-            </div>
-            <div class="cairn-keys" id="cairnKeys">
-              <button class="cairn-key" type="button" data-go="e2e"><span class="kbar"></span><span class="kidx">01</span><span data-i18n="cairn.kw1"></span></button>
-              <button class="cairn-key" type="button" data-go="obs"><span class="kbar"></span><span class="kidx">02</span><span data-i18n="cairn.kw2"></span></button>
-              <button class="cairn-key" type="button" data-go="chain"><span class="kbar"></span><span class="kidx">03</span><span data-i18n="cairn.kw3"></span></button>
-              <button class="cairn-key" type="button" data-go="zero"><span class="kbar"></span><span class="kidx">04</span><span data-i18n="cairn.kw4"></span></button>
-              <button class="cairn-key" type="button" data-go="exp"><span class="kbar"></span><span class="kidx">05</span><span data-i18n="cairn.kw5"></span></button>
             </div>
           </div>
         </div>
@@ -2304,7 +2307,7 @@
         function activate(mode,automatic){
           if(!slots[mode])return;cancel();state.mode=mode;state.time=state.reduced?DUR[mode]:0;state.paused=false;state.automatic=!!automatic;stage.dataset.mode=mode;stage.classList.toggle('is-reduced',state.reduced);
           Object.keys(slots).forEach(function(k){slots[k].classList.toggle('is-active',k===mode);attr(slots[k],'aria-hidden',k!==mode);});
-          keys.forEach(function(b){var on=b.dataset.go===mode;b.classList.toggle('on',on);attr(b,'aria-pressed',on);});
+          keys.forEach(function(b){var on=b.dataset.go===mode;b.classList.toggle('on',on);attr(b,'aria-pressed',on);if(on&&b.parentNode){var box=b.parentNode;if(box.scrollWidth>box.clientWidth+4)box.scrollLeft=Math.max(0,b.offsetLeft-box.clientWidth/2+b.offsetWidth/2);}});
           if(mode==='chain')buildChain();if(mode==='obs'){obsLayoutDirty=true;logIndices=[-1,-1,-1];}render();sync();
         }
         function tick(now){state.frame=0;if(!running()){sync();return;}if(state.last)state.time=Math.min(DUR[state.mode],state.time+Math.min(80,now-state.last));state.last=now;render();if(state.time>=DUR[state.mode]){if(state.automatic&&!stage.contains(document.activeElement)){activate(order[(order.indexOf(state.mode)+1)%order.length],true);return;}sync();return;}state.frame=requestAnimationFrame(tick);}
