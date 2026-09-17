@@ -761,6 +761,72 @@
       .reveal { opacity: 1; transform: none; }
     }
     :focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
+
+    /* Cairn motion refinements. Original content, cards and diagrams are retained. */
+    #cairnStage[data-motion-ready] *, #cairnStage[data-motion-ready] *::before, #cairnStage[data-motion-ready] *::after { animation: none !important; transition: none !important; }
+    #cairnStage .cairn-browser-bar { position: relative; }
+    #cairnStage .cairn-addr { margin-left: auto; margin-right: auto; }
+    #cairnStage .cairn-motion-controls { display: flex; align-items: center; gap: 2px; margin-left: auto; }
+    #cairnStage .cairn-motion-control { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 0; border-radius: 5px; background: transparent; color: #b8aaa6; cursor: pointer; }
+    #cairnStage .cairn-motion-control:hover { color: #fff0dd; background: rgba(223,70,63,.12); }
+    #cairnStage .cairn-motion-control:disabled { opacity: .35; cursor: default; }
+    #cairnStage .cairn-motion-phases { position: absolute; left: 50%; bottom: -17px; z-index: 6; display: flex; gap: 0; transform: translateX(-50%); }
+    #cairnStage .cairn-motion-phases[hidden] { display: none; }
+    #cairnStage .cairn-motion-phase { display: grid; place-items: center; width: 34px; height: 28px; padding: 0; border: 0; border-radius: 3px; background: transparent; cursor: pointer; }
+    #cairnStage .cairn-motion-phase::before { content: ""; width: 16px; height: 2px; border-radius: 1px; background: #6e6664; }
+    #cairnStage .cairn-motion-phase.active::before { background: #ee6d60; box-shadow: 0 0 10px rgba(239,88,72,.35); }
+    #cairnStage .cairn-particle { pointer-events: none; filter: drop-shadow(0 0 5px rgba(245,91,73,.8)); }
+    #cairnStage .chain-edge-draw { stroke-width: 1.8; filter: drop-shadow(0 0 5px rgba(223,70,63,.55)); }
+    #cairnStage .reason-wrap { width: min(700px, 100%); }
+    #cairnStage .reason-node { opacity: 1; }
+    #cairnStage .reason-node .shape { fill: #121113; stroke: #49403e; stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+    #cairnStage .reason-node text { fill: #948883; font: 600 18px var(--display); letter-spacing: -.02em; }
+    #cairnStage .reason-edge-base, #cairnStage .reason-edge-draw { stroke-width: 1.2; vector-effect: non-scaling-stroke; filter: none; }
+    #cairnStage .reason-edge-base { stroke: #79655f; }
+    #cairnStage .reason-edge-draw { stroke: #d77766; }
+    #cairnStage .reason-edge-base.dead, #cairnStage .reason-edge-draw.dead { stroke: #b07469; }
+    #cairnStage .reason-motion { pointer-events: none; }
+    #cairnStage .reason-particle { filter: drop-shadow(0 0 3px rgba(239,98,82,.5)); }
+    #cairnStage .reason-contact { fill: none; stroke: #ef6252; stroke-width: 1; }
+    #cairnStage .reason-wait { fill: #ef6252; }
+    #cairnStage .reason-node, #cairnStage .chain-node { transform: none; }
+    #cairnStage .pane.show .reason-node, #cairnStage .pane.show .rc-row, #cairnStage .pane.show .rc-pop { animation: none !important; }
+    #cairnStage .cairn-slot::after { height: 18%; opacity: .4; }
+    #cairnStage .obsx { position: relative; }
+    #cairnStage .obsflow { position: static; }
+    #cairnStage .obsflow svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 1; }
+    #cairnStage .srcs, #cairnStage .bb { position: relative; z-index: 2; }
+    #cairnStage .brow { opacity: 1; transform: none; }
+    #cairnStage .bfact { min-height: 34px; }
+    #cairnStage .cairn-key.on { box-shadow: 0 5px 19px rgba(223,70,63,.22); }
+    #cairnStage .cairn-key .kbar { background: rgba(255,255,255,.65); }
+    #cairnStage.is-reduced .cairn-viewport { aspect-ratio: auto; min-height: 360px; overflow: visible; }
+    #cairnStage.is-reduced .cairn-slot.is-active { position: relative; }
+    #cairnStage .cairn-motion-static-caption { display: none; }
+    #cairnStage.is-reduced .cairn-slot.is-active .pane { position: relative; min-height: 250px; padding: 1.8rem 1.1rem; flex-direction: column; gap: 1rem; }
+    #cairnStage.is-reduced .cairn-motion-static-caption { display: block; max-width: 96%; margin: .3rem 0 0; color: var(--white); font: 600 .78rem/1.5 var(--display); text-align: center; }
+    #cairnStage.is-reduced .cairn-slot[data-slot="e2e"] > .cairn-caption { display: none; }
+    #cairnStage.is-reduced .cairn-slot.is-active .cairn-ani { position: relative; min-height: 370px; }
+    #cairnStage.is-reduced .cairn-caption { position: relative; left: auto; bottom: auto; margin: 0 1rem 1rem; max-width: none; }
+    #cairnStage.is-reduced .src-rows { height: auto; }
+    #cairnStage.is-reduced .cairn-chainwrap { position: relative; height: 480px; }
+    @media (max-width:680px) {
+      #cairnStage .cairn-browser-bar { padding-inline: .6rem; gap: .3rem; }
+      #cairnStage .cairn-addr { font-size: .54rem; padding-inline: .45rem; max-width: 174px; }
+      #cairnStage .cairn-dots { gap: 4px; }
+      #cairnStage .cairn-dots i { width: 6px; height: 6px; }
+      #cairnStage .cairn-motion-control { width: 34px; height: 40px; }
+      #cairnStage[data-mode="e2e"] .cairn-viewport { min-height: 400px; }
+      #cairnStage .p-reason { padding: 1rem .65rem 3.9rem; }
+      #cairnStage .reason-wrap { width: min(390px, 100%); }
+      #cairnStage .reason-node text { font-size: 18px; }
+      #cairnStage .p-reason .rmeta { margin-top: .65rem; }
+      #cairnStage .obsflow { flex-basis: 44px; }
+      #cairnStage .bfact { min-height: 22px; }
+      #cairnStage .cairn-chainwrap { padding: .8rem .6rem 3.6rem; }
+      #cairnStage.is-reduced .cairn-chainwrap { height: 520px; }
+      #cairnStage.is-reduced .cairn-slot.is-active .pane { min-height: 200px; }
+    }
   </style>
 </head>
 <body>
@@ -851,58 +917,54 @@
                       <div class="rflow">
                         <svg class="reason-graph" viewBox="0 0 760 320" role="img" aria-label="Origin 分出两条 Intent，推理到 Fact 后汇聚到 Goal；无效路径进入 Dead End">
                           <defs>
-                            <marker id="reasonArrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                              <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,.36)"></path>
-                            </marker>
-                            <marker id="reasonArrowRed" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                              <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff4055"></path>
-                            </marker>
+                            <marker id="reasonArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#d77766" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></marker>
+                            <marker id="reasonArrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#b07469" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></marker>
                           </defs>
                           <g aria-hidden="true">
-                            <path class="reason-edge-base" style="--i:1" pathLength="1" marker-end="url(#reasonArrow)" d="M 122 128 C 164 96, 188 78, 208 73"></path>
-                            <path class="reason-edge-base" style="--i:1.2" pathLength="1" marker-end="url(#reasonArrow)" d="M 122 158 C 164 190, 188 209, 208 211"></path>
-                            <path class="reason-edge-base" style="--i:3" pathLength="1" marker-end="url(#reasonArrow)" d="M 286 75 C 332 55, 377 55, 418 77"></path>
-                            <path class="reason-edge-base" style="--i:3.2" pathLength="1" marker-end="url(#reasonArrow)" d="M 286 210 C 323 208, 350 206, 378 205"></path>
-                            <path class="reason-edge-base" style="--i:5" pathLength="1" marker-end="url(#reasonArrow)" d="M 532 78 C 572 92, 594 112, 608 133"></path>
-                            <path class="reason-edge-base" style="--i:5.2" pathLength="1" marker-end="url(#reasonArrow)" d="M 492 206 C 540 198, 575 171, 608 151"></path>
-                            <path class="reason-edge-base dead" style="--i:5.7" marker-end="url(#reasonArrowRed)" pathLength="1" d="M 438 238 C 474 276, 532 284, 574 266"></path>
+                            <path class="reason-edge-base" pathLength="1" data-from="origin" data-to="intent-1" d="M 166 154 C 202 154 198 84 234 84"></path>
+                            <path class="reason-edge-base" pathLength="1" data-from="origin" data-to="intent-2" d="M 166 154 C 202 154 198 224 234 224"></path>
+                            <path class="reason-edge-base" pathLength="1" data-from="intent-1" data-to="fact-1" d="M 346 84 L 414 84"></path>
+                            <path class="reason-edge-base" pathLength="1" data-from="intent-2" data-to="fact-2" d="M 346 224 L 414 224"></path>
+                            <path class="reason-edge-base" pathLength="1" data-from="fact-1" data-to="goal" d="M 526 84 C 566 84 564 142 604 142"></path>
+                            <path class="reason-edge-base" pathLength="1" data-from="fact-2" data-to="goal" d="M 526 224 C 566 224 564 166 604 166"></path>
+                            <path class="reason-edge-base dead" pathLength="1" data-from="fact-2" data-to="dead" d="M 526 224 C 566 224 564 270 604 270"></path>
                           </g>
                           <g aria-hidden="true">
-                            <path class="reason-edge-draw" style="--i:1" pathLength="1" marker-end="url(#reasonArrowRed)" d="M 122 128 C 164 96, 188 78, 208 73"></path>
-                            <path class="reason-edge-draw" style="--i:1.2" pathLength="1" marker-end="url(#reasonArrowRed)" d="M 122 158 C 164 190, 188 209, 208 211"></path>
-                            <path class="reason-edge-draw" style="--i:3" pathLength="1" marker-end="url(#reasonArrowRed)" d="M 286 75 C 332 55, 377 55, 418 77"></path>
-                            <path class="reason-edge-draw" style="--i:3.2" pathLength="1" marker-end="url(#reasonArrowRed)" d="M 286 210 C 323 208, 350 206, 378 205"></path>
-                            <path class="reason-edge-draw" style="--i:5" pathLength="1" marker-end="url(#reasonArrowRed)" d="M 532 78 C 572 92, 594 112, 608 133"></path>
-                            <path class="reason-edge-draw" style="--i:5.2" pathLength="1" marker-end="url(#reasonArrowRed)" d="M 492 206 C 540 198, 575 171, 608 151"></path>
-                            <path class="reason-edge-draw dead" style="--i:5.7" pathLength="1" marker-end="url(#reasonArrowRed)" d="M 438 238 C 474 276, 532 284, 574 266"></path>
+                            <path class="reason-edge-draw" pathLength="1" data-from="origin" data-to="intent-1" d="M 166 154 C 202 154 198 84 234 84"></path>
+                            <path class="reason-edge-draw" pathLength="1" data-from="origin" data-to="intent-2" d="M 166 154 C 202 154 198 224 234 224"></path>
+                            <path class="reason-edge-draw" pathLength="1" data-from="intent-1" data-to="fact-1" d="M 346 84 L 414 84"></path>
+                            <path class="reason-edge-draw" pathLength="1" data-from="intent-2" data-to="fact-2" d="M 346 224 L 414 224"></path>
+                            <path class="reason-edge-draw" pathLength="1" data-from="fact-1" data-to="goal" d="M 526 84 C 566 84 564 142 604 142"></path>
+                            <path class="reason-edge-draw" pathLength="1" data-from="fact-2" data-to="goal" d="M 526 224 C 566 224 564 166 604 166"></path>
+                            <path class="reason-edge-draw dead" pathLength="1" data-from="fact-2" data-to="dead" d="M 526 224 C 566 224 564 270 604 270"></path>
                           </g>
-                          <g class="reason-node origin" style="--i:0">
-                            <circle class="shape" cx="82" cy="143" r="42"></circle>
-                            <text x="82" y="143">Origin</text>
+                          <g class="reason-node origin" data-node="origin">
+                            <rect class="shape" x="54" y="128" width="112" height="52" rx="12"></rect>
+                            <text x="110" y="154">Origin</text>
                           </g>
-                          <g class="reason-node intent" style="--i:2">
-                            <circle class="shape" cx="246" cy="73" r="42"></circle>
-                            <text x="246" y="73">Intent</text>
+                          <g class="reason-node intent" data-node="intent-1">
+                            <rect class="shape" x="234" y="58" width="112" height="52" rx="12"></rect>
+                            <text x="290" y="84">Intent</text>
                           </g>
-                          <g class="reason-node intent" style="--i:2.2">
-                            <circle class="shape" cx="246" cy="210" r="42"></circle>
-                            <text x="246" y="210">Intent</text>
+                          <g class="reason-node intent" data-node="intent-2">
+                            <rect class="shape" x="234" y="198" width="112" height="52" rx="12"></rect>
+                            <text x="290" y="224">Intent</text>
                           </g>
-                          <g class="reason-node fact" style="--i:4">
-                            <rect class="shape" x="418" y="43" width="116" height="70" rx="13"></rect>
-                            <text x="476" y="78">Fact</text>
+                          <g class="reason-node fact" data-node="fact-1">
+                            <rect class="shape" x="414" y="58" width="112" height="52" rx="12"></rect>
+                            <text x="470" y="84">Fact</text>
                           </g>
-                          <g class="reason-node fact" style="--i:4.2">
-                            <rect class="shape" x="378" y="171" width="116" height="70" rx="13"></rect>
-                            <text x="436" y="206">Fact</text>
+                          <g class="reason-node fact" data-node="fact-2">
+                            <rect class="shape" x="414" y="198" width="112" height="52" rx="12"></rect>
+                            <text x="470" y="224">Fact</text>
                           </g>
-                          <g class="reason-node goal" style="--i:6">
-                            <circle class="shape" cx="650" cy="143" r="44"></circle>
-                            <text x="650" y="143">Goal</text>
+                          <g class="reason-node goal" data-node="goal">
+                            <rect class="shape" x="604" y="128" width="112" height="52" rx="12"></rect>
+                            <text x="660" y="154">Goal</text>
                           </g>
-                          <g class="reason-node dead" style="--i:6.4">
-                            <rect class="shape" x="574" y="238" width="142" height="58" rx="13"></rect>
-                            <text x="645" y="267">Dead End</text>
+                          <g class="reason-node dead" data-node="dead">
+                            <rect class="shape" x="604" y="244" width="112" height="52" rx="12"></rect>
+                            <text x="660" y="270">Dead End</text>
                           </g>
                         </svg>
                       </div>
@@ -945,7 +1007,7 @@
                 <div class="cairn-slot" data-slot="zero">
                   <div class="cairn-ani">
                     <div class="verify">
-                      <div class="vuln-card"><div class="vc-head"><b>严重</b><span>远程代码执行（RCE）· dify 容器</span></div><div class="vc-sub">插件上传点 → 恶意插件 → 容器命令执行</div></div>
+                      <div class="vuln-card"><div class="vc-head"><b>严重</b><span>远程代码执行（RCE）· 容器</span></div><div class="vc-sub">插件上传点 → 恶意插件 → 容器命令执行</div></div>
                       <div class="vsteps">
                         <div class="vstep" data-s="0"><i class="vsp"></i><span>构造 PoC</span><b class="vst">✓ pass</b></div>
                         <div class="vstep" data-s="1"><i class="vsp"></i><span>沙箱复现</span><b class="vst">✓ pass</b></div>
@@ -961,7 +1023,7 @@
                   <div class="cairn-ani">
                     <div class="evchain">
                       <div class="ev-head">漏洞证据链 · 远程代码执行（RCE）</div>
-                      <div class="ev-item" data-e="0"><span class="ev-tag">事实 1</span><div><div class="ev-title">目标指纹识别：dify 部署暴露</div><div class="ev-sub">指纹比对命中 · 版本资产确认 · HTTP 200</div></div></div>
+                      <div class="ev-item" data-e="0"><span class="ev-tag">事实 1</span><div><div class="ev-title">目标指纹识别：部署暴露</div><div class="ev-sub">指纹比对命中 · 版本资产确认 · HTTP 200</div></div></div>
                       <div class="ev-item" data-e="1"><span class="ev-tag">事实 2</span><div><div class="ev-title">插件安装接口缺乏有效鉴权</div><div class="ev-sub">固定验证码爆破成功 · 越权登录</div></div></div>
                       <div class="ev-item" data-e="2"><span class="ev-tag">事实 3</span><div><div class="ev-title">恶意插件安装后容器内命令执行</div><div class="ev-sub">回显确认 uid=0 · 获取容器权限</div></div></div>
                       <div class="ev-concl">推理过程 → 结论：链路成立，漏洞已验证</div>
@@ -2015,114 +2077,16 @@
 
       // cairn 产品演示舞台：五阶段自动轮播 + 关键词联动
       (function () {
-        var stage = document.getElementById('cairnStage');
-        if (!stage) return;
-        var slots = {};
-        Array.prototype.forEach.call(stage.querySelectorAll('.cairn-slot'), function (s) { slots[s.dataset.slot] = s; });
-        var keys = Array.prototype.slice.call(stage.querySelectorAll('.cairn-key'));
-        var order = ['e2e', 'obs', 'chain', 'zero', 'exp'];
-        var DUR = { e2e: 16800, obs: 13200, chain: 12600, zero: 10000, exp: 9800 };
-        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        var timers = [], streams = [], cur = null, inView = false;
-        function later(fn, ms) { var t = setTimeout(fn, ms); timers.push(t); }
-        function every(fn, ms) { var t = setInterval(fn, ms); streams.push(t); }
-        function clearTimers() { timers.forEach(clearTimeout); timers = []; streams.forEach(clearInterval); streams = []; }
-        function caption(slot, key, delay) {
-          later(function () {
-            var cap = slots[slot].querySelector('.cairn-caption');
-            cap.setAttribute('data-i18n', key); cap.textContent = text(key); cap.classList.add('show');
-          }, delay);
-        }
-        function swapCaption(slot, key, at) {
-          later(function () {
-            var cap = slots[slot].querySelector('.cairn-caption');
-            cap.classList.remove('show');
-            later(function () { cap.setAttribute('data-i18n', key); cap.textContent = text(key); cap.classList.add('show'); }, 300);
-          }, at);
-        }
-
+        'use strict';
+        var stage=document.getElementById('cairnStage'); if(!stage)return;
+        var slots={},keys=Array.prototype.slice.call(stage.querySelectorAll('.cairn-key'));
+        stage.querySelectorAll('.cairn-slot').forEach(function(el){slots[el.dataset.slot]=el;});
+        /* SOURCE_DATA: exact literals copied from the current uploaded file. */
         var CH = [
           { x: 118, y: 66, t: '信息收集' }, { x: 400, y: 66, t: '前端JS逆向' }, { x: 682, y: 66, t: 'API及敏感信息提取' },
-          { x: 682, y: 226, t: '爆破常见固定验证码' }, { x: 400, y: 226, t: '登陆账号' }, { x: 118, y: 226, t: '分析dify' },
-          { x: 118, y: 386, t: '安装恶意插件' }, { x: 400, y: 386, t: '成功获取dify容器权限', final: true }
+          { x: 682, y: 226, t: '爆破常见固定验证码' }, { x: 400, y: 226, t: '登陆账号' }, { x: 118, y: 226, t: '分析' },
+          { x: 118, y: 386, t: '安装恶意插件' }, { x: 400, y: 386, t: '成功获取容器权限', final: true }
         ];
-        var NS = 'http://www.w3.org/2000/svg';
-        var chainSvg = document.getElementById('cairnChain');
-        function svgEl(n, attrs, parent) { var e = document.createElementNS(NS, n); for (var k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; }
-        var chEdges = [], chNodes = [], chPulse = null;
-        (function buildChain() {
-          var eg = svgEl('g', {}, chainSvg), ng = svgEl('g', {}, chainSvg);
-          CH.forEach(function (n) { n.w = n.t.length * 16.5 + 66; n.h = 44; });
-          for (var i = 0; i < CH.length - 1; i++) {
-            var a = CH[i], b = CH[i + 1], x1, y1, x2, y2;
-            if (a.y === b.y) { var dir = b.x > a.x ? 1 : -1; x1 = a.x + dir * (a.w / 2 + 2); x2 = b.x - dir * (b.w / 2 + 2); y1 = y2 = a.y; }
-            else { var dv = b.y > a.y ? 1 : -1; y1 = a.y + dv * (a.h / 2 + 2); y2 = b.y - dv * (b.h / 2 + 2); x1 = x2 = a.x; }
-            svgEl('line', { class: 'chain-edge chain-edge-base', x1: x1, y1: y1, x2: x2, y2: y2 }, eg);
-            var draw = svgEl('line', { class: 'chain-edge chain-edge-draw', x1: x1, y1: y1, x2: x2, y2: y2 }, eg);
-            var len = Math.hypot(x2 - x1, y2 - y1);
-            draw.style.setProperty('--edge-len', len + 'px');
-            draw.style.setProperty('--edge-dur', '680ms');
-            chEdges.push({ el: draw, len: len, x1: x1, y1: y1, x2: x2, y2: y2 });
-          }
-          CH.forEach(function (n, i) {
-            var g = svgEl('g', { class: 'chain-node' + (n.final ? ' final' : '') }, ng);
-            svgEl('rect', { class: 'box', x: n.x - n.w / 2, y: n.y - n.h / 2, width: n.w, height: n.h, rx: 22 }, g);
-            svgEl('text', { class: 'nnum', x: n.x - n.w / 2 + 22, y: n.y + 5, 'text-anchor': 'middle' }, g).textContent = (i + 1);
-            svgEl('text', { class: 'nlab', x: n.x - n.w / 2 + 39, y: n.y + 5 }, g).textContent = n.t;
-            chNodes.push(g);
-          });
-          chPulse = svgEl('circle', { class: 'chain-pulse', r: 4.5, cx: CH[0].x, cy: CH[0].y }, chainSvg);
-        }());
-        function pulseAlong(i, dur) {
-          return new Promise(function (resolve) {
-            var t0 = null, e = chEdges[i]; chPulse.setAttribute('opacity', 1);
-            function step(t) {
-              if (cur !== 'chain') { chPulse.setAttribute('opacity', 0); resolve(); return; }
-              if (!t0) t0 = t;
-              var p = Math.min(1, (t - t0) / dur);
-              chPulse.setAttribute('cx', e.x1 + (e.x2 - e.x1) * p);
-              chPulse.setAttribute('cy', e.y1 + (e.y2 - e.y1) * p);
-              if (p < 1) requestAnimationFrame(step); else { chPulse.setAttribute('opacity', 0); resolve(); }
-            }
-            requestAnimationFrame(step);
-          });
-        }
-        async function runChain() {
-          chNodes.forEach(function (n) { n.classList.remove('lit'); });
-          chEdges.forEach(function (e) { e.el.classList.remove('lit'); });
-          await new Promise(function (r) { later(r, 500); });
-          if (cur !== 'chain') return;
-          chNodes[0].classList.add('lit');
-          for (var s = 0; s < chEdges.length; s++) {
-            if (cur !== 'chain') return;
-            chEdges[s].el.classList.add('lit');
-            await pulseAlong(s, 680);
-            if (cur !== 'chain') return;
-            chNodes[s + 1].classList.add('lit');
-            await new Promise(function (r) { later(r, 260); });
-          }
-        }
-        function runE2E() {
-          var panes = slots.e2e.querySelectorAll('.pane');
-          var typed = slots.e2e.querySelector('.fc-typed');
-          var btn = slots.e2e.querySelector('.fc-btn');
-          panes.forEach(function (pn) { pn.classList.remove('show'); });
-          btn.classList.remove('pressed'); typed.textContent = '';
-          later(function () { panes[0].classList.add('show'); }, 140);
-          caption('e2e', 'cairn.capE1', 500);
-          var target = '针对某企业进行渗透测试，目标：需要挖掘高危严重漏洞，至少包含一个RCE';
-          var typeStart = 850, typeStep = 68;
-          var btnAt = typeStart + target.length * typeStep + 720;
-          var reasonAt = btnAt + 320, reportAt = 10000;
-          for (var i = 0; i < target.length; i++) {
-            (function (k) { later(function () { typed.textContent = target.slice(0, k + 1); }, typeStart + k * typeStep); }(i));
-          }
-          later(function () { btn.classList.add('pressed'); }, btnAt);
-          swapCaption('e2e', 'cairn.capE2', reasonAt);
-          later(function () { panes[0].classList.remove('show'); panes[1].classList.add('show'); }, reasonAt);
-          swapCaption('e2e', 'cairn.capE3', reportAt);
-          later(function () { panes[1].classList.remove('show'); panes[2].classList.add('show'); }, reportAt);
-        }
         var OBS_ROWS = [
           [['POST', '/api/v1/plugin/install', '202'], ['GET', '/console/api/workspaces', '200'], ['POST', '/login', '302'], ['GET', '/api/v1/comments?id=41', '200'], ['POST', '/api/v1/chat-messages', '200'], ['GET', '/static/js/app.8f2c.js', '304'], ['POST', '/api/v1/upload', '500'], ['GET', '/console/api/datasets', '200']],
           [['nmap -sV --top-ports 1000', 'done'], ['subfinder -d target', '34 assets'], ['httpx -probe', 'ok'], ['nuclei -t cves/', '2 hits'], ['sqlmap --batch -u ***', 'done'], ['ffuf -w dict.txt', '12 found'], ['poc.yaml --verify', 'pass']],
@@ -2130,145 +2094,233 @@
         ];
         var OBS_FACTS = [
           { s: 1, tag: '资产', cls: '', txt: '34 个子域资产入库' },
-          { s: 0, tag: '资产', cls: '', txt: 'dify 部署确认 · HTTP 200' },
+          { s: 0, tag: '资产', cls: '', txt: '部署确认 · HTTP 200' },
           { s: 0, tag: '可疑点', cls: 'sus', txt: '插件安装接口缺乏鉴权' },
           { s: 1, tag: '可疑点', cls: 'sus', txt: '固定验证码可爆破' },
           { s: 2, tag: '证据', cls: 'evi', txt: '容器内命令执行 · uid=0' },
           { s: 2, tag: '证据', cls: 'evi', txt: '回显截图已归档' }
         ];
-        function runObs() {
-          var box = slots.obs.querySelector('.obsx');
-          var srcs = box.querySelectorAll('.src');
-          var svg = box.querySelector('.obsflow svg');
-          var bb = box.querySelector('.bb');
-          var factsBox = box.querySelector('.bb-facts');
-          var countEl = box.querySelector('.bb-count');
-          srcs.forEach(function (c) { c.classList.remove('in'); c.querySelector('.src-rows').innerHTML = ''; });
-          bb.classList.remove('in'); factsBox.innerHTML = ''; countEl.textContent = 'facts: 0';
-          while (svg.firstChild) svg.removeChild(svg.firstChild);
-          caption('obs', 'cairn.capObs', 500);
-          srcs.forEach(function (c, i) { later(function () { c.classList.add('in'); }, 300 + i * 220); });
-          later(function () { bb.classList.add('in'); }, 1050);
-          srcs.forEach(function (c, ci) {
-            var idx = 0;
-            later(function () {
-              every(function () {
-                if (cur !== 'obs') return;
-                var rowsBox = c.querySelector('.src-rows');
-                var data = OBS_ROWS[ci][idx % OBS_ROWS[ci].length]; idx++;
-                var r = document.createElement('div'); r.className = 'brow';
-                if (ci === 0) r.innerHTML = '<span class="m' + (data[0] === 'POST' ? ' post' : '') + '">' + data[0] + '</span><span class="u">' + data[1] + '</span><span class="s ' + (data[2][0] === '2' || data[2][0] === '3' ? 'ok' : 'bad') + '">' + data[2] + '</span>';
-                else if (ci === 1) r.innerHTML = '<span class="u">' + data[0] + '</span><span class="s ok">' + data[1] + '</span>';
-                else r.innerHTML = '<span class="u">' + data[0] + '</span><span class="s">' + data[1] + '</span>';
-                rowsBox.appendChild(r);
-                while (rowsBox.children.length > 4) rowsBox.removeChild(rowsBox.firstChild);
-              }, 560 + ci * 90);
-            }, 750 + ci * 220);
-          });
-          later(function () {
-            var br = box.getBoundingClientRect();
-            svg.setAttribute('viewBox', '0 0 ' + br.width + ' ' + br.height);
-            var bbr = bb.getBoundingClientRect(), paths = [];
-            srcs.forEach(function (c, i) {
-              var r = c.getBoundingClientRect();
-              var horizontal = bbr.left > r.right - 4, x1, y1, x2, y2, d;
-              if (!horizontal) {
-                x1 = r.left + r.width / 2 - br.left; y1 = r.bottom - br.top;
-                x2 = bbr.left + bbr.width * (.5 + (i - 1) * .08) - br.left; y2 = bbr.top - br.top;
-                var by = Math.min(78, Math.max(42, Math.abs(y2 - y1) * .36));
-                d = 'M ' + x1 + ' ' + y1 + ' C ' + x1 + ' ' + (y1 + by) + ', ' + x2 + ' ' + (y2 - by) + ', ' + x2 + ' ' + y2;
-              } else {
-                x1 = r.right - br.left; y1 = r.top + r.height / 2 - br.top;
-                x2 = bbr.left - br.left; y2 = bbr.top + bbr.height * .5 + (i - 1) * Math.min(34, bbr.height * .14) - br.top;
-                var bx = Math.min(96, Math.max(64, Math.abs(x2 - x1) * .38));
-                d = 'M ' + x1 + ' ' + y1 + ' C ' + (x1 + bx) + ' ' + y1 + ', ' + (x2 - bx) + ' ' + y2 + ', ' + x2 + ' ' + y2;
-              }
-              var pl = svgEl('path', { class: 'ofline', pathLength: 1, d: d }, svg);
-              paths.push(pl);
-              requestAnimationFrame(function () { pl.classList.add('draw'); });
-            });
-            var n = 0;
-            OBS_FACTS.forEach(function (f, k) {
-              later(function () {
-                var path = paths[f.s]; if (!path) return;
-                var dot = svgEl('circle', { class: 'ofpulse', r: 4, opacity: 1 }, svg);
-                var len = path.getTotalLength(), t0 = null;
-                function step(t) {
-                  if (cur !== 'obs') { if (dot.parentNode) dot.parentNode.removeChild(dot); return; }
-                  if (!t0) t0 = t;
-                  var q = Math.min(1, (t - t0) / 780);
-                  var pt = path.getPointAtLength(len * q);
-                  dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y);
-                  if (q < 1) requestAnimationFrame(step);
-                  else {
-                    if (dot.parentNode) dot.parentNode.removeChild(dot);
-                    var d = document.createElement('div'); d.className = 'bfact in';
-                    d.innerHTML = '<span class="btag ' + f.cls + '">' + f.tag + '</span><span>' + f.txt + '</span>';
-                    factsBox.appendChild(d); n++; countEl.textContent = 'facts: ' + n;
-                  }
-                }
-                requestAnimationFrame(step);
-              }, 1900 + k * 1120);
-            });
-          }, 1250);
+        var target = '针对某企业进行渗透测试，目标：需要挖掘高危严重漏洞，至少包含一个RCE';
+        var NS='http://www.w3.org/2000/svg',mq=window.matchMedia('(prefers-reduced-motion: reduce)');
+        var order=['e2e','obs','chain','zero','exp'],DUR={e2e:19000,obs:14000,chain:12600,zero:10000,exp:10500};
+        var state={mode:'e2e',time:0,frame:0,last:0,visible:false,hidden:document.hidden,paused:false,automatic:true,reduced:mq.matches};
+        var phaseStart=4400,reportStart=11600,typed=slots.e2e.querySelector('.fc-typed'),panes=slots.e2e.querySelectorAll('.pane');
+        var staticCaptions=['cairn.capE1','cairn.capE2','cairn.capE3'].map(function(key,i){var p=document.createElement('p');p.className='cairn-motion-static-caption';p.dataset.i18n=key;panes[i].appendChild(p);return p;});
+        function Q(el,s){return el.querySelector(s);} function QA(el,s){return Array.prototype.slice.call(el.querySelectorAll(s));}
+        function clamp(v){return Math.max(0,Math.min(1,v));} function ease(v){return 1-Math.pow(1-clamp(v),3);}
+        function put(el,s){if(el&&el.textContent!==s)el.textContent=s;}
+        function attr(el,k,v){if(el)el.setAttribute(k,String(v));}
+        function svg(tag,attrs,parent){var el=document.createElementNS(NS,tag);Object.keys(attrs).forEach(function(k){attr(el,k,attrs[k]);});parent.appendChild(el);return el;}
+        function show(el,p,dy){if(!el)return;p=ease(p);el.style.opacity=String(p);el.style.transform='translateY('+((1-p)*(dy===undefined?8:dy))+'px)';}
+        function since(t,at,span){return clamp((t-at)/(span||440));}
+        function caption(name,key){var el=Q(slots[name],'.cairn-caption');el.dataset.i18n=key;put(el,text(key));el.classList.add('show');show(el,1,0);}
+        function pulse(path,parent){
+          var group=svg('g',{'aria-hidden':'true',class:'cairn-particle'},parent),dots=[];
+          for(var i=0;i<7;i++)dots.push(svg('circle',{r:i===0?3.2:Math.max(.5,2.2-i*.23),fill:i===0?'#fff0da':'#ef584e'},group));
+          return {path:path,group:group,dots:dots};
         }
-        function runZero() {
-          var card = slots.zero.querySelector('.vuln-card');
-          var steps = slots.zero.querySelectorAll('.vstep');
-          var verdict = slots.zero.querySelector('.verdict2');
-          var discard = slots.zero.querySelector('.discard');
-          card.classList.remove('in'); verdict.classList.remove('in'); discard.classList.remove('in');
-          steps.forEach(function (s) { s.classList.remove('run', 'done'); });
-          caption('zero', 'cairn.capZero', 500);
-          later(function () { card.classList.add('in'); }, 400);
-          steps.forEach(function (s, i) {
-            later(function () { s.classList.add('run'); }, 1100 + i * 1100);
-            later(function () { s.classList.remove('run'); s.classList.add('done'); }, 1100 + i * 1100 + 900);
-          });
-          later(function () { verdict.classList.add('in'); }, 4700);
-          later(function () { discard.classList.add('in'); }, 5600);
+        function travel(p,t,start,duration){
+          var q=clamp((t-start)/duration),on=t>start&&q<1&&!state.reduced;
+          attr(p.group,'opacity',on?1:0);if(!on)return q;
+          var length=p.path.getTotalLength();
+          p.dots.forEach(function(dot,i){var xy=p.path.getPointAtLength(length*Math.max(0,q-i*.018));attr(dot,'cx',xy.x);attr(dot,'cy',xy.y);attr(dot,'opacity',i===0?1:(.36-i*.042));});return q;
         }
-        function runExp() {
-          var items = slots.exp.querySelectorAll('.ev-item');
-          var concl = slots.exp.querySelector('.ev-concl');
-          items.forEach(function (it) { it.classList.remove('in'); });
-          concl.classList.remove('in');
-          caption('exp', 'cairn.capExp', 500);
-          items.forEach(function (it, i) { later(function () { it.classList.add('in'); }, 700 + i * 1500); });
-          later(function () { concl.classList.add('in'); }, 700 + items.length * 1500);
+        function trace(path,p,dead){path.style.opacity=p>0?'1':'0';path.style.strokeDasharray=dead&&p===1?'.045 .045':'1';path.style.strokeDashoffset=String(1-clamp(p));}
+        function arrival(el,t,at){var lit=t>=at;el.classList.toggle('motion-lit',lit);show(el,lit?1:.36,0);var age=t-at;el.style.filter=lit&&age<800&&!state.reduced?'drop-shadow(0 0 '+((1-age/800)*13)+'px rgba(238,79,66,.62))':'none';}
+
+        /* A single visual grammar: fixed nodes, physical particle speed, contact, then settlement. */
+        var reasonSvg=Q(slots.e2e,'.reason-graph'),rn=QA(reasonSvg,'.reason-node'),rb=QA(reasonSvg,'.reason-edge-base'),rd=QA(reasonSvg,'.reason-edge-draw');
+        var reasonLinks=[[0,1],[0,2],[1,3],[2,4],[3,5],[4,5],[4,6]],reasonArrivals=[],reasonSchedule=[],reasonLead=[],reasonEnd=0,reasonLayoutDirty=true;
+        var reasonKnown=[0,5],reasonFade=360;
+        var reasonSpeed=.105,reasonHold=330,reasonEntryAt=180;
+        var reasonMotion=svg('g',{'aria-hidden':'true',class:'reason-motion'},reasonSvg);
+        function reasonParticle(path,entry){
+          var group=svg('g',{class:'reason-particle',opacity:0},reasonMotion),dots=[];
+          for(var i=0;i<7;i++)dots.push(svg('circle',{r:i===0?2.6:Math.max(.55,1.85-i*.19),fill:i===0&&entry?'#f4ece0':'#ef6252'},group));
+          var contact=svg('circle',{class:'reason-contact',r:2.8,opacity:0},reasonMotion);
+          return {path:path,group:group,dots:dots,contact:contact,length:0};
         }
-        function activate(name) {
-          clearTimers();
-          cur = name;
-          Object.keys(slots).forEach(function (k) {
-            var on = k === name;
-            slots[k].classList.toggle('is-active', on);
-            if (!on) { var c = slots[k].querySelector('.cairn-caption'); if (c) c.classList.remove('show'); }
-          });
-          keys.forEach(function (b) {
-            var on = b.dataset.go === name;
-            b.classList.toggle('on', on);
-            var bar = b.querySelector('.kbar');
-            bar.style.transition = 'none'; bar.style.width = '0';
-            if (on && !reduced) { void bar.offsetWidth; bar.style.transition = 'width ' + DUR[name] + 'ms linear'; bar.style.width = '100%'; }
-          });
-          if (name === 'e2e') runE2E();
-          else if (name === 'obs') runObs();
-          else if (name === 'chain') { caption('chain', 'cairn.capChain', 500); runChain(); }
-          else if (name === 'zero') runZero();
-          else if (name === 'exp') runExp();
-          if (!reduced && inView) later(function () { activate(order[(order.indexOf(name) + 1) % order.length]); }, DUR[name]);
+        var incoming=svg('path',{class:'reason-entry',fill:'none',stroke:'none','aria-hidden':'true'},reasonSvg);
+        var incomingPulse=reasonParticle(incoming,true),rp=rd.map(function(path){return reasonParticle(path,false);});
+        var goalPorts=[4,5].map(function(){return svg('circle',{class:'reason-wait',r:2.5,opacity:0},reasonMotion);});
+        function buildReason(){
+          if(!reasonLayoutDirty)return;reasonLayoutDirty=false;
+          var mobile=window.innerWidth<=680||stage.getBoundingClientRect().width<550,layout=mobile?'mobile':'desktop';
+          if(reasonSvg.dataset.layout===layout)return;
+          reasonSvg.dataset.layout=layout;attr(reasonSvg,'viewBox',mobile?'0 0 390 350':'0 0 760 320');
+          var centers=mobile?[[195,30],[88,116],[302,116],[88,208],[302,208],[148,310],[302,310]]:[[110,154],[290,84],[290,224],[470,84],[470,224],[660,154],[660,270]];
+          var height=mobile?44:52;
+          rn.forEach(function(node,i){var c=centers[i],shape=Q(node,'.shape'),label=Q(node,'text');attr(shape,'x',c[0]-56);attr(shape,'y',c[1]-height/2);attr(shape,'width',112);attr(shape,'height',height);attr(shape,'rx',12);attr(label,'x',c[0]);attr(label,'y',c[1]);});
+          var paths=mobile?[
+            'M 195 52 C 195 76 88 70 88 94', 'M 195 52 C 195 76 302 70 302 94',
+            'M 88 138 L 88 186', 'M 302 138 L 302 186',
+            'M 88 230 C 88 262 124 256 124 288', 'M 302 230 C 302 270 172 248 172 288',
+            'M 302 230 L 302 288'
+          ]:[
+            'M 166 154 C 202 154 198 84 234 84', 'M 166 154 C 202 154 198 224 234 224',
+            'M 346 84 L 414 84', 'M 346 224 L 414 224',
+            'M 526 84 C 566 84 564 142 604 142', 'M 526 224 C 566 224 564 166 604 166',
+            'M 526 224 C 566 224 564 270 604 270'
+          ];
+          paths.forEach(function(d,i){attr(rb[i],'d',d);attr(rd[i],'d',d);rp[i].length=rd[i].getTotalLength();rp[i].end=rd[i].getPointAtLength(rp[i].length);});
+          attr(incoming,'d',mobile?'M 77 30 L 139 30':'M 2 154 L 54 154');incomingPulse.length=incoming.getTotalLength();incomingPulse.end=incoming.getPointAtLength(incomingPulse.length);
+          reasonArrivals=[reasonEntryAt+incomingPulse.length/reasonSpeed,0,0,0,0,0,0];
+          reasonSchedule=reasonLinks.map(function(link,i){var start=reasonArrivals[link[0]]+reasonHold,end=start+rp[i].length/reasonSpeed;reasonArrivals[link[1]]=Math.max(reasonArrivals[link[1]],end);attr(rd[i],'data-start',start);attr(rd[i],'data-arrival',end);return{start:start,end:end};});
+          reasonEnd=Math.max.apply(Math,reasonArrivals);attr(reasonSvg,'data-settled-at',reasonEnd+900);
+          reasonLead=reasonArrivals.map(function(){return 0;});
+          reasonSchedule.forEach(function(s,k){var to=reasonLinks[k][1];reasonLead[to]=Math.max(reasonLead[to],Math.min(reasonFade,(s.end-s.start)*.5));});
+          rn.forEach(function(node,i){attr(node,'data-arrival',reasonArrivals[i]);});
+          goalPorts.forEach(function(port,i){var p=rp[i+4].end;attr(port,'cx',p.x);attr(port,'cy',p.y);});
         }
-        keys.forEach(function (b) { b.addEventListener('click', function () { activate(b.dataset.go); }); });
-        if ('IntersectionObserver' in window) {
-          new IntersectionObserver(function (entries) {
-            entries.forEach(function (en) {
-              if (en.isIntersecting) { if (!inView) { inView = true; activate(cur || 'e2e'); } }
-              else { inView = false; clearTimers(); }
-            });
-          }, { threshold: .25 }).observe(stage);
-        } else { inView = true; }
-        activate('e2e');
+        function reasonTravel(p,t,start){
+          var distance=(t-start)*reasonSpeed,at=start+p.length/reasonSpeed,age=t-at,q=clamp(distance/p.length);
+          var on=t>=start&&age<170&&!state.reduced;
+          attr(p.group,'opacity',on?1-clamp((age-35)/135):0);
+          if(on)p.dots.forEach(function(dot,i){var d=distance-i*3.7,xy=p.path.getPointAtLength(Math.max(0,Math.min(p.length,d)));attr(dot,'cx',xy.x);attr(dot,'cy',xy.y);attr(dot,'opacity',d<0?0:(i===0?1:.45-i*.048));});
+          var end=p.end,touch=age>=0&&age<420&&!state.reduced;
+          attr(p.contact,'cx',end.x);attr(p.contact,'cy',end.y);attr(p.contact,'r',2.8+clamp(age/420)*5.5);attr(p.contact,'opacity',touch?(1-clamp(age/420))*.7:0);
+          return q;
+        }
+        function reasonMix(a,b,p){return 'rgb('+a.map(function(v,i){return Math.round(v+(b[i]-v)*p);}).join(',')+')';}
+        function renderReasonNode(node,i,t){
+          var age=t-reasonArrivals[i],lit=age>=0,flash=lit&&!state.reduced?1-ease(age/900):0,dead=i===6,goal=i===5;
+          /* Origin 与 Goal 一开始就在场；中间的 intent / fact 是推理走出来的，粒子抵达前才浮现。 */
+          var emerge=state.reduced||reasonKnown.indexOf(i)>=0?1:clamp((t-reasonArrivals[i]+reasonLead[i])/reasonFade);
+          node.classList.toggle('motion-lit',lit);node.style.opacity=String(emerge);node.style.filter='none';
+          node.style.transformBox='fill-box';node.style.transformOrigin='center';node.style.transform='scale('+(.92+.08*emerge)+')';
+          var shape=Q(node,'.shape'),label=Q(node,'text'),rest=dead?[94,79,76]:goal?[207,86,72]:[139,117,110];
+          shape.style.stroke=lit?reasonMix(rest,[239,98,82],flash):'#49403e';
+          shape.style.fill=lit&&!dead?'rgba(223,70,63,'+(.025+(goal ? .04 : 0)+flash*.07)+')':'#121113';
+          shape.style.strokeDasharray=dead&&lit?'3 4':'none';
+          shape.style.filter=flash>.01?'drop-shadow(0 0 '+(4*flash).toFixed(2)+'px rgba(223,70,63,'+(.3*flash).toFixed(3)+'))':'none';
+          label.style.fill=lit?(dead?'#b19a93':'#f2eae0'):'#948883';
+        }
+        function renderReason(t){
+          buildReason();reasonTravel(incomingPulse,t,reasonEntryAt);
+          rb.forEach(function(el,k){var done=t>=reasonSchedule[k].end;attr(el,'marker-end','none');el.style.strokeDashoffset='0';el.style.strokeDasharray=el.classList.contains('dead')?'.035 .035':'1';el.style.opacity=done?String(.3*clamp((t-reasonSchedule[k].end)/380)):'0';});
+          rd.forEach(function(el,i){var timing=reasonSchedule[i],q=reasonTravel(rp[i],t,timing.start),done=t>=timing.end,age=t-timing.end;
+            el.style.strokeDasharray=i===6&&done?'.035 .035':'1';el.style.strokeDashoffset=String(1-q);
+            el.style.opacity=q<=0?'0':done?String((i===6 ? .28 : .4)+(1-ease(age/850))*.4):'.84';
+            attr(el,'marker-end',done?(i===6?'url(#reasonArrowRed)':'url(#reasonArrow)'):'none');
+          });
+          rn.forEach(function(node,i){renderReasonNode(node,i,t);});
+          goalPorts.forEach(function(port,i){attr(port,'opacity',t>=reasonSchedule[i+4].end&&t<reasonArrivals[5]?'.8':'0');});
+          show(Q(slots.e2e,'.rmeta'),since(t,reasonEnd+250,550));
+        }
+        function renderE2E(t){
+          var part=t<phaseStart?0:t<reportStart?1:2;
+          panes.forEach(function(p,i){var on=state.reduced||i===part;p.classList.toggle('show',on);show(p,on?since(t,i===0?100:i===1?phaseStart:reportStart,600):0);p.style.visibility=on?'visible':'hidden';});
+          if(state.reduced){panes.forEach(function(p){show(p,1,0);p.style.visibility='visible';});}
+          staticCaptions.forEach(function(p){put(p,text(p.dataset.i18n));p.hidden=!state.reduced;});
+          put(typed,target.slice(0,state.reduced?target.length:Math.max(0,Math.floor((t-650)/68))));
+          Q(slots.e2e,'.fc-btn').classList.toggle('pressed',state.reduced||(t>=3800&&t<4140));
+          var caret=Q(slots.e2e,'.fc-caret');caret.style.opacity=t<3800&&Math.floor(t/520)%2===0&&!state.reduced?'1':'0';
+          renderReason(state.reduced?6700:t-phaseStart);
+          QA(slots.e2e,'.rc-row').forEach(function(el,i){show(el,state.reduced?1:since(t,reportStart+450+i*650,650));});
+          show(Q(slots.e2e,'.rc-pop'),state.reduced?1:since(t,reportStart+2900,750));
+          if(part===0)caption('e2e','cairn.capE1');else if(part===1)caption('e2e','cairn.capE2');else caption('e2e','cairn.capE3');
+          phaseButtons.forEach(function(b,i){attr(b,'aria-pressed',part===i);b.classList.toggle('active',part===i);});
+          stage.dataset.phase=String(part);
+        }
+
+        /* Responsive geometry; exact CH text and its original ordering are preserved. */
+        var chainSvg=document.getElementById('cairnChain'),chainNodes=[],chainEdges=[],chainPulses=[];
+        function buildChain(){
+          var mobile=stage.getBoundingClientRect().width<550,layout=mobile?'mobile':'desktop';if(chainSvg.dataset.layout===layout)return;
+          chainSvg.dataset.layout=layout;chainSvg.textContent='';chainNodes=[];chainEdges=[];chainPulses=[];
+          var coords=mobile?[[130,60],[390,60],[390,215],[130,215],[130,370],[390,370],[390,525],[130,525]]:CH.map(function(n){return[n.x,n.y];});
+          attr(chainSvg,'viewBox',mobile?'0 0 520 595':'-16 0 832 470');
+          var g=svg('g',{'aria-hidden':'true'},chainSvg),ng=svg('g',{},chainSvg);
+          var boxes=CH.map(function(n,i){return{x:coords[i][0],y:coords[i][1],w:mobile?226:n.t.length*16.5+66,h:mobile?66:44};});
+          for(var i=0;i<CH.length-1;i++){
+            var a=boxes[i],b=boxes[i+1],horizontal=a.y===b.y,dir=horizontal?(b.x>a.x?1:-1):(b.y>a.y?1:-1);
+            var x1=a.x+(horizontal?dir*(a.w/2+3):0),y1=a.y+(horizontal?0:dir*(a.h/2+3));
+            var x2=b.x-(horizontal?dir*(b.w/2+3):0),y2=b.y-(horizontal?0:dir*(b.h/2+3));
+            var d=horizontal?'M '+x1+' '+y1+' C '+((x1+x2)/2)+' '+(y1-15)+', '+((x1+x2)/2)+' '+(y2-15)+', '+x2+' '+y2:'M '+x1+' '+y1+' C '+(x1+22)+' '+((y1+y2)/2)+', '+(x2+22)+' '+((y1+y2)/2)+', '+x2+' '+y2;
+            svg('path',{d:d,pathLength:1,class:'chain-edge chain-edge-base'},g);
+            var p=svg('path',{d:d,pathLength:1,class:'chain-edge chain-edge-draw'},g);chainEdges.push(p);chainPulses.push(pulse(p,chainSvg));
+          }
+          CH.forEach(function(n,i){
+            var box=boxes[i],el=svg('g',{class:'chain-node'+(n.final?' final':'')},ng);svg('rect',{class:'box',x:box.x-box.w/2,y:box.y-box.h/2,width:box.w,height:box.h,rx:mobile?12:22},el);
+            svg('text',{class:'nnum',x:box.x-box.w/2+22,y:box.y+5,'text-anchor':'middle'},el).textContent=String(i+1);
+            var label=svg('text',{class:'nlab',x:box.x-box.w/2+40,y:box.y+5},el);label.style.fontSize=mobile?'18px':'15px';
+            if(mobile&&n.t.length>9){var cut=Math.ceil(n.t.length/2);svg('tspan',{x:box.x-box.w/2+40,dy:-9},label).textContent=n.t.slice(0,cut);svg('tspan',{x:box.x-box.w/2+40,dy:23},label).textContent=n.t.slice(cut);}else label.textContent=n.t;
+            chainNodes.push(el);
+          });
+        }
+        function renderChain(t){
+          chainNodes.forEach(function(el,i){var at=i===0?600:900+(i-1)*1320+1000;el.classList.toggle('lit',t>=at);arrival(el,t,at);});
+          chainEdges.forEach(function(el,i){trace(el,travel(chainPulses[i],t,900+i*1320,1000));});caption('chain','cairn.capChain');
+        }
+
+        var obs=Q(slots.obs,'.obsx'),sources=QA(obs,'.src'),bb=Q(obs,'.bb'),factsBox=Q(obs,'.bb-facts');
+        var obsSvg=Q(obs,'.obsflow svg'),obsPaths=[],obsPulses=[],facts=[],obsLayoutDirty=true,logIndices=[-1,-1,-1];
+        OBS_FACTS.forEach(function(f){var el=document.createElement('div');el.className='bfact';var tag=document.createElement('span');tag.className='btag '+f.cls;tag.textContent=f.tag;var txt=document.createElement('span');txt.textContent=f.txt;el.appendChild(tag);el.appendChild(txt);factsBox.appendChild(el);facts.push(el);});
+        function buildObs(){
+          if(!obsLayoutDirty)return;obsLayoutDirty=false;obsSvg.textContent='';obsPaths=[];obsPulses=[];
+          var br=obs.getBoundingClientRect(),b=bb.getBoundingClientRect();attr(obsSvg,'viewBox','0 0 '+Math.max(1,br.width)+' '+Math.max(1,br.height));
+          sources.forEach(function(src,i){var r=src.getBoundingClientRect(),horizontal=b.left>r.right-4,x1,y1,x2,y2,d;
+            if(horizontal){x1=r.right-br.left;y1=r.top+r.height/2-br.top;x2=b.left-br.left;y2=b.top+b.height*.5+(i-1)*Math.min(34,b.height*.14)-br.top;var dx=(x2-x1)*.48;d='M '+x1+' '+y1+' C '+(x1+dx)+' '+y1+', '+(x2-dx)+' '+y2+', '+x2+' '+y2;}
+            else{x1=r.left+r.width/2-br.left;y1=r.bottom-br.top;x2=b.left+b.width*(.25+i*.25)-br.left;y2=b.top-br.top;var dy=(y2-y1)*.5;d='M '+x1+' '+y1+' C '+x1+' '+(y1+dy)+', '+x2+' '+(y2-dy)+', '+x2+' '+y2;}
+            var path=svg('path',{d:d,pathLength:1,class:'ofline'},obsSvg);obsPaths.push(path);
+          });
+          OBS_FACTS.forEach(function(f){obsPulses.push(pulse(obsPaths[f.s],obsSvg));});
+        }
+        function logRow(data,column){
+          var r=document.createElement('div');r.className='brow';
+          function span(cls,value){var el=document.createElement('span');el.className=cls;el.textContent=value;r.appendChild(el);}
+          if(column===0){span('m'+(data[0]==='POST'?' post':''),data[0]);span('u',data[1]);span('s '+(/^[23]/.test(data[2])?'ok':'bad'),data[2]);}
+          else{span('u',data[0]);span('s'+(column===1?' ok':''),data[1]);}return r;
+        }
+        function renderObs(t){
+          sources.forEach(function(el,i){show(el,since(t,200+i*200),0);var idx=state.reduced?OBS_ROWS[i].length-1:Math.max(-1,Math.floor((t-750-i*220)/(670+i*70)));if(idx!==logIndices[i]){logIndices[i]=idx;var rows=Q(el,'.src-rows');rows.textContent='';var count=state.reduced?OBS_ROWS[i].length:4;for(var j=Math.max(0,idx-count+1);j<=idx;j++)rows.appendChild(logRow(OBS_ROWS[i][j%OBS_ROWS[i].length],i));}});
+          show(bb,since(t,900,550),0);buildObs();obsPaths.forEach(function(p){p.style.opacity='.44';p.style.strokeDashoffset='0';});
+          var count=0;facts.forEach(function(el,i){var start=2300+i*1250,arrivalAt=start+980;travel(obsPulses[i],t,start,980);var p=since(t,arrivalAt,500);show(el,p,6);if(t>=arrivalAt)count++;el.classList.toggle('in',t>=arrivalAt);});
+          put(Q(obs,'.bb-count'),'facts: '+count);caption('obs','cairn.capObs');
+        }
+        function renderZero(t){
+          show(Q(slots.zero,'.vuln-card'),since(t,250,550));
+          QA(slots.zero,'.vstep').forEach(function(el,i){var a=1000+i*1500,done=t>=a+1100;el.classList.toggle('run',t>=a&&!done);el.classList.toggle('done',done);Q(el,'.vsp').style.transform=done?'none':'rotate('+(t%900/900*360)+'deg)';});
+          show(Q(slots.zero,'.verdict2'),since(t,5700,600));show(Q(slots.zero,'.discard'),since(t,7000,600));caption('zero','cairn.capZero');
+        }
+        function renderExp(t){QA(slots.exp,'.ev-item').forEach(function(el,i){show(el,since(t,550+i*1950,650));el.classList.toggle('in',t>=550+i*1950);});show(Q(slots.exp,'.ev-concl'),since(t,6700,650));caption('exp','cairn.capExp');}
+
+        /* Icon-only controls add no product copy and do not replace any source content. */
+        var controls=document.createElement('div');controls.className='cairn-motion-controls';Q(stage,'.cairn-browser-bar').appendChild(controls);
+        function control(kind,draw){var b=document.createElement('button');b.type='button';b.className='cairn-motion-control';b.dataset.control=kind;var icon=svg('svg',{viewBox:'0 0 20 20',width:15,height:15,'aria-hidden':'true'},b);svg('path',{d:draw,fill:'none',stroke:'currentColor','stroke-width':1.5,'stroke-linecap':'round','stroke-linejoin':'round'},icon);controls.appendChild(b);return b;}
+        var play=control('pause','M 7 5 V 15 M 13 5 V 15'),replay=control('replay','M 4 6 A 7 7 0 1 1 3 12 M 4 2 V 7 H 9');
+        var phaseNav=document.createElement('div');phaseNav.className='cairn-motion-phases';Q(stage,'.cairn-browser-bar').appendChild(phaseNav);
+        var phaseButtons=[4200,phaseStart+6700,reportStart+5000].map(function(time,i){var b=document.createElement('button');b.type='button';b.className='cairn-motion-phase';b.dataset.phase=String(i);b.addEventListener('click',function(){activate('e2e',false);state.time=state.reduced?DUR.e2e:time;state.paused=true;render();sync();});phaseNav.appendChild(b);return b;});
+        function labels(){var en=document.documentElement.dataset.lang==='en';attr(play,'aria-label',en?(running()?'Pause animation':'Play animation'):(running()?'暂停动画':'播放动画'));attr(replay,'aria-label',en?'Replay current animation':'重播当前动画');phaseButtons.forEach(function(b,i){attr(b,'aria-label',(en?['Task','Reasoning','Report']:['新建任务','推理图','企业级渗透测试报告'])[i]);});}
+        function running(){return state.visible&&!state.hidden&&!state.paused&&!state.reduced&&state.time<DUR[state.mode];}
+        function cancel(){if(state.frame)cancelAnimationFrame(state.frame);state.frame=0;state.last=0;}
+        function sync(){cancel();var on=running();stage.dataset.playback=state.reduced?'reduced':state.time>=DUR[state.mode]?'complete':on?'playing':'paused';attr(play,'aria-pressed',!on);Q(play,'path').setAttribute('d',on?'M 7 5 V 15 M 13 5 V 15':'M 7 4 L 15 10 L 7 16 Z');play.disabled=state.reduced;replay.disabled=state.reduced;labels();if(on)state.frame=requestAnimationFrame(tick);}
+        function render(){
+          var t=state.reduced?DUR[state.mode]:state.time;
+          if(state.mode==='e2e')renderE2E(t);else if(state.mode==='obs')renderObs(t);else if(state.mode==='chain')renderChain(t);else if(state.mode==='zero')renderZero(t);else renderExp(t);
+          keys.forEach(function(b){var on=b.dataset.go===state.mode;Q(b,'.kbar').style.width=on?clamp(t/DUR[state.mode])*100+'%':'0';});
+          phaseNav.hidden=state.mode!=='e2e'||state.reduced;stage.dataset.progress=String(Math.round(t/DUR[state.mode]*100));
+        }
+        function activate(mode,automatic){
+          if(!slots[mode])return;cancel();state.mode=mode;state.time=state.reduced?DUR[mode]:0;state.paused=false;state.automatic=!!automatic;stage.dataset.mode=mode;stage.classList.toggle('is-reduced',state.reduced);
+          Object.keys(slots).forEach(function(k){slots[k].classList.toggle('is-active',k===mode);attr(slots[k],'aria-hidden',k!==mode);});
+          keys.forEach(function(b){var on=b.dataset.go===mode;b.classList.toggle('on',on);attr(b,'aria-pressed',on);});
+          if(mode==='chain')buildChain();if(mode==='obs'){obsLayoutDirty=true;logIndices=[-1,-1,-1];}render();sync();
+        }
+        function tick(now){state.frame=0;if(!running()){sync();return;}if(state.last)state.time=Math.min(DUR[state.mode],state.time+Math.min(80,now-state.last));state.last=now;render();if(state.time>=DUR[state.mode]){if(state.automatic&&!stage.contains(document.activeElement)){activate(order[(order.indexOf(state.mode)+1)%order.length],true);return;}sync();return;}state.frame=requestAnimationFrame(tick);}
+        keys.forEach(function(b){b.addEventListener('click',function(){activate(b.dataset.go,false);});});
+        document.getElementById('cairnKeys').addEventListener('keydown',function(e){var i=keys.indexOf(document.activeElement);if(i<0)return;var next=i;if(e.key==='ArrowRight')next=(i+1)%5;else if(e.key==='ArrowLeft')next=(i+4)%5;else if(e.key==='Home')next=0;else if(e.key==='End')next=4;else return;e.preventDefault();keys[next].focus();activate(keys[next].dataset.go,false);});
+        play.addEventListener('click',function(){if(state.reduced)return;if(state.time>=DUR[state.mode]){activate(order[(order.indexOf(state.mode)+1)%5],true);return;}state.paused=running();render();sync();});
+        replay.addEventListener('click',function(){if(!state.reduced)activate(state.mode,false);});
+        document.addEventListener('visibilitychange',function(){state.hidden=document.hidden;sync();});
+        function motionChange(){state.reduced=mq.matches;stage.classList.toggle('is-reduced',state.reduced);if(state.reduced)state.time=DUR[state.mode];obsLayoutDirty=true;logIndices=[-1,-1,-1];render();sync();}
+        if(mq.addEventListener)mq.addEventListener('change',motionChange);else mq.addListener(motionChange);
+        if(typeof MutationObserver!=='undefined')new MutationObserver(function(){render();labels();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-lang']});
+        if(typeof ResizeObserver!=='undefined')new ResizeObserver(function(){obsLayoutDirty=true;reasonLayoutDirty=true;if(state.mode==='chain')buildChain();render();}).observe(stage);
+        else window.addEventListener('resize',function(){obsLayoutDirty=true;reasonLayoutDirty=true;if(state.mode==='chain')buildChain();render();},{passive:true});
+        stage.dataset.motionReady='true';activate('e2e',true);
+        if(typeof IntersectionObserver!=='undefined')new IntersectionObserver(function(entries){entries.forEach(function(entry){state.visible=entry.isIntersecting;sync();});},{threshold:.15}).observe(Q(stage,'.cairn-browser'));
+        else{state.visible=true;sync();}
       }());
     }());
   </script>
