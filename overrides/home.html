@@ -2106,7 +2106,7 @@
         var target = '针对某企业进行渗透测试，目标：需要挖掘高危严重漏洞，至少包含一个RCE';
         var NS='http://www.w3.org/2000/svg',mq=window.matchMedia('(prefers-reduced-motion: reduce)');
         var order=['e2e','obs','chain','zero','exp'],DUR={e2e:19000,obs:14000,chain:12600,zero:10000,exp:10500};
-        var state={mode:'e2e',time:0,frame:0,last:0,visible:false,hidden:document.hidden,paused:false,automatic:true,reduced:mq.matches};
+        var state={mode:'e2e',time:0,frame:0,last:0,visible:false,hidden:document.hidden,paused:false,reduced:mq.matches};
         var phaseStart=4400,reportStart=11600,typed=slots.e2e.querySelector('.fc-typed'),panes=slots.e2e.querySelectorAll('.pane');
         var staticCaptions=['cairn.capE1','cairn.capE2','cairn.capE3'].map(function(key,i){var p=document.createElement('p');p.className='cairn-motion-static-caption';p.dataset.i18n=key;panes[i].appendChild(p);return p;});
         function Q(el,s){return el.querySelector(s);} function QA(el,s){return Array.prototype.slice.call(el.querySelectorAll(s));}
@@ -2293,9 +2293,11 @@
         function control(kind,draw){var b=document.createElement('button');b.type='button';b.className='cairn-motion-control';b.dataset.control=kind;var icon=svg('svg',{viewBox:'0 0 20 20',width:15,height:15,'aria-hidden':'true'},b);svg('path',{d:draw,fill:'none',stroke:'currentColor','stroke-width':1.5,'stroke-linecap':'round','stroke-linejoin':'round'},icon);controls.appendChild(b);return b;}
         var play=control('pause','M 7 5 V 15 M 13 5 V 15'),replay=control('replay','M 4 6 A 7 7 0 1 1 3 12 M 4 2 V 7 H 9');
         var phaseNav=document.createElement('div');phaseNav.className='cairn-motion-phases';Q(stage,'.cairn-browser-bar').appendChild(phaseNav);
-        var phaseButtons=[4200,phaseStart+6700,reportStart+5000].map(function(time,i){var b=document.createElement('button');b.type='button';b.className='cairn-motion-phase';b.dataset.phase=String(i);b.addEventListener('click',function(){activate('e2e',false);state.time=state.reduced?DUR.e2e:time;state.paused=true;render();sync();});phaseNav.appendChild(b);return b;});
+        var phaseButtons=[4200,phaseStart+6700,reportStart+5000].map(function(time,i){var b=document.createElement('button');b.type='button';b.className='cairn-motion-phase';b.dataset.phase=String(i);b.addEventListener('click',function(){activate('e2e');state.time=state.reduced?DUR.e2e:time;state.paused=true;render();sync();});phaseNav.appendChild(b);return b;});
         function labels(){var en=document.documentElement.dataset.lang==='en';attr(play,'aria-label',en?(running()?'Pause animation':'Play animation'):(running()?'暂停动画':'播放动画'));attr(replay,'aria-label',en?'Replay current animation':'重播当前动画');phaseButtons.forEach(function(b,i){attr(b,'aria-label',(en?['Task','Reasoning','Report']:['新建任务','推理图','企业级渗透测试报告'])[i]);});}
         function running(){return state.visible&&!state.hidden&&!state.paused&&!state.reduced&&state.time<DUR[state.mode];}
+        /* 键盘正在标签页之间移动焦点时不要抢走舞台；鼠标点击不算，它应当继续轮播。 */
+        function focusHeld(){var el=document.activeElement;return !!el&&stage.contains(el)&&el.matches(':focus-visible');}
         function cancel(){if(state.frame)cancelAnimationFrame(state.frame);state.frame=0;state.last=0;}
         function sync(){cancel();var on=running();stage.dataset.playback=state.reduced?'reduced':state.time>=DUR[state.mode]?'complete':on?'playing':'paused';attr(play,'aria-pressed',!on);Q(play,'path').setAttribute('d',on?'M 7 5 V 15 M 13 5 V 15':'M 7 4 L 15 10 L 7 16 Z');play.disabled=state.reduced;replay.disabled=state.reduced;labels();if(on)state.frame=requestAnimationFrame(tick);}
         function render(){
@@ -2304,24 +2306,27 @@
           keys.forEach(function(b){var on=b.dataset.go===state.mode;Q(b,'.kbar').style.width=on?clamp(t/DUR[state.mode])*100+'%':'0';});
           phaseNav.hidden=state.mode!=='e2e'||state.reduced;stage.dataset.progress=String(Math.round(t/DUR[state.mode]*100));
         }
-        function activate(mode,automatic){
-          if(!slots[mode])return;cancel();state.mode=mode;state.time=state.reduced?DUR[mode]:0;state.paused=false;state.automatic=!!automatic;stage.dataset.mode=mode;stage.classList.toggle('is-reduced',state.reduced);
+        function advance(){activate(order[(order.indexOf(state.mode)+1)%order.length]);}
+        function activate(mode){
+          if(!slots[mode])return;cancel();state.mode=mode;state.time=state.reduced?DUR[mode]:0;state.paused=false;stage.dataset.mode=mode;stage.classList.toggle('is-reduced',state.reduced);
           Object.keys(slots).forEach(function(k){slots[k].classList.toggle('is-active',k===mode);attr(slots[k],'aria-hidden',k!==mode);});
           keys.forEach(function(b){var on=b.dataset.go===mode;b.classList.toggle('on',on);attr(b,'aria-pressed',on);if(on&&b.parentNode){var box=b.parentNode;if(box.scrollWidth>box.clientWidth+4)box.scrollLeft=Math.max(0,b.offsetLeft-box.clientWidth/2+b.offsetWidth/2);}});
           if(mode==='chain')buildChain();if(mode==='obs'){obsLayoutDirty=true;logIndices=[-1,-1,-1];}render();sync();
         }
-        function tick(now){state.frame=0;if(!running()){sync();return;}if(state.last)state.time=Math.min(DUR[state.mode],state.time+Math.min(80,now-state.last));state.last=now;render();if(state.time>=DUR[state.mode]){if(state.automatic&&!stage.contains(document.activeElement)){activate(order[(order.indexOf(state.mode)+1)%order.length],true);return;}sync();return;}state.frame=requestAnimationFrame(tick);}
-        keys.forEach(function(b){b.addEventListener('click',function(){activate(b.dataset.go,false);});});
-        document.getElementById('cairnKeys').addEventListener('keydown',function(e){var i=keys.indexOf(document.activeElement);if(i<0)return;var next=i;if(e.key==='ArrowRight')next=(i+1)%5;else if(e.key==='ArrowLeft')next=(i+4)%5;else if(e.key==='Home')next=0;else if(e.key==='End')next=4;else return;e.preventDefault();keys[next].focus();activate(keys[next].dataset.go,false);});
-        play.addEventListener('click',function(){if(state.reduced)return;if(state.time>=DUR[state.mode]){activate(order[(order.indexOf(state.mode)+1)%5],true);return;}state.paused=running();render();sync();});
-        replay.addEventListener('click',function(){if(!state.reduced)activate(state.mode,false);});
+        function tick(now){state.frame=0;if(!running()){sync();return;}if(state.last)state.time=Math.min(DUR[state.mode],state.time+Math.min(80,now-state.last));state.last=now;render();if(state.time>=DUR[state.mode]){if(!focusHeld()){advance();return;}sync();return;}state.frame=requestAnimationFrame(tick);}
+        keys.forEach(function(b){b.addEventListener('click',function(){activate(b.dataset.go);});});
+        document.getElementById('cairnKeys').addEventListener('keydown',function(e){var i=keys.indexOf(document.activeElement);if(i<0)return;var next=i;if(e.key==='ArrowRight')next=(i+1)%5;else if(e.key==='ArrowLeft')next=(i+4)%5;else if(e.key==='Home')next=0;else if(e.key==='End')next=4;else return;e.preventDefault();keys[next].focus();activate(keys[next].dataset.go);});
+        /* 焦点离开舞台后补上被推迟的那次切换，键盘用户不会把轮播停在原地。 */
+        stage.addEventListener('focusout',function(){setTimeout(function(){if(!state.reduced&&state.time>=DUR[state.mode]&&!focusHeld()&&!stage.contains(document.activeElement))advance();},0);});
+        play.addEventListener('click',function(){if(state.reduced)return;if(state.time>=DUR[state.mode]){advance();return;}state.paused=running();render();sync();});
+        replay.addEventListener('click',function(){if(!state.reduced)activate(state.mode);});
         document.addEventListener('visibilitychange',function(){state.hidden=document.hidden;sync();});
         function motionChange(){state.reduced=mq.matches;stage.classList.toggle('is-reduced',state.reduced);if(state.reduced)state.time=DUR[state.mode];obsLayoutDirty=true;logIndices=[-1,-1,-1];render();sync();}
         if(mq.addEventListener)mq.addEventListener('change',motionChange);else mq.addListener(motionChange);
         if(typeof MutationObserver!=='undefined')new MutationObserver(function(){render();labels();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-lang']});
         if(typeof ResizeObserver!=='undefined')new ResizeObserver(function(){obsLayoutDirty=true;reasonLayoutDirty=true;if(state.mode==='chain')buildChain();render();}).observe(stage);
         else window.addEventListener('resize',function(){obsLayoutDirty=true;reasonLayoutDirty=true;if(state.mode==='chain')buildChain();render();},{passive:true});
-        stage.dataset.motionReady='true';activate('e2e',true);
+        stage.dataset.motionReady='true';activate('e2e');
         if(typeof IntersectionObserver!=='undefined')new IntersectionObserver(function(entries){entries.forEach(function(entry){state.visible=entry.isIntersecting;sync();});},{threshold:.15}).observe(Q(stage,'.cairn-browser'));
         else{state.visible=true;sync();}
       }());
