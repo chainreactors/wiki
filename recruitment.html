@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="dark" name="color-scheme"/>
+<meta content="#09090b" name="theme-color"/>
+<link href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%275%27 fill=%27%230b0c10%27/%3E%3Ccircle cx=%278%27 cy=%2716%27 r=%272.4%27 fill=%27%23ff344c%27/%3E%3Cpath d=%27m15 8 8 8-8 8%27 fill=%27none%27 stroke=%27%23ff344c%27 stroke-width=%273%27/%3E%3C/svg%3E" rel="icon"/>
+<meta content="ChainReactors 招募 Engineer、Hacker、Go to market。所有岗位均要求 AI Native。带上简历，围绕真实问题展开交流；实习与全职，杭州余杭，不设学历门槛。" name="description"/>
+<title>此间江湖｜ChainReactors · AI 原生攻防安全招募</title>
+<!--
+    CHAINREACTORS · 招聘单页 V16 / 此间江湖 / Engineer · Hacker · Go to market
+    基于 V15：统一「此间江湖／同道有约／各有所见，共问其理」文案。保留 SVG、滚动动画与表单逻辑；AI Native 是全员要求。
+    无构建步骤，无第三方脚本；下载后可直接用浏览器打开。
+    下方仅需配置真实投递邮箱或 HTTPS 投递地址。未配置时绝不会模拟“投递成功”。
+    字体在线加载失败时自动使用系统宋体与等宽字体；未内嵌、分发字体文件。
+  -->
+<script>
+    window.RECRUITMENT_CONFIG = {
+      applyEmail: "joinus@chainreactors.ai",
+      applyUrl: "",     // 可选：真实的 https:// 投递页面；与邮箱可同时使用
+      enableMotion: true // 进入章节自动播放；离屏暂停，回来续播；播放完保持静止；尊重系统的“减少动态效果”设置
+    };
+  </script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Noto+Serif+SC:wght@400;500;600;700;800;900&amp;display=swap" media="print" onload="this.media='all'" rel="stylesheet"/>
+<style>
+    :root{
+      --ink:#09090b;--paper:#eeece5;--soft:#c2c0b9;--muted:#8f8e89;--faint:#62625f;
+      --red:#ff293e;--red-dim:#af1e2c;--line:rgba(235,233,221,.15);--line-strong:rgba(235,233,221,.25);
+      --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun","Noto Serif CJK SC",serif;
+      --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+      --mono:"IBM Plex Mono","SFMono-Regular",Consolas,"Liberation Mono",monospace;
+      --gutter:clamp(24px,5.55vw,92px);--max:1440px;
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:94px;background:var(--ink)}
+    body{margin:0;color:var(--paper);font-family:var(--sans);font-size:15px;line-height:1.85;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    body::before{content:"";position:fixed;inset:0;z-index:80;pointer-events:none;opacity:.042;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23ffffff' filter='url(%23n)' opacity='.6' d='M0 0h180v180H0z'/%3E%3C/svg%3E")}
+    ::selection{background:var(--red);color:#fff}
+    a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}
+    button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
+    button{color:inherit;cursor:pointer}button:disabled{cursor:default;opacity:.5}
+    button{border-radius:0}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--red);outline-offset:5px}
+    h1,h2,h3,p{margin:0}h1,h2,h3{font-weight:500}svg{display:block;max-width:100%}
+    .wrap{width:min(100%,var(--max));margin-inline:auto;padding-inline:var(--gutter)}
+    .mono{font-family:var(--mono);font-size:11px;letter-spacing:.13em;line-height:1.7}
+    .eyebrow{display:flex;align-items:center;gap:14px;color:var(--muted);font-family:var(--mono);font-size:10px;letter-spacing:.15em;line-height:1.6;text-transform:uppercase}
+    .eyebrow .cn{font-family:var(--sans);font-size:11px;letter-spacing:.2em}
+    .eyebrow .index{color:var(--red)}
+    .eyebrow::after{content:"";height:1px;width:48px;background:var(--line-strong)}
+    .red{color:var(--red)}.serif{font-family:var(--serif)}.muted{color:var(--muted)}
+    .skip{position:fixed;z-index:110;top:-100px;left:20px;padding:10px 18px;background:var(--paper);color:var(--ink)}.skip:focus{top:12px}
+    .site-header{position:relative;z-index:30;border-bottom:1px solid var(--line);height:88px}
+    .header-inner{height:100%;display:flex;align-items:center;justify-content:space-between;gap:30px}
+    .wordmark{display:flex;align-items:center;gap:11px;white-space:nowrap;line-height:1}
+    .wordmark .name{font-size:18px;font-weight:700;letter-spacing:-.06em}.wordmark .name span{font-weight:400;letter-spacing:-.04em}
+    .brand-signal{position:relative;width:22px;height:19px;display:inline-block;flex:none}
+    .brand-signal::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--red);position:absolute;left:0;top:7px}
+    .brand-signal::after{content:"";width:11px;height:11px;border-right:3px solid var(--red);border-top:3px solid var(--red);transform:rotate(45deg);position:absolute;left:6px;top:4px}
+    .brand-caption{border-left:1px solid var(--line-strong);padding-left:20px;margin-left:8px;font-size:10px;letter-spacing:.26em;color:var(--soft)}
+    .main-nav{display:flex;align-items:center;gap:30px;font-size:11px;color:var(--muted);letter-spacing:.12em}
+    .main-nav a{transition:color .25s}.main-nav a:hover{color:var(--paper)}
+    .header-action{display:flex;align-items:center;gap:26px}
+    .status{display:flex;align-items:center;gap:8px;font-size:9px;letter-spacing:.1em;color:var(--muted);font-family:var(--mono)}
+    .status i{width:4px;height:4px;border-radius:50%;background:var(--red);box-shadow:0 0 9px rgba(255,41,62,.65)}
+    .text-link{display:inline-flex;align-items:center;gap:20px;font-size:12px;line-height:1.6}
+    .text-link .arrow{color:var(--red);font-size:19px;transition:transform .25s}.text-link:hover .arrow{transform:translate(3px,-3px)}
+    .mobile-menu-btn{display:none}
+    .progress{position:fixed;z-index:90;top:0;left:0;height:2px;width:100%;background:var(--red);transform:scaleX(0);transform-origin:left;pointer-events:none}
+
+    /* 壹：藏锋。用排版制造张力，而不是用发光组件填满留白。 */
+    .hero{position:relative;isolation:isolate;min-height:812px;height:calc(100svh - 88px);max-height:1050px;overflow:hidden}
+    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 72% 48%,rgba(94,28,32,.09),transparent 47%);z-index:-1}
+    .hero .wrap{height:100%;position:relative}
+    .hero-topline{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:3;padding-top:37px}
+    .hero-topline .edition{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--faint)}
+    .hero-copy{position:relative;z-index:3;width:67%;padding-top:57px}
+    .hero-kicker{font-size:12px;letter-spacing:.28em;color:var(--soft);margin-bottom:21px;display:flex;align-items:center;gap:12px}
+    .hero-kicker::before{content:"";width:19px;height:1px;background:var(--red)}
+    .hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(87px,10.15vw,148px);line-height:1.13;letter-spacing:-.075em;white-space:nowrap;text-shadow:0 3px 28px rgba(0,0,0,.24)}
+    .hero h1 .line{display:block}.hero h1 .line+.line{margin-top:8px}
+    .hero h1 .punct{color:var(--red);letter-spacing:-.13em;text-shadow:0 0 35px rgba(255,41,62,.13)}
+    .hero-intro{margin-top:32px;font-family:var(--serif);font-size:17px;line-height:1.95;letter-spacing:.09em;color:#c6c4bd}
+    .hero-actions{display:flex;align-items:center;gap:28px;margin-top:31px;pointer-events:auto}
+    .button{position:relative;display:inline-flex;justify-content:space-between;align-items:center;gap:34px;padding:15px 22px;background:var(--red);border:1px solid var(--red);color:#fff;line-height:1.6;font-size:12px;letter-spacing:.08em;transition:background .25s,transform .25s;min-height:50px}
+    .button:hover{background:#e51e33;transform:translateY(-2px)}.button .arrow{font-family:var(--sans);font-size:20px;line-height:1}
+    .button.secondary{border-color:var(--line-strong);background:transparent;color:var(--paper)}.button.secondary:hover{background:rgba(255,255,255,.04);border-color:var(--muted)}
+    .hero-actions .aside{font-size:10px;line-height:1.95;letter-spacing:.06em;color:var(--muted)}
+    .hero-bottom{position:absolute;bottom:30px;left:var(--gutter);right:var(--gutter);display:flex;justify-content:space-between;align-items:flex-end;z-index:3}
+    .hero-bottom .company{font-size:11px;letter-spacing:.12em;line-height:1.9;color:var(--muted)}
+    .scroll-cue{display:flex;gap:18px;align-items:center;color:var(--faint);font-family:var(--mono);font-size:9px;letter-spacing:.18em}.scroll-cue .scroll-line{height:45px;width:1px;background:var(--line-strong);position:relative}.scroll-cue .scroll-line::after{content:"";position:absolute;left:0;top:0;width:1px;height:13px;background:var(--red);animation:scrollDrift 2.8s ease-in-out infinite}
+    .hero-art{position:absolute;right:1%;top:6%;height:85%;width:54%;pointer-events:none;z-index:1}
+    .hero-art svg{width:100%;height:100%;overflow:visible}
+    .art-label{position:absolute;right:1.7%;top:16%;font-family:var(--serif);font-size:12px;writing-mode:vertical-rl;letter-spacing:.36em;color:#77746f;line-height:2.2}
+    .art-label::after{content:"";height:42px;width:1px;background:var(--red);margin-top:24px;display:block;align-self:center}
+    .art-code{position:absolute;right:11%;bottom:4%;font-family:var(--mono);font-size:9px;letter-spacing:.1em;line-height:1.9;color:var(--faint)}
+    .art-code b{display:block;font-weight:400;color:#a5a19a}
+    .sword-collar{animation:collarBreath 6s ease-in-out infinite}
+    .dial-spin{transform-origin:340px 416px;animation:dialRotate 180s linear infinite}
+    .blade-edge{stroke-dasharray:690;stroke-dashoffset:690;animation:edgeReveal 2s .25s cubic-bezier(.2,.6,.1,1) forwards}
+    .hero .stamp{position:absolute;right:8%;bottom:24%;z-index:2;transform:rotate(4deg);opacity:.93}
+    .stamp{width:66px;height:66px;border:1px solid var(--red);color:var(--red);padding:6px;display:grid;place-items:center;font-family:var(--serif);font-size:22px;line-height:1.1;font-weight:700;letter-spacing:.04em;position:relative;background:rgba(120,17,30,.025);box-shadow:0 0 22px rgba(255,41,62,.035)}
+    .stamp::before{content:"";position:absolute;inset:3px;border:1px solid rgba(255,41,62,.42);pointer-events:none}
+    .hero-ruler{position:absolute;top:20%;left:28px;bottom:25%;width:7px;opacity:.4;background:repeating-linear-gradient(to bottom,var(--faint) 0,var(--faint) 1px,transparent 1px,transparent 17px);border-left:1px solid var(--faint)}
+    .hero-bottomline{position:absolute;bottom:0;left:var(--gutter);right:var(--gutter);border-bottom:1px solid var(--line)}
+    .hero-bottomline::before{content:"+";color:var(--muted);font-family:var(--mono);font-size:13px;line-height:0;position:absolute;bottom:0;left:-4px}
+
+    /* 叙事的第一处断面。 */
+    .prologue{padding-top:88px;padding-bottom:93px;display:grid;grid-template-columns:1fr 1fr;gap:60px;position:relative}
+    .prologue .eyebrow{margin-bottom:32px}
+    .prologue h2{font-family:var(--serif);font-size:clamp(27px,3.05vw,44px);line-height:1.65;letter-spacing:.015em}
+    .prologue h2 .dim{color:var(--muted)}
+    .prologue-copy{padding-top:56px;color:var(--muted);font-size:15px;line-height:2.1;max-width:490px}
+    .prologue-copy p+p{margin-top:17px}.prologue-copy strong{color:var(--paper);font-weight:400}
+    .ambition{display:flex;align-items:center;gap:12px;margin-top:25px;font-size:12px;color:var(--paper)}.ambition i{height:5px;width:5px;background:var(--red);display:inline-block;transform:rotate(45deg)}
+    .ticker{border-block:1px solid var(--line);overflow:hidden;height:51px;display:flex;align-items:center;position:relative}
+    .ticker::before,.ticker::after{content:"";position:absolute;top:0;bottom:0;width:var(--gutter);z-index:1;pointer-events:none}.ticker::before{left:0;background:linear-gradient(90deg,var(--ink),transparent)}.ticker::after{right:0;background:linear-gradient(-90deg,var(--ink),transparent)}
+    .ticker-track{display:flex;align-items:center;gap:53px;white-space:nowrap;width:max-content;animation:marquee 48s linear infinite;font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:var(--faint)}
+    .ticker-track span{display:inline-flex;align-items:center;gap:53px}.ticker-track span::after{content:"/";color:var(--red)}
+
+    .section{padding-top:99px;padding-bottom:101px;border-bottom:1px solid var(--line)}
+    .section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:50px;margin-bottom:50px}.section-head .eyebrow{margin-bottom:27px}
+    .section-head h2{font-family:var(--serif);font-size:clamp(32px,3.5vw,51px);line-height:1.55;letter-spacing:.005em}
+    .section-aside{max-width:315px;color:var(--muted);font-size:13px;line-height:2.05;padding-top:52px}
+    .skill-duel{position:relative;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong)}
+    .skill-panel{position:relative;min-width:0;padding:33px 43px 34px 0;overflow:hidden}.skill-panel ~ .skill-panel{border-left:1px solid var(--line-strong);padding-left:47px;padding-right:0}
+    .skill-meta{display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--faint)}.skill-meta .sword-no{color:var(--red)}
+    .skill-main{display:flex;align-items:center;gap:30px;margin:27px 0 21px}
+    .skill-character{font-family:var(--serif);font-size:122px;font-weight:500;line-height:1.3;letter-spacing:-.05em;color:var(--paper);position:relative}
+    .skill-character::after{content:"";height:1px;width:90%;background:linear-gradient(90deg,transparent,var(--red),transparent);position:absolute;top:57%;left:0;opacity:.5}
+    .skill-title{font-family:var(--serif);font-size:24px;line-height:1.65;letter-spacing:.07em}.skill-title small{font-family:var(--mono);font-size:9px;letter-spacing:.11em;display:block;color:var(--muted);margin-top:9px}
+    .skill-description{font-size:14px;color:var(--muted);line-height:2.05;max-width:420px;min-height:56px}
+    .skill-tokens{display:flex;flex-wrap:wrap;gap:6px 21px;margin-top:25px;font-family:var(--mono);font-size:10px;color:var(--soft)}.skill-tokens span::before{content:"/ ";color:var(--red)}
+    .duel-seal{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);width:39px;height:66px;background:var(--ink);border:1px solid var(--red);z-index:1;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:16px;writing-mode:vertical-rl;letter-spacing:.17em;color:var(--red)}
+    .mindset{display:grid;grid-template-columns:170px 1fr 285px;gap:34px;align-items:center;padding-top:35px}
+    .mindset-title{font-family:var(--serif);font-size:22px;line-height:1.4;display:flex;align-items:center;gap:20px}.mindset-title span{font-size:10px;color:var(--red);font-family:var(--mono);line-height:1.9;letter-spacing:.08em}
+    .mindset p{font-size:12px;line-height:2;color:var(--muted)}
+    .loop{border:1px solid var(--line);padding:15px 17px;position:relative;font-family:var(--mono);font-size:9px;color:var(--soft);letter-spacing:.06em;display:flex;justify-content:space-between;gap:6px;align-items:center;line-height:1.6}.loop span{color:var(--red)}.loop::before{content:"HARNESS";position:absolute;top:-9px;right:13px;background:var(--ink);padding:0 7px;font-size:8px;color:var(--faint)}
+
+    .roles-section{padding-bottom:90px}.roles-section .section-head{margin-bottom:34px}
+    .role-list{border-top:1px solid var(--line-strong)}
+    .role{border-bottom:1px solid var(--line-strong)}
+    .role .role-heading{display:grid;grid-template-columns:66px 108px 1fr 140px 35px;align-items:center;gap:15px;list-style:none;cursor:pointer;padding:28px 0;transition:background .25s}
+    .role .role-heading::-webkit-details-marker{display:none}.role .role-heading:hover .role-name{color:var(--paper)}
+    .role-number{font-family:var(--mono);font-size:11px;color:var(--faint)}
+    .role-alias{font-family:var(--serif);font-size:25px;letter-spacing:.08em}
+    .role-name{font-family:var(--mono);font-size:19px;letter-spacing:-.04em;color:var(--soft);transition:color .2s;line-height:1.6}
+    .role-tag{font-family:var(--mono);font-size:9px;color:var(--muted);text-align:right;line-height:1.7;letter-spacing:.05em}
+    .role-toggle{width:24px;height:24px;position:relative;margin-left:auto}.role-toggle::before,.role-toggle::after{content:"";height:1px;width:14px;position:absolute;left:5px;top:12px;background:var(--soft);transition:transform .25s}.role-toggle::after{transform:rotate(90deg)}
+    .role[open] .role-toggle::after{transform:rotate(0)}.role[open] .role-alias{color:var(--red)}.role[open] .role-number{color:var(--red)}
+    .role-detail{display:grid;grid-template-columns:1fr 1fr;gap:22px 52px;margin-left:81px;padding:4px 0 31px;margin-right:45px;font-size:14px;color:var(--muted);line-height:2.05;animation:detailIn .3s ease}
+    .role-detail h4{font-size:10px;letter-spacing:.15em;color:var(--soft);font-weight:400;margin:0 0 10px}
+    .role-detail .text-link{grid-column:1 / -1;justify-self:start;border:none;background:none;padding:0;color:var(--paper);margin-top:0;font-size:11px}
+    .role-footnote{display:flex;justify-content:space-between;gap:20px;margin-top:23px;color:var(--muted);font-size:11px;letter-spacing:.055em}.role-footnote .mono{font-size:9px;color:var(--faint)}
+
+    .manifesto{position:relative;padding-top:93px;padding-bottom:91px;display:grid;grid-template-columns:1fr 1fr;gap:80px;border-bottom:1px solid var(--line)}
+    .manifesto .eyebrow{margin-bottom:30px}
+    .unasked{font-family:var(--serif);font-size:clamp(29px,3.5vw,49px);line-height:1.68;letter-spacing:.05em}.unasked .strike{color:var(--faint);text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:rgba(255,41,62,.45)}
+    .asked{padding-top:10px}.asked-intro{font-family:var(--serif);font-size:23px;letter-spacing:.04em;margin-bottom:26px}
+    .principle{display:grid;grid-template-columns:74px 1fr;gap:23px;padding:18px 0;border-top:1px solid var(--line);align-items:center}.principle strong{font-family:var(--serif);font-size:24px;font-weight:400;letter-spacing:.07em}.principle p{font-size:14px;line-height:1.9;color:var(--muted)}
+    .principle:first-of-type strong{color:var(--red)}
+
+    .pact-section .section-head{margin-bottom:37px}.pact-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-strong)}
+    .pact-item{padding:30px 31px 29px 0;min-height:159px;border-bottom:1px solid var(--line);position:relative}.pact-item:not(:nth-child(3n+1)){border-left:1px solid var(--line);padding-left:32px}
+    .pact-item .mono{font-size:9px;color:var(--faint);display:block;margin-bottom:18px}.pact-item h3{font-family:var(--serif);font-size:24px;letter-spacing:.055em;line-height:1.5}.pact-item p{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.9}.pact-item .inf{font-family:var(--serif);font-size:34px;line-height:1;display:inline-block;margin-right:7px;vertical-align:-2px;color:var(--red)}
+
+    /* 交流材料：作品是入口；前端只整理文本，不伪装成已发送。 */
+    .apply-section{position:relative;padding-top:98px;padding-bottom:98px;display:grid;grid-template-columns:1fr 1fr;gap:72px;border-bottom:1px solid var(--line)}
+    .apply-copy .eyebrow{margin-bottom:28px}.apply-copy h2{font-family:var(--serif);font-size:clamp(38px,4.2vw,61px);line-height:1.48;letter-spacing:.025em}.apply-copy>p{color:var(--muted);font-size:13px;line-height:2.05;margin-top:22px}
+    
+    .proof-box{border:1px solid var(--line-strong);padding:29px 29px 30px;position:relative;background:linear-gradient(145deg,rgba(255,255,255,.019),transparent 80%)}
+    .proof-box::before,.proof-box::after{content:"";position:absolute;width:7px;height:7px;border-color:var(--red);border-style:solid;pointer-events:none}.proof-box::before{left:-1px;top:-1px;border-width:1px 0 0 1px}.proof-box::after{right:-1px;bottom:-1px;border-width:0 1px 1px 0}
+    .proof-box-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--muted)}.proof-box-top span:last-child{color:var(--red)}
+    .proof-tabs{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line);margin-top:28px;gap:6px}
+    .proof-tab{padding:12px 0 13px;text-align:left;font-size:11px;color:var(--muted);font-family:var(--mono);background:none;border:none;border-bottom:1px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;white-space:nowrap}.proof-tab[aria-selected="true"]{border-bottom-color:var(--red);color:var(--paper)}.proof-tab:hover{color:var(--paper)}.proof-tab:nth-child(n+3){font-family:var(--sans)}
+    .proof-preview{min-height:169px;padding:27px 0 22px}.proof-preview .label{font-size:10px;color:var(--faint);letter-spacing:.12em;margin-bottom:12px}.proof-preview h3{font-family:var(--serif);font-size:26px;line-height:1.55;letter-spacing:.035em}.proof-preview p{color:var(--muted);font-size:13px;line-height:2;margin-top:10px}
+    .proof-box .button{width:100%}.proof-note{margin-top:18px;color:var(--muted);font-size:11px;line-height:1.9}
+
+    
+
+    .closing{padding-top:102px;padding-bottom:82px;position:relative}
+    .closing-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:38px;color:var(--faint);font-family:var(--mono);font-size:9px;letter-spacing:.14em}.closing-top .small-line{width:50px;height:1px;background:var(--red)}
+    .closing-quote{font-family:var(--serif);font-size:clamp(39px,5.4vw,78px);line-height:1.5;letter-spacing:.035em;font-weight:500}.closing-quote .indent{padding-left:1.05em}.closing-quote .red{color:var(--red)}
+    .closing-bottom{margin-top:42px;display:flex;justify-content:space-between;align-items:flex-end;gap:35px}.closing-bottom p{font-size:12px;color:var(--muted);line-height:2.1;letter-spacing:.04em}.closing-bottom p span{font-family:var(--mono);font-size:9px;letter-spacing:.02em;color:var(--faint);display:block;margin-top:7px}
+    .closing-cta{border:1px solid var(--line-strong);background:transparent;display:flex;align-items:center;gap:47px;padding:17px 20px 17px 23px;color:var(--paper);font-family:var(--serif);font-size:19px;letter-spacing:.1em;transition:border-color .2s,background .2s}.closing-cta .arrow{font-family:var(--sans);color:var(--red);font-size:25px;transition:transform .2s}.closing-cta:hover{border-color:var(--red);background:rgba(255,41,62,.035)}.closing-cta:hover .arrow{transform:translate(2px,-2px)}
+    .site-footer{border-top:1px solid var(--line);padding-top:24px;padding-bottom:25px;display:flex;justify-content:space-between;align-items:center;gap:25px;color:var(--faint);font-family:var(--mono);font-size:9px;letter-spacing:.06em}.site-footer .footer-brand{color:var(--muted);font-size:11px;letter-spacing:-.025em}.site-footer .footer-center{font-family:var(--serif);letter-spacing:.22em;color:var(--muted);font-size:11px}.site-footer a:hover{color:var(--paper)}
+
+    /* Motion remains supplementary; content is visible even when JavaScript is disabled. */
+    .reveal{transition:opacity .75s ease,transform .75s cubic-bezier(.16,1,.3,1)}
+    .reveal.waiting{opacity:0;transform:translateY(24px)}
+    @keyframes scrollDrift{0%,100%{transform:translateY(0);opacity:.3}50%{transform:translateY(28px);opacity:1}}
+    @keyframes collarBreath{0%,100%{opacity:.65}50%{opacity:1}}
+    @keyframes dialRotate{to{transform:rotate(360deg)}}
+    @keyframes edgeReveal{to{stroke-dashoffset:0}}
+    @keyframes marquee{to{transform:translateX(-50%)}}
+    @keyframes detailIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+    /* 原生、可键盘操作的本地交流材料整理器。 */
+    dialog{color:var(--paper);border:1px solid var(--line-strong);background:#101012;width:min(640px,calc(100% - 32px));max-height:calc(100svh - 48px);padding:0;box-shadow:0 25px 120px #0009;overflow:auto}
+    dialog::backdrop{background:rgba(0,0,0,.8);backdrop-filter:blur(9px)}
+    .dialog-head{padding:25px 29px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:20px}.dialog-head h2{font-family:var(--serif);font-size:25px;letter-spacing:.1em}.dialog-head .mono{color:var(--red);font-size:8px;display:block;margin-bottom:6px}
+    .dialog-close{border:1px solid var(--line);background:none;width:37px;height:37px;font-size:22px;line-height:1;display:grid;place-items:center;flex-shrink:0}.dialog-close:hover{border-color:var(--red)}
+    .dialog-body{padding:26px 29px 29px}.config-note{border-left:2px solid var(--red);padding:9px 13px;margin-bottom:24px;font-size:11px;line-height:1.9;color:var(--muted);background:rgba(255,41,62,.025)}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}.field{min-width:0}.field.full{grid-column:1/-1}.field label{display:block;font-size:11px;color:var(--soft);margin-bottom:7px;letter-spacing:.06em}.field label small{color:var(--faint);font-size:10px;margin-left:5px}
+    input,select,textarea{border:1px solid var(--line-strong);background:#09090b;color:var(--paper);width:100%;padding:10px 12px;border-radius:0;line-height:1.7;font-size:12px;appearance:auto;min-height:43px}textarea{resize:vertical;min-height:89px}input::placeholder,textarea::placeholder{color:#72716e}
+
+    .form-footer{margin-top:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}.form-footer p{font-size:10px;color:var(--faint);line-height:1.9;max-width:260px}.form-footer .button{min-width:168px;gap:17px;font-size:11px;padding:12px 17px}
+    .result-title{font-family:var(--serif);font-size:23px;margin-bottom:10px}.result-note{font-size:11px;color:var(--muted);margin-bottom:20px;line-height:1.95}
+    .result-text{font-size:11px;line-height:1.9;height:245px;white-space:pre-wrap;font-family:var(--mono),var(--sans)}
+    .result-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}.result-actions .button{gap:18px;min-height:44px;padding:11px 15px;font-size:11px}.back-edit{border:none;background:none;padding:0;margin-top:18px;font-size:11px;color:var(--muted);text-decoration:underline;text-underline-offset:4px}
+    .copy-status{margin-top:12px;color:var(--soft);font-size:11px;min-height:21px}.toast{position:fixed;z-index:120;bottom:24px;left:50%;transform:translate(-50%,15px);border:1px solid var(--line-strong);background:#171719;color:var(--paper);padding:10px 18px;font-size:12px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}.toast.visible{opacity:1;transform:translate(-50%,0)}
+    [hidden]{display:none!important}
+
+    @media(min-width:1500px){.hero-art{right:0}.hero-copy{padding-top:62px}.hero h1{font-size:148px}.hero-intro{margin-top:34px}}
+    @media(max-width:1100px){
+      .main-nav{gap:21px}.brand-caption{display:none}.header-action{gap:16px}.status{display:none}
+      .hero{min-height:760px}.hero-copy{width:70%;padding-top:64px}.hero h1{font-size:clamp(89px,11vw,124px)}.hero-art{right:-4%;width:58%;height:81%;top:10%}.hero .stamp{right:5%;bottom:27%}.art-label{right:6%}.hero-intro{font-size:15px}.hero-ruler{left:14px}
+      .prologue{gap:40px}.prologue-copy{padding-top:54px;font-size:12px}
+      .mindset{grid-template-columns:130px 1fr;gap:25px}.loop{grid-column:2;justify-self:start;min-width:275px;margin-top:3px}.skill-main{gap:18px}.skill-character{font-size:100px}.skill-title{font-size:21px}.skill-panel{padding-right:28px}.skill-panel ~ .skill-panel{padding-left:32px}
+      .role .role-heading{grid-template-columns:42px 73px 1fr 110px 26px;gap:13px}.role-name{font-size:16px}.role-alias{font-size:23px}.role-detail{margin-left:55px}
+      .manifesto{gap:48px}.apply-section{gap:42px}.proof-box{padding:25px}
+    }
+    @media(max-width:760px){
+      :root{--gutter:25px}html{scroll-padding-top:25px}.site-header{height:73px}.header-inner{gap:15px}.wordmark .name{font-size:16px}.brand-signal{transform:scale(.86);transform-origin:left center;width:19px}.wordmark{gap:7px}.main-nav{display:none}.header-action .text-link{font-size:10px;gap:9px;white-space:nowrap}.header-action .text-link .arrow{font-size:16px}
+      .hero{height:auto;min-height:880px;max-height:none}.hero .wrap{min-height:880px}.hero-topline{padding-top:24px}.hero-topline .edition{font-size:8px}.eyebrow{font-size:8px;gap:10px}.eyebrow .cn{font-size:10px}.eyebrow::after{width:30px}
+      .hero-copy{padding-top:47px;width:100%}.hero-kicker{font-size:10px;margin-bottom:22px;letter-spacing:.22em}.hero h1{font-size:clamp(78px,13.6vw,102px);line-height:1.15;letter-spacing:-.075em}.hero h1 .line+.line{margin-top:9px}.hero-intro{font-size:14px;margin-top:28px;line-height:2;letter-spacing:.075em}.hero-actions{margin-top:27px;gap:19px}.hero-actions .button{font-size:11px;min-height:47px;padding:13px 16px;gap:26px}.hero-actions .aside{font-size:9px}
+      .hero-art{top:371px;right:-90px;width:490px;height:464px;opacity:.79;z-index:0}.hero .stamp{right:var(--gutter);bottom:137px;width:49px;height:49px;font-size:16px;opacity:.8}.art-label{right:22%;top:29%;font-size:9px;letter-spacing:.24em}.art-code{right:31%;bottom:8%;font-size:7px}.hero-bottom{bottom:27px;align-items:flex-end}.hero-bottom .company{font-size:9px;letter-spacing:.065em;line-height:2.2;max-width:245px}.scroll-cue{font-size:7px;gap:10px}.scroll-cue .scroll-line{height:35px}.hero-ruler{display:none}
+      .prologue{grid-template-columns:1fr;gap:23px;padding-top:58px;padding-bottom:56px}.prologue .eyebrow{margin-bottom:23px}.prologue h2{font-size:29px;line-height:1.65}.prologue-copy{padding-top:0;font-size:13px;max-width:100%;line-height:2.05}.prologue-copy p+p{margin-top:13px}.ambition{font-size:11px;margin-top:20px}.ticker{height:43px}.ticker-track{font-size:8px;gap:32px}.ticker-track span{gap:32px}
+      .section{padding-top:62px;padding-bottom:60px}.section-head{display:block;margin-bottom:30px}.section-head .eyebrow{margin-bottom:23px}.section-head h2{font-size:33px;line-height:1.55}.section-aside{padding-top:18px;font-size:13px;max-width:100%;line-height:2}
+      .skill-duel{grid-template-columns:1fr 1fr}.skill-panel{padding:23px 20px 26px 0}.skill-panel ~ .skill-panel{padding-left:22px;padding-right:0}.skill-meta{font-size:7px;letter-spacing:.03em}.skill-main{display:block;margin:18px 0 18px}.skill-character{font-size:88px;line-height:1.25}.skill-character::after{width:85px}.skill-title{font-size:19px;line-height:1.65;margin-top:11px;letter-spacing:.015em}.skill-title small{font-size:7px;letter-spacing:.06em;margin-top:7px}.skill-description{font-size:12px;min-height:90px;line-height:1.95}.skill-tokens{font-size:8px;gap:7px 10px;margin-top:18px;line-height:1.5}.duel-seal{width:29px;height:52px;font-size:12px;top:42%}
+      .mindset{grid-template-columns:1fr;gap:18px;padding-top:26px}.mindset-title{font-size:20px;gap:16px}.mindset-title span{font-size:8px;line-height:1.5}.mindset p{font-size:13px}.loop{grid-column:auto;justify-self:stretch;font-size:9px;min-width:0;padding:14px 17px}
+      .role .role-heading{grid-template-columns:29px 49px 1fr 21px;gap:10px;padding:23px 0}.role-alias{font-size:20px;letter-spacing:0}.role-name{font-size:12px;letter-spacing:-.055em}.role-tag{display:none}.role-number{font-size:9px}.role-toggle{width:20px}.role-detail{margin-left:39px;margin-right:0;grid-template-columns:1fr;gap:17px;padding-bottom:25px;font-size:13px}.role-detail h4{font-size:11px;margin-bottom:6px}.role-detail .text-link{font-size:10px}.role-footnote{display:block;font-size:12px;margin-top:19px}.role-footnote .mono{display:block;font-size:8px;margin-top:10px}
+      .manifesto{grid-template-columns:1fr;gap:37px;padding-top:60px;padding-bottom:58px}.manifesto .eyebrow{margin-bottom:26px}.unasked{font-size:clamp(25px,7.1vw,33px);display:grid;grid-template-columns:1fr 1fr;gap:10px 15px;line-height:1.6;letter-spacing:.01em}.unasked br{display:none}.unasked>span{white-space:nowrap}.asked{padding-top:0}.asked-intro{font-size:23px;margin-bottom:20px}.principle{grid-template-columns:66px 1fr;gap:20px;padding:18px 0}.principle strong{font-size:23px}.principle p{font-size:13px}
+      .pact-grid{grid-template-columns:repeat(2,1fr)}.pact-item{padding:22px 20px 22px 0;min-height:145px}.pact-item:not(:nth-child(3n+1)){border-left:none;padding-left:0}.pact-item:nth-child(2n){border-left:1px solid var(--line);padding-left:22px;padding-right:0}.pact-item .mono{font-size:8px;margin-bottom:15px}.pact-item h3{font-size:21px;letter-spacing:.015em}.pact-item p{font-size:12px;line-height:1.9;margin-top:9px}.pact-item .inf{font-size:29px;margin-right:4px}
+      .apply-section{grid-template-columns:1fr;gap:36px;padding-top:61px;padding-bottom:60px}.apply-copy .eyebrow{margin-bottom:25px}.apply-copy h2{font-size:42px;line-height:1.5}.apply-copy>p{font-size:13px;margin-top:19px}.proof-box{padding:23px}.proof-box-top{font-size:8px}.proof-tabs{margin-top:22px}.proof-tab{font-size:10px}.proof-preview{min-height:164px;padding:24px 0}.proof-preview h3{font-size:25px}.proof-preview p{font-size:13px}.proof-note{font-size:11px;margin-top:16px}
+
+      .closing{padding-top:62px;padding-bottom:48px}.closing-top{font-size:8px;margin-bottom:29px}.closing-top .small-line{width:30px}.closing-quote{font-size:clamp(31px,6.9vw,44px);line-height:1.65;letter-spacing:.015em}.closing-quote .indent{padding-left:0}.closing-bottom{display:block;margin-top:27px}.closing-bottom p{font-size:13px;line-height:2}.closing-bottom p span{font-size:8px;margin-top:8px;letter-spacing:-.015em}.closing-cta{margin-top:26px;gap:45px;font-size:18px;padding:12px 17px;min-height:50px}.closing-cta .arrow{font-size:23px}
+      .site-footer{padding-top:22px;padding-bottom:24px;font-size:8px;gap:10px}.site-footer .footer-brand{font-size:9px}.site-footer .footer-center{display:none}
+      .dialog-head{padding:22px}.dialog-head h2{font-size:24px}.dialog-body{padding:22px}.form-grid{gap:16px 14px}.form-footer{display:block}.form-footer p{max-width:none}.form-footer .button{margin-top:17px;width:100%}.field label{font-size:10px}.field label small{font-size:9px}.config-note{font-size:12px}input,select,textarea{font-size:16px}.result-text{font-size:13px}.result-actions .button{font-size:10px}
+    }
+    @media(max-width:380px){:root{--gutter:21px}.hero h1{font-size:clamp(72px,21.4vw,77px)}.hero-actions{gap:13px}.hero-actions .aside{font-size:8px}.hero-kicker{font-size:9px}.unasked{font-size:26px}.role-name{font-size:11px}.wordmark .name{font-size:14px}.hero-topline .edition{font-size:7px}.proof-box{padding:20px}.proof-tabs{gap:3px}.proof-tab{font-size:9px}.closing-quote{font-size:30px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.blade-edge{stroke-dashoffset:0}.reveal.waiting{opacity:1;transform:none}}
+    @media print{:root{--ink:#fff;--paper:#111;--soft:#333;--muted:#555;--faint:#666;--line:#ddd;--line-strong:#bbb;--red:#b71c2d}body{background:#fff;color:#111}body::before,.hero-art,.hero-ruler,.stamp,.progress,.ticker,.scroll-cue,.hero-actions,.header-action,.main-nav,.closing-cta,.proof-box .button,dialog{display:none!important}html{background:#fff}.hero{min-height:0;height:auto;max-height:none;overflow:visible}.hero .wrap{min-height:0}.hero-copy{width:100%;padding:30px 0}.hero h1{font-size:64px;text-shadow:none}.hero-topline{padding-top:20px}.hero-bottom{position:static;padding:15px 0}.hero-bottomline{display:none}.site-header{height:60px}.section,.prologue,.manifesto,.apply-section,.closing{padding-top:35px;padding-bottom:35px;break-inside:avoid}.wrap{padding-inline:32px}.reveal.waiting{opacity:1;transform:none}.role-detail{display:grid}.proof-preview{min-height:0}.duel-seal{background:#fff}.skill-character{font-size:72px}.section-head h2,.apply-copy h2,.closing-quote{font-size:32px}.unasked{font-size:29px}.pact-item{min-height:0}.loop::before{background:#fff}a[href]::after{content:none}.hero .company{color:#444}.site-footer{color:#444}}
+
+    /* V3 — 内外兼修。内功是根基；外功是安全实证；AI 是放大两者的新练法。 */
+    .hero-kicker{letter-spacing:.19em}
+    .hero-intro strong{font-weight:500;color:var(--paper)}
+    .prologue-copy{padding-top:50px}
+    .practice-section .skill-panel{padding-top:31px;padding-bottom:31px;display:flex;flex-direction:column}
+    .practice-section .skill-main{gap:32px;align-items:center;margin:29px 0 21px}
+    .practice-section .skill-character{font-size:clamp(74px,7.2vw,104px);font-weight:500;white-space:nowrap;letter-spacing:-.07em;line-height:1.35}
+    .practice-section .skill-character::after{width:101%;top:58%;opacity:.27}
+    .practice-section .skill-title{font-size:22px;letter-spacing:.07em;line-height:1.6}
+    .practice-section .skill-title small{font-size:9px;letter-spacing:.15em;margin-top:8px}
+    .skill-definition{font-family:var(--sans);font-size:14px;font-weight:500;color:var(--paper);line-height:1.9;letter-spacing:.055em;min-height:62px;padding-bottom:17px}
+    .skill-definition span{color:var(--muted);font-size:12px;letter-spacing:.02em}
+    .discipline-list{margin:0;padding:0;flex:1;display:flex;flex-direction:column}
+    .discipline-list>div{padding:20px 0 21px;border-top:1px solid var(--line);flex:1;display:grid;grid-template-columns:115px 1fr;gap:15px;align-content:start}
+    .discipline-list dt{font-size:12px;line-height:2;color:var(--soft);white-space:nowrap}
+    .discipline-list dt span{font-family:var(--mono);color:var(--red);font-size:8px;letter-spacing:.05em;margin-right:15px;vertical-align:1px}
+    .discipline-list dd{font-size:13px;line-height:2;color:var(--muted);margin:0;min-width:0}
+    .discipline-verdict{border-top:1px solid var(--line);font-family:var(--serif);font-size:17px;line-height:1.85;color:var(--muted);padding-top:23px;margin-top:0;letter-spacing:.02em}
+    .discipline-verdict strong{font-weight:400;color:var(--paper)}
+    .practice-section .duel-seal{top:159px}
+    .duel-conclusion{display:grid;grid-template-columns:1fr 1fr;gap:55px;align-items:center;padding:32px 0 36px}
+    .duel-quote{font-family:var(--serif);font-size:25px;line-height:1.65;letter-spacing:.025em}
+    .duel-quote span{color:var(--soft)}
+    .duel-explanation{font-size:13px;line-height:2;color:var(--muted);padding-left:18px;border-left:1px solid var(--red);margin-left:20px}
+    .practice-section .mindset{display:grid;grid-template-columns:1fr 1.15fr;gap:50px;padding:33px 35px 35px;border:1px solid var(--line-strong);background:linear-gradient(120deg,rgba(255,255,255,.025),transparent 60%);position:relative;align-items:center}
+    .practice-section .mindset::after{content:"";position:absolute;right:-1px;top:-1px;width:30px;height:1px;background:var(--red)}
+    .mindset-heading .eyebrow{margin-bottom:18px;font-size:9px}
+    .mindset-heading .eyebrow .cn{font-size:10px}
+    .mindset-heading h3{font-family:var(--serif);font-size:32px;line-height:1.65;letter-spacing:.01em}
+    .practice-section .mindset-body p{font-size:13px;line-height:2.1;max-width:570px}
+    .mindset-body p strong{font-weight:400;color:var(--soft)}
+    .practice-section .loop{grid-column:auto;max-width:340px;min-width:0;width:100%;margin-top:25px;padding:13px 17px;font-size:9px}
+    .closing-vow{font-family:var(--serif);font-size:19px;letter-spacing:.08em;color:var(--soft);margin-top:27px;padding-left:3px}
+    @media(max-width:1100px){
+      .practice-section .skill-main{gap:21px}.practice-section .skill-character{font-size:76px}.practice-section .skill-title{font-size:19px}
+      .discipline-list>div{grid-template-columns:1fr;gap:7px;padding-block:18px}.discipline-list dd{font-size:13px}
+      .duel-conclusion{gap:35px}.duel-quote{font-size:23px}.duel-explanation{margin-left:0}
+      .practice-section .mindset{gap:30px;padding:27px 29px;grid-template-columns:.85fr 1.15fr}.mindset-heading h3{font-size:29px}
+    }
+    @media(max-width:760px){
+      .hero-kicker{font-size:10px;letter-spacing:.13em}.hero-intro{font-size:15px;letter-spacing:.075em}
+      .prologue-copy{padding-top:0}
+      .practice-section .section-head h2{font-size:clamp(26px,7.6vw,33px)}
+      .practice-section .skill-duel{grid-template-columns:1fr}
+      .practice-section .skill-panel{padding:25px 0 27px;overflow:visible}
+      .practice-section .skill-panel ~ .skill-panel{padding:30px 0 27px;border-left:0;border-top:1px solid var(--line-strong)}
+      .practice-section .skill-meta{font-size:9px;letter-spacing:.09em}
+      .practice-section .skill-main{display:flex;gap:30px;margin:21px 0 18px}
+      .practice-section .skill-character{font-size:83px;line-height:1.3}
+      .practice-section .skill-title{font-size:20px;margin-top:0;line-height:1.6}
+      .practice-section .skill-title small{font-size:8px;margin-top:7px}
+      .skill-definition{font-size:14px;min-height:0;padding-bottom:19px;line-height:1.9}
+      .skill-definition span{font-size:12px}
+      .discipline-list>div{padding:17px 0 18px;grid-template-columns:1fr;gap:7px}
+      .discipline-list dt{font-size:12px;line-height:1.6}.discipline-list dt span{font-size:9px;margin-right:14px}
+      .discipline-list dd{font-size:13px;line-height:2}
+      .discipline-verdict{font-size:18px;padding-top:21px;line-height:1.9}
+      .practice-section .duel-seal{display:none}
+      .duel-conclusion{grid-template-columns:1fr;gap:22px;padding:27px 0 29px}
+      .duel-quote{font-size:24px;line-height:1.75}.duel-explanation{padding-left:15px;font-size:13px;line-height:1.95;margin-left:0}
+      .practice-section .mindset{grid-template-columns:1fr;padding:24px;gap:19px}
+      .mindset-heading h3{font-size:29px;line-height:1.6}.mindset-heading .eyebrow{margin-bottom:17px}
+      .practice-section .mindset-body p{font-size:13px;line-height:2.1}
+      .practice-section .loop{max-width:none;margin-top:23px;font-size:8px;padding:12px 13px}
+      .closing-quote{font-size:clamp(28px,7vw,43px);line-height:1.7;letter-spacing:0}
+      .closing-vow{font-size:16px;margin-top:24px;letter-spacing:.02em;padding-left:0}
+    }
+    @media(max-width:380px){
+      .hero-kicker{font-size:9px;letter-spacing:.06em}.hero-intro{font-size:14px}
+      .practice-section .skill-character{font-size:70px}.practice-section .skill-main{gap:25px}.practice-section .skill-title{font-size:18px}
+      .skill-definition{font-size:13px;letter-spacing:.01em}.duel-quote{font-size:21px}
+      .practice-section .mindset{padding:21px 19px}.mindset-heading .eyebrow .cn{font-size:9px}
+      .closing-quote{font-size:clamp(25px,7vw,28px)}.closing-vow{font-size:14px}
+    }
+    @media print{
+      .practice-section .skill-character{font-size:60px}.discipline-list>div{grid-template-columns:1fr;gap:3px;padding-block:10px}
+      .discipline-list dd{font-size:11px}.practice-section .skill-definition{font-size:12px}.discipline-verdict{font-size:14px}
+      .practice-section .mindset{background:none;padding:20px;break-inside:avoid}.mindset-heading h3{font-size:23px}.duel-quote{font-size:20px}
+      .closing-vow{font-size:16px}.practice-section .skill-panel{break-inside:avoid}
+    }
+
+    /* V6 — 藏锋见脉。Original HTML/CSS/SVG; project links are references, not runtime integrations. */
+    :root{
+      --ink:#090b0f;--paper:#efede6;--soft:#c5c8cf;--muted:#969aa4;--faint:#68717d;
+      --red:#ff344c;--red-dim:#9d283b;--line:rgba(181,193,214,.14);--line-strong:rgba(190,201,221,.24);
+      --surface:#0d1118;--surface-hover:#141a23;--surface-selected:#19151c;--silver:#a6b3c7;
+    }
+    body::before{opacity:.022}
+    .site-header{background:rgba(9,11,15,.92)}
+    .main-nav{gap:27px}.main-nav a{position:relative}.main-nav a::after{content:"";position:absolute;bottom:-12px;left:0;width:100%;height:1px;background:var(--red);transform:scaleX(0);transition:transform .25s}.main-nav a:hover::after,.main-nav a[aria-current="location"]::after{transform:scaleX(1)}
+    .main-nav a[aria-current="location"]{color:var(--paper)}
+    .status i{box-shadow:none}
+    .button{background:var(--red);border-color:var(--red);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));min-height:51px}
+    .button:hover{background:#e72743;transform:none}.button:focus-visible{outline-offset:0;box-shadow:inset 0 0 0 2px var(--paper)}
+    .button .arrow{transition:transform .25s}.button:hover .arrow{transform:translate(3px,-3px)}
+    .button.secondary{clip-path:none;background:transparent}
+    .cyber-hero{min-height:820px;height:calc(100svh - 88px);max-height:1050px;overflow:hidden}
+    .cyber-hero::before{background:radial-gradient(ellipse at 75% 40%,rgba(100,111,147,.055),transparent 54%),linear-gradient(118deg,transparent 55%,rgba(102,23,44,.038) 100%)}
+    .cyber-hero .hero-copy{width:51%;padding-top:53px;pointer-events:none}
+    .cyber-hero .hero-copy a{pointer-events:auto}
+    .cyber-hero h1{font-size:clamp(96px,10.4vw,150px);font-weight:600;line-height:1.14;letter-spacing:-.075em;text-shadow:none}
+    .cyber-hero .hero-intro{font-size:17px;margin-top:27px;color:#b4b5b7;letter-spacing:.09em}
+    .cyber-hero .hero-intro strong{font-weight:400;color:var(--paper)}
+    .cyber-hero .hero-actions{margin-top:29px;gap:25px}
+    .cyber-hero .hero-kicker{font-size:11px;letter-spacing:.2em;margin-bottom:22px}
+    .hero-source{display:inline-flex;align-items:center;gap:12px;font-size:10px;letter-spacing:.08em;color:var(--muted);margin-top:22px;min-height:35px}
+    .hero-source:hover{color:var(--paper)}.hero-source .tiny-chain{font-family:var(--mono);color:var(--red);font-size:15px;letter-spacing:1px}.source-rule{width:24px;height:1px;background:var(--line-strong)}
+    .cyber-hero .hero-ruler{opacity:.24}
+    .hero-visual{position:absolute;right:1.3%;top:47px;width:min(56%,752px);aspect-ratio:780 / 820;z-index:2;isolation:isolate}
+    .atlas-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+    .atlas-top{position:absolute;left:16%;right:5%;top:2.8%;display:flex;justify-content:space-between;align-items:center;gap:16px;color:var(--faint);font-family:var(--mono);font-size:8px;letter-spacing:.12em;z-index:3}
+    .atlas-view-switch{display:flex;gap:0;border:1px solid var(--line);background:rgba(12,16,24,.45)}
+    .atlas-view{background:none;border:0;border-right:1px solid var(--line);color:var(--muted);padding:5px 13px;min-height:31px;font-family:var(--sans);font-size:10px;letter-spacing:.1em;position:relative}
+    .atlas-view:last-child{border:0}.atlas-view[aria-pressed="true"]{color:var(--paper);background:rgba(202,216,238,.065)}.atlas-view[aria-pressed="true"]::after{content:"";position:absolute;left:13px;right:13px;bottom:-1px;height:1px;background:var(--red)}
+    .sword-surface,.sword-anatomy,.sword-section{transition:opacity .65s ease}
+    .sword-surface{opacity:1}.sword-anatomy{opacity:.14}.sword-section{opacity:.62}
+    [data-view="structure"] .sword-surface{opacity:.2}[data-view="structure"] .sword-anatomy{opacity:1}[data-view="structure"] .sword-section{opacity:1}
+    .atlas-connections>path{opacity:.25;transition:stroke .25s,opacity .25s}.atlas-connections>.atlas-unselected-branch{opacity:.16}
+    .atlas-connections>path.visited{stroke:var(--red);opacity:.25}
+    [data-active="harness"] [data-branch="harness"],[data-active="cstx"] [data-branch="cstx"],[data-active="ioa"] [data-branch="ioa"],[data-active="gogo"] [data-branch="gogo"]{opacity:.74;stroke:var(--red)}
+    .atlas-trace{stroke:var(--red);stroke-width:1.2;fill:none;pointer-events:none;stroke-linejoin:round}
+    .atlas-node{position:absolute;z-index:5;display:flex;flex-direction:column;align-items:flex-end;gap:4px;border:0;background:none;color:#8e9bac;padding:5px 11px 12px 2px;min-height:46px;line-height:1.6;transform:translateY(-100%);text-align:right;white-space:nowrap;transition:color .2s}
+    .atlas-node .node-name{font-family:var(--mono);font-size:12px;letter-spacing:.01em;font-weight:500}
+    .atlas-node small{font-family:var(--mono);font-size:7px;letter-spacing:.1em;line-height:1.6;color:#647182}
+    .atlas-node .node-pin{position:absolute;right:-3px;bottom:-3px;width:6px;height:6px;border:1px solid #8290a3;background:var(--ink);transition:background .25s,border-color .25s}
+    .atlas-node .node-pin::after{content:"";position:absolute;inset:-5px;border:1px solid transparent;transition:border-color .25s}
+    .atlas-node:hover,.atlas-node:focus-visible,.atlas-node[aria-pressed="true"]{color:var(--paper)}
+    .atlas-node[data-arrived="true"] .node-pin{background:var(--red);border-color:var(--red)}.atlas-node[data-arrived="true"] .node-pin::after{border-color:rgba(255,52,76,.3)}
+    .atlas-node:hover small,.atlas-node[aria-pressed="true"] small{color:var(--muted)}
+    .node-harness{right:73.8462%;top:41.2195%}.node-cstx{right:13.5897%;top:40.3659%}.node-ioa{right:16.4103%;top:18.7805%}.node-gogo{right:18.9744%;top:60%}
+    .atlas-vertical{position:absolute;right:1.6%;top:26%;font-family:var(--serif);writing-mode:vertical-rl;color:#7f858f;font-size:11px;letter-spacing:.3em;line-height:2.2}
+    .atlas-vertical::after{content:"";display:block;width:1px;height:32px;margin-top:22px;background:var(--red);opacity:.6}
+    .atlas-caption{position:absolute;left:44%;right:6%;top:81%;display:grid;grid-template-columns:15px 1fr auto;align-items:start;gap:10px;border-top:1px solid var(--line-strong);padding-top:12px;color:var(--muted);min-height:78px}
+    .atlas-caption-index{color:var(--red);font-family:var(--mono);font-size:14px;line-height:1.5}
+    .atlas-caption .mono{font-size:10px;letter-spacing:.02em;color:var(--soft);line-height:1.6}
+    .atlas-caption p{margin-top:6px;font-size:10px;color:var(--muted);line-height:1.9}
+    .atlas-caption a{font-size:10px;white-space:nowrap;min-height:31px;display:flex;gap:9px;align-items:flex-start;padding-top:1px}.atlas-caption a span{color:var(--red)}.atlas-caption a:hover{color:var(--paper)}
+    .atlas-note{position:absolute;left:44%;right:6%;top:94.5%;font-size:9px;line-height:1.6;color:#758090;letter-spacing:.01em}
+    .atlas-seal{position:absolute;right:11%;top:69%;font-family:var(--serif);font-size:19px;line-height:1.2;color:var(--red);padding:5px 6px;border:1px solid var(--red);outline:1px solid rgba(255,52,76,.3);outline-offset:-4px;transform:rotate(3deg);opacity:.82}
+    .cyber-hero .hero-bottom{bottom:27px}.cyber-hero .hero-bottom .company{font-size:10px;letter-spacing:.15em}.cyber-hero .scroll-cue .scroll-line::after{animation:none;top:auto;bottom:0}
+    .cyber-hero .hero-bottomline{border-color:var(--line)}
+    .principle-strip{border-block:1px solid var(--line)}
+    .principle-strip-inner{display:flex;align-items:center;justify-content:space-between;gap:30px;min-height:62px}
+    .principle-strip-inner .strip-label{font-size:8px;letter-spacing:.07em;color:var(--faint)}
+    .principle-strip-inner>div{display:flex;align-items:center;gap:26px;color:var(--soft);font-size:11px;letter-spacing:.12em}
+    .principle-strip-inner i{height:3px;width:3px;border:1px solid var(--red);transform:rotate(45deg)}
+    .principle-strip a{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.08em;white-space:nowrap}.principle-strip a span{color:var(--red);margin-left:8px}
+    .prologue{padding-top:82px;padding-bottom:82px}.prologue-copy{font-size:14px}
+    .section-head{margin-bottom:45px}.section-aside{color:var(--muted)}
+    .practice-section .skill-panel{padding-top:29px;padding-bottom:29px;background:linear-gradient(155deg,rgba(170,190,218,.025),transparent 55%)}
+    .practice-section .skill-panel:first-of-type{padding-left:28px;padding-right:34px}.practice-section .skill-panel ~ .skill-panel{padding-left:34px;padding-right:28px}
+    .practice-section .skill-main{margin-top:22px}.practice-section .skill-character{font-size:92px;letter-spacing:-.07em}
+    .practice-section .skill-character::after{opacity:.25;top:58%;background:linear-gradient(90deg,transparent,var(--red) 20%,var(--red) 55%,transparent)}
+    .practice-section .duel-seal{top:162px}
+    .skill-definition{padding-bottom:14px;min-height:61px}
+    .meridian{margin:5px 0 21px;position:relative;background:radial-gradient(ellipse at center,rgba(132,163,201,.037),transparent 65%);padding-top:9px}
+    .meridian-header{display:flex;align-items:center;justify-content:space-between;font-family:var(--mono),var(--sans);font-size:8px;letter-spacing:.08em;color:#7a8595;margin-bottom:0;line-height:1.7}
+    .diagram-note{font-family:var(--sans);font-size:9px;letter-spacing:.04em}
+    .meridian-svg{width:100%;height:auto;max-height:203px;overflow:visible}
+    .diagram-boundary{stroke:var(--silver);stroke-opacity:.08;stroke-dasharray:2 6;stroke-width:.7}.diagram-axis{stroke:var(--silver);stroke-opacity:.08;stroke-width:.7;stroke-dasharray:3 6}
+    .meridian-network{stroke:#9babc1;stroke-opacity:.26;stroke-width:.85;stroke-linejoin:round}
+    .meridian-focus>path{stroke:#ff344c;stroke-opacity:.07;stroke-width:1.1;transition:stroke-opacity .35s}
+    .meridian[data-mode="internal"][data-step="0"] [data-layer="0"],.meridian[data-mode="internal"][data-step="1"] [data-layer="1"],.meridian[data-mode="internal"][data-step="2"] [data-layer="2"]{stroke-opacity:.86}
+    .meridian-route{fill:none;stroke:var(--red);stroke-width:1.2;stroke-opacity:0;stroke-linejoin:round}
+    .meridian[data-mode="external"] .meridian-focus{display:none}.meridian[data-mode="external"] .meridian-route{stroke-opacity:.8}
+    .meridian-signal{fill:var(--red)}.meridian-node circle{fill:var(--surface);stroke:#76849a;stroke-width:1}
+    .meridian-node .node-ring{fill:none;stroke:transparent;stroke-width:.7;transition:stroke .2s}
+    .meridian-node.active circle:first-child{stroke:var(--red);fill:var(--red)}.meridian-node.active .node-ring{stroke:rgba(255,52,76,.34)}
+    .diagram-labels{font-family:var(--sans);font-size:10px;fill:#8b98a9;text-anchor:middle;letter-spacing:.12em}
+    .meridian-controls{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);margin-top:0}
+    .meridian-controls .meridian-step{display:flex;align-items:center;justify-content:center;gap:8px;background:transparent;border:none;color:#8b98a9;padding:8px 7px;min-height:35px;font-size:10px;letter-spacing:.08em;flex:1;position:relative}
+    .meridian-controls .meridian-step::after{content:"";position:absolute;left:7px;right:7px;top:-1px;height:1px;background:transparent;transition:background .2s}
+    .meridian-controls .meridian-step[aria-pressed="true"]{color:var(--paper)}.meridian-controls .meridian-step[aria-pressed="true"]::after{background:var(--red)}
+    .step-marker{width:3px;height:3px;border:1px solid #738299}.meridian-controls .meridian-step[aria-pressed="true"] .step-marker{background:var(--red);border-color:var(--red)}
+    .discipline-list>div{padding-block:18px;grid-template-columns:110px 1fr;gap:12px}.discipline-list dd{color:var(--muted);font-size:13px;line-height:2}
+    .discipline-verdict{font-size:17px}.duel-explanation{border-left-color:var(--red)}
+    .practice-section .mindset{background:linear-gradient(115deg,rgba(149,179,221,.03),transparent 60%);border-color:var(--line-strong)}
+    .practice-section .loop{background:var(--ink)}
+    .arsenal-section{padding-top:68px;padding-bottom:60px;border-bottom:1px solid var(--line);position:relative}
+    .arsenal-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:29px}.arsenal-heading .eyebrow{margin-bottom:22px}
+    .arsenal-heading h2{font-family:var(--serif);font-size:33px;line-height:1.7;letter-spacing:.02em}.arsenal-heading h2 span{color:#9da4b0;margin-left:15px}
+    .arsenal-heading .text-link{font-size:11px;margin-bottom:8px;white-space:nowrap}
+    .arsenal-browser{border:1px solid var(--line-strong);position:relative}.arsenal-browser::before{content:"";position:absolute;left:-1px;top:-1px;width:22px;height:1px;background:var(--red)}
+    .arsenal-projects{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+    .arsenal-project{position:relative;display:flex;gap:14px;align-items:center;min-height:91px;padding:21px 19px;background:rgba(179,199,231,.013);border-bottom:1px solid var(--line);transition:background .25s;min-width:0}
+    .arsenal-project:not(:nth-child(4n)){border-right:1px solid var(--line)}
+    .arsenal-project::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:transparent;transition:background .25s}
+    .arsenal-project:hover{background:var(--surface-hover)}.arsenal-project.selected{background:linear-gradient(100deg,rgba(255,52,76,.06),rgba(146,169,203,.025))}.arsenal-project.selected::before{background:var(--red)}
+    .project-number{align-self:flex-start;font-family:var(--mono);font-size:8px;color:#687589;line-height:1.6;position:absolute;right:12px;top:9px}
+    .project-glyph{width:29px;height:29px;flex:none;color:#7e8b9d}.arsenal-project.selected .project-glyph{color:var(--red)}
+    .project-text{min-width:0}.project-text strong{display:block;font-family:var(--mono);font-size:14px;letter-spacing:-.045em;font-weight:500;color:var(--soft);white-space:nowrap}.project-text small{display:block;font-size:10px;letter-spacing:.07em;color:#7e8b9d;margin-top:3px}
+    .arsenal-project.selected .project-text strong{color:var(--paper)}
+    .project-point{width:4px;height:4px;background:transparent;border:1px solid #526074;position:absolute;right:14px;bottom:16px}.arsenal-project.selected .project-point{border-color:var(--red);background:var(--red)}
+    .arsenal-detail{display:grid;grid-template-columns:.85fr 1.6fr auto;align-items:center;gap:33px;min-height:129px;padding:25px 27px;background:linear-gradient(95deg,rgba(143,167,210,.023),transparent)}
+    .arsenal-detail-id .mono{font-size:8px;color:#8f9bb0;letter-spacing:.12em}.arsenal-detail h3{font-family:var(--mono);font-size:19px;line-height:1.8;letter-spacing:-.05em;color:var(--paper);margin-top:2px}
+    .arsenal-detail>p{color:var(--muted);font-size:13px;line-height:1.9;max-width:570px}.arsenal-detail .text-link{font-size:11px;gap:19px;min-height:44px;white-space:nowrap}
+    .arsenal-bottom{display:flex;justify-content:space-between;gap:25px;align-items:center;margin-top:19px;color:#778496;font-size:10px}
+    .arsenal-bottom a{font-family:var(--serif);font-size:17px;color:var(--muted);letter-spacing:.05em;min-height:36px;display:flex;align-items:center}.arsenal-bottom a strong{font-weight:400;color:var(--paper)}.arsenal-bottom a>span{font-family:var(--sans);margin-left:20px;color:var(--red);font-size:21px}
+    .role[open]{background:linear-gradient(90deg,rgba(147,170,203,.022),transparent 50%)}
+    .role .role-heading{min-height:92px}.role-toggle{border:1px solid var(--line);width:27px;height:27px}.role-toggle::before,.role-toggle::after{top:12px;left:6px}.role[open] .role-toggle{border-color:rgba(255,52,76,.4)}.role[open] .role-toggle::before{background:var(--red)}
+    .role-footnote .mono{color:#758195}
+    .pact-item{background:linear-gradient(170deg,rgba(167,190,221,.012),transparent 45%)}
+    .proof-box{background:linear-gradient(135deg,rgba(154,182,220,.035),transparent 75%);border-color:var(--line-strong)}
+    .proof-tab{position:relative}.proof-tab[aria-selected="true"]::before{content:"";position:absolute;bottom:-2px;left:0;width:3px;height:3px;background:var(--red)}
+    .apply-copy h2{white-space:nowrap}.proof-note{color:#909baa}
+    .closing{background:radial-gradient(ellipse at 72% 93%,rgba(117,26,47,.09),transparent 54%)}
+    .closing-top .small-line{position:relative;width:100px;opacity:.8}.closing-top .small-line::before{content:"";position:absolute;left:-7px;top:-2px;width:5px;height:5px;border:1px solid var(--red);border-radius:50%}.closing-top .small-line::after{content:"";position:absolute;right:0;top:-3px;width:6px;height:6px;border-top:1px solid var(--red);border-right:1px solid var(--red);transform:rotate(45deg)}
+    .closing-cta{background:linear-gradient(130deg,rgba(255,52,76,.03),transparent);position:relative}
+    .site-footer .motion-toggle{margin-left:auto;border:none;padding:5px 0;background:none;font-family:var(--sans);font-size:9px;letter-spacing:.04em;color:var(--muted);min-height:33px}
+    .site-footer .footer-center{margin-left:auto}.site-footer .footer-brand{white-space:nowrap}
+    .form-footer{margin-top:24px}.dialog-body{background:#0d1118}.dialog-head{background:#0d1118}input,select,textarea{background:#080c12;border-color:var(--line-strong)}
+    .motion-off *,.motion-off *::before,.motion-off *::after{animation:none!important;transition:none!important}.motion-off{scroll-behavior:auto}.motion-off .reveal.waiting{opacity:1;transform:none}
+    @media(min-width:1500px){.cyber-hero .hero-copy{padding-top:59px}.hero-visual{top:43px;width:752px;right:.3%}.cyber-hero{min-height:870px}}
+    @media(max-width:1200px) and (min-width:761px){
+      .brand-caption{display:none}.main-nav{gap:21px}.header-action{gap:18px}.status{display:none}
+      .hero-visual{right:0;top:93px;width:56%}.cyber-hero{min-height:805px}.cyber-hero .hero-copy{width:50%;padding-top:68px}.cyber-hero h1{font-size:clamp(85px,10.7vw,128px)}
+      .cyber-hero .hero-kicker{font-size:10px;letter-spacing:.09em}.cyber-hero .hero-intro{font-size:15px;margin-top:28px}.cyber-hero .hero-actions{gap:18px}
+      .cyber-hero .hero-actions .button{padding-inline:17px;gap:22px;font-size:11px}.cyber-hero .hero-actions .aside{font-size:9px}
+      .atlas-node .node-name{font-size:11px}.atlas-node small{font-size:6px}.atlas-note{top:97%;font-size:8px}.atlas-caption{top:81%;left:40%;right:6%;gap:7px;grid-template-columns:10px 1fr auto}.atlas-caption .mono{font-size:9px}.atlas-caption p{font-size:9px}.atlas-caption a{font-size:9px}.atlas-seal{font-size:16px}
+      .atlas-top{left:9%;font-size:7px}.atlas-view{padding-inline:10px;font-size:9px}.atlas-vertical{font-size:10px}
+      .practice-section .skill-panel:first-of-type{padding-left:20px;padding-right:24px}.practice-section .skill-panel ~ .skill-panel{padding-left:24px;padding-right:20px}.practice-section .skill-character{font-size:76px}.practice-section .skill-main{gap:23px}.practice-section .skill-title{font-size:19px}
+      .discipline-list>div{grid-template-columns:1fr;gap:6px}.meridian-header{font-size:7px}.diagram-note{font-size:8px}
+      .project-text strong{font-size:12px}.arsenal-project{gap:11px;padding-inline:16px}.project-glyph{width:25px;height:25px}.arsenal-heading h2{font-size:29px}.arsenal-heading h2 span{margin-left:7px}.arsenal-detail{gap:24px}
+    }
+    @media(max-width:930px) and (min-width:761px){
+      .main-nav{gap:16px;font-size:10px}.wordmark .name{font-size:15px}.header-action .text-link{font-size:10px;gap:8px}.header-inner{gap:16px}
+      .cyber-hero .hero-copy{width:53%}.cyber-hero h1{font-size:90px}.hero-visual{width:53%;top:174px;right:0}.cyber-hero .hero-kicker{font-size:9px;letter-spacing:0}.cyber-hero .hero-actions{align-items:flex-start;gap:14px}.cyber-hero .hero-actions .aside{font-size:8px;padding-top:5px}
+      .atlas-node .node-name{font-size:10px}.atlas-node small{font-size:6px;letter-spacing:0}.atlas-vertical{display:none}.atlas-caption{left:28%;right:7%}.atlas-note{left:28%;top:102%}.atlas-top{left:4%;right:3%;top:-5%}.atlas-top>span{display:none}.atlas-view-switch{margin-left:auto}
+      .principle-strip-inner{gap:15px}.principle-strip-inner .strip-label{display:none}.principle-strip-inner>div{gap:28px}
+      .practice-section .skill-character{font-size:63px}.practice-section .skill-title{font-size:17px}.practice-section .skill-main{gap:15px}.skill-definition{font-size:12px}.discipline-verdict{font-size:15px}
+      .arsenal-project{padding-inline:13px;gap:9px}.project-glyph{width:21px;height:21px}.project-text strong{font-size:11px}.project-text small{font-size:9px}
+    }
+    @media(max-width:760px){
+      :root{--gutter:25px}.site-header{height:73px}.header-inner{gap:13px}.header-action .text-link{font-size:10px;gap:9px}.main-nav{display:none}
+      .cyber-hero{height:auto;max-height:none;min-height:0;overflow:hidden}.cyber-hero .wrap{height:auto;min-height:0;padding-bottom:83px}
+      .cyber-hero .hero-topline{padding-top:25px}.cyber-hero .hero-copy{padding-top:40px;width:100%}.cyber-hero .hero-kicker{font-size:10px;letter-spacing:.11em;margin-bottom:18px}
+      .cyber-hero h1{font-size:clamp(79px,17.2vw,115px);line-height:1.12;letter-spacing:-.075em}.cyber-hero h1 .line+.line{margin-top:4px}
+      .cyber-hero .hero-intro{font-size:15px;margin-top:24px;line-height:1.95}.cyber-hero .hero-actions{margin-top:23px;gap:22px}.cyber-hero .hero-actions .button{font-size:11px;padding:13px 18px;min-height:48px;gap:28px}.cyber-hero .hero-actions .aside{font-size:9px}
+      .hero-source{font-size:9px;gap:10px;margin-top:13px;min-height:31px}.hero-source .tiny-chain{font-size:13px}.source-rule{width:19px}
+      .hero-visual{position:relative;width:100%;right:auto;top:auto;aspect-ratio:780 / 850;margin-top:14px;max-width:560px;margin-inline:auto}
+      .atlas-svg{height:auto;aspect-ratio:780/820;top:0;bottom:auto}.atlas-top{left:2%;right:2%;top:0;font-size:6px;letter-spacing:.08em}.atlas-view{font-size:9px;min-height:29px;padding:4px 11px}
+      .atlas-view[aria-pressed="true"]::after{left:10px;right:10px}
+      .atlas-node{padding:2px 8px 9px 0;gap:2px;min-height:40px}.atlas-node .node-name{font-size:10px;letter-spacing:-.03em}.atlas-node small{font-size:6px;letter-spacing:.03em}
+      .node-harness{top:39.7647%}.node-cstx{top:38.9412%}.node-ioa{top:18.1176%}.node-gogo{top:57.8824%}
+      .atlas-node .node-pin{width:5px;height:5px;right:-2.5px;bottom:-2.5px}.atlas-node .node-pin::after{inset:-4px}
+      .atlas-vertical{font-size:8px;right:0;top:25%;letter-spacing:.17em}.atlas-vertical::after{margin-top:15px;height:19px}
+      .atlas-seal{font-size:13px;padding:4px 5px;top:65%;right:9%;outline-offset:-3px}
+      .atlas-caption{left:38%;right:0;top:77%;padding-top:9px;gap:7px;grid-template-columns:10px 1fr;min-height:0}
+      .atlas-caption .mono{font-size:9px}.atlas-caption-index{font-size:11px}.atlas-caption p{font-size:10px;line-height:1.85;margin-top:4px}
+      .atlas-caption a{grid-column:2;justify-self:start;min-height:23px;font-size:9px;padding:0;gap:9px;margin-top:1px}
+      .atlas-note{left:0;top:auto;bottom:0;right:auto;font-size:8px;color:#8290a3;letter-spacing:0}
+      .cyber-hero .hero-bottom{bottom:23px;align-items:flex-end}.cyber-hero .hero-bottom .company{font-size:8px;letter-spacing:.1em;line-height:2}.cyber-hero .scroll-cue{font-size:7px;gap:10px}.cyber-hero .scroll-cue .scroll-line{height:32px}
+      .prologue{padding-top:55px;padding-bottom:54px;gap:22px}.prologue h2{font-size:30px}.prologue-copy{font-size:13px;line-height:2.1}
+      .principle-strip-inner{gap:16px;min-height:55px}.principle-strip-inner .strip-label{display:none}.principle-strip-inner>div{gap:13px;font-size:10px;letter-spacing:.03em}.principle-strip-inner i{width:2px;height:2px}.principle-strip a{font-size:8px;letter-spacing:0}.principle-strip a span{margin-left:4px}
+      .section-head{margin-bottom:29px}.practice-section .skill-duel{border-bottom:1px solid var(--line-strong)}
+      .practice-section .skill-panel:first-of-type{padding:24px 0 26px;background:none}.practice-section .skill-panel ~ .skill-panel{padding:28px 0 26px;background:none}
+      .practice-section .skill-main{gap:28px;margin:19px 0 17px}.practice-section .skill-character{font-size:80px}.practice-section .skill-title{font-size:20px}
+      .skill-definition{font-size:14px;min-height:0;padding-bottom:10px}.skill-definition span{font-size:12px}
+      .meridian{margin:10px 0 22px;padding-top:8px}.meridian-header{font-size:8px}.diagram-note{font-size:9px}.meridian-svg{max-height:215px}
+      .meridian-controls .meridian-step{font-size:11px;min-height:41px;gap:8px;padding:7px}.diagram-labels{font-size:12px;letter-spacing:0}
+      .discipline-list>div{grid-template-columns:1fr;padding-block:17px;gap:6px}.discipline-list dt{font-size:12px}.discipline-list dd{font-size:13px;line-height:2}.discipline-verdict{font-size:18px;padding-top:21px}
+      .practice-section .mindset{padding:23px}.mindset-heading h3{font-size:29px}.practice-section .mindset-body p{font-size:13px}
+      .arsenal-section{padding-top:49px;padding-bottom:45px}.arsenal-heading{align-items:flex-start;gap:15px;margin-bottom:25px}.arsenal-heading .eyebrow{margin-bottom:20px}.arsenal-heading .eyebrow::after{display:none}.arsenal-heading .eyebrow .cn{font-size:9px;letter-spacing:.08em}
+      .arsenal-heading h2{font-size:29px;line-height:1.6}.arsenal-heading h2 span{display:block;margin-left:0}.arsenal-heading .text-link{font-size:9px;gap:6px;margin-top:47px;margin-bottom:0}.arsenal-heading .text-link .arrow{font-size:15px}
+      .arsenal-projects{grid-template-columns:repeat(2,minmax(0,1fr))}.arsenal-project{min-height:81px;gap:11px;padding:18px 12px 15px}.arsenal-project:not(:nth-child(4n)){border-right:none}.arsenal-project:nth-child(2n+1){border-right:1px solid var(--line)}
+      .project-glyph{width:24px;height:24px}.project-text strong{font-size:11px;letter-spacing:-.05em}.project-text small{font-size:9px;margin-top:3px;letter-spacing:0}.project-number{font-size:7px;right:9px;top:6px}.project-point{right:9px;bottom:12px;width:3px;height:3px}
+      .arsenal-detail{grid-template-columns:1fr auto;padding:21px 18px;gap:12px 15px;min-height:190px;align-items:start}.arsenal-detail-id .mono{font-size:7px}.arsenal-detail h3{font-size:18px}.arsenal-detail>p{grid-column:1/-1;grid-row:2;font-size:12px;line-height:1.95}.arsenal-detail .text-link{grid-column:2;grid-row:1;font-size:9px;gap:8px;align-self:center;min-height:37px}.arsenal-detail .arrow{font-size:16px}
+      .arsenal-bottom{gap:13px;margin-top:13px}.arsenal-bottom>span{font-size:8px;line-height:1.8}.arsenal-bottom a{font-size:14px;white-space:nowrap;letter-spacing:0}.arsenal-bottom a>span{margin-left:10px;font-size:18px}
+      .role .role-heading{min-height:82px}.role-toggle{width:24px;height:24px}.role-toggle::before,.role-toggle::after{left:4px;top:10px}
+      .apply-copy h2{font-size:43px}.closing-quote{font-size:clamp(28px,7vw,43px)}
+      .site-footer{gap:19px}.site-footer .motion-toggle{font-size:8px;min-height:36px;margin-left:auto}.site-footer>a{font-size:8px;white-space:nowrap}.site-footer .footer-center{display:none}
+    }
+    @media(max-width:380px){
+      :root{--gutter:21px}.cyber-hero h1{font-size:clamp(70px,21vw,78px)}.cyber-hero .hero-kicker{font-size:9px;letter-spacing:.03em}.cyber-hero .hero-intro{font-size:14px}.cyber-hero .hero-actions{gap:17px}.cyber-hero .hero-actions .aside{font-size:8px}.cyber-hero .hero-actions .button{padding-inline:15px;gap:24px}
+      .atlas-node .node-name{font-size:9px}.atlas-node small{font-size:5.5px;letter-spacing:0}.atlas-caption{left:36%;top:76%;gap:5px}.atlas-caption p{font-size:9px}.atlas-caption .mono{font-size:8px}.atlas-caption a{font-size:8px;min-height:18px;margin-top:0}.atlas-note{font-size:7px}.hero-visual{margin-top:23px;aspect-ratio:780/870}
+      .atlas-svg{height:94.25%}.node-harness{top:38.85%}.node-cstx{top:38.05%}.node-ioa{top:17.7%}.node-gogo{top:56.55%}
+      .principle-strip-inner>div{gap:9px;font-size:9px}.principle-strip a{font-size:7px}.principle-strip-inner{gap:10px}.practice-section .skill-character{font-size:69px}.practice-section .skill-title{font-size:18px}.practice-section .skill-main{gap:24px}
+      .arsenal-heading h2{font-size:26px}.arsenal-heading .eyebrow .cn{font-size:8px}.arsenal-heading .eyebrow{gap:8px}.arsenal-heading .text-link{font-size:8px;gap:3px}.arsenal-heading .text-link .arrow{font-size:12px}
+      .arsenal-project{gap:8px;padding-inline:10px}.project-glyph{width:20px;height:20px}.project-text strong{font-size:10px}.project-text small{font-size:8px}.project-point{right:7px}.arsenal-bottom a{font-size:12px}.arsenal-detail{padding:18px 15px;min-height:195px}
+      .apply-copy h2{font-size:38px}.closing-quote{font-size:clamp(25px,7vw,28px)}
+    }
+    @media(prefers-reduced-motion:reduce){.sword-surface,.sword-anatomy,.sword-section{transition:none!important}.reveal.waiting{opacity:1;transform:none}}
+    @media print{
+      .hero-visual,.hero-source,.principle-strip,.motion-toggle,.meridian-controls,.arsenal-heading>.text-link,.arsenal-bottom,.atlas-view-switch{display:none!important}
+      .cyber-hero{min-height:0;height:auto}.cyber-hero .wrap{padding-bottom:0;min-height:0}.cyber-hero .hero-copy{padding:24px 0;width:100%}.cyber-hero h1{font-size:58px}.cyber-hero .hero-bottom{position:static}.cyber-hero .hero-intro,.cyber-hero .hero-intro strong{color:#333}
+      .meridian{margin-block:10px}.meridian-svg{max-height:130px}.diagram-labels{fill:#333}.meridian-network{stroke:#888}.practice-section .skill-panel{background:none}.arsenal-section{padding-block:35px;break-inside:avoid}.arsenal-heading h2{font-size:25px}.arsenal-heading h2 span{color:#666}.arsenal-project{background:none;min-height:62px;padding:12px}.project-text strong,.arsenal-detail h3{color:#222}.project-text small{color:#555}.arsenal-detail>p{color:#555}.arsenal-detail{min-height:0;padding:18px}.arsenal-project.selected{background:none}.closing{background:none}.site-footer .footer-center{margin:0}
+    }
+    /* Keep the skip link out of off-screen captures while preserving keyboard focus. */
+    .skip{visibility:hidden}.skip:focus{visibility:visible}
+    html:not(.enhanced) .atlas-view-switch,html:not(.enhanced) .motion-toggle{display:none}
+    .atlas-stage{position:absolute;inset:0}
+    @media(max-width:930px) and (min-width:761px){.atlas-caption,.atlas-note{left:40%}}
+    @media(max-width:760px){
+      .hero-visual{aspect-ratio:auto;margin-top:35px}
+      .atlas-stage{position:relative;inset:auto;aspect-ratio:780 / 820;width:100%}
+      .atlas-svg{inset:0;width:100%;height:100%;aspect-ratio:auto}
+      .atlas-top{top:-21px}
+      .node-harness{top:41.2195%}.node-cstx{top:40.3659%}.node-ioa{top:18.7805%}.node-gogo{top:60%}
+      .atlas-caption{position:relative;left:auto;right:auto;top:auto;margin-top:-9px;grid-template-columns:12px 1fr auto;padding-top:12px;gap:10px;min-height:66px}
+      .atlas-caption .mono{font-size:10px}.atlas-caption p{font-size:11px;line-height:1.9}.atlas-caption a{grid-column:3;grid-row:1;font-size:10px;min-height:32px;padding:1px 0 0;gap:7px;justify-self:end;margin:0}
+      .atlas-note{position:relative;left:auto;right:auto;top:auto;bottom:auto;margin-top:13px;font-size:8px}
+      .atlas-seal{top:69%;right:9%}
+    }
+    @media(max-width:380px){
+      .hero-visual{aspect-ratio:auto;margin-top:39px}.atlas-caption{gap:8px}.atlas-caption .mono{font-size:9px}.atlas-caption p{font-size:10px}.atlas-caption a{font-size:9px}.atlas-note{font-size:8px}
+    }
+    /* The fill is slightly deeper than the signal red so small white CTA text remains legible. */
+    .button:not(.secondary){background:#da243d;border-color:#da243d}
+    .button:not(.secondary):hover{background:#c91b34;border-color:#c91b34}
+
+
+/* V7 — 一触，连锁。Motion is editorial: entry → collision → propagation → stillness. */
+:root{--motion-ease:cubic-bezier(.16,1,.3,1);--motion-edge:rgba(255,52,76,.42)}
+.atlas-stage{transform-origin:54% 43%;transform:perspective(1200px) rotateX(var(--atlas-rx,0deg)) rotateY(var(--atlas-ry,0deg));transition:transform .65s var(--motion-ease);will-change:auto}
+.atlas-stage.has-pointer{transition:transform .24s ease-out;will-change:transform}
+.atlas-top{gap:10px}
+.atlas-tools{display:flex;gap:9px;align-items:center}
+.atlas-icon-button{display:inline-grid;place-items:center;flex:none;width:33px;height:33px;background:rgba(15,19,27,.55);color:var(--silver);border:1px solid var(--line-strong);padding:0;position:relative;transition:border-color .3s,color .3s,background .3s}
+.atlas-icon-button svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.3}
+.atlas-icon-button:hover{border-color:var(--red);color:var(--paper);background:rgba(255,52,76,.06)}
+.atlas-icon-button:disabled{opacity:.42}
+.atlas-icon-button .motion-play{display:none}.atlas-icon-button[aria-pressed="true"] .motion-pause{display:none}.atlas-icon-button[aria-pressed="true"] .motion-play{display:block}
+.atlas-icon-button[aria-busy="true"]::after{content:"";position:absolute;left:-1px;right:-1px;bottom:-1px;height:1px;background:var(--red)}
+.atlas-control-note{font-size:9px;letter-spacing:.04em;font-family:var(--sans);color:#929eae;display:inline-flex;align-items:center;gap:8px;border:0;background:none;padding:5px 0;min-height:32px}
+.atlas-note{display:flex;gap:15px;align-items:center;flex-wrap:wrap}
+.atlas-note .note-divider{width:1px;height:9px;background:var(--line-strong)}
+.atlas-control-note:hover{color:var(--paper)}
+.atlas-control-note .replay-icon{color:var(--red);font-size:14px;line-height:1}
+/* A solid object opens into three real sections, not a crossfade to unrelated artwork. */
+.sword-hilt,.sheath-left,.sheath-right,.sword-section{transform-box:view-box;transition:transform 1.25s cubic-bezier(.2,.75,.15,1),opacity 1.1s ease;transform-origin:0 20px}
+.sword-surface{transition:opacity .8s ease}
+[data-view="structure"] .sword-surface{opacity:.53}
+[data-view="structure"] .sword-hilt{transform:translateY(-24px);opacity:.65}
+[data-view="structure"] .sheath-left{transform:translate(-28px,12px);opacity:.62}
+[data-view="structure"] .sheath-right{transform:translate(31px,18px);opacity:.6}
+[data-view="structure"] .sword-section{transform:translateX(14px);opacity:1}
+[data-view="structure"] .sword-anatomy{opacity:1;filter:drop-shadow(0 0 3px rgba(169,183,202,.18))}
+.sword-anatomy{transition:opacity .9s ease;opacity:.13}
+.sword-live-core{opacity:0;transition:opacity .8s ease}
+[data-view="structure"] .sword-live-core{opacity:.78}
+.sword-wire-measure{opacity:0;transition:opacity .65s ease}
+[data-view="structure"] .sword-wire-measure{opacity:.4}
+.sword-root{transition:opacity .4s}
+.hero-visual[data-reaction="running"] .sword-root{opacity:.15}
+.hero-visual[data-root-hit="true"] .sword-root{opacity:1}
+.hero-visual[data-reaction="running"] .atlas-connections>path{stroke:#8a96aa;opacity:.13}
+.hero-visual[data-reaction="running"] .atlas-node .node-pin{background:var(--ink);border-color:#667282}
+.hero-visual .atlas-node[data-energized="true"] .node-pin{border-color:#c44959;background:#772031}
+.hero-visual .atlas-node[data-impact="true"] .node-pin{background:var(--red);border-color:var(--red);box-shadow:0 0 14px rgba(255,52,76,.7)}
+.hero-visual .atlas-node[data-impact="true"] .node-name{color:var(--paper)}
+.hero-visual .atlas-node[data-arrived="true"] .node-pin{background:var(--red);border-color:var(--red)}
+.atlas-node .node-name,.atlas-node .node-pin{transition:color .3s,background .3s,border-color .3s,box-shadow .5s}
+.reaction-layer,.reaction-effects,.sword-scan,.sword-wire-measure{pointer-events:none}
+.rx-trail{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.rx-spark{stroke:#ff344c;stroke-width:1.05;stroke-linecap:round}
+.hero-atmosphere{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 68% 43%,rgba(170,24,49,.18),transparent 48%)}
+.hero-title-mask{display:inline-block;overflow:clip;vertical-align:top;padding-block:.065em;margin-block:-.065em;line-height:inherit}
+.hero-title-glyph{display:inline-block;will-change:auto}
+.hero h1 .line{overflow:visible}
+.chapter-motion-line{position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,var(--red) 0%,rgba(255,52,76,.3) 58%,transparent 100%);transform:scaleX(0);transform-origin:left;pointer-events:none}
+.section,.prologue,.manifesto,.apply-section,.closing{position:relative}
+.meridian{isolation:isolate}
+.diagram-replay{border:0;background:none;color:#8a97a8;padding:0 0 0 10px;min-height:30px;display:inline-flex;align-items:center;gap:6px;font-size:9px;font-family:var(--sans);letter-spacing:.05em;line-height:1.4}
+.diagram-replay span{font-family:var(--mono);font-size:14px;color:var(--red)}
+.diagram-replay:hover{color:var(--paper)}
+.diagram-replay:disabled{cursor:default;color:var(--faint)}
+.meridian-svg .meridian-node{transform-box:fill-box;transform-origin:center}
+.meridian-controls{position:relative}
+.meridian-controls::after{content:"";position:absolute;bottom:0;left:0;width:calc(100% / var(--step-count,3));height:1px;background:var(--red);opacity:.55;transform:translateX(calc(var(--active-step,0) * 100%));transition:transform .5s var(--motion-ease);pointer-events:none}
+.arsenal-projects{position:relative;isolation:isolate}
+.arsenal-selection-frame{position:absolute;left:0;top:0;pointer-events:none;border:1px solid rgba(255,52,76,.66);z-index:2;box-shadow:inset 0 0 22px rgba(255,52,76,.035);opacity:0;transform-origin:0 0;transition:opacity .2s}
+.arsenal-selection-frame::before,.arsenal-selection-frame::after{content:"";position:absolute;width:6px;height:6px;background:var(--red);box-shadow:0 0 7px rgba(255,52,76,.25)}
+.arsenal-selection-frame::before{top:-1px;left:-1px}.arsenal-selection-frame::after{bottom:-1px;right:-1px}
+.arsenal-detail{position:relative;overflow:clip}
+.arsenal-project{background-image:radial-gradient(ellipse at var(--spot-x,50%) var(--spot-y,50%),rgba(177,189,215,.065),transparent 72%);background-size:100% 100%}
+.arsenal-project .project-glyph{transition:transform .5s var(--motion-ease),color .25s;transform-origin:center}
+.arsenal-project:hover .project-glyph{transform:translateY(-2px) scale(1.08)}
+.arsenal-project.selected .project-glyph{filter:drop-shadow(0 0 5px rgba(255,52,76,.2))}
+.button,.closing-cta{isolation:isolate;overflow:hidden}
+.button::after,.closing-cta::after{content:"";position:absolute;inset:-50% -25%;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.16) 49%,transparent 63%);transform:translateX(-100%);pointer-events:none;z-index:-1;transition:transform .75s var(--motion-ease)}
+.button:hover::after,.button:focus-visible::after,.closing-cta:hover::after,.closing-cta:focus-visible::after{transform:translateX(100%)}
+.role .role-heading{position:relative}
+.role .role-heading::before{content:"";position:absolute;left:0;bottom:-1px;width:100%;height:1px;background:linear-gradient(90deg,var(--red),transparent 75%);transform:scaleX(0);transform-origin:left;transition:transform .65s var(--motion-ease)}
+.role[open] summary::before{transform:scaleX(1)}
+.role .role-detail{animation:none}
+.pact-item{transition:background .35s ease}
+.pact-item:hover{background:linear-gradient(135deg,rgba(255,52,76,.028),transparent 60%)}
+html:not(.enhanced) .atlas-tools,html:not(.enhanced) .atlas-control-note,html:not(.enhanced) .diagram-replay{display:none}
+.motion-off .atlas-stage{transform:none!important}
+.motion-off .hero-title-glyph{transform:none!important;opacity:1!important;filter:none!important}
+.motion-off .chapter-motion-line{transform:none;opacity:.16}
+.motion-off .hero-atmosphere{opacity:0!important}
+.motion-off .reaction-effects,.motion-off .sword-scan{display:none}
+@media(max-width:930px) and (min-width:761px){.atlas-top{right:3%}.atlas-tools{margin-left:auto}.atlas-icon-button{width:32px;height:32px}.atlas-note{gap:7px}.atlas-control-note{font-size:8px}}
+@media(max-width:760px){
+ .atlas-top{top:-22px;left:0;right:0;gap:8px}.atlas-top>span{font-size:6px;letter-spacing:.06em;white-space:nowrap}
+ .atlas-tools{gap:7px}.atlas-icon-button{width:36px;height:36px}.atlas-view{min-height:36px;padding-inline:12px}.atlas-view-switch{height:36px}
+ .hero-visual{margin-top:40px}.atlas-caption{margin-top:-8px}.atlas-note{margin-top:10px;gap:10px;font-size:8px}.atlas-control-note{min-height:36px;font-size:9px}.atlas-note .note-divider{display:none}
+ .diagram-replay{min-height:36px;font-size:10px}.chapter-motion-line{width:75%}
+ [data-view="structure"] .sheath-left{transform:translate(-34px,10px)}[data-view="structure"] .sheath-right{transform:translate(34px,18px)}
+ .atlas-stage.has-pointer{transform:none;will-change:auto}
+}
+@media(max-width:380px){.atlas-top>span{font-size:5px;letter-spacing:0}.atlas-tools{gap:5px}.atlas-icon-button{width:33px;height:36px}.atlas-view{padding-inline:9px}.atlas-node .node-name{font-size:9px}}
+@media(prefers-reduced-motion:reduce){
+ .atlas-stage{transform:none!important}.hero-title-glyph{transform:none!important;opacity:1!important;filter:none!important}.hero-atmosphere,.reaction-effects,.sword-scan{display:none!important}.chapter-motion-line{transform:none;opacity:.16}
+}
+@media print{.atlas-tools,.atlas-control-note,.diagram-replay,.chapter-motion-line,.arsenal-selection-frame,.reaction-effects,.hero-atmosphere{display:none!important}.hero-title-mask{overflow:visible}.hero-title-glyph{transform:none!important;opacity:1!important}}
+
+  
+/* V8 scroll edition — automatic motion, fewer controls, unchanged art direction. */
+.scroll-edition .atlas-stage *,.scroll-edition .meridian *,.scroll-edition .arsenal-browser *{transition:none!important}
+.atlas-node,.atlas-node:hover{cursor:default;color:#8e9bac}
+.atlas-node[data-arrived="true"] .node-name{color:var(--paper)}
+.atlas-auto-label{font-family:var(--serif);font-size:12px;letter-spacing:.2em;color:var(--soft);border:0;padding:0}
+.atlas-auto-label::before{content:"";display:inline-block;width:4px;height:4px;background:var(--red);margin-right:10px;vertical-align:2px}
+.atlas-caption{grid-template-columns:15px 1fr auto}.atlas-caption p{max-width:270px}
+.atlas-note{min-height:18px}
+.meridian-header{min-height:29px}.meridian-controls{border-top-color:rgba(181,193,214,.1)}
+.meridian-controls .meridian-step{cursor:default;padding:9px 3px;font-size:10px;letter-spacing:.08em}
+.meridian-step.current{color:var(--paper)}.meridian-step.current .step-marker{background:var(--red);border-color:var(--red)}
+.meridian-controls::after{height:1px;opacity:.55;transition:none!important}
+.meridian-controls .meridian-step::after{display:none}
+.arsenal-project{display:grid;grid-template-columns:29px minmax(0,1fr);gap:12px 14px;align-content:start;cursor:default;min-height:155px;padding:25px 19px 23px;background-image:none}
+.arsenal-project:hover{background-color:transparent}.arsenal-project:hover .project-glyph{transform:none}
+.arsenal-project.selected{background:linear-gradient(110deg,rgba(255,52,76,.04),rgba(146,169,203,.02))}
+.capability-source:hover{text-decoration:underline;text-underline-offset:5px}.capability-source:focus-visible{outline-offset:5px}
+.project-static-line{grid-column:1 / -1;color:#969eaa;font-family:var(--sans);font-size:11px;line-height:1.9;padding-right:5px}
+.arsenal-detail{min-height:135px}.arsenal-detail-id,.arsenal-detail>p{opacity:var(--detail-enter,1)}
+.arsenal-selection-frame::before,.arsenal-selection-frame::after{width:4px;height:4px;box-shadow:none}
+.arsenal-auto-meta{display:flex;gap:18px;align-items:center}#arsenal-counter{font-family:var(--mono);color:var(--soft);font-size:9px;letter-spacing:.08em}
+.role .role-heading{grid-template-columns:66px 108px 1fr 140px;cursor:default;border-bottom:0;padding-bottom:18px}
+.role .role-detail{display:grid;margin-bottom:2px;padding-top:0;padding-bottom:32px}
+.role .role-alias{color:var(--red)}.role .role-number{color:var(--muted)}
+.role .role-heading::before{display:none}
+.scene-paused *,.scene-paused *::before,.scene-paused *::after,.page-hidden *,.page-hidden *::before,.page-hidden *::after{animation-play-state:paused!important}
+.motion-off .auto-impact,.motion-off .sword-scan{display:none!important}
+.motion-off .meridian-controls::after{opacity:.25}
+@media(min-width:761px) and (max-width:1100px){.role .role-heading{grid-template-columns:42px 73px 1fr 110px}.arsenal-project{padding:24px 16px;gap:12px;min-height:170px}}
+@media(max-width:760px){
+ .hero-visual{margin-top:27px}.atlas-top{top:-16px;left:0;right:0}.atlas-top>span{font-size:7px}.atlas-top .atlas-auto-label{font-size:11px}
+ .atlas-note{margin-top:10px;font-size:8px}.atlas-caption{grid-template-columns:12px 1fr auto}
+ .meridian-header{min-height:25px}.meridian-controls .meridian-step{font-size:10px;min-height:34px}
+ .arsenal-project{grid-template-columns:26px minmax(0,1fr);padding:24px 14px 20px;gap:12px 10px;min-height:159px}
+ .project-static-line{font-size:11px;line-height:1.9;letter-spacing:0}.project-text small{font-size:9px;letter-spacing:0}.project-text strong{font-size:13px}
+ .arsenal-detail{min-height:207px}.arsenal-detail>p{min-height:49px}.arsenal-bottom{gap:15px}.arsenal-auto-meta{gap:12px;font-size:9px}
+ .role .role-heading{grid-template-columns:29px 49px minmax(0,1fr);gap:10px;min-height:75px;padding:22px 0 14px}
+ .role .role-detail{display:grid;margin-left:39px;padding-bottom:25px}.role .role-tag{display:none}
+}
+@media(max-width:380px){.arsenal-project{padding:23px 11px 19px;grid-template-columns:24px minmax(0,1fr);gap:10px 8px}.project-text strong{font-size:12px}.project-static-line{font-size:10px}.arsenal-detail{min-height:213px}}
+@media print{.motion-toggle,.auto-impact,.sword-scan{display:none!important}.project-static-line{color:#444}.role .role-detail{display:grid}.hero-title-glyph{transform:none!important;opacity:1!important}.arsenal-detail{opacity:1}}
+
+/* V9 — three roles, one shared AI Native requirement. No extra controls. */
+.role-common{display:grid;grid-template-columns:minmax(280px,.95fr) minmax(0,1.25fr);gap:42px;align-items:center;margin:0 0 30px;padding:27px 30px;border-left:2px solid var(--red);background:linear-gradient(110deg,rgba(255,52,76,.045),rgba(151,174,205,.016))}
+.role-common-heading .mono{font-size:9px;letter-spacing:.14em;color:var(--muted);margin-bottom:13px}
+.role-common h3{font-family:var(--serif);font-weight:500;font-size:27px;line-height:1.65;letter-spacing:.025em}
+.role-common h3 .red{font-family:var(--mono);font-size:.95em;letter-spacing:-.045em}
+.role-common-copy{font-size:13px;line-height:2.05;color:var(--muted)}
+.role-common-copy strong{display:block;font-weight:400;color:var(--soft);margin-bottom:4px}
+.role-detail strong{color:var(--soft);font-weight:500}
+.roles-section .role-name{font-size:23px;line-height:1.65;letter-spacing:-.025em;font-weight:500}
+.roles-section .role-tag{letter-spacing:.03em}
+@media(min-width:761px) and (max-width:1100px){.role-common{grid-template-columns:1fr 1.2fr;gap:27px;padding:25px}.role-common h3{font-size:23px}.roles-section .role-name{font-size:21px}.roles-section .role-tag{font-size:8px}}
+@media(max-width:760px){.role-common{grid-template-columns:1fr;gap:15px;margin-bottom:20px;padding:23px 20px}.role-common-heading .mono{font-size:8px;margin-bottom:10px}.role-common h3{font-size:24px;line-height:1.7;letter-spacing:0}.role-common-copy{font-size:13px;line-height:2}.role-common-copy strong{margin-bottom:5px}.roles-section .role-name{font-size:17px;letter-spacing:-.025em}.roles-section .role-footnote .mono{font-size:8px;letter-spacing:.07em}}
+@media(max-width:380px){.role-common{padding:22px 17px}.role-common h3{font-size:22px}.roles-section .role-name{font-size:16px}.roles-section .role-footnote .mono{font-size:7px;letter-spacing:.025em}}
+@media print{.role-common{background:none;border:1px solid var(--line-strong);border-left:2px solid var(--red);padding:20px;gap:25px;break-inside:avoid}.role-common h3{font-size:22px}.role-common-copy{font-size:12px}.roles-section .role-name{font-size:20px}}
+/* V10 — 一剑起势，百脉相连。All illustration remains local; no new controls. */
+body{position:relative}
+#page-meridian{position:absolute;left:0;top:0;display:block;width:100%;max-width:none;pointer-events:none;z-index:2;overflow:hidden;contain:strict}
+#page-meridian path,#page-meridian circle{vector-effect:non-scaling-stroke}
+.thread-bed{fill:none;stroke:#8290a3;stroke-width:.7;stroke-opacity:.13}
+.thread-trail{fill:none;stroke:var(--red);stroke-width:1;stroke-opacity:.46;stroke-linejoin:round}
+.thread-branch{fill:none;stroke:#798397;stroke-width:.7;stroke-opacity:.15}
+.thread-tap{fill:var(--ink);stroke:#667081;stroke-width:.8}
+.thread-tap.reached{fill:#3d1722;stroke:#b53348}
+.thread-marker{fill:var(--red)}.thread-aura{fill:#ff344c;fill-opacity:.095}
+.sword-time-echo{fill:none;stroke-width:.8;pointer-events:none;opacity:0}
+.sword-light-response{pointer-events:none;fill:none;opacity:0}
+.spatial-meridian{background:radial-gradient(ellipse at 45% 48%,rgba(110,137,176,.06),transparent 68%);margin-block:3px 23px}
+.spatial-meridian .meridian-svg{width:100%;max-height:none;aspect-ratio:520/334;height:auto;overflow:hidden}
+.spatial-meridian .meridian-header{padding:0 2px;min-height:33px}
+.spatial-meridian .scene-caption{color:#9d6b74;font-family:var(--sans);font-size:9px;letter-spacing:.07em}
+.spatial-meridian .meridian-controls{border-color:rgba(163,181,209,.16)}
+.spatial-plane{fill:#0d121a;fill-opacity:.76;stroke:#92a4bd;stroke-width:.75;stroke-opacity:.52;stroke-linejoin:round}
+.spatial-grid{fill:none;stroke:#7b8ba3;stroke-width:.55;stroke-opacity:.13}
+.spatial-route{fill:none;stroke:#9ba9bf;stroke-width:.95;stroke-opacity:.48;stroke-linejoin:round}
+.spatial-wire{fill:none;stroke:#8193ab;stroke-width:.7;stroke-dasharray:3 5;stroke-opacity:.29}
+.spatial-red{fill:none;stroke:#ff344c;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}
+.spatial-node{fill:#10141d;stroke:#8395ac;stroke-width:.95}
+.spatial-node.lit{fill:#ff344c;stroke:#ff344c}
+.spatial-label{font-family:var(--mono),var(--sans);font-size:10px;letter-spacing:.03em;fill:#93a2b7}
+.spatial-caption{font-family:var(--mono);font-size:8px;letter-spacing:.13em;fill:#677384}
+.spatial-faint{stroke:#92a4bd;stroke-width:.7;fill:none;opacity:.22}
+.spatial-reflection{fill:none;stroke:#e8d6d8;stroke-width:1.45;opacity:0}
+/* Each role keeps all written requirements visible. Visuals are never required to read it. */
+.role-common{position:relative;margin-bottom:0;border-bottom:1px solid rgba(255,52,76,.22)}
+.role-common::after{content:"";position:absolute;left:31px;bottom:-5px;width:8px;height:8px;border:1px solid var(--red);background:var(--ink);transform:rotate(45deg)}
+.role-list{position:relative;border-top:0;padding-top:27px}
+.role-list::before{content:"";position:absolute;left:35px;top:0;bottom:37px;width:1px;background:linear-gradient(#9f2c40,rgba(255,52,76,.17) 75%,transparent);pointer-events:none}
+.role .role-heading{padding-top:29px;padding-bottom:17px;position:relative}
+.role .role-number{background:var(--ink);z-index:1;position:relative;width:43px;min-height:22px;line-height:22px}
+.role-stage-body{display:grid;grid-template-columns:minmax(230px,.72fr) minmax(0,1.55fr);gap:33px;align-items:center;margin:0 0 0 81px;padding:0 0 35px}
+.role .role-stage-body .role-detail{margin:0;padding:0;grid-template-columns:1fr 1fr;gap:27px;font-size:13px;line-height:2.05}
+.role-figure{margin:0;min-width:0;position:relative;padding:9px 0 0;background:radial-gradient(ellipse at center,rgba(121,145,181,.048),transparent 68%)}
+.role-figure::before{content:"";position:absolute;left:-46px;top:50%;width:34px;height:1px;background:rgba(255,52,76,.25)}
+.role-figure svg{display:block;width:100%;height:auto;aspect-ratio:360/186;max-height:190px;overflow:visible}
+.role-figure figcaption{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 0 0;font-size:8px;line-height:1.6;color:#7c899b;font-family:var(--mono),var(--sans);letter-spacing:.075em}
+.role-figure .role-phase{color:#ac8290;letter-spacing:.04em;font-family:var(--sans)}
+.role-shape{stroke:#9cabc2;stroke-width:1;fill:#10151e;fill-opacity:.9;stroke-linejoin:round}
+.role-subtle{fill:none;stroke:#7c8da5;stroke-width:.7;stroke-opacity:.25}
+.role-track{fill:none;stroke:#8c9ab1;stroke-width:.8;stroke-opacity:.36;stroke-linejoin:round}
+.role-path{fill:none;stroke:#ff344c;stroke-width:1.2;stroke-linejoin:round;stroke-linecap:round}
+.role-label{fill:#7f8d9f;font-size:9px;letter-spacing:.04em;font-family:var(--mono),var(--sans)}
+.role-gold{stroke:#e9d0d5;fill:none;stroke-width:1.2}
+.slot-figure{max-width:460px;margin:33px 0 0;position:relative}
+.slot-figure svg{width:100%;height:auto;aspect-ratio:460/135}
+.slot-figure figcaption{font-family:var(--serif);font-size:14px;letter-spacing:.1em;color:var(--soft);margin-top:7px}
+.slot-caption{font-family:var(--mono);font-size:8px;letter-spacing:.15em;fill:#6c788b}
+.slot-outline{fill:none;stroke:#afbbc9;stroke-width:1.1;stroke-linejoin:round}
+.slot-vacancy{fill:none;stroke:#ff344c;stroke-width:1.25;stroke-linejoin:round}
+.motion-off #page-meridian{opacity:.48}.motion-off .thread-marker,.motion-off .thread-aura{display:none}
+.motion-off .sword-time-echo,.motion-off .sword-light-response{display:none}
+@media(min-width:761px) and (max-width:1100px){
+ .role-stage-body{margin-left:55px;grid-template-columns:minmax(200px,.8fr) minmax(0,1.3fr);gap:25px}
+ .role .role-stage-body .role-detail{grid-template-columns:1fr;gap:15px}.role-list::before{left:22px}.role-common::after{left:18px}.role-figure::before{left:-33px;width:23px}
+}
+@media(max-width:760px){
+ #page-meridian{opacity:.8}
+ .spatial-meridian .meridian-svg{aspect-ratio:520/334;max-height:none}
+ .spatial-meridian .meridian-header{font-size:8px}.spatial-meridian .scene-caption{font-size:8px}
+ .role-list{padding-top:18px}.role-list::before{left:13px;bottom:44px}
+ .role-common::after{left:9px}
+ .role .role-heading{padding-top:26px;padding-bottom:12px}
+ .role .role-number{width:27px}
+ .role-stage-body{display:flex;flex-direction:column;gap:19px;align-items:stretch;margin-left:39px;padding-bottom:29px}
+ .role .role-stage-body .role-detail{display:grid;grid-template-columns:1fr;gap:16px;font-size:13px;line-height:2}
+ .role-figure{padding:1px 0 0}.role-figure svg{max-height:174px}.role-figure figcaption{font-size:7px;margin-top:0}
+ .role-figure::before{left:-26px;width:17px}
+ .slot-figure{margin-top:27px}.slot-figure figcaption{font-size:13px;letter-spacing:.07em}
+}
+@media(max-width:380px){.role-stage-body{margin-left:33px}.role-figure::before{left:-20px;width:13px}.role-figure svg{max-height:160px}.slot-figure figcaption{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.thread-marker,.thread-aura,.sword-time-echo,.sword-light-response{display:none!important}}
+@media print{#page-meridian,.sword-time-echo,.sword-light-response{display:none!important}.spatial-meridian,.role-figure{background:none}.role-stage-body{display:block}.role-figure{max-width:270px;break-inside:avoid}.role-list::before,.role-common::after,.role-figure::before{display:none}.slot-figure{break-inside:avoid}}
+
+
+/* V11 — 文案适配；图形与滚动动效保持 V10。 */
+.mindset-body p+p{margin-top:12px}
+.arsenal-invitation{margin:-3px 0 25px;color:var(--muted);font-size:13px;line-height:2}
+.slot-figure figcaption{line-height:1.95}
+.slot-figure figcaption strong{font-weight:500;color:var(--paper)}
+@media(max-width:760px){.arsenal-invitation{font-size:12px;margin:-2px 0 21px}.mindset-body p+p{margin-top:10px}}
+
+/* V12 — 文案收敛与简历入口；不改变图形或动效时序。 */
+.duel-conclusion{display:block;padding-top:25px;padding-bottom:28px}
+.duel-quote{font-size:23px}
+.duel-quote br{display:none}.duel-quote span{margin-left:.6em}
+.practice-section .mindset-body p{line-height:2.1}
+.apply-copy h2{font-size:clamp(35px,3.9vw,56px);line-height:1.5;letter-spacing:.005em}
+.proof-preview{min-height:142px}
+.apply-section .proof-box{align-self:start}
+.resume-field{padding-top:3px}
+.field .resume-choice{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--soft);margin:10px 0 0;line-height:1.7;cursor:pointer;letter-spacing:0}
+.resume-choice input{width:15px;height:15px;min-height:15px;padding:0;margin:0;flex:0 0 15px;accent-color:var(--red)}
+#app-resume:disabled{opacity:.4;cursor:not-allowed}
+#resume-hint{font-size:11px;color:var(--muted);line-height:1.8;margin:7px 0 0}
+@media(max-width:760px){
+ .duel-quote{font-size:20px;line-height:1.7}.duel-conclusion{padding:23px 0 25px}
+ .apply-copy h2{font-size:clamp(32px,9.4vw,42px)}
+ .proof-preview{min-height:134px}
+ .field .resume-choice{min-height:32px}.resume-choice input{width:17px;height:17px;flex-basis:17px}
+}
+@media(max-width:380px){.duel-quote{font-size:18px}.duel-quote span{margin-left:.3em}}
+@media print{.apply-copy h2{font-size:32px}}
+
+/* V13 — 以具体工作与长期投入为主；仅调整短文案的字距和留白。 */
+.hero-kicker{letter-spacing:.1em}
+.manifesto-title{font-family:var(--serif);font-size:clamp(28px,3.2vw,46px);line-height:1.65;letter-spacing:.015em;font-weight:500}
+.manifesto .asked{padding-top:0;align-self:center}
+@media(max-width:760px){.manifesto-title{font-size:29px;line-height:1.65}.hero-kicker{letter-spacing:.06em}}
+@media(max-width:380px){.manifesto-title{font-size:26px}.hero-kicker{font-size:9px;letter-spacing:.025em}}
+@media print{.manifesto-title{font-size:28px}}
+
+/* V15 — 04 / 论道。双向交流，而非指定作品格式；无新增演示按钮。 */
+.dialogue-section{gap:clamp(36px,5.3vw,80px);align-items:start}
+.dialogue-section .apply-copy h2{font-size:clamp(38px,3.9vw,56px);line-height:1.5;letter-spacing:.015em}
+.dialogue-section .apply-copy>p{font-size:14px;line-height:2.05;margin-top:23px;max-width:490px}
+.conversation-figure{margin:29px 0 0;max-width:520px;width:100%;position:relative}
+.conversation-figure svg{display:block;width:100%;height:auto;aspect-ratio:520/230;overflow:visible}
+.conversation-figure figcaption{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:5px 0 0;font-size:12px;color:var(--soft);line-height:1.9}
+.conversation-phase{font-size:10px;color:#9a7480;letter-spacing:.04em}
+.conversation-bed{fill:none;stroke:#8f9cb1;stroke-opacity:.23;stroke-width:.8;stroke-linejoin:round}
+.conversation-guide{fill:none;stroke:#7d8796;stroke-opacity:.12;stroke-width:.6;stroke-dasharray:2 6}
+.conversation-label{font-family:var(--sans);font-size:13px;fill:#a8acb6;letter-spacing:.06em}
+.conversation-word{font-family:var(--serif);font-size:14px;fill:var(--paper);text-anchor:middle}
+.conversation-figure .conversation-node{fill:#0d1117;stroke:#8d99a9;stroke-width:1}
+.conversation-frame{fill:rgba(20,24,32,.25);stroke:#b1a4aa;stroke-opacity:.28;stroke-width:.75}
+.discussion-box{border:1px solid var(--line-strong);background:linear-gradient(140deg,rgba(255,255,255,.018),transparent 66%);padding:28px 30px 26px;position:relative;min-width:0}
+.discussion-box::before,.discussion-box::after{content:"";position:absolute;width:7px;height:7px;border-color:var(--red);border-style:solid;pointer-events:none}
+.discussion-box::before{top:-1px;left:-1px;border-width:1px 0 0 1px}.discussion-box::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0}
+.discussion-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;color:var(--muted);font-size:10px;letter-spacing:.12em;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.discussion-heading .mono{font-size:9px;letter-spacing:.1em}
+.discussion-item{display:grid;grid-template-columns:28px 1fr;gap:17px;padding:21px 0 22px;border-bottom:1px solid var(--line)}
+.discussion-number{font-family:var(--mono);font-size:10px;line-height:30px;color:var(--muted);position:relative}
+.discussion-number::before{content:"";position:absolute;width:4px;height:4px;left:0;top:37px;background:var(--red);opacity:0;transform:rotate(45deg)}
+.discussion-item.current .discussion-number{color:var(--red)}.discussion-item.current .discussion-number::before{opacity:.85}
+.discussion-item h3{font-family:var(--serif);font-size:24px;line-height:1.5;letter-spacing:.02em;color:var(--paper)}
+.discussion-item p{font-size:13px;line-height:1.95;color:var(--soft);margin-top:8px}
+.discussion-action{padding-top:22px}.discussion-action>p{font-size:13px;line-height:1.95;color:var(--paper);margin-bottom:19px}
+.discussion-action>p span{color:var(--muted);font-size:12px}.discussion-action .button{width:100%}
+.discussion-action>p.discussion-note{font-size:10px;line-height:1.8;color:var(--muted);margin:14px 0 0}
+@media(max-width:1100px){.discussion-box{padding:24px}.discussion-item{gap:12px;grid-template-columns:24px 1fr}.discussion-item h3{font-size:22px}.conversation-phase{font-size:9px}.conversation-figure figcaption{font-size:11px}}
+@media(max-width:760px){
+ .dialogue-section{gap:33px;padding-top:62px;padding-bottom:60px}
+ .dialogue-section .apply-copy h2{font-size:clamp(34px,9.5vw,43px);line-height:1.5;letter-spacing:0}
+ .dialogue-section .apply-copy>p{font-size:13px;line-height:2.1;margin-top:18px}
+ .conversation-figure{margin-top:19px;max-width:none}.conversation-figure figcaption{margin-top:4px;font-size:11px}.conversation-phase{font-size:9px}
+ .discussion-box{padding:22px}.discussion-heading{font-size:9px;padding-bottom:18px}.discussion-heading .mono{font-size:8px}
+ .discussion-item{padding:20px 0;grid-template-columns:23px 1fr;gap:12px}.discussion-item h3{font-size:22px}.discussion-item p{font-size:13px;margin-top:7px;line-height:1.95}
+ .discussion-action{padding-top:20px}.discussion-action>p{font-size:13px;margin-bottom:17px}.discussion-action>p span{font-size:12px}.discussion-action>p.discussion-note{font-size:10px}
+}
+@media(max-width:380px){.dialogue-section .apply-copy h2{font-size:33px}.discussion-box{padding:20px 18px}.discussion-item{gap:10px;grid-template-columns:20px 1fr}.discussion-item h3{font-size:21px}.conversation-figure figcaption{font-size:10px}.conversation-phase{font-size:8px}}
+@media print{.dialogue-section{display:block;break-inside:auto}.discussion-box{margin-top:22px;break-inside:avoid}.discussion-action .button,.conversation-figure{display:none!important}.dialogue-section .apply-copy h2{font-size:32px}.discussion-item.current .discussion-number{color:inherit}}
+
+
+/* V16 — 此间江湖。文字换景，图形与可见时间轴不变。 */
+.cyber-hero h1{letter-spacing:.055em;line-height:1.17}
+.cyber-hero h1 .line+.line{margin-top:5px}
+.cyber-hero .hero-intro{letter-spacing:.16em}
+#pact-title{letter-spacing:.065em}
+.arsenal-heading h2{line-height:1.55}
+.conversation-figure figcaption{align-items:flex-end;line-height:1.9}
+@media(max-width:760px){
+  .cyber-hero h1{letter-spacing:.06em;line-height:1.17}
+  .cyber-hero .hero-intro{letter-spacing:.13em}
+  .conversation-figure figcaption{gap:10px}
+}
+@media print{.cyber-hero h1{font-size:64px;letter-spacing:.04em}}
+</style>
+</head>
+<body>
+<svg id="page-meridian" aria-hidden="true" focusable="false"></svg>
+<a class="skip" href="#main">跳转到正文</a>
+<div aria-hidden="true" class="progress" id="reading-progress"></div>
+<header class="site-header" id="top">
+<div class="wrap header-inner">
+<a aria-label="ChainReactors 招募帖首页" class="wordmark" href="#top">
+<span aria-hidden="true" class="brand-signal"></span>
+<span class="name">CHAIN<span>REACTORS</span></span>
+<span class="brand-caption">招 募 帖</span>
+</a>
+<nav aria-label="页面章节" class="main-nav">
+<a href="#world">江湖</a><a href="#practice">内外功</a><a href="#arsenal">开源</a><a href="#roles">岗位</a><a href="#pact">明约</a>
+</nav>
+<div class="header-action">
+<span class="status"><i aria-hidden="true"></i>RECRUITING</span>
+<a class="text-link" href="#apply">参与招募 <span aria-hidden="true" class="arrow">↗</span></a>
+</div>
+</div>
+</header>
+<main id="main">
+<section aria-labelledby="hero-title" class="hero cyber-hero">
+<div aria-hidden="true" class="hero-ruler"></div>
+<div aria-hidden="true" class="hero-atmosphere"></div>
+<div class="wrap">
+<div class="hero-topline"><span class="eyebrow"><span class="index">招 / 001</span><span class="cn">寻找同行</span></span><span class="edition">AI NATIVE × SECURITY</span></div>
+<div class="hero-copy">
+<p class="hero-kicker">AI 原生攻防安全 · 招募</p>
+<h1 id="hero-title" aria-label="此间江湖"><span class="line">此间</span><span class="line">江湖</span></h1>
+<p class="hero-intro">万千推演，<br/><strong>仍有未解。</strong></p>
+<div class="hero-actions"><a class="button" href="#apply">参与招募 <span aria-hidden="true" class="arrow">↗</span></a><p class="aside">不设学历门槛<br/>实习 / 全职 · 杭州余杭</p></div>
+<a class="hero-source" href="#arsenal"><span aria-hidden="true" class="tiny-chain">·—·—</span> 开源工具 <span aria-hidden="true" class="source-rule"></span> 方法也公开 <span aria-hidden="true">↘</span></a>
+</div>
+<div aria-label="剑与开源图谱，概念展示，不表示项目依赖" class="hero-visual" data-active="harness" data-view="sealed" id="hero-atlas" role="group">
+<div class="atlas-stage"><div class="atlas-top"><span>OPEN-SOURCE ATLAS</span><span aria-hidden="true" class="atlas-auto-label"><span id="atlas-auto-state">藏锋</span></span></div>
+<svg aria-hidden="true" class="atlas-svg" fill="none" viewbox="0 0 780 820" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<clippath id="v7leftShell"><rect height="550" width="80" x="-80" y="0"></rect></clippath>
+<clippath id="v7rightShell"><rect height="550" width="80" x="0" y="0"></rect></clippath>
+<radialgradient id="v7pressure"><stop stop-color="#ff344c" stop-opacity=".5"></stop><stop offset=".2" stop-color="#ff344c" stop-opacity=".24"></stop><stop offset="1" stop-color="#ff344c" stop-opacity="0"></stop></radialgradient>
+<lineargradient id="v7scan" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#ff344c" stop-opacity="0"></stop><stop offset="1" stop-color="#ff344c" stop-opacity=".16"></stop></lineargradient>
+<lineargradient gradientunits="userSpaceOnUse" id="v6metal" x1="-30" x2="30"><stop stop-color="#080b10"></stop><stop offset=".2" stop-color="#2d3038"></stop><stop offset=".39" stop-color="#55545b"></stop><stop offset=".43" stop-color="#15181e"></stop><stop offset=".82" stop-color="#0d1117"></stop><stop offset="1" stop-color="#3d3f49"></stop></lineargradient>
+<lineargradient gradientunits="userSpaceOnUse" id="v6face" x1="-22" x2="9" y1="20" y2="545"><stop stop-color="#363b44"></stop><stop offset=".36" stop-color="#1c212b"></stop><stop offset=".7" stop-color="#0c1017"></stop><stop offset="1" stop-color="#24141b"></stop></lineargradient>
+<lineargradient gradientunits="userSpaceOnUse" id="v6edge" x1="0" x2="0" y1="-185" y2="565"><stop stop-color="#d0cdc5" stop-opacity=".75"></stop><stop offset=".27" stop-color="#a7b2c3" stop-opacity=".38"></stop><stop offset=".47" stop-color="#ad8791" stop-opacity=".32"></stop><stop offset=".76" stop-color="#ff344c" stop-opacity=".9"></stop><stop offset="1" stop-color="#ff344c" stop-opacity=".15"></stop></lineargradient>
+<lineargradient gradientunits="userSpaceOnUse" id="v6guard" x1="-60" x2="55"><stop stop-color="#0e1218"></stop><stop offset=".45" stop-color="#42434a"></stop><stop offset=".55" stop-color="#26272e"></stop><stop offset="1" stop-color="#0a0d12"></stop></lineargradient>
+<radialgradient id="v6haze"><stop stop-color="#a72a42" stop-opacity=".12"></stop><stop offset="1" stop-color="#a72a42" stop-opacity="0"></stop></radialgradient>
+<radialgradient id="v6silver"><stop stop-color="#a1b4ca" stop-opacity=".045"></stop><stop offset="1" stop-color="#a1b4ca" stop-opacity="0"></stop></radialgradient>
+<pattern height="48" id="v6grid" patternunits="userSpaceOnUse" width="48"><path d="M48 0H0V48" stroke="#b6c1d3" stroke-opacity=".038" stroke-width=".7"></path><circle cx="0" cy="0" fill="#b6c1d3" fill-opacity=".13" r="1"></circle></pattern>
+<mask id="v6fade"><rect fill="black" height="820" width="780"></rect><ellipse cx="446" cy="403" fill="white" rx="325" ry="355"></ellipse></mask>
+<filter height="900%" id="v6glow" width="300%" x="-100%" y="-400%"><fegaussianblur stddeviation="6"></fegaussianblur></filter>
+</defs>
+<ellipse cx="407" cy="429" fill="url(#v6haze)" rx="320" ry="340"></ellipse>
+<ellipse cx="472" cy="227" fill="url(#v6silver)" rx="270" ry="265"></ellipse>
+<rect fill="url(#v6grid)" height="640" mask="url(#v6fade)" width="640" x="74" y="66"></rect>
+<g class="atlas-guides" stroke="#aab7ca" stroke-width=".7">
+<path d="M119 78v44m0 487v44m580-575v44m0 487v44M97 100h44m536 0h44M97 631h44m536 0h44" opacity=".18"></path>
+<path d="M414 132 414 631M118 343h548" opacity=".055" stroke-dasharray="3 9"></path>
+<path d="M586 322a205 205 0 0 1-14 215" opacity=".14"></path><path d="M595 316a218 218 0 0 1-15 228" opacity=".1" stroke-dasharray="1 8"></path>
+<path d="m570 551 10-7 5 11" opacity=".3"></path>
+</g>
+<g class="atlas-connections" stroke="#8a96aa" stroke-linejoin="round" stroke-width="1">
+<path d="M455 278H382L322 338H204" data-branch="harness" id="atlas-path-harness"></path>
+<path d="M455 278H566L619 331H674" data-branch="cstx" id="atlas-path-cstx"></path>
+<path d="M455 278V220L521 154H652" data-branch="ioa" id="atlas-path-ioa"></path>
+<path d="M455 278V415L532 492H632" data-branch="gogo" id="atlas-path-gogo"></path>
+<path class="atlas-unselected-branch" d="M322 338v100l-44 44h-58M532 492v97h97M521 154V108h56" stroke-dasharray="3 5"></path>
+</g>
+<g class="atlas-terminal" opacity=".3" stroke="#7f899b"><path d="M218 478v8m-4-4h8M627 585v8m-4-4h8M575 104v8m-4-4h8"></path></g>
+<g class="sword-body" transform="translate(455 265) rotate(23)">
+<g class="sword-anatomy" stroke="#a9b7ca" stroke-width=".65">
+<path d="M-37-199h73V443L2 563l-37-120Z" stroke-dasharray="2 6"></path>
+<path d="M-12-182H12V439L0 510-12 439ZM-8-182 0-198 8-182M0-193V510"></path>
+<path d="M-12 77h24m-24 10h24m-24 52h24m-24 10h24m-24 52h24m-24 10h24m-24 52h24m-24 10h24m-24 52h24m-24 10h24m-24 52h24m-24 10h24"></path>
+<path d="M-8 25v24l16 16v70l-16 16v107l16 16v61l-8 8v97" stroke="#ff344c"></path>
+<path d="M-46 182h92m-92 152h92" stroke-dasharray="2 5"></path>
+</g>
+<g class="sword-live-core" fill="none">
+<path d="M-10 19H10L7 442 0 518-7 442Z" fill="#b0bacc" fill-opacity=".09" stroke="#b3baca" stroke-width=".8"></path>
+<path d="M0 24V506M-7 84H7M-7 145H7M-7 206H7M-7 267H7M-7 328H7M-7 389H7" stroke="#ff344c" stroke-opacity=".7" stroke-width=".7"></path>
+</g>
+<g class="sword-wire-measure" stroke="#afbdd0" stroke-dasharray="2 5" stroke-width=".6">
+<path d="M-58 56H58M-58 173H58M-58 347H58M-58 438H58M0-38V-66"></path>
+</g>
+<g class="sword-surface">
+<g class="sword-hilt"><path d="M-17-185H17L21-34H-21Z" fill="url(#v6metal)" stroke="#afafba" stroke-opacity=".37" stroke-width=".65"></path><path d="M-17-181-12-193H12L17-181Z" fill="url(#v6guard)" stroke="#a4a4af" stroke-opacity=".5" stroke-width=".6"></path><path d="M-16-168 17-153-18-137 18-121-19-105 19-88-20-72 20-54" stroke="#090d12" stroke-width="6"></path><path d="M17-166-17-151 18-135-18-120 19-104-19-87 20-71-20-55" stroke="#91a0b0" stroke-opacity=".22" stroke-width="1"></path><path d="M-10-172V-45" stroke="#aaa9b5" stroke-opacity=".26" stroke-width=".6"></path><path d="M-21-37H21V-19H-21Z" fill="#12171f" stroke="#9398a7" stroke-opacity=".4" stroke-width=".6"></path><path d="M-59-20H49L59-10 48-2H-57L-64-11Z" fill="url(#v6guard)" stroke="#abb3c1" stroke-opacity=".4" stroke-width=".7"></path><path d="M-54-18H44M-55-6H46" stroke="#9ca5b5" stroke-opacity=".34" stroke-width=".7"></path><path d="M-22-1H22V20H-22Z" fill="#29212b"></path></g>
+<g class="sheath-left"><g clip-path="url(#v7leftShell)"><path d="M-25 20H25L21 150 15 175 20 192 13 432 3 502-8 539-23 446-26 194-17 172-26 151Z" fill="url(#v6metal)" stroke="url(#v6edge)" stroke-width=".9"></path><path d="M-25 20H-3L-5 150-10 173-5 193-8 504-8 539-23 446-26 194-17 172-26 151Z" fill="url(#v6face)"></path><path d="M-23 56H23M-23 61H23M-23 347H16M-23 354H16" stroke="#818c9e" stroke-opacity=".28" stroke-width=".65"></path><path d="M21 20 17 149 11 174 16 196 9 430 1 500-8 539" stroke="url(#v6edge)" stroke-width="1.1"></path><path d="M-24 148 20 149M-25 194 20 194" stroke="#9ea5b6" stroke-opacity=".34" stroke-width=".8"></path><path d="M-17 154H13L9 175 13 188H-18L-10 173Z" fill="#080c12" stroke="#778798" stroke-opacity=".4" stroke-width=".6"></path><path d="M-10 159H7v25H-10Zm2 4H5m-13 5H5m-13 5H5m-13 5H5" stroke="#ff344c" stroke-opacity=".6" stroke-width=".7"></path><path d="M-17 217v35m4-33v16m0 7v15m-4 10v13" stroke="#9aa8b7" stroke-opacity=".25" stroke-width=".65"></path><path d="M-18 408H9L4 443-5 476-15 440Z" stroke="#9aa8b7" stroke-opacity=".22" stroke-width=".65"></path><path d="M-25 20H25" filter="url(#v6glow)" opacity=".45" stroke="#ff344c" stroke-width="6"></path><path d="M-25 20H25" stroke="#ff344c" stroke-width="1.9"></path><path d="M-19 19.4H10" stroke="#ffc3c3" stroke-opacity=".85" stroke-width=".5"></path></g></g>
+<g class="sheath-right"><g clip-path="url(#v7rightShell)"><path d="M-25 20H25L21 150 15 175 20 192 13 432 3 502-8 539-23 446-26 194-17 172-26 151Z" fill="url(#v6metal)" stroke="url(#v6edge)" stroke-width=".9"></path><path d="M-25 20H-3L-5 150-10 173-5 193-8 504-8 539-23 446-26 194-17 172-26 151Z" fill="url(#v6face)"></path><path d="M-23 56H23M-23 61H23M-23 347H16M-23 354H16" stroke="#818c9e" stroke-opacity=".28" stroke-width=".65"></path><path d="M21 20 17 149 11 174 16 196 9 430 1 500-8 539" stroke="url(#v6edge)" stroke-width="1.1"></path><path d="M-24 148 20 149M-25 194 20 194" stroke="#9ea5b6" stroke-opacity=".34" stroke-width=".8"></path><path d="M-17 154H13L9 175 13 188H-18L-10 173Z" fill="#080c12" stroke="#778798" stroke-opacity=".4" stroke-width=".6"></path><path d="M-10 159H7v25H-10Zm2 4H5m-13 5H5m-13 5H5m-13 5H5" stroke="#ff344c" stroke-opacity=".6" stroke-width=".7"></path><path d="M-17 217v35m4-33v16m0 7v15m-4 10v13" stroke="#9aa8b7" stroke-opacity=".25" stroke-width=".65"></path><path d="M-18 408H9L4 443-5 476-15 440Z" stroke="#9aa8b7" stroke-opacity=".22" stroke-width=".65"></path><path d="M-25 20H25" filter="url(#v6glow)" opacity=".45" stroke="#ff344c" stroke-width="6"></path><path d="M-25 20H25" stroke="#ff344c" stroke-width="1.9"></path><path d="M-19 19.4H10" stroke="#ffc3c3" stroke-opacity=".85" stroke-width=".5"></path></g></g>
+</g>
+<g class="sword-section" fill="none" stroke="#a3b2c5" stroke-width=".75">
+<path d="m39 148 11 6-6 21 6 19-11 6M-40 148l-11 6 6 21-6 19 11 6" opacity=".6"></path>
+<path d="M25 154h25M20 192h30M-25 154h-26M-25 192h-26" opacity=".28" stroke-dasharray="2 4"></path>
+<path d="m52 149 14 6-5 20 5 20-14 6" opacity=".3"></path>
+<path d="M65 175h77l20-20h43" opacity=".35"></path>
+</g>
+</g>
+<g class="sword-root">
+<path d="M455 278h-29m29 0h28" stroke="#ff344c" stroke-opacity=".65" stroke-width="1"></path>
+<circle cx="455" cy="278" fill="#ff344c" r="3"></circle>
+<circle cx="455" cy="278" r="8" stroke="#ff344c" stroke-opacity=".3" stroke-width=".75"></circle>
+</g>
+<circle class="atlas-pulse" fill="#ff5264" opacity="0" r="2.5"></circle>
+<g fill="#7f8d9f" font-family="monospace" font-size="8" letter-spacing="1.5">
+<text opacity=".6" x="326" y="104">FORM / 01</text><text opacity=".55" x="452" y="459">SECTION A—A</text>
+<text opacity=".45" x="92" y="585">BUILD IN THE OPEN</text>
+</g>
+<path d="M105 687H286l27-27h88" opacity=".2" stroke="#718093" stroke-width=".7"></path>
+</svg>
+<span aria-hidden="true" class="atlas-node node-harness" data-project="harness"><span aria-hidden="true" class="node-pin"></span><span class="node-name">Harness</span><small>AGENT FRAMEWORK</small></span>
+<span aria-hidden="true" class="atlas-node node-cstx" data-project="cstx"><span aria-hidden="true" class="node-pin"></span><span class="node-name">图谱引擎</span><small>TOPOLOGY</small></span>
+<span aria-hidden="true" class="atlas-node node-ioa" data-project="ioa"><span aria-hidden="true" class="node-pin"></span><span class="node-name">协作协议</span><small>COLLABORATION</small></span>
+<span aria-hidden="true" class="atlas-node node-gogo" data-project="gogo"><span aria-hidden="true" class="node-pin"></span><span class="node-name">扫描器</span><small>DISCOVERY</small></span>
+<p class="atlas-vertical">藏锋于鞘 · 蓄势于内</p><span aria-hidden="true" class="atlas-seal">内外<br/>兼修</span></div>
+<div class="atlas-caption"><span aria-hidden="true" class="atlas-caption-index">↳</span><div><span class="mono" id="atlas-project-name">小核心 · 可组合</span><p id="atlas-project-line">连接模型、工具与反馈，让能力发生连锁。</p></div><a aria-label="查看开源生态（在新标签页打开）" href="https://github.com/chainreactors" id="atlas-source" rel="noopener noreferrer" target="_blank">开源 <span aria-hidden="true">↗</span></a></div>
+<div class="atlas-note">能力图谱 · 概念表达，非依赖关系</div>
+</div>
+<div class="hero-bottom"><p class="company">CHAINREACTORS<br/>AI 原生攻防安全公司</p><a aria-label="向下阅读招募帖" class="scroll-cue" href="#world">SCROLL TO ENTER <span aria-hidden="true" class="scroll-line"></span></a></div>
+<div aria-hidden="true" class="hero-bottomline"></div>
+</div>
+</section>
+<div class="wrap">
+<section aria-labelledby="world-title" class="prologue" id="world">
+<div class="reveal">
+<p class="eyebrow"><span class="index">序</span><span class="cn">江湖 / THE WORK</span></p>
+<h2 id="world-title"><span class="dim">让推演</span><br/>成为现实。</h2>
+</div>
+<div class="prologue-copy reveal">
+<p>我们做 AI 原生攻防安全。<br/>从模型与人的推演，到可验证、可交付的能力。</p>
+<p>用研究理解边界，用工程让新的可能进入真实工作。</p>
+<div class="ambition"><i aria-hidden="true"></i><span>目标：AI 原生攻防安全领域的第一名。</span></div>
+</div>
+</section>
+</div>
+<div class="principle-strip"><div class="wrap principle-strip-inner"><span class="mono strip-label">CHAINREACTORS / DESIGN ETHOS</span><div><span>小核心</span><i aria-hidden="true"></i><span>可组合</span><i aria-hidden="true"></i><span>可验证</span><i aria-hidden="true"></i><span>开放协作</span></div><a href="https://github.com/chainreactors" rel="noopener noreferrer" target="_blank">GITHUB <span aria-hidden="true">↗</span></a></div></div>
+<div class="wrap">
+<section aria-labelledby="practice-title" class="section practice-section" id="practice">
+<div class="section-head reveal">
+<div><p class="eyebrow"><span class="index">01</span><span class="cn">内外功 / THE PRACTICE</span></p><h2 id="practice-title">根基在内，<br/>锋芒有据。</h2></div>
+<p class="section-aside">知其如何成立，<br/>也知其何处失效。</p>
+</div>
+<div class="skill-duel reveal">
+<article aria-labelledby="internal-title" class="skill-panel internal-panel">
+<p class="skill-meta"><span class="sword-no">INTERNAL / 01</span><span>不可见之力</span></p>
+<div class="skill-main"><h3 class="skill-character" id="internal-title">内功</h3><p class="skill-title">理解系统。<small>THE ROOT</small></p></div>
+<p class="skill-definition">计算机的理论基础<br/>技术哲学 · 架构设计能力</p>
+<div aria-label="内功结构概念图" class="meridian spatial-meridian" data-mode="internal" data-step="0" role="group">
+<div class="meridian-header"><span>结构 / STRUCTURE</span><span class="scene-caption">立其本</span></div>
+<svg aria-hidden="true" class="meridian-svg" fill="none" viewBox="0 0 520 334"><path d="M61 190 283 238 463 149 241 103Z M61 163 283 211 463 122 241 76Z M61 136 283 184 463 95 241 49Z" fill="#0d121a" stroke="#8fa1ba" stroke-opacity=".5" stroke-width=".8"></path><path d="M137 177 224 196 280 168V137L346 104" fill="none" stroke="#ff344c" stroke-width="1.3"></path></svg>
+<div aria-label="结构层次" class="meridian-controls" style="--step-count:3"><span class="meridian-step" data-step="0"><span aria-hidden="true" class="step-marker"></span>理论</span><span class="meridian-step" data-step="1"><span aria-hidden="true" class="step-marker"></span>抽象</span><span class="meridian-step" data-step="2"><span aria-hidden="true" class="step-marker"></span>架构</span></div></div>
+<dl class="discipline-list">
+<div><dt><span>01</span>理论基础</dt><dd>操作系统、网络协议、编译原理、数据结构、内存与并发。从现象追到机制。</dd></div>
+<div><dt><span>02</span>技术哲学</dt><dd>理解抽象与边界，讲清技术假设、选择与代价。</dd></div>
+<div><dt><span>03</span>架构设计</dt><dd>理清约束、接口与取舍，考虑失败方式，设计可靠、可演进的系统。</dd></div>
+</dl>
+
+</article>
+<div aria-hidden="true" class="duel-seal">兼修</div>
+<article aria-labelledby="external-title" class="skill-panel external-panel">
+<p class="skill-meta"><span class="sword-no">EXTERNAL / 02</span><span>可见之锋</span></p>
+<div class="skill-main"><h3 class="skill-character" id="external-title">外功</h3><p class="skill-title">验证判断。<small>THE EDGE</small></p></div>
+<p class="skill-definition">黑客技术 · 安全技术<br/><span>审计、分析、验证与工具化</span></p>
+<div aria-label="外功研究轨迹概念图" class="meridian spatial-meridian" data-mode="external" data-step="0" role="group">
+<div class="meridian-header"><span>轨迹 / TRACE</span><span class="scene-caption">见其真</span></div>
+<svg aria-hidden="true" class="meridian-svg" fill="none" viewBox="0 0 520 334"><path d="M61 190 283 238 463 149 241 103Z M61 163 283 211 463 122 241 76Z M61 136 283 184 463 95 241 49Z" fill="#0d121a" stroke="#8fa1ba" stroke-opacity=".5" stroke-width=".8"></path><path d="M137 177 224 196 280 168V137L346 104" fill="none" stroke="#ff344c" stroke-width="1.3"></path></svg>
+<div aria-label="研究阶段" class="meridian-controls" style="--step-count:4"><span class="meridian-step" data-step="0"><span aria-hidden="true" class="step-marker"></span>问题</span><span class="meridian-step" data-step="1"><span aria-hidden="true" class="step-marker"></span>假设</span><span class="meridian-step" data-step="2"><span aria-hidden="true" class="step-marker"></span>验证</span><span class="meridian-step" data-step="3"><span aria-hidden="true" class="step-marker"></span>证据</span></div></div>
+<dl class="discipline-list">
+<div><dt><span>01</span>审计与分析</dt><dd>代码审计、逆向与协议分析，找到决定结果的边界。</dd></div>
+<div><dt><span>02</span>攻防与验证</dt><dd>在授权环境中验证与复现，讲清条件，让结论有据可验。</dd></div>
+<div><dt><span>03</span>工具与工程</dt><dd>将研究沉淀为方法与工具，便于验证和复用。</dd></div>
+</dl>
+
+</article>
+</div>
+<div class="duel-conclusion reveal">
+<p class="duel-quote">由现象追到机制，<span>让判断留下证据。</span></p>
+
+</div>
+<div class="mindset reveal">
+<div class="mindset-heading"><p class="eyebrow"><span class="index">↳</span><span class="cn">工作方式 / AI NATIVE</span></p><h3>与智能<span class="red">共事</span>。</h3></div>
+<div class="mindset-body"><p>用 AI 推进研究、开发与市场工作；用 Harness 组织模型、工具与反馈。<strong>充分借力，独立判断，也对结果负责。</strong></p><div aria-label="AI 工作循环：观察、行动、验证，持续迭代" class="loop">OBSERVE <span>→</span> ACT <span>→</span> VERIFY <span>↺</span></div></div>
+</div>
+</section>
+<section aria-labelledby="arsenal-title" class="arsenal-section" id="arsenal">
+<div class="arsenal-heading"><div><p class="eyebrow"><span class="index">谱</span><span class="cn">开源 / BUILT IN THE OPEN</span></p><h2 id="arsenal-title">器有所长，<span>彼此相连。</span></h2></div><a class="text-link" href="https://github.com/chainreactors" rel="noopener noreferrer" target="_blank">开源生态 <span aria-hidden="true" class="arrow">↗</span></a></div>
+
+<div class="arsenal-browser" id="arsenal-browser">
+<div aria-label="能力组件一览" class="arsenal-projects" role="list"><div class="arsenal-project selected" data-project="harness" id="project-harness" role="listitem"><span class="project-number">01</span><svg aria-hidden="true" class="project-glyph" fill="none" stroke="currentColor" stroke-width="1" viewbox="0 0 36 36"><path d="M16 3 29 10.5v15L16 33 3 25.5v-15Z"></path><path d="m16 11 6 3.5v7L16 25l-6-3.5v-7Z"></path><path d="M16 3v8m13-.5-7 4m7 11-7-4M16 25v8M3 25.5l7-4M3 10.5l7 4"></path></svg><span class="project-text"><strong><a aria-label="查看 Harness 的开源实现（在新标签页打开）" class="capability-source" href="https://github.com/chainreactors/cyber-harness" rel="noopener noreferrer" target="_blank">Harness</a></strong><small>Agent 编排</small></span><span aria-hidden="true" class="project-point"></span><span class="project-static-line">连接模型、工具与反馈，让能力可以组合。</span></div><div class="arsenal-project" data-project="cstx" id="project-cstx" role="listitem"><span class="project-number">02</span><svg aria-hidden="true" class="project-glyph" fill="none" stroke="currentColor" stroke-width="1" viewbox="0 0 36 36"><path d="m5 25 11-17 15 17H5Zm11-17v24"></path><circle cx="5" cy="25" r="3"></circle><circle cx="16" cy="8" r="3"></circle><circle cx="31" cy="25" r="3"></circle><circle cx="16" cy="32" r="2"></circle></svg><span class="project-text"><strong><a aria-label="查看 图谱引擎 的开源实现（在新标签页打开）" class="capability-source" href="https://github.com/chainreactors/libcstx" rel="noopener noreferrer" target="_blank">图谱引擎</a></strong><small>拓扑与知识表示</small></span><span aria-hidden="true" class="project-point"></span><span class="project-static-line">将赛博空间组织成可理解的结构。</span></div><div class="arsenal-project" data-project="ioa" id="project-ioa" role="listitem"><span class="project-number">03</span><svg aria-hidden="true" class="project-glyph" fill="none" stroke="currentColor" stroke-width="1" viewbox="0 0 36 36"><path d="M9 9 27 27M27 9 9 27"></path><circle cx="9" cy="9" r="5"></circle><circle cx="27" cy="9" r="5"></circle><circle cx="9" cy="27" r="5"></circle><circle cx="27" cy="27" r="5"></circle></svg><span class="project-text"><strong><a aria-label="查看 协作协议 的开源实现（在新标签页打开）" class="capability-source" href="https://github.com/chainreactors/ioa" rel="noopener noreferrer" target="_blank">协作协议</a></strong><small>人与 Agent 协作</small></span><span aria-hidden="true" class="project-point"></span><span class="project-static-line">让人和 Agent 在同一套语义中协作。</span></div><div class="arsenal-project" data-project="ui" id="project-ui" role="listitem"><span class="project-number">04</span><svg aria-hidden="true" class="project-glyph" fill="none" stroke="currentColor" stroke-width="1" viewbox="0 0 36 36"><path d="M3 5h30v25H3Zm0 8h30M13 13v17"></path><path d="M7 9h2m3 0h2m3 0h2M18 19h10m-10 5h6"></path></svg><span class="project-text"><strong><a aria-label="查看 交互组件 的开源实现（在新标签页打开）" class="capability-source" href="https://github.com/chainreactors/cyber-ui" rel="noopener noreferrer" target="_blank">交互组件</a></strong><small>图谱与轨迹可视化</small></span><span aria-hidden="true" class="project-point"></span><span class="project-static-line">把图谱、轨迹与协作变成可见的界面。</span></div><div class="arsenal-project" data-project="gogo" id="project-gogo" role="listitem"><span class="project-number">05</span><svg aria-hidden="true" class="project-glyph" fill="none" stroke="currentColor" stroke-width="1" viewbox="0 0 36 36"><path d="M5 14V5h9m8 0h9v9m0 8v9h-9m-8 0H5v-9"></path><circle cx="18" cy="18" r="7"></circle><path d="M18 1v10m17 7H25M18 25v10M1 18h10"></path></svg><span class="project-text"><strong><a aria-label="查看 扫描器 的开源实现（在新标签页打开）" class="capability-source" href="https://github.com/chainreactors/gogo" rel="noopener noreferrer" target="_blank">扫描器</a></strong><small>服务与信息发现</small></span><span aria-hidden="true" class="project-point"></span><span class="project-static-line">发现服务与信息，为判断提供依据。</span></div><div class="arsenal-project" data-project="spray" id="project-spray" role="listitem"><span class="project-number">06</span><svg aria-hidden="true" class="project-glyph" fill="none" stroke="currentColor" stroke-width="1" viewbox="0 0 36 36"><path d="M3 18h9L23 7h10M12 18l11 11h10m-10-11h10"></path><circle cx="12" cy="18" r="3"></circle></svg><span class="project-text"><strong><a aria-label="查看 Fuzzer 的开源实现（在新标签页打开）" class="capability-source" href="https://github.com/chainreactors/spray" rel="noopener noreferrer" target="_blank">Fuzzer</a></strong><small>HTTP 模糊测试</small></span><span aria-hidden="true" class="project-point"></span><span class="project-static-line">从请求与响应中辨认系统的边界。</span></div><div class="arsenal-project" data-project="rem" id="project-rem" role="listitem"><span class="project-number">07</span><svg aria-hidden="true" class="project-glyph" fill="none" stroke="currentColor" stroke-width="1" viewbox="0 0 36 36"><path d="M2 8h10v20H2Zm22 0h10v20H24ZM12 13h12M12 23h12"></path><path d="m16 10 3 3-3 3m4 4-3 3 3 3"></path></svg><span class="project-text"><strong><a aria-label="查看 网络隧道 的开源实现（在新标签页打开）" class="capability-source" href="https://github.com/chainreactors/rem" rel="noopener noreferrer" target="_blank">网络隧道</a></strong><small>连接与流量组织</small></span><span aria-hidden="true" class="project-point"></span><span class="project-static-line">连接不同环境，组织网络与流量。</span></div><div class="arsenal-project" data-project="iom" id="project-iom" role="listitem"><span class="project-number">08</span><svg aria-hidden="true" class="project-glyph" fill="none" stroke="currentColor" stroke-width="1" viewbox="0 0 36 36"><path d="m18 3 15 8-15 8-15-8Zm-15 15 15 8 15-8M3 25l15 8 15-8"></path></svg><span class="project-text"><strong><a aria-label="查看 执行框架 的开源实现（在新标签页打开）" class="capability-source" href="https://github.com/chainreactors/malice-network" rel="noopener noreferrer" target="_blank">执行框架</a></strong><small>安全能力执行</small></span><span aria-hidden="true" class="project-point"></span><span class="project-static-line">为安全能力提供可组合的执行支撑。</span></div></div>
+<div class="arsenal-detail" id="arsenal-detail"><div class="arsenal-detail-id"><span class="mono" id="project-kind">AGENT FRAMEWORK</span><h3 id="project-title">Harness</h3></div><p id="project-description">以精简的 Agent 核心组织工具、评估与反馈，探索 AI 原生安全工程。</p><a aria-label="查看 Harness 的开源实现（在新标签页打开）" class="text-link" href="https://github.com/chainreactors/cyber-harness" id="project-source" rel="noopener noreferrer" target="_blank">查看源码 <span aria-hidden="true" class="arrow">↗</span></a></div>
+</div>
+<div class="arsenal-bottom"><span class="arsenal-auto-meta">能力一览 <span id="arsenal-counter">01 / 08</span></span><a href="#roles">一起做出<strong>下一件。</strong><span aria-hidden="true">↘</span></a></div>
+</section>
+<section aria-labelledby="roles-title" class="section roles-section" id="roles">
+<div class="section-head reveal">
+<div><p class="eyebrow"><span class="index">02</span><span class="cn">岗位 / OPEN ROLES</span></p><h2 id="roles-title">独当一面，<br/>并肩成事。</h2></div>
+<p class="section-aside">角色是分工，不是边界。</p>
+</div>
+<div class="role-common reveal" aria-labelledby="role-common-title">
+<div class="role-common-heading"><p class="mono">共同要求 / ALL ROLES</p><h3 id="role-common-title"><span class="red">AI Native</span>，不分岗位。</h3></div>
+<p class="role-common-copy">分工不同，工作方式相同：用 AI 拆解问题、推进工作、验证结果。</p>
+</div>
+<div class="role-list reveal">
+<article aria-labelledby="role-engineer-title" class="role">
+<div class="role-heading"><span class="role-number">01</span><span class="role-alias">工程</span><h3 class="role-name" id="role-engineer-title">Engineer</h3><span class="role-tag">GOLANG / RUST</span></div>
+
+<div class="role-stage-body"><figure class="role-figure" data-role-scene="engineer"><svg aria-hidden="true" viewbox="0 0 360 186"><path d="M35 110 102 76 170 109 102 144Z M126 92 193 58 261 91 193 126Z M217 74 284 40 351 73 284 108Z" fill="none" stroke="#8b9db5" stroke-width="1"></path><path d="M20 124 102 124 193 106 284 88H336" fill="none" stroke="#ff344c" stroke-width="1"></path></svg><figcaption><span>ASSEMBLE / 结构成形</span><span class="role-phase">AI NATIVE</span></figcaption></figure><div class="role-detail">
+<div><h4>你来造什么</h4><p>将模型与工具组织成可靠的系统、引擎与产品。</p></div>
+<div><h4>我们看重什么</h4><p>Golang / Rust；扎实的计算机基础、架构判断与交付能力。</p></div>
+</div></div></article>
+<article aria-labelledby="role-hacker-title" class="role">
+<div class="role-heading"><span class="role-number">02</span><span class="role-alias">研究</span><h3 class="role-name" id="role-hacker-title">Hacker</h3><span class="role-tag">RESEARCH / SECURITY</span></div>
+
+<div class="role-stage-body"><figure class="role-figure" data-role-scene="hacker"><svg aria-hidden="true" viewbox="0 0 360 186"><path d="M35 110 102 76 170 109 102 144Z M126 92 193 58 261 91 193 126Z M217 74 284 40 351 73 284 108Z" fill="none" stroke="#8b9db5" stroke-width="1"></path><path d="M20 124 102 124 193 106 284 88H336" fill="none" stroke="#ff344c" stroke-width="1"></path></svg><figcaption><span>TRACE / 形成证据</span><span class="role-phase">AI NATIVE</span></figcaption></figure><div class="role-detail">
+<div><h4>你来研究什么</h4><p>在授权环境中做审计、分析与验证，沉淀证据和工具。</p></div>
+<div><h4>我们看重什么</h4><p>扎实的黑客与安全技术；能追到原理，让结果可复现。</p></div>
+</div></div></article>
+<article aria-labelledby="role-market-title" class="role">
+<div class="role-heading"><span class="role-number">03</span><span class="role-alias">市场</span><h3 class="role-name" id="role-market-title">Go to market</h3><span class="role-tag">PRODUCT / GROWTH</span></div>
+
+<div class="role-stage-body"><figure class="role-figure" data-role-scene="gtm"><svg aria-hidden="true" viewbox="0 0 360 186"><path d="M35 110 102 76 170 109 102 144Z M126 92 193 58 261 91 193 126Z M217 74 284 40 351 73 284 108Z" fill="none" stroke="#8b9db5" stroke-width="1"></path><path d="M20 124 102 124 193 106 284 88H336" fill="none" stroke="#ff344c" stroke-width="1"></path></svg><figcaption><span>FEEDBACK / 反馈闭环</span><span class="role-phase">AI NATIVE</span></figcaption></figure><div class="role-detail">
+<div><h4>你来推动什么</h4><p>找到真实需求，讲清技术价值，让产品走向用户。</p></div>
+<div><h4>我们看重什么</h4><p>理解技术、产品与市场，能把用户反馈转成行动。</p></div>
+</div></div></article>
+</div>
+<p class="role-footnote"><span>全部岗位 · 实习 / 全职 · 杭州余杭 · 不设学历门槛</span><span class="mono">THREE ROLES. ONE AI-NATIVE STANDARD.</span></p>
+</section>
+<section aria-labelledby="manifesto-title" class="manifesto">
+<div class="reveal">
+<p class="eyebrow"><span class="index">择</span><span class="cn">看重 / WHAT MATTERS</span></p>
+<h2 class="manifesto-title" id="manifesto-title">从你的经历，<br/>认识你的判断。</h2>
+</div>
+<div class="asked reveal">
+
+<div class="principle"><strong>原理</strong><p>底层讲得明，取舍说得清。</p></div>
+<div class="principle"><strong>实证</strong><p>拿得出实证，讲得清边界。</p></div>
+<div class="principle"><strong>投入</strong><p>把值得的事做深、做久。</p></div>
+</div>
+</section>
+<section aria-labelledby="pact-title" class="section pact-section" id="pact">
+<div class="section-head reveal">
+<div><p class="eyebrow"><span class="index">03</span><span class="cn">明约 / THE PACT</span></p><h2 id="pact-title">同道有约</h2></div>
+</div>
+<div class="pact-grid reveal">
+<article class="pact-item"><span class="mono">01 / ORGANIZATION</span><h3>无层级</h3><p>对问题负责，不向头衔汇报。</p></article>
+<article class="pact-item"><span class="mono">02 / OWNERSHIP</span><h3>无 KPI</h3><p>把力气花在真正有价值的事上。</p></article>
+<article class="pact-item"><span class="mono">03 / COMPUTE</span><h3><span class="inf">∞</span> token</h3><p>无限 token，用于探索与验证。</p></article>
+<article class="pact-item"><span class="mono">04 / COMPENSATION</span><h3>透明薪酬</h3><p>坦诚谈价值，明白谈回报。</p></article>
+<article class="pact-item"><span class="mono">05 / EQUITY</span><h3>期权锁定</h3><p>期权按当期估值锁定。</p></article>
+<article class="pact-item"><span class="mono">06 / OPPORTUNITY</span><h3>不设学历门槛</h3><p>实习 / 全职。以作品交流。</p></article>
+</div>
+</section>
+<section aria-labelledby="apply-title" class="apply-section dialogue-section" id="apply">
+  <div class="apply-copy reveal">
+    <p class="eyebrow"><span class="index">04</span><span class="cn">论道 / IN CONVERSATION</span></p>
+    <h2 id="apply-title">各有所见，<br/>共问<span class="red">其理</span>。</h2>
+    <p>从一段真实经历开始，交换判断，也共同推演。<br/>你了解我们如何做事，我们也认识你的思考。</p>
+    <figure class="conversation-figure" id="open-position" aria-label="两种视角围绕同一个问题展开交流的概念动画">
+      <svg viewBox="0 0 520 230" aria-hidden="true" focusable="false">
+        <path d="M36 98H198L232 118H288L322 98H484M260 88V48H350M260 148V188H170" fill="none" stroke="#788696" stroke-opacity=".45" stroke-width="1"/>
+        <path d="M232 118 260 90 288 118 260 146Z" fill="#10131a" stroke="#e34056" stroke-width="1.2"/>
+        <circle cx="36" cy="98" r="5" fill="#0d1117" stroke="#b4bbc5"/>
+        <circle cx="484" cy="98" r="5" fill="#0d1117" stroke="#b4bbc5"/>
+        <text x="260" y="122" text-anchor="middle" fill="#ece9e3" font-size="14">问题</text>
+        <g fill="#9c9eab" font-size="13"><text x="36" y="132">经历</text><text x="484" y="132" text-anchor="end">视角</text><text x="350" y="35" text-anchor="end">取舍</text><text x="170" y="216">推演</text></g>
+      </svg>
+      <figcaption><span>答案未必相同，<br/>但可以把问题看得更深。</span><span class="conversation-phase" aria-hidden="true">从经历开始</span></figcaption>
+    </figure>
+  </div>
+  <div class="discussion-box reveal">
+    <div class="discussion-heading"><span class="mono">THE CONVERSATION</span><span>交流的起点</span></div>
+    <div class="discussion-topics">
+      <article class="discussion-item" data-topic="0"><span class="discussion-number" aria-hidden="true">01</span><div><h3>经历</h3><p>当时面对什么，最终做成什么。</p></div></article>
+      <article class="discussion-item" data-topic="1"><span class="discussion-number" aria-hidden="true">02</span><div><h3>取舍</h3><p>为什么这样选择，又如何验证。</p></div></article>
+      <article class="discussion-item" data-topic="2"><span class="discussion-number" aria-hidden="true">03</span><div><h3>推演</h3><p>条件改变之后，判断是否仍然成立。</p></div></article>
+    </div>
+    <div class="discussion-action">
+      <p>带上简历，从一件熟悉的事开始。<br/><span>项目、研究、产品或一次复盘，都可以成为话题。</span></p>
+      <button class="button open-application">准备交流材料 <span aria-hidden="true" class="arrow">↗</span></button>
+      <p class="discussion-note">补充材料不限形式；涉及保密内容，请先脱敏。</p>
+    </div>
+  </div>
+</section>
+<section aria-labelledby="closing-title" class="closing">
+<div class="closing-top"><span>FOR THE NEXT DECADE</span><span aria-hidden="true" class="small-line"></span></div>
+<h2 class="closing-quote reveal" id="closing-title">十年之后，<br/><span class="indent">这一剑依然<span class="red">值得</span>。</span></h2>
+<div class="closing-bottom reveal">
+<p>理想主义者从不孤单，只是还没聚到一起。<span>Welcome to the chain, the knights-errant.</span></p>
+<button class="closing-cta open-application">参与招募 <span aria-hidden="true" class="arrow">↗</span></button>
+</div>
+</section>
+<footer class="site-footer"><span class="footer-brand">© CHAINREACTORS</span><span class="footer-center">霓虹为月，代码为马。</span><button aria-pressed="false" class="motion-toggle" id="motion-toggle" type="button">动态已开</button><a href="#top">BACK TO TOP ↑</a></footer>
+</div>
+</main>
+<dialog aria-labelledby="application-title" id="application-dialog">
+<div class="dialog-head"><div><span class="mono">CHAINREACTORS / APPLICATION</span><h2 id="application-title">从这里开始交流。</h2></div><button aria-label="关闭交流材料窗口" class="dialog-close" id="close-dialog">×</button></div>
+<div class="dialog-body">
+<div class="config-note" id="config-note">本页尚未配置真实投递渠道。目前可整理、复制或保存交流材料，不会发送任何信息。</div>
+<form id="application-form">
+<div class="form-grid">
+<div class="field"><label for="app-name">如何称呼你 <small>选填</small></label><input autocomplete="nickname" id="app-name" maxlength="60" name="name" placeholder="真名或常用 ID"/></div>
+<div class="field"><label for="app-contact">如何联系你 <small>必填</small></label><input autocomplete="off" id="app-contact" maxlength="160" name="contact" placeholder="邮箱 / 微信 / 其他联系方式" required=""/></div>
+<div class="field"><label for="app-role">意向岗位 <small>均要求 AI Native</small></label><select id="app-role" name="role"><option>Engineer</option><option>Hacker</option><option>Go to market</option></select></div>
+<div class="field"><label for="app-mode">应聘方式</label><select id="app-mode" name="mode"><option>全职</option><option>实习</option><option>待沟通</option></select></div>
+<div class="field full resume-field"><label for="app-resume">简历链接 <small>或投递时另附文件</small></label><input id="app-resume" name="resume" type="url" inputmode="url" autocomplete="off" required="" maxlength="1000" placeholder="https://…" aria-describedby="resume-hint"/><label class="resume-choice" for="app-resume-later"><input type="checkbox" id="app-resume-later" name="resumeLater"/><span>投递时另附简历</span></label><p id="resume-hint">本页不上传文件；选择另附后，请在实际投递渠道附上简历。</p></div>
+<div class="field full"><label for="app-work">补充材料链接 <small>选填，不限形式</small></label><input autocomplete="off" id="app-work" inputmode="url" maxlength="1000" name="work" placeholder="https://…" type="url"/></div>
+<div class="field full"><label for="app-note">想聊的经历或问题 <small>选填，也可以面试时展开</small></label><textarea id="app-note" name="note" maxlength="3000" placeholder="一段经历、一个判断，或一个还没想清楚的问题。"></textarea></div>
+</div>
+<div class="form-footer"><p>简历与话题。仅在本页整理，<br/>不会自动发送或持久保存。</p><button class="button" type="submit">生成交流材料 <span aria-hidden="true" class="arrow">→</span></button></div>
+</form>
+<section aria-labelledby="result-title" hidden="" id="application-result">
+<h3 class="result-title" id="result-title">交流材料已整理。尚未发送。</h3>
+<p class="result-note" id="result-note">可先复制或保存下方文本。发布方配置投递渠道后，才能继续投递。</p>
+<label class="visually-hidden" for="result-text" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">生成的交流材料文本</label>
+<textarea class="result-text" id="result-text" readonly=""></textarea>
+<div class="result-actions">
+<button class="button" id="copy-application" type="button">复制全文 <span aria-hidden="true" class="arrow">↗</span></button>
+<button class="button secondary" id="save-application" type="button">保存为文本</button>
+<a class="button secondary" hidden="" id="mail-application">用邮箱投递 ↗</a>
+<a class="button secondary" hidden="" id="external-application" rel="noopener noreferrer" target="_blank">打开投递页面 ↗</a>
+</div>
+<p aria-live="polite" class="copy-status" id="copy-status" role="status"></p>
+<button class="back-edit" id="edit-application" type="button">← 返回修改</button>
+</section>
+</div>
+</dialog>
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
+<noscript><p class="wrap" style="padding-block:20px;color:#c2c0b9;font-size:12px">正文、岗位内容与开源入口可正常阅读。滚动动画与交流材料整理需要 JavaScript；投递渠道由发布方配置。</p></noscript>
+<script>
+    (() => {
+      "use strict";
+      const $ = (s, root = document) => root.querySelector(s);
+      const $$ = (s, root = document) => Array.from(root.querySelectorAll(s));
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const config = window.RECRUITMENT_CONFIG || {};
+      const email = typeof config.applyEmail === "string" ? config.applyEmail.trim() : "";
+      const validEmail = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email) && !/[\r\n]/.test(email);
+      let applicationUrl = "";
+      try { const url = new URL(config.applyUrl || ""); if (url.protocol === "https:" && !url.username && !url.password) applicationUrl = url.href; } catch (_) { /* 空配置保持无投递状态。 */ }
+
+      // 渐入不影响无脚本阅读，并尊重操作系统的减少动态效果设置。
+      if ("IntersectionObserver" in window && !reducedMotion.matches) {
+        const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+          if (entry.isIntersecting) { entry.target.classList.remove("waiting"); observer.unobserve(entry.target); }
+        }), { threshold: 0.08, rootMargin: "0px 0px -20px 0px" });
+        $$(".reveal").forEach(el => {
+          if (el.getBoundingClientRect().top > innerHeight * .94) { el.classList.add("waiting"); observer.observe(el); }
+        });
+        reducedMotion.addEventListener("change", event => {
+          if (event.matches) { $$(".reveal.waiting").forEach(el => el.classList.remove("waiting")); observer.disconnect(); }
+        });
+      }
+      let frame = 0;
+      function updateProgress() {
+        frame = 0;
+        const total = document.documentElement.scrollHeight - innerHeight;
+        $("#reading-progress").style.transform = `scaleX(${total > 0 ? Math.min(1, Math.max(0, scrollY / total)) : 0})`;
+      }
+      function requestProgress() { if (!frame) frame = requestAnimationFrame(updateProgress); }
+      addEventListener("scroll", requestProgress, { passive: true });
+      addEventListener("resize", requestProgress, { passive: true });
+      updateProgress();
+
+      // 申请文本只在当前页面内存在；没有 fetch、跟踪、Cookie 或 localStorage。
+      const dialog = $("#application-dialog");
+      const form = $("#application-form");
+      const result = $("#application-result");
+      const note = $("#config-note");
+      let previousFocus = null;
+      let previousOverflow = "";
+      let generatedText = "";
+      if (validEmail || applicationUrl) {
+        note.textContent = "此处只在本地整理内容。生成后，你可自行选择打开邮箱或官方投递页面；本页不会自动发送。";
+        $("#result-note").textContent = "复制交流材料后，前往邮箱或投递页面完成发送。";
+      }
+      function showForm() { form.hidden = false; result.hidden = true; $("#copy-status").textContent = ""; }
+      function openApplication(button) {
+        previousFocus = button;
+        showForm();
+        if (button.dataset.role) $("#app-role").value = button.dataset.role;
+        previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        if (typeof dialog.showModal === "function") dialog.showModal();
+        else { dialog.setAttribute("open", ""); dialog.style.cssText += ";position:fixed;inset:24px 0;z-index:100;margin:auto;"; }
+        $("#app-name").focus({ preventScroll: true });
+      }
+      $$(".open-application").forEach(button => button.addEventListener("click", () => openApplication(button)));
+      function closeApplication() {
+        if (typeof dialog.close === "function") dialog.close();
+        else { dialog.removeAttribute("open"); restorePage(); }
+      }
+      function restorePage() { document.body.style.overflow = previousOverflow; if (previousFocus && document.contains(previousFocus)) previousFocus.focus({ preventScroll: true }); }
+      $("#close-dialog").addEventListener("click", closeApplication);
+      dialog.addEventListener("close", restorePage);
+      let downOnBackdrop = false;
+      dialog.addEventListener("pointerdown", event => { downOnBackdrop = event.target === dialog && !isInsideDialog(event); });
+      dialog.addEventListener("click", event => { if (downOnBackdrop && event.target === dialog && !isInsideDialog(event)) closeApplication(); downOnBackdrop = false; });
+      function isInsideDialog(event) { const r = dialog.getBoundingClientRect(); return event.clientX >= r.left && event.clientX <= r.right && event.clientY >= r.top && event.clientY <= r.bottom; }
+      dialog.addEventListener("keydown", event => {
+        if (event.key === "Escape" && typeof dialog.close !== "function") closeApplication();
+      });
+      const resumeInput = $("#app-resume");
+      const resumeLater = $("#app-resume-later");
+      function updateResumeMode() {
+        resumeInput.disabled = resumeLater.checked;
+        resumeInput.required = !resumeLater.checked;
+        resumeInput.setCustomValidity("");
+      }
+      resumeLater.addEventListener("change", updateResumeMode);
+      updateResumeMode();
+      // References only; file attachment happens in the configured email/application channel.
+      function validReference(value) {
+        try { const url = new URL(value); return ["http:", "https:"].includes(url.protocol) && !url.username && !url.password; }
+        catch (_) { return false; }
+      }
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+        const data = new FormData(form);
+        const value = key => String(data.get(key) || "").trim();
+        if (!value("contact")) { $("#app-contact").setCustomValidity("请留下可以联系到你的方式。"); $("#app-contact").reportValidity(); return; }
+        if (!resumeLater.checked && !validReference(value("resume"))) {
+          resumeInput.setCustomValidity("请填写有效的 http:// 或 https:// 简历链接，或选择投递时另附简历。"); resumeInput.reportValidity(); return;
+        }
+        if (value("work") && !validReference(value("work"))) {
+          $("#app-work").setCustomValidity("请填写有效的 http:// 或 https:// 补充材料链接，或留空。"); $("#app-work").reportValidity(); return;
+        }
+        generatedText = [
+          "ChainReactors · 交流材料", "",
+          `称呼：${value("name") || "未填写"}`,
+          `联系方式：${value("contact")}`,
+          `意向岗位：${value("role")}`,
+          "岗位共同要求：AI Native",
+          `应聘方式：${value("mode")}`,
+          `简历：${resumeLater.checked ? "投递时另附文件（待附）" : value("resume")}`,
+          ...(value("work") ? [`补充材料：${value("work")}`] : []),
+          "", "想聊的经历或问题：", value("note") || "面试时展开。",
+          "", "期待进一步交流。"
+        ].join("\n");
+        $("#result-text").value = generatedText;
+        $("#result-note").textContent = (validEmail || applicationUrl) ? "复制交流材料后，前往邮箱或投递页面完成发送。" : "可先复制或保存下方文本。发布方配置投递渠道后，才能继续投递。";
+        if (resumeLater.checked) $("#result-note").textContent += " 简历尚未附入，请在实际投递时手动添加文件。";
+        if (validEmail) {
+          const subject = `ChainReactors 交流材料｜${value("role")}｜${value("name") || "一位同行者"}`;
+          const mail = $("#mail-application");
+          // 超长 mailto 仅预填标题；正文仍可完整复制或保存，避免静默截断。
+          let href = `mailto:${encodeURIComponent(email).replace(/%40/g, "@")}?subject=${encodeURIComponent(subject)}`;
+          const withBody = `${href}&body=${encodeURIComponent(generatedText)}`;
+          if (withBody.length <= 1800) href = withBody;
+          else $("#result-note").textContent = "交流材料较长，请先复制全文，再打开邮箱粘贴；另附简历请手动添加。";
+          mail.href = href; mail.hidden = false;
+        }
+        if (applicationUrl) { $("#external-application").href = applicationUrl; $("#external-application").hidden = false; }
+        form.hidden = true; result.hidden = false;
+        dialog.scrollTop = 0;
+        $("#copy-application").focus({ preventScroll: true });
+      });
+      [$("#app-work"), $("#app-contact"), $("#app-resume"), $("#app-note")].forEach(input => input.addEventListener("input", () => input.setCustomValidity("")));
+      $("#edit-application").addEventListener("click", () => { showForm(); $("#app-name").focus({ preventScroll: true }); });
+      $("#copy-application").addEventListener("click", async () => {
+        const status = $("#copy-status");
+        let copied = false;
+        if (navigator.clipboard && window.isSecureContext) {
+          try { await navigator.clipboard.writeText(generatedText); copied = true; } catch (_) { /* file:// 或权限限制时尝试兼容路径。 */ }
+        }
+        if (!copied) {
+          const text = $("#result-text"); text.focus(); text.select();
+          try { copied = document.execCommand("copy"); } catch (_) { copied = false; }
+        }
+        status.textContent = copied ? "已复制到剪贴板。尚未发送。" : "浏览器未允许自动复制。文本已选中，请按 Ctrl/Cmd + C，或保存为文本。";
+      });
+      $("#save-application").addEventListener("click", () => {
+        if (!generatedText) return;
+        const blob = new Blob(["\uFEFF" + generatedText], { type: "text/plain;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a"); a.href = url; a.download = "ChainReactors-交流材料.txt"; a.style.display = "none";
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 3000);
+        $("#copy-status").textContent = "已生成本地文本文件。尚未发送。";
+      });
+    })();
+  </script>
+<script id="project-data" type="application/json">[{"id": "harness", "name": "Harness", "alias": "驭机", "kind": "AGENT FRAMEWORK", "category": "Agent 编排", "line": "连接模型、工具与反馈，让能力可以组合。", "description": "以精简的 Agent 核心组织工具、评估与反馈，探索 AI 原生安全工程。", "url": "https://github.com/chainreactors/cyber-harness", "shape": "core"}, {"id": "cstx", "name": "图谱引擎", "alias": "绘境", "kind": "TOPOLOGY", "category": "拓扑与知识表示", "line": "将赛博空间组织成可理解的结构。", "description": "以拓扑与知识图谱组织赛博空间，统一数据表达与计算。", "url": "https://github.com/chainreactors/libcstx", "shape": "graph"}, {"id": "ioa", "name": "协作协议", "alias": "共鸣", "kind": "COLLABORATION", "category": "人与 Agent 协作", "line": "让人和 Agent 在同一套语义中协作。", "description": "语义优先的通信协议，以节点、消息和引用关系连接人类与 Agent。", "url": "https://github.com/chainreactors/ioa", "shape": "nodes"}, {"id": "ui", "name": "交互组件", "alias": "观象", "kind": "INTERFACE", "category": "图谱与轨迹可视化", "line": "把图谱、轨迹与协作变成可见的界面。", "description": "共享前端组件库，涵盖主题、图谱、时间线、任务查看与协作界面。", "url": "https://github.com/chainreactors/cyber-ui", "shape": "window"}, {"id": "gogo", "name": "扫描器", "alias": "知微", "kind": "DISCOVERY", "category": "服务与信息发现", "line": "发现服务与信息，为判断提供依据。", "description": "可控制、可扩展的自动化探测引擎，用于授权环境中的服务与信息发现。", "url": "https://github.com/chainreactors/gogo", "shape": "radar"}, {"id": "spray", "name": "Fuzzer", "alias": "问径", "kind": "HTTP FUZZING", "category": "HTTP 模糊测试", "line": "从请求与响应中辨认系统的边界。", "description": "强调可控性与精确度的 HTTP Fuzzer，用于授权环境中的 Web 研究。", "url": "https://github.com/chainreactors/spray", "shape": "split"}, {"id": "rem", "name": "网络隧道", "alias": "通脉", "kind": "CONNECTIVITY", "category": "连接与流量组织", "line": "连接不同环境，组织网络与流量。", "description": "面向授权安全场景的网络连接与流量控制基础设施。", "url": "https://github.com/chainreactors/rem", "shape": "bridge"}, {"id": "iom", "name": "执行框架", "alias": "铸器", "kind": "EXECUTION FRAMEWORK", "category": "安全能力执行", "line": "为安全能力提供可组合的执行支撑。", "description": "面向授权安全场景的执行与控制框架，为安全能力提供可组合、可扩展的工程支撑。", "url": "https://github.com/chainreactors/malice-network", "shape": "layers"}]</script>
+
+<script id="scroll-motion-engine">/* V8 · scroll edition. Local illustrative motion only: no requests, telemetry or security actions.
+ * Each scene owns a visible-time clock. Offscreen/background time never advances it.
+ * Entry plays once; re-entry resumes unfinished scenes; completion remains still.
+ */
+(() => {
+  'use strict';
+  const $ = (s, root = document) => root.querySelector(s);
+  const $$ = (s, root = document) => Array.from(root.querySelectorAll(s));
+  const clamp = (n, a=0, b=1) => Math.min(b, Math.max(a,n));
+  const ease = n => 1-Math.pow(1-clamp(n),3);
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const el = (tag, attrs={}) => {
+    const node = document.createElementNS(svgNS,tag);
+    Object.entries(attrs).forEach(([k,v])=>node.setAttribute(k,String(v)));
+    return node;
+  };
+  const config = window.RECRUITMENT_CONFIG || {};
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let enabled = config.enableMotion !== false;
+  const off = () => !enabled || reduced.matches;
+  let catalog = [];
+  try { catalog = JSON.parse($('#project-data').textContent); } catch (_) { return; }
+  if (!Array.isArray(catalog)) return;
+  const scenes = [];
+  let raf=0, last=0, scrolling=0;
+  document.documentElement.classList.add('enhanced','scroll-edition');
+
+  function state(scene) {
+    const next = reduced.matches ? 'static' : !enabled ? 'paused' : scene.done ? 'complete' : scene.active && !document.hidden && !scene.hold ? 'playing' : scene.time>0 ? 'paused' : 'idle';
+    if(scene.element.dataset.motionState!==next) scene.element.dataset.motionState=next;
+    scene.element.classList.toggle('scene-paused',next!=='playing');
+  }
+  function register(name,element,duration,render,{threshold=.5,finish=null}={}) {
+    const scene={name,element,duration,render,finish:finish||(()=>render(duration)),time:0,active:false,done:false,hold:false,threshold};
+    element.classList.add('motion-scene'); element.dataset.motionScene=name;
+    scenes.push(scene); render(0); state(scene); return scene;
+  }
+  function inView(element,threshold) {
+    const r=element.getBoundingClientRect();
+    const v=Math.max(0,Math.min(r.bottom,innerHeight)-Math.max(0,r.top));
+    const h=Math.max(0,Math.min(r.right,innerWidth)-Math.max(0,r.left));
+    return r.height>0 && r.width>0 && h>Math.min(r.width,innerWidth)*.4 && v >= Math.min(r.height,innerHeight)*threshold;
+  }
+  function refresh() {
+    scrolling=0;
+    if(typeof paintThread === "function")paintThread();
+    scenes.forEach(s=>{s.active=inView(s.element,s.name==='sword' && innerWidth<=760 ? .8 : s.threshold);state(s);});
+    wake();
+  }
+  function canRun(s) { return s.active && !s.done && !s.hold && !off() && !document.hidden; }
+  function wake() {
+    if(!raf && scenes.some(canRun)){last=0;raf=requestAnimationFrame(tick);}
+  }
+  function tick(now) {
+    raf=0;
+    const delta=last ? Math.min((now-last)/1000,.065) : 0; last=now;
+    scenes.forEach(s=>{
+      if(!canRun(s)) return;
+      s.time=Math.min(s.duration,s.time+delta);s.render(s.time);
+      s.element.dataset.motionTime=s.time.toFixed(2);
+      if(s.time>=s.duration){s.done=true;s.element.dataset.motionTime=String(s.duration);state(s);}
+    });
+    if(scenes.some(canRun))raf=requestAnimationFrame(tick);else last=0;
+  }
+  function requestRefresh(){if(!scrolling)scrolling=requestAnimationFrame(refresh);}
+  addEventListener('scroll',requestRefresh,{passive:true});
+  addEventListener('resize',requestRefresh,{passive:true});
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden && raf){cancelAnimationFrame(raf);raf=0;last=0;}
+    document.documentElement.classList.toggle('page-hidden',document.hidden);
+    refresh();
+  });
+
+  // A visible-time particle travelling on a real SVG path, with a retained stroke.
+  function makeTravel(root,d,start,duration,{color='#ff344c',retain=true}={}) {
+    const g=el('g',{'aria-hidden':'true'}),line=el('path',{d,class:'rx-trail',stroke:color,'stroke-width':1.05});
+    const tail=el('path',{d,class:'rx-trail',stroke:color,'stroke-width':1.8});
+    const head=el('circle',{r:2.6,fill:color}),halo=el('circle',{r:8,fill:color,'fill-opacity':.075});
+    g.append(line,tail,halo,head);root.append(g);
+    const length=line.getTotalLength();line.style.strokeDasharray=`${length} ${length}`;
+    return {start,end:start+duration,line,render(t){
+      if(t<start){g.style.display='none';return;}
+      const q=clamp((t-start)/duration),done=q>=1;g.style.display=done&&!retain?'none':'';
+      line.style.strokeDashoffset=String(length*(1-q));line.style.strokeOpacity=done?'.22':'.68';
+      const d=length*q,tailLength=Math.min(17,d);
+      tail.style.strokeDasharray=`${tailLength} ${length+30}`;tail.style.strokeDashoffset=String(-(d-tailLength));tail.style.display=done?'none':'';
+      const p=line.getPointAtLength(d);
+      [head,halo].forEach(n=>{n.setAttribute('cx',p.x);n.setAttribute('cy',p.y);n.style.display=done?'none':'';});
+    }};
+  }
+  function makeImpact(root,x,y,start,scale=1) {
+    const g=el('g',{'aria-hidden':'true',class:'auto-impact'}),ring=el('circle',{cx:x,cy:y,r:3,fill:'none',stroke:'#ff344c','stroke-width':1});
+    const haze=el('circle',{cx:x,cy:y,r:5,fill:'url(#v7pressure)'});
+    g.append(haze,ring);
+    const sparks=Array.from({length:scale>1?9:5},(_,i)=>{const n=el('path',{class:'rx-spark'});g.append(n);return {n,a:i*2.39996+.3,r:(18+i%4*6)*scale};});
+    root.append(g);
+    return t=>{
+      const a=t-start,q=clamp(a/.85);
+      if(a<0||q>=1){g.style.display='none';return;}g.style.display='';
+      const f=ease(q),opacity=Math.pow(1-q,1.7);
+      ring.setAttribute('r',(4+34*f)*scale);ring.style.opacity=String(opacity*.85);
+      haze.setAttribute('r',(18+48*f)*scale);haze.style.opacity=String(opacity*.6);
+      sparks.forEach(s=>{const distance=4*scale+f*s.r,tail=(1-q)*7*scale;s.n.setAttribute('d',`M${x+Math.cos(s.a)*distance} ${y+Math.sin(s.a)*distance}l${Math.cos(s.a)*tail} ${Math.sin(s.a)*tail}`);s.n.style.opacity=String(opacity*.8);});
+    };
+  }
+
+  // HERO: entrance -> collision -> child branches -> disassembly -> calm.
+  const atlas=$('#hero-atlas'),stage=$('.atlas-stage',atlas),svg=$('.atlas-svg',atlas),body=$('.sword-body',svg);
+  const traces=el('g',{class:'reaction-layer'}),fx=el('g',{class:'reaction-effects'});
+  svg.insertBefore(traces,body);svg.append(fx);
+  const paths=[],impacts=[],arrivals=new Map();
+  paths.push(makeTravel(traces,'M78 278H455',.5,1.75,{color:'#e8ebe9',retain:false}),makeTravel(traces,'M750 278H455',.5,1.75,{retain:false}));
+  impacts.push(makeImpact(fx,455,278,2.25,1.5));
+  const branches=[
+    {d:'M455 278H382',duration:1.08,x:382,y:278,children:[{d:'M382 278 322 338',duration:.74,x:322,y:338,children:[{d:'M322 338H204',duration:.57,x:204,y:338,id:'harness'},{d:'M322 338V438L278 482H220',duration:.7,x:220,y:482}]}]},
+    {d:'M455 278H566',duration:1.3,x:566,y:278,children:[{d:'M566 278 619 331',duration:.69,x:619,y:331,children:[{d:'M619 331H674',duration:.44,x:674,y:331,id:'cstx'}]},{d:'M566 278V370L607 411H687',duration:.86,x:687,y:411}]},
+    {d:'M455 278V220L521 154',duration:1.49,x:521,y:154,children:[{d:'M521 154H652',duration:.69,x:652,y:154,id:'ioa'},{d:'M521 154V108H577',duration:.65,x:577,y:108}]},
+    {d:'M455 278V415L532 492',duration:1.71,x:532,y:492,children:[{d:'M532 492H632',duration:.55,x:632,y:492,id:'gogo'},{d:'M532 492V589H629',duration:.68,x:629,y:589}]}
+  ];
+  function addBranch(branch,start){
+    const path=makeTravel(traces,branch.d,start,branch.duration);paths.push(path);
+    impacts.push(makeImpact(fx,branch.x,branch.y,path.end,branch.id?.85:.58));
+    if(branch.id)arrivals.set(branch.id,path.end);
+    (branch.children||[]).forEach(b=>addBranch(b,path.end+.085));
+  }
+  branches.forEach(b=>addBranch(b,2.47));
+  const scan=el('g',{class:'sword-scan'}),scanBand=el('rect',{x:-60,width:120,height:45,fill:'url(#v7scan)'}),scanLine=el('path',{d:'M-60 0H60',stroke:'#ff344c','stroke-width':1.1});
+  scan.append(scanBand,scanLine);body.append(scan);
+  const parts={hilt:$('.sword-hilt',svg),left:$('.sheath-left',svg),right:$('.sheath-right',svg),section:$('.sword-section',svg),surface:$('.sword-surface',svg),anatomy:$('.sword-anatomy',svg),core:$('.sword-live-core',svg),measure:$('.sword-wire-measure',svg)};
+  // Brief temporal slices and material response, both caused by the collision, never perpetual glitch.
+  const swordSilhouette='M-17-193H17L21-34H49L59-10 48-2H22V20H25L21 150 15 175 20 192 13 432 3 502-8 539-23 446-26 194-17 172-26 151-25 20H-22V-2H-57L-64-11-59-20H-21L-17-193Z';
+  const echoes=[0,1,2].map(i=>{const g=el('g',{transform:'translate(455 265) rotate(23)'}),p=el('path',{d:swordSilhouette,class:'sword-time-echo',stroke:i===1?'#c1cddc':'#ff344c'});g.append(p);svg.insertBefore(g,body);return p;});
+  const reflectiveLeft=el('path',{d:'M-25 20-26 151-17 172-26 194-23 446-8 539',stroke:'#cf979f','stroke-width':1.5,class:'sword-light-response'});
+  const reflectiveRight=el('path',{d:'M25 20 21 150 15 175 20 192 13 432 3 502-8 539',stroke:'#e5eaf2','stroke-width':1.15,class:'sword-light-response'});
+  $('.sheath-left',svg).append(reflectiveLeft);$('.sheath-right',svg).append(reflectiveRight);
+  const guardReflection=el('path',{d:'M-54-18H44M-55-6H46',stroke:'#fac9cf','stroke-width':1.25,class:'sword-light-response'});$('.sword-hilt',svg).append(guardReflection);
+  const collarReflection=el('path',{d:'M-24 25H24M-24 32H24M-23 39H23',stroke:'#d55f70','stroke-width':1.2,class:'sword-light-response'});body.append(collarReflection);
+  const movingHighlight=el('path',{d:'M24 24 20 150 14 177 19 197 12 428 3 498-8 535',stroke:'#e6edf6','stroke-width':1.9,class:'sword-light-response'});$('.sheath-right',svg).append(movingHighlight);const highlightLength=movingHighlight.getTotalLength();
+  function renderSwordMaterial(t){
+    echoes.forEach((p,i)=>{const q=clamp((t-2.25-i*.105)/1.22),active=t>=2.25+i*.105&&q<1,remaining=1-ease(q);p.style.opacity=active?String(Math.sin(q*Math.PI)*(.3-i*.055)):'0';p.setAttribute('transform',`translate(${(i-1)*20*remaining} ${(i%2?1:-1)*11*remaining})`);});
+    const impact=t>=2.25&&t<4.6?Math.pow(1-clamp((t-2.25)/2.35),2):0;
+    reflectiveLeft.style.opacity=String(impact*.75);reflectiveRight.style.opacity=String(impact*.52);guardReflection.style.opacity=String(impact*.9);collarReflection.style.opacity=String(impact*.46);
+    const q=clamp((t-2.7)/2.5);movingHighlight.style.strokeDasharray=`34 ${highlightLength+40}`;movingHighlight.style.strokeDashoffset=String(-(highlightLength*q));movingHighlight.style.opacity=t>=2.7&&q<1?String(Math.sin(q*Math.PI)*.65):'0';
+  }
+
+  let heroState='';
+  const heroScene=register('sword',stage,10.3,t=>{
+    paths.forEach(p=>p.render(t));impacts.forEach(f=>f(t));
+    renderSwordMaterial(t);
+    const open=ease((t-2.25)/1.25)*(1-ease((t-8.1)/1.4));
+    atlas.dataset.view=open>.04?'structure':'sealed';atlas.dataset.reaction=t<9.5?'running':'rest';atlas.dataset.rootHit=String(t>=2.25);
+    parts.hilt.style.transform=`translateY(${-24*open}px)`;parts.hilt.style.opacity=String(1-.35*open);
+    parts.left.style.transform=`translate(${-31*open}px,${12*open}px)`;parts.left.style.opacity=String(1-.38*open);
+    parts.right.style.transform=`translate(${32*open}px,${18*open}px)`;parts.right.style.opacity=String(1-.4*open);
+    parts.section.style.transform=`translateX(${14*open}px)`;parts.section.style.opacity=String(.62+.38*open);
+    parts.surface.style.opacity=String(1-.47*open);parts.anatomy.style.opacity=String(.13+.87*open);parts.core.style.opacity=String(.78*open);parts.measure.style.opacity=String(.4*open);
+    const q=clamp((t-2.55)/1.65),y=-198+740*q;scan.style.opacity=String(Math.sin(Math.PI*q)*.85);scanLine.setAttribute('transform',`translate(0 ${y})`);scanBand.setAttribute('y',y-45);
+    const glow=t>=2.25&&t<4.3?Math.sin(clamp((t-2.25)/2.05)*Math.PI)*.72:0;$('.hero-atmosphere').style.opacity=String(glow);
+    $$('.atlas-node',atlas).forEach(node=>{
+      const at=arrivals.get(node.dataset.project)||Infinity,arrived=t>=at;
+      node.dataset.arrived=String(arrived);node.dataset.energized=String(arrived);node.dataset.impact=String(arrived&&t<at+.65);
+      $(`#atlas-path-${node.dataset.project}`)?.classList.toggle('visited',arrived);
+    });
+    const label=t<2.25?'藏锋':t<5.8?'连锁':t<8.1?'见脉':'归鞘';
+    if(heroState!==label){heroState=label;$('#atlas-auto-state').textContent=label;}
+  },{threshold:.45});
+
+  // Title entrance has its own visibility clock (the sword is lower on mobile).
+  const glyphs=[];
+  $$('.hero h1 .line').forEach(line=>{
+    const text=line.textContent;line.textContent='';
+    for(const ch of text){const mask=document.createElement('span');mask.className='hero-title-mask'+('，。'.includes(ch)?' punct':'');const glyph=document.createElement('span');glyph.className='hero-title-glyph';glyph.textContent=ch;mask.append(glyph);line.append(mask);glyphs.push(glyph);}
+  });
+  register('title',$('.hero-copy'),1.9,t=>{
+    glyphs.forEach((glyph,i)=>{const q=ease((t-.08-i*.06)/.85);glyph.style.transform=`translateY(${(1-q)*105}%)`;glyph.style.opacity=String(q);});
+  },{threshold:.25});
+
+  // V10 spatial grammar: layered system planes, not a decorative random network.
+  // All projection is deterministic SVG math; no WebGL, downloads or third-party runtime.
+  const plotD=(points,closed=false)=>points.length ? 'M'+points.map(p=>p.map(v=>Number(v).toFixed(2)).join(' ')).join('L')+(closed?'Z':'') : '';
+  const pathProgress=(points,q)=>{
+    const ds=[0]; for(let i=1;i<points.length;i++)ds.push(ds.at(-1)+Math.hypot(points[i][0]-points[i-1][0],points[i][1]-points[i-1][1]));
+    const distance=clamp(q)*ds.at(-1),out=[points[0]];let pos=points[0];
+    for(let i=1;i<points.length;i++){
+      if(distance>=ds[i]){out.push(points[i]);pos=points[i];}
+      else {const f=(distance-ds[i-1])/(ds[i]-ds[i-1]||1);pos=[points[i-1][0]+(points[i][0]-points[i-1][0])*clamp(f),points[i-1][1]+(points[i][1]-points[i-1][1])*clamp(f)];out.push(pos);break;}
+    }
+    return {d:plotD(out),pos,stops:ds.map(x=>x/(ds.at(-1)||1))};
+  };
+  function passiveStep(diagram,index){
+    diagram.dataset.step=String(index);$('.meridian-controls',diagram).style.setProperty('--active-step',index);
+    $$('.meridian-step',diagram).forEach((label,i)=>label.classList.toggle('current',i===index));
+  }
+  const footprint=[[-172,-70],[151,-70],[172,-49],[172,70],[-151,70],[-172,49]];
+  const rootRoute=[[-129,28],[-76,28],[-76,-27],[-17,-27],[-17,0],[53,0],[53,28],[129,28]];
+  function newSpatial(diagram){
+    const root=$('svg',diagram);root.replaceChildren();root.setAttribute('viewBox','0 0 520 334');
+    const ticks=el('g',{class:'spatial-faint'});ticks.append(el('path',{d:'M18 24H43M18 24V42M478 24H503V42M18 290V308H43M478 308H503V290'}));root.append(ticks);
+    const caption=el('text',{x:20,y:326,class:'spatial-caption'});caption.textContent='CONCEPT / '+(diagram.dataset.mode==='internal'?'STRUCTURE':'EVIDENCE');root.append(caption);
+    return root;
+  }
+  function planeNodes(root,count){return Array.from({length:count},()=>{const n=el('circle',{r:3.1,class:'spatial-node'});root.append(n);return n;});}
+  function materialPlane(root,i,route){
+    const g=el('g',{'data-spatial-layer':i}),face=el('path',{class:'spatial-plane'}),grid=el('path',{class:'spatial-grid'}),network=el('path',{class:'spatial-route'}),reflection=el('path',{class:'spatial-reflection'}),red=el('path',{class:'spatial-red'});
+    g.append(face,grid,network,reflection,red);
+    const nodes=planeNodes(g,route.length),halo=el('circle',{r:9,fill:'#ff344c','fill-opacity':'.07'}),head=el('circle',{r:2.9,fill:'#ff344c'});g.append(halo,head);root.append(g);
+    return {g,face,grid,network,reflection,red,nodes,halo,head,route};
+  }
+  const internal=$('.meridian[data-mode="internal"]'),innerSVG=newSpatial(internal);
+  const wireGroup=el('g');innerSVG.append(wireGroup);
+  const pillarPairs=[[-129,28],[129,28]],pillars=pillarPairs.map(()=>{const p=el('path',{class:'spatial-wire'});wireGroup.append(p);return p;});
+  const planes=[0,1,2].map(i=>materialPlane(innerSVG,i,i===1?[...rootRoute].reverse():rootRoute));
+  const labels=planes.map((_,i)=>{const g=el('g'),line=el('path',{class:'spatial-wire'}),text=el('text',{class:'spatial-label',x:20});text.textContent=['01 / 原理','02 / 抽象','03 / 架构'][i];g.append(line,text);innerSVG.append(g);return {g,line,text};});
+  const jumpGroup=el('g');innerSVG.append(jumpGroup);
+  const jumps=[0,1].map(()=>{const line=el('path',{class:'spatial-red'}),halo=el('circle',{r:8,fill:'#ff344c','fill-opacity':'.08'}),head=el('circle',{r:2.6,fill:'#ff344c'});jumpGroup.append(line,halo,head);return {line,halo,head};});
+  register('inner',internal,10,t=>{
+    const tilt=ease((t-.2)/1.2),opening=ease((t-.65)/1.5),closing=ease((t-8.35)/1.35),gap=opening*(55-20*closing);
+    const project=(p,layer)=>[260+p[0]*(1-.08*tilt)+p[1]*.59*tilt,177+31*tilt+p[0]*.14*tilt+p[1]*(1-1.49*tilt)-layer*gap];
+    internal.dataset.depth=gap.toFixed(2);
+    const current=clamp(Math.floor((t-2.2)/2.03),0,2);passiveStep(internal,current);
+    $('.scene-caption',internal).textContent=t<2.2?'展卷':t<8.2?['由原理出发','明抽象与边界','架系统之骨'][current]:'百脉归一';
+    pillars.forEach((line,i)=>line.setAttribute('d',plotD([project(pillarPairs[i],0),project(pillarPairs[i],2)])));
+    planes.forEach((p,i)=>{
+      const map=xy=>project(xy,i),route=p.route.map(map),start=2.2+i*2.03,q=clamp((t-start)/1.35),run=t>=start&&q<1;
+      p.face.setAttribute('d',plotD(footprint.map(map),true));p.face.style.fillOpacity=String(.47+.21*opening);
+      const gridLines=[];[-100,-30,40,110].forEach(x=>gridLines.push(plotD([map([x,-59]),map([x,57])])));[-39,3,43].forEach(y=>gridLines.push(plotD([map([-154,y]),map([155,y])])));p.grid.setAttribute('d',gridLines.join(''));
+      p.network.setAttribute('d',plotD(route)+plotD([map([-112,-42]),map([-112,-9]),map([-77,-9])])+plotD([map([88,-40]),map([139,-40]),map([139,-5])]));
+      const progress=pathProgress(route,q);p.red.setAttribute('d',progress.d);p.red.style.opacity=t<start?'0':i===current?'.96':'.38';
+      p.nodes.forEach((node,j)=>{const at=route[j];node.setAttribute('cx',at[0]);node.setAttribute('cy',at[1]);node.classList.toggle('lit',t>=start&&q+1e-6>=progress.stops[j]);node.style.opacity=String(.6+.4*opening);});
+      [p.halo,p.head].forEach(n=>{n.setAttribute('cx',progress.pos[0]);n.setAttribute('cy',progress.pos[1]);n.style.opacity=run?'1':'0';});
+      p.reflection.setAttribute('d',plotD([map(footprint[3]),map(footprint[4]),map(footprint[5])]));p.reflection.style.opacity=run?String(.14+Math.sin(q*Math.PI)*.4):'0';
+      const pin=map([-174,-62]),labelY=pin[1]+4;labels[i].text.setAttribute('y',labelY);labels[i].text.style.opacity=String(.3+.7*opening);labels[i].line.setAttribute('d',plotD([[87,labelY-4],[pin[0]-7,pin[1]]]));labels[i].line.style.opacity=String(opening);
+    });
+    jumps.forEach((jump,i)=>{
+      const start=2.2+i*2.03+1.35,q=clamp((t-start)/.53),point=i===0?[129,28]:[-129,28],coords=[project(point,i),project(point,i+1)],progress=pathProgress(coords,q);
+      jump.line.setAttribute('d',progress.d);jump.line.style.opacity=t<start?'0':q===1?'.32':'.85';[jump.head,jump.halo].forEach(n=>{n.setAttribute('cx',progress.pos[0]);n.setAttribute('cy',progress.pos[1]);n.style.opacity=t>=start&&q<1?'1':'0';});
+    });
+  },{threshold:.58});
+
+  // Outer practice uses the same planes; a single selected route leaves evidence, not fake telemetry.
+  const external=$('.meridian[data-mode="external"]'),outerSVG=newSpatial(external);
+  const outerGhosts=[0,1].map(()=>{const p=el('path',{class:'spatial-grid'});outerSVG.append(p);return p;});
+  const outerPlane=materialPlane(outerSVG,2,rootRoute),discard=el('path',{class:'spatial-route','stroke-dasharray':'3 5'}),discardNode=el('circle',{r:3,class:'spatial-node'});
+  outerPlane.g.insertBefore(discard,outerPlane.red);outerPlane.g.insertBefore(discardNode,outerPlane.red);
+  const evidenceSlots=[0,2,6,7],evidenceLabels=evidenceSlots.map((_,i)=>{const n=el('text',{class:'spatial-label','text-anchor':'middle'});n.textContent=['问题','假设','验证','证据'][i];outerSVG.append(n);return n;});
+  const evidenceRings=evidenceSlots.map(()=>{const n=el('circle',{r:5,fill:'none',stroke:'#ff344c','stroke-width':'.8'});outerSVG.append(n);return n;});
+  register('outer',external,8.4,t=>{
+    const tilt=ease((t-.2)/1.15),depth=22*ease((t-.5)/1.35);
+    const map=(p,z=2)=>[260+p[0]*(1-.08*tilt)+p[1]*.59*tilt,177+45*tilt+p[0]*.14*tilt+p[1]*(1-1.49*tilt)-z*depth];
+    external.dataset.depth=depth.toFixed(2);
+    outerGhosts.forEach((p,i)=>p.setAttribute('d',plotD(footprint.map(x=>map(x,i)),true)));
+    const route=rootRoute.map(p=>map(p)),start=1.9,q=clamp((t-start)/4.65),progress=pathProgress(route,q),run=t>=start&&q<1;
+    outerPlane.face.setAttribute('d',plotD(footprint.map(p=>map(p)),true));outerPlane.network.setAttribute('d',plotD(route));
+    outerPlane.grid.setAttribute('d',[-100,-30,40,110].map(x=>plotD([map([x,-59]),map([x,57])])).join('')+[-39,3,43].map(y=>plotD([map([-154,y]),map([155,y])])).join(''));
+    outerPlane.red.setAttribute('d',progress.d);outerPlane.red.style.opacity=t<start?'0':'.9';
+    const alt=[rootRoute[2],[-105,-51],[-135,-51]],altEnd=map(alt.at(-1));discard.setAttribute('d',plotD(alt.map(x=>map(x))));discard.style.strokeOpacity=q>.33?'.13':'.38';discardNode.setAttribute('cx',altEnd[0]);discardNode.setAttribute('cy',altEnd[1]);discardNode.style.opacity=q>.33?'.18':'.55';
+    outerPlane.nodes.forEach((n,j)=>{const p=route[j];n.setAttribute('cx',p[0]);n.setAttribute('cy',p[1]);n.classList.toggle('lit',t>=start&&q+1e-6>=progress.stops[j]);n.style.opacity=evidenceSlots.includes(j)?'1':'.55';});
+    [outerPlane.head,outerPlane.halo].forEach(n=>{n.setAttribute('cx',progress.pos[0]);n.setAttribute('cy',progress.pos[1]);n.style.opacity=run?'1':'0';});
+    let active=0;
+    evidenceSlots.forEach((j,i)=>{
+      const point=route[j],at=start+progress.stops[j]*4.65,elapsed=t-at;
+      if(t>=at)active=i;
+      const label=evidenceLabels[i];label.setAttribute('x',point[0]+[-24,8,-10,15][i]);label.setAttribute('y',point[1]+[31,-27,35,26][i]);label.style.fill=t>=at?'#c9bbc1':'#7b8a9f';
+      const ring=evidenceRings[i];ring.setAttribute('cx',point[0]);ring.setAttribute('cy',point[1]);ring.setAttribute('r',5+20*ease(elapsed/.85));ring.style.opacity=elapsed>=0&&elapsed<.85?String((1-elapsed/.85)*.65):'0';
+    });
+    passiveStep(external,active);$('.scene-caption',external).textContent=t<start?'审其境':t<6.6?['从问题出发','立可验的假设','以实证校准','留下证据'][active]:'以实证归来';
+    outerPlane.reflection.setAttribute('d',plotD([map(footprint[3]),map(footprint[4]),map(footprint[5])]));outerPlane.reflection.style.opacity=run?String(.09+.25*Math.sin(q*Math.PI)):'0';
+  },{threshold:.58});
+
+  // ARSENAL: passive index, auto-scanned once. Text remains available without waiting.
+  const grid=$('.arsenal-projects'),cards=$$('.arsenal-project'),browser=$('#arsenal-browser');
+  const frame=document.createElement('div');frame.className='arsenal-selection-frame';frame.setAttribute('aria-hidden','true');grid.append(frame);
+  let boxes=[],selectedId='';
+  function measure(){boxes=cards.map(card=>({x:card.offsetLeft,y:card.offsetTop,w:card.offsetWidth,h:card.offsetHeight}));}
+  measure();
+  const glyphPaths=cards.map(card=>$$('path,circle',$('.project-glyph',card)).map(path=>({path,length:path.getTotalLength()})));
+  function select(index){
+    const p=catalog[index];if(!p||selectedId===p.id)return;selectedId=p.id;
+    cards.forEach((c,i)=>c.classList.toggle('selected',i===index));
+    $('#project-kind').textContent=p.kind;$('#project-title').textContent=p.name;$('#project-description').textContent=p.description;
+    $('#project-source').href=p.url;$('#project-source').setAttribute('aria-label',`查看 ${p.name} 的开源实现（在新标签页打开）`);
+    $('#arsenal-counter').textContent=String(index+1).padStart(2,'0')+' / '+String(catalog.length).padStart(2,'0');
+  }
+  const dwell=2.15;
+  const arsenalScene=register('arsenal',browser,.4+dwell*catalog.length,t=>{
+    const index=clamp(Math.floor((t-.4)/dwell),0,catalog.length-1),local=clamp(t-.4-index*dwell,0,dwell);
+    select(index);
+    const target=boxes[index],from=boxes[Math.max(0,index-1)],q=ease(local/.6);
+    if(target&&from){frame.style.width=(from.w+(target.w-from.w)*q)+'px';frame.style.height=(from.h+(target.h-from.h)*q)+'px';frame.style.transform=`translate(${from.x+(target.x-from.x)*q}px,${from.y+(target.y-from.y)*q}px)`;frame.style.opacity=t>=.2?'1':'0';}
+    glyphPaths.forEach((paths,i)=>paths.forEach(({path,length},j)=>{
+      const progress=i===index?ease((local-j*.045)/.7):1;path.style.strokeDasharray=`${length} ${length}`;path.style.strokeDashoffset=String(length*(1-progress));
+    }));
+    $('#arsenal-detail').style.setProperty('--detail-enter',String(.35+.65*ease(local/.45)));
+  },{threshold:.5});
+  // The source target must not change underneath a pointer or keyboard focus.
+  const source=$('#project-source');let hovering=false,focusing=false;
+  const hold=()=>{arsenalScene.hold=hovering||focusing;state(arsenalScene);wake();};
+  source.addEventListener('pointerenter',()=>{hovering=true;hold();});source.addEventListener('pointerleave',()=>{hovering=false;hold();});
+  source.addEventListener('focus',()=>{focusing=true;hold();});source.addEventListener('blur',()=>{focusing=false;hold();});
+  addEventListener('resize',()=>{measure();arsenalScene.render(off()?arsenalScene.duration:arsenalScene.time);},{passive:true});
+
+  // Three professions, one visual grammar. Purely conceptual illustrations, no real tasks or scans.
+  function roleRoot(id){const fig=$(`[data-role-scene="${id}"]`),root=$('svg',fig);root.replaceChildren();root.setAttribute('viewBox','0 0 360 186');root.append(el('path',{class:'role-subtle',d:'M6 19H24M6 19V37M336 19H354V37M6 149V167H24M336 167H354V149M23 150H335','stroke-dasharray':'2 5'}));return {fig,root,caption:$('.role-phase',fig)};}
+  function forgeModule(root,x,y,index){
+    const g=el('g',{transform:`translate(${x} ${y})`}),top=el('path',{class:'role-shape',d:'M-31-8 7-26 45-8 7 11Z'}),side=el('path',{class:'role-shape',d:'M-31-8V11L7 30V11M7 30 45 11V-8'}),seam=el('path',{class:'role-subtle',d:'M-19-8 7-20 33-8 7 5ZM-19 6 6 19m12-1 17-8'}),etch=el('path',{class:'role-gold',d:'M-31-8 7 11 45-8',opacity:0});
+    g.append(top,side,seam,etch);const n=el('text',{x:7,y:-7,'text-anchor':'middle',class:'role-label'});n.textContent=String(index+1).padStart(2,'0');g.append(n);root.append(g);return {g,top,side,etch,x,y};
+  }
+  const roleRoute='M18 126H43L70 105H111L145 95H208L244 85H299L339 65';
+  const forge=roleRoot('engineer');
+  forge.root.append(el('path',{class:'role-subtle',d:'M38 122 278 71M73 156 313 106M79 66V146M177 46V130M275 35V117','stroke-dasharray':'2 6'}));
+  const modulePositions=[[68,109],[167,99],[266,89]],mods=modulePositions.map((p,i)=>forgeModule(forge.root,p[0],p[1],i));
+  const forgeRoute=makeTravel(forge.root,roleRoute,3.0,2.35),forgeRing=makeImpact(forge.root,339,65,5.35,.55);
+  register('role-engineer',forge.fig,6.3,t=>{
+    mods.forEach((m,i)=>{const q=ease((t-.35-i*.55)/1.1),dx=[-31,0,27][i]*(1-q),dy=[-25,-38,-27][i]*(1-q);m.g.setAttribute('transform',`translate(${m.x+dx} ${m.y+dy})`);m.g.style.opacity=String(.36+.64*q);const at=3.3+i*.67;const flash=t>=at&&t<at+.9?Math.sin(clamp((t-at)/.9)*Math.PI):0;m.etch.style.opacity=String(flash*.75);});
+    forgeRoute.render(t);forgeRing(t);forge.caption.textContent=t<2.7?'校准接口':t<5.35?'模块扣合':'形成系统';
+  },{threshold:.55});
+
+  const research=roleRoot('hacker');
+  const researchMods=modulePositions.map((p,i)=>forgeModule(research.root,p[0],p[1],i));researchMods.forEach(m=>m.g.style.opacity='.42');
+  const alternative=el('path',{class:'role-track',d:'M145 95V52L180 34H307','stroke-dasharray':'3 6'});research.root.append(alternative);
+  const evidence=el('path',{class:'slot-outline',d:'M330 55h18v20h-18Z',opacity:.35});research.root.append(evidence);
+  const researchRoute=makeTravel(research.root,roleRoute,.7,4.65),proofRing=makeImpact(research.root,339,65,5.35,.65);
+  register('role-hacker',research.fig,6.3,t=>{
+    researchRoute.render(t);proofRing(t);alternative.style.strokeOpacity=t<2.8?'.4':String(.4-.31*ease((t-2.8)/.85));
+    evidence.style.stroke=t>=5.35?'#ff344c':'#a3afc1';evidence.style.opacity=t>=5.35?'.9':'.35';
+    researchMods.forEach((m,i)=>{const q=clamp((t-(1.1+i*1.3))/1.0);m.g.style.opacity=String(.42+.16*q);m.etch.style.opacity=String(q>0&&q<1?Math.sin(q*Math.PI)*.55:0);});
+    research.caption.textContent=t<2.6?'提出假设':t<5.35?'沿途验证':'留下证据';
+  },{threshold:.55});
+
+  const market=roleRoot('gtm'),marketCore=forgeModule(market.root,69,106,0);
+  const targets=[[288,40],[305,99],[271,150]];
+  const marketEdges=el('path',{class:'role-subtle',d:'M110 98 173 40H288M110 98H305M110 98 172 150H271'});market.root.append(marketEdges);
+  const targetNodes=targets.map(p=>{const circle=el('circle',{cx:p[0],cy:p[1],r:5,fill:'#10151e',stroke:'#8090a8','stroke-width':1});market.root.append(circle);return circle;});
+  const outbound=makeTravel(market.root,'M109 98H150L207 40H288',.65,1.8);
+  const feedback=makeTravel(market.root,'M288 40C246 16 169 17 149 65L109 98',2.6,1.55);
+  const corrected=makeTravel(market.root,'M109 98H182L230 116H280L305 99',4.35,1.65);
+  const marketImpacts=[makeImpact(market.root,288,40,2.45,.55),makeImpact(market.root,109,98,4.15,.48),makeImpact(market.root,305,99,6.0,.6)];
+  const loopLabel=el('text',{x:191,y:176,class:'role-label','text-anchor':'middle'});loopLabel.textContent='需求 / 表达 / 反馈';market.root.append(loopLabel);
+  register('role-gtm',market.fig,7.0,t=>{
+    [outbound,feedback,corrected].forEach(p=>p.render(t));marketImpacts.forEach(f=>f(t));
+    targetNodes.forEach((n,i)=>{const arrived=t>=[2.45,6.0,Infinity][i];n.setAttribute('fill',arrived?'#ff344c':'#10151e');n.setAttribute('stroke',arrived?'#ff344c':'#8090a8');});
+    const feedbackQ=clamp((t-4.15)/.9);marketCore.etch.style.opacity=String(feedbackQ>0&&feedbackQ<1?Math.sin(feedbackQ*Math.PI)*.75:0);
+    market.caption.textContent=t<2.45?'走向需求':t<4.35?'带回反馈':'修正连接';
+  },{threshold:.55});
+
+  // V15 / Conversation: two viewpoints meet at a question, exchange, then expand.
+  // A finite illustrative scene. No booking, assessment or network exchange is performed.
+  const vacancy=$('#open-position'),vacancySVG=$('svg',vacancy);
+  vacancySVG.replaceChildren();vacancySVG.setAttribute('viewBox','0 0 520 230');
+  const conversationRoot=el('g',{'aria-hidden':'true'});vacancySVG.append(conversationRoot);
+  const conversationBeds=[
+    'M36 98H198L232 118', 'M484 98H322L288 118',
+    'M260 90V48H350', 'M260 146V188H170',
+    'M350 48H392L415 71V160L387 188H260'
+  ];
+  conversationBeds.forEach(d=>conversationRoot.append(el('path',{d,class:'conversation-bed'})));
+  conversationRoot.append(el('path',{d:'M160 20H208M312 20H360M160 210H208M312 210H360M260 18V208',class:'conversation-guide'}));
+  const diamond=el('path',{d:'M232 118 260 90 288 118 260 146Z',class:'conversation-frame'});
+  conversationRoot.append(diamond);
+  const nodes=[[36,98],[484,98],[350,48],[170,188]].map(([cx,cy])=>{const n=el('circle',{cx,cy,r:4.5,class:'conversation-node'});conversationRoot.append(n);return n;});
+  const label=(text,x,y,anchor='start',cls='conversation-label')=>{const n=el('text',{x,y,'text-anchor':anchor,class:cls});n.textContent=text;conversationRoot.append(n);return n;};
+  label('经历',36,132);label('视角',484,132,'end');label('取舍',350,35,'end');label('推演',170,216);label('问题',260,122,'middle','conversation-word');
+  const dialogueTravels=[
+    makeTravel(conversationRoot,'M36 98H198L232 118',.35,1.3),
+    makeTravel(conversationRoot,'M484 98H322L288 118',.9,1.3,{color:'#d9dcdd'}),
+    makeTravel(conversationRoot,'M232 118 260 90 288 118 260 146 232 118',2.25,.9),
+    makeTravel(conversationRoot,'M260 90V48H350',3.25,1.15),
+    makeTravel(conversationRoot,'M350 48H260V146',4.6,1.0,{color:'#d9dcdd'}),
+    makeTravel(conversationRoot,'M260 146V188H170',5.75,1.25),
+    makeTravel(conversationRoot,'M350 48H392L415 71V160L387 188H260',6.1,1.4,{color:'#b0bbc9'})
+  ];
+  const conversationPhase=$('.conversation-phase',vacancy),topicRows=$$('.discussion-item'),nodeTimes=[.35,.9,4.4,7.0];
+  let conversationStep=-2;
+  register('conversation',vacancy,8.4,t=>{
+    dialogueTravels.forEach(p=>p.render(t));
+    const q=ease((t-2.2)/.85);diamond.style.strokeOpacity=String(.28+.6*q);diamond.style.stroke=t>=2.2?'#e8485c':'#b1a4aa';
+    nodes.forEach((n,i)=>{const active=t>=nodeTimes[i];n.style.stroke=active?(i===1?'#dadfdf':'#df5266'):'#8d99a9';n.style.fill=active?(i===1?'#4b5159':'#602633'):'#0d1117';});
+    const next=t<.35?-1:t<3.25?0:t<5.75?1:2;
+    if(next!==conversationStep){conversationStep=next;topicRows.forEach((row,i)=>row.classList.toggle('current',i===next));conversationPhase.textContent=next<0?'从经历开始':next===0?'交换视角':next===1?'看见取舍':'一起推演';}
+  },{threshold:.6});
+
+  // The main meridian follows reading position. It never owns scroll or waits for a timeline.
+  // Its x coordinates are confined to gutters/section boundaries so it never crosses body text.
+  const spine=$('#page-meridian'),threadBase=el('path',{class:'thread-bed'}),threadTrail=el('path',{class:'thread-trail'}),tapGroup=el('g'),branchGroup=el('g'),threadAura=el('circle',{r:8,class:'thread-aura'}),threadTip=el('circle',{r:2.15,class:'thread-marker'});
+  spine.append(threadBase,branchGroup,threadTrail,tapGroup,threadAura,threadTip);
+  let threadPoints=[],threadTaps=[],threadMeasures=[],threadMaximum=0,threadReady=false,threadStart=0,threadLastY=-1,threadRAF=0;
+  const pageRect=node=>{const r=node.getBoundingClientRect();return {x:r.left,y:r.top+scrollY,w:r.width,h:r.height};};
+  function measureThread(){
+    const h=Math.ceil(Math.max(innerHeight,$('#main').getBoundingClientRect().bottom+scrollY)),w=document.documentElement.clientWidth,hero=$('.hero'),heroR=pageRect(hero),section=pageRect($('#world'));
+    // The active meridian lives left of the text; desktop's two practice lanes still fit in the gutter.
+    const gutter=parseFloat(getComputedStyle($('.wrap')).paddingLeft)||25;
+    const left=section.x,rail=Math.max(9,left-(innerWidth<=760?15:27));
+    let startPoint=[w*.8,heroR.y+heroR.h-100];
+    const matrix=svg.getScreenCTM();if(matrix){const pt=new DOMPoint(629,589).matrixTransform(matrix);startPoint=[pt.x,pt.y+scrollY];}
+    const heroBottom=heroR.y+heroR.h-1,seal=pageRect($('.atlas-seal')),cap=pageRect($('.atlas-caption'));
+    const corridor=Math.max(startPoint[1]+12,Math.min(heroBottom-45,(seal.y+seal.h+cap.y)/2)),rightRail=w-Math.max(10,(w-Math.min(w,1440))/2+13);
+    threadPoints=[startPoint,[startPoint[0],corridor],[rightRail-16,corridor],[rightRail,corridor+16],[rightRail,heroBottom-17],[rightRail-17,heroBottom],[rail+19,heroBottom],[rail,heroBottom+19]];
+    threadTaps=[];threadMeasures=[];tapGroup.replaceChildren();branchGroup.replaceChildren();
+    const selectors=['#world','#practice','#arsenal','#roles','#pact','#apply'];
+    selectors.forEach(sel=>{
+      const node=$(sel),r=pageRect(node),eyebrow=$('.eyebrow',node),ey=pageRect(eyebrow),y=ey.y+ey.h/2;
+      threadPoints.push([rail,y]);
+      const tick=el('path',{d:`M${rail} ${y}H${r.x-6}`,class:'thread-branch'}),pin=el('circle',{cx:rail,cy:y,r:3.5,class:'thread-tap'});branchGroup.append(tick);tapGroup.append(pin);threadTaps.push({y,pin});
+      if(sel==='#practice' && innerWidth>760){
+        const end=r.y+r.h-38,dx=Math.min(9,rail-5),path=el('path',{class:'thread-branch',d:`M${rail} ${y+20}l${-dx} 16V${end-16}l${dx} 16M${rail} ${y+20}l${dx} 16V${end-16}l${-dx} 16`});branchGroup.append(path);
+      }
+    });
+    const vac=pageRect(vacancySVG),slotY=vac.y+vac.h*98/230,slotX=vac.x+vac.w*36/520;
+    threadPoints.push([rail,slotY-18],[rail+18,slotY],[slotX,slotY]);
+    threadStart=startPoint[1];
+    threadBase.setAttribute('d',plotD(threadPoints));spine.setAttribute('viewBox',`0 0 ${w} ${h}`);spine.style.height=h+'px';
+    let distance=0;threadPoints.forEach((p,i)=>{if(i)distance+=Math.hypot(p[0]-threadPoints[i-1][0],p[1]-threadPoints[i-1][1]);threadMeasures.push(distance);});
+    threadLastY=-1;paintThread(true);
+  }
+  function paintThread(force=false){
+    if(!threadPoints.length || document.hidden)return;
+    const ready=heroScene.time>=4.95 || scrollY>$('.hero').offsetHeight*.72 || off();
+    threadReady=threadReady||ready;
+    const readY=scrollY+innerHeight*.7;threadMaximum=Math.max(threadMaximum,readY);
+    let front=off()?Math.max(threadMaximum,threadStart):readY;
+    if(!threadReady)front=threadStart-1;
+    if(!force&&Math.abs(front-threadLastY)<.4)return;threadLastY=front;
+    const end=threadPoints.at(-1)[1],progressY=clamp(front,threadStart,end),historyY=clamp(threadMaximum,threadStart,end);
+    function lengthAtY(y){
+      let length=0;
+      for(let i=1;i<threadPoints.length;i++){
+        const a=threadPoints[i-1],b=threadPoints[i],seg=threadMeasures[i]-threadMeasures[i-1];
+        if(b[1]<=y){length+=seg;continue;}
+        if(a[1]<=y && b[1]>a[1])length+=seg*clamp((y-a[1])/(b[1]-a[1]));
+        break;
+      }return length/(threadMeasures.at(-1)||1);
+    }
+    const history=pathProgress(threadPoints,lengthAtY(historyY));threadTrail.setAttribute('d',history.d);threadTrail.style.opacity=threadReady?'1':'0';
+    const pos=pathProgress(threadPoints,lengthAtY(progressY)).pos;
+    [threadTip,threadAura].forEach(n=>{n.setAttribute('cx',pos[0]);n.setAttribute('cy',pos[1]);n.style.opacity=threadReady&&front>=threadStart&&front<=end&&!off()?'1':'0';});
+    threadTaps.forEach(t=>t.pin.classList.toggle('reached',threadReady&&historyY>=t.y));
+    spine.dataset.readingY=String(Math.round(progressY));
+  }
+  // Recompute only on layout changes, not on every animation frame or every scroll event.
+  function requestThreadMeasure(){if(!threadRAF)threadRAF=requestAnimationFrame(()=>{threadRAF=0;measureThread();});}
+  addEventListener('resize',requestThreadMeasure,{passive:true});
+  if('ResizeObserver' in window){const ro=new ResizeObserver(requestThreadMeasure);ro.observe($('#main'));}
+  if(document.fonts?.ready)document.fonts.ready.then(requestThreadMeasure);
+  measureThread();
+  // Wake the spine once the first reaction has reached its outgoing branch.
+  const originalHeroRender=heroScene.render;
+  heroScene.render=t=>{originalHeroRender(t);if(t>=4.95&&!threadReady)paintThread(true);};
+
+  // One small, accessible global motion preference, rather than per-section controls.
+  const motionButton=$('#motion-toggle');
+  function syncMotion(){
+    const isOff=off();document.documentElement.classList.toggle('motion-off',isOff);
+    motionButton.textContent=reduced.matches?'已减少动态':isOff?'开启动效':'暂停动效';motionButton.disabled=reduced.matches;
+    motionButton.setAttribute('aria-pressed',String(isOff));motionButton.setAttribute('aria-label',reduced.matches?'已遵循系统的减少动态效果设置':isOff?'恢复滚动章节动效':'暂停全部动效');
+    if(isOff){if(raf)cancelAnimationFrame(raf);raf=0;last=0;scenes.forEach(s=>{if(reduced.matches || s.time===0)s.finish();state(s);});$$('.reveal.waiting').forEach(n=>n.classList.remove('waiting'));}
+    else scenes.forEach(s=>s.render(s.time));
+    refresh();
+  }
+  motionButton.addEventListener('click',()=>{enabled=!enabled;syncMotion();});
+  if(reduced.addEventListener)reduced.addEventListener('change',syncMotion);else reduced.addListener(syncMotion);
+  addEventListener('beforeprint',()=>{document.documentElement.classList.add('printing');scenes.forEach(s=>s.finish());});
+  addEventListener('afterprint',()=>{document.documentElement.classList.remove('printing');scenes.forEach(s=>s.render(off()?s.duration:s.time));refresh();});
+  const navLinks=$$('.main-nav a');
+  if('IntersectionObserver' in window){
+    const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting)navLinks.forEach(link=>{if(link.hash==='#'+entry.target.id)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');});});},{rootMargin:'-15% 0px -60% 0px',threshold:0});
+    navLinks.forEach(link=>{const target=$(link.hash);if(target)observer.observe(target);});
+    const sceneObserver=new IntersectionObserver(requestRefresh,{threshold:[0,.1,.25,.4,.5,.65,.85,1]});scenes.forEach(s=>sceneObserver.observe(s.element));
+  }
+  if(document.fonts?.ready)document.fonts.ready.then(()=>{measure();arsenalScene.render(off()?arsenalScene.duration:arsenalScene.time);refresh();dispatchEvent(new Event('resize'));});
+  syncMotion();
+  window.ChainReactorsMotion = Object.freeze({version:'15', snapshot:()=>scenes.map(s=>({name:s.name,time:s.time,duration:s.duration,state:s.element.dataset.motionState}))});
+})();
+</script></body>
+</html>
