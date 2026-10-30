@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Malice Network · Internet of Malice (IoM) — 面向 AI Agent 的后渗透与 C2 基础设施</title>
+<meta name="description" content="Malice Network 是 Internet of Malice（恶联网 / IoM）的核心控制平面，涵盖 Server、Client 与分布式 Listener，解耦控制、监听与跨平台 Malefic Implant 执行，兼容 Cobalt Strike BOF 与 Sliver Armory 生态。">
+<meta name="theme-color" content="#030303">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23030303'/%3E%3Crect x='3.5' y='3.5' width='17' height='17' rx='3.5' fill='none' stroke='%23ff2a2a' stroke-width='1.6'/%3E%3Crect x='9' y='9' width='6' height='6' rx='1' fill='%23ff2a2a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+<canvas id="hud" aria-hidden="true"></canvas>
+
+<header class="bar">
+  <a class="brand" href="#top" aria-label="Malice Network · IoM">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor"/></svg>
+    <span>MALICE NETWORK · IoM</span>
+  </a>
+  <div class="bar-actions">
+    <a class="cta cta-ghost" href="https://www.chainreactors.ai/IoM/" target="_blank" rel="noopener">IoM 文档</a>
+    <a class="cta" href="https://github.com/chainreactors/malice-network" target="_blank" rel="noopener">GitHub 仓库<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a>
+  </div>
+</header>
+
+<nav class="rail" aria-label="章节">
+  <a href="#s1" data-k="1"><span>Session 矩阵</span><b>01</b><i></i></a>
+  <a href="#s2" data-k="2"><span>Checkin 感知</span><b>02</b><i></i></a>
+  <a href="#s3" data-k="3"><span>分布式 Listener</span><b>03</b><i></i></a>
+  <a href="#s4" data-k="4"><span>Pipeline 与 REM</span><b>04</b><i></i></a>
+  <a href="#s5" data-k="5"><span>Guardrail 护栏</span><b>05</b><i></i></a>
+  <a href="#s6" data-k="6"><span>Task / Spite 流</span><b>06</b><i></i></a>
+  <a href="#s7" data-k="7"><span>全链路协同审计</span><b>07</b><i></i></a>
+</nav>
+
+<main>
+  <section class="scene hero" data-stage="0" id="top">
+    <div class="copy">
+      <p class="kicker">INTERNET OF MALICE · NEXT-GEN C2 &amp; OFFENSIVE INFRASTRUCTURE</p>
+      <h1><span class="ln"><span>解耦控制、监听与执行，</span></span><span class="ln"><span>面向 <em>AI Agent</em> 的进攻性底座。</span></span></h1>
+      <p class="lede">连接红队操作员与 AI Agent 的统一控制平面——从 <a href="#s1">Session 纳管</a>、<a href="#s3">分布式监听</a>、<a href="#s4">加密隧道</a> 到 <a href="#s5">护栏熔断</a> 与 <a href="#s7">全链路审计</a>，一脉贯通。</p>
+    </div>
+    <a class="cue" href="#s1" aria-label="向下浏览"><i></i><span>SCROLL</span></a>
+  </section>
+
+  <section class="scene" data-stage="1" id="s1">
+    <div class="copy">
+      <p class="idx"><b>01</b> / 07</p>
+      <h2>Session 矩阵</h2>
+      <p class="line">全平台 Rust Implant 统一纳管。编译期按需裁剪，运行时内存热插拔，原生兼容 BOF 与 Armory 生态。</p>
+      <p class="hint"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 2.5l9 4.6-3.9 1.2-1.6 3.9z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>点击任一节点，检视会话上下文</p>
+    </div>
+  </section>
+
+  <section class="scene" data-stage="2" id="s2">
+    <div class="copy">
+      <p class="idx"><b>02</b> / 07</p>
+      <h2>Checkin 存活感知</h2>
+      <p class="line">实时会话与异步 Beacon 一眼分明。冷启动如实恢复快照，绝不将失联节点伪装在线。</p>
+    </div>
+  </section>
+
+  <section class="scene" data-stage="3" id="s3">
+    <div class="copy">
+      <p class="idx"><b>03</b> / 07</p>
+      <h2>分布式 Listener</h2>
+      <p class="line">控制核心零暴露。独立 Listener 经 gRPC 双向流同步状态，正反向接入按域隔离。</p>
+    </div>
+  </section>
+
+  <section class="scene" data-stage="4" id="s4">
+    <div class="copy">
+      <p class="idx"><b>04</b> / 07</p>
+      <h2>Pipeline 与 REM 隧道</h2>
+      <p class="line">多协议与 REM 对等组网统一抽象为加密 Pipeline，控制端与 Implant 永不直连。</p>
+    </div>
+  </section>
+
+  <section class="scene" data-stage="5" id="s5">
+    <div class="copy">
+      <p class="idx"><b>05</b> / 07</p>
+      <h2>Guardrail 与 OPSEC 门禁</h2>
+      <p class="line">内置环境白名单与高危操作门禁，非授权环境或越界指令在落地前即刻熔断。</p>
+    </div>
+  </section>
+
+  <section class="scene" data-stage="6" id="s6">
+    <div class="copy">
+      <p class="idx"><b>06</b> / 07</p>
+      <h2>Task / Spite 调度流</h2>
+      <p class="line">终端、SDK、MAL 插件与 MCP Agent 共用同一契约，每次指令皆为可追踪的异步 Task。</p>
+    </div>
+  </section>
+
+  <section class="scene" data-stage="7" id="s7">
+    <div class="copy">
+      <p class="idx"><b>07</b> / 07</p>
+      <h2>全链路协同审计</h2>
+      <p class="line">人与 AI 协同作业全程留痕，身份、时间、隧道与模块皆可精确回溯。</p>
+    </div>
+  </section>
+
+  <section class="scene finale" data-stage="8" id="end">
+    <div class="copy">
+      <p class="kicker">CHAINREACTORS / INTERNET OF MALICE</p>
+      <p class="wordmark">Malice Network<i aria-hidden="true"></i></p>
+      <div class="finale-actions">
+        <a class="cta cta-lg" href="https://github.com/chainreactors/malice-network" target="_blank" rel="noopener">探索 GitHub 仓库<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a>
+        <a class="cta cta-lg cta-ghost" href="https://www.chainreactors.ai/IoM/" target="_blank" rel="noopener">阅读 IoM 架构文档</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<aside class="inspect" id="inspect" role="region" aria-label="Session 详情" aria-live="polite" aria-hidden="true">
+  <i class="ins-scan" aria-hidden="true"></i>
+  <div class="ins-head">
+    <i class="ins-dot" aria-hidden="true"></i>
+    <h3 data-f="host">—</h3>
+    <span class="ins-state" data-f="state">ALIVE</span>
+    <button class="ins-close" type="button" aria-label="关闭详情"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.4"/></svg></button>
+  </div>
+  <dl class="ins-grid">
+    <div><dt>Listener</dt><dd data-f="project"></dd></div>
+    <div><dt>Implant / OS</dt><dd data-f="os"></dd></div>
+    <div><dt>内网地址</dt><dd data-f="ip"></dd></div>
+    <div><dt>首次注册</dt><dd data-f="reg"></dd></div>
+    <div><dt>最近 Checkin</dt><dd data-f="beat"></dd></div>
+    <div><dt>Pipeline</dt><dd data-f="chan"></dd></div>
+  </dl>
+  <p class="ins-sub">最近 Task / Spite</p>
+  <ol class="ins-tasks" data-f="tasks"></ol>
+  <p class="ins-foot">IoM 拓扑演示数据<span class="kb"> · 方向键切换 · Esc 关闭</span></p>
+</aside>
+
+<p class="sim">架构演示画面 · 会话数据均为模拟 · 仅限合法书面授权环境使用</p>
+
+<script src="js/engine.js"></script>
+<script src="js/fleet.js"></script>
+<script src="js/world.js"></script>
+<script src="js/hud.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
