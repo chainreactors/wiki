@@ -476,6 +476,8 @@
     .footer-bottom { border-top: 0; }
     .footer-bottom-in { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.35rem; font: .62rem/1 var(--mono); letter-spacing: .06em; }
     .footer-bottom-in > span:last-child { display: none; }
+    .footer-icp { color: inherit; transition: color .2s; }
+    .footer-icp:hover { color: var(--red); }
 
     /* expansive canvas for ultrawide / 4K displays */
     @media (min-width: 1800px) {
@@ -1121,7 +1123,7 @@
       <div class="footer-column"><span class="footer-column-title" data-i18n="footer.contactTitle"></span><a href="mailto:business@chainreactors.ai">business@chainreactors.ai</a><a href="mailto:opensource@chainreactors.ai">opensource@chainreactors.ai</a><a href="mailto:joinus@chainreactors.ai">joinus@chainreactors.ai</a><a href="https://github.com/chainreactors" target="_blank" rel="noopener">github.com/chainreactors ↗</a></div>
       <div class="footer-column"><span class="footer-column-title" data-i18n="footer.joinTitle"></span><p class="footer-join-copy" data-i18n="footer.joinCopy"></p><a class="footer-join-link" href="/recruitment.html" data-i18n="footer.joinLink"></a><a class="footer-join-link" href="#top" data-i18n="footer.top"></a></div>
     </div>
-    <div class="footer-bottom"><div class="wrap footer-bottom-in"><span data-i18n="footer.copyright"></span><span data-i18n="footer.tagline"></span></div></div>
+    <div class="footer-bottom"><div class="wrap footer-bottom-in"><span data-i18n="footer.copyright"></span><a class="footer-icp" href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">浙ICP备2026093804号</a><span data-i18n="footer.tagline"></span></div></div>
   </footer>
 
   <script>
