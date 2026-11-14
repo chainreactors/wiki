@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 328 240" role="img" aria-label="ChainReactors">
+  <!-- 链式反应标记：入射点 · 加速通道 · 裂变。几何从品牌位图 chainreactors-mark.png 逐像素拟合而来（IoU 0.95，差异仅在抗锯齿边缘）。 -->
+  <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="39.5" cy="122.5" r="25" fill="#fff" stroke="none"/>
+    <path d="M125 77.3 L176 122.5 L125 168.4" stroke-width="25"/>
+    <path d="M200.5 24.1 V66" stroke-width="27"/>
+    <path d="M199.7 179.7 V219.6" stroke-width="27"/>
+    <path d="M245.9 91.3 L273.7 64.6" stroke-width="25"/>
+    <path d="M245.4 168 L272.7 194.6" stroke-width="24"/>
+    <path d="M256.3 129.9 H298.1" stroke-width="24"/>
+  </g>
+</svg>
